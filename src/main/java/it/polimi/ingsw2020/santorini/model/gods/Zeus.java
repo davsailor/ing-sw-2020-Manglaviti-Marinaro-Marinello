@@ -1,0 +1,23 @@
+package it.polimi.ingsw2020.santorini.model.gods;
+
+import it.polimi.ingsw2020.santorini.model.GodCard;
+import it.polimi.ingsw2020.santorini.model.Player;
+import it.polimi.ingsw2020.santorini.model.TimingType;
+
+public class Zeus extends GodCard {
+    private String name = getClass().getSimpleName();
+    private int maxPlayersNumber = 3;
+    private String timingName = "Your Build";
+    private TimingType timing = TimingType.STANDBY_PHASE_2;
+
+    public Zeus(){}
+
+    public void invokeGod(Board field, Player invoker) {
+
+    }
+
+    public String toStringEffect() {
+        return this.name + "\n" + this.timingName + ":  Your Worker may build under itself in its current\n" +
+                "space, forcing it up one level. You do not win by forcing yourself up to the third level.";
+    }
+}
