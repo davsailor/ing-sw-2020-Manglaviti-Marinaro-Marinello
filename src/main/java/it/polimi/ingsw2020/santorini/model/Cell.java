@@ -20,14 +20,14 @@ public class Cell {
     }
 
     /**
-     *  it return the pieces of the building on the cell
+     *  it return the pieces of the highest piece of building on the cell
      * @return the string containing the name of the highest piece on the cell
      */
-    public String getLevel(){
-        AccessType buildingArray[];
-        buildingArray = new AccessType[building.size()];
-        buildingArray = (AccessType[]) building.toArray();//Possible error
-        return (buildingArray[building.size() -1]).toString();//understand if toString is necessary
+    public LevelType getLevel(){
+        LevelType buildingArray[];
+        buildingArray = new LevelType[building.size()];
+        buildingArray = (LevelType[]) building.toArray();//Possible error
+        return (buildingArray[building.size() -1]);//understand if toString is necessary
     }
 
     /**
@@ -60,12 +60,6 @@ public class Cell {
      * @return the integer value of the difference of the two heights
      */
     public int calculateJump (Cell cell){
-        LevelType buildingArray[];
-        buildingArray = new LevelType[this.building.size()];
-        buildingArray = (LevelType[]) this.building.toArray();
-        LevelType buildingArray2[];
-        buildingArray2 = new LevelType[cell.building.size()];
-        buildingArray2 = (LevelType[]) cell.building.toArray();
-        return buildingArray2[cell.building.size()-1].getHeight() - buildingArray[this.building.size()-1].getHeight();
+        return cell.getLevel().getHeight() - this.getLevel().getHeight();
     }
 }
