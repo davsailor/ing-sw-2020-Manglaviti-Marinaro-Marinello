@@ -1,5 +1,8 @@
 package it.polimi.ingsw2020.santorini.model;
 
+/**
+ * Enum that describes the pieces used to build the building itself
+ */
 public enum LevelType {
     Ground (0),
     Base (1),
