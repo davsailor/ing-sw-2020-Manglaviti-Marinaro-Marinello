@@ -108,16 +108,18 @@ public class Board {
         }
         return neighborMatrix;
     }
-    public LevelType[][] neighborLevelCell(int posX, int posY){
-        LevelType[][] neighborMatrix;
-        neighborMatrix = new LevelType[3][3];
+
+    public int[][] neighborLevelCell(int posX, int posY){
+        int[][] neighborMatrix;
+        neighborMatrix = new int[3][3];
         for(int i = 0; i < 3; i++){//For of the row
             for (int j = 0; j < 3 ; j++){//For of the column
-                neighborMatrix[i][j] = board[posX-1+i][posY-1+j].getLevel();
+                neighborMatrix[i][j] = board[posX-1+i][posY-1+j].getLevel().getHeight();
             }
         }
         return neighborMatrix;
     }
+
     public void buildBlock (int buildX, int buildY, LevelType block){
         board[buildX][buildY].setLevel(block);
     }
