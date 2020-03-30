@@ -8,5 +8,5 @@ package it.polimi.ingsw2020.santorini.model;
  * Dome if it is a dome built in the cell
  */
 public enum AccessType {
-    Occupied, Free, Forbidden, Dome;
+    OCCUPIED, FREE, FORBIDDEN, DOME;
 }

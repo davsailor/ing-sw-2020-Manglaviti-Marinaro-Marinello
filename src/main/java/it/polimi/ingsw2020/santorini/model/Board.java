@@ -22,16 +22,16 @@ public class Board {
         //initialization of the cells
         for(int i = 1; i< 6; i++){ //i riga
             for(int j= 1 ; j < 6; j++){
-                board[i][j] = new Cell(AccessType.Free);
+                board[i][j] = new Cell(AccessType.FREE);
             }
         }
         //end
         //delimitation of borders
         for( int j = 0; j < 7; j++ ){
-            board[0][j] = new Cell(AccessType.Forbidden);
-            board[6][j] = new Cell(AccessType.Forbidden);
-            board[j][0] = new Cell(AccessType.Forbidden);
-            board[j][6] = new Cell(AccessType.Forbidden);
+            board[0][j] = new Cell(AccessType.FORBIDDEN);
+            board[6][j] = new Cell(AccessType.FORBIDDEN);
+            board[j][0] = new Cell(AccessType.FORBIDDEN);
+            board[j][6] = new Cell(AccessType.FORBIDDEN);
         }
     }
 
@@ -81,7 +81,7 @@ public class Board {
         int k;
         for(int i = 0; i < 3; i++){//For of the row
             for (int j = 0; j < 3 ; j++){//For of the column
-                if ((i == 1) && (j==1)){//if that checks the coordinates to sse if they correspond to the center of the matrix
+                if ((i == 1) && (j==1)){//if that checks the coordinates correspond to the center of the matrix
                     neighborMatrix[i][j] = 0;
                 }
                 else{//Analise the other cells of the matrix board
@@ -107,5 +107,18 @@ public class Board {
             }
         }
         return neighborMatrix;
+    }
+    public LevelType[][] neighborLevelCell(int posX, int posY){
+        LevelType[][] neighborMatrix;
+        neighborMatrix = new LevelType[3][3];
+        for(int i = 0; i < 3; i++){//For of the row
+            for (int j = 0; j < 3 ; j++){//For of the column
+                neighborMatrix[i][j] = board[posX-1+i][posY-1+j].getLevel();
+            }
+        }
+        return neighborMatrix;
+    }
+    public void buildBlock (int buildX, int buildY, LevelType block){
+        board[buildX][buildY].setLevel(block);
     }
 }
