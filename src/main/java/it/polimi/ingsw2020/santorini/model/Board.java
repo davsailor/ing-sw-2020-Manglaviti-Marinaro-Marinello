@@ -75,7 +75,7 @@ public class Board {
      * @param target represent which kind of cell it is searching for
      * @return the references to a matrix of int
      */
-    public int [][] neighboringCell(int intX, int intY, AccessType target){
+    public int [][] neighboringStatusCell(int intX, int intY, AccessType target){
         int[][] neighborMatrix;
         neighborMatrix = new int[3][3];
         int k;
