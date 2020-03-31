@@ -76,7 +76,7 @@ public class Builder {
      * @param player
      * @param gender
      */
-    public Builder(Player player, char gender) {
+    public Builder(Player player, char gender,Board board) {
         color = player.getColor();
         this.gender = gender;
         this.player = player;
@@ -84,6 +84,7 @@ public class Builder {
         this.posY=0;
         this.buildPosX=0;
         this.buildPosY=0;
+        this.board= board;
         possibleMoves =new int[3][3];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -248,7 +249,5 @@ public class Builder {
         }
         setPossibleBuildings(this.buildPosX, this.buildPosY);
         possibleBuildings[i][j]=-2;
-            }
-        }
     }
 }
