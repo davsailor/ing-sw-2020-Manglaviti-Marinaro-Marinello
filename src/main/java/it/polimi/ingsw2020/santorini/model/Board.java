@@ -6,19 +6,14 @@ import java.util.List;
 
 public class Board {
     private Cell[][] board;
-    private List<Player> players;
     private GodDeck godCards;
-    private Player currentPlayer;
-    private int numberOfCompletedTowers;
 
     /**
      * it is the constructor of the class
      */
-    public Board() {
+    public Board(GodDeck godCards) {
         this.board = new Cell[7][7];
-        //this.godCards = new GodDeck;
-        this.numberOfCompletedTowers = 0;
-        this.currentPlayer = null;
+        this.godCards = godCards;
         //initialization of the cells
         for(int i = 1; i< 6; i++){ //i riga
             for(int j= 1 ; j < 6; j++){
@@ -35,34 +30,13 @@ public class Board {
         }
     }
 
-    /**
-     * it returns the current player
-     * @return value of the attribute currentPlayer
-     */
-    public Player getCurrentPlayer(){
-        return (this.currentPlayer);
-    }
 
-    /**
-     * it sets the current player
-     * @param currentPlayer is the currentPlayer that will be set
-     */
-    public void setCurrentPlayer(Player currentPlayer){
-        this.currentPlayer = currentPlayer;
-    }
 
     /**
      * it creates the stream of the board to be used by the view
      */
     public void showBoard(){}
 
-    /**
-     * it adds the new players to the list of players
-     * @param player is the variable that represents a player
-     */
-    public void addPlayer(Player player){
-        this.players.add(this.players.size(),player);
-    }
 
     /**
      * it build a matrix of 9 elements that shows the cells with status equals to target
@@ -109,6 +83,13 @@ public class Board {
         return neighborMatrix;
     }
 
+    /**
+     * it builds and return a matrix of nine int, with each representing the eight of the buildings neighboring the
+     * with coordinates posX and posY
+     * @param posX is the row coordinate of the cell where the builder is standing
+     * @param posY is the column coordinate of the cell where the builder is standing
+     * @return the matrix build within the function
+     */
     public int[][] neighborLevelCell(int posX, int posY){
         int[][] neighborMatrix;
         neighborMatrix = new int[3][3];
@@ -120,6 +101,12 @@ public class Board {
         return neighborMatrix;
     }
 
+    /**
+     * it builds a block of building on the top of the cell
+     * @param buildX is row coordinate of ethe cell where the block will be placed
+     * @param buildY is column coordinate of ethe cell where the block will be placed
+     * @param block is the type/eight of the block that will be be build on the top of the cell
+     */
     public void buildBlock (int buildX, int buildY, LevelType block){
         board[buildX][buildY].setLevel(block);
     }
