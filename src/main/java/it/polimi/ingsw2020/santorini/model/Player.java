@@ -13,7 +13,6 @@ public class Player {
     private Boolean buildActions;
     private Boolean moveActions;
 
-
     //METODI        ->GETTER e SETTER<-
 
     public String getNickname() {
@@ -76,7 +75,6 @@ public class Player {
         riseActions=true;
         moveActions=true;
         buildActions=true;
-
     }
 
     public void setGod(GodCard god){
