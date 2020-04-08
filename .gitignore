@@ -7,6 +7,3 @@
 log/
 target/
 .idea/vcs.xml
-config.json
-/server_config.json
-/client_config.json
