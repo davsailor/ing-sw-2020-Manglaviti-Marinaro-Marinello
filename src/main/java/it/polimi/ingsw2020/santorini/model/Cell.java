@@ -1,6 +1,8 @@
 package it.polimi.ingsw2020.santorini.model;
 
-import java.util.AbstractCollection;
+import it.polimi.ingsw2020.santorini.utils.AccessType;
+import it.polimi.ingsw2020.santorini.utils.LevelType;
+
 import java.util.EnumSet;
 
 
@@ -14,7 +16,7 @@ public class Cell {
      * @param status is the status
      */
     public Cell (AccessType status){
-        this.building.add(LevelType.Ground);
+        this.building.add(LevelType.GROUND);
         this.status = status;
         this.builder = null;
     }

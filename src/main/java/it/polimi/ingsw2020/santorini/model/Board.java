@@ -1,8 +1,7 @@
 package it.polimi.ingsw2020.santorini.model;
 
-import org.graalvm.compiler.nodes.memory.Access;
-
-import java.util.List;
+import it.polimi.ingsw2020.santorini.utils.AccessType;
+import it.polimi.ingsw2020.santorini.utils.LevelType;
 
 public class Board {
     private Cell[][] board;

@@ -1,7 +1,7 @@
 package it.polimi.ingsw2020.santorini.test;
-import it.polimi.ingsw2020.santorini.model.AccessType;
+import it.polimi.ingsw2020.santorini.utils.AccessType;
 import it.polimi.ingsw2020.santorini.model.Cell;
-import it.polimi.ingsw2020.santorini.model.LevelType;
+import it.polimi.ingsw2020.santorini.utils.LevelType;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;

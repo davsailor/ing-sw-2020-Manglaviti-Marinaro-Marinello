@@ -3,7 +3,7 @@ package it.polimi.ingsw2020.santorini.model.gods;
 import it.polimi.ingsw2020.santorini.model.Board;
 import it.polimi.ingsw2020.santorini.model.GodCard;
 import it.polimi.ingsw2020.santorini.model.Player;
-import it.polimi.ingsw2020.santorini.model.TimingType;
+import it.polimi.ingsw2020.santorini.utils.TimingType;
 
 public class Pan extends GodCard {
     private String name = getClass().getSimpleName();

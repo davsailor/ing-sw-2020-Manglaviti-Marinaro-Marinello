@@ -1,4 +1,4 @@
-package it.polimi.ingsw2020.santorini.model;
+package it.polimi.ingsw2020.santorini.utils;
 
 public enum TimingType {
     // the phases of a turn: power of gods can be activated during one of the following standby phases

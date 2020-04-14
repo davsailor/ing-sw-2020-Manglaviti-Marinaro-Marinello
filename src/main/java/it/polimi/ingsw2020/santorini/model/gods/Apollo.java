@@ -1,6 +1,7 @@
 package it.polimi.ingsw2020.santorini.model.gods;
 
 import it.polimi.ingsw2020.santorini.model.*;
+import it.polimi.ingsw2020.santorini.utils.TimingType;
 
 public class Apollo extends GodCard {
     private String name = getClass().getSimpleName();

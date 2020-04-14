@@ -1,4 +1,4 @@
-package it.polimi.ingsw2020.santorini.model;
+package it.polimi.ingsw2020.santorini.utils;
 
 /**
  * Enum that describes the pieces used to build the building itself
@@ -24,7 +24,7 @@ public enum LevelType {
      * it return the values of height associated with each level
      * @return the integer value of height of the level
      */
-    int getHeight(){
+    public int getHeight(){
         return this.height;
     }
 

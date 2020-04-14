@@ -1,5 +1,8 @@
 package it.polimi.ingsw2020.santorini.model;
 
+import it.polimi.ingsw2020.santorini.utils.Color;
+import it.polimi.ingsw2020.santorini.utils.PlayerStatus;
+
 import java.util.Date;
 
 public class Player {

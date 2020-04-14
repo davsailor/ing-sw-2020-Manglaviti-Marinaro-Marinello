@@ -1,4 +1,4 @@
-package it.polimi.ingsw2020.santorini.model;
+package it.polimi.ingsw2020.santorini.utils;
 
 /**
  * this enum represents the status of the cells:

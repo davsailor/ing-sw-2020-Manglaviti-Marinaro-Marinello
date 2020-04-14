@@ -1,4 +1,4 @@
-package it.polimi.ingsw2020.santorini.model;
+package it.polimi.ingsw2020.santorini.utils;
 import it.polimi.ingsw2020.santorini.exceptions.UnexpectedGodException;
 import it.polimi.ingsw2020.santorini.model.gods.*;
 

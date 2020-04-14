@@ -1,6 +1,7 @@
 package it.polimi.ingsw2020.santorini.model;
 import it.polimi.ingsw2020.santorini.exceptions.EmptyDeckException;
 import it.polimi.ingsw2020.santorini.exceptions.UnexpectedGodException;
+import it.polimi.ingsw2020.santorini.utils.GodNameType;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Random;

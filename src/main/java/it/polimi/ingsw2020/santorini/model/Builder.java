@@ -1,5 +1,10 @@
 package it.polimi.ingsw2020.santorini.model;
 
+import it.polimi.ingsw2020.santorini.utils.AccessType;
+import it.polimi.ingsw2020.santorini.utils.Color;
+import it.polimi.ingsw2020.santorini.utils.Direction;
+import it.polimi.ingsw2020.santorini.utils.LevelType;
+
 public class Builder {
     private Color color;
     private char gender;
@@ -119,7 +124,7 @@ public class Builder {
     }
 
     public void setPossibleMoves(int posX, int posY) {
-        this.possibleMoves = board.neighboringStatusCell(posX,posY,AccessType.FREE);
+        this.possibleMoves = board.neighboringStatusCell(posX,posY, AccessType.FREE);
     }
 
     public int[][] getPossibleMoves() {

@@ -1,5 +1,7 @@
 package it.polimi.ingsw2020.santorini.model;
 
+import it.polimi.ingsw2020.santorini.utils.TimingType;
+
 public class Match {
     private Player[] players;
     private int currentPlayerIndex;
