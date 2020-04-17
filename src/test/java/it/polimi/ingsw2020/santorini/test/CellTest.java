@@ -2,9 +2,6 @@ package it.polimi.ingsw2020.santorini.test;
 import it.polimi.ingsw2020.santorini.utils.AccessType;
 import it.polimi.ingsw2020.santorini.model.Cell;
 import it.polimi.ingsw2020.santorini.utils.LevelType;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,8 +14,8 @@ class CellTest {
         //cell = new Cell(AccessType.FREE);
     //}
 
-    @After
-    public void tearDwn(){}
+    //@After
+    //public void tearDwn(){}
 
     @Test
     void getLevel_() {

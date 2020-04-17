@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class Player {
     private String nickname;
-    private Date birthdate;
+    private Date birthDate;
     private Color color;
     private PlayerStatus status;
     private GodCard divinePower ;
@@ -27,11 +27,11 @@ public class Player {
     }
 
    public Date getBirthdate() {
-        return birthdate;
+        return birthDate;
     }
 
     public void setBirthdate(Date birthdate) {
-        this.birthdate = birthdate;
+        this.birthDate = birthdate;
     }
 
     public Color getColor() {
@@ -66,7 +66,7 @@ public class Player {
 
     public Player(String nickname, Date birth, Color color,Builder[] Builders){        //devo passare i builder nel costruttore?
         this.nickname = nickname;
-        this.birthdate = birthdate;
+        this.birthDate = birthDate;
         this.color = color;
         this.status = PlayerStatus.WAITING;
         this.divinePower =  null;
