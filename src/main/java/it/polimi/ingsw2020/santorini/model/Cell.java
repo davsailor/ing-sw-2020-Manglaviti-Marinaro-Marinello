@@ -7,7 +7,7 @@ import java.util.EnumSet;
 
 
 public class Cell {
-    private EnumSet<LevelType> building;
+    private LevelType[] building;
     private AccessType status;
     private Builder builder;
 
@@ -16,7 +16,8 @@ public class Cell {
      * @param status is the status
      */
     public Cell (AccessType status){
-        this.building.add(LevelType.GROUND);
+        this.building = new LevelType[5];
+        this.building[0] = (LevelType.GROUND);
         this.status = status;
         this.builder = null;
     }
@@ -26,10 +27,11 @@ public class Cell {
      * @return the string containing the name of the highest piece on the cell
      */
     public LevelType getLevel(){
-        LevelType buildingArray[];
-        buildingArray = new LevelType[building.size()];
-        buildingArray = (LevelType[]) building.toArray();//Possible error
-        return (buildingArray[building.size() -1]);//understand if toString is necessary
+        int i= 0;
+        while((this.building[i+1] != null)&&(i < 5)){
+            i++;
+        }
+        return (this.building[i]);//understand if toString is necessary
     }
 
     /**
@@ -37,8 +39,11 @@ public class Cell {
      * @param building is the piece of build that will be placed on the cell
      */
     public void setLevel(LevelType building){
-        this.building.add(building);
+        int i = 0;
+        while((this.building[i] != null)&&(i< 5)){i++;}
+        this.building[i] = building;
     }
+
 
     /**
      * it return the the status of the cell
