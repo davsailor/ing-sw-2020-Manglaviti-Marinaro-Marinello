@@ -1,12 +1,13 @@
 package it.polimi.ingsw2020.santorini.model;
 
-import it.polimi.ingsw2020.santorini.utils.TimingType;
+import it.polimi.ingsw2020.santorini.utils.PhaseType;
 
 public abstract class GodCard {
     private String name;
     private int maxPlayersNumber;
     private String timingName;
-    private TimingType timing;
+    private PhaseType timing;
+    private boolean mandatory;
 
     /**
      * getter of class parameters, setter not needed since thy are considered final
@@ -14,7 +15,7 @@ public abstract class GodCard {
     public String getName() { return name; }
     public Integer getMaxPlayersNumber() { return maxPlayersNumber; }
     public String getTimingName() { return timingName; }
-    public TimingType getTiming() { return timing; }
+    public PhaseType getTiming() { return timing; }
 
     /**
      * the function that express the power of the god. Each God will have its power

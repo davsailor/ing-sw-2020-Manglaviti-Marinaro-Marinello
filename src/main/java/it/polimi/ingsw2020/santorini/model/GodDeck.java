@@ -8,17 +8,14 @@ import java.util.Random;
 
 public class GodDeck {
     private int[] deck;
-    private Board board;
     private final int GOD_NUMBER = GodNameType.values().length;
     private int nextCard;
     private Random random;
 
     /**
      * method that create the deck of god's card, so that we can extract casually (or chose) the card we'll play
-     * @param field the board that refers to this deck
      */
-    public GodDeck(Board field){
-        this.board = field;
+    public GodDeck(){
         this.nextCard = 0;
         this.random = new Random();
         this.deck = new int[GOD_NUMBER];

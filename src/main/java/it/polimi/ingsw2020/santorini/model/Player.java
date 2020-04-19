@@ -64,10 +64,10 @@ public class Player {
 
     //COSTRUTTORE
 
-    public Player(String nickname, Date birth, Color color,Builder[] Builders){        //devo passare i builder nel costruttore?
+    public Player(String nickname, Date birthDate){
         this.nickname = nickname;
         this.birthDate = birthDate;
-        this.color = color;
+        this.color = null;
         this.status = PlayerStatus.WAITING;
         this.divinePower =  null;
 

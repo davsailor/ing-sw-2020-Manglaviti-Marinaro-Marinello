@@ -1,8 +1,15 @@
 package it.polimi.ingsw2020.santorini.model;
 
-import it.polimi.ingsw2020.santorini.utils.TimingType;
+import it.polimi.ingsw2020.santorini.controller.GameLogic;
+import it.polimi.ingsw2020.santorini.utils.PhaseType;
 
-public class Match {
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
+
+@SuppressWarnings("deprecation")
+
+public class Match extends Observable {
     private Player[] players;
     private int currentPlayerIndex;
     private int numberOfPlayers;
@@ -10,9 +17,10 @@ public class Match {
     private Board board;
     private int numberOfCompletedTowers;
     private int turnNumber;
-    private TimingType turnPhase;
+    private PhaseType turnPhase;
+    private ArrayList<Observer> observers;
 
-    public Match (Board board, int numberOfPlayers) {
+    public Match (Board board, int numberOfPlayers, GameLogic controller) {
         this.players = new Player[numberOfPlayers];
         this.numberOfPlayers = numberOfPlayers;
         this.currentPlayerIndex = 0;
@@ -21,6 +29,8 @@ public class Match {
         this.numberOfCompletedTowers = 0;
         this.turnNumber = 0;
         this.turnPhase = null;
+        this.observers = new ArrayList<>();
+        this.observers.add(controller);
     }
 
     /**
@@ -85,7 +95,7 @@ public class Match {
      * setter of the attribute turnPhase
      * @param turnPhase is the variable that represents a phase
      */
-    public void setTurnPhase (TimingType turnPhase ){
+    public void setTurnPhase (PhaseType turnPhase ){
         this.turnPhase = turnPhase;
     }
 
@@ -93,7 +103,7 @@ public class Match {
      * getter of the attribute turnPhase
      * @return the value of turnPhase
      */
-    public TimingType getTurnPhase(){
+    public PhaseType getTurnPhase(){
         return(this.turnPhase);
     }
 
@@ -136,6 +146,31 @@ public class Match {
         return(this.eliminatedPlayer);
     }
 
+    public Player[] getPlayers() {
+        return players;
+    }
 
+    public void setPlayers(Player[] players) {
+        this.players = players;
+    }
 
+    public int getCurrentPlayerIndex() {
+        return currentPlayerIndex;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    public ArrayList<Observer> getObservers() {
+        return observers;
+    }
+
+    public void setObservers(ArrayList<Observer> observers) {
+        this.observers = observers;
+    }
 }

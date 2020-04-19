@@ -3,13 +3,14 @@ package it.polimi.ingsw2020.santorini.model.gods;
 import it.polimi.ingsw2020.santorini.model.Board;
 import it.polimi.ingsw2020.santorini.model.GodCard;
 import it.polimi.ingsw2020.santorini.model.Player;
-import it.polimi.ingsw2020.santorini.utils.TimingType;
+import it.polimi.ingsw2020.santorini.utils.PhaseType;
 
 public class Demeter extends GodCard {
     private String name = getClass().getSimpleName();
     private int maxPlayersNumber = 3;
     private String timingName = "Your Build";
-    private TimingType timing = TimingType.STANDBY_PHASE_3;
+    private PhaseType timing = PhaseType.STANDBY_PHASE_3;
+    private boolean mandatory = false;
 
     public Demeter(){}
 

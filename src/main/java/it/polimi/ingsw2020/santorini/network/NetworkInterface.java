@@ -7,4 +7,6 @@ import java.io.IOException;
 public interface NetworkInterface {
     //parametro è il messaggio da inviare
     void send(Message message) throws IOException;
+
+    //potremmo aggiungere receive
 }

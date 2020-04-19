@@ -4,13 +4,14 @@ import it.polimi.ingsw2020.santorini.exceptions.UnexpectedMessageException;
 import it.polimi.ingsw2020.santorini.network.NetworkInterface;
 import it.polimi.ingsw2020.santorini.network.server.Server;
 import it.polimi.ingsw2020.santorini.utils.Message;
-import it.polimi.ingsw2020.santorini.utils.messages.SampleMessage;
+import it.polimi.ingsw2020.santorini.view.ViewInterface;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ServerAdapter extends Thread implements NetworkInterface {
     /**
@@ -18,12 +19,29 @@ public class ServerAdapter extends Thread implements NetworkInterface {
      */
 
     private Client client;
+    private ViewInterface view;
     private String ipAddress;
     private Socket server;
-    boolean connected;
-    boolean isListening = true;
+    private boolean connected;
+    private boolean listening;
     private ObjectOutputStream out;
     private ObjectInputStream in;
+
+    public boolean isConnected() {
+        return connected;
+    }
+
+    public void setConnected(boolean connected) {
+        this.connected = connected;
+    }
+
+    public boolean isListening() {
+        return listening;
+    }
+
+    public void setListening(boolean listening) {
+        this.listening = listening;
+    }
 
     public ObjectOutputStream getOut() {
         return out;
@@ -33,63 +51,54 @@ public class ServerAdapter extends Thread implements NetworkInterface {
         return in;
     }
 
+    public Socket getServer() {
+        return server;
+    }
+
     public ServerAdapter(Client client, String ipAddress){
         this.client = client;
         this.ipAddress = ipAddress;
-
+        this.view = client.getView();
         try {
             this.server = new Socket(ipAddress, Server.PORT);
             out = new ObjectOutputStream(server.getOutputStream());
             in = new ObjectInputStream(server.getInputStream());
             connected = true;
         } catch (IOException e) {
-            System.out.println("u server ha dda capì");   // per @davsailor e i polentoni "il server deve capire"
+            System.out.println("cannot connect to server");   // per @davsailor e i polentoni "il server deve capire"
             connected = false;
             System.exit(1);
         }
+        // controllo periodico della connessione
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {public void run() {checkConnection();}};
+        timer.schedule(task, 0, 3000);
     }
 
     @Override
     public void send(Message message) throws IOException {
-        System.out.println("1");
         out.reset();
-        System.out.println("2");
         out.writeObject(message);
-        System.out.println("3");
         out.flush();
-        System.out.println("4");
     }
 
     // serve per ricevere i messaggi
     @Override
     public void run(){
-        while(isListening){
+        listening = true;
+        while(this.listening && this.connected){
             try {
-                Message messageOut = new Message();
-                SampleMessage payload = new SampleMessage("Messaggio inviato dal client");
-                messageOut.buildSampleMessage(payload);
-                send(messageOut);
-                System.out.println("5");
                 Message message = (Message) in.readObject();
-                System.out.println("il server ha letto\n");
-                switch(message.getHeaderMessageType()){
-                    case PROVA:
-                        SampleMessage mes = message.deserializeSampleMessage(message.getSerializedPayload());
-                        System.out.println("Messaggio del server ricevuto!");
-                        System.out.printf("%s\n", mes.getProva());
-                        break;
-                    default:
-                        isListening = false;
-                        throw new UnexpectedMessageException();
-                }
+                client.handleMessage(message);
                 // questo serve per chiudere la sessione con il server e fermarci
-                //server.close();
-                //isListening = false;
             } catch (ClassNotFoundException e) {
+                this.listening = false;
                 System.out.println("class not found");
             } catch (UnexpectedMessageException e){
+                this.listening = false;
                 System.out.println("unexpected message");
             } catch (IOException e){
+                this.listening = false;
                 System.out.println("IO exception");
             }
         }
@@ -104,9 +113,9 @@ public class ServerAdapter extends Thread implements NetworkInterface {
                 probeSocket = new Socket(ipAddress, 8888);
                 probeSocket.close();
             } catch (IOException e) {
-                connected = false;
+                this.connected = false;
             }
-            if (!connected) {
+            if (!this.connected) {
                 // inserire gestione della disconnessione
             }
         }
