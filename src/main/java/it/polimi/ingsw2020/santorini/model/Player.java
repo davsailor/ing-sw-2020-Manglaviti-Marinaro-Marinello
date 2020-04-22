@@ -26,7 +26,7 @@ public class Player {
         this.nickname = nickname;
     }
 
-   public Date getBirthdate() {
+    public Date getBirthdate() {
         return birthDate;
     }
 
@@ -63,15 +63,12 @@ public class Player {
     }
 
     //COSTRUTTORE
-
     public Player(String nickname, Date birthDate){
         this.nickname = nickname;
         this.birthDate = birthDate;
         this.color = null;
         this.status = PlayerStatus.WAITING;
         this.divinePower =  null;
-
-        //metodo per i builder
         builders = new Builder[2];
         builders[0]=null;
         builders[1]=null;
@@ -87,4 +84,8 @@ public class Player {
     public void tostring(){}
 
    // public String chooseBuilder(Builder[] Builders){ }
+
+   // public void movePlayer(Builder builder){
+    //    builder.move();
+   // }
 }
