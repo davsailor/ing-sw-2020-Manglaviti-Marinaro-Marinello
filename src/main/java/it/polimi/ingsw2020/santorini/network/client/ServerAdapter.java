@@ -75,6 +75,11 @@ public class ServerAdapter extends Thread implements NetworkInterface {
         timer.schedule(task, 0, 3000);
     }
 
+    /**
+     * method that sends a message to the server
+     * @param message is the message that has to be sent
+     * @throws IOException
+     */
     @Override
     public void send(Message message) throws IOException {
         out.reset();
@@ -82,7 +87,10 @@ public class ServerAdapter extends Thread implements NetworkInterface {
         out.flush();
     }
 
-    // serve per ricevere i messaggi
+    /**
+     * it is the backbone of the class and it is used to receive messages from the server
+     * serve per ricevere i messaggi
+     */
     @Override
     public void run(){
         listening = true;
@@ -105,7 +113,10 @@ public class ServerAdapter extends Thread implements NetworkInterface {
 
     }
 
-    // serve per verificare lo stato della connessione. verrà schedulato con un timer
+    /**
+     * method that checks that state of the connection. it is used in other methods through a timer
+     * serve per verificare lo stato della connessione. Schedulato con un timer
+     */
     public void checkConnection() {
         Socket probeSocket;
         if(connected) {

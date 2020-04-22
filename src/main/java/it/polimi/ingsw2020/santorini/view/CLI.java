@@ -27,6 +27,7 @@ public class CLI implements ViewInterface{
     }
 
     /**
+     * method in which it's asked to the client to insert server's IP, and after that the username, birth date and type of match(number of players)
      * metodo in cui si chiede l'iP del server, dopodichè di fanno inserire username, data di nascita e tipo di partita (numero di giocatori nella partita)
      */
     @Override
@@ -62,6 +63,9 @@ public class CLI implements ViewInterface{
         }
     }
 
+    /**
+     * method that re-ask the client to insert a username
+     */
     @Override
     public void displayNewUsernameWindow() {
         System.out.printf("Inserisci il tuo username: ");
@@ -76,7 +80,8 @@ public class CLI implements ViewInterface{
     }
 
     /**
-     * metodo per intrattenere l'utente mentre aspettiamo altri carusi che vogliono giocare
+     * method that display a Loading window to the client while the server waits other clients to join
+     * metodo per intrattenere l'utente mentre aspettiamo altri utenti che vogliono giocare
      */
     @Override
     public void displayLoadingWindow() {
@@ -84,6 +89,7 @@ public class CLI implements ViewInterface{
     }
 
     /**
+     * method that gives the welcome to the clients and distributes color of the builders and Gods'cards
      * metodo in cui si da il welcome alla partita, vengono assegnate le carte e i colori.
      * viene visualizzata una board semplificata per facilitare il posizionamento delle pedine
      */
@@ -93,6 +99,7 @@ public class CLI implements ViewInterface{
     }
 
     /**
+     * method that shows board, builders, the textual interface and the first player to play
      * far visualizzare la board con le pedine e tutta l'interfaccia testuale e il primo giocatore che gioca
      */
     @Override
@@ -101,6 +108,7 @@ public class CLI implements ViewInterface{
     }
 
     /**
+     * method that update the board every time that the model is modified
      * metodo che aggiorna la board ogni volta che viene fatta una mossa (modificato il model)
      * parametro un messaggio con scritte le informazioni sulla board.
      */
@@ -110,6 +118,7 @@ public class CLI implements ViewInterface{
     }
 
     /**
+     * method that shows to the player his possible moves
      * metodo che mostra all'utente le possibili mosse che il builder selezionato può fare
      */
     @Override
@@ -118,6 +127,7 @@ public class CLI implements ViewInterface{
     }
 
     /**
+     * method that shows to the player the possible block that his builder can do
      * metodo che mostra all'utente le possibili costruzioni che il builder mosso può fare
      */
     @Override
@@ -126,6 +136,7 @@ public class CLI implements ViewInterface{
     }
 
     /**
+     * method that shows winner and losers. It then close the match
      * metodo che mostra vincitori e vinti. conclude la partita con epic sax guy
      */
     @Override
@@ -134,6 +145,7 @@ public class CLI implements ViewInterface{
     }
 
     /**
+     * method that shows possible errors occurred
      * metodo che mostra all'utente possibili errori che sono capitati
      */
     @Override

@@ -21,33 +21,62 @@ public class Client {
     private ServerAdapter adapter;
     private ViewInterface view;
 
+    /**
+     * getter of the attribute username
+     * @return the user name
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * setter of the attribute username
+     * @param username is the name that will be assigned to the attribute username
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     * getter of the attribute birthDate
+     * @return the birth date of the player
+     */
     public Date getBirthDate() {
         return birthDate;
     }
 
+    /**
+     * setter of the attribute
+     * @param birthDate is the birth day of the player that will be assigned to the attribute
+     */
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
 
+    /**
+     * getter of the attribute
+     * @return the server adapter of the client
+     */
     public ServerAdapter getAdapter() {
         return adapter;
     }
 
+    /**
+     * setter of the attribute
+     * @param adapter the server adapter that will be assigned to the attribute
+     */
     public void setAdapter(ServerAdapter adapter) {
         this.adapter = adapter;
     }
 
+    /**
+     * getter of the attribute
+     * @return the viewInterface
+     */
     public ViewInterface getView() {
         return view;
     }
+
 
     public static void main(String[] args) {
        /* Client client = new Client();
@@ -67,6 +96,12 @@ public class Client {
         client.view.displaySetupWindow();
     }
 
+    /**
+     * method that handle the messages received by the server based on his FirstLevelHeader
+     * (has to be extend)
+     * @param message received by the server and has to be deserialized
+     * @throws UnexpectedMessageException is the exception launched when an message has an unknown header
+     */
     public void handleMessage(Message message) throws UnexpectedMessageException {
         switch(message.getFirstLevelHeader()){
             case SETUP:
@@ -80,6 +115,11 @@ public class Client {
         }
     }
 
+    /**
+     * method that handle the messages received by the server based on his SecondLevelHeader
+     * @param message is the message that has to be deserialized
+     * @throws UnexpectedMessageException is the exception launched when an message has an unknown header
+     */
     public void setupMessageHandler(Message message) throws UnexpectedMessageException {
         switch(message.getSecondLevelHeader()){
             case LOGIN:
@@ -89,6 +129,11 @@ public class Client {
         }
     }
 
+    /**
+     * method that manages the messages that launch exceptions
+     * @param message that launches exceptions
+     * @throws UnexpectedMessageException is the exception launched when an message has an unknown header
+     */
     public void errorMessageHandler(Message message) throws UnexpectedMessageException {
         switch(message.getSecondLevelHeader()){
             case USERNAME_ERROR:
@@ -101,4 +146,5 @@ public class Client {
         }
     }
     // metodo per gestire i messaggi lo mettiamo qua o in server adapter?
+    //AGGIUNGERE METODO CHE SERIALIZZA I MESSAGGI CHE LANCIANO ERRORI
 }
