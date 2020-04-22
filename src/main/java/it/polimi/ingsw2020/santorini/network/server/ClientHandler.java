@@ -37,6 +37,7 @@ public class ClientHandler extends Thread implements NetworkInterface {
         }
     }
 
+
     @Override
     public void run(){
         try{
@@ -47,6 +48,13 @@ public class ClientHandler extends Thread implements NetworkInterface {
         }
     }
 
+    /**
+     * This method handle messages received from the client. The messages are composed by 3 sections:
+     * 1) FirstLevelHandler that represents a first classification
+     * 2) SecondLevelHandler that represents a second classification
+     * 3)Payload
+     * @throws IOException
+     */
     public void handleClient() throws IOException{
         try{
             while(true){
@@ -59,7 +67,7 @@ public class ClientHandler extends Thread implements NetworkInterface {
 
                 Message message = (Message) input.readObject();
                 System.out.println("Message received from client: " + client.getInetAddress() + "\n");
-                switch(message.getFirstLevelHeader()){
+                switch(message.getFirstLevelHeader()){//diversi case ancora da aggiungere
                     case SETUP:
                         setupMessageHandler(message);
                         break;
@@ -76,6 +84,12 @@ public class ClientHandler extends Thread implements NetworkInterface {
         }
     }
 
+    /**
+     *The method handles the login message creating a new player(for the server) and adding it to a list of players
+     * depending on which kind of game they have chosen(with 2 or 3 players)
+     * @param message it's the deserialized login message that has to be handled
+     * @throws UnavailableUsernameException it signals that the username chosen by the player is already taken
+     */
     private void loginHandler(LoginMessage message) throws UnavailableUsernameException {
         if(server.getVirtualClients().containsKey(message.getUsername()) || message.getUsername().equals("All"))
             throw new UnavailableUsernameException();
@@ -87,6 +101,10 @@ public class ClientHandler extends Thread implements NetworkInterface {
         }
     }
 
+    /**
+     * the method deserializes a login message invoking the respective handlers to handle it
+     * @param message received by the server with FirstHeaderType.SETUP
+     */
     public void setupMessageHandler(Message message){
         switch(message.getSecondLevelHeader()){
             case LOGIN:
