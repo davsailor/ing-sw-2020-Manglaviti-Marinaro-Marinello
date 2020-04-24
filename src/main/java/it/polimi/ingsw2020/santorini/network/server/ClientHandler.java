@@ -2,88 +2,44 @@ package it.polimi.ingsw2020.santorini.network.server;
 
 import it.polimi.ingsw2020.santorini.exceptions.*;
 import it.polimi.ingsw2020.santorini.model.Player;
-import it.polimi.ingsw2020.santorini.network.NetworkInterface;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.messages.*;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 
-public class ClientHandler extends Thread implements NetworkInterface {
+public class ClientHandler extends Thread{
+    private ClientNetworkHandler owner;
 
-    private Socket client;
-    private Server server;
-    private String username;
-    private ObjectOutputStream output;
-    private ObjectInputStream input;
-
-    // magari da aggiungere un metodo per gestire la disconnessione
-
+    public ClientHandler(ClientNetworkHandler owner){
+        this.owner = owner;
+    }
     /**
-     * constructor of the class
-     * @param client is the socket of the client that has to be handled
+     * When an object implementing interface <code>Runnable</code> is used
+     * to create a thread, starting the thread causes the object's
+     * <code>run</code> method to be called in that separately executing
+     * thread.
+     * <p>
+     * The general contract of the method <code>run</code> is that it may
+     * take any action whatsoever.
+     *
+     * @see Thread#run()
      */
-    public ClientHandler(Socket client, Server server){
-        this.server = server;
-        this.client = client;
-        try {
-            this.input = new ObjectInputStream(client.getInputStream());
-            this.output = new ObjectOutputStream(client.getOutputStream());
-        } catch (IOException e) {
-            System.out.println("error IO");
-            System.exit(2);
-        }
-    }
-
     @Override
-    public void run(){
-        try{
-            handleClient();
-        }
-        catch (IOException e){
-            System.out.println("Client " + client.getInetAddress() + " connection dropped");
+    public void run() {
+        while(true){
+            while(!owner.hasNextMessage());
+            handleMessage();
         }
     }
 
-    public void handleClient() throws IOException{
-        try{
-            while(true){
-
-                /*  gestione dei messaggi
-                    un messaggio sarà fatto in questo modo: header + payload
-                    header: ci dice che tipo di messaggio è
-                    payload: contiene le infromazioni che, se lette interpretando il tipo di messaggio correttamente, avranno un senso
-                 */
-
-                Message message = (Message) input.readObject();
-                System.out.println("Message received from client: " + client.getInetAddress() + "\n");
-                switch(message.getFirstLevelHeader()){
-                    case SETUP:
-                        setupMessageHandler(message);
-                        break;
-                    default:
-                        throw new UnexpectedMessageException();
-                }
-            }
-        }
-        catch (ClassNotFoundException e) {
-            System.out.println("class not found");
-        }
-        catch (UnexpectedMessageException e) {
-            System.out.println("unexpected message");
-        }
-    }
-
-    private void loginHandler(LoginMessage message) throws UnavailableUsernameException {
-        if(server.getVirtualClients().containsKey(message.getUsername()) || message.getUsername().equals("All"))
-            throw new UnavailableUsernameException();
-        else {
-            Player player = new Player(message.getUsername(), message.getBirthDate());
-            if (message.getNumberOfPlayers() == 2) server.addWaitingPlayersMatch2(player);
-            else if (message.getNumberOfPlayers() == 3) server.addWaitingPlayersMatch3(player);
-            server.addVirtualClient(message.getUsername(), this);
+    public void handleMessage() {
+        Message message = owner.getNextMessage();
+        owner.removeMessageQueue(message);
+        switch (message.getFirstLevelHeader()) {
+            case SETUP:
+                setupMessageHandler(message);
+                break;
+            default:
         }
     }
 
@@ -96,19 +52,28 @@ public class ClientHandler extends Thread implements NetworkInterface {
                 } catch (UnavailableUsernameException e){
                     Message error = new Message();
                     error.buildUsernameErrorMessage(new UsernameErrorMessage("Your Username is not available!"));
+                    System.out.println(error.getFirstLevelHeader() + ", " + error.getSecondLevelHeader());
                     try{
-                        send(error);
+                        owner.send(error);
                     } catch(IOException f){
                         // do nothing
                     }
                 }
+                break;
+            default:
+                break;
         }
     }
 
-    @Override
-    public void send(Message message) throws IOException {
-        output.reset();
-        output.writeObject(message);
-        output.flush();
+    private void loginHandler(LoginMessage message) throws UnavailableUsernameException {
+        if (owner.getServer().getVirtualClients().containsKey(message.getUsername()) || message.getUsername().equals("All")) {
+            throw new UnavailableUsernameException();
+        } else {
+            Player player = new Player(message.getUsername(), message.getBirthDate());
+            if (message.getNumberOfPlayers() == 2) owner.getServer().addWaitingPlayersMatch2(player);
+            else if (message.getNumberOfPlayers() == 3) owner.getServer().addWaitingPlayersMatch3(player);
+            owner.getServer().addVirtualClient(message.getUsername(), owner);
+            owner.getServer().checkForMatches();
+        }
     }
 }

@@ -1,4 +1,4 @@
-package it.polimi.ingsw2020.santorini.test;
+package it.polimi.ingsw2020.santorini.model;
 import it.polimi.ingsw2020.santorini.utils.AccessType;
 import it.polimi.ingsw2020.santorini.model.Cell;
 import it.polimi.ingsw2020.santorini.utils.LevelType;

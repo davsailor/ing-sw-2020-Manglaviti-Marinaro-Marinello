@@ -14,6 +14,31 @@ public class Hestia extends GodCard {
 
     public Hestia(){}
 
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public int getMaxPlayersNumber() {
+        return maxPlayersNumber;
+    }
+
+    @Override
+    public String getTimingName() {
+        return timingName;
+    }
+
+    @Override
+    public PhaseType getTiming() {
+        return timing;
+    }
+
+    @Override
+    public boolean isMandatory() {
+        return mandatory;
+    }
+
     public void invokeGod(Board field, Player invoker) {
 
     }

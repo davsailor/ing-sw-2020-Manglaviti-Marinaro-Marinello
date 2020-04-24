@@ -12,5 +12,7 @@ public interface NetworkInterface {
      */
     void send(Message message) throws IOException;
 
+    void receive(Message message);
+
     //potremmo aggiungere receive
 }

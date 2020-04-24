@@ -1,8 +1,8 @@
 package it.polimi.ingsw2020.santorini.view;
 
-import com.sun.org.apache.bcel.internal.classfile.SourceFile;
 import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.network.client.ServerAdapter;
+import it.polimi.ingsw2020.santorini.network.client.ViewAdapter;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.messages.*;
 
@@ -17,7 +17,6 @@ public class CLI implements ViewInterface{
 
     private Client client;
     private Scanner scannerIn;
-    private String username;
     private Date birthDate;
     private int selectedMatch;
 
@@ -35,12 +34,15 @@ public class CLI implements ViewInterface{
         System.out.printf("Inserisci l'indirizzo IP del server: ");
         String ip = scannerIn.nextLine();
 
-        ServerAdapter adapter = new ServerAdapter(client, ip);
-        client.setAdapter(adapter);
-        adapter.start();
+        client.setNetworkHandler(new ServerAdapter(client, ip));
+        client.setViewHandler(new ViewAdapter(client));
+
+        client.getNetworkHandler().start();
+        client.getViewHandler().start();
 
         System.out.printf("Inserisci il tuo username: ");
-        username = scannerIn.nextLine();
+        String username = scannerIn.nextLine();
+
         System.out.printf("Inserisci la tua data di nascita (dd/mm/yyyy): ");
         String date = scannerIn.nextLine();
         DateFormat parser = new SimpleDateFormat("dd/MM/yyyy");
@@ -50,14 +52,16 @@ public class CLI implements ViewInterface{
         } catch (ParseException e) {
             // do nothing
         }
+
         System.out.printf("Inserisci il numero di giocatori della partita (2 o 3): ");
         selectedMatch= scannerIn.nextInt();
+        scannerIn.nextLine();
 
         Message message = new Message();
         message.buildLoginMessage(new LoginMessage(username, birthDate, selectedMatch));
 
         try {
-            client.getAdapter().send(message);
+            client.getNetworkHandler().send(message);
         } catch (IOException e) {
             // do nothing
         }
@@ -68,12 +72,12 @@ public class CLI implements ViewInterface{
      */
     @Override
     public void displayNewUsernameWindow() {
-        System.out.printf("Inserisci il tuo username: ");
-        username = scannerIn.nextLine();
+        System.out.printf("Inserisci di nuovo il tuo username: ");
+        String username = scannerIn.nextLine();
         Message message = new Message();
         message.buildLoginMessage(new LoginMessage(username, birthDate, selectedMatch));
         try {
-            client.getAdapter().send(message);
+            client.getNetworkHandler().send(message);
         } catch (IOException e) {
             // do nothing
         }
@@ -150,30 +154,8 @@ public class CLI implements ViewInterface{
      */
     @Override
     public void displayErrorMessage(String error) {
-        // stampa a video l'errore fatto, poi bisogna premere un tasto per continuare
+        System.out.println(error);
+        System.out.println("Press any key to proceed");
+        scannerIn.nextLine();
     }
-/*
-    public void displaySample() {
-
-        Message messageOut = new Message();
-        SampleMessage payload = new SampleMessage("SampleMessage inviato dalla CLI al Server");
-        messageOut.buildSampleMessage(payload);
-        try {
-            client.getAdapter().send(messageOut);
-        } catch(IOException e) {
-            System.out.println("FUCK!");
-        }
-    }
-
-    @Override
-    public void displaySample2() {
-        System.out.println("LA CARNE E' TENERISSIMA!");
-        try {
-            client.getAdapter().getServer().close();
-        } catch (IOException e){
-            System.out.println("FUCK CLI!");
-        }
-    }
-
- */
 }
