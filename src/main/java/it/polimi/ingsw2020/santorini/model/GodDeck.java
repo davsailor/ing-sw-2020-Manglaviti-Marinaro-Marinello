@@ -1,14 +1,12 @@
 package it.polimi.ingsw2020.santorini.model;
 import it.polimi.ingsw2020.santorini.exceptions.EmptyDeckException;
 import it.polimi.ingsw2020.santorini.exceptions.UnexpectedGodException;
-import it.polimi.ingsw2020.santorini.utils.GodNameType;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
 public class GodDeck {
     private int[] deck;
-    private final int GOD_NUMBER = GodNameType.values().length;
+    private final int GOD_NUMBER = GodFactotum.values().length;
     private int nextCard;
     private Random random;
 
@@ -20,12 +18,32 @@ public class GodDeck {
         this.random = new Random();
         this.deck = new int[GOD_NUMBER];
         try {
-            for (GodNameType g : GodNameType.values()) {
+            for (GodFactotum g : GodFactotum.values()) {
                 deck[g.getCode()] = g.getCode();
             }
         } catch (Exception e) {
             System.out.println("Unexpected God!");
         }
+    }
+
+
+    public int[] getDeck() {
+        int[] deckCpy = new int[GOD_NUMBER];
+        for(int i = 0; i < GOD_NUMBER; ++i)
+            deckCpy[i] = deck[i];
+        return deckCpy;
+    }
+
+    public int getGOD_NUMBER() {
+        return GOD_NUMBER;
+    }
+
+    public void setValueToIndex(int value, int index) {
+        deck[index] = value;
+    }
+
+    public int getNextCard() {
+        return nextCard;
     }
 
     /**
@@ -53,17 +71,17 @@ public class GodDeck {
     {
         try{
             if(nextCard == GOD_NUMBER) throw new EmptyDeckException();
-            for(GodNameType g : GodNameType.values()) {
+            for(GodFactotum g : GodFactotum.values()) {
                 if(g.getCode() == deck[nextCard]) {
                     ++nextCard;
-                    return (GodCard) g.getConstructor().newInstance();
+                    return g.summon();
                 }
             }
             throw new UnexpectedGodException();
         } catch (EmptyDeckException e){
             System.out.println("No more gods available!");
         }
-        catch (UnexpectedGodException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+        catch (UnexpectedGodException | NoSuchMethodException e) {
             System.out.println("Your god does not exist!");
         }
         return null;
@@ -77,9 +95,10 @@ public class GodDeck {
         {
             StringBuilder cards = new StringBuilder("Gods: ");
             for (int i = 0; i < GOD_NUMBER; ++i){
-                for (GodNameType g : GodNameType.values()) {
+                for (GodFactotum g : GodFactotum.values()) {
                     try {
-                        cards.append(g.getName()).append("\n");
+                        if(g.getCode() == deck[i])
+                            cards.append(g.getName()).append("\n");
                     } catch (UnexpectedGodException e) {
                         System.out.println("Your god does not exist!");
                     }

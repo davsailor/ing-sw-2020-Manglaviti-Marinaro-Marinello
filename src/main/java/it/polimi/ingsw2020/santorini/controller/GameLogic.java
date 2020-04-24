@@ -1,8 +1,11 @@
 package it.polimi.ingsw2020.santorini.controller;
 
+import it.polimi.ingsw2020.santorini.exceptions.UnexpectedMessageException;
 import it.polimi.ingsw2020.santorini.model.*;
 import it.polimi.ingsw2020.santorini.network.server.Server;
 import it.polimi.ingsw2020.santorini.network.server.VirtualView;
+import it.polimi.ingsw2020.santorini.utils.Message;
+import it.polimi.ingsw2020.santorini.utils.messages.*;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -22,10 +25,13 @@ public class GameLogic implements Observer {
     //private ArrayList<Player> disconnectedPlayers;
 
     public GameLogic(Server server){
-        view = new VirtualView();
         turnManager = new TurnLogic();
         this.server = server;
         this.match = null;
+    }
+
+    public void setView(VirtualView view) {
+        this.view = view;
     }
 
     public void initializeMatch2(Server server){
@@ -82,7 +88,18 @@ public class GameLogic implements Observer {
     }
 
     @Override
-    public void update(Observable o, Object arg) {
+    public void update(Observable view, Object mes) {
+        Message message = (Message) mes;
+        try{
+            switch(message.getFirstLevelHeader()){
+                case ASK:
 
+                    break;
+                default:
+                    throw new UnexpectedMessageException();
+            }
+        } catch(UnexpectedMessageException e) {
+            System.out.println("unexpected message");
+        }
     }
 }
