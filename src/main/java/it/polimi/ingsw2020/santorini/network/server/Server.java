@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 public class Server {
     public final static int PORT = 9995;
+    private int matchID;
     private ServerSocket socket;
     private VirtualView virtualView;
     private final ArrayList<Player> waitingPlayersMatch2;
@@ -19,6 +20,7 @@ public class Server {
     private GameLogic controller;
 
     public Server(){
+        matchID = 0;
         waitingPlayersMatch2 = new ArrayList<>();
         waitingPlayersMatch3 = new ArrayList<>();
         virtualClients = new HashMap<>();
@@ -81,8 +83,6 @@ public class Server {
     public void addVirtualClient(String username, ClientNetworkHandler handler){
         this.virtualClients.put(username, handler);
         System.out.println("il client appena connesso si chiama: " + username + "\n" + "client in attesa di fare partite");
-        for(Player p : waitingPlayersMatch2)
-            System.out.println(p.getNickname() + " " + p.getBirthdate().toString() + "\n");
     }
 
     public HashMap<String, ClientNetworkHandler> getVirtualClients() {
@@ -95,5 +95,9 @@ public class Server {
 
     public void setController(GameLogic controller) {
         this.controller = controller;
+    }
+
+    public int generateMatchID(){
+        return ++matchID;
     }
 }

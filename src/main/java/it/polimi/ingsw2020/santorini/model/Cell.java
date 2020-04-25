@@ -17,7 +17,8 @@ public class Cell {
      */
     public Cell (AccessType status){
         this.building = new LevelType[5];
-        this.building[0] = (LevelType.GROUND);
+        if(status == AccessType.FORBIDDEN) this.building[0] = LevelType.COAST;
+        else this.building[0] = (LevelType.GROUND);
         this.status = status;
         this.builder = null;
     }
@@ -49,8 +50,8 @@ public class Cell {
      * it return the the status of the cell
      * @return the string containing the name the status of the cell
      */
-    public String getStatus(){
-        return (status.toString());
+    public AccessType getStatus(){
+        return status;
     }
 
     /**

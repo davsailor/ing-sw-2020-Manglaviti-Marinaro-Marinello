@@ -6,45 +6,23 @@ import it.polimi.ingsw2020.santorini.model.Player;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
 
 public class Prometheus extends GodCard {
-    private String name = getClass().getSimpleName();
-    private int maxPlayersNumber = 3;
-    private String timingName = "Your Turn";
-    private PhaseType timing = PhaseType.STANDBY_PHASE_1;
-    private boolean mandatory = false;
 
-    public Prometheus(){}
-
-    @Override
-    public String getName() {
-        return name;
+    public Prometheus(){
+        super();
+        name = getClass().getSimpleName();
+        maxPlayersNumber = 3;
+        timingName = "Your Turn";
+        timing = PhaseType.STANDBY_PHASE_1;
+        mandatory = false;
     }
 
     @Override
-    public int getMaxPlayersNumber() {
-        return maxPlayersNumber;
-    }
-
-    @Override
-    public String getTimingName() {
-        return timingName;
-    }
-
-    @Override
-    public PhaseType getTiming() {
-        return timing;
-    }
-
-    @Override
-    public boolean isMandatory() {
-        return mandatory;
-    }
-
     public void invokeGod(Board field, Player invoker) {
 
     }
 
-    public String toStringEffect() {
-        return this.name + "\n" + this.timingName + ": If your Worker does not move up,\n" +
+    public static String toStringEffect(GodCard card) {
+        return card.getName() + "\n" + card.getTimingName() + ": If your Worker does not move up,\n" +
                 "it may build both before and after moving.";
     }
 }

@@ -8,7 +8,7 @@ public class GodDeck {
     private int[] deck;
     private final int GOD_NUMBER = GodFactotum.values().length;
     private int nextCard;
-    private Random random;
+    private transient Random random;
 
     /**
      * method that create the deck of god's card, so that we can extract casually (or chose) the card we'll play
@@ -67,7 +67,7 @@ public class GodDeck {
      * assigns a card to the player
      * @return the top deck god card
      */
-    public GodCard giveGard()
+    public GodCard giveCard()
     {
         try{
             if(nextCard == GOD_NUMBER) throw new EmptyDeckException();

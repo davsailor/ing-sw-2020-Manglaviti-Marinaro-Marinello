@@ -3,7 +3,7 @@ package it.polimi.ingsw2020.santorini.utils;
 public enum SecondHeaderType {
     // specializzazione della prima classificazione
 
-    // riferiti a SETUP
+    // riferiti a SETUP e LOADING
     LOGIN,
     MATCH,
 
@@ -11,6 +11,7 @@ public enum SecondHeaderType {
     USERNAME_ERROR,
 
     // riferiti a ASK
+    SELECTION_ORDER,
     POSSIBLE_MOVES,
     POSSIBLE_BUILDS,
     GOD_AVAILABLE,

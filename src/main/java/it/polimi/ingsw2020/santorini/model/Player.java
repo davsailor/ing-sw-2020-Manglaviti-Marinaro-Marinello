@@ -1,8 +1,7 @@
 package it.polimi.ingsw2020.santorini.model;
 
-import it.polimi.ingsw2020.santorini.model.Builder;
-import it.polimi.ingsw2020.santorini.model.GodCard;
 import it.polimi.ingsw2020.santorini.utils.Color;
+import it.polimi.ingsw2020.santorini.utils.PhaseType;
 import it.polimi.ingsw2020.santorini.utils.PlayerStatus;
 
 import java.util.Date;
@@ -28,11 +27,11 @@ public class Player {
         this.nickname = nickname;
     }
 
-    public Date getBirthdate() {
+   public Date getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthDate(Date birthdate) {
         this.birthDate = birthdate;
     }
 
@@ -65,12 +64,15 @@ public class Player {
     }
 
     //COSTRUTTORE
+
     public Player(String nickname, Date birthDate){
         this.nickname = nickname;
         this.birthDate = birthDate;
         this.color = null;
         this.status = PlayerStatus.WAITING;
         this.divinePower =  null;
+
+        //metodo per i builder
         builders = new Builder[2];
         builders[0]=null;
         builders[1]=null;
@@ -80,14 +82,10 @@ public class Player {
     }
 
     public void setGod(GodCard god){
-
+        this.divinePower = god;
     }
 
     public void tostring(){}
 
-    // public String chooseBuilder(Builder[] Builders){ }
-
-    // public void movePlayer(Builder builder){
-    //    builder.move();
-    // }
+   // public String chooseBuilder(Builder[] Builders){ }
 }

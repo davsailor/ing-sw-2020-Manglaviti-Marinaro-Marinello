@@ -40,7 +40,7 @@ class GodDeckTest {
     void testGiveGard() {
         GodDeck deck = new GodDeck();
         deck.setValueToIndex(0,0);
-        GodCard card = deck.giveGard();
+        GodCard card = deck.giveCard();
         assertTrue(card.getName().equals("Apollo") && deck.getNextCard() == 1, "Test passato!");
     }
 }

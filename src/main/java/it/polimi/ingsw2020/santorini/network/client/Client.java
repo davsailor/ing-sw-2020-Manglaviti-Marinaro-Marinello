@@ -6,6 +6,7 @@ import it.polimi.ingsw2020.santorini.view.CLI;
 import it.polimi.ingsw2020.santorini.view.ViewInterface;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Client {
     private ServerAdapter networkHandler;
@@ -13,6 +14,8 @@ public class Client {
     private ViewInterface view;
 
     private String username;
+    private Date birthDate;
+    private int selectedMatch;
 
     private final ArrayList<Message> messageQueue;
 
@@ -59,12 +62,30 @@ public class Client {
         this.username = username;
     }
 
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public int getSelectedMatch() {
+        return selectedMatch;
+    }
+
+    public void setSelectedMatch(int selectedMatch) {
+        this.selectedMatch = selectedMatch;
+    }
+
     synchronized public void removeMessageQueue(Message message){
         messageQueue.remove(message);
+        //System.out.println(messageQueue.toString());
     }
 
     synchronized public void addMessageQueue(Message message) {
         messageQueue.add(message);
+        //System.out.println(messageQueue.toString());
     }
 
     synchronized public boolean hasNextMessage(){
@@ -73,6 +94,7 @@ public class Client {
 
     synchronized public Message getNextMessage(){
         if(messageQueue.isEmpty()) return null;
+        //System.out.println(messageQueue.toString());
         return messageQueue.get(0);
     }
 }

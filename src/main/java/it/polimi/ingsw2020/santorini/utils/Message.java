@@ -9,9 +9,14 @@ public class Message implements Serializable {
 
     private static final long serialVersionUID = 5140286385535003407L;
 
+    private String username;
     private FirstHeaderType firstLevelHeader;
     private SecondHeaderType secondLevelHeader;
     private String serializedPayload;
+
+    public Message(String username){
+        this.username = username;
+    }
 
     public void buildLoginMessage(LoginMessage payload){
         Gson gson = new Gson();
@@ -37,31 +42,40 @@ public class Message implements Serializable {
         return gson.fromJson(payload, UsernameErrorMessage.class);
     }
 
-/*
-    public void buildSampleMessage(SampleMessage payload){
+    public void buildCorrectLoginMessage(CorrectLoginMessage payload){
         Gson gson = new Gson();
-        this.firstLevelHeader = FirstHeaderType.PROVA;
-        this.secondLevelHeader = null;
+        this.firstLevelHeader = FirstHeaderType.LOADING;
+        this.secondLevelHeader = SecondHeaderType.LOGIN;
         this.serializedPayload = gson.toJson(payload);
     }
 
-    public SampleMessage deserializeSampleMessage(String payload){
+    public CorrectLoginMessage deserializeCorrectLoginMessage(String payload){
         Gson gson = new Gson();
-        return gson.fromJson(payload, SampleMessage.class);
+        return gson.fromJson(payload, CorrectLoginMessage.class);
     }
 
-    public void buildSampleMessage2(SampleMessage2 payload){
+    public void buildMatchSetupMessage(MatchSetupMessage payload){
         Gson gson = new Gson();
-        this.firstLevelHeader = FirstHeaderType.PROVA2;
-        this.secondLevelHeader = null;
+        this.firstLevelHeader = FirstHeaderType.SETUP;
+        this.secondLevelHeader = SecondHeaderType.MATCH;
         this.serializedPayload = gson.toJson(payload);
     }
 
-    public SampleMessage2 deserializeSampleMessage2(String payload){
+    public MatchSetupMessage deserializeMatchSetupMessage(String payload){
         Gson gson = new Gson();
-        return gson.fromJson(payload, SampleMessage2.class);
+        return gson.fromJson(payload, MatchSetupMessage.class);
     }
- */
+
+    public void buildAskSelectionOrderMessage(){
+        this.firstLevelHeader = FirstHeaderType.ASK;
+        this.secondLevelHeader = SecondHeaderType.SELECTION_ORDER;
+    }
+
+    public void deserializeAskSelectionOrderMessage() {
+
+    }
+
+    public String getUsername(){ return username; }
 
     public FirstHeaderType getFirstLevelHeader() {
         return firstLevelHeader;
@@ -71,5 +85,10 @@ public class Message implements Serializable {
 
     public String getSerializedPayload() {
         return serializedPayload;
+    }
+
+    @Override
+    public String toString(){
+        return firstLevelHeader.toString() + secondLevelHeader.toString();
     }
 }
