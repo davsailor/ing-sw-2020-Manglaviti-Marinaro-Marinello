@@ -1,5 +1,7 @@
 package it.polimi.ingsw2020.santorini.model;
 
+import it.polimi.ingsw2020.santorini.model.Builder;
+import it.polimi.ingsw2020.santorini.model.GodCard;
 import it.polimi.ingsw2020.santorini.utils.Color;
 import it.polimi.ingsw2020.santorini.utils.PlayerStatus;
 
@@ -83,9 +85,9 @@ public class Player {
 
     public void tostring(){}
 
-   // public String chooseBuilder(Builder[] Builders){ }
+    // public String chooseBuilder(Builder[] Builders){ }
 
-   // public void movePlayer(Builder builder){
+    // public void movePlayer(Builder builder){
     //    builder.move();
-   // }
+    // }
 }

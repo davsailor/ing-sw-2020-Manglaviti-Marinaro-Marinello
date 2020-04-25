@@ -39,7 +39,7 @@ public class Builder {
     }
 
     public void setGender(char gender) {
-            this.gender = gender;
+        this.gender = gender;
     }
 
     public Player getPlayer() {
@@ -230,7 +230,7 @@ public class Builder {
      */
 
     public void build (int buildPosX, int buildPosY, Direction direction) throws IllegalConstructionException{
-         LevelType level;
+        LevelType level;
 
 
         switch (direction) {
