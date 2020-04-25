@@ -1,6 +1,7 @@
 package it.polimi.ingsw2020.santorini.model;
 
 import it.polimi.ingsw2020.santorini.utils.Color;
+import it.polimi.ingsw2020.santorini.utils.PhaseType;
 import it.polimi.ingsw2020.santorini.utils.PlayerStatus;
 
 import java.util.Date;
@@ -26,11 +27,11 @@ public class Player {
         this.nickname = nickname;
     }
 
-   public Date getBirthdate() {
+   public Date getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthDate(Date birthdate) {
         this.birthDate = birthdate;
     }
 
@@ -81,7 +82,7 @@ public class Player {
     }
 
     public void setGod(GodCard god){
-
+        this.divinePower = god;
     }
 
     public void tostring(){}

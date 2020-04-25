@@ -29,8 +29,18 @@ public class VirtualView extends Observable implements Observer {
         notifyObservers(mes);
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
+    public Server getServer() {
+        return server;
+    }
 
+    /* TODO: sistemare message aggiungendo un arraylist contenente i destinatari, così evitiamo ogni volta di
+     * inviare in broadcast
+     */
+    @Override
+    public void update(Observable match, Object messageList) {
+        ArrayList<Message> list = (ArrayList<Message>) messageList;
+        for(Message mes : list){
+            server.getVirtualClients().get(mes.getUsername()).send(mes);
+        }
     }
 }

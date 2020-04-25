@@ -21,9 +21,13 @@ public class ViewAdapter extends Thread {
     private void handleMessage() {
         Message message = client.getNextMessage();
         client.removeMessageQueue(message);
-        switch(message.getFirstLevelHeader()){
+        System.out.println(message.getFirstLevelHeader() + ", " + message.getSecondLevelHeader());
+        switch (message.getFirstLevelHeader()) {
             case SETUP:
                 setupMessageHandler(message);
+                break;
+            case LOADING:
+                loadingMessageHandler(message);
                 break;
             case ERROR:
                 errorMessageHandler(message);
@@ -56,11 +60,23 @@ public class ViewAdapter extends Thread {
     /**
      * method that handle the messages received by the server based on his SecondLevelHeader
      * @param message is the message that has to be deserialized
-     * @throws UnexpectedMessageException is the exception launched when an message has an unknown header
      */
     public void setupMessageHandler(Message message) {
         switch(message.getSecondLevelHeader()){
+            case MATCH:
+                MatchSetupMessage matchSetupMessage = message.deserializeMatchSetupMessage(message.getSerializedPayload());
+                client.getView().displayMatchSetupWindow(matchSetupMessage);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void loadingMessageHandler(Message message) {
+        switch(message.getSecondLevelHeader()){
             case LOGIN:
+                CorrectLoginMessage mes = message.deserializeCorrectLoginMessage(message.getSerializedPayload());
+                client.getView().displayLoadingWindow(mes.getText());
                 break;
             default:
                 break;

@@ -35,13 +35,14 @@ public class GameLogic implements Observer {
     }
 
     public void initializeMatch2(Server server){
-        this.match = new Match(new Board(new GodDeck()), 2, this);
+        System.out.println("creo il match da 2");
+        this.match = new Match(new Board(new GodDeck()), 2, this.view);
         Player[] orderedList = new Player[2];
         Player player1 = server.getWaitingPlayersMatch2().get(0);
         Player player2 = server.getWaitingPlayersMatch2().get(1);
         server.removeWaitingPlayersMatch2(player1);
         server.removeWaitingPlayersMatch2(player2);
-        if(player1.getBirthdate().compareTo(player2.getBirthdate()) >= 0) {
+        if(player1.getBirthDate().compareTo(player2.getBirthDate()) >= 0) {
             orderedList[0] = player1;
             orderedList[1] = player2;
         }
@@ -49,11 +50,11 @@ public class GameLogic implements Observer {
             orderedList[0] = player2;
             orderedList[1] = player1;
         }
-        match.setPlayers(orderedList);
+        match.initialize(orderedList);
     }
 
     public void initializeMatch3(Server server){
-        this.match = new Match(new Board(new GodDeck()), 3, this);
+        this.match = new Match(new Board(new GodDeck()), 3, this.view);
         Player[] orderedList = new Player[3];
         Player player1 = server.getWaitingPlayersMatch3().get(0);
         Player player2 = server.getWaitingPlayersMatch3().get(1);
@@ -61,19 +62,19 @@ public class GameLogic implements Observer {
         server.removeWaitingPlayersMatch3(player1);
         server.removeWaitingPlayersMatch3(player2);
         server.removeWaitingPlayersMatch3(player3);
-        if(player1.getBirthdate().compareTo(player2.getBirthdate()) >= 0) {
+        if(player1.getBirthDate().compareTo(player2.getBirthDate()) >= 0) {
             buildOrderedList3(orderedList, player1, player2, player3);
         }
         else {
             buildOrderedList3(orderedList, player2, player1, player3);
         }
-        match.setPlayers(orderedList);
+        match.initialize(orderedList);
     }
 
     private void buildOrderedList3(Player[] orderedList, Player player1, Player player2, Player player3) {
-        if(player1.getBirthdate().compareTo(player3.getBirthdate()) >= 0) {
+        if(player1.getBirthDate().compareTo(player3.getBirthDate()) >= 0) {
             orderedList[0] = player1;
-            if (player2.getBirthdate().compareTo(player3.getBirthdate()) >= 0) {
+            if (player2.getBirthDate().compareTo(player3.getBirthDate()) >= 0) {
                 orderedList[1] = player2;
                 orderedList[2] = player3;
             } else {

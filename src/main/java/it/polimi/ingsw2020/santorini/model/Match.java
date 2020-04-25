@@ -1,15 +1,18 @@
 package it.polimi.ingsw2020.santorini.model;
 
-import it.polimi.ingsw2020.santorini.controller.GameLogic;
+import it.polimi.ingsw2020.santorini.network.server.VirtualView;
+import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
+import it.polimi.ingsw2020.santorini.utils.Color;
+import it.polimi.ingsw2020.santorini.utils.messages.MatchSetupMessage;
 
 import java.util.ArrayList;
 import java.util.Observable;
-import java.util.Observer;
 
 @SuppressWarnings("deprecation")
 
 public class Match extends Observable {
+    private final int matchID;
     private Player[] players;
     private int currentPlayerIndex;
     private int numberOfPlayers;
@@ -18,9 +21,9 @@ public class Match extends Observable {
     private int numberOfCompletedTowers;
     private int turnNumber;
     private PhaseType turnPhase;
-    private ArrayList<Observer> observers;
 
-    public Match (Board board, int numberOfPlayers, GameLogic controller) {
+    public Match (Board board, int numberOfPlayers, VirtualView view) {
+        this.matchID = view.getServer().generateMatchID();
         this.players = new Player[numberOfPlayers];
         this.numberOfPlayers = numberOfPlayers;
         this.currentPlayerIndex = 0;
@@ -29,8 +32,7 @@ public class Match extends Observable {
         this.numberOfCompletedTowers = 0;
         this.turnNumber = 0;
         this.turnPhase = null;
-        this.observers = new ArrayList<>();
-        this.observers.add(controller);
+        addObserver(view);
     }
 
     /**
@@ -146,12 +148,35 @@ public class Match extends Observable {
         return(this.eliminatedPlayer);
     }
 
-    public Player[] getPlayers() {
-        return players;
+    public void setNumberOfCompletedTowers(int numberOfCompletedTowers) {
+        this.numberOfCompletedTowers = numberOfCompletedTowers;
     }
 
-    public void setPlayers(Player[] players) {
-        this.players = players;
+    public Player[] getPlayers() {
+        Player[] playerCpy = new Player[players.length];
+        for(int i = 0; i < players.length; ++i)
+            playerCpy[i] = players[i];
+        return playerCpy;
+    }
+
+    public void initialize(Player[] players) {
+        ArrayList<Message> listOfMessages = new ArrayList<>();
+        this.getBoard().getGodCards().shuffleDeck();
+        for(int i = 0; i < this.getNumberOfPlayers(); ++i){
+            this.players[i] = players[i];
+            this.players[i].setGod(this.getBoard().getGodCards().giveCard());
+            this.players[i].setColor(Color.getColor(i));
+            listOfMessages.add((new Message(players[i].getNickname())));
+        }
+        for(int i = 0; i < this.getNumberOfPlayers(); ++i){
+            listOfMessages.get(i).buildMatchSetupMessage(new MatchSetupMessage(getPlayers(), getBoard().getBoard()));
+        }
+        setChanged();
+        notifyObservers(listOfMessages);
+    }
+
+    public int getMatchID() {
+        return matchID;
     }
 
     public int getCurrentPlayerIndex() {
@@ -166,11 +191,18 @@ public class Match extends Observable {
         this.board = board;
     }
 
-    public ArrayList<Observer> getObservers() {
-        return observers;
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
     }
 
-    public void setObservers(ArrayList<Observer> observers) {
-        this.observers = observers;
+    public void setNumberOfPlayers(int numberOfPlayers) {
+        this.numberOfPlayers = numberOfPlayers;
     }
+
+    @Override
+    public boolean equals(Object obj){
+        Match match = (Match) obj;
+        return this.matchID == match.getMatchID();
+    }
+
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw2020.santorini.view;
 
 import it.polimi.ingsw2020.santorini.utils.Message;
+import it.polimi.ingsw2020.santorini.utils.messages.MatchSetupMessage;
 
 public interface ViewInterface {
     /**
@@ -15,16 +16,17 @@ public interface ViewInterface {
     void displaySetupWindow();
 
     void displayNewUsernameWindow();
+
     /**
      * metodo per intrattenere l'utente mentre aspettiamo altri utenti che vogliono giocare
      */
-    void displayLoadingWindow();
+    void displayLoadingWindow(String message);
 
     /**
      * metodo in cui si da il welcome alla partita, vengono assegnate le carte e i colori.
      * viene visualizzata una board semplificata per facilitare il posizionamento delle pedine
      */
-    void displayChoices();
+    void displayMatchSetupWindow(MatchSetupMessage matchSetupMessage);
 
     /**
      * far visualizzare la board con le pedine e tutta l'interfaccia testuale e il primo giocatore che gioca

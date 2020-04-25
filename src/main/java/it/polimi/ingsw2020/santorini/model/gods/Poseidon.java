@@ -6,45 +6,23 @@ import it.polimi.ingsw2020.santorini.model.Player;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
 
 public class Poseidon extends GodCard {
-    private String name = getClass().getSimpleName();
-    private int maxPlayersNumber = 3;
-    private String timingName = "End of Your Turn";
-    private PhaseType timing = PhaseType.STANDBY_PHASE_3;
-    private boolean mandatory = false;
 
-    public Poseidon(){}
-
-    @Override
-    public String getName() {
-        return name;
+    public Poseidon(){
+        super();
+        name = getClass().getSimpleName();
+        maxPlayersNumber = 3;
+        timingName = "End of Your Turn";
+        timing = PhaseType.STANDBY_PHASE_3;
+        mandatory = false;
     }
 
     @Override
-    public int getMaxPlayersNumber() {
-        return maxPlayersNumber;
-    }
-
-    @Override
-    public String getTimingName() {
-        return timingName;
-    }
-
-    @Override
-    public PhaseType getTiming() {
-        return timing;
-    }
-
-    @Override
-    public boolean isMandatory() {
-        return mandatory;
-    }
-
     public void invokeGod(Board field, Player invoker) {
 
     }
 
-    public String toStringEffect() {
-        return this.name + "\n" + this.timingName + ": If your unmoved Worker is on the ground level,\n" +
+    public static String toStringEffect(GodCard card) {
+        return card.getName() + "\n" + card.getTimingName() + ": If your unmoved Worker is on the ground level,\n" +
                 "it may build up to three times in neighboring spaces.";
     }
 }

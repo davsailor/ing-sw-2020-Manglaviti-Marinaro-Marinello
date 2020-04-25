@@ -6,45 +6,23 @@ import it.polimi.ingsw2020.santorini.model.Player;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
 
 public class Athena extends GodCard {
-    private String name = getClass().getSimpleName();
-    private int maxPlayersNumber = 3;
-    private String timingName = "Opponents' Turn";
-    private PhaseType timing = PhaseType.STANDBY_PHASE_3;
-    private boolean mandatory = true;
 
-    public Athena(){}
-
-    @Override
-    public String getName() {
-        return name;
+    public Athena(){
+        super();
+        name = getClass().getSimpleName();
+        maxPlayersNumber = 3;
+        timingName = "Opponents' Turn";
+        timing = PhaseType.STANDBY_PHASE_3;
+        mandatory = true;
     }
 
     @Override
-    public int getMaxPlayersNumber() {
-        return maxPlayersNumber;
-    }
-
-    @Override
-    public String getTimingName() {
-        return timingName;
-    }
-
-    @Override
-    public PhaseType getTiming() {
-        return timing;
-    }
-
-    @Override
-    public boolean isMandatory() {
-        return mandatory;
-    }
-
     public void invokeGod(Board field, Player invoker) {
 
     }
 
-    public String toStringEffect() {
-        return this.name + "\n" + this.timingName + ": If one of your Workers moved up on your last turn, \n" +
+    public static String toStringEffect(GodCard card) {
+        return card.getName() + "\n" + card.getTimingName() + ": If one of your Workers moved up on your last turn, \n" +
                 "opponent Workers cannot move up this turn.";
     }
 }

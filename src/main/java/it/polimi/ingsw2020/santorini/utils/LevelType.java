@@ -4,6 +4,7 @@ package it.polimi.ingsw2020.santorini.utils;
  * Enum that describes the pieces used to build the building itself
  */
 public enum LevelType {
+    COAST (-1),
     GROUND (0),
     BASE (1),
     MID (2),

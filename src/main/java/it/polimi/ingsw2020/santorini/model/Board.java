@@ -5,7 +5,7 @@ import it.polimi.ingsw2020.santorini.utils.LevelType;
 
 public class Board {
     private Cell[][] board;
-    private GodDeck godCards;
+    private transient GodDeck godCards;
 
     /**
      * it is the constructor of the class
@@ -29,7 +29,14 @@ public class Board {
         }
     }
 
+    // da modificare perchè così è terribile
+    public Cell[][] getBoard() {
+        return board;
+    }
 
+    public GodDeck getGodCards() {
+        return godCards;
+    }
 
     /**
      * it creates the stream of the board to be used by the view

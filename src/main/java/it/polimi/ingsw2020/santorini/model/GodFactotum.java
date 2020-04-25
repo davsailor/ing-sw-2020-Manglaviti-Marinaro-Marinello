@@ -74,37 +74,53 @@ public enum GodFactotum {
     }
 
     public GodCard summon() throws UnexpectedGodException, NoSuchMethodException {
+        GodCard card;
         switch(this.code){
             case 0:
-                return new Apollo();
+                card = new Apollo();
+                break;
             case 1:
-                return new Artemis();
+                card = new Artemis();
+                break;
             case 2:
-                return new Athena();
+                card = new Athena();
+                break;
             case 3:
-                return new Atlas();
+                card = new Atlas();
+                break;
             case 4:
-                return new Demeter();
+                card = new Demeter();
+                break;
             case 5:
-                return new Hephaestus();
+                card = new Hephaestus();
+                break;
             case 6:
-                return new Minotaur();
+                card = new Minotaur();
+                break;
             case 7:
-                return new Pan();
+                card = new Pan();
+                break;
             case 8:
-                return new Prometheus();
+                card = new Prometheus();
+                break;
             case 9:
-                return new Ares();
+                card = new Ares();
+                break;
             case 10:
-                return new Hestia();
+                card = new Hestia();
+                break;
             case 11:
-                return new Persephone();
+                card = new Persephone();
+                break;
             case 12:
-                return new Poseidon();
+                card = new Poseidon();
+                break;
             case 13:
-                return new Zeus();
+                card = new Zeus();
+                break;
             default:
                 throw new UnexpectedGodException();
         }
+        return card;
     }
 }

@@ -33,10 +33,15 @@ public class ServerAdapter extends Thread implements NetworkInterface {
         }
     }
 
-    public void send(Message message) throws IOException{
-        out.reset();
-        out.writeObject(message);
-        out.flush();
+    public void send(Message message){
+        try{
+            out.reset();
+            out.writeObject(message);
+            out.flush();
+        } catch (IOException e){
+            System.out.println("cannot send message to server");
+        }
+
     }
 
     @Override

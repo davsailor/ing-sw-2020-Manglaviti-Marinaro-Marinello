@@ -5,8 +5,6 @@ import it.polimi.ingsw2020.santorini.model.Player;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.messages.*;
 
-import java.io.IOException;
-
 public class ClientHandler extends Thread{
     private ClientNetworkHandler owner;
 
@@ -40,6 +38,7 @@ public class ClientHandler extends Thread{
                 setupMessageHandler(message);
                 break;
             default:
+                owner.receive(message);
         }
     }
 
@@ -50,14 +49,12 @@ public class ClientHandler extends Thread{
                 try{
                     loginHandler(mes);
                 } catch (UnavailableUsernameException e){
-                    Message error = new Message();
+                    // username è messo a null perchè non serve specificarlo, visto che qui siamo nella zona di
+                    // competenza dell'interfaccia legata a quel client
+                    // questa è già una prima barriera prima di accedere alla virtualview
+                    Message error = new Message(null);
                     error.buildUsernameErrorMessage(new UsernameErrorMessage("Your Username is not available!"));
-                    System.out.println(error.getFirstLevelHeader() + ", " + error.getSecondLevelHeader());
-                    try{
-                        owner.send(error);
-                    } catch(IOException f){
-                        // do nothing
-                    }
+                    owner.send(error);
                 }
                 break;
             default:
@@ -70,6 +67,12 @@ public class ClientHandler extends Thread{
             throw new UnavailableUsernameException();
         } else {
             Player player = new Player(message.getUsername(), message.getBirthDate());
+            // username è messo a null perchè non serve specificarlo, visto che qui siamo nella zona di
+            // competenza dell'interfaccia legata a quel client
+            // questa è già una prima barriera prima di accedere alla virtualview
+            Message correct = new Message(null);
+            correct.buildCorrectLoginMessage(new CorrectLoginMessage());
+            owner.send(correct);
             if (message.getNumberOfPlayers() == 2) owner.getServer().addWaitingPlayersMatch2(player);
             else if (message.getNumberOfPlayers() == 3) owner.getServer().addWaitingPlayersMatch3(player);
             owner.getServer().addVirtualClient(message.getUsername(), owner);

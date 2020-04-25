@@ -38,10 +38,14 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
         }
     }
 
-    public void send(Message message) throws IOException {
-        output.reset();
-        output.writeObject(message);
-        output.flush();
+    public void send(Message message) {
+        try{
+            output.reset();
+            output.writeObject(message);
+            output.flush();
+        } catch (IOException e) {
+            System.out.println("server cannot send message!");
+        }
     }
 
     @Override
