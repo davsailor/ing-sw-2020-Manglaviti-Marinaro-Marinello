@@ -1,5 +1,7 @@
 package it.polimi.ingsw2020.santorini.model;
 
+import it.polimi.ingsw2020.santorini.exceptions.IllegalConstructionException;
+import it.polimi.ingsw2020.santorini.exceptions.IllegalMovementException;
 import it.polimi.ingsw2020.santorini.utils.AccessType;
 import it.polimi.ingsw2020.santorini.utils.Color;
 import it.polimi.ingsw2020.santorini.utils.Direction;
@@ -14,14 +16,16 @@ public class Builder {
     private int posY;
     private int buildPosX;
     private int buildPosY;
-    private int[][] possibleMoves;          // 0=NO, 1 = SI noRise, 2 = SI conRise, 3=SI -2level, 4=MOVEFFETT
-    private int[][] possibleBuildings ;
+    public int i=0,j=0;      // RICORDA DI VERIFICARE SE VANNO BENE PUBLIC
+    private int[][] possibleMoves;
+    private int[][] possibleBuildings;
     boolean movedThisTurn;
     boolean risedThisTurn;
     boolean builtThisTurn;
 
 
     //METODI
+
     public Color getColor() {
         return color;
     }
@@ -29,11 +33,13 @@ public class Builder {
     public void setColor(Color color) {
         this.color = color;
     }
+
     public char getGender() {
         return gender;
     }
+
     public void setGender(char gender) {
-            this.gender = gender;
+        this.gender = gender;
     }
 
     public Player getPlayer() {
@@ -49,7 +55,7 @@ public class Builder {
     }
 
     public void setPosX(int posX) {
-        posX = posX;
+        this.posX = posX;
     }
 
     public int getPosY() {
@@ -57,7 +63,7 @@ public class Builder {
     }
 
     public void setPosY(int posY) {
-        posY = posY;
+        this.posY = posY;
     }
 
     public int getBuildPosX() {
@@ -78,11 +84,13 @@ public class Builder {
 
     /**
      *
-     * @param player
-     * @param gender
+     * @param player is the player of the builder
+     * @param gender is the gender of the builder
      */
+
     public Builder(Player player, char gender,Board board) {
-        color = player.getColor();
+        //color = player.getColor();
+        color=null;
         this.gender = gender;
         this.player = player;
         this.posX=0;
@@ -90,13 +98,13 @@ public class Builder {
         this.buildPosX=0;
         this.buildPosY=0;
         this.board= board;
-        possibleMoves =new int[3][3];
+        int[][] possibleMoves =new int[3][3];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 possibleMoves[i][j] = 1;
             }
         }
-        possibleBuildings= new int[3][3];
+        int[][] possibleBuildings= new int[3][3];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 possibleBuildings[i][j] = 0;
@@ -110,22 +118,30 @@ public class Builder {
 
     /**
      *
-     * @param b1
+     * @param b1 is the builder that i have to swap
      */
+
     public void swapBuilders(Builder b1){
         int tempX;
         int tempY;
-        tempX=this.posX;
-        tempY=this.posY;
-        this.posX=b1.posX;
-        this.posY=b1.posY;
-        b1.posX=tempX;
-        b1.posY=tempY;
+        tempX=this.getPosX();
+        tempY=this.getPosY();
+        this.setPosX(b1.getPosX());
+        this.setPosY(b1.getPosY());
+        b1.setPosX(tempX);
+        b1.setPosY(tempY);
     }
+
+    /**
+     *
+     * @param posX is the row where the builder is
+     * @param posY is the column where the builder is
+     */
 
     public void setPossibleMoves(int posX, int posY) {
         this.possibleMoves = board.neighboringStatusCell(posX,posY, AccessType.FREE);
     }
+
 
     public int[][] getPossibleMoves() {
         return possibleMoves;
@@ -133,73 +149,89 @@ public class Builder {
 
     /**
      *
-     * @param direction
-     * @param posX
-     * @param posY
+     * @param direction is the direction in which the player wants to move
+     * @param posX is the row where the builder is before the movement
+     * @param posY is the column where the builder is before the movement
      */
-    public void move(Direction direction, int posX , int posY){
+
+    public void move(Direction direction, int posX , int posY) throws IllegalMovementException {
         switch (direction) {
             case NORTH_WEST:
                 this.posX=posX-1;
                 this.posY=posY-1;
                 setPossibleMoves(this.posX, this.posY);
                 possibleMoves[2][2]=4;
+                break;
             case NORTH:
                 this.posX=posX-1;
                 this.posY=posY;
                 setPossibleMoves(this.posX, this.posY);
                 possibleMoves[2][1]=4;
+                break;
             case NORTH_EAST:
                 this.posX=posX-1;
                 this.posY=posY+1;
                 setPossibleMoves(this.posX, this.posY);
                 possibleMoves[2][0]=4;
+                break;
             case WEST:
                 this.posX=posX;
                 this.posY=posY-1;
                 setPossibleMoves(this.posX, this.posY);
                 possibleMoves[1][2]=4;
+                break;
             case EAST:
                 this.posX=posX;
                 this.posY=posY+1;
                 setPossibleMoves(this.posX, this.posY);
                 possibleMoves[1][0]=4;
+                break;
             case SOUTH_WEST:
                 this.posX=posX+1;
                 this.posY=posY-1;
                 setPossibleMoves(this.posX, this.posY);
                 possibleMoves[0][2]=4;
+                break;
             case SOUTH:
                 this.posX=posX+1;
                 this.posY=posY;
                 setPossibleMoves(this.posX, this.posY);
                 possibleMoves[0][1]=4;
+                break;
             case SOUTH_EAST:
                 this.posX=posX+1;
                 this.posY=posY+1;
                 setPossibleMoves(this.posX, this.posY);
                 possibleMoves[0][0]=4;
+                break;
+            default:
+                throw new IllegalMovementException();
         }
     }
     /**
      *
-     * @param posX
-     * @param posY
+     * @param posX is the row where the builder is after the movement
+     * @param posY is the column where the builder is after the movement
      */
+
     public void setPossibleBuildings(int posX, int posY) {
         possibleBuildings = board.neighborLevelCell(posX, posY);
     }
 
+    public int[][] getPossibleBuildings() {
+        return possibleBuildings;
+    }
+
     /**
      *
-     * @param buildPosX
-     * @param buildPosY
+     * @param buildPosX is the row where the player wants to build
+     * @param buildPosY is the column where the player wants to build
+     * @param direction is the direction in which the player wants to build
      */
-    public void build (int buildPosX, int buildPosY, Direction direction){          //UML passa posX e posY, sbagliato?
-         LevelType level;
-         int i=0,j=0;
-         this.buildPosX=buildPosX;
-         this.buildPosY=buildPosY;
+
+    public void build (int buildPosX, int buildPosY, Direction direction) throws IllegalConstructionException{
+        LevelType level;
+
 
         switch (direction) {
             case NORTH_WEST:
@@ -207,51 +239,69 @@ public class Builder {
                 this.buildPosY = this.posY - 1;
                 i = 0;
                 j = 0;
+                break;
             case NORTH:
                 this.buildPosX = this.posX - 1;
                 this.buildPosY = this.posY;
                 i = 0;
                 j = 1;
+                break;
             case NORTH_EAST:
                 this.buildPosX = this.posX - 1;
                 this.buildPosY = this.posY + 1;
                 i = 0;
                 j = 2;
+                break;
             case WEST:
-                this.buildPosX = posX;
-                this.buildPosY = posY - 1;
+                this.buildPosX = this.posX;
+                this.buildPosY = this.posY - 1;
                 i = 1;
                 j = 0;
+                break;
             case EAST:
-                this.buildPosX = posX;
-                this.buildPosY = posY + 1;
+                this.buildPosX = this.posX;
+                this.buildPosY = this.posY + 1;
                 i = 1;
                 j = 2;
+                break;
             case SOUTH_WEST:
-                this.buildPosX = posX + 1;
-                this.buildPosY = posY - 1;
+                this.buildPosX = this.posX + 1;
+                this.buildPosY = this.posY - 1;
                 i = 2;
                 j = 0;
+                break;
             case SOUTH:
-                this.buildPosX = posX + 1;
-                this.buildPosY = posY;
+                this.buildPosX = this.posX + 1;
+                this.buildPosY = this.posY;
                 i = 2;
                 j = 1;
+                break;
             case SOUTH_EAST:
-                this.buildPosX = posX + 1;
-                this.buildPosY = posY + 1;
+                this.buildPosX = this.posX + 1;
+                this.buildPosY = this.posY + 1;
+                i = 2;
+                j = 2;
+                break;
         }
-
+        possibleBuildings[0][0]=0;
         switch (possibleBuildings[i][j]) {
             case 0:
                 board.buildBlock(buildPosX, buildPosY, LevelType.BASE);
+                break;
             case 1:
                 board.buildBlock(buildPosX, buildPosY, LevelType.MID);
+                break;
             case 2:
                 board.buildBlock(buildPosX, buildPosY, LevelType.TOP);
+                break;
             case 3:
                 board.buildBlock(buildPosX, buildPosY, LevelType.DOME);
+                break;
+            default:
+                throw new IllegalConstructionException();
         }
+
+
         setPossibleBuildings(this.buildPosX, this.buildPosY);
         possibleBuildings[i][j]=-2;
     }
