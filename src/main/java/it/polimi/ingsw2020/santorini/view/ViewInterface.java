@@ -16,7 +16,7 @@ public interface ViewInterface {
 
     void displayNewUsernameWindow();
     /**
-     * metodo per intrattenere l'utente mentre aspettiamo altri carusi che vogliono giocare
+     * metodo per intrattenere l'utente mentre aspettiamo altri utenti che vogliono giocare
      */
     void displayLoadingWindow();
 

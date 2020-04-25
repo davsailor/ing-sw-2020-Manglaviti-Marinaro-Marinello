@@ -12,10 +12,11 @@ public abstract class GodCard {
     /**
      * getter of class parameters, setter not needed since thy are considered final
      */
-    public String getName() { return name; }
-    public Integer getMaxPlayersNumber() { return maxPlayersNumber; }
-    public String getTimingName() { return timingName; }
-    public PhaseType getTiming() { return timing; }
+    public abstract String getName();
+    public abstract int getMaxPlayersNumber();
+    public abstract String getTimingName();
+    public abstract PhaseType getTiming();
+    public abstract boolean isMandatory();
 
     /**
      * the function that express the power of the god. Each God will have its power

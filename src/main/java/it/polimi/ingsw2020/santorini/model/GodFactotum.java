@@ -1,10 +1,8 @@
-package it.polimi.ingsw2020.santorini.utils;
+package it.polimi.ingsw2020.santorini.model;
 import it.polimi.ingsw2020.santorini.exceptions.UnexpectedGodException;
 import it.polimi.ingsw2020.santorini.model.gods.*;
 
-import java.lang.reflect.Constructor;
-
-public enum GodNameType {
+public enum GodFactotum {
     // order of god, divided into simple gods (codes 0-8) and advanced gods (9-13)
     APOLLO      (0),
     ARTEMIS     (1),
@@ -22,7 +20,7 @@ public enum GodNameType {
     ZEUS        (13);
 
     private final int code;
-    GodNameType(int code)
+    GodFactotum(int code)
     {
         this.code = code;
     }
@@ -75,42 +73,36 @@ public enum GodNameType {
         }
     }
 
-    /**
-     * getter of the class' constructor defined by god's code
-     * @return the correct constructor
-     * @throws UnexpectedGodException: the code does not correspond to any god
-     * @throws NoSuchMethodException: constructor not found
-     */
-    public Constructor getConstructor() throws UnexpectedGodException, NoSuchMethodException {
+    public GodCard summon() throws UnexpectedGodException, NoSuchMethodException {
         switch(this.code){
             case 0:
-                return Apollo.class.getConstructor();
+                return new Apollo();
             case 1:
-                return Artemis.class.getConstructor();
+                return new Artemis();
             case 2:
-                return Athena.class.getConstructor();
+                return new Athena();
             case 3:
-                return Atlas.class.getConstructor();
+                return new Atlas();
             case 4:
-                return Demeter.class.getConstructor();
+                return new Demeter();
             case 5:
-                return Hephaestus.class.getConstructor();
+                return new Hephaestus();
             case 6:
-                return Minotaur.class.getConstructor();
+                return new Minotaur();
             case 7:
-                return Pan.class.getConstructor();
+                return new Pan();
             case 8:
-                return Prometheus.class.getConstructor();
+                return new Prometheus();
             case 9:
-                return Ares.class.getConstructor();
+                return new Ares();
             case 10:
-                return Hestia.class.getConstructor();
+                return new Hestia();
             case 11:
-                return Persephone.class.getConstructor();
+                return new Persephone();
             case 12:
-                return Poseidon.class.getConstructor();
+                return new Poseidon();
             case 13:
-                return Zeus.class.getConstructor();
+                return new Zeus();
             default:
                 throw new UnexpectedGodException();
         }
