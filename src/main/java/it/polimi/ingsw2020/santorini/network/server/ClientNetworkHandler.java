@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class ClientNetworkHandler extends Thread implements NetworkInterface {
     private Socket client;
     private Server server;
+    private String username;
     private ObjectOutputStream output;
     private ObjectInputStream input;
     private ClientHandler clientHandler;
@@ -38,13 +39,21 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
         }
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public void send(Message message) {
         try{
             output.reset();
             output.writeObject(message);
             output.flush();
         } catch (IOException e) {
-            System.out.println("server cannot send message!");
+            System.out.println("server cannot send message to: " + message.getUsername());
         }
     }
 

@@ -6,12 +6,15 @@ public enum SecondHeaderType {
     // riferiti a SETUP e LOADING
     LOGIN,
     MATCH,
+    PLAYER_SELECTION,
 
     // riferiti a ERROR
     USERNAME_ERROR,
+    INVALID_CELL_SELECTION,
 
     // riferiti a ASK
     SELECTION_ORDER,
+    CORRECT_SELECTION_POS,
     POSSIBLE_MOVES,
     POSSIBLE_BUILDS,
     GOD_AVAILABLE,

@@ -1,11 +1,8 @@
 package it.polimi.ingsw2020.santorini.network.client;
 
-import it.polimi.ingsw2020.santorini.exceptions.UnexpectedMessageException;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.messages.*;
 
-import java.util.Observable;
-import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -67,6 +64,9 @@ public class ViewAdapter extends Thread {
                 MatchSetupMessage matchSetupMessage = message.deserializeMatchSetupMessage(message.getSerializedPayload());
                 client.getView().displayMatchSetupWindow(matchSetupMessage);
                 break;
+            case PLAYER_SELECTION:
+                SelectionOrderMessage selectionOrderMessage = message.deserializeTurnPlayerMessage(message.getSerializedPayload());
+                client.getView().displaySelectionBuilderWindow(selectionOrderMessage);
             default:
                 break;
         }
@@ -77,6 +77,10 @@ public class ViewAdapter extends Thread {
             case LOGIN:
                 CorrectLoginMessage mes = message.deserializeCorrectLoginMessage(message.getSerializedPayload());
                 client.getView().displayLoadingWindow(mes.getText());
+                break;
+            case MATCH:
+                MatchStartMessage startMessage = message.deserializeMatchStartMessage(message.getSerializedPayload());
+                client.getView().showBoard(startMessage.getBoard());
                 break;
             default:
                 break;
@@ -93,6 +97,16 @@ public class ViewAdapter extends Thread {
                 UsernameErrorMessage mes = message.deserializeUsernameErrorMessage(message.getSerializedPayload());
                 client.getView().displayErrorMessage(mes.getError());
                 client.getView().displayNewUsernameWindow();
+                break;
+            case INVALID_CELL_SELECTION:
+                IllegalPositionMessage illegalPositionMessage = message.deserializeIllegalPositionMessage(message.getSerializedPayload());
+                if(illegalPositionMessage.isBuilderM() || illegalPositionMessage.isBuilderF())
+                    client.getView().displayNewSelectionBuilderWindow(illegalPositionMessage);
+                else {
+                    Message askOrder = new Message(client.getUsername());
+                    askOrder.buildAskSelectionOrderMessage();
+                    client.getNetworkHandler().send(askOrder);
+                }
                 break;
             default:
                 break;

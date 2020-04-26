@@ -10,8 +10,8 @@ import it.polimi.ingsw2020.santorini.utils.LevelType;
 public class Builder {
     private Color color;
     private char gender;
-    private Player player;
-    private Board board;
+    private transient Player player;
+    private transient Board board;
     private int posX;
     private int posY;
     private int buildPosX;
@@ -88,7 +88,7 @@ public class Builder {
      * @param gender is the gender of the builder
      */
 
-    public Builder(Player player, char gender,Board board) {
+    public Builder(Player player, char gender, Board board) {
         //color = player.getColor();
         color=null;
         this.gender = gender;

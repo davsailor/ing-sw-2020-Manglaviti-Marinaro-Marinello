@@ -7,16 +7,14 @@ import it.polimi.ingsw2020.santorini.model.Builder;
 import it.polimi.ingsw2020.santorini.model.Player;
 import it.polimi.ingsw2020.santorini.utils.Direction;
 import it.polimi.ingsw2020.santorini.utils.LevelType;
+
 import org.junit.Rule;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
 
 
     public class BuilderTest {
-
-
 
         @Test
         void swapBuildersTest(){
@@ -113,6 +111,7 @@ import static org.junit.Assert.assertThrows;
             assertEquals(4,builder.getPossibleMoves()[0][0]);
 
         }
+
         @Rule
         public IllegalMovementException thrown = new IllegalMovementException();
 

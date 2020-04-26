@@ -38,7 +38,7 @@ public class ClientHandler extends Thread{
                 setupMessageHandler(message);
                 break;
             default:
-                owner.receive(message);
+                owner.getServer().getViewFromMatch(owner.getServer().getMatchFromUsername(owner.getUsername())).notifyController(message);
         }
     }
 
@@ -67,6 +67,7 @@ public class ClientHandler extends Thread{
             throw new UnavailableUsernameException();
         } else {
             Player player = new Player(message.getUsername(), message.getBirthDate());
+            owner.setUsername(message.getUsername());
             // username è messo a null perchè non serve specificarlo, visto che qui siamo nella zona di
             // competenza dell'interfaccia legata a quel client
             // questa è già una prima barriera prima di accedere alla virtualview

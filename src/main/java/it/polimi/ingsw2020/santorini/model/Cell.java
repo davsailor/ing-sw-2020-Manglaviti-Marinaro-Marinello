@@ -62,6 +62,14 @@ public class Cell {
         this.status = status;
     }
 
+    public Builder getBuilder() {
+        return builder;
+    }
+
+    public void setBuilder(Builder builder) {
+        this.builder = builder;
+    }
+
     /**
      * it calculates the difference between the heights of two cell
      * @param cell is the cell where the builder may want to go

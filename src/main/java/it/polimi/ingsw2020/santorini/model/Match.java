@@ -72,6 +72,13 @@ public class Match extends Observable {
         }
     }
 
+    public Player getPlayerByName(String username){
+        for(int i = 0; i < numberOfPlayers; ++i){
+            if(players[i].getNickname().equals(username)) return players[i];
+        }
+        return null;
+    }
+
     /**
      * getter of the attribute numberOfCompletedTowers
      * @return the int value of that attribute
@@ -205,4 +212,8 @@ public class Match extends Observable {
         return this.matchID == match.getMatchID();
     }
 
+    public void notifyView(ArrayList<Message> list){
+        setChanged();
+        notifyObservers(list);
+    }
 }

@@ -23,6 +23,11 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>co.unruly</groupId>
+            <artifactId>junit-rules</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
 </project>

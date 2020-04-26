@@ -10,7 +10,6 @@ import it.polimi.ingsw2020.santorini.utils.LevelType;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.messages.*;
 
-import java.io.IOException;
 import java.text.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -99,50 +98,8 @@ public class CLI implements ViewInterface{
         for(Player player : listOfPlayers) {
             System.out.printf("Username: %s\nGod:\n%s\nColor: %s\n", player.getNickname(), player.getDivinePower().toStringEffect(), player.getColor());
         }
-        System.out.println("\n\nBoard:\n");
-        ArrayList<Cell> listOfCells = matchSetupMessage.getCells();
-
-        System.out.printf( "        0     1     2     3     4     5     6\n" +
-                            "     █═════╦═════╦═════╦═════╦═════╦═════╦═════█");
-        int j = 0;
-        for(int i = 0; i < listOfCells.size(); ++i){
-            if(i % 7 == 0){
-                if(i == 0)  System.out.printf("\n  %d  ║  X  ║", i%7);
-                else System.out.printf( "\n     ╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n" +
-                                        "  %d  ║  X  ║", ++j);
-            } else {
-                if(listOfCells.get(i).getLevel() == LevelType.COAST) System.out.printf("  X  ║");
-                else{
-                    if(listOfCells.get(i).getStatus() == AccessType.OCCUPIED){
-                        System.out.printf(" %d %c ║", listOfCells.get(i).getLevel().getHeight(), "B");
-                    }
-                    else {
-                        System.out.printf("  %d  ║", listOfCells.get(i).getLevel().getHeight());
-                    }
-                }
-            }
-        }
-        System.out.printf("\n     █═════╩═════╩═════╩═════╩═════╩═════╩═════█\n");
-/*
-        System.out.println(     "        0     1     2     3     4     5     6\n" +
-                                "     █═════╦═════╦═════╦═════╦═════╦═════╦═════█\n" +
-                                "  0  ║  X  ║  X  ║  X  ║  X  ║  X  ║  X  ║  X  ║\n" +
-                                "     ╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n" +
-                                "  1  ║  X  ║ % % ║ % % ║ % % ║ % % ║ % % ║  X  ║\n" +
-                                "     ╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n" +
-                                "  2  ║  X  ║ %c %c ║ %c %c ║ %c %c ║ %c %c ║ %c %c ║  X  ║\n" +
-                                "     ╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n" +
-                                "  3  ║  X  ║ %c %c ║ %c %c ║ %c %c ║ %c %c ║ %c %c ║  X  ║\n" +
-                                "     ╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n" +
-                                "  4  ║  X  ║ %c %c ║ %c %c ║ %c %c ║ %c %c ║ %c %c ║  X  ║\n" +
-                                "     ╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n" +
-                                "  5  ║  X  ║ %c %c ║ %c %c ║ %c %c ║ %c %c ║ %c %c ║  X  ║\n" +
-                                "     ╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n" +
-                                "  6  ║  X  ║  X  ║  X  ║  X  ║  X  ║  X  ║  X  ║\n" +
-                                "     █═════╩═════╩═════╩═════╩═════╩═════╩═════█\n");
-*/
         System.out.println("\n\nE' ora di scegliere la posizione dei builder! inizierà il primo giocatore a scegliere!");
-        System.out.println("Abbiamo ordinato in base all'età, così gli eletti di Dioniso avranno un piccolo vantaggio!");
+        System.out.println("Abbiamo ordinato in base all'età, i più giovani avranno un piccolo vantaggio!");
         System.out.println("L'ordine voluto dagli dei è questo: ");
         for(Player p : listOfPlayers) System.out.println(p.getNickname());
         System.out.println("Attendi le direttive degli dei");
@@ -157,22 +114,92 @@ public class CLI implements ViewInterface{
         Message message = new Message(client.getUsername());
         message.buildAskSelectionOrderMessage();
         client.getNetworkHandler().send(message);
+    }
 
-        if(client.getUsername().equals(listOfPlayers.get(0).getNickname())) {
-            System.out.println("%s, tocca a te! Dovrai inserire le coordinate di due celle per posizionare i tuoi costruttori!");
-            for(int i = 0; i < 2; ++i){
-                System.out.println("iniziamo con il costruttore");
-                System.out.printf("Inserisci la riga: ");
-                scannerIn.nextInt();
+    /**
+     * metodo addetto alla selezione dei builder secondo l'ordine definito dal controller
+     *
+     * @param selectionOrderMessage
+     */
+    @Override
+    public void displaySelectionBuilderWindow(SelectionOrderMessage selectionOrderMessage) {
+        String currentPlayer = selectionOrderMessage.getCurrentPlayer();
+        if(client.getUsername().equals(currentPlayer)) {
+            int[] builderM, builderF;
+            builderM = new int[2];
+            builderF = new int[2];
+            System.out.printf("%s, tocca a te! Dovrai inserire le coordinate di due celle per posizionare i tuoi costruttori!\n", currentPlayer);
+            showBoard(selectionOrderMessage.getCells());
+            System.out.printf("iniziamo con la costruttrice\n");
+            do{
+                System.out.printf("Inserisci la riga, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
+                builderF[0] = scannerIn.nextInt();
                 scannerIn.nextLine();
-                System.out.printf("Inserisci la colonna: ");
-                scannerIn.nextInt();
+            } while(builderF[0] < 1 || builderF[0] > 5);
+            do{
+                System.out.printf("Inserisci la colonna, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
+                builderF[1] = scannerIn.nextInt();
                 scannerIn.nextLine();
-            }
+            } while(builderF[1] < 1 || builderF[1] > 5);
+
+            System.out.printf("ora tocca al costruttore\n");
+            do{
+                System.out.printf("Inserisci la riga, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
+                builderM[0] = scannerIn.nextInt();
+                scannerIn.nextLine();
+            } while(builderM[0] < 1 || builderM[0] > 5);
+            do{
+                System.out.printf("Inserisci la colonna, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
+                builderM[1] = scannerIn.nextInt();
+                scannerIn.nextLine();
+            } while(builderM[1] < 1 || builderM[1] > 5 || (builderM[1] == builderF[1] && builderM[0] == builderF[0]));
+
+            Message message = new Message(client.getUsername());
+            message.buildSelectedBuilderPosMessage(new SelectedBuilderPosMessage(client.getUsername(), builderF, builderM));
+            System.out.println("In attesa che gli dei controllino le tue scelte.. se non arriva nulla, hai fatto bene!");
+            client.getNetworkHandler().send(message);
         } else {
-            System.out.printf("%s, sta scegliendo la posizione dei suoi builder! Attendi...", listOfPlayers.get(0).getNickname());
+            System.out.printf("Ok, %s sta scegliendo la posizione dei suoi builder! Attendi...", currentPlayer);
+        }
+    }
+
+    @Override
+    public void displayNewSelectionBuilderWindow(IllegalPositionMessage message){
+        int[] builderM = null;
+        int[] builderF = null;
+        if(message.isBuilderF()){
+            builderF = new int[2];
+            System.out.printf("la tua costruttrice è in una posizione illegale\n");
+            do{
+                System.out.printf("Inserisci la riga, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
+                builderF[0] = scannerIn.nextInt();
+                scannerIn.nextLine();
+            } while(builderF[0] < 1 || builderF[0] > 5);
+            do{
+                System.out.printf("Inserisci la colonna, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
+                builderF[1] = scannerIn.nextInt();
+                scannerIn.nextLine();
+            } while(builderF[1] < 1 || builderF[1] > 5);
+        }
+        if(message.isBuilderM()) {
+            builderM = new int[2];
+            System.out.printf("il tuo costruttore è in una posizione illegale\n");
+            do {
+                System.out.printf("Inserisci la riga, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
+                builderM[0] = scannerIn.nextInt();
+                scannerIn.nextLine();
+            } while (builderM[0] < 1 || builderM[0] > 5);
+            do {
+                System.out.printf("Inserisci la colonna, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
+                builderM[1] = scannerIn.nextInt();
+                scannerIn.nextLine();
+            } while (builderM[1] < 1 || builderM[1] > 5);
         }
 
+        Message newPos = new Message(client.getUsername());
+        newPos.buildSelectedBuilderPosMessage(new SelectedBuilderPosMessage(client.getUsername(), builderF, builderM));
+        System.out.println("In attesa che gli dei controllino le tue scelte.. se non arriva nulla, hai fatto bene!");
+        client.getNetworkHandler().send(newPos);
     }
 
     /**
@@ -181,6 +208,7 @@ public class CLI implements ViewInterface{
      */
     @Override
     public void displayMatchStart() {
+
 
     }
 
@@ -231,4 +259,49 @@ public class CLI implements ViewInterface{
         System.out.println("Press any key to proceed");
         scannerIn.nextLine();
     }
+
+    public void showBoard(ArrayList<Cell> listOfCells){
+        System.out.println("\n\nBoard:\n");
+        System.out.printf(                  "                                 NORTH                \n" +
+                "                 0     1     2     3     4     5     6\n" +
+                "              █═════╦═════╦═════╦═════╦═════╦═════╦═════█");
+        int j = 0;
+        for(int i = 0; i < listOfCells.size(); ++i){
+            if(i % 7 == 0){
+                if(i == 0)  System.out.printf("\n           %d  ║  X  ║", i%7);  //☠
+                else {
+                    if(j == 2) {
+                        System.out.printf(                                                            "  %d", j);
+                        System.out.printf(  "\n              ╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n ");
+                        System.out.printf(  "    WEST  %d  ║  X  ║", ++j);
+                    }
+                    else if(j == 3){
+                        System.out.printf(                                                            "  %d  EAST", j);
+                        System.out.printf(  "\n              ╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n ");
+                        System.out.printf(  "          %d  ║  X  ║", ++j);
+                    }
+                    else {
+                        System.out.printf(                                                            "  %d", j);
+                        System.out.printf(  "\n              ╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n ");
+                        System.out.printf(  "          %d  ║  X  ║", ++j);
+                    }
+                }
+            } else {
+                if(listOfCells.get(i).getLevel() == LevelType.COAST) System.out.printf("  X  ║");
+                else{
+                    if(listOfCells.get(i).getStatus() == AccessType.OCCUPIED){
+                        System.out.printf(" %d%c ║", listOfCells.get(i).getLevel().getHeight(), listOfCells.get(i).getBuilder().getGender());
+                    }
+                    else {
+                        System.out.printf(" %d   ║", listOfCells.get(i).getLevel().getHeight());
+                    }
+                }
+            }
+        }
+        System.out.printf("  6");
+        System.out.printf(                  "\n              █═════╩═════╩═════╩═════╩═════╩═════╩═════█" +
+                "\n                 0     1     2     3     4     5     6" +
+                "\n                                 SOUTH                   \n");
+    }
+
 }

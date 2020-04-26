@@ -15,12 +15,11 @@ public class VirtualView extends Observable implements Observer {
      * classe usate come intermediario tra la view e il controller
      */
     private Server server;
-    private Match match;
-    private ArrayList<Observer> observers;
+    private Match match;        // non è mai usata... serve davvero?
 
-    public VirtualView(Server server){
-        this.server = server;
-        addObserver(server.getController());
+    public VirtualView(GameLogic controller){
+        this.server = controller.getServer();
+        addObserver(controller);
     }
 
     public void notifyController(Message message){
@@ -33,9 +32,6 @@ public class VirtualView extends Observable implements Observer {
         return server;
     }
 
-    /* TODO: sistemare message aggiungendo un arraylist contenente i destinatari, così evitiamo ogni volta di
-     * inviare in broadcast
-     */
     @Override
     public void update(Observable match, Object messageList) {
         ArrayList<Message> list = (ArrayList<Message>) messageList;

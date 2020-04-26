@@ -10,29 +10,34 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Server {
+
     public final static int PORT = 9995;
-    private int matchID;
+    private int matchIDGen;
+
     private ServerSocket socket;
-    private VirtualView virtualView;
+
     private final ArrayList<Player> waitingPlayersMatch2;
     private final ArrayList<Player> waitingPlayersMatch3;
+
     private final HashMap<String, ClientNetworkHandler> virtualClients;
-    private GameLogic controller;
+    private final HashMap<Integer, GameLogic> controllers;
+    private final HashMap<Integer, VirtualView> virtualViews;
+    private final HashMap<String, Integer> playerInMatch;
 
     public Server(){
-        matchID = 0;
+        matchIDGen = 0;
         waitingPlayersMatch2 = new ArrayList<>();
         waitingPlayersMatch3 = new ArrayList<>();
         virtualClients = new HashMap<>();
+        playerInMatch = new HashMap<>();
         try {
             socket = new ServerSocket(PORT);
         } catch (IOException e) {
             System.out.println("cannot use server port");
             System.exit(10);
         }
-        controller = new GameLogic(this);
-        virtualView = new VirtualView(this);
-        controller.setView(virtualView);
+        controllers = new HashMap<>();
+        virtualViews = new HashMap<>();
     }
     public static void main(String[] args) {
         Server server = new Server();
@@ -48,12 +53,16 @@ public class Server {
     }
 
     synchronized public void checkForMatches(){
-        if(waitingPlayersMatch2.size() == 2) controller.initializeMatch2(this);
-        else if(waitingPlayersMatch3.size() == 3) controller.initializeMatch3(this);
-    }
-
-    public VirtualView getVirtualView() {
-        return virtualView;
+        if(waitingPlayersMatch2.size() == 2) {
+            controllers.put(matchIDGen, new GameLogic(this));
+            virtualViews.put(matchIDGen, new VirtualView(controllers.get(matchIDGen)));
+            controllers.get(matchIDGen).initializeMatch2(virtualViews.get(matchIDGen));
+        }
+        else if(waitingPlayersMatch3.size() == 3) {
+            controllers.put(matchIDGen, new GameLogic(this));
+            virtualViews.put(matchIDGen, new VirtualView(controllers.get(matchIDGen)));
+            controllers.get(matchIDGen).initializeMatch3(virtualViews.get(matchIDGen));
+        }
     }
 
     public ArrayList<Player> getWaitingPlayersMatch2() {
@@ -89,15 +98,21 @@ public class Server {
         return virtualClients;
     }
 
-    public GameLogic getController() {
-        return controller;
+    synchronized public void addPlayerInMatch(String username, Integer id){
+        playerInMatch.put(username, id);
     }
 
-    public void setController(GameLogic controller) {
-        this.controller = controller;
+    synchronized public int getMatchFromUsername(String username){
+        return playerInMatch.get(username);
+    }
+
+    synchronized public VirtualView getViewFromMatch(Integer id){
+        return virtualViews.get(id);
     }
 
     public int generateMatchID(){
-        return ++matchID;
+        int tempId = matchIDGen;
+        ++matchIDGen;
+        return tempId;
     }
 }

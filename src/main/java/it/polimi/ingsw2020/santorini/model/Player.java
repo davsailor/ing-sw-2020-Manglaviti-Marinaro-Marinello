@@ -12,7 +12,8 @@ public class Player {
     private Color color;
     private PlayerStatus status;
     private GodCard divinePower ;
-    private Builder[] builders;
+    private Builder builderF;
+    private Builder builderM;
     private Boolean riseActions;
     private Boolean buildActions;
     private Boolean moveActions;
@@ -59,10 +60,6 @@ public class Player {
         this.divinePower = divinePower;
     }
 
-    public void setBuilders(Builder[] builders) {
-        this.builders = builders;
-    }
-
     //COSTRUTTORE
 
     public Player(String nickname, Date birthDate){
@@ -73,9 +70,8 @@ public class Player {
         this.divinePower =  null;
 
         //metodo per i builder
-        builders = new Builder[2];
-        builders[0]=null;
-        builders[1]=null;
+        this.builderF =null;
+        this.builderM =null;
         riseActions=true;
         moveActions=true;
         buildActions=true;
@@ -87,5 +83,21 @@ public class Player {
 
     public void tostring(){}
 
-   // public String chooseBuilder(Builder[] Builders){ }
+    public Builder getBuilderF() {
+        return builderF;
+    }
+
+    public void setBuilderF(Builder builderF) {
+        this.builderF = builderF;
+    }
+
+    public Builder getBuilderM() {
+        return builderM;
+    }
+
+    public void setBuilderM(Builder builderM) {
+        this.builderM = builderM;
+    }
+
+    // public String chooseBuilder(Builder[] Builders){ }
 }

@@ -75,6 +75,54 @@ public class Message implements Serializable {
 
     }
 
+    public void buildTurnPlayerMessage(SelectionOrderMessage payload){
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.SETUP;
+        this.secondLevelHeader = SecondHeaderType.PLAYER_SELECTION;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public SelectionOrderMessage deserializeTurnPlayerMessage(String payload) {
+        Gson gson = new Gson();
+        return gson.fromJson(payload, SelectionOrderMessage.class);
+    }
+
+    public void buildSelectedBuilderPosMessage(SelectedBuilderPosMessage payload){
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.ASK;
+        this.secondLevelHeader = SecondHeaderType.CORRECT_SELECTION_POS;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public SelectedBuilderPosMessage deserializeSelectedBuilderPosMessage(String payload) {
+        Gson gson = new Gson();
+        return gson.fromJson(payload, SelectedBuilderPosMessage.class);
+    }
+
+    public void buildIllegalPositionMessage(IllegalPositionMessage payload){
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.ERROR;
+        this.secondLevelHeader = SecondHeaderType.INVALID_CELL_SELECTION;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public IllegalPositionMessage deserializeIllegalPositionMessage(String payload) {
+        Gson gson = new Gson();
+        return gson.fromJson(payload, IllegalPositionMessage.class);
+    }
+
+    public void buildMatchStartMessage(MatchStartMessage payload){
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.LOADING;
+        this.secondLevelHeader = SecondHeaderType.MATCH;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public MatchStartMessage deserializeMatchStartMessage(String payload) {
+        Gson gson = new Gson();
+        return gson.fromJson(payload, MatchStartMessage.class);
+    }
+
     public String getUsername(){ return username; }
 
     public FirstHeaderType getFirstLevelHeader() {

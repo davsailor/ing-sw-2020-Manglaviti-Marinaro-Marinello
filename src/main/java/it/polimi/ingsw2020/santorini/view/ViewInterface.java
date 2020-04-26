@@ -1,7 +1,10 @@
 package it.polimi.ingsw2020.santorini.view;
 
+import it.polimi.ingsw2020.santorini.model.Cell;
 import it.polimi.ingsw2020.santorini.utils.Message;
-import it.polimi.ingsw2020.santorini.utils.messages.MatchSetupMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.*;
+
+import java.util.ArrayList;
 
 public interface ViewInterface {
     /**
@@ -27,6 +30,14 @@ public interface ViewInterface {
      * viene visualizzata una board semplificata per facilitare il posizionamento delle pedine
      */
     void displayMatchSetupWindow(MatchSetupMessage matchSetupMessage);
+
+    /**
+     * metodo addetto alla selezione dei builder secondo l'ordine definito dal controller
+     * @param selectionOrderMessage
+     */
+    void displaySelectionBuilderWindow(SelectionOrderMessage selectionOrderMessage);
+
+    public void displayNewSelectionBuilderWindow(IllegalPositionMessage message);
 
     /**
      * far visualizzare la board con le pedine e tutta l'interfaccia testuale e il primo giocatore che gioca
@@ -58,6 +69,8 @@ public interface ViewInterface {
      * metodo che mostra all'utente possibili errori che sono capitati
      */
     void displayErrorMessage(String error);
+
+    void showBoard(ArrayList<Cell> listOfCells);
 
     // void displaySample();
     // void displaySample2();
