@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BoardTest {
 
     @Test
-    void neighboringStatusCell() {
+    void neighboringStatusCellTest() {
         Board board = new Board(null);
         int[][] neighborMatrix;
         neighborMatrix = new int[3][3];
@@ -20,7 +20,7 @@ class BoardTest {
     }
 
     @Test
-    void neighborLevelCell() {
+    void neighborLevelCellTest() {
         Board board = new Board(null);
         int[][] neighborMatrix;
         neighborMatrix = new int[3][3];
@@ -31,9 +31,9 @@ class BoardTest {
     }
 
     @Test
-    void buildBlock() {
-        //Board board = new Board(null);
-        //board.buildBlock(0,0, LevelType.BASE);
-        //assertEquals(LevelType.BASE, board[0][0].getLevel());
+    void buildBlockTest() {
+        Board board = new Board(null);
+        board.buildBlock(0,0, LevelType.BASE);
+        assertEquals(LevelType.BASE, board.getBoard()[0][0].getLevel());
     }
 }
