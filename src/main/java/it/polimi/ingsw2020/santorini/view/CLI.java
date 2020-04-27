@@ -112,24 +112,24 @@ public class CLI implements ViewInterface{
         // altrimenti comparirà "nome nel payload sta scegliendo"
 
         Message message = new Message(client.getUsername());
-        message.buildAskSelectionOrderMessage();
+        message.buildBeginMatchSynMessage();
         client.getNetworkHandler().send(message);
     }
 
     /**
      * metodo addetto alla selezione dei builder secondo l'ordine definito dal controller
      *
-     * @param selectionOrderMessage
+     * @param turnPlayerMessage
      */
     @Override
-    public void displaySelectionBuilderWindow(SelectionOrderMessage selectionOrderMessage) {
-        String currentPlayer = selectionOrderMessage.getCurrentPlayer();
+    public void displaySelectionBuilderWindow(TurnPlayerMessage turnPlayerMessage) {
+        String currentPlayer = turnPlayerMessage.getCurrentPlayer();
         if(client.getUsername().equals(currentPlayer)) {
             int[] builderM, builderF;
             builderM = new int[2];
             builderF = new int[2];
             System.out.printf("%s, tocca a te! Dovrai inserire le coordinate di due celle per posizionare i tuoi costruttori!\n", currentPlayer);
-            showBoard(selectionOrderMessage.getCells());
+            showBoard(turnPlayerMessage.getCells());
             System.out.printf("iniziamo con la costruttrice\n");
             do{
                 System.out.printf("Inserisci la riga, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
@@ -156,7 +156,7 @@ public class CLI implements ViewInterface{
 
             Message message = new Message(client.getUsername());
             message.buildSelectedBuilderPosMessage(new SelectedBuilderPosMessage(client.getUsername(), builderF, builderM));
-            System.out.println("In attesa che gli dei controllino le tue scelte.. se non arriva nulla, hai fatto bene!");
+            System.out.println("In attesa che gli dei controllino le tue scelte...");
             client.getNetworkHandler().send(message);
         } else {
             System.out.printf("Ok, %s sta scegliendo la posizione dei suoi builder! Attendi...", currentPlayer);
@@ -167,7 +167,7 @@ public class CLI implements ViewInterface{
     public void displayNewSelectionBuilderWindow(IllegalPositionMessage message){
         int[] builderM = null;
         int[] builderF = null;
-        if(message.isBuilderF()){
+        if(message.isBuilderFToChange()){
             builderF = new int[2];
             System.out.printf("la tua costruttrice è in una posizione illegale\n");
             do{
@@ -181,7 +181,7 @@ public class CLI implements ViewInterface{
                 scannerIn.nextLine();
             } while(builderF[1] < 1 || builderF[1] > 5);
         }
-        if(message.isBuilderM()) {
+        if(message.isBuilderMToChange()) {
             builderM = new int[2];
             System.out.printf("il tuo costruttore è in una posizione illegale\n");
             do {
@@ -198,7 +198,7 @@ public class CLI implements ViewInterface{
 
         Message newPos = new Message(client.getUsername());
         newPos.buildSelectedBuilderPosMessage(new SelectedBuilderPosMessage(client.getUsername(), builderF, builderM));
-        System.out.println("In attesa che gli dei controllino le tue scelte.. se non arriva nulla, hai fatto bene!");
+        System.out.println("In attesa che gli dei controllino le tue scelte...");
         client.getNetworkHandler().send(newPos);
     }
 
@@ -261,6 +261,10 @@ public class CLI implements ViewInterface{
     }
 
     public void showBoard(ArrayList<Cell> listOfCells){
+        String coast = "  X  ";
+        //wave: \uD83C\uDF0A
+        //mountain: \u26F0
+        //rock: \uD83E\uDEA8
         System.out.println("\n\nBoard:\n");
         System.out.printf(                  "                                 NORTH                \n" +
                 "                 0     1     2     3     4     5     6\n" +
@@ -268,29 +272,29 @@ public class CLI implements ViewInterface{
         int j = 0;
         for(int i = 0; i < listOfCells.size(); ++i){
             if(i % 7 == 0){
-                if(i == 0)  System.out.printf("\n           %d  ║  X  ║", i%7);  //☠
+                if(i == 0)  System.out.printf("\n           %d  ║%s║", i%7, coast);  //☠
                 else {
                     if(j == 2) {
                         System.out.printf(                                                            "  %d", j);
                         System.out.printf(  "\n              ╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n ");
-                        System.out.printf(  "    WEST  %d  ║  X  ║", ++j);
+                        System.out.printf(  "    WEST  %d  ║%s║", ++j, coast);
                     }
                     else if(j == 3){
                         System.out.printf(                                                            "  %d  EAST", j);
                         System.out.printf(  "\n              ╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n ");
-                        System.out.printf(  "          %d  ║  X  ║", ++j);
+                        System.out.printf(  "          %d  ║%s║", ++j, coast);
                     }
                     else {
                         System.out.printf(                                                            "  %d", j);
                         System.out.printf(  "\n              ╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n ");
-                        System.out.printf(  "          %d  ║  X  ║", ++j);
+                        System.out.printf(  "          %d  ║%s║", ++j, coast);
                     }
                 }
             } else {
-                if(listOfCells.get(i).getLevel() == LevelType.COAST) System.out.printf("  X  ║");
+                if(listOfCells.get(i).getLevel() == LevelType.COAST) System.out.printf("%s║", coast);
                 else{
                     if(listOfCells.get(i).getStatus() == AccessType.OCCUPIED){
-                        System.out.printf(" %d%c ║", listOfCells.get(i).getLevel().getHeight(), listOfCells.get(i).getBuilder().getGender());
+                        System.out.printf(" %d%2c ║", listOfCells.get(i).getLevel().getHeight(), listOfCells.get(i).getBuilder().getGender());
                     }
                     else {
                         System.out.printf(" %d   ║", listOfCells.get(i).getLevel().getHeight());

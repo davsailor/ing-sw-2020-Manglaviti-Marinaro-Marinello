@@ -5,11 +5,11 @@ import it.polimi.ingsw2020.santorini.model.Cell;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class SelectionOrderMessage {
+public class TurnPlayerMessage {
     private String currentPlayer;
     private ArrayList<Cell> cells;
 
-    public SelectionOrderMessage(String currentPlayer, Cell[][] cells) {
+    public TurnPlayerMessage(String currentPlayer, Cell[][] cells) {
         this.currentPlayer = currentPlayer;
         this.cells = new ArrayList<>();
         for(int i = 0; i < 7; ++i)

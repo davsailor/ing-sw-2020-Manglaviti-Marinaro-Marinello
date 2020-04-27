@@ -65,8 +65,8 @@ public class ViewAdapter extends Thread {
                 client.getView().displayMatchSetupWindow(matchSetupMessage);
                 break;
             case PLAYER_SELECTION:
-                SelectionOrderMessage selectionOrderMessage = message.deserializeTurnPlayerMessage(message.getSerializedPayload());
-                client.getView().displaySelectionBuilderWindow(selectionOrderMessage);
+                TurnPlayerMessage turnPlayerMessage = message.deserializeTurnPlayerMessage(message.getSerializedPayload());
+                client.getView().displaySelectionBuilderWindow(turnPlayerMessage);
             default:
                 break;
         }
@@ -100,13 +100,8 @@ public class ViewAdapter extends Thread {
                 break;
             case INVALID_CELL_SELECTION:
                 IllegalPositionMessage illegalPositionMessage = message.deserializeIllegalPositionMessage(message.getSerializedPayload());
-                if(illegalPositionMessage.isBuilderM() || illegalPositionMessage.isBuilderF())
+                if(illegalPositionMessage.isBuilderMToChange() || illegalPositionMessage.isBuilderFToChange())
                     client.getView().displayNewSelectionBuilderWindow(illegalPositionMessage);
-                else {
-                    Message askOrder = new Message(client.getUsername());
-                    askOrder.buildAskSelectionOrderMessage();
-                    client.getNetworkHandler().send(askOrder);
-                }
                 break;
             default:
                 break;

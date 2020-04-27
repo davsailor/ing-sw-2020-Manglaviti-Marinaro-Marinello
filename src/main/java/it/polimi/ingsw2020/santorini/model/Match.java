@@ -216,4 +216,9 @@ public class Match extends Observable {
         setChanged();
         notifyObservers(list);
     }
+
+    public void setNextPlayer() {
+        if (getCurrentPlayerIndex() == getNumberOfPlayers() - 1) setCurrentPlayerIndex(0);
+        else setCurrentPlayerIndex(getCurrentPlayerIndex() + 1);
+    }
 }

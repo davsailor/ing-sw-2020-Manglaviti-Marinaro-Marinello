@@ -107,8 +107,14 @@ public class GameLogic implements Observer {
         Message message = (Message) mes;
         try{
             switch(message.getFirstLevelHeader()){
+                case SYNCHRONIZATION:
+                    synchronizationHandler(message);
+                    break;
                 case ASK:
-                    askManager(message);
+                    askHandler(message);
+                    break;
+                case VERIFY:
+                    validationHandler(message);
                     break;
                 default:
                     throw new UnexpectedMessageException();
@@ -118,90 +124,100 @@ public class GameLogic implements Observer {
         }
     }
 
-    // sistemare interazione allReady e allPlaying
-
-    synchronized public void askManager(Message message){
+    public void askHandler(Message message){
         switch (message.getSecondLevelHeader()){
-            case SELECTION_ORDER:
+            default:
+                break;
+        }
+    }
+
+    synchronized public void synchronizationHandler(Message message){
+        switch(message.getSecondLevelHeader()){
+            case BEGIN_MATCH:
                 Player current = match.getPlayerByName(message.getUsername());
                 current.setStatus(PlayerStatus.READY);
                 Player[] players = match.getPlayers();
-                boolean allReady = false;
-                for(int i = 0; i < match.getNumberOfPlayers(); ++i){
-                    if (players[i].getStatus() == PlayerStatus.READY) allReady = true;
-                    else allReady = false;
+                boolean allReady = true;
+                for(int i = 0; i < match.getNumberOfPlayers() && allReady; ++i){
+                    if (players[i].getStatus() != PlayerStatus.READY) allReady = false;
                 }
+
                 if(allReady) {
                     ArrayList<Message> orderMessage = new ArrayList<>();
                     for (int i = 0; i < match.getNumberOfPlayers(); ++i) {
                         orderMessage.add(new Message(players[i].getNickname()));
-                        orderMessage.get(i).buildTurnPlayerMessage(new SelectionOrderMessage(players[match.getCurrentPlayerIndex()].getNickname(), match.getBoard().getBoard()));
+                        orderMessage.get(i).buildTurnPlayerMessage(new TurnPlayerMessage(players[match.getCurrentPlayerIndex()].getNickname(), match.getBoard().getBoard()));
                     }
-                    match.notifyView(orderMessage);
-                }
-                break;
-            case CORRECT_SELECTION_POS:
-                SelectedBuilderPosMessage selectedBuilderPosMessage = message.deserializeSelectedBuilderPosMessage(message.getSerializedPayload());
-                Cell[][] board = match.getBoard().getBoard();
-                boolean builderF, builderM;
-                builderF = true;
-                builderM = true;
-                Message illegalPosition = new Message(message.getUsername());
-                IllegalPositionMessage illegalPositionMessage = new IllegalPositionMessage(message.getUsername());
-                if(selectedBuilderPosMessage.getBuilderF() != null && board[selectedBuilderPosMessage.getBuilderF()[0]][selectedBuilderPosMessage.getBuilderF()[1]].getStatus() != AccessType.FREE) builderF = false;
-                if(selectedBuilderPosMessage.getBuilderM() != null && board[selectedBuilderPosMessage.getBuilderM()[0]][selectedBuilderPosMessage.getBuilderM()[1]].getStatus() != AccessType.FREE) builderM = false;
-
-                if(builderF){
-                    board[selectedBuilderPosMessage.getBuilderF()[0]][selectedBuilderPosMessage.getBuilderF()[1]].setStatus(AccessType.OCCUPIED);
-                    match.getPlayerByName(selectedBuilderPosMessage.getUsername()).setBuilderF(new Builder(match.getPlayerByName(selectedBuilderPosMessage.getUsername()),'♚', match.getBoard()));
-                    board[selectedBuilderPosMessage.getBuilderF()[0]][selectedBuilderPosMessage.getBuilderF()[1]].setBuilder(match.getPlayerByName(selectedBuilderPosMessage.getUsername()).getBuilderF());
-                } else illegalPositionMessage.setBuilderF(true);
-
-                if(builderM){
-                    board[selectedBuilderPosMessage.getBuilderM()[0]][selectedBuilderPosMessage.getBuilderM()[1]].setStatus(AccessType.OCCUPIED);
-                    match.getPlayerByName(selectedBuilderPosMessage.getUsername()).setBuilderM(new Builder(match.getPlayerByName(selectedBuilderPosMessage.getUsername()),'♛', match.getBoard()));
-                    board[selectedBuilderPosMessage.getBuilderM()[0]][selectedBuilderPosMessage.getBuilderM()[1]].setBuilder(match.getPlayerByName(selectedBuilderPosMessage.getUsername()).getBuilderM());
-                } else illegalPositionMessage.setBuilderM(true);
-
-                if(builderF && builderM) {
-                    match.getPlayerByName(message.getUsername()).setStatus(PlayerStatus.PLAYING);
-                    if (match.getCurrentPlayerIndex() == match.getNumberOfPlayers() - 1) match.setCurrentPlayerIndex(0);
-                    else match.setCurrentPlayerIndex(match.getCurrentPlayerIndex() + 1);
-                }
-                else {
-                    illegalPosition.buildIllegalPositionMessage(illegalPositionMessage);
-                    ArrayList<Message> list = new ArrayList<>();
-                    list.add(illegalPosition);
-                    match.notifyView(list);
-                }
-                Player[] playingPlayers = match.getPlayers();
-                boolean allPlaying = true;
-                for(int i = 0; i < match.getNumberOfPlayers(); ++i){
-                    if(playingPlayers[i].getStatus() != PlayerStatus.PLAYING){
-                        allPlaying = false;
-                        break;
-                    }
-                }
-                if(allPlaying){
-                    ArrayList<Message> listOfStartMessage = new ArrayList<>();
-                    for(int i = 0; i < match.getNumberOfPlayers(); ++i){
-                        listOfStartMessage.add(new Message(match.getPlayers()[i].getNickname()));
-                        listOfStartMessage.get(i).buildMatchStartMessage(new MatchStartMessage(match));
-                        match.notifyView(listOfStartMessage);
-                    }
-                } else {
-                    ArrayList<Message> orderMessage = new ArrayList<>();
-                    for (int i = match.getCurrentPlayerIndex(); i < match.getNumberOfPlayers(); ++i) {
-                        orderMessage.add(new Message(playingPlayers[i].getNickname()));
-                        orderMessage.get(i-match.getCurrentPlayerIndex()).buildTurnPlayerMessage(new SelectionOrderMessage(match.getCurrentPlayer().getNickname(), match.getBoard().getBoard()));
-                    }
-                    if (match.getCurrentPlayerIndex() == match.getNumberOfPlayers() - 1) match.setCurrentPlayerIndex(0);
-                    else match.setCurrentPlayerIndex(match.getCurrentPlayerIndex() + 1);
                     match.notifyView(orderMessage);
                 }
                 break;
             default:
                 break;
         }
+    }
+
+    public void validationHandler(Message message){
+        switch(message.getSecondLevelHeader()){
+            case CORRECT_SELECTION_POS:
+                SelectedBuilderPosMessage selectedBuilderPosMessage = message.deserializeSelectedBuilderPosMessage(message.getSerializedPayload());
+                Cell[][] board = match.getBoard().getBoard();
+                boolean builderFToChange, builderMToChange;
+                builderFToChange = true;
+                builderMToChange = true;
+                if(selectedBuilderPosMessage.getBuilderF() != null && board[selectedBuilderPosMessage.getBuilderF()[0]][selectedBuilderPosMessage.getBuilderF()[1]].getStatus() == AccessType.FREE) builderFToChange = false;
+                if(selectedBuilderPosMessage.getBuilderM() != null && board[selectedBuilderPosMessage.getBuilderM()[0]][selectedBuilderPosMessage.getBuilderM()[1]].getStatus() == AccessType.FREE) builderMToChange = false;
+
+                if(!builderFToChange){
+                    board[selectedBuilderPosMessage.getBuilderF()[0]][selectedBuilderPosMessage.getBuilderF()[1]].setStatus(AccessType.OCCUPIED);
+                    match.getPlayerByName(selectedBuilderPosMessage.getUsername()).setBuilderF(new Builder(match.getPlayerByName(selectedBuilderPosMessage.getUsername()),'\u2640', match.getBoard())); //♚
+                    board[selectedBuilderPosMessage.getBuilderF()[0]][selectedBuilderPosMessage.getBuilderF()[1]].setBuilder(match.getPlayerByName(selectedBuilderPosMessage.getUsername()).getBuilderF());
+                }
+
+                if(!builderMToChange){
+                    board[selectedBuilderPosMessage.getBuilderM()[0]][selectedBuilderPosMessage.getBuilderM()[1]].setStatus(AccessType.OCCUPIED);
+                    match.getPlayerByName(selectedBuilderPosMessage.getUsername()).setBuilderM(new Builder(match.getPlayerByName(selectedBuilderPosMessage.getUsername()),'\u2642', match.getBoard())); // ♛
+                    board[selectedBuilderPosMessage.getBuilderM()[0]][selectedBuilderPosMessage.getBuilderM()[1]].setBuilder(match.getPlayerByName(selectedBuilderPosMessage.getUsername()).getBuilderM());
+                }
+
+                if(builderFToChange || builderMToChange) {
+                    Message illegalPosition = new Message(message.getUsername());
+                    IllegalPositionMessage illegalPositionMessage = new IllegalPositionMessage(message.getUsername(), builderFToChange, builderMToChange);
+                    illegalPosition.buildIllegalPositionMessage(illegalPositionMessage);
+                    ArrayList<Message> list = new ArrayList<>();
+                    list.add(illegalPosition);
+                    match.notifyView(list);
+                } else {
+                    match.getPlayerByName(message.getUsername()).setStatus(PlayerStatus.PLAYING);
+                    match.setNextPlayer();
+
+                    Player[] playingPlayers = match.getPlayers();
+                    boolean allPlaying = true;
+
+                    for (int i = 0; i < match.getNumberOfPlayers() && allPlaying; ++i) {
+                        if (playingPlayers[i].getStatus() != PlayerStatus.PLAYING) allPlaying = false;
+                    }
+
+                    if (allPlaying) {
+                        ArrayList<Message> listOfStartMessage = new ArrayList<>();
+                        match.setCurrentPlayerIndex(0);
+                        for (int i = 0; i < match.getNumberOfPlayers(); ++i) {
+                            listOfStartMessage.add(new Message(match.getPlayers()[i].getNickname()));
+                            listOfStartMessage.get(i).buildMatchStartMessage(new MatchStartMessage(match));
+                            match.notifyView(listOfStartMessage);
+                        }
+                    } else {
+                        ArrayList<Message> orderMessage = new ArrayList<>();
+                        for (int i = 0; i < match.getNumberOfPlayers(); ++i) {
+                            orderMessage.add(new Message(playingPlayers[i].getNickname()));
+                            orderMessage.get(i).buildTurnPlayerMessage(new TurnPlayerMessage(match.getCurrentPlayer().getNickname(), match.getBoard().getBoard()));
+                        }
+                        match.notifyView(orderMessage);
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+
     }
 }

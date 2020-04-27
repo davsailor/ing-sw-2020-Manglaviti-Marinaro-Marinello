@@ -66,30 +66,30 @@ public class Message implements Serializable {
         return gson.fromJson(payload, MatchSetupMessage.class);
     }
 
-    public void buildAskSelectionOrderMessage(){
-        this.firstLevelHeader = FirstHeaderType.ASK;
-        this.secondLevelHeader = SecondHeaderType.SELECTION_ORDER;
+    public void buildBeginMatchSynMessage(){
+        this.firstLevelHeader = FirstHeaderType.SYNCHRONIZATION;
+        this.secondLevelHeader = SecondHeaderType.BEGIN_MATCH;
     }
 
-    public void deserializeAskSelectionOrderMessage() {
+    public void deserializeBeginMatchSynMessage() {
 
     }
 
-    public void buildTurnPlayerMessage(SelectionOrderMessage payload){
+    public void buildTurnPlayerMessage(TurnPlayerMessage payload){
         Gson gson = new Gson();
         this.firstLevelHeader = FirstHeaderType.SETUP;
         this.secondLevelHeader = SecondHeaderType.PLAYER_SELECTION;
         this.serializedPayload = gson.toJson(payload);
     }
 
-    public SelectionOrderMessage deserializeTurnPlayerMessage(String payload) {
+    public TurnPlayerMessage deserializeTurnPlayerMessage(String payload) {
         Gson gson = new Gson();
-        return gson.fromJson(payload, SelectionOrderMessage.class);
+        return gson.fromJson(payload, TurnPlayerMessage.class);
     }
 
     public void buildSelectedBuilderPosMessage(SelectedBuilderPosMessage payload){
         Gson gson = new Gson();
-        this.firstLevelHeader = FirstHeaderType.ASK;
+        this.firstLevelHeader = FirstHeaderType.VERIFY;
         this.secondLevelHeader = SecondHeaderType.CORRECT_SELECTION_POS;
         this.serializedPayload = gson.toJson(payload);
     }

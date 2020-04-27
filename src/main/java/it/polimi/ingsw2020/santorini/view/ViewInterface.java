@@ -1,7 +1,6 @@
 package it.polimi.ingsw2020.santorini.view;
 
 import it.polimi.ingsw2020.santorini.model.Cell;
-import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.messages.*;
 
 import java.util.ArrayList;
@@ -33,9 +32,9 @@ public interface ViewInterface {
 
     /**
      * metodo addetto alla selezione dei builder secondo l'ordine definito dal controller
-     * @param selectionOrderMessage
+     * @param turnPlayerMessage
      */
-    void displaySelectionBuilderWindow(SelectionOrderMessage selectionOrderMessage);
+    void displaySelectionBuilderWindow(TurnPlayerMessage turnPlayerMessage);
 
     public void displayNewSelectionBuilderWindow(IllegalPositionMessage message);
 

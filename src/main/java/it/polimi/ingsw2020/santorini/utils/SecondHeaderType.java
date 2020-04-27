@@ -8,13 +8,17 @@ public enum SecondHeaderType {
     MATCH,
     PLAYER_SELECTION,
 
+    // riferiti a SYNCHRONIZATION
+    BEGIN_MATCH,
+
+    // riferiti a VERIFY
+    CORRECT_SELECTION_POS,
+
     // riferiti a ERROR
     USERNAME_ERROR,
     INVALID_CELL_SELECTION,
 
     // riferiti a ASK
-    SELECTION_ORDER,
-    CORRECT_SELECTION_POS,
     POSSIBLE_MOVES,
     POSSIBLE_BUILDS,
     GOD_AVAILABLE,

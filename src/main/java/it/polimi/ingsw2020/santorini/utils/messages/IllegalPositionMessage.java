@@ -1,33 +1,25 @@
 package it.polimi.ingsw2020.santorini.utils.messages;
 
 public class IllegalPositionMessage {
-    String username;
-    boolean builderF;
-    boolean builderM;
+    private String username;
+    private boolean builderFToChange;
+    private boolean builderMToChange;
 
-    public IllegalPositionMessage(String username) {
+    public IllegalPositionMessage(String username, boolean builderFToChange, boolean builderMToChange) {
         this.username = username;
-        this.builderF = false;
-        this.builderM = false;
+        this.builderFToChange = builderFToChange;
+        this.builderMToChange = builderMToChange;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public boolean isBuilderF() {
-        return builderF;
+    public boolean isBuilderFToChange() {
+        return builderFToChange;
     }
 
-    public void setBuilderF(boolean builderF) {
-        this.builderF = builderF;
-    }
-
-    public boolean isBuilderM() {
-        return builderM;
-    }
-
-    public void setBuilderM(boolean builderM) {
-        this.builderM = builderM;
+    public boolean isBuilderMToChange() {
+        return builderMToChange;
     }
 }
