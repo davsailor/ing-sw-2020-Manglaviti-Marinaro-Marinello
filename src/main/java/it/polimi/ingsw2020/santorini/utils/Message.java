@@ -67,6 +67,7 @@ public class Message implements Serializable {
     }
 
     public void buildBeginMatchSynMessage(){
+        Gson gson = new Gson();
         this.firstLevelHeader = FirstHeaderType.SYNCHRONIZATION;
         this.secondLevelHeader = SecondHeaderType.BEGIN_MATCH;
     }

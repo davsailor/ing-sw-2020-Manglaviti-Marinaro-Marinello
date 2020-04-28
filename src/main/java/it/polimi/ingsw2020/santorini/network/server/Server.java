@@ -11,14 +11,12 @@ import java.util.HashMap;
 
 public class Server {
 
-    public final static int PORT = 9995;
+    public final static int PORT = 10001;
     private int matchIDGen;
 
     private ServerSocket socket;
 
-    private final ArrayList<Player> waitingPlayersMatch2;
-    private final ArrayList<Player> waitingPlayersMatch3;
-
+    private final HashMap<Player, Integer> waitingPlayers;
     private final HashMap<String, ClientNetworkHandler> virtualClients;
     private final HashMap<Integer, GameLogic> controllers;
     private final HashMap<Integer, VirtualView> virtualViews;
@@ -26,12 +24,12 @@ public class Server {
 
     public Server(){
         matchIDGen = 0;
-        waitingPlayersMatch2 = new ArrayList<>();
-        waitingPlayersMatch3 = new ArrayList<>();
+        waitingPlayers = new HashMap<>();
         virtualClients = new HashMap<>();
         playerInMatch = new HashMap<>();
         try {
             socket = new ServerSocket(PORT);
+            System.out.println("server ready to receive");
         } catch (IOException e) {
             System.out.println("cannot use server port");
             System.exit(10);
@@ -52,42 +50,31 @@ public class Server {
         }
     }
 
-    synchronized public void checkForMatches(){
-        if(waitingPlayersMatch2.size() == 2) {
+    synchronized public void checkForMatches(int numberOfPlayers){
+        if(waitingPlayers.values().stream()
+                .filter(x -> x == numberOfPlayers)
+                .count() >= numberOfPlayers) {
             controllers.put(matchIDGen, new GameLogic(this));
             virtualViews.put(matchIDGen, new VirtualView(controllers.get(matchIDGen)));
-            controllers.get(matchIDGen).initializeMatch2(virtualViews.get(matchIDGen));
-        }
-        else if(waitingPlayersMatch3.size() == 3) {
-            controllers.put(matchIDGen, new GameLogic(this));
-            virtualViews.put(matchIDGen, new VirtualView(controllers.get(matchIDGen)));
-            controllers.get(matchIDGen).initializeMatch3(virtualViews.get(matchIDGen));
+            controllers.get(matchIDGen).initializeMatch(virtualViews.get(matchIDGen), numberOfPlayers);
         }
     }
 
-    public ArrayList<Player> getWaitingPlayersMatch2() {
-        return waitingPlayersMatch2;
+    synchronized public ArrayList<Player> getWaitingPlayers(int numberOfPlayers) {
+        ArrayList<Player> list = new ArrayList<>();
+        for(Player p : waitingPlayers.keySet())
+            if(waitingPlayers.get(p) == numberOfPlayers) list.add(p);
+        return list;
     }
 
-    synchronized public void addWaitingPlayersMatch2(Player player) {
-        waitingPlayersMatch2.add(player);
+    synchronized public void addWaitingPlayers(Player player, Integer numberOfPlayers) {
+        waitingPlayers.put(player, numberOfPlayers);
     }
 
-    synchronized public void removeWaitingPlayersMatch2(Player player) {
-        waitingPlayersMatch2.remove(player);
+    synchronized public void removeWaitingPlayers(Player player) {
+        waitingPlayers.remove(player);
     }
 
-    public ArrayList<Player> getWaitingPlayersMatch3() {
-        return waitingPlayersMatch3;
-    }
-
-    synchronized public void addWaitingPlayersMatch3(Player player) {
-        waitingPlayersMatch3.add(player);
-    }
-
-    synchronized public void removeWaitingPlayersMatch3(Player player) {
-        waitingPlayersMatch3.remove(player);
-    }
 
     public void addVirtualClient(String username, ClientNetworkHandler handler){
         this.virtualClients.put(username, handler);
@@ -114,5 +101,14 @@ public class Server {
         int tempId = matchIDGen;
         ++matchIDGen;
         return tempId;
+    }
+
+    public void close(){
+        try{
+            socket.close();
+        } catch (IOException e){
+            System.out.println("cannot close server port");
+        }
+
     }
 }

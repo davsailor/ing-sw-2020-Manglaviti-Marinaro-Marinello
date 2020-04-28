@@ -42,6 +42,8 @@ public class GodDeck {
         deck[index] = value;
     }
 
+    public void setNextCard(int nextCard) { this.nextCard = nextCard; }
+
     public int getNextCard() {
         return nextCard;
     }

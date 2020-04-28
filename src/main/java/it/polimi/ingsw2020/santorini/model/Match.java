@@ -15,7 +15,7 @@ public class Match extends Observable {
     private final int matchID;
     private Player[] players;
     private int currentPlayerIndex;
-    private int numberOfPlayers;
+    private final int numberOfPlayers;
     private int eliminatedPlayer;
     private Board board;
     private int numberOfCompletedTowers;
@@ -31,7 +31,7 @@ public class Match extends Observable {
         this.board = board;
         this.numberOfCompletedTowers = 0;
         this.turnNumber = 0;
-        this.turnPhase = null;
+        this.turnPhase = PhaseType.START_TURN;
         addObserver(view);
     }
 
@@ -44,32 +44,11 @@ public class Match extends Observable {
     }
 
     /**
-     * it sets the current player to the following player
-     */
-    public void nextCurrentPlayer(){
-        this.currentPlayerIndex = this.currentPlayerIndex +1;
-    }
-
-    /**
      * setter of the attribute currentPlayerIndex
      * @param currentPlayerIndex is an int value that will be the value of this attribute
      */
     public void setCurrentPlayerIndex(int currentPlayerIndex){
         this.currentPlayerIndex = currentPlayerIndex;
-    }
-
-    /**
-     * it adds the new players to the list of players
-     * @param player is the variable that represents a player
-     */
-    public void addPlayer(Player player){
-        int k = 0;//flag
-        for( int i = 0; i < this.numberOfPlayers; i++ ){
-            if (this.players[i] == null){
-                this.players[i] = player;
-                k = 1;
-            }
-        }
     }
 
     public Player getPlayerByName(String username){
@@ -94,17 +73,10 @@ public class Match extends Observable {
     }
 
     /**
-     * It decreases the number of completed towers by one unit
-     */
-    public void decreaseNumberOfCompletedTowers(){
-        this.numberOfCompletedTowers = this.numberOfCompletedTowers - 1;
-    }
-
-    /**
      * setter of the attribute turnPhase
      * @param turnPhase is the variable that represents a phase
      */
-    public void setTurnPhase (PhaseType turnPhase ){
+    public void setTurnPhase (PhaseType turnPhase){
         this.turnPhase = turnPhase;
     }
 
@@ -121,14 +93,6 @@ public class Match extends Observable {
      */
     public void nextTurnNumber(){
         this.turnNumber = this.turnNumber +1;
-    }
-
-    /**
-     * setter of the attribute turnNumber
-     * @param turnNumber will be the int value of this attribute
-     */
-    public void setTurnNumber(int turnNumber){
-        this.turnNumber = turnNumber;
     }
 
     /**
@@ -194,20 +158,13 @@ public class Match extends Observable {
         return board;
     }
 
-    public void setBoard(Board board) {
-        this.board = board;
-    }
-
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
 
-    public void setNumberOfPlayers(int numberOfPlayers) {
-        this.numberOfPlayers = numberOfPlayers;
-    }
-
     @Override
     public boolean equals(Object obj){
+        if(!(obj instanceof Match)) return false;
         Match match = (Match) obj;
         return this.matchID == match.getMatchID();
     }

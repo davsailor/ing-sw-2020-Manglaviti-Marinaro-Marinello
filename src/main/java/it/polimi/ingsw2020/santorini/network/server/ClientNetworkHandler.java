@@ -72,7 +72,7 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
                 System.out.println("class not found");
                 break;
             } catch (IOException e){
-                System.out.println("IO exception");
+                System.out.println("cannot read message from client");
                 break;
             }
         }

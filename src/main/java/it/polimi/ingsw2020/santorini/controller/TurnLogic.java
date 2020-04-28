@@ -35,7 +35,7 @@ public class TurnLogic {
         remainingActions = EnumSet.complementOf(remainingActions);
     }
 
-    public void handlePhases(PhaseType phase) throws IllegalPhaseException{
+    public void handlePhases(PhaseType phase) throws IllegalPhaseException {
         switch (phase){
             case START_TURN:
                 startTurnManager();

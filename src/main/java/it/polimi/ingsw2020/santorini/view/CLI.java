@@ -264,7 +264,6 @@ public class CLI implements ViewInterface{
         String coast = "  X  ";
         //wave: \uD83C\uDF0A
         //mountain: \u26F0
-        //rock: \uD83E\uDEA8
         System.out.println("\n\nBoard:\n");
         System.out.printf(                  "                                 NORTH                \n" +
                 "                 0     1     2     3     4     5     6\n" +

@@ -2,27 +2,23 @@ package it.polimi.ingsw2020.santorini.model;
 
 import it.polimi.ingsw2020.santorini.exceptions.IllegalConstructionException;
 import it.polimi.ingsw2020.santorini.exceptions.IllegalMovementException;
-import it.polimi.ingsw2020.santorini.model.Board;
-import it.polimi.ingsw2020.santorini.model.Builder;
-import it.polimi.ingsw2020.santorini.model.Player;
 import it.polimi.ingsw2020.santorini.utils.Direction;
-import it.polimi.ingsw2020.santorini.utils.LevelType;
 
+import org.junit.Test;
 import org.junit.Rule;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 
 
     public class BuilderTest {
 
         @Test
-        void swapBuildersTest(){
+        public void swapBuildersTest(){
             Board board = new Board(null);
-            Builder b1 = new Builder(null, 'm', board );
+            Builder b1 = new Builder(null, 'm', board , null);
             b1.setPosX(1);
             b1.setPosY(1);
-            Builder b2 = new Builder(null, 'm', board );
+            Builder b2 = new Builder(null, 'm', board , null);
             b2.setPosX(2);
             b2.setPosY(2);
             b1.swapBuilders(b2);
@@ -34,15 +30,15 @@ import static org.junit.jupiter.api.Assertions.*;
         }
 
         @Test
-        void setPossibleMovesTest(){     }
+        public void setPossibleMovesTest(){     }
 
         @Test
-        void getPossibleMovesTest(){ }
+        public void getPossibleMovesTest(){ }
 
         @Test
-        void moveTest() throws IllegalMovementException {
+        public void moveTest() throws IllegalMovementException {
             Board board = new Board(null);
-            Builder builder = new Builder(null,'m',board);
+            Builder builder = new Builder(null,'m',board, null);
             int posX=3;
             int posY=3;
 
@@ -112,95 +108,80 @@ import static org.junit.jupiter.api.Assertions.*;
 
         }
 
-        @Rule
-        public IllegalMovementException thrown = new IllegalMovementException();
-
-        @Test
-        public void moveTest_illegalInput_throwsExceptionName() throws IllegalMovementException {
-            Direction direction=null;
+        @Test (expected = IllegalMovementException.class)
+        public void moveTest_illegalInput_throwsIllegalMovementException() throws IllegalMovementException {
             Board board = new Board(null);
-            Builder builder = new Builder(null,'m',board);
+            Builder builder = new Builder(null,'m',board, null);
             int posX=3;
             int posY=3;
-            builder.move(direction,posX,posY);
-            //IllegalMovementException ex =assertThrows(());
-
-
-
+            builder.move(null,posX,posY);
         }
 
         @Test
-        void setPossibleBuildingsTest() {}
+        public void setPossibleBuildingsTest() {}
 
         @Test
-        void buildTest() throws IllegalConstructionException {
+        public void buildTest() throws IllegalConstructionException {
             Board board = new Board(null);
-            Builder builder = new Builder(null, 'm', board );
+            Builder builder = new Builder(null, 'm', board, null);
+            int posX = 4;
+            int posY = 4;
             int buildPosX=3;
             int buildPosY=3;
-
-
             Direction direction = Direction.NORTH_WEST;
-            builder.build(buildPosX,buildPosY,direction);
+            builder.build(posX,posY,direction);
             assertEquals(0,builder.i);
             assertEquals(0,builder.j);
-            assertEquals(1 , builder.getPossibleBuildings()[buildPosX][buildPosY]);
+            assertEquals(-2 , builder.getPossibleBuildings()[builder.i][builder.j]);
 
             buildPosX=3;
             buildPosY=4;
             direction = Direction.NORTH;
-            builder.build(buildPosX,buildPosY,direction);
+            builder.build(posX,posY,direction);
             assertEquals(0,builder.i);
             assertEquals(1,builder.j);
-            assertEquals(1 , builder.getPossibleBuildings()[buildPosX][buildPosY]);
-
+            assertEquals(-2 , builder.getPossibleBuildings()[builder.i][builder.j]);
             buildPosX=3;
             buildPosY=5;
             direction = Direction.NORTH_EAST;
-            builder.build(buildPosX,buildPosY,direction);
+            builder.build(posX,posY,direction);
             assertEquals(0,builder.i);
             assertEquals(2,builder.j);
-            assertEquals(1 , builder.getPossibleBuildings()[buildPosX][buildPosY]);
-
+            assertEquals(-2 , builder.getPossibleBuildings()[builder.i][builder.j]);
             buildPosX=4;
             buildPosY=3;
             direction = Direction.WEST;
-            builder.build(buildPosX,buildPosY,direction);
+            builder.build(posX,posY,direction);
             assertEquals(1,builder.i);
             assertEquals(0,builder.j);
-            assertEquals(1 , builder.getPossibleBuildings()[buildPosX][buildPosY]);
-
+            assertEquals(-2 , builder.getPossibleBuildings()[builder.i][builder.j]);
             buildPosX=4;
             buildPosY=5;
             direction = Direction.EAST;
-            builder.build(buildPosX,buildPosY,direction);
+            builder.build(posX,posY,direction);
             assertEquals(1,builder.i);
             assertEquals(2,builder.j);
-            assertEquals(1 , builder.getPossibleBuildings()[buildPosX][buildPosY]);
-
+            assertEquals(-2 , builder.getPossibleBuildings()[builder.i][builder.j]);
             buildPosX=5;
             buildPosY=3;
             direction = Direction.SOUTH_WEST;
-            builder.build(buildPosX,buildPosY,direction);
+            builder.build(posX,posY,direction);
             assertEquals(2,builder.i);
             assertEquals(0,builder.j);
-            assertEquals(1 , builder.getPossibleBuildings()[buildPosX][buildPosY]);
-
+            assertEquals(-2 , builder.getPossibleBuildings()[builder.i][builder.j]);
             buildPosX=5;
             buildPosY=4;
             direction = Direction.SOUTH;
-            builder.build(buildPosX,buildPosY,direction);
+            builder.build(posX,posY,direction);
             assertEquals(2,builder.i);
             assertEquals(1,builder.j);
-            assertEquals(1 , builder.getPossibleBuildings()[buildPosX][buildPosY]);
-
+            assertEquals(-2 , builder.getPossibleBuildings()[builder.i][builder.j]);
             buildPosX=5;
             buildPosY=5;
             direction = Direction.SOUTH_EAST;
-            builder.build(buildPosX,buildPosY,direction);
+            builder.build(posX,posY,direction);
             assertEquals(2,builder.i);
             assertEquals(2,builder.j);
-            assertEquals(1 , builder.getPossibleBuildings()[buildPosX][buildPosY]);
-
+            assertEquals(-2 , builder.getPossibleBuildings()[builder.i][builder.j]);
         }
-}
+    }

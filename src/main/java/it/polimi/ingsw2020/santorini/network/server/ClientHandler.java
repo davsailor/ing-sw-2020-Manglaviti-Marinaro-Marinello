@@ -74,10 +74,9 @@ public class ClientHandler extends Thread{
             Message correct = new Message(null);
             correct.buildCorrectLoginMessage(new CorrectLoginMessage());
             owner.send(correct);
-            if (message.getNumberOfPlayers() == 2) owner.getServer().addWaitingPlayersMatch2(player);
-            else if (message.getNumberOfPlayers() == 3) owner.getServer().addWaitingPlayersMatch3(player);
+            owner.getServer().addWaitingPlayers(player, message.getNumberOfPlayers());
             owner.getServer().addVirtualClient(message.getUsername(), owner);
-            owner.getServer().checkForMatches();
+            owner.getServer().checkForMatches(message.getNumberOfPlayers());
         }
     }
 }

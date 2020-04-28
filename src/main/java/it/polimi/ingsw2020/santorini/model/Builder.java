@@ -88,15 +88,28 @@ public class Builder {
      * @param gender is the gender of the builder
      */
 
-    public Builder(Player player, char gender, Board board) {
-        //color = player.getColor();
-        color=null;
+    public Builder(Player player, char gender, Board board, int[] pos) {
+        // if for test purpose
+        if(player != null)
+            this.color = player.getColor();
+        else
+            this.color = null;
         this.gender = gender;
         this.player = player;
-        this.posX=0;
-        this.posY=0;
-        this.buildPosX=0;
-        this.buildPosY=0;
+
+        // if for test purpose
+        if(pos != null){
+            this.posX=pos[0];
+            this.posY=pos[1];
+            this.buildPosX=pos[0];
+            this.buildPosY=pos[1];
+        } else {
+            this.posX = 3;
+            this.posY = 3;
+            this.buildPosX = 3;
+            this.buildPosY = 3;
+        }
+
         this.board= board;
         int[][] possibleMoves =new int[3][3];
         for (int i = 0; i < 3; i++) {
@@ -155,6 +168,7 @@ public class Builder {
      */
 
     public void move(Direction direction, int posX , int posY) throws IllegalMovementException {
+        if(direction == null) throw new IllegalMovementException();
         switch (direction) {
             case NORTH_WEST:
                 this.posX=posX-1;
@@ -224,15 +238,14 @@ public class Builder {
 
     /**
      *
-     * @param buildPosX is the row where the player wants to build
-     * @param buildPosY is the column where the player wants to build
+     * @param posX is the row where the builder is
+     * @param posY is the column where the builder is
      * @param direction is the direction in which the player wants to build
      */
 
-    public void build (int buildPosX, int buildPosY, Direction direction) throws IllegalConstructionException{
-        LevelType level;
-
-
+    public void build (int posX, int posY, Direction direction) throws IllegalConstructionException{
+        //LevelType level;
+        setPossibleBuildings( posX, posY);
         switch (direction) {
             case NORTH_WEST:
                 this.buildPosX = this.posX - 1;
@@ -283,8 +296,7 @@ public class Builder {
                 j = 2;
                 break;
         }
-        possibleBuildings[0][0]=0;
-        switch (possibleBuildings[i][j]) {
+        switch (getPossibleBuildings()[i][j]) {
             case 0:
                 board.buildBlock(buildPosX, buildPosY, LevelType.BASE);
                 break;
@@ -300,9 +312,6 @@ public class Builder {
             default:
                 throw new IllegalConstructionException();
         }
-
-
-        setPossibleBuildings(this.buildPosX, this.buildPosY);
         possibleBuildings[i][j]=-2;
     }
 }

@@ -1,50 +1,40 @@
 package it.polimi.ingsw2020.santorini.model;
 import it.polimi.ingsw2020.santorini.utils.AccessType;
-import it.polimi.ingsw2020.santorini.model.Cell;
 import it.polimi.ingsw2020.santorini.utils.LevelType;
-import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-class CellTest {
-
-    //Cell cell = null;
-    //@Before
-    //public void setUp(){
-        //cell = new Cell(AccessType.FREE);
-    //}
-
-    //@After
-    //public void tearDwn(){}
+public class CellTest {
 
     @Test
-    void getLevel_() {
+    public void getLevel_() {
         Cell cell = new Cell(AccessType.FREE);
         assertEquals(0, cell.getLevel().getHeight());
     }
 
     @Test
-    void setLevel() {
+    public void setLevel() {
         Cell cell = new Cell(AccessType.FREE);
         cell.setLevel(LevelType.BASE);
         assertEquals(1, cell.getLevel().getHeight());
     }
 
     @Test
-    void getStatus() {
+    public void getStatus() {
         Cell cell = new Cell(AccessType.FREE);
-        assertEquals( AccessType.FREE.toString(), cell.getStatus());
+        assertEquals( AccessType.FREE, cell.getStatus());
     }
 
     @Test
-    void setStatus() {
+    public void setStatus() {
         Cell cell = new Cell(AccessType.FREE);
         cell.setStatus(AccessType.OCCUPIED);
-        assertEquals( AccessType.OCCUPIED.toString(), cell.getStatus());
+        assertEquals( AccessType.OCCUPIED, cell.getStatus());
     }
 
     @Test
-    void calculateJump() {
+    public void calculateJump() {
         Cell cell = new Cell(AccessType.FREE);
         Cell cell2 = new Cell(AccessType.FREE);
         cell2.setLevel(LevelType.BASE);

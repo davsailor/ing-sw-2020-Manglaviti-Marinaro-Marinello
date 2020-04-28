@@ -40,65 +40,37 @@ public class GameLogic implements Observer {
         return server;
     }
 
-    public void initializeMatch2(VirtualView view) {
-        System.out.println("creo il match da 2");
+    public void initializeMatch(VirtualView view, int numberOfPlayers) {
+        System.out.printf("creo il match da %d\n", numberOfPlayers);
         setView(view);
-        this.match = new Match(new Board(new GodDeck()), 2, view);
-        Player[] orderedList = new Player[2];
-        Player player1 = server.getWaitingPlayersMatch2().get(0);
-        Player player2 = server.getWaitingPlayersMatch2().get(1);
-        server.removeWaitingPlayersMatch2(player1);
-        server.removeWaitingPlayersMatch2(player2);
-        server.addPlayerInMatch(player1.getNickname(), match.getMatchID());
-        server.addPlayerInMatch(player2.getNickname(), match.getMatchID());
-        if(player1.getBirthDate().compareTo(player2.getBirthDate()) >= 0) {
-            orderedList[0] = player1;
-            orderedList[1] = player2;
+        this.match = new Match(new Board(new GodDeck()), numberOfPlayers, view);
+        Player[] list = new Player[numberOfPlayers];
+        ArrayList<Player> queue = server.getWaitingPlayers(numberOfPlayers);
+        for(int i = 0; i < numberOfPlayers; ++i){
+            list[i] = queue.get(i);
+            server.removeWaitingPlayers(list[i]);
+            server.addPlayerInMatch(list[i].getNickname(), match.getMatchID());
         }
-        else {
-            orderedList[0] = player2;
-            orderedList[1] = player1;
-        }
-        match.initialize(orderedList);
+        bubbleSort(list);
+        match.initialize(list);
     }
 
-    public void initializeMatch3(VirtualView view) {
-        System.out.println("creo il match da 3");
-        setView(view);
-        this.match = new Match(new Board(new GodDeck()), 3, view);
-        Player[] orderedList = new Player[3];
-        Player player1 = server.getWaitingPlayersMatch3().get(0);
-        Player player2 = server.getWaitingPlayersMatch3().get(1);
-        Player player3 = server.getWaitingPlayersMatch3().get(2);
-        server.removeWaitingPlayersMatch3(player1);
-        server.removeWaitingPlayersMatch3(player2);
-        server.removeWaitingPlayersMatch3(player3);
-        server.addPlayerInMatch(player1.getNickname(), match.getMatchID());
-        server.addPlayerInMatch(player2.getNickname(), match.getMatchID());
-        server.addPlayerInMatch(player3.getNickname(), match.getMatchID());
-        if(player1.getBirthDate().compareTo(player2.getBirthDate()) >= 0) {
-            buildOrderedList3(orderedList, player1, player2, player3);
-        }
-        else {
-            buildOrderedList3(orderedList, player2, player1, player3);
-        }
-        match.initialize(orderedList);
-    }
-
-    private void buildOrderedList3(Player[] orderedList, Player player1, Player player2, Player player3) {
-        if(player1.getBirthDate().compareTo(player3.getBirthDate()) >= 0) {
-            orderedList[0] = player1;
-            if (player2.getBirthDate().compareTo(player3.getBirthDate()) >= 0) {
-                orderedList[1] = player2;
-                orderedList[2] = player3;
-            } else {
-                orderedList[1] = player3;
-                orderedList[2] = player2;
+    private void bubbleSort(Player[] list){
+        boolean ended = false;
+        Player temp;
+        int index = list.length - 1;
+        if(list.length == 1) return;
+        while(!ended){
+            ended = true;
+            for(int i = 0; i < index; ++i){
+                if(list[i].getBirthDate().compareTo(list[i+1].getBirthDate()) < 0) {
+                    temp = list[i];
+                    list[i] = list[i+1];
+                    list[i+1] = temp;
+                    ended = false;
+                }
             }
-        } else {
-            orderedList[0] = player3;
-            orderedList[1] = player1;
-            orderedList[2] = player2;
+            --index;
         }
     }
 
@@ -168,15 +140,22 @@ public class GameLogic implements Observer {
                 if(selectedBuilderPosMessage.getBuilderM() != null && board[selectedBuilderPosMessage.getBuilderM()[0]][selectedBuilderPosMessage.getBuilderM()[1]].getStatus() == AccessType.FREE) builderMToChange = false;
 
                 if(!builderFToChange){
-                    board[selectedBuilderPosMessage.getBuilderF()[0]][selectedBuilderPosMessage.getBuilderF()[1]].setStatus(AccessType.OCCUPIED);
-                    match.getPlayerByName(selectedBuilderPosMessage.getUsername()).setBuilderF(new Builder(match.getPlayerByName(selectedBuilderPosMessage.getUsername()),'\u2640', match.getBoard())); //♚
-                    board[selectedBuilderPosMessage.getBuilderF()[0]][selectedBuilderPosMessage.getBuilderF()[1]].setBuilder(match.getPlayerByName(selectedBuilderPosMessage.getUsername()).getBuilderF());
+                    board[selectedBuilderPosMessage.getBuilderF()[0]][selectedBuilderPosMessage.getBuilderF()[1]].
+                            setStatus(AccessType.OCCUPIED);
+                    match.getPlayerByName(selectedBuilderPosMessage.getUsername()).
+                            setBuilderF(new Builder(
+                                    match.getPlayerByName(selectedBuilderPosMessage.getUsername()),'\u2640', match.getBoard(), selectedBuilderPosMessage.getBuilderF())); //♚
+                    board[selectedBuilderPosMessage.getBuilderF()[0]][selectedBuilderPosMessage.getBuilderF()[1]].
+                            setBuilder(match.getPlayerByName(selectedBuilderPosMessage.getUsername()).getBuilderF());
                 }
 
                 if(!builderMToChange){
-                    board[selectedBuilderPosMessage.getBuilderM()[0]][selectedBuilderPosMessage.getBuilderM()[1]].setStatus(AccessType.OCCUPIED);
-                    match.getPlayerByName(selectedBuilderPosMessage.getUsername()).setBuilderM(new Builder(match.getPlayerByName(selectedBuilderPosMessage.getUsername()),'\u2642', match.getBoard())); // ♛
-                    board[selectedBuilderPosMessage.getBuilderM()[0]][selectedBuilderPosMessage.getBuilderM()[1]].setBuilder(match.getPlayerByName(selectedBuilderPosMessage.getUsername()).getBuilderM());
+                    board[selectedBuilderPosMessage.getBuilderM()[0]][selectedBuilderPosMessage.getBuilderM()[1]].
+                            setStatus(AccessType.OCCUPIED);
+                    match.getPlayerByName(selectedBuilderPosMessage.getUsername()).
+                            setBuilderM(new Builder(match.getPlayerByName(selectedBuilderPosMessage.getUsername()),'\u2642', match.getBoard(), selectedBuilderPosMessage.getBuilderM())); // ♛
+                    board[selectedBuilderPosMessage.getBuilderM()[0]][selectedBuilderPosMessage.getBuilderM()[1]].
+                            setBuilder(match.getPlayerByName(selectedBuilderPosMessage.getUsername()).getBuilderM());
                 }
 
                 if(builderFToChange || builderMToChange) {

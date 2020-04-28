@@ -99,15 +99,20 @@ public class Board {
      * @param posY is the column coordinate of the cell where the builder is standing
      * @return the matrix build within the function
      */
-    public int[][] neighborLevelCell(int posX, int posY){
-        int[][] neighborMatrix;
-        neighborMatrix = new int[3][3];
-        for(int i = 0; i < 3; i++){//For of the row
-            for (int j = 0; j < 3 ; j++){//For of the column
-                neighborMatrix[i][j] = board[posX-1+i][posY-1+j].getLevel().getHeight();
-            }
+    public int[][] neighborLevelCell(int posX, int posY) throws IllegalArgumentException{
+        if (((posX == 0) || (posX == 6)) || (posY == 0) || posY == 6){
+            throw new IllegalArgumentException();
         }
-        return neighborMatrix;
+        else{
+            int[][] neighborMatrix;
+            neighborMatrix = new int[3][3];
+            for(int i = 0; i < 3; i++){//For of the row
+                for (int j = 0; j < 3 ; j++){//For of the column
+                    neighborMatrix[i][j] = board[posX-1+i][posY-1+j].getLevel().getHeight();
+                }
+            }
+            return neighborMatrix;
+        }
     }
 
     /**
