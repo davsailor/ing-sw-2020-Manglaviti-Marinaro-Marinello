@@ -1,6 +1,7 @@
 package it.polimi.ingsw2020.santorini.model;
 
 import it.polimi.ingsw2020.santorini.exceptions.EmptyDeckException;
+import it.polimi.ingsw2020.santorini.exceptions.UnexpectedGodException;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -155,5 +156,34 @@ public class GodDeckTest {
         deck.setNextCard(14);
         GodCard card = deck.giveCard();
         assertTrue("Test passato!",card == null && deck.getNextCard() == 14);
+    }
+
+    @Test
+    public void testToStringBeforeShuffle() {
+        GodDeck deck = new GodDeck();
+        String list = deck.toString();
+        assertTrue(list.contains("Gods: "));
+        for(GodFactotum g : GodFactotum.values()){
+            try {
+                assertTrue(list.contains(g.getName() + "\n"));
+            } catch (UnexpectedGodException e) {
+                assertTrue(list.contains("Your god does not exist!"));
+            }
+        }
+    }
+
+    @Test
+    public void testToStringAfterShuffle() {
+        GodDeck deck = new GodDeck();
+        deck.shuffleDeck();
+        String list = deck.toString();
+        assertTrue(list.contains("Gods: "));
+        for(GodFactotum g : GodFactotum.values()){
+            try {
+                assertTrue(list.contains(g.getName() + "\n"));
+            } catch (UnexpectedGodException e) {
+                assertTrue(list.contains("Your god does not exist!"));
+            }
+        }
     }
 }

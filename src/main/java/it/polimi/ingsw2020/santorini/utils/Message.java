@@ -1,7 +1,10 @@
 package it.polimi.ingsw2020.santorini.utils;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw2020.santorini.utils.messages.*;
+import it.polimi.ingsw2020.santorini.utils.messages.actions.*;
+import it.polimi.ingsw2020.santorini.utils.messages.errors.*;
+import it.polimi.ingsw2020.santorini.utils.messages.godsParam.*;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.*;
 
 import java.io.Serializable;
 
@@ -66,14 +69,9 @@ public class Message implements Serializable {
         return gson.fromJson(payload, MatchSetupMessage.class);
     }
 
-    public void buildBeginMatchSynMessage(){
-        Gson gson = new Gson();
+    public void buildSynchronizationMessage(SecondHeaderType type){
         this.firstLevelHeader = FirstHeaderType.SYNCHRONIZATION;
-        this.secondLevelHeader = SecondHeaderType.BEGIN_MATCH;
-    }
-
-    public void deserializeBeginMatchSynMessage() {
-
+        this.secondLevelHeader = type;
     }
 
     public void buildTurnPlayerMessage(TurnPlayerMessage payload){
@@ -112,16 +110,179 @@ public class Message implements Serializable {
         return gson.fromJson(payload, IllegalPositionMessage.class);
     }
 
-    public void buildMatchStartMessage(MatchStartMessage payload){
+    public void buildUpdateMessage(UpdateMessage payload){
         Gson gson = new Gson();
         this.firstLevelHeader = FirstHeaderType.LOADING;
         this.secondLevelHeader = SecondHeaderType.MATCH;
         this.serializedPayload = gson.toJson(payload);
     }
 
-    public MatchStartMessage deserializeMatchStartMessage(String payload) {
+    public UpdateMessage deserializeUpdateMessage(String payload) {
         Gson gson = new Gson();
-        return gson.fromJson(payload, MatchStartMessage.class);
+        return gson.fromJson(payload, UpdateMessage.class);
+    }
+
+    public void buildNextPhaseMessage(NextPhaseMessage payload) {
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.DO;
+        this.secondLevelHeader = SecondHeaderType.NEXT_PHASE;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public NextPhaseMessage deserializeNextPhaseMessage(String payload) {
+        Gson gson = new Gson();
+        return gson.fromJson(payload, NextPhaseMessage.class);
+    }
+
+    public void buildWouldActivateGodMessage(ActivationRequestInfoMessage payload){
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.ASK;
+        this.secondLevelHeader = SecondHeaderType.ACTIVATE_GOD;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public void buildActivateGodMessage(ActivateGodMessage payload) {
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.DO;
+        this.secondLevelHeader = SecondHeaderType.ACTIVATE_GOD;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public ActivateGodMessage deserializeActivateGodMessage(String payload) {
+        Gson gson = new Gson();
+        return gson.fromJson(payload, ActivateGodMessage.class);
+    }
+
+    public void buildSelectParametersMessage(ActivationRequestInfoMessage payload) {
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.ASK;
+        this.secondLevelHeader = SecondHeaderType.SELECT_PARAMETERS;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public ActivationRequestInfoMessage deserializeActivationRequestInfoMessage(String payload){
+        Gson gson = new Gson();
+        return gson.fromJson(payload, ActivationRequestInfoMessage.class);
+    }
+
+    public void buildInvalidParametersMessage(InvalidParametersMessage payload){
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.ERROR;
+        this.secondLevelHeader = SecondHeaderType.INVALID_PARAMETERS;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public InvalidParametersMessage deserializeInvalidParametersMessage(){
+        Gson gson = new Gson();
+        return gson.fromJson(this.serializedPayload, InvalidParametersMessage.class);
+    }
+
+    public void buildApolloParamMessage(ApolloParamMessage payload) {
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.DO;
+        this.secondLevelHeader = SecondHeaderType.SELECT_PARAMETERS;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public ApolloParamMessage deserializeApolloParamMessage(String payload) {
+        Gson gson = new Gson();
+        return gson.fromJson(payload, ApolloParamMessage.class);
+    }
+
+    public void buildAresParamMessage(AresParamMessage payload) {
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.DO;
+        this.secondLevelHeader = SecondHeaderType.SELECT_PARAMETERS;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public AresParamMessage deserializeAresParamMessage() {
+        Gson gson = new Gson();
+        return gson.fromJson(this.serializedPayload, AresParamMessage.class);
+    }
+
+    public void buildArtemisParamMessage(ArtemisParamMessage payload) {
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.DO;
+        this.secondLevelHeader = SecondHeaderType.SELECT_PARAMETERS;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public ArtemisParamMessage deserializeArtemisParamMessage() {
+        Gson gson = new Gson();
+        return gson.fromJson(this.serializedPayload, ArtemisParamMessage.class);
+    }
+
+    public void buildAtlasParamMessage(AtlasParamMessage payload) {
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.DO;
+        this.secondLevelHeader = SecondHeaderType.SELECT_PARAMETERS;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public AtlasParamMessage deserializeAtlasParamMessage() {
+        Gson gson = new Gson();
+        return gson.fromJson(this.serializedPayload, AtlasParamMessage.class);
+    }
+
+    public void buildDemeterParamMessage(DemeterParamMessage payload) {
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.DO;
+        this.secondLevelHeader = SecondHeaderType.SELECT_PARAMETERS;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public DemeterParamMessage deserializeDemeterParamMessage() {
+        Gson gson = new Gson();
+        return gson.fromJson(this.serializedPayload, DemeterParamMessage.class);
+    }
+
+    public void buildHestiaParamMessage(HestiaParamMessage payload) {
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.DO;
+        this.secondLevelHeader = SecondHeaderType.SELECT_PARAMETERS;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public HestiaParamMessage deserializeHestiaParamMessage() {
+        Gson gson = new Gson();
+        return gson.fromJson(this.serializedPayload, HestiaParamMessage.class);
+    }
+
+    public void buildMinotaurParamMessage(MinotaurParamMessage payload) {
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.DO;
+        this.secondLevelHeader = SecondHeaderType.SELECT_PARAMETERS;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public MinotaurParamMessage deserializeMinotaurParamMessage() {
+        Gson gson = new Gson();
+        return gson.fromJson(this.serializedPayload, MinotaurParamMessage.class);
+    }
+
+    public void buildPoseidonParamMessage(PoseidonParamMessage payload) {
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.DO;
+        this.secondLevelHeader = SecondHeaderType.SELECT_PARAMETERS;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public PoseidonParamMessage deserializePoseidonParamMessage() {
+        Gson gson = new Gson();
+        return gson.fromJson(this.serializedPayload, PoseidonParamMessage.class);
+    }
+
+    public void buildPrometheusParamMessage(PrometheusParamMessage payload) {
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.DO;
+        this.secondLevelHeader = SecondHeaderType.SELECT_PARAMETERS;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public PrometheusParamMessage deserializePrometheusParamMessage() {
+        Gson gson = new Gson();
+        return gson.fromJson(this.serializedPayload, PrometheusParamMessage.class);
     }
 
     public String getUsername(){ return username; }

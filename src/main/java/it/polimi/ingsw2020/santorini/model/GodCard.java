@@ -1,6 +1,8 @@
 package it.polimi.ingsw2020.santorini.model;
 
+import it.polimi.ingsw2020.santorini.exceptions.InvalidParametersException;
 import it.polimi.ingsw2020.santorini.model.gods.*;
+import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
 
 public class GodCard {
@@ -12,6 +14,8 @@ public class GodCard {
     protected String timingName;
     protected PhaseType timing;
     protected boolean mandatory;
+    protected boolean willEnded;
+    protected boolean needParameters;
 
     public GodCard(){}
 
@@ -23,9 +27,7 @@ public class GodCard {
         return maxPlayersNumber;
     }
 
-    public String getTimingName() {
-        return timingName;
-    }
+    public String getTimingName() { return timingName; }
 
     public PhaseType getTiming() {
         return timing;
@@ -35,12 +37,16 @@ public class GodCard {
         return mandatory;
     }
 
+    public boolean isWillEnded() { return willEnded; }
+
+    public boolean isNeedParameters() { return needParameters; }
+
     /**
      * the function that express the power of the god. Each God will have its power
-     * @param field is the board of the game you are playing
+     * @param match is the board of the game you are playing
      * @param invoker is the player that activates the power
      */
-    public void invokeGod(Board field, Player invoker) {
+    public void invokeGod(Match match, Player invoker, Message message) throws InvalidParametersException {
 
     }
 

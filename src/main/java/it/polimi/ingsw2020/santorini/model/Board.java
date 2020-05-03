@@ -42,12 +42,6 @@ public class Board {
     }
 
     /**
-     * it creates the stream of the board to be used by the view
-     */
-    public void showBoard(){}
-
-
-    /**
      * it build a matrix of 9 elements that shows the cells with status equals to target
      * in particular te cell value will be 0 if the corresponding status's cell doesn't match target
      * 1 if they matches and the cell(intX, intY).getLevel is equal to the one's neighboring cells have

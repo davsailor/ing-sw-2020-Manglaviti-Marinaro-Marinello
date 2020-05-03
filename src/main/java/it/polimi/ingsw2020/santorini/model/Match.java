@@ -4,7 +4,7 @@ import it.polimi.ingsw2020.santorini.network.server.VirtualView;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
 import it.polimi.ingsw2020.santorini.utils.Color;
-import it.polimi.ingsw2020.santorini.utils.messages.MatchSetupMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchSetupMessage;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -31,7 +31,6 @@ public class Match extends Observable {
         this.board = board;
         this.numberOfCompletedTowers = 0;
         this.turnNumber = 0;
-        this.turnPhase = PhaseType.START_TURN;
         addObserver(view);
     }
 
@@ -70,22 +69,6 @@ public class Match extends Observable {
      */
     public void addNumberOfCompletedTowers(){
         this.numberOfCompletedTowers = this.numberOfCompletedTowers +1;
-    }
-
-    /**
-     * setter of the attribute turnPhase
-     * @param turnPhase is the variable that represents a phase
-     */
-    public void setTurnPhase (PhaseType turnPhase){
-        this.turnPhase = turnPhase;
-    }
-
-    /**
-     * getter of the attribute turnPhase
-     * @return the value of turnPhase
-     */
-    public PhaseType getTurnPhase(){
-        return(this.turnPhase);
     }
 
     /**
@@ -135,7 +118,7 @@ public class Match extends Observable {
         this.getBoard().getGodCards().shuffleDeck();
         for(int i = 0; i < this.getNumberOfPlayers(); ++i){
             this.players[i] = players[i];
-            this.players[i].setGod(this.getBoard().getGodCards().giveCard());
+            this.players[i].setDivinePower(this.getBoard().getGodCards().giveCard());
             this.players[i].setColor(Color.getColor(i));
             listOfMessages.add((new Message(players[i].getNickname())));
         }

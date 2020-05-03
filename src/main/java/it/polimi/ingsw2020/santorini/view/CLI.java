@@ -5,10 +5,12 @@ import it.polimi.ingsw2020.santorini.model.Player;
 import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.network.client.ServerAdapter;
 import it.polimi.ingsw2020.santorini.network.client.ViewAdapter;
-import it.polimi.ingsw2020.santorini.utils.AccessType;
-import it.polimi.ingsw2020.santorini.utils.LevelType;
-import it.polimi.ingsw2020.santorini.utils.Message;
-import it.polimi.ingsw2020.santorini.utils.messages.*;
+import it.polimi.ingsw2020.santorini.utils.*;
+import it.polimi.ingsw2020.santorini.utils.messages.actions.ActivateGodMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.actions.ActivationRequestInfoMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.actions.SelectedBuilderPosMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.*;
 
 import java.text.*;
 import java.util.ArrayList;
@@ -112,7 +114,7 @@ public class CLI implements ViewInterface{
         // altrimenti comparirà "nome nel payload sta scegliendo"
 
         Message message = new Message(client.getUsername());
-        message.buildBeginMatchSynMessage();
+        message.buildSynchronizationMessage(SecondHeaderType.BEGIN_MATCH);
         client.getNetworkHandler().send(message);
     }
 
@@ -128,7 +130,7 @@ public class CLI implements ViewInterface{
             int[] builderM, builderF;
             builderM = new int[2];
             builderF = new int[2];
-            System.out.printf("%s, tocca a te! Dovrai inserire le coordinate di due celle per posizionare i tuoi costruttori!\n", currentPlayer);
+            System.out.printf("\n%s, tocca a te! Dovrai inserire le coordinate di due celle per posizionare i tuoi costruttori!\n", currentPlayer);
             showBoard(turnPlayerMessage.getCells());
             System.out.printf("iniziamo con la costruttrice\n");
             do{
@@ -203,23 +205,104 @@ public class CLI implements ViewInterface{
     }
 
     /**
-     * method that shows board, builders, the textual interface and the first player to play
-     * far visualizzare la board con le pedine e tutta l'interfaccia testuale e il primo giocatore che gioca
-     */
-    @Override
-    public void displayMatchStart() {
-
-
-    }
-
-    /**
      * method that update the board every time that the model is modified
      * metodo che aggiorna la board ogni volta che viene fatta una mossa (modificato il model)
      * parametro un messaggio con scritte le informazioni sulla board.
      */
     @Override
-    public void updateMatch() {
+    public void updateMatch(UpdateMessage updateMessage) {
+        switch(updateMessage.getPhase()){
+            case START_TURN:
+                displayStartTurn(updateMessage);
+                break;
+            case STANDBY_PHASE_1:
+                displaySP(updateMessage, PhaseType.STANDBY_PHASE_1);
+                break;
+            case MOVE_PHASE:
+                displayMoveSelection(updateMessage);
+                break;
+            case STANDBY_PHASE_2:
+                displaySP(updateMessage, PhaseType.STANDBY_PHASE_2);
+                break;
+            case BUILD_PHASE:
+                displayBuildSelection(updateMessage);
+                break;
+            case STANDBY_PHASE_3:
+                displaySP(updateMessage, PhaseType.STANDBY_PHASE_3);
+                break;
+            case END_TURN:
+                displayEndTurn(updateMessage);
+                break;
+            default:
+                break;
+        }
 
+    }
+
+    /**
+     * method that shows board, builders, the textual interface and the first player to play
+     * far visualizzare la board con le pedine e tutta l'interfaccia testuale e il primo giocatore che gioca
+     */
+    @Override
+    public void displayStartTurn(UpdateMessage message) {
+        showBoard(message.getBoard());
+        if(client.getUsername().equals(message.getPlayers().get(message.getCurrentPlayerIndex()).getNickname())) {
+            System.out.println(message.getPlayers().get(message.getCurrentPlayerIndex()).getNickname() + " tocca a te!");
+            Message nextPhase = new Message(client.getUsername());
+            nextPhase.buildNextPhaseMessage(new NextPhaseMessage(client.getUsername(), PhaseType.START_TURN));
+            client.getNetworkHandler().send(nextPhase);
+        } else {
+            System.out.println("Ora è il turno di " + message.getPlayers().get(message.getCurrentPlayerIndex()).getNickname());
+        }
+    }
+
+    @Override
+    public void displaySP(UpdateMessage updateMessage, PhaseType phase) {
+        System.out.printf(updateMessage.getPlayers().get(updateMessage.getCurrentPlayerIndex()).getDivinePower().getName());
+        if(updateMessage.getPlayers().get(updateMessage.getCurrentPlayerIndex()).getNickname().equals(client.getUsername()))
+            System.out.println(" ha accettato la tua richiesta di aiuto");
+        else
+            System.out.println(" ha aiutato " + updateMessage.getPlayers().get(updateMessage.getCurrentPlayerIndex()).getNickname());
+        showBoard(updateMessage.getBoard());
+        Message nextPhase = new Message(client.getUsername());
+        nextPhase.buildNextPhaseMessage(new NextPhaseMessage(client.getUsername(), phase));
+        client.getNetworkHandler().send(nextPhase);
+    }
+
+    @Override
+    public void displayMoveSelection(UpdateMessage updateMessage) {
+    }
+
+    @Override
+    public void displayBuildSelection(UpdateMessage updateMessage) {
+    }
+
+    /**
+     * prova
+     *
+     * @param updateMessage parameter
+     */
+    @Override
+    public void displayEndTurn(UpdateMessage updateMessage) {
+
+    }
+
+    @Override
+    public void displayWouldActivate(ActivationRequestInfoMessage question) {
+        // richiediamo se il giocatore vuole attivare il potere divino
+        if(client.getUsername().equals(question.getCurrentPlayer())) {
+            System.out.println("Vuoi richiedere l'intervento di " + question.getGod() +"? Y-N");
+            String answer = scannerIn.nextLine();
+            Message message = new Message(client.getUsername());
+            if (answer.equals("Y"))
+                message.buildActivateGodMessage(new ActivateGodMessage(true));
+            else
+                message.buildActivateGodMessage(new ActivateGodMessage(false));
+            client.getNetworkHandler().send(message);
+        }
+        // creiamo un message DO - ACTIVATE_GOD in ogni caso
+        // il payload avrà un boolean che rispecchierà la scelta del giocatore
+        // in questo modo standardizziamo il pattern della comunicazione
     }
 
     /**
@@ -261,9 +344,10 @@ public class CLI implements ViewInterface{
     }
 
     public void showBoard(ArrayList<Cell> listOfCells){
-        String coast = "  X  ";
-        //wave: \uD83C\uDF0A
-        //mountain: \u26F0
+        String coast = "\u25DE\u25DC\u25B2 ";
+        //wave: \u25DE\u25DC
+        //mountain: \u25B2
+        //configurazione funzionante: "\u25DE\u25DC\u25B2 "
         System.out.println("\n\nBoard:\n");
         System.out.printf(                  "                                 NORTH                \n" +
                 "                 0     1     2     3     4     5     6\n" +

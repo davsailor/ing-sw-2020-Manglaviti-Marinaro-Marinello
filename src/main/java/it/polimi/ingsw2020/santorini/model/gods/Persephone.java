@@ -1,8 +1,8 @@
 package it.polimi.ingsw2020.santorini.model.gods;
 
-import it.polimi.ingsw2020.santorini.model.Board;
-import it.polimi.ingsw2020.santorini.model.GodCard;
-import it.polimi.ingsw2020.santorini.model.Player;
+import it.polimi.ingsw2020.santorini.model.*;
+import it.polimi.ingsw2020.santorini.utils.messages.*;
+import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
 
 public class Persephone extends GodCard {
@@ -14,11 +14,13 @@ public class Persephone extends GodCard {
         timingName = "Opponents' Turn";
         timing = PhaseType.STANDBY_PHASE_3;
         mandatory = true;
+        willEnded = false;
+        needParameters = false;
     }
 
     @Override
-    public void invokeGod(Board field, Player invoker) {
-
+    public void invokeGod(Match match, Player invoker, Message message) {
+        System.out.println("potere di " + name + " attivato");
     }
 
     public static String toStringEffect(GodCard card) {

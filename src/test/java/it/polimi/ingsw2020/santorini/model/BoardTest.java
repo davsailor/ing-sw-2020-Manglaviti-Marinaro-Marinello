@@ -10,17 +10,23 @@ import static org.junit.Assert.*;
 public class BoardTest {
 
     @Test
-    public void neighboringStatusCellTest() {
+    public void testNeighboringStatusCell() {
         Board board = new Board(null);
         int[][] neighborMatrix;
         neighborMatrix = new int[3][3];
+        board.getBoard()[1][2].setLevel(LevelType.BASE);
+        board.getBoard()[2][1].setLevel(LevelType.MID);
         neighborMatrix = board.neighboringStatusCell(1,1, AccessType.FREE);
         assertEquals(0, neighborMatrix[0][0]);
         assertEquals(1, neighborMatrix[2][2]);
+        assertEquals(0, neighborMatrix[2][1]);
+        assertEquals(2, neighborMatrix[1][2]);
+        neighborMatrix = board.neighboringStatusCell(2,1, AccessType.FREE);
+        assertEquals(3, neighborMatrix[0][1]);
     }
 
     @Test
-    public void neighborLevelCellTest() {
+    public void testNeighborLevelCell() {
         Board board = new Board(null);
         int[][] neighborMatrix;
         neighborMatrix = new int[3][3];
@@ -30,8 +36,15 @@ public class BoardTest {
         assertEquals(1, neighborMatrix[2][2]);
     }
 
+    @Test (expected = IllegalArgumentException.class)
+    public void testNeighborLevelCell_wrongArgument_throwsException(){
+        Board board = new Board(null);
+        int[][] matrix = new int[3][3];
+        matrix = board.neighborLevelCell(0,0);
+    }
+
     @Test
-    public void buildBlockTest() {
+    public void testBuildBlock() {
         Board board = new Board(null);
         board.buildBlock(0,0, LevelType.BASE);
         assertEquals(LevelType.BASE, board.getBoard()[0][0].getLevel());

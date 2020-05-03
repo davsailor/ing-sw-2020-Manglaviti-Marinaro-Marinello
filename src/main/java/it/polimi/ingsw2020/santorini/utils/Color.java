@@ -3,7 +3,9 @@ package it.polimi.ingsw2020.santorini.utils;
 public enum Color {
     GREEN(0),
     ORANGE(1),
-    PURPLE(2);
+    PURPLE(2),
+    OCEAN_BLUE(3),
+    MOUNTAIN_BROWN(4);
 
     private final int code;
 

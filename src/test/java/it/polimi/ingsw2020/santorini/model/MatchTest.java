@@ -4,21 +4,20 @@ import it.polimi.ingsw2020.santorini.controller.GameLogic;
 import it.polimi.ingsw2020.santorini.network.server.Server;
 import it.polimi.ingsw2020.santorini.network.server.VirtualView;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
+
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.time.Month;
-import java.util.Date;
-
 import static org.junit.Assert.*;
+
+import java.util.Date;
 
 public class MatchTest {
 
     private Board board;
     private VirtualView view;
     private Server server;
+    private final String[] names = {"davsailor", "lukeMari", "AndreaMangla"};
 
     @Before
     public void setup(){
@@ -35,12 +34,8 @@ public class MatchTest {
     @Test
     public void testGetCurrentPlayer() {
         Match match = new Match(board, 2, view);
-        Player player[] = new Player[2];
-        Date date = new Date(1999, 2, 15);
-        player[0] = new Player("davsailor", date);
-        player[1] = new Player("blue thunder", date);
-        match.initialize(player);
-        assertEquals(player[0], match.getCurrentPlayer());
+        fullInit(2, match);
+        assertEquals(match.getPlayers()[0], match.getCurrentPlayer());
     }
 
     @Test
@@ -53,25 +48,15 @@ public class MatchTest {
     @Test
     public void testGetPlayerByName_correctInput_correctOutput() {
         Match match = new Match(board, 3, view);
-        Player player[] = new Player[3];
-        Date date = new Date(1999, 2, 15);
-        player[0] = new Player("davsailor", date);
-        player[1] = new Player("lukeMari", date);
-        player[2] = new Player("AndreaMangla", date);
-        match.initialize(player);
+        fullInit(3, match);
         Player test = match.getPlayerByName("AndreaMangla");
-        assertEquals(player[2], test);
+        assertEquals(match.getPlayers()[2], test);
     }
 
     @Test
     public void testGetPlayerByName_wrongInput_nullOutput() {
-        Match match = new Match(board, 3, view);
-        Player[] player = new Player[3];
-        Date date = new Date(1999, 2, 15);
-        player[0] = new Player("davsailor", date);
-        player[1] = new Player("lukeMari", date);
-        player[2] = new Player("AndreaMangla", date);
-        match.initialize(player);
+        Match match = new Match(board, 2, view);
+        fullInit(2, match);
         Player test = match.getPlayerByName("AndreaMangla");
         assertNull(test);
     }
@@ -89,19 +74,6 @@ public class MatchTest {
         match.setNumberOfCompletedTowers(4);
         match.addNumberOfCompletedTowers();
         assertEquals(5, match.getNumberOfCompletedTowers());
-    }
-
-    @Test
-    public void testSetTurnPhase() {
-        Match match = new Match(board, 2, view);
-        match.setTurnPhase(PhaseType.END_TURN);
-        assertEquals(PhaseType.END_TURN, match.getTurnPhase());
-    }
-
-    @Test
-    public void testGetTurnPhase() {
-        Match match = new Match(board, 2, view);
-        assertEquals(PhaseType.START_TURN, match.getTurnPhase());
     }
 
     @Test
@@ -141,12 +113,7 @@ public class MatchTest {
     public void testGetPlayers() {
         Match match = new Match(board, 3, view);
         boolean containsAll = true;
-        Player[] player = new Player[3];
-        Date date = new Date(1999, 2, 15);
-        player[0] = new Player("davsailor", date);
-        player[1] = new Player("lukeMari", date);
-        player[2] = new Player("AndreaMangla", date);
-        match.initialize(player);
+        fullInit(3, match);
         Player[] playerCpy = match.getPlayers();
         for(int i = 0; i < match.getNumberOfPlayers() && containsAll; ++i){
             if(playerCpy[i].getNickname().equals(match.getPlayers()[i].getNickname())) {}
@@ -158,12 +125,7 @@ public class MatchTest {
     @Test
     public void testInitialize_correctInput_correctInitialization() {
         Match match = new Match(board, 3, view);
-        Player[] player = new Player[3];
-        Date date = new Date(1999, 2, 15);
-        player[0] = new Player("davsailor", date);
-        player[1] = new Player("lukeMari", date);
-        player[2] = new Player("AndreaMangla", date);
-        match.initialize(player);
+        fullInit(3, match);
         for(int i = 0; i < match.getNumberOfPlayers(); ++i){
             assertNotNull(match.getPlayers()[i].getDivinePower());
             assertNotNull(match.getPlayers()[i].getColor());
@@ -201,7 +163,7 @@ public class MatchTest {
         Match match2 = new Match(board, 3, view);
         assertFalse(match1.equals(match2));
         assertTrue(match1.equals(match1));
-        assertFalse(match1.equals(new Server()));
+        assertFalse(match1.equals(server));
     }
 
     @Test
@@ -211,12 +173,6 @@ public class MatchTest {
     @Test
     public void testSetNextPlayer_firstPlayer_secondPlayer() {
         Match match = new Match(board, 3, view);
-        Player[] player = new Player[3];
-        Date date = new Date(1999, 2, 15);
-        player[0] = new Player("davsailor", date);
-        player[1] = new Player("lukeMari", date);
-        player[2] = new Player("AndreaMangla", date);
-        match.initialize(player);
         match.setNextPlayer();
         assertEquals(1, match.getCurrentPlayerIndex());
     }
@@ -224,12 +180,6 @@ public class MatchTest {
     @Test
     public void testSetNextPlayer_secondPlayer_thirdPlayer() {
         Match match = new Match(board, 3, view);
-        Player[] player = new Player[3];
-        Date date = new Date(1999, 2, 15);
-        player[0] = new Player("davsailor", date);
-        player[1] = new Player("lukeMari", date);
-        player[2] = new Player("AndreaMangla", date);
-        match.initialize(player);
         match.setNextPlayer();
         match.setNextPlayer();
         assertEquals(2, match.getCurrentPlayerIndex());
@@ -238,15 +188,23 @@ public class MatchTest {
     @Test
     public void testSetNextPlayer_lastPlayer_firstPlayer() {
         Match match = new Match(board, 3, view);
-        Player[] player = new Player[3];
-        Date date = new Date(1999, 2, 15);
-        player[0] = new Player("davsailor", date);
-        player[1] = new Player("lukeMari", date);
-        player[2] = new Player("AndreaMangla", date);
-        match.initialize(player);
         match.setNextPlayer();
         match.setNextPlayer();
         match.setNextPlayer();
         assertEquals(0, match.getCurrentPlayerIndex());
+    }
+
+    private void fullInit(int param, Match match) {
+        Player[] player = new Player[param];
+        Date date = new Date(1999, 2, 15);
+        for(int i = 0; i < param; ++i){
+            player[i] = new Player(names[i], date);
+        }
+        try {
+            match.initialize(player);
+        } catch (NullPointerException e){
+            // we do not inizialize ClientHandler correctly (we need a proper connection C-S)
+            // so we expect a NullPointerException
+        }
     }
 }

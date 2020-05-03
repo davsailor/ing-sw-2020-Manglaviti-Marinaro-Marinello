@@ -17,16 +17,20 @@ public enum SecondHeaderType {
     // riferiti a ERROR
     USERNAME_ERROR,
     INVALID_CELL_SELECTION,
+    INVALID_PARAMETERS,
 
     // riferiti a ASK
-    POSSIBLE_MOVES,
-    POSSIBLE_BUILDS,
-    GOD_AVAILABLE,
 
     // riferiti a DO
+    NEXT_PHASE,
+
+    // riferiti sia ad ASK che a DO
+    ACTIVATE_GOD,
+    SELECT_PARAMETERS,
+    USE_POWER,
     MOVE,
     BUILD,
-    ACTIVATE_GOD;
+    SELECT_BUILDER;
 
     //UNDO, se vogliamo fare la FA
 }

@@ -1,0 +1,184 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ClientNetworkHandler</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw2020.santorini.network.server</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ClientNetworkHandler (it.polimi.ingsw2020.santorini.network.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ClientNetworkHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 43)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw2020.santorini.network.server;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw2020.santorini.network.NetworkInterface;
+<i>4</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.Message;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.io.IOException;
+<i>7</i>&nbsp;import java.io.ObjectInputStream;
+<i>8</i>&nbsp;import java.io.ObjectOutputStream;
+<i>9</i>&nbsp;import java.net.Socket;
+<i>10</i>&nbsp;import java.util.ArrayList;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;public class ClientNetworkHandler extends Thread implements NetworkInterface {
+<i>13</i>&nbsp;    private Socket client;
+<i>14</i>&nbsp;    private Server server;
+<i>15</i>&nbsp;    private String username;
+<i>16</i>&nbsp;    private ObjectOutputStream output;
+<i>17</i>&nbsp;    private ObjectInputStream input;
+<i>18</i>&nbsp;    private ClientHandler clientHandler;
+<i>19</i>&nbsp;    private final ArrayList&lt;Message&gt; messageQueue;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    // magari da aggiungere un metodo per gestire la disconnessione
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    /**
+<i>24</i>&nbsp;     * constructor of the class
+<i>25</i>&nbsp;     * @param client is the socket of the client that has to be handled
+<i>26</i>&nbsp;     */
+<b class="nc"><i>27</i>&nbsp;    public ClientNetworkHandler(Socket client, Server server){</b>
+<b class="nc"><i>28</i>&nbsp;        this.server = server;</b>
+<b class="nc"><i>29</i>&nbsp;        this.client = client;</b>
+<b class="nc"><i>30</i>&nbsp;        this.clientHandler = new ClientHandler(this);</b>
+<b class="nc"><i>31</i>&nbsp;        this.clientHandler.start();</b>
+<b class="nc"><i>32</i>&nbsp;        this.messageQueue = new ArrayList&lt;Message&gt;();</b>
+<i>33</i>&nbsp;        try {
+<b class="nc"><i>34</i>&nbsp;            this.input = new ObjectInputStream(client.getInputStream());</b>
+<b class="nc"><i>35</i>&nbsp;            this.output = new ObjectOutputStream(client.getOutputStream());</b>
+<b class="nc"><i>36</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>37</i>&nbsp;            System.out.println(&quot;error IO&quot;);</b>
+<b class="nc"><i>38</i>&nbsp;            System.exit(2);</b>
+<b class="nc"><i>39</i>&nbsp;        }</b>
+<b class="nc"><i>40</i>&nbsp;    }</b>
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    public String getUsername() {
+<b class="nc"><i>43</i>&nbsp;        return username;</b>
+<i>44</i>&nbsp;    }
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    public void setUsername(String username) {
+<b class="nc"><i>47</i>&nbsp;        this.username = username;</b>
+<b class="nc"><i>48</i>&nbsp;    }</b>
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    public void send(Message message) {
+<i>51</i>&nbsp;        try{
+<b class="nc"><i>52</i>&nbsp;            output.reset();</b>
+<b class="nc"><i>53</i>&nbsp;            output.writeObject(message);</b>
+<b class="nc"><i>54</i>&nbsp;            output.flush();</b>
+<b class="nc"><i>55</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>56</i>&nbsp;            System.out.println(&quot;server cannot send message to: &quot; + message.getUsername());</b>
+<b class="nc"><i>57</i>&nbsp;        }</b>
+<b class="nc"><i>58</i>&nbsp;    }</b>
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    @Override
+<i>61</i>&nbsp;    public void receive(Message message) {
+<b class="nc"><i>62</i>&nbsp;        addMessageQueue(message);</b>
+<b class="nc"><i>63</i>&nbsp;    }</b>
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    @Override
+<i>66</i>&nbsp;    public void run(){
+<i>67</i>&nbsp;        while(true){
+<i>68</i>&nbsp;            try {
+<b class="nc"><i>69</i>&nbsp;                Message message = (Message) input.readObject();</b>
+<b class="nc"><i>70</i>&nbsp;                receive(message);</b>
+<b class="nc"><i>71</i>&nbsp;            } catch (ClassNotFoundException e) {</b>
+<b class="nc"><i>72</i>&nbsp;                System.out.println(&quot;class not found&quot;);</b>
+<b class="nc"><i>73</i>&nbsp;                break;</b>
+<b class="nc"><i>74</i>&nbsp;            } catch (IOException e){</b>
+<b class="nc"><i>75</i>&nbsp;                System.out.println(&quot;cannot read message from client&quot;);</b>
+<b class="nc"><i>76</i>&nbsp;                break;</b>
+<b class="nc"><i>77</i>&nbsp;            }</b>
+<i>78</i>&nbsp;        }
+<b class="nc"><i>79</i>&nbsp;    }</b>
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;    public Server getServer() {
+<b class="nc"><i>82</i>&nbsp;        return server;</b>
+<i>83</i>&nbsp;    }
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    synchronized public void removeMessageQueue(Message message){
+<b class="nc"><i>86</i>&nbsp;        messageQueue.remove(message);</b>
+<b class="nc"><i>87</i>&nbsp;    }</b>
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;    synchronized public void addMessageQueue(Message message) {
+<b class="nc"><i>90</i>&nbsp;        messageQueue.add(message);</b>
+<b class="nc"><i>91</i>&nbsp;    }</b>
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;    synchronized public boolean hasNextMessage(){
+<b class="nc"><i>94</i>&nbsp;        return !messageQueue.isEmpty();</b>
+<i>95</i>&nbsp;    }
+<i>96</i>&nbsp;
+<i>97</i>&nbsp;    synchronized public Message getNextMessage(){
+<b class="nc"><i>98</i>&nbsp;        if(messageQueue.isEmpty()) return null;</b>
+<b class="nc"><i>99</i>&nbsp;        return messageQueue.get(0);</b>
+<i>100</i>&nbsp;    }
+<i>101</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-03 16:55</div>
+</div>
+</body>
+</html>

@@ -1,7 +1,12 @@
 package it.polimi.ingsw2020.santorini.view;
 
 import it.polimi.ingsw2020.santorini.model.Cell;
-import it.polimi.ingsw2020.santorini.utils.messages.*;
+import it.polimi.ingsw2020.santorini.utils.PhaseType;
+import it.polimi.ingsw2020.santorini.utils.messages.actions.ActivationRequestInfoMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchSetupMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.TurnPlayerMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.UpdateMessage;
 
 import java.util.ArrayList;
 
@@ -36,18 +41,32 @@ public interface ViewInterface {
      */
     void displaySelectionBuilderWindow(TurnPlayerMessage turnPlayerMessage);
 
-    public void displayNewSelectionBuilderWindow(IllegalPositionMessage message);
-
-    /**
-     * far visualizzare la board con le pedine e tutta l'interfaccia testuale e il primo giocatore che gioca
-     */
-    void displayMatchStart();
+    void displayNewSelectionBuilderWindow(IllegalPositionMessage message);
 
     /**
      * metodo che aggiorna la board ogni volta che viene fatta una mossa (modificato il model)
      * parametro un messaggio con scritte le informazioni sulla board.
      */
-    void updateMatch();
+    void updateMatch(UpdateMessage message);
+
+    /**
+     * far visualizzare la board con le pedine e tutta l'interfaccia testuale e il primo giocatore che gioca
+     */
+    void displayStartTurn(UpdateMessage message);
+
+    void displaySP(UpdateMessage updateMessage, PhaseType phase);
+
+    void displayMoveSelection(UpdateMessage updateMessage);
+
+    void displayBuildSelection(UpdateMessage updateMessage);
+
+    /**
+     * prova
+     * @param updateMessage parameter
+     */
+    void displayEndTurn(UpdateMessage updateMessage);
+
+    void displayWouldActivate(ActivationRequestInfoMessage question);
 
     /**
      * metodo che mostra all'utente le possibili mosse che il builder selezionato può fare

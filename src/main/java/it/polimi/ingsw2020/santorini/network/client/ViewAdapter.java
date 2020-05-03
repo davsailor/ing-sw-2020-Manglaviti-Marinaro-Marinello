@@ -1,7 +1,12 @@
 package it.polimi.ingsw2020.santorini.network.client;
 
 import it.polimi.ingsw2020.santorini.utils.Message;
-import it.polimi.ingsw2020.santorini.utils.messages.*;
+import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.errors.UsernameErrorMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.CorrectLoginMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchSetupMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.TurnPlayerMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.UpdateMessage;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,13 +23,16 @@ public class ViewAdapter extends Thread {
     private void handleMessage() {
         Message message = client.getNextMessage();
         client.removeMessageQueue(message);
-        System.out.println(message.getFirstLevelHeader() + ", " + message.getSecondLevelHeader());
+        //System.out.println(message.getFirstLevelHeader() + ", " + message.getSecondLevelHeader());
         switch (message.getFirstLevelHeader()) {
             case SETUP:
                 setupMessageHandler(message);
                 break;
             case LOADING:
                 loadingMessageHandler(message);
+                break;
+            case ASK:
+                askMessageHandler(message);
                 break;
             case ERROR:
                 errorMessageHandler(message);
@@ -72,6 +80,16 @@ public class ViewAdapter extends Thread {
         }
     }
 
+    public void askMessageHandler(Message message) {
+        switch(message.getSecondLevelHeader()){
+            case ACTIVATE_GOD:
+                client.getView().displayWouldActivate(message.deserializeActivationRequestInfoMessage(message.getSerializedPayload()));
+                break;
+            default:
+                break;
+        }
+    }
+
     private void loadingMessageHandler(Message message) {
         switch(message.getSecondLevelHeader()){
             case LOGIN:
@@ -79,8 +97,8 @@ public class ViewAdapter extends Thread {
                 client.getView().displayLoadingWindow(mes.getText());
                 break;
             case MATCH:
-                MatchStartMessage startMessage = message.deserializeMatchStartMessage(message.getSerializedPayload());
-                client.getView().showBoard(startMessage.getBoard());
+                UpdateMessage startMessage = message.deserializeUpdateMessage(message.getSerializedPayload());
+                client.getView().updateMatch(startMessage);
                 break;
             default:
                 break;

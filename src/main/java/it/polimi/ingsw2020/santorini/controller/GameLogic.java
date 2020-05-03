@@ -5,9 +5,12 @@ import it.polimi.ingsw2020.santorini.model.*;
 import it.polimi.ingsw2020.santorini.network.server.Server;
 import it.polimi.ingsw2020.santorini.network.server.VirtualView;
 import it.polimi.ingsw2020.santorini.utils.AccessType;
+import it.polimi.ingsw2020.santorini.utils.ActionType;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PlayerStatus;
-import it.polimi.ingsw2020.santorini.utils.messages.*;
+import it.polimi.ingsw2020.santorini.utils.messages.actions.SelectedBuilderPosMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.TurnPlayerMessage;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -82,11 +85,11 @@ public class GameLogic implements Observer {
                 case SYNCHRONIZATION:
                     synchronizationHandler(message);
                     break;
-                case ASK:
-                    askHandler(message);
-                    break;
                 case VERIFY:
                     validationHandler(message);
+                    break;
+                case DO:
+                    doHandler(message);
                     break;
                 default:
                     throw new UnexpectedMessageException();
@@ -96,9 +99,19 @@ public class GameLogic implements Observer {
         }
     }
 
-    public void askHandler(Message message){
-        switch (message.getSecondLevelHeader()){
-            default:
+    public void doHandler(Message message) {
+        switch(message.getSecondLevelHeader()){
+            case NEXT_PHASE:
+                turnManager.handlePhases(match, message.getUsername());
+                break;
+            case ACTIVATE_GOD:
+                turnManager.requestManager(ActionType.ACTIVATE_GOD, match, message.getUsername(), message); // c'è da aggiungere il payload
+                break;
+            case SELECT_PARAMETERS:
+                turnManager.requestManager(ActionType.SELECT_PARAMETERS, match, message.getUsername(), message);
+                break;
+            case SELECT_BUILDER:
+                turnManager.requestManager(ActionType.SELECT_BUILDER, match, message.getUsername(), message); // c'è da aggiungere il payload
                 break;
         }
     }
@@ -113,7 +126,6 @@ public class GameLogic implements Observer {
                 for(int i = 0; i < match.getNumberOfPlayers() && allReady; ++i){
                     if (players[i].getStatus() != PlayerStatus.READY) allReady = false;
                 }
-
                 if(allReady) {
                     ArrayList<Message> orderMessage = new ArrayList<>();
                     for (int i = 0; i < match.getNumberOfPlayers(); ++i) {
@@ -177,13 +189,8 @@ public class GameLogic implements Observer {
                     }
 
                     if (allPlaying) {
-                        ArrayList<Message> listOfStartMessage = new ArrayList<>();
                         match.setCurrentPlayerIndex(0);
-                        for (int i = 0; i < match.getNumberOfPlayers(); ++i) {
-                            listOfStartMessage.add(new Message(match.getPlayers()[i].getNickname()));
-                            listOfStartMessage.get(i).buildMatchStartMessage(new MatchStartMessage(match));
-                            match.notifyView(listOfStartMessage);
-                        }
+                        turnManager.handlePhases(match, null);
                     } else {
                         ArrayList<Message> orderMessage = new ArrayList<>();
                         for (int i = 0; i < match.getNumberOfPlayers(); ++i) {

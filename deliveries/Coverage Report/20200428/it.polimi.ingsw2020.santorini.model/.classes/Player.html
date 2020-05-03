@@ -1,0 +1,215 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Player</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw2020.santorini.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Player (it.polimi.ingsw2020.santorini.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Player</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    62,5%
+  </span>
+  <span class="absValue">
+    (15/ 24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    71,7%
+  </span>
+  <span class="absValue">
+    (33/ 46)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw2020.santorini.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.Color;
+<i>4</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.PhaseType;
+<i>5</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.PlayerStatus;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.util.Date;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;public class Player {
+<i>10</i>&nbsp;    private String nickname;
+<i>11</i>&nbsp;    private Date birthDate;
+<i>12</i>&nbsp;    private Color color;
+<i>13</i>&nbsp;    private PlayerStatus status;
+<i>14</i>&nbsp;    private GodCard divinePower ;
+<i>15</i>&nbsp;    private Builder builderF;
+<i>16</i>&nbsp;    private Builder builderM;
+<i>17</i>&nbsp;    private Builder playingBuilder;
+<i>18</i>&nbsp;    private Boolean riseActions;
+<i>19</i>&nbsp;    private Boolean buildActions;
+<i>20</i>&nbsp;    private Boolean moveActions;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    //METODI        -&gt;GETTER e SETTER&lt;-
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    public String getNickname() {
+<b class="fc"><i>25</i>&nbsp;        return nickname;</b>
+<i>26</i>&nbsp;    }
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    public void setNickname(String nickname) {
+<b class="fc"><i>29</i>&nbsp;        this.nickname = nickname;</b>
+<b class="fc"><i>30</i>&nbsp;    }</b>
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    public Date getBirthDate() {
+<b class="fc"><i>33</i>&nbsp;        return birthDate;</b>
+<i>34</i>&nbsp;    }
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    public void setBirthDate(Date birthdate) {
+<b class="fc"><i>37</i>&nbsp;        this.birthDate = birthdate;</b>
+<b class="fc"><i>38</i>&nbsp;    }</b>
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    public Color getColor() {
+<b class="fc"><i>41</i>&nbsp;        return color;</b>
+<i>42</i>&nbsp;    }
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    public void setColor(Color color) {
+<b class="fc"><i>45</i>&nbsp;        this.color = color;</b>
+<b class="fc"><i>46</i>&nbsp;    }</b>
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    public PlayerStatus getStatus() {
+<b class="fc"><i>49</i>&nbsp;        return status;</b>
+<i>50</i>&nbsp;    }
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    public void setStatus(PlayerStatus status) {
+<b class="fc"><i>53</i>&nbsp;        this.status = status;</b>
+<b class="fc"><i>54</i>&nbsp;    }</b>
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    public GodCard getDivinePower() {
+<b class="fc"><i>57</i>&nbsp;        return divinePower;</b>
+<i>58</i>&nbsp;    }
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    public void setDivinePower(GodCard divinePower) {
+<b class="fc"><i>61</i>&nbsp;        this.divinePower = divinePower;</b>
+<b class="fc"><i>62</i>&nbsp;    }</b>
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    public Builder getPlayingBuilder() {
+<b class="nc"><i>65</i>&nbsp;        return playingBuilder;</b>
+<i>66</i>&nbsp;    }
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    public void setPlayingBuilder(Builder playingBuilder) {
+<b class="nc"><i>69</i>&nbsp;        this.playingBuilder = playingBuilder;</b>
+<b class="nc"><i>70</i>&nbsp;    }</b>
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    public Boolean getRiseActions() {
+<b class="nc"><i>73</i>&nbsp;        return riseActions;</b>
+<i>74</i>&nbsp;    }
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;    public void setRiseActions(Boolean riseActions) {
+<b class="nc"><i>77</i>&nbsp;        this.riseActions = riseActions;</b>
+<b class="nc"><i>78</i>&nbsp;    }</b>
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    public Boolean getBuildActions() {
+<b class="nc"><i>81</i>&nbsp;        return buildActions;</b>
+<i>82</i>&nbsp;    }
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;    public void setBuildActions(Boolean buildActions) {
+<b class="nc"><i>85</i>&nbsp;        this.buildActions = buildActions;</b>
+<b class="nc"><i>86</i>&nbsp;    }</b>
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    public Boolean getMoveActions() {
+<b class="nc"><i>89</i>&nbsp;        return moveActions;</b>
+<i>90</i>&nbsp;    }
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;    public void setMoveActions(Boolean moveActions) {
+<b class="nc"><i>93</i>&nbsp;        this.moveActions = moveActions;</b>
+<b class="nc"><i>94</i>&nbsp;    }</b>
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    //COSTRUTTORE
+<i>97</i>&nbsp;
+<b class="fc"><i>98</i>&nbsp;    public Player(String nickname, Date birthDate){</b>
+<b class="fc"><i>99</i>&nbsp;        this.nickname = nickname;</b>
+<b class="fc"><i>100</i>&nbsp;        this.birthDate = birthDate;</b>
+<b class="fc"><i>101</i>&nbsp;        this.color = null;</b>
+<b class="fc"><i>102</i>&nbsp;        this.status = PlayerStatus.WAITING;</b>
+<b class="fc"><i>103</i>&nbsp;        this.divinePower =  null;</b>
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;        //metodo per i builder
+<b class="fc"><i>106</i>&nbsp;        this.builderF =null;</b>
+<b class="fc"><i>107</i>&nbsp;        this.builderM =null;</b>
+<b class="fc"><i>108</i>&nbsp;        riseActions=true;</b>
+<b class="fc"><i>109</i>&nbsp;        moveActions=true;</b>
+<b class="fc"><i>110</i>&nbsp;        buildActions=true;</b>
+<b class="fc"><i>111</i>&nbsp;    }</b>
+<i>112</i>&nbsp;
+<b class="nc"><i>113</i>&nbsp;    public void tostring(){}</b>
+<i>114</i>&nbsp;
+<i>115</i>&nbsp;    public Builder getBuilderF() {
+<b class="fc"><i>116</i>&nbsp;        return builderF;</b>
+<i>117</i>&nbsp;    }
+<i>118</i>&nbsp;
+<i>119</i>&nbsp;    public void setBuilderF(Builder builderF) {
+<b class="fc"><i>120</i>&nbsp;        this.builderF = builderF;</b>
+<b class="fc"><i>121</i>&nbsp;    }</b>
+<i>122</i>&nbsp;
+<i>123</i>&nbsp;    public Builder getBuilderM() {
+<b class="fc"><i>124</i>&nbsp;        return builderM;</b>
+<i>125</i>&nbsp;    }
+<i>126</i>&nbsp;
+<i>127</i>&nbsp;    public void setBuilderM(Builder builderM) {
+<b class="fc"><i>128</i>&nbsp;        this.builderM = builderM;</b>
+<b class="fc"><i>129</i>&nbsp;    }</b>
+<i>130</i>&nbsp;
+<i>131</i>&nbsp;    // public String chooseBuilder(Builder[] Builders){ }
+<i>132</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-03 16:55</div>
+</div>
+</body>
+</html>

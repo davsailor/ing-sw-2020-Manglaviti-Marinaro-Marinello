@@ -1,9 +1,11 @@
 package it.polimi.ingsw2020.santorini.model.gods;
 
-import it.polimi.ingsw2020.santorini.model.Board;
-import it.polimi.ingsw2020.santorini.model.GodCard;
-import it.polimi.ingsw2020.santorini.model.Player;
+import it.polimi.ingsw2020.santorini.exceptions.InvalidParametersException;
+import it.polimi.ingsw2020.santorini.model.*;
+import it.polimi.ingsw2020.santorini.utils.Message;
+import it.polimi.ingsw2020.santorini.utils.messages.*;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
+import it.polimi.ingsw2020.santorini.utils.messages.godsParam.AresParamMessage;
 
 public class Ares extends GodCard {
 
@@ -14,11 +16,20 @@ public class Ares extends GodCard {
         timingName = "End of Your Turn";
         timing = PhaseType.STANDBY_PHASE_3;
         mandatory = false;
+        willEnded = false;
+        needParameters = true;
     }
 
     @Override
-    public void invokeGod(Board field, Player invoker) {
+    public void invokeGod(Match match, Player invoker, Message message) throws InvalidParametersException {
+        AresParamMessage param = message.deserializeAresParamMessage();
+        checkParam(param);
+        System.out.println("potere di " + name + " attivato");
+    }
 
+    private void checkParam(AresParamMessage param) throws InvalidParametersException {
+        // controlli: se i controlli non vanno a buon fine:
+        throw new InvalidParametersException();
     }
 
     public static String toStringEffect(GodCard card) {

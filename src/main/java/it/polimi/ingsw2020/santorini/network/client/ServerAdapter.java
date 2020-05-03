@@ -36,11 +36,8 @@ public class ServerAdapter extends Thread implements NetworkInterface {
     public void send(Message message){
         try{
             out.reset();
-            System.out.println("1");
             out.writeObject(message);
-            System.out.println("2");
             out.flush();
-            System.out.println("3");
         } catch (IOException e){
             System.out.println("cannot send message to server");
         }

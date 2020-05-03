@@ -1,0 +1,65 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: NetworkInterface</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw2020.santorini.network</a> ]
+</div>
+
+<h1>Coverage Summary for Class: NetworkInterface (it.polimi.ingsw2020.santorini.network)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">NetworkInterface</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw2020.santorini.network;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.Message;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.io.IOException;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;public interface NetworkInterface {
+<i>8</i>&nbsp;    /**
+<i>9</i>&nbsp;     * method that sends a message
+<i>10</i>&nbsp;     * @param message is the message that has to be sent
+<i>11</i>&nbsp;     * @throws IOException
+<i>12</i>&nbsp;     */
+<i>13</i>&nbsp;    void send(Message message) throws IOException;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    void receive(Message message);
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    //potremmo aggiungere receive
+<i>18</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-03 16:55</div>
+</div>
+</body>
+</html>

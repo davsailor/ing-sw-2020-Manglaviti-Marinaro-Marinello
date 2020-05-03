@@ -14,6 +14,7 @@ public class Player {
     private GodCard divinePower ;
     private Builder builderF;
     private Builder builderM;
+    private Builder playingBuilder;
     private Boolean riseActions;
     private Boolean buildActions;
     private Boolean moveActions;
@@ -28,7 +29,7 @@ public class Player {
         this.nickname = nickname;
     }
 
-   public Date getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
@@ -60,6 +61,38 @@ public class Player {
         this.divinePower = divinePower;
     }
 
+    public Builder getPlayingBuilder() {
+        return playingBuilder;
+    }
+
+    public void setPlayingBuilder(Builder playingBuilder) {
+        this.playingBuilder = playingBuilder;
+    }
+
+    public Boolean getRiseActions() {
+        return riseActions;
+    }
+
+    public void setRiseActions(Boolean riseActions) {
+        this.riseActions = riseActions;
+    }
+
+    public Boolean getBuildActions() {
+        return buildActions;
+    }
+
+    public void setBuildActions(Boolean buildActions) {
+        this.buildActions = buildActions;
+    }
+
+    public Boolean getMoveActions() {
+        return moveActions;
+    }
+
+    public void setMoveActions(Boolean moveActions) {
+        this.moveActions = moveActions;
+    }
+
     //COSTRUTTORE
 
     public Player(String nickname, Date birthDate){
@@ -75,10 +108,6 @@ public class Player {
         riseActions=true;
         moveActions=true;
         buildActions=true;
-    }
-
-    public void setGod(GodCard god){
-        this.divinePower = god;
     }
 
     public void tostring(){}

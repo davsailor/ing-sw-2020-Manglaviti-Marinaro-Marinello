@@ -16,12 +16,11 @@ public class Builder {
     private int posY;
     private int buildPosX;
     private int buildPosY;
-    public int i=0,j=0;      // RICORDA DI VERIFICARE SE VANNO BENE PUBLIC
     private int[][] possibleMoves;
     private int[][] possibleBuildings;
-    boolean movedThisTurn;
-    boolean risedThisTurn;
-    boolean builtThisTurn;
+    private boolean movedThisTurn;
+    private boolean risedThisTurn;
+    private boolean builtThisTurn;
 
 
     //METODI
@@ -30,16 +29,8 @@ public class Builder {
         return color;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
     public char getGender() {
         return gender;
-    }
-
-    public void setGender(char gender) {
-        this.gender = gender;
     }
 
     public Player getPlayer() {
@@ -70,16 +61,8 @@ public class Builder {
         return buildPosX;
     }
 
-    public void setBuildPosX(int buildPosX) {
-        this.buildPosX = buildPosX;
-    }
-
     public int getBuildPosY() {
         return buildPosY;
-    }
-
-    public void setBuildPosY(int buildPosY) {
-        this.buildPosY = buildPosY;
     }
 
     /**
@@ -245,58 +228,42 @@ public class Builder {
 
     public void build (int posX, int posY, Direction direction) throws IllegalConstructionException{
         //LevelType level;
-        setPossibleBuildings( posX, posY);
+        setPossibleBuildings(posX, posY);
         switch (direction) {
             case NORTH_WEST:
                 this.buildPosX = this.posX - 1;
                 this.buildPosY = this.posY - 1;
-                i = 0;
-                j = 0;
                 break;
             case NORTH:
                 this.buildPosX = this.posX - 1;
                 this.buildPosY = this.posY;
-                i = 0;
-                j = 1;
                 break;
             case NORTH_EAST:
                 this.buildPosX = this.posX - 1;
                 this.buildPosY = this.posY + 1;
-                i = 0;
-                j = 2;
                 break;
             case WEST:
                 this.buildPosX = this.posX;
                 this.buildPosY = this.posY - 1;
-                i = 1;
-                j = 0;
                 break;
             case EAST:
                 this.buildPosX = this.posX;
                 this.buildPosY = this.posY + 1;
-                i = 1;
-                j = 2;
                 break;
             case SOUTH_WEST:
                 this.buildPosX = this.posX + 1;
                 this.buildPosY = this.posY - 1;
-                i = 2;
-                j = 0;
                 break;
             case SOUTH:
                 this.buildPosX = this.posX + 1;
                 this.buildPosY = this.posY;
-                i = 2;
-                j = 1;
                 break;
             case SOUTH_EAST:
                 this.buildPosX = this.posX + 1;
                 this.buildPosY = this.posY + 1;
-                i = 2;
-                j = 2;
                 break;
         }
-        switch (getPossibleBuildings()[i][j]) {
+        switch (getPossibleBuildings()[buildPosX - this.posX + 1][buildPosY - this.posY + 1]) {
             case 0:
                 board.buildBlock(buildPosX, buildPosY, LevelType.BASE);
                 break;
@@ -309,9 +276,11 @@ public class Builder {
             case 3:
                 board.buildBlock(buildPosX, buildPosY, LevelType.DOME);
                 break;
+            case -2:
+                break;
             default:
                 throw new IllegalConstructionException();
         }
-        possibleBuildings[i][j]=-2;
+        possibleBuildings[buildPosX - this.posX + 1][buildPosY - this.posY + 1]=-2;
     }
 }

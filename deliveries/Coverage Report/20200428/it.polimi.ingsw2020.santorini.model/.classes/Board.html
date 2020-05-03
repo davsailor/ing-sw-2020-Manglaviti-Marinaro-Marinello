@@ -1,0 +1,204 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Board</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw2020.santorini.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Board (it.polimi.ingsw2020.santorini.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Board</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (42/ 42)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw2020.santorini.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.AccessType;
+<i>4</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.LevelType;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;public class Board {
+<i>7</i>&nbsp;    private Cell[][] board;
+<i>8</i>&nbsp;    private transient GodDeck godCards;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;    /**
+<i>11</i>&nbsp;     * it is the constructor of the class
+<i>12</i>&nbsp;     */
+<b class="fc"><i>13</i>&nbsp;    public Board(GodDeck godCards) {</b>
+<b class="fc"><i>14</i>&nbsp;        this.board = new Cell[7][7];</b>
+<b class="fc"><i>15</i>&nbsp;        this.godCards = godCards;</b>
+<i>16</i>&nbsp;        //initialization of the cells
+<b class="fc"><i>17</i>&nbsp;        for(int i = 1; i&lt; 6; i++){ //i riga</b>
+<b class="fc"><i>18</i>&nbsp;            for(int j= 1 ; j &lt; 6; j++){</b>
+<b class="fc"><i>19</i>&nbsp;                board[i][j] = new Cell(AccessType.FREE);</b>
+<i>20</i>&nbsp;            }
+<i>21</i>&nbsp;        }
+<i>22</i>&nbsp;        //end
+<i>23</i>&nbsp;        //delimitation of borders
+<b class="fc"><i>24</i>&nbsp;        for( int j = 0; j &lt; 7; j++ ){</b>
+<b class="fc"><i>25</i>&nbsp;            board[0][j] = new Cell(AccessType.FORBIDDEN);</b>
+<b class="fc"><i>26</i>&nbsp;            board[6][j] = new Cell(AccessType.FORBIDDEN);</b>
+<b class="fc"><i>27</i>&nbsp;            board[j][0] = new Cell(AccessType.FORBIDDEN);</b>
+<b class="fc"><i>28</i>&nbsp;            board[j][6] = new Cell(AccessType.FORBIDDEN);</b>
+<i>29</i>&nbsp;        }
+<b class="fc"><i>30</i>&nbsp;    }</b>
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    // da modificare perchè così è terribile
+<i>33</i>&nbsp;    public Cell[][] getBoard() {
+<b class="fc"><i>34</i>&nbsp;        Cell[][] boardCpy = new Cell[7][7];</b>
+<b class="fc"><i>35</i>&nbsp;        for(int i = 0; i &lt; 7; ++i)</b>
+<b class="fc"><i>36</i>&nbsp;            System.arraycopy(board[i], 0, boardCpy[i], 0, 7);</b>
+<b class="fc"><i>37</i>&nbsp;        return boardCpy;</b>
+<i>38</i>&nbsp;    }
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    public GodDeck getGodCards() {
+<b class="fc"><i>41</i>&nbsp;        return godCards;</b>
+<i>42</i>&nbsp;    }
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    /**
+<i>45</i>&nbsp;     * it build a matrix of 9 elements that shows the cells with status equals to target
+<i>46</i>&nbsp;     * in particular te cell value will be 0 if the corresponding status&#39;s cell doesn&#39;t match target
+<i>47</i>&nbsp;     * 1 if they matches and the cell(intX, intY).getLevel is equal to the one&#39;s neighboring cells have
+<i>48</i>&nbsp;     * 2 if they matches and the cell(intX, intY).getLevel.getHeight is inferior by 1 to the one&#39;s neighboring cells have
+<i>49</i>&nbsp;     * 3 if they matches and the cell(intX, intY).getLevel.getHeight is bigger by 2 to the one&#39;s neighboring cells have
+<i>50</i>&nbsp;     * @param intX is the coordinate of row
+<i>51</i>&nbsp;     * @param intY is the coordinate of column
+<i>52</i>&nbsp;     * @param target represent which kind of cell it is searching for
+<i>53</i>&nbsp;     * @return the references to a matrix of int
+<i>54</i>&nbsp;     */
+<i>55</i>&nbsp;    public int [][] neighboringStatusCell(int intX, int intY, AccessType target){
+<i>56</i>&nbsp;        int[][] neighborMatrix;
+<b class="fc"><i>57</i>&nbsp;        neighborMatrix = new int[3][3];</b>
+<i>58</i>&nbsp;        int k;
+<b class="fc"><i>59</i>&nbsp;        for(int i = 0; i &lt; 3; i++){//For of the row</b>
+<b class="fc"><i>60</i>&nbsp;            for (int j = 0; j &lt; 3 ; j++){//For of the column</b>
+<b class="fc"><i>61</i>&nbsp;                if ((i == 1) &amp;&amp; (j==1)){//if that checks the coordinates correspond to the center of the matrix</b>
+<b class="fc"><i>62</i>&nbsp;                    neighborMatrix[i][j] = 0;</b>
+<i>63</i>&nbsp;                }
+<i>64</i>&nbsp;                else{//Analise the other cells of the matrix board
+<b class="fc"><i>65</i>&nbsp;                    if(board[intX-1+i][intY-1+j].getStatus().equals(target)){//checks if the cells&#39;status correspond to target</b>
+<b class="fc"><i>66</i>&nbsp;                        k = board[intX][intY].calculateJump(board[intX-1+i][intY-1+j]);</b>
+<b class="fc"><i>67</i>&nbsp;                        if((k == 0) || (k == -1)){//case with same height or drop from one block</b>
+<b class="fc"><i>68</i>&nbsp;                            neighborMatrix[i][j] = 1;</b>
+<i>69</i>&nbsp;                        }
+<b class="fc"><i>70</i>&nbsp;                        else if (k == 1){//case that implies a rise(1 block)</b>
+<b class="fc"><i>71</i>&nbsp;                            neighborMatrix[i][j] = 2;</b>
+<i>72</i>&nbsp;                        }
+<b class="fc"><i>73</i>&nbsp;                        else if (k &lt; -1){//case that implies a drop from two blocks or more</b>
+<b class="fc"><i>74</i>&nbsp;                            neighborMatrix[i][j] = 3;</b>
+<i>75</i>&nbsp;                        }
+<i>76</i>&nbsp;                        else{//case that implies a rise of two blocks or more
+<b class="fc"><i>77</i>&nbsp;                            neighborMatrix[i][j] = 0;</b>
+<i>78</i>&nbsp;                        }
+<i>79</i>&nbsp;                    }
+<i>80</i>&nbsp;                    else{//status and target are different
+<b class="fc"><i>81</i>&nbsp;                        neighborMatrix[i][j] = 0;</b>
+<i>82</i>&nbsp;                    }
+<i>83</i>&nbsp;                }
+<i>84</i>&nbsp;            }
+<i>85</i>&nbsp;        }
+<b class="fc"><i>86</i>&nbsp;        return neighborMatrix;</b>
+<i>87</i>&nbsp;    }
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;    /**
+<i>90</i>&nbsp;     * it builds and return a matrix of nine int, with each representing the eight of the buildings neighboring the
+<i>91</i>&nbsp;     * with coordinates posX and posY
+<i>92</i>&nbsp;     * @param posX is the row coordinate of the cell where the builder is standing
+<i>93</i>&nbsp;     * @param posY is the column coordinate of the cell where the builder is standing
+<i>94</i>&nbsp;     * @return the matrix build within the function
+<i>95</i>&nbsp;     */
+<i>96</i>&nbsp;    public int[][] neighborLevelCell(int posX, int posY) throws IllegalArgumentException{
+<b class="fc"><i>97</i>&nbsp;        if (((posX == 0) || (posX == 6)) || (posY == 0) || posY == 6){</b>
+<b class="fc"><i>98</i>&nbsp;            throw new IllegalArgumentException();</b>
+<i>99</i>&nbsp;        }
+<i>100</i>&nbsp;        else{
+<i>101</i>&nbsp;            int[][] neighborMatrix;
+<b class="fc"><i>102</i>&nbsp;            neighborMatrix = new int[3][3];</b>
+<b class="fc"><i>103</i>&nbsp;            for(int i = 0; i &lt; 3; i++){//For of the row</b>
+<b class="fc"><i>104</i>&nbsp;                for (int j = 0; j &lt; 3 ; j++){//For of the column</b>
+<b class="fc"><i>105</i>&nbsp;                    neighborMatrix[i][j] = board[posX-1+i][posY-1+j].getLevel().getHeight();</b>
+<i>106</i>&nbsp;                }
+<i>107</i>&nbsp;            }
+<b class="fc"><i>108</i>&nbsp;            return neighborMatrix;</b>
+<i>109</i>&nbsp;        }
+<i>110</i>&nbsp;    }
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;    /**
+<i>113</i>&nbsp;     * it builds a block of building on the top of the cell
+<i>114</i>&nbsp;     * @param buildX is row coordinate of ethe cell where the block will be placed
+<i>115</i>&nbsp;     * @param buildY is column coordinate of ethe cell where the block will be placed
+<i>116</i>&nbsp;     * @param block is the type/eight of the block that will be be build on the top of the cell
+<i>117</i>&nbsp;     */
+<i>118</i>&nbsp;    public void buildBlock (int buildX, int buildY, LevelType block){
+<b class="fc"><i>119</i>&nbsp;        board[buildX][buildY].setLevel(block);</b>
+<b class="fc"><i>120</i>&nbsp;    }</b>
+<i>121</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-05-03 16:55</div>
+</div>
+</body>
+</html>

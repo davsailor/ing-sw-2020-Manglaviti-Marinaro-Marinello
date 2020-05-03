@@ -3,7 +3,9 @@ package it.polimi.ingsw2020.santorini.network.server;
 import it.polimi.ingsw2020.santorini.exceptions.*;
 import it.polimi.ingsw2020.santorini.model.Player;
 import it.polimi.ingsw2020.santorini.utils.Message;
-import it.polimi.ingsw2020.santorini.utils.messages.*;
+import it.polimi.ingsw2020.santorini.utils.messages.errors.UsernameErrorMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.CorrectLoginMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.LoginMessage;
 
 public class ClientHandler extends Thread{
     private ClientNetworkHandler owner;
