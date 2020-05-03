@@ -6,6 +6,8 @@ import it.polimi.ingsw2020.santorini.utils.ActionType;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.ActivateGodMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.actions.AskMoveSelectionMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.TurnPlayerMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.UpdateMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.ActivationRequestInfoMessage;
 
@@ -120,16 +122,23 @@ public class TurnLogic {
                     nextPhase();
                 }
             case SELECT_PARAMETERS:
-                // controllo sulla validità della richiesta
-                // se è valida facciamo questo qui di seguito
-                remainingActions.remove(SELECT_PARAMETERS);
                 requestManager(ActionType.USE_POWER, match, caller, message);
-                // se non è valida facciamo quello qui sotto
-                // inviamo un messaggio di ERROR - INVALID_PARAMETERS
+                remainingActions.remove(SELECT_PARAMETERS);
                 break;
             case USE_POWER:
+                ArrayList<Message> afterActivation = actionManager.invocation(match, caller, message);
                 remainingActions.remove(USE_POWER);
-                match.notifyView(actionManager.invocation(match, caller, message));
+                match.notifyView(afterActivation);
+                break;
+            case SELECT_CELL_MOVE:
+                remainingActions.remove(SELECT_CELL_MOVE);
+                requestManager(ActionType.MOVE, match, caller, message);
+                break;
+            case MOVE:
+                ArrayList<Message> afterMove = actionManager.move(match, caller, message);
+                remainingActions.remove(MOVE);
+                match.notifyView(afterMove);
+                break;
             default:
                 break;
         }
@@ -141,9 +150,9 @@ public class TurnLogic {
         for (int i = 0; i < match.getNumberOfPlayers(); ++i) {
             listOfUpdateMessages.add(new Message(match.getPlayers()[i].getNickname()));
             listOfUpdateMessages.get(i).buildUpdateMessage(new UpdateMessage(match, this.phase));
-            match.notifyView(listOfUpdateMessages);
         }
         nextPhase();
+        match.notifyView(listOfUpdateMessages);
     }
 
     private void standByPhaseManager(Match match, String caller, PhaseType phase) {
@@ -165,11 +174,16 @@ public class TurnLogic {
                     match.notifyView(listOfMessages);
                 }
             } else if(remainingActions.contains(SELECT_PARAMETERS)) {
-                ArrayList<Message> listOfMessages = new ArrayList<>();
-                Message message = new Message(caller);
-                message.buildSelectParametersMessage(new ActivationRequestInfoMessage(caller, god.getName()));
-                listOfMessages.add(message);
-                match.notifyView(listOfMessages);
+                if(god.isNeedParameters()) {
+                    ArrayList<Message> listOfMessages = new ArrayList<>();
+                    Message message = new Message(caller);
+                    message.buildSelectParametersMessage(new ActivationRequestInfoMessage(caller, god.getName()));
+                    listOfMessages.add(message);
+                    match.notifyView(listOfMessages);
+                } else {
+                    remainingActions.remove(SELECT_PARAMETERS);
+                    requestManager(USE_POWER, match, caller, null);
+                }
             } else if(remainingActions.contains(USE_POWER)){
             } else {
                 if(god.isWillEnded()) { // controllo fatto per le divinità che possono attivare il potere più volte, vedi POSEIDONE
@@ -190,9 +204,26 @@ public class TurnLogic {
     private void moveManager(Match match, String caller) {
         System.out.println("move manager");
             if(remainingActions.contains(SELECT_BUILDER)){
-                // richiediamo al client le informazioni necessarie
+                if(match.getCurrentPlayer().getPlayingBuilder() == null){
+                    ArrayList<Message> listOfMessages = new ArrayList<>();
+                    Message requestBuilder = new Message(caller);
+                    requestBuilder.buildSelectBuilderMessage(new TurnPlayerMessage(match.getCurrentPlayer(), match.getBoard().getBoard()));
+                    listOfMessages.add(requestBuilder);
+                    match.notifyView(listOfMessages);
+                } else {
+                    remainingActions.remove(SELECT_BUILDER);
+                    handlePhases(match, caller);
+                }
             } else if(remainingActions.contains(SELECT_CELL_MOVE)){
-                // richiediamo al client le informazioni necessarie
+                match.getPlayerByName(caller).getPlayingBuilder().setPossibleMoves(
+                    match.getPlayerByName(caller).getPlayingBuilder().getPosX(),
+                        match.getPlayerByName(caller).getPlayingBuilder().getPosX());
+                int[][] possibleMoves = match.getPlayerByName(caller).getPlayingBuilder().getPossibleMoves();
+                ArrayList<Message> listOfMessages = new ArrayList<>();
+                Message requestMove = new Message(caller);
+                requestMove.buildAskMoveSelectionMessage(new AskMoveSelectionMessage(possibleMoves));
+                listOfMessages.add(requestMove);
+                match.notifyView(listOfMessages);
             } else if(remainingActions.contains(MOVE)){
                 // richiediamo al client le informazioni necessarie
             } else {

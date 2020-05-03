@@ -10,6 +10,5 @@ public enum ActionType {
 
     ACTIVATE_GOD,
     SELECT_PARAMETERS,
-    APOLLO_PARAMETERS,
     USE_POWER;
 }

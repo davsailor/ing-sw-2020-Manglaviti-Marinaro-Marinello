@@ -45,4 +45,9 @@ public class ActionLogic {
         }
         return listToSend;
     }
+
+    public ArrayList<Message> move(Match match, String caller, Message message) {
+        ArrayList<Message> listToSend = new ArrayList<>();
+        return listToSend;
+    }
 }

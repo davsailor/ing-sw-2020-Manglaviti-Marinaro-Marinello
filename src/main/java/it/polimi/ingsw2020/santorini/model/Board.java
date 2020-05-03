@@ -52,7 +52,7 @@ public class Board {
      * @param target represent which kind of cell it is searching for
      * @return the references to a matrix of int
      */
-    public int [][] neighboringStatusCell(int intX, int intY, AccessType target){
+    public static int [][] neighboringStatusCell(Cell[][] board, int intX, int intY, AccessType target){
         int[][] neighborMatrix;
         neighborMatrix = new int[3][3];
         int k;
@@ -93,7 +93,7 @@ public class Board {
      * @param posY is the column coordinate of the cell where the builder is standing
      * @return the matrix build within the function
      */
-    public int[][] neighborLevelCell(int posX, int posY) throws IllegalArgumentException{
+    public static int[][] neighborLevelCell(Cell[][] board, int posX, int posY) throws IllegalArgumentException{
         if (((posX == 0) || (posX == 6)) || (posY == 0) || posY == 6){
             throw new IllegalArgumentException();
         }

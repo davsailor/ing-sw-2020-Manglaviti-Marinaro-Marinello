@@ -108,7 +108,7 @@
 <i>8</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.*;
 <i>9</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.actions.ActivateGodMessage;
 <i>10</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.actions.ActivationRequestInfoMessage;
-<i>11</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.actions.SelectedBuilderPosMessage;
+<i>11</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.SelectedBuilderPositionMessage;
 <i>12</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
 <i>13</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.*;
 <i>14</i>&nbsp;
@@ -131,7 +131,7 @@
 <i>31</i>&nbsp;
 <i>32</i>&nbsp;    /**
 <i>33</i>&nbsp;     * method in which it&#39;s asked to the client to insert server&#39;s IP, and after that the username, birth date and type of match(number of players)
-<i>34</i>&nbsp;     * metodo in cui si chiede l&#39;iP del server, dopodichè di fanno inserire username, data di nascita e tipo di partita (numero di giocatori nella partita)
+<i>34</i>&nbsp;     * metodo in cui si chiede l&#39;iP del server, dopodichï¿½ di fanno inserire username, data di nascita e tipo di partita (numero di giocatori nella partita)
 <i>35</i>&nbsp;     */
 <i>36</i>&nbsp;    @Override
 <i>37</i>&nbsp;    public void displaySetupWindow() {
@@ -200,18 +200,18 @@
 <b class="nc"><i>100</i>&nbsp;        for(Player player : listOfPlayers) {</b>
 <b class="nc"><i>101</i>&nbsp;            System.out.printf(&quot;Username: %s\nGod:\n%s\nColor: %s\n&quot;, player.getNickname(), player.getDivinePower().toStringEffect(), player.getColor());</b>
 <b class="nc"><i>102</i>&nbsp;        }</b>
-<b class="nc"><i>103</i>&nbsp;        System.out.println(&quot;\n\nE&#39; ora di scegliere la posizione dei builder! inizierà il primo giocatore a scegliere!&quot;);</b>
-<b class="nc"><i>104</i>&nbsp;        System.out.println(&quot;Abbiamo ordinato in base all&#39;età, i più giovani avranno un piccolo vantaggio!&quot;);</b>
-<b class="nc"><i>105</i>&nbsp;        System.out.println(&quot;L&#39;ordine voluto dagli dei è questo: &quot;);</b>
+<b class="nc"><i>103</i>&nbsp;        System.out.println(&quot;\n\nE&#39; ora di scegliere la posizione dei builder! inizierï¿½ il primo giocatore a scegliere!&quot;);</b>
+<b class="nc"><i>104</i>&nbsp;        System.out.println(&quot;Abbiamo ordinato in base all&#39;etï¿½, i piï¿½ giovani avranno un piccolo vantaggio!&quot;);</b>
+<b class="nc"><i>105</i>&nbsp;        System.out.println(&quot;L&#39;ordine voluto dagli dei ï¿½ questo: &quot;);</b>
 <b class="nc"><i>106</i>&nbsp;        for(Player p : listOfPlayers) System.out.println(p.getNickname());</b>
 <b class="nc"><i>107</i>&nbsp;        System.out.println(&quot;Attendi le direttive degli dei&quot;);</b>
 <i>108</i>&nbsp;
 <i>109</i>&nbsp;        // bisogna creare un messaggio che dica che i client siano correttamente entrati nella partita
-<i>110</i>&nbsp;        // il server manderà uno alla volta i messaggi di scelta delle posizioni dei builder ai client nell&#39;ordine prestabilito (verranno inviati a tutti i componenti della partita)
-<i>111</i>&nbsp;        // il payload del messaggio inviato dal server conterrà il giocatore che deve scegliere
-<i>112</i>&nbsp;        // verrà invocato il display choices per le scelte e ci sarà un if fondamentale:
-<i>113</i>&nbsp;        // se il nome del giocatore corrisponde a quello nel payload, inizierà la procedura di scelta
-<i>114</i>&nbsp;        // altrimenti comparirà &quot;nome nel payload sta scegliendo&quot;
+<i>110</i>&nbsp;        // il server manderï¿½ uno alla volta i messaggi di scelta delle posizioni dei builder ai client nell&#39;ordine prestabilito (verranno inviati a tutti i componenti della partita)
+<i>111</i>&nbsp;        // il payload del messaggio inviato dal server conterrï¿½ il giocatore che deve scegliere
+<i>112</i>&nbsp;        // verrï¿½ invocato il display choices per le scelte e ci sarï¿½ un if fondamentale:
+<i>113</i>&nbsp;        // se il nome del giocatore corrisponde a quello nel payload, inizierï¿½ la procedura di scelta
+<i>114</i>&nbsp;        // altrimenti comparirï¿½ &quot;nome nel payload sta scegliendo&quot;
 <i>115</i>&nbsp;
 <b class="nc"><i>116</i>&nbsp;        Message message = new Message(client.getUsername());</b>
 <b class="nc"><i>117</i>&nbsp;        message.buildSynchronizationMessage(SecondHeaderType.BEGIN_MATCH);</b>
@@ -271,7 +271,7 @@
 <b class="nc"><i>171</i>&nbsp;        int[] builderF = null;</b>
 <b class="nc"><i>172</i>&nbsp;        if(message.isBuilderFToChange()){</b>
 <b class="nc"><i>173</i>&nbsp;            builderF = new int[2];</b>
-<b class="nc"><i>174</i>&nbsp;            System.out.printf(&quot;la tua costruttrice è in una posizione illegale\n&quot;);</b>
+<b class="nc"><i>174</i>&nbsp;            System.out.printf(&quot;la tua costruttrice ï¿½ in una posizione illegale\n&quot;);</b>
 <i>175</i>&nbsp;            do{
 <b class="nc"><i>176</i>&nbsp;                System.out.printf(&quot;Inserisci la riga, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: &quot;);</b>
 <b class="nc"><i>177</i>&nbsp;                builderF[0] = scannerIn.nextInt();</b>
@@ -285,7 +285,7 @@
 <i>185</i>&nbsp;        }
 <b class="nc"><i>186</i>&nbsp;        if(message.isBuilderMToChange()) {</b>
 <b class="nc"><i>187</i>&nbsp;            builderM = new int[2];</b>
-<b class="nc"><i>188</i>&nbsp;            System.out.printf(&quot;il tuo costruttore è in una posizione illegale\n&quot;);</b>
+<b class="nc"><i>188</i>&nbsp;            System.out.printf(&quot;il tuo costruttore ï¿½ in una posizione illegale\n&quot;);</b>
 <i>189</i>&nbsp;            do {
 <b class="nc"><i>190</i>&nbsp;                System.out.printf(&quot;Inserisci la riga, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: &quot;);</b>
 <b class="nc"><i>191</i>&nbsp;                builderM[0] = scannerIn.nextInt();</b>
@@ -352,7 +352,7 @@
 <b class="nc"><i>252</i>&nbsp;            nextPhase.buildNextPhaseMessage(new NextPhaseMessage(client.getUsername(), PhaseType.START_TURN));</b>
 <b class="nc"><i>253</i>&nbsp;            client.getNetworkHandler().send(nextPhase);</b>
 <b class="nc"><i>254</i>&nbsp;        } else {</b>
-<b class="nc"><i>255</i>&nbsp;            System.out.println(&quot;Ora è il turno di &quot; + message.getPlayers().get(message.getCurrentPlayerIndex()).getNickname());</b>
+<b class="nc"><i>255</i>&nbsp;            System.out.println(&quot;Ora ï¿½ il turno di &quot; + message.getPlayers().get(message.getCurrentPlayerIndex()).getNickname());</b>
 <i>256</i>&nbsp;        }
 <i>257</i>&nbsp;    }
 <i>258</i>&nbsp;
@@ -401,13 +401,13 @@
 <b class="nc"><i>301</i>&nbsp;            client.getNetworkHandler().send(message);</b>
 <i>302</i>&nbsp;        }
 <i>303</i>&nbsp;        // creiamo un message DO - ACTIVATE_GOD in ogni caso
-<i>304</i>&nbsp;        // il payload avrà un boolean che rispecchierà la scelta del giocatore
+<i>304</i>&nbsp;        // il payload avrï¿½ un boolean che rispecchierï¿½ la scelta del giocatore
 <i>305</i>&nbsp;        // in questo modo standardizziamo il pattern della comunicazione
 <i>306</i>&nbsp;    }
 <i>307</i>&nbsp;
 <i>308</i>&nbsp;    /**
 <i>309</i>&nbsp;     * method that shows to the player his possible moves
-<i>310</i>&nbsp;     * metodo che mostra all&#39;utente le possibili mosse che il builder selezionato può fare
+<i>310</i>&nbsp;     * metodo che mostra all&#39;utente le possibili mosse che il builder selezionato puï¿½ fare
 <i>311</i>&nbsp;     */
 <i>312</i>&nbsp;    @Override
 <i>313</i>&nbsp;    public void displayPossibleMoves() {
@@ -416,7 +416,7 @@
 <i>316</i>&nbsp;
 <i>317</i>&nbsp;    /**
 <i>318</i>&nbsp;     * method that shows to the player the possible block that his builder can do
-<i>319</i>&nbsp;     * metodo che mostra all&#39;utente le possibili costruzioni che il builder mosso può fare
+<i>319</i>&nbsp;     * metodo che mostra all&#39;utente le possibili costruzioni che il builder mosso puï¿½ fare
 <i>320</i>&nbsp;     */
 <i>321</i>&nbsp;    @Override
 <i>322</i>&nbsp;    public void displayPossibleBuildings() {

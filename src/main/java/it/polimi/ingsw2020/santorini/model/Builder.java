@@ -135,7 +135,7 @@ public class Builder {
      */
 
     public void setPossibleMoves(int posX, int posY) {
-        this.possibleMoves = board.neighboringStatusCell(posX,posY, AccessType.FREE);
+        this.possibleMoves = Board.neighboringStatusCell(board.getBoard(), posX, posY, AccessType.FREE);
     }
 
 
@@ -212,7 +212,7 @@ public class Builder {
      */
 
     public void setPossibleBuildings(int posX, int posY) {
-        possibleBuildings = board.neighborLevelCell(posX, posY);
+        possibleBuildings = Board.neighborLevelCell(board.getBoard(), posX, posY);
     }
 
     public int[][] getPossibleBuildings() {

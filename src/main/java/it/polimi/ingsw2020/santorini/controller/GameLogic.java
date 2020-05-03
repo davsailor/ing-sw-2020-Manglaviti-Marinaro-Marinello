@@ -8,7 +8,8 @@ import it.polimi.ingsw2020.santorini.utils.AccessType;
 import it.polimi.ingsw2020.santorini.utils.ActionType;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PlayerStatus;
-import it.polimi.ingsw2020.santorini.utils.messages.actions.SelectedBuilderPosMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.actions.SelectedBuilderMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.SelectedBuilderPositionMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.TurnPlayerMessage;
 
@@ -100,6 +101,7 @@ public class GameLogic implements Observer {
     }
 
     public void doHandler(Message message) {
+        //System.out.println(message.getUsername() + message.getFirstLevelHeader() + message.getSecondLevelHeader());
         switch(message.getSecondLevelHeader()){
             case NEXT_PHASE:
                 turnManager.handlePhases(match, message.getUsername());
@@ -111,7 +113,17 @@ public class GameLogic implements Observer {
                 turnManager.requestManager(ActionType.SELECT_PARAMETERS, match, message.getUsername(), message);
                 break;
             case SELECT_BUILDER:
-                turnManager.requestManager(ActionType.SELECT_BUILDER, match, message.getUsername(), message); // c'è da aggiungere il payload
+                SelectedBuilderMessage selectedBuilderMessage = message.deserializeSelectedBuilderMessage();
+                if(selectedBuilderMessage.getGender() == 'M')
+                    match.getPlayerByName(message.getUsername()).setPlayingBuilder(
+                            match.getPlayerByName(message.getUsername()).getBuilderM());
+                else
+                    match.getPlayerByName(message.getUsername()).setPlayingBuilder(
+                            match.getPlayerByName(message.getUsername()).getBuilderF());
+                turnManager.handlePhases(match, message.getUsername()); // c'è da aggiungere il payload
+                break;
+            case SELECT_CELL_MOVE:
+                turnManager.requestManager(ActionType.SELECT_CELL_MOVE, match, message.getUsername(), message);
                 break;
         }
     }
@@ -130,7 +142,7 @@ public class GameLogic implements Observer {
                     ArrayList<Message> orderMessage = new ArrayList<>();
                     for (int i = 0; i < match.getNumberOfPlayers(); ++i) {
                         orderMessage.add(new Message(players[i].getNickname()));
-                        orderMessage.get(i).buildTurnPlayerMessage(new TurnPlayerMessage(players[match.getCurrentPlayerIndex()].getNickname(), match.getBoard().getBoard()));
+                        orderMessage.get(i).buildTurnPlayerMessage(new TurnPlayerMessage(players[match.getCurrentPlayerIndex()], match.getBoard().getBoard()));
                     }
                     match.notifyView(orderMessage);
                 }
@@ -143,31 +155,31 @@ public class GameLogic implements Observer {
     public void validationHandler(Message message){
         switch(message.getSecondLevelHeader()){
             case CORRECT_SELECTION_POS:
-                SelectedBuilderPosMessage selectedBuilderPosMessage = message.deserializeSelectedBuilderPosMessage(message.getSerializedPayload());
+                SelectedBuilderPositionMessage selectedBuilderPositionMessage = message.deserializeSelectedBuilderPosMessage(message.getSerializedPayload());
                 Cell[][] board = match.getBoard().getBoard();
                 boolean builderFToChange, builderMToChange;
                 builderFToChange = true;
                 builderMToChange = true;
-                if(selectedBuilderPosMessage.getBuilderF() != null && board[selectedBuilderPosMessage.getBuilderF()[0]][selectedBuilderPosMessage.getBuilderF()[1]].getStatus() == AccessType.FREE) builderFToChange = false;
-                if(selectedBuilderPosMessage.getBuilderM() != null && board[selectedBuilderPosMessage.getBuilderM()[0]][selectedBuilderPosMessage.getBuilderM()[1]].getStatus() == AccessType.FREE) builderMToChange = false;
+                if(selectedBuilderPositionMessage.getBuilderF() != null && board[selectedBuilderPositionMessage.getBuilderF()[0]][selectedBuilderPositionMessage.getBuilderF()[1]].getStatus() == AccessType.FREE) builderFToChange = false;
+                if(selectedBuilderPositionMessage.getBuilderM() != null && board[selectedBuilderPositionMessage.getBuilderM()[0]][selectedBuilderPositionMessage.getBuilderM()[1]].getStatus() == AccessType.FREE) builderMToChange = false;
 
                 if(!builderFToChange){
-                    board[selectedBuilderPosMessage.getBuilderF()[0]][selectedBuilderPosMessage.getBuilderF()[1]].
+                    board[selectedBuilderPositionMessage.getBuilderF()[0]][selectedBuilderPositionMessage.getBuilderF()[1]].
                             setStatus(AccessType.OCCUPIED);
-                    match.getPlayerByName(selectedBuilderPosMessage.getUsername()).
+                    match.getPlayerByName(selectedBuilderPositionMessage.getUsername()).
                             setBuilderF(new Builder(
-                                    match.getPlayerByName(selectedBuilderPosMessage.getUsername()),'\u2640', match.getBoard(), selectedBuilderPosMessage.getBuilderF())); //♚
-                    board[selectedBuilderPosMessage.getBuilderF()[0]][selectedBuilderPosMessage.getBuilderF()[1]].
-                            setBuilder(match.getPlayerByName(selectedBuilderPosMessage.getUsername()).getBuilderF());
+                                    match.getPlayerByName(selectedBuilderPositionMessage.getUsername()),'\u2640', match.getBoard(), selectedBuilderPositionMessage.getBuilderF())); //♚
+                    board[selectedBuilderPositionMessage.getBuilderF()[0]][selectedBuilderPositionMessage.getBuilderF()[1]].
+                            setBuilder(match.getPlayerByName(selectedBuilderPositionMessage.getUsername()).getBuilderF());
                 }
 
                 if(!builderMToChange){
-                    board[selectedBuilderPosMessage.getBuilderM()[0]][selectedBuilderPosMessage.getBuilderM()[1]].
+                    board[selectedBuilderPositionMessage.getBuilderM()[0]][selectedBuilderPositionMessage.getBuilderM()[1]].
                             setStatus(AccessType.OCCUPIED);
-                    match.getPlayerByName(selectedBuilderPosMessage.getUsername()).
-                            setBuilderM(new Builder(match.getPlayerByName(selectedBuilderPosMessage.getUsername()),'\u2642', match.getBoard(), selectedBuilderPosMessage.getBuilderM())); // ♛
-                    board[selectedBuilderPosMessage.getBuilderM()[0]][selectedBuilderPosMessage.getBuilderM()[1]].
-                            setBuilder(match.getPlayerByName(selectedBuilderPosMessage.getUsername()).getBuilderM());
+                    match.getPlayerByName(selectedBuilderPositionMessage.getUsername()).
+                            setBuilderM(new Builder(match.getPlayerByName(selectedBuilderPositionMessage.getUsername()),'\u2642', match.getBoard(), selectedBuilderPositionMessage.getBuilderM())); // ♛
+                    board[selectedBuilderPositionMessage.getBuilderM()[0]][selectedBuilderPositionMessage.getBuilderM()[1]].
+                            setBuilder(match.getPlayerByName(selectedBuilderPositionMessage.getUsername()).getBuilderM());
                 }
 
                 if(builderFToChange || builderMToChange) {
@@ -195,7 +207,7 @@ public class GameLogic implements Observer {
                         ArrayList<Message> orderMessage = new ArrayList<>();
                         for (int i = 0; i < match.getNumberOfPlayers(); ++i) {
                             orderMessage.add(new Message(playingPlayers[i].getNickname()));
-                            orderMessage.get(i).buildTurnPlayerMessage(new TurnPlayerMessage(match.getCurrentPlayer().getNickname(), match.getBoard().getBoard()));
+                            orderMessage.get(i).buildTurnPlayerMessage(new TurnPlayerMessage(match.getCurrentPlayer(), match.getBoard().getBoard()));
                         }
                         match.notifyView(orderMessage);
                     }
@@ -204,6 +216,5 @@ public class GameLogic implements Observer {
             default:
                 break;
         }
-
     }
 }

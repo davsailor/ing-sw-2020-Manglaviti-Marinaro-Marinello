@@ -108,7 +108,7 @@
 <i>8</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.ActionType;
 <i>9</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.Message;
 <i>10</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.PlayerStatus;
-<i>11</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.actions.SelectedBuilderPosMessage;
+<i>11</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.SelectedBuilderPositionMessage;
 <i>12</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
 <i>13</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.TurnPlayerMessage;
 <i>14</i>&nbsp;
@@ -205,13 +205,13 @@
 <b class="nc"><i>105</i>&nbsp;                turnManager.handlePhases(match, message.getUsername());</b>
 <b class="nc"><i>106</i>&nbsp;                break;</b>
 <i>107</i>&nbsp;            case ACTIVATE_GOD:
-<b class="nc"><i>108</i>&nbsp;                turnManager.requestManager(ActionType.ACTIVATE_GOD, match, message.getUsername(), message); // c&#39;è da aggiungere il payload</b>
+<b class="nc"><i>108</i>&nbsp;                turnManager.requestManager(ActionType.ACTIVATE_GOD, match, message.getUsername(), message); // c&#39;ï¿½ da aggiungere il payload</b>
 <b class="nc"><i>109</i>&nbsp;                break;</b>
 <i>110</i>&nbsp;            case SELECT_PARAMETERS:
 <b class="nc"><i>111</i>&nbsp;                turnManager.requestManager(ActionType.SELECT_PARAMETERS, match, message.getUsername(), message);</b>
 <b class="nc"><i>112</i>&nbsp;                break;</b>
 <i>113</i>&nbsp;            case SELECT_BUILDER:
-<b class="nc"><i>114</i>&nbsp;                turnManager.requestManager(ActionType.SELECT_BUILDER, match, message.getUsername(), message); // c&#39;è da aggiungere il payload</b>
+<b class="nc"><i>114</i>&nbsp;                turnManager.requestManager(ActionType.SELECT_BUILDER, match, message.getUsername(), message); // c&#39;ï¿½ da aggiungere il payload</b>
 <i>115</i>&nbsp;                break;
 <i>116</i>&nbsp;        }
 <b class="nc"><i>117</i>&nbsp;    }</b>
@@ -243,31 +243,31 @@
 <i>143</i>&nbsp;    public void validationHandler(Message message){
 <b class="nc"><i>144</i>&nbsp;        switch(message.getSecondLevelHeader()){</b>
 <i>145</i>&nbsp;            case CORRECT_SELECTION_POS:
-<b class="nc"><i>146</i>&nbsp;                SelectedBuilderPosMessage selectedBuilderPosMessage = message.deserializeSelectedBuilderPosMessage(message.getSerializedPayload());</b>
+<b class="nc"><i>146</i>&nbsp;                SelectedBuilderPosMessage selectedBuilderPositionMessage = message.deserializeSelectedBuilderPosMessage(message.getSerializedPayload());</b>
 <b class="nc"><i>147</i>&nbsp;                Cell[][] board = match.getBoard().getBoard();</b>
 <i>148</i>&nbsp;                boolean builderFToChange, builderMToChange;
 <b class="nc"><i>149</i>&nbsp;                builderFToChange = true;</b>
 <b class="nc"><i>150</i>&nbsp;                builderMToChange = true;</b>
-<b class="nc"><i>151</i>&nbsp;                if(selectedBuilderPosMessage.getBuilderF() != null &amp;&amp; board[selectedBuilderPosMessage.getBuilderF()[0]][selectedBuilderPosMessage.getBuilderF()[1]].getStatus() == AccessType.FREE) builderFToChange = false;</b>
-<b class="nc"><i>152</i>&nbsp;                if(selectedBuilderPosMessage.getBuilderM() != null &amp;&amp; board[selectedBuilderPosMessage.getBuilderM()[0]][selectedBuilderPosMessage.getBuilderM()[1]].getStatus() == AccessType.FREE) builderMToChange = false;</b>
+<b class="nc"><i>151</i>&nbsp;                if(selectedBuilderPositionMessage.getBuilderF() != null &amp;&amp; board[selectedBuilderPositionMessage.getBuilderF()[0]][selectedBuilderPositionMessage.getBuilderF()[1]].getStatus() == AccessType.FREE) builderFToChange = false;</b>
+<b class="nc"><i>152</i>&nbsp;                if(selectedBuilderPositionMessage.getBuilderM() != null &amp;&amp; board[selectedBuilderPositionMessage.getBuilderM()[0]][selectedBuilderPositionMessage.getBuilderM()[1]].getStatus() == AccessType.FREE) builderMToChange = false;</b>
 <i>153</i>&nbsp;
 <b class="nc"><i>154</i>&nbsp;                if(!builderFToChange){</b>
-<b class="nc"><i>155</i>&nbsp;                    board[selectedBuilderPosMessage.getBuilderF()[0]][selectedBuilderPosMessage.getBuilderF()[1]].</b>
+<b class="nc"><i>155</i>&nbsp;                    board[selectedBuilderPositionMessage.getBuilderF()[0]][selectedBuilderPositionMessage.getBuilderF()[1]].</b>
 <b class="nc"><i>156</i>&nbsp;                            setStatus(AccessType.OCCUPIED);</b>
-<b class="nc"><i>157</i>&nbsp;                    match.getPlayerByName(selectedBuilderPosMessage.getUsername()).</b>
+<b class="nc"><i>157</i>&nbsp;                    match.getPlayerByName(selectedBuilderPositionMessage.getUsername()).</b>
 <b class="nc"><i>158</i>&nbsp;                            setBuilderF(new Builder(</b>
-<b class="nc"><i>159</i>&nbsp;                                    match.getPlayerByName(selectedBuilderPosMessage.getUsername()),&#39;\u2640&#39;, match.getBoard(), selectedBuilderPosMessage.getBuilderF())); //?</b>
-<b class="nc"><i>160</i>&nbsp;                    board[selectedBuilderPosMessage.getBuilderF()[0]][selectedBuilderPosMessage.getBuilderF()[1]].</b>
-<b class="nc"><i>161</i>&nbsp;                            setBuilder(match.getPlayerByName(selectedBuilderPosMessage.getUsername()).getBuilderF());</b>
+<b class="nc"><i>159</i>&nbsp;                                    match.getPlayerByName(selectedBuilderPositionMessage.getUsername()),&#39;\u2640&#39;, match.getBoard(), selectedBuilderPositionMessage.getBuilderF())); //?</b>
+<b class="nc"><i>160</i>&nbsp;                    board[selectedBuilderPositionMessage.getBuilderF()[0]][selectedBuilderPositionMessage.getBuilderF()[1]].</b>
+<b class="nc"><i>161</i>&nbsp;                            setBuilder(match.getPlayerByName(selectedBuilderPositionMessage.getUsername()).getBuilderF());</b>
 <i>162</i>&nbsp;                }
 <i>163</i>&nbsp;
 <b class="nc"><i>164</i>&nbsp;                if(!builderMToChange){</b>
-<b class="nc"><i>165</i>&nbsp;                    board[selectedBuilderPosMessage.getBuilderM()[0]][selectedBuilderPosMessage.getBuilderM()[1]].</b>
+<b class="nc"><i>165</i>&nbsp;                    board[selectedBuilderPositionMessage.getBuilderM()[0]][selectedBuilderPositionMessage.getBuilderM()[1]].</b>
 <b class="nc"><i>166</i>&nbsp;                            setStatus(AccessType.OCCUPIED);</b>
-<b class="nc"><i>167</i>&nbsp;                    match.getPlayerByName(selectedBuilderPosMessage.getUsername()).</b>
-<b class="nc"><i>168</i>&nbsp;                            setBuilderM(new Builder(match.getPlayerByName(selectedBuilderPosMessage.getUsername()),&#39;\u2642&#39;, match.getBoard(), selectedBuilderPosMessage.getBuilderM())); // ?</b>
-<b class="nc"><i>169</i>&nbsp;                    board[selectedBuilderPosMessage.getBuilderM()[0]][selectedBuilderPosMessage.getBuilderM()[1]].</b>
-<b class="nc"><i>170</i>&nbsp;                            setBuilder(match.getPlayerByName(selectedBuilderPosMessage.getUsername()).getBuilderM());</b>
+<b class="nc"><i>167</i>&nbsp;                    match.getPlayerByName(selectedBuilderPositionMessage.getUsername()).</b>
+<b class="nc"><i>168</i>&nbsp;                            setBuilderM(new Builder(match.getPlayerByName(selectedBuilderPositionMessage.getUsername()),&#39;\u2642&#39;, match.getBoard(), selectedBuilderPositionMessage.getBuilderM())); // ?</b>
+<b class="nc"><i>169</i>&nbsp;                    board[selectedBuilderPositionMessage.getBuilderM()[0]][selectedBuilderPositionMessage.getBuilderM()[1]].</b>
+<b class="nc"><i>170</i>&nbsp;                            setBuilder(match.getPlayerByName(selectedBuilderPositionMessage.getUsername()).getBuilderM());</b>
 <i>171</i>&nbsp;                }
 <i>172</i>&nbsp;
 <b class="nc"><i>173</i>&nbsp;                if(builderFToChange || builderMToChange) {</b>

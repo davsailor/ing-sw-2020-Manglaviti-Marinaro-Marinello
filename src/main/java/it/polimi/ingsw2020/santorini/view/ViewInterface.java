@@ -3,6 +3,7 @@ package it.polimi.ingsw2020.santorini.view;
 import it.polimi.ingsw2020.santorini.model.Cell;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.ActivationRequestInfoMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.actions.AskMoveSelectionMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchSetupMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.TurnPlayerMessage;
@@ -60,6 +61,10 @@ public interface ViewInterface {
 
     void displayBuildSelection(UpdateMessage updateMessage);
 
+    void displayParametersSelection(ActivationRequestInfoMessage message);
+
+    void displayChooseBuilder(TurnPlayerMessage message);
+
     /**
      * prova
      * @param updateMessage parameter
@@ -71,7 +76,7 @@ public interface ViewInterface {
     /**
      * metodo che mostra all'utente le possibili mosse che il builder selezionato può fare
      */
-    void displayPossibleMoves();
+    void displayPossibleMoves(AskMoveSelectionMessage message);
 
     /**
      * metodo che mostra all'utente le possibili costruzioni che il builder mosso può fare

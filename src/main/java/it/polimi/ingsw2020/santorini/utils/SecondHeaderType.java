@@ -27,10 +27,9 @@ public enum SecondHeaderType {
     // riferiti sia ad ASK che a DO
     ACTIVATE_GOD,
     SELECT_PARAMETERS,
-    USE_POWER,
-    MOVE,
-    BUILD,
-    SELECT_BUILDER;
+    SELECT_BUILDER,
+    SELECT_CELL_MOVE,
+    SELECT_CELL_BUILD;
 
     //UNDO, se vogliamo fare la FA
 }

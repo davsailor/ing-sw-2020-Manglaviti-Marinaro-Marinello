@@ -85,6 +85,15 @@ public class ViewAdapter extends Thread {
             case ACTIVATE_GOD:
                 client.getView().displayWouldActivate(message.deserializeActivationRequestInfoMessage(message.getSerializedPayload()));
                 break;
+            case SELECT_PARAMETERS:
+                client.getView().displayParametersSelection(message.deserializeActivationRequestInfoMessage(message.getSerializedPayload()));
+                break;
+            case SELECT_BUILDER:
+                client.getView().displayChooseBuilder(message.deserializeTurnPlayerMessage(message.getSerializedPayload()));
+                break;
+            case SELECT_CELL_MOVE:
+                client.getView().displayPossibleMoves(message.deserializeAskMoveSelectionMessage());
+                break;
             default:
                 break;
         }

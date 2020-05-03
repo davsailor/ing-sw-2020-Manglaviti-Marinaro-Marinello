@@ -86,16 +86,16 @@ public class Message implements Serializable {
         return gson.fromJson(payload, TurnPlayerMessage.class);
     }
 
-    public void buildSelectedBuilderPosMessage(SelectedBuilderPosMessage payload){
+    public void buildSelectedBuilderPosMessage(SelectedBuilderPositionMessage payload){
         Gson gson = new Gson();
         this.firstLevelHeader = FirstHeaderType.VERIFY;
         this.secondLevelHeader = SecondHeaderType.CORRECT_SELECTION_POS;
         this.serializedPayload = gson.toJson(payload);
     }
 
-    public SelectedBuilderPosMessage deserializeSelectedBuilderPosMessage(String payload) {
+    public SelectedBuilderPositionMessage deserializeSelectedBuilderPosMessage(String payload) {
         Gson gson = new Gson();
-        return gson.fromJson(payload, SelectedBuilderPosMessage.class);
+        return gson.fromJson(payload, SelectedBuilderPositionMessage.class);
     }
 
     public void buildIllegalPositionMessage(IllegalPositionMessage payload){
@@ -141,6 +141,25 @@ public class Message implements Serializable {
         this.serializedPayload = gson.toJson(payload);
     }
 
+    public void buildSelectParametersMessage(ActivationRequestInfoMessage payload) {
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.ASK;
+        this.secondLevelHeader = SecondHeaderType.SELECT_PARAMETERS;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public void buildSelectBuilderMessage(TurnPlayerMessage payload){
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.ASK;
+        this.secondLevelHeader = SecondHeaderType.SELECT_BUILDER;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public ActivationRequestInfoMessage deserializeActivationRequestInfoMessage(String payload){
+        Gson gson = new Gson();
+        return gson.fromJson(payload, ActivationRequestInfoMessage.class);
+    }
+
     public void buildActivateGodMessage(ActivateGodMessage payload) {
         Gson gson = new Gson();
         this.firstLevelHeader = FirstHeaderType.DO;
@@ -153,16 +172,16 @@ public class Message implements Serializable {
         return gson.fromJson(payload, ActivateGodMessage.class);
     }
 
-    public void buildSelectParametersMessage(ActivationRequestInfoMessage payload) {
+    public void buildSelectedBuilderMessage(SelectedBuilderMessage payload){
         Gson gson = new Gson();
-        this.firstLevelHeader = FirstHeaderType.ASK;
-        this.secondLevelHeader = SecondHeaderType.SELECT_PARAMETERS;
+        this.firstLevelHeader = FirstHeaderType.DO;
+        this.secondLevelHeader = SecondHeaderType.SELECT_BUILDER;
         this.serializedPayload = gson.toJson(payload);
     }
 
-    public ActivationRequestInfoMessage deserializeActivationRequestInfoMessage(String payload){
+    public SelectedBuilderMessage deserializeSelectedBuilderMessage(){
         Gson gson = new Gson();
-        return gson.fromJson(payload, ActivationRequestInfoMessage.class);
+        return gson.fromJson(this.serializedPayload, SelectedBuilderMessage.class);
     }
 
     public void buildInvalidParametersMessage(InvalidParametersMessage payload){
@@ -284,6 +303,31 @@ public class Message implements Serializable {
         Gson gson = new Gson();
         return gson.fromJson(this.serializedPayload, PrometheusParamMessage.class);
     }
+
+    public void buildAskMoveSelectionMessage(AskMoveSelectionMessage payload){
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.ASK;
+        this.secondLevelHeader = SecondHeaderType.SELECT_CELL_MOVE;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public AskMoveSelectionMessage deserializeAskMoveSelectionMessage(){
+        Gson gson = new Gson();
+        return gson.fromJson(this.serializedPayload, AskMoveSelectionMessage.class);
+    }
+
+    public void buildSelectedMoveMessage(SelectedMoveMessage payload){
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.ASK;
+        this.secondLevelHeader = SecondHeaderType.SELECT_CELL_MOVE;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public SelectedMoveMessage deserializeSelectedMoveMessage(){
+        Gson gson = new Gson();
+        return gson.fromJson(this.serializedPayload, SelectedMoveMessage.class);
+    }
+
 
     public String getUsername(){ return username; }
 
