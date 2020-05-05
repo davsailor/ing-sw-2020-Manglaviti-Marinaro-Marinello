@@ -1,6 +1,5 @@
 package it.polimi.ingsw2020.santorini.model.gods;
 
-import it.polimi.ingsw2020.santorini.exceptions.InvalidParametersException;
 import it.polimi.ingsw2020.santorini.model.*;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
