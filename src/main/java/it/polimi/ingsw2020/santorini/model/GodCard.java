@@ -39,6 +39,8 @@ public class GodCard {
 
     public boolean isWillEnded() { return willEnded; }
 
+    public void setWillEnded(boolean willEnded) { this.willEnded = willEnded; }
+
     public boolean isNeedParameters() { return needParameters; }
 
     /**
@@ -55,37 +57,38 @@ public class GodCard {
      * @return string format of god's name and its power. Each God will have its own
      */
     public String toStringEffect(){
-        switch(this.getName()){
-            case "Apollo":
-                return Apollo.toStringEffect(this);
-            case "Ares":
-                return Ares.toStringEffect(this);
-            case "Artemis":
-                return Artemis.toStringEffect(this);
-            case "Athena":
-                return Athena.toStringEffect(this);
-            case "Atlas":
-                return Atlas.toStringEffect(this);
-            case "Demeter":
-                return Demeter.toStringEffect(this);
-            case "Hephaestus":
-                return Hephaestus.toStringEffect(this);
-            case "Hestia":
-                return Hestia.toStringEffect(this);
-            case "Minotaur":
-                return Minotaur.toStringEffect(this);
-            case "Pan":
-                return Pan.toStringEffect(this);
-            case "Persephone":
-                return Persephone.toStringEffect(this);
-            case "Poseidon":
-                return Poseidon.toStringEffect(this);
-            case "Prometheus":
-                return Prometheus.toStringEffect(this);
-            case "Zeus":
-                return Zeus.toStringEffect(this);
-            default:
-                return "no selected god";
-        }
+        try {
+            switch (this.getName()) {
+                case "Apollo":
+                    return Apollo.toStringEffect(this);
+                case "Ares":
+                    return Ares.toStringEffect(this);
+                case "Artemis":
+                    return Artemis.toStringEffect(this);
+                case "Athena":
+                    return Athena.toStringEffect(this);
+                case "Atlas":
+                    return Atlas.toStringEffect(this);
+                case "Demeter":
+                    return Demeter.toStringEffect(this);
+                case "Hephaestus":
+                    return Hephaestus.toStringEffect(this);
+                case "Hestia":
+                    return Hestia.toStringEffect(this);
+                case "Minotaur":
+                    return Minotaur.toStringEffect(this);
+                case "Pan":
+                    return Pan.toStringEffect(this);
+                case "Persephone":
+                    return Persephone.toStringEffect(this);
+                case "Poseidon":
+                    return Poseidon.toStringEffect(this);
+                case "Prometheus":
+                    return Prometheus.toStringEffect(this);
+                case "Zeus":
+                    return Zeus.toStringEffect(this);
+            }
+        } catch(NullPointerException ignored){}
+        return "no selected god";
     }
 }

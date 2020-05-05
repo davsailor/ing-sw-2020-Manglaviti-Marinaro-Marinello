@@ -101,4 +101,33 @@ public class PlayerTest {
         assertEquals(3, player.getBuilderM().getBuildPosX());
         assertEquals(3, player.getBuilderM().getBuildPosY());
     }
+
+    @Test
+    public void testSetAndGetRiseActions() {
+        assertTrue(player.getRiseActions());
+        player.setRiseActions(false);
+        assertFalse(player.getRiseActions());
+    }
+
+    @Test
+    public void testSetAndGetMoveActions() {
+        assertTrue(player.getMoveActions());
+        player.setMoveActions(false);
+        assertFalse(player.getMoveActions());
+    }
+
+    @Test
+    public void testSetAndGetBuildActions() {
+        assertTrue(player.getBuildActions());
+        player.setBuildActions(false);
+        assertFalse(player.getBuildActions());
+    }
+
+    @Test
+    public void testSetAndGetPlayingBuilder() {
+        assertNull(player.getPlayingBuilder());
+        player.setBuilderF(new Builder(player, 'M',null, null));
+        player.setPlayingBuilder(player.getBuilderF());
+        assertEquals(player.getBuilderF(), player.getPlayingBuilder());
+    }
 }

@@ -28,8 +28,8 @@ public class Cell {
      * @return the string containing the name of the highest piece on the cell
      */
     public LevelType getLevel(){
-        int i= 0;
-        while((this.building[i+1] != null)&&(i < 5)){
+        int i = 0;
+        while((i < 4)&&(this.building[i + 1] != null)){
             i++;
         }
         return (this.building[i]);//understand if toString is necessary
@@ -41,7 +41,7 @@ public class Cell {
      */
     public void setLevel(LevelType building){
         int i = 0;
-        while((this.building[i] != null)&&(i< 5)){i++;}
+        while((i < 5)&&(this.building[i] != null)){i++;}
         this.building[i] = building;
     }
 

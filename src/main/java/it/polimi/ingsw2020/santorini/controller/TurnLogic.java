@@ -215,9 +215,7 @@ public class TurnLogic {
                     handlePhases(match, caller);
                 }
             } else if(remainingActions.contains(SELECT_CELL_MOVE)){
-                match.getPlayerByName(caller).getPlayingBuilder().setPossibleMoves(
-                    match.getPlayerByName(caller).getPlayingBuilder().getPosX(),
-                        match.getPlayerByName(caller).getPlayingBuilder().getPosX());
+                match.getPlayerByName(caller).getPlayingBuilder().setPossibleMoves();
                 int[][] possibleMoves = match.getPlayerByName(caller).getPlayingBuilder().getPossibleMoves();
                 ArrayList<Message> listOfMessages = new ArrayList<>();
                 Message requestMove = new Message(caller);

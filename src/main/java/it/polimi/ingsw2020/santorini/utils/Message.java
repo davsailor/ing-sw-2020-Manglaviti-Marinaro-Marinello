@@ -318,7 +318,7 @@ public class Message implements Serializable {
 
     public void buildSelectedMoveMessage(SelectedMoveMessage payload){
         Gson gson = new Gson();
-        this.firstLevelHeader = FirstHeaderType.ASK;
+        this.firstLevelHeader = FirstHeaderType.DO;
         this.secondLevelHeader = SecondHeaderType.SELECT_CELL_MOVE;
         this.serializedPayload = gson.toJson(payload);
     }

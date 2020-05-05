@@ -40,9 +40,23 @@ public class GodCardTest {
     }
 
     @Test
-    public void isMandatory() {
+    public void testIsMandatory() {
         tester = new Apollo();
         assertFalse(tester.isMandatory());
+    }
+
+    @Test
+    public void testWillEnded() {
+        tester = new Apollo();
+        assertFalse(tester.isWillEnded());
+        tester.setWillEnded(true);
+        assertTrue(tester.isWillEnded());
+    }
+
+    @Test
+    public void testIsNeedParameters(){
+        tester = new Apollo();
+        assertTrue(tester.isNeedParameters());
     }
 
     @Test
@@ -81,5 +95,11 @@ public class GodCardTest {
         assertEquals(Poseidon.toStringEffect(tester), tester.toStringEffect());
         tester = deck.giveCard();
         assertEquals(Zeus.toStringEffect(tester), tester.toStringEffect());
+    }
+
+    @Test
+    public void testToStringEffect_noExistentGod_noEffectToPrint(){
+        GodCard tester = new GodCard();
+        assertEquals("no selected god", tester.toStringEffect());
     }
 }
