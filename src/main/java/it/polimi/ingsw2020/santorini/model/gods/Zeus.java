@@ -1,5 +1,6 @@
 package it.polimi.ingsw2020.santorini.model.gods;
 
+import it.polimi.ingsw2020.santorini.controller.TurnLogic;
 import it.polimi.ingsw2020.santorini.model.*;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
@@ -18,7 +19,7 @@ public class Zeus extends GodCard {
     }
 
     @Override
-    public void invokeGod(Match match, Player invoker, Message message) {
+    public void invokeGod(Match match, Player invoker, Message message, TurnLogic turnManager) {
         System.out.println("potere di " + name + " attivato");
     }
 

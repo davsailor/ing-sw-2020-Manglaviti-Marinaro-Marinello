@@ -2,11 +2,9 @@ package it.polimi.ingsw2020.santorini.network.client;
 
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
-import it.polimi.ingsw2020.santorini.utils.messages.errors.UsernameErrorMessage;
-import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.CorrectLoginMessage;
-import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchSetupMessage;
-import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.TurnPlayerMessage;
-import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.UpdateMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.errors.InvalidParametersMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.errors.GenericErrorMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.*;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -86,7 +84,7 @@ public class ViewAdapter extends Thread {
                 client.getView().displayWouldActivate(message.deserializeActivationRequestInfoMessage(message.getSerializedPayload()));
                 break;
             case SELECT_PARAMETERS:
-                client.getView().displayParametersSelection(message.deserializeActivationRequestInfoMessage(message.getSerializedPayload()));
+                client.getView().displayParametersSelection(message.deserializeActivationRequestInfoMessage(message.getSerializedPayload()).getGod());
                 break;
             case SELECT_BUILDER:
                 client.getView().displayChooseBuilder(message.deserializeTurnPlayerMessage(message.getSerializedPayload()));
@@ -94,6 +92,8 @@ public class ViewAdapter extends Thread {
             case SELECT_CELL_MOVE:
                 client.getView().displayPossibleMoves(message.deserializeAskMoveSelectionMessage());
                 break;
+            case SELECT_CELL_BUILD:
+                client.getView().displayPossibleBuildings(message.deserializeAskBuildSelectionMessage());
             default:
                 break;
         }
@@ -106,9 +106,12 @@ public class ViewAdapter extends Thread {
                 client.getView().displayLoadingWindow(mes.getText());
                 break;
             case MATCH:
-                UpdateMessage startMessage = message.deserializeUpdateMessage(message.getSerializedPayload());
-                client.getView().updateMatch(startMessage);
+                UpdateMessage updateMessage = message.deserializeUpdateMessage(message.getSerializedPayload());
+                client.getView().updateMatch(updateMessage);
                 break;
+            case END_MATCH:
+                EndMatchMessage endMatchMessage = message.deserializeEndMatchMessage();
+                client.getView().displayEndMatch(endMatchMessage.getWinner());
             default:
                 break;
         }
@@ -121,7 +124,7 @@ public class ViewAdapter extends Thread {
     public void errorMessageHandler(Message message){
         switch(message.getSecondLevelHeader()){
             case USERNAME_ERROR:
-                UsernameErrorMessage mes = message.deserializeUsernameErrorMessage(message.getSerializedPayload());
+                GenericErrorMessage mes = message.deserializeUsernameErrorMessage(message.getSerializedPayload());
                 client.getView().displayErrorMessage(mes.getError());
                 client.getView().displayNewUsernameWindow();
                 break;
@@ -130,7 +133,17 @@ public class ViewAdapter extends Thread {
                 if(illegalPositionMessage.isBuilderMToChange() || illegalPositionMessage.isBuilderFToChange())
                     client.getView().displayNewSelectionBuilderWindow(illegalPositionMessage);
                 break;
+            case INVALID_PARAMETERS:
+                InvalidParametersMessage invalidParametersMessage = message.deserializeInvalidParametersMessage();
+                client.getView().displayErrorMessage("Errore nell'inserimento dei parametri di : " + invalidParametersMessage.getGod() + "\n" + invalidParametersMessage.getError());
+                client.getView().displayParametersSelection(invalidParametersMessage.getGod());
             default:
+            case INVALID_MOVE:
+                GenericErrorMessage invalidMoveMessage = message.deserializeInvalidMoveMessage();
+                client.getView().displayErrorMessage(invalidMoveMessage.getError());
+                Message nextPhaseMessage = new Message(client.getUsername());
+                nextPhaseMessage.buildNextPhaseMessage(new NextPhaseMessage(client.getUsername(), null));
+                client.getNetworkHandler().send(nextPhaseMessage);
                 break;
         }
     }

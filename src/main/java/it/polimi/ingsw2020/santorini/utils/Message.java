@@ -33,16 +33,16 @@ public class Message implements Serializable {
         return gson.fromJson(payload, LoginMessage.class);
     }
 
-    public void buildUsernameErrorMessage(UsernameErrorMessage payload){
+    public void buildUsernameErrorMessage(GenericErrorMessage payload){
         Gson gson = new Gson();
         this.firstLevelHeader = FirstHeaderType.ERROR;
         this.secondLevelHeader = SecondHeaderType.USERNAME_ERROR;
         this.serializedPayload = gson.toJson(payload);
     }
 
-    public UsernameErrorMessage deserializeUsernameErrorMessage(String payload){
+    public GenericErrorMessage deserializeUsernameErrorMessage(String payload){
         Gson gson = new Gson();
-        return gson.fromJson(payload, UsernameErrorMessage.class);
+        return gson.fromJson(payload, GenericErrorMessage.class);
     }
 
     public void buildCorrectLoginMessage(CorrectLoginMessage payload){
@@ -326,6 +326,66 @@ public class Message implements Serializable {
     public SelectedMoveMessage deserializeSelectedMoveMessage(){
         Gson gson = new Gson();
         return gson.fromJson(this.serializedPayload, SelectedMoveMessage.class);
+    }
+
+    public void buildInvalidMoveMessage(GenericErrorMessage payload){
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.ERROR;
+        this.secondLevelHeader = SecondHeaderType.INVALID_MOVE;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public GenericErrorMessage deserializeInvalidMoveMessage(){
+        Gson gson = new Gson();
+        return gson.fromJson(this.serializedPayload, GenericErrorMessage.class);
+    }
+
+    public void buildAskBuildSelectionMessage(AskBuildSelectionMessage payload){
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.ASK;
+        this.secondLevelHeader = SecondHeaderType.SELECT_CELL_BUILD;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public AskBuildSelectionMessage deserializeAskBuildSelectionMessage(){
+        Gson gson = new Gson();
+        return gson.fromJson(this.serializedPayload, AskBuildSelectionMessage.class);
+    }
+
+    public void buildSelectedBuildingMessage(SelectedBuildingMessage payload){
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.DO;
+        this.secondLevelHeader = SecondHeaderType.SELECT_CELL_BUILD;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public SelectedBuildingMessage deserializeSelectedBuildingMessage(){
+        Gson gson = new Gson();
+        return gson.fromJson(this.serializedPayload, SelectedBuildingMessage.class);
+    }
+
+    public void buildInvalidBuildingMessage(GenericErrorMessage payload){
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.ERROR;
+        this.secondLevelHeader = SecondHeaderType.INVALID_BUILDING;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public GenericErrorMessage deserializeInvalidBuildingMessage(){
+        Gson gson = new Gson();
+        return gson.fromJson(this.serializedPayload, GenericErrorMessage.class);
+    }
+
+    public void buildEndMatchMessage(EndMatchMessage payload) {
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.LOADING;
+        this.secondLevelHeader = SecondHeaderType.END_MATCH;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public EndMatchMessage deserializeEndMatchMessage(){
+        Gson gson = new Gson();
+        return gson.fromJson(this.serializedPayload, EndMatchMessage.class);
     }
 
 

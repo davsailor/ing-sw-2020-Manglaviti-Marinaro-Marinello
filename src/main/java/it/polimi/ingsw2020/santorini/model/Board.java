@@ -43,7 +43,8 @@ public class Board {
 
     /**
      * it build a matrix of 9 elements that shows the cells with status equals to target
-     * in particular te cell value will be 0 if the corresponding status's cell doesn't match target
+     * in particular te cell value will be
+     * 0 if the corresponding status's cell doesn't match target
      * 1 if they matches and the cell(intX, intY).getLevel is equal to the one's neighboring cells have
      * 2 if they matches and the cell(intX, intY).getLevel.getHeight is inferior by 1 to the one's neighboring cells have
      * 3 if they matches and the cell(intX, intY).getLevel.getHeight is bigger by 2 to the one's neighboring cells have

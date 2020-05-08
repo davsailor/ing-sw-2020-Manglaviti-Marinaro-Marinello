@@ -1,5 +1,6 @@
 package it.polimi.ingsw2020.santorini.model.gods;
 
+import it.polimi.ingsw2020.santorini.controller.TurnLogic;
 import it.polimi.ingsw2020.santorini.exceptions.InvalidParametersException;
 import it.polimi.ingsw2020.santorini.model.*;
 import it.polimi.ingsw2020.santorini.utils.Message;
@@ -21,15 +22,18 @@ public class Apollo extends GodCard {
 
 
     @Override
-    public void invokeGod(Match match, Player invoker, Message message) throws InvalidParametersException {
+    public void invokeGod(Match match, Player invoker, Message message, TurnLogic turnManager) throws InvalidParametersException {
         ApolloParamMessage param = message.deserializeApolloParamMessage(message.getSerializedPayload());
-        checkParam(param);
+        checkParam(param, match);
         System.out.println("potere di " + name + " attivato");
     }
 
-    private void checkParam(ApolloParamMessage param) throws InvalidParametersException {
+    private void checkParam(ApolloParamMessage param, Match match) throws InvalidParametersException {
+        StringBuilder errorBuilder = new StringBuilder();
+        String error = null;
+        boolean toThrow = false;
         // controlli: se i controlli non vanno a buon fine:
-        throw new InvalidParametersException();
+        if (toThrow) throw new InvalidParametersException(error);
     }
 
     public static String toStringEffect(GodCard card) {

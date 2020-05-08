@@ -7,6 +7,7 @@ public enum SecondHeaderType {
     LOGIN,
     MATCH,
     PLAYER_SELECTION,
+    END_MATCH,
 
     // riferiti a SYNCHRONIZATION
     BEGIN_MATCH,
@@ -18,6 +19,8 @@ public enum SecondHeaderType {
     USERNAME_ERROR,
     INVALID_CELL_SELECTION,
     INVALID_PARAMETERS,
+    INVALID_MOVE,
+    INVALID_BUILDING,
 
     // riferiti a ASK
 

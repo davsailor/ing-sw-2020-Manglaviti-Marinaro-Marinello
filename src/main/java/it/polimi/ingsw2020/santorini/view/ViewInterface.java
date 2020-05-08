@@ -3,6 +3,7 @@ package it.polimi.ingsw2020.santorini.view;
 import it.polimi.ingsw2020.santorini.model.Cell;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.ActivationRequestInfoMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.actions.AskBuildSelectionMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.AskMoveSelectionMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchSetupMessage;
@@ -57,11 +58,11 @@ public interface ViewInterface {
 
     void displaySP(UpdateMessage updateMessage, PhaseType phase);
 
-    void displayMoveSelection(UpdateMessage updateMessage);
+    void displayMoveUpdate(UpdateMessage updateMessage);
 
-    void displayBuildSelection(UpdateMessage updateMessage);
+    void displayBuildUpdate(UpdateMessage updateMessage);
 
-    void displayParametersSelection(ActivationRequestInfoMessage message);
+    void displayParametersSelection(String god);
 
     void displayChooseBuilder(TurnPlayerMessage message);
 
@@ -81,12 +82,13 @@ public interface ViewInterface {
     /**
      * metodo che mostra all'utente le possibili costruzioni che il builder mosso può fare
      */
-    void displayPossibleBuildings();
+    void displayPossibleBuildings(AskBuildSelectionMessage message);
 
     /**
      * metodo che mostra vincitori e vinti. conclude la partita con epic sax guy
+     * @param winner
      */
-    void displayEndMatch();
+    void displayEndMatch(String winner);
 
     /**
      * metodo che mostra all'utente possibili errori che sono capitati

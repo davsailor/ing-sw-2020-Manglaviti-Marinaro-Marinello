@@ -16,7 +16,6 @@ public class Player {
     private Builder builderM;
     private Builder playingBuilder;
     private Boolean riseActions;
-    private Boolean buildActions;
     private Boolean moveActions;
 
     //METODI        ->GETTER e SETTER<-
@@ -77,14 +76,6 @@ public class Player {
         this.riseActions = riseActions;
     }
 
-    public Boolean getBuildActions() {
-        return buildActions;
-    }
-
-    public void setBuildActions(Boolean buildActions) {
-        this.buildActions = buildActions;
-    }
-
     public Boolean getMoveActions() {
         return moveActions;
     }
@@ -107,7 +98,6 @@ public class Player {
         this.builderM =null;
         riseActions=true;
         moveActions=true;
-        buildActions=true;
     }
 
     public void tostring(){}
@@ -126,6 +116,14 @@ public class Player {
 
     public void setBuilderM(Builder builderM) {
         this.builderM = builderM;
+    }
+
+    public boolean canMove(){
+        return builderF.canMove() || builderM.canMove();
+    }
+
+    public boolean canBuild(){
+        return builderF.canBuild() || builderM.canBuild();
     }
 
     // public String chooseBuilder(Builder[] Builders){ }

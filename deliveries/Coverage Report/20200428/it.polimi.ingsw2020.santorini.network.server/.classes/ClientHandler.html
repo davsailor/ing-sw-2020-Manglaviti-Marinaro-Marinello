@@ -103,7 +103,7 @@
 <i>3</i>&nbsp;import it.polimi.ingsw2020.santorini.exceptions.*;
 <i>4</i>&nbsp;import it.polimi.ingsw2020.santorini.model.Player;
 <i>5</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.Message;
-<i>6</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.errors.UsernameErrorMessage;
+<i>6</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.errors.GenericErrorMessage;
 <i>7</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.CorrectLoginMessage;
 <i>8</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.LoginMessage;
 <i>9</i>&nbsp;
@@ -151,9 +151,9 @@
 <i>51</i>&nbsp;                try{
 <b class="nc"><i>52</i>&nbsp;                    loginHandler(mes);</b>
 <b class="nc"><i>53</i>&nbsp;                } catch (UnavailableUsernameException e){</b>
-<i>54</i>&nbsp;                    // username è messo a null perchè non serve specificarlo, visto che qui siamo nella zona di
+<i>54</i>&nbsp;                    // username ï¿½ messo a null perchï¿½ non serve specificarlo, visto che qui siamo nella zona di
 <i>55</i>&nbsp;                    // competenza dell&#39;interfaccia legata a quel client
-<i>56</i>&nbsp;                    // questa è già una prima barriera prima di accedere alla virtualview
+<i>56</i>&nbsp;                    // questa ï¿½ giï¿½ una prima barriera prima di accedere alla virtualview
 <b class="nc"><i>57</i>&nbsp;                    Message error = new Message(null);</b>
 <b class="nc"><i>58</i>&nbsp;                    error.buildUsernameErrorMessage(new UsernameErrorMessage(&quot;Your Username is not available!&quot;));</b>
 <b class="nc"><i>59</i>&nbsp;                    owner.send(error);</b>
@@ -170,9 +170,9 @@
 <i>70</i>&nbsp;        } else {
 <b class="nc"><i>71</i>&nbsp;            Player player = new Player(message.getUsername(), message.getBirthDate());</b>
 <b class="nc"><i>72</i>&nbsp;            owner.setUsername(message.getUsername());</b>
-<i>73</i>&nbsp;            // username è messo a null perchè non serve specificarlo, visto che qui siamo nella zona di
+<i>73</i>&nbsp;            // username ï¿½ messo a null perchï¿½ non serve specificarlo, visto che qui siamo nella zona di
 <i>74</i>&nbsp;            // competenza dell&#39;interfaccia legata a quel client
-<i>75</i>&nbsp;            // questa è già una prima barriera prima di accedere alla virtualview
+<i>75</i>&nbsp;            // questa ï¿½ giï¿½ una prima barriera prima di accedere alla virtualview
 <b class="nc"><i>76</i>&nbsp;            Message correct = new Message(null);</b>
 <b class="nc"><i>77</i>&nbsp;            correct.buildCorrectLoginMessage(new CorrectLoginMessage());</b>
 <b class="nc"><i>78</i>&nbsp;            owner.send(correct);</b>

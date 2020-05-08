@@ -89,6 +89,18 @@ public class Server {
         return virtualClients;
     }
 
+    public HashMap<Integer, GameLogic> getControllers() {
+        return controllers;
+    }
+
+    public HashMap<Integer, VirtualView> getVirtualViews() {
+        return virtualViews;
+    }
+
+    public HashMap<String, Integer> getPlayerInMatch() {
+        return playerInMatch;
+    }
+
     synchronized public void addPlayerInMatch(String username, Integer id){
         playerInMatch.put(username, id);
     }

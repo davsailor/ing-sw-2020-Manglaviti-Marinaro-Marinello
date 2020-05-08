@@ -6,10 +6,7 @@ import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.network.client.ServerAdapter;
 import it.polimi.ingsw2020.santorini.network.client.ViewAdapter;
 import it.polimi.ingsw2020.santorini.utils.*;
-import it.polimi.ingsw2020.santorini.utils.messages.actions.ActivateGodMessage;
-import it.polimi.ingsw2020.santorini.utils.messages.actions.ActivationRequestInfoMessage;
-import it.polimi.ingsw2020.santorini.utils.messages.actions.AskMoveSelectionMessage;
-import it.polimi.ingsw2020.santorini.utils.messages.actions.SelectedBuilderMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.actions.*;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.SelectedBuilderPositionMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.*;
@@ -123,7 +120,6 @@ public class CLI implements ViewInterface{
 
     /**
      * metodo addetto alla selezione dei builder secondo l'ordine definito dal controller
-     *
      * @param turnPlayerMessage
      */
     @Override
@@ -222,13 +218,13 @@ public class CLI implements ViewInterface{
                 displaySP(updateMessage, PhaseType.STANDBY_PHASE_1);
                 break;
             case MOVE_PHASE:
-                displayMoveSelection(updateMessage);
+                displayMoveUpdate(updateMessage);
                 break;
             case STANDBY_PHASE_2:
                 displaySP(updateMessage, PhaseType.STANDBY_PHASE_2);
                 break;
             case BUILD_PHASE:
-                displayBuildSelection(updateMessage);
+                displayBuildUpdate(updateMessage);
                 break;
             case STANDBY_PHASE_3:
                 displaySP(updateMessage, PhaseType.STANDBY_PHASE_3);
@@ -272,19 +268,27 @@ public class CLI implements ViewInterface{
     }
 
     @Override
-    public void displayMoveSelection(UpdateMessage updateMessage) {
+    public void displayMoveUpdate(UpdateMessage updateMessage) {
+        // si dice cosa è successo, e si mostra la board. oppure si mostra solo la board
+        Message nextPhase = new Message(client.getUsername());
+        nextPhase.buildNextPhaseMessage(new NextPhaseMessage(client.getUsername(), null));
+        client.getNetworkHandler().send(nextPhase);
     }
 
     @Override
-    public void displayBuildSelection(UpdateMessage updateMessage) {
+    public void displayBuildUpdate(UpdateMessage updateMessage) {
+        // si dice cosa è successo, e si mostra la board. oppure si mostra solo la board
+        Message nextPhase = new Message(client.getUsername());
+        nextPhase.buildNextPhaseMessage(new NextPhaseMessage(client.getUsername(), null));
+        client.getNetworkHandler().send(nextPhase);
     }
 
     //TODO: USARE IL NUOVO METODO STATIC DI BOARD PER RESTRINGERE IL CAMPO DELLE SCELTE DELLE MOSSE O DELLE COSTRUZIONI
     @Override
-    public void displayParametersSelection(ActivationRequestInfoMessage message) {
+    public void displayParametersSelection(String god) {
         Message answer = new Message(client.getUsername());
-        System.out.println(message.getGod() + " è qui ad aiutarti!");
-        switch(message.getGod()){
+        System.out.println(god + " è qui ad aiutarti!");
+        switch(god){
             case "Apollo":
                 ApolloParamMessage apolloParamMessage = new ApolloParamMessage();
                 int[] yourBuilder = new int[2];
@@ -454,6 +458,20 @@ public class CLI implements ViewInterface{
                 message.buildActivateGodMessage(new ActivateGodMessage(false));
             client.getNetworkHandler().send(message);
         }
+
+        /*
+        String choice = scannerIn.nextLine();
+        choice = choice.toUpperCase();
+        boolean wrong = false;
+        do {
+            if (choice.equals("M"))
+                answer.buildSelectedBuilderMessage(new SelectedBuilderMessage('M'));
+            else if (choice.equals("F"))
+                answer.buildSelectedBuilderMessage(new SelectedBuilderMessage('F'));
+            else
+                wrong = true;
+        } while(wrong);
+         */
         // creiamo un message DO - ACTIVATE_GOD in ogni caso
         // il payload avrà un boolean che rispecchierà la scelta del giocatore
         // in questo modo standardizziamo il pattern della comunicazione
@@ -465,7 +483,11 @@ public class CLI implements ViewInterface{
      */
     @Override
     public void displayPossibleMoves(AskMoveSelectionMessage message) {
-        // display delle possible moves per restringere il campo d'azione
+        Direction direction = Direction.EAST;
+        Message moveSelection = new Message(client.getUsername());
+        moveSelection.buildSelectedMoveMessage(new SelectedMoveMessage(direction));
+        client.getNetworkHandler().send(moveSelection);
+        // display delle possible moves per restringere il campo d'azione -> vedi canMove
         // conversione della direzione
         // creazione del messaggio di selezione
         // invio del messaggio al server
@@ -476,17 +498,25 @@ public class CLI implements ViewInterface{
      * metodo che mostra all'utente le possibili costruzioni che il builder mosso può fare
      */
     @Override
-    public void displayPossibleBuildings() {
-
+    public void displayPossibleBuildings(AskBuildSelectionMessage message) {
+        Direction direction = Direction.EAST;
+        Message buildSelection = new Message(client.getUsername());
+        buildSelection.buildSelectedBuildingMessage(new SelectedBuildingMessage(direction));
+        client.getNetworkHandler().send(buildSelection);
+        // display delle possible buildings per restringere il campo d'azione -> vedi canBuild
+        // conversione della direzione
+        // creazione del messaggio di selezione
+        // invio del messaggio al server
     }
 
     /**
      * method that shows winner and losers. It then close the match
      * metodo che mostra vincitori e vinti. conclude la partita con epic sax guy
+     * @param winner
      */
     @Override
-    public void displayEndMatch() {
-
+    public void displayEndMatch(String winner) {
+        System.out.println("AND THE WINNER IS... " + winner);
     }
 
     /**

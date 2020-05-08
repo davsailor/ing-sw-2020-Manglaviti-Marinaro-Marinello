@@ -133,13 +133,31 @@ public class Builder {
         return possibleMoves;
     }
 
+    public boolean canMove(){
+        setPossibleMoves();
+        for(int i = 0; i < 3; ++i)
+            for(int j = 0; j < 3; ++j)
+                if(possibleMoves[i][j] == 1 && player.getMoveActions()) return true;
+                else if(possibleMoves[i][j] == 2 && player.getRiseActions()) return true;
+                else if(possibleMoves[i][j] == 3 && player.getMoveActions() && !(!player.getMoveActions() && player.getRiseActions())) return true;
+        return false;
+    }
+
+    public boolean canBuild(){
+        setPossibleBuildings();
+        for(int i = 0; i < 3; ++i)
+            for(int j = 0; j < 3; ++j)
+                if(possibleBuildings[i][j] < 3) return true;
+        return false;
+    }
+
     /**
      *
      * @param direction is the direction in which the player wants to move
      */
 
     public void move(Direction direction) throws IllegalMovementException {
-        if(direction == null) throw new IllegalMovementException();
+        if(direction == null) throw new IllegalMovementException("Something went wrong with your choice, please select another movement");
         switch (direction) {
             case NORTH_WEST:
                 this.posX=posX-1;
@@ -185,9 +203,12 @@ public class Builder {
                 setPossibleMoves();
                 possibleMoves[0][0]=4;
                 break;
-            default:
-                throw new IllegalMovementException();
         }
+        // aggiornare la board:
+        // mettere a null il puntatore nella vecchia cella (questo prima di aggiornare posX e posY) dopo IF
+        // mettere il builder nella nuova posizione
+        // aggiornare lo stato delle celle
+        board.getBoard()[posX][posY].setBuilder(this);
     }
 
     public void setPossibleBuildings() {
@@ -241,7 +262,7 @@ public class Builder {
                 buildPosY = this.posY + 1;
                 break;
             default:
-                throw new IllegalConstructionException();
+                throw new IllegalConstructionException("Your direction does not exist!");
         }
         switch (possibleBuildings[buildPosX - this.posX + 1][buildPosY - this.posY + 1]) {
             case 0:
@@ -259,7 +280,7 @@ public class Builder {
             case -2:
                 break;
             default:
-                throw new IllegalConstructionException();
+                throw new IllegalConstructionException("Something went wrong while building, please select another one");
         }
         this.buildPosX = buildPosX;
         this.buildPosY = buildPosY;

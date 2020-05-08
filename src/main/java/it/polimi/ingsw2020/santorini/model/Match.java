@@ -1,8 +1,9 @@
 package it.polimi.ingsw2020.santorini.model;
 
+import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
+import it.polimi.ingsw2020.santorini.model.gods.Apollo;
 import it.polimi.ingsw2020.santorini.network.server.VirtualView;
 import it.polimi.ingsw2020.santorini.utils.Message;
-import it.polimi.ingsw2020.santorini.utils.PhaseType;
 import it.polimi.ingsw2020.santorini.utils.Color;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchSetupMessage;
 
@@ -13,21 +14,20 @@ import java.util.Observable;
 
 public class Match extends Observable {
     private final int matchID;
-    private Player[] players;
+    private ArrayList<Player> players;
     private int currentPlayerIndex;
     private final int numberOfPlayers;
-    private int eliminatedPlayer;
+    private ArrayList<Player> eliminatedPlayers;
     private Board board;
     private int numberOfCompletedTowers;
     private int turnNumber;
-    private PhaseType turnPhase;
 
     public Match (Board board, int numberOfPlayers, VirtualView view) {
         this.matchID = view.getServer().generateMatchID();
-        this.players = new Player[numberOfPlayers];
+        this.players = new ArrayList<>();
         this.numberOfPlayers = numberOfPlayers;
         this.currentPlayerIndex = 0;
-        this.eliminatedPlayer = -1;
+        this.eliminatedPlayers = new ArrayList<>();
         this.board = board;
         this.numberOfCompletedTowers = 0;
         this.turnNumber = 0;
@@ -39,7 +39,7 @@ public class Match extends Observable {
      * @return value of the attribute currentPlayer
      */
     public Player getCurrentPlayer(){
-        return (this.players[this.currentPlayerIndex]);
+        return (this.players.get(currentPlayerIndex));
     }
 
     /**
@@ -52,9 +52,13 @@ public class Match extends Observable {
 
     public Player getPlayerByName(String username){
         for(int i = 0; i < numberOfPlayers; ++i){
-            if(players[i].getNickname().equals(username)) return players[i];
+            if(players.get(i).getNickname().equals(username)) return players.get(i);
         }
         return null;
+    }
+
+    public ArrayList<Player> getEliminatedPlayers() {
+        return eliminatedPlayers;
     }
 
     /**
@@ -90,16 +94,9 @@ public class Match extends Observable {
      * setter of the attribute eliminatedPlayer
      * @param eliminatedPlayer will be the int value of this attribute
      */
-    public void setEliminatedPlayer(int eliminatedPlayer){
-        this.eliminatedPlayer = eliminatedPlayer;
-    }
-
-    /**
-     * getter of the attribute eliminatedPlayer
-     * @return the int value that represent the index of the player array
-     */
-    public int getEliminatedPlayer (){
-        return(this.eliminatedPlayer);
+    public void setEliminatedPlayer(int eliminatedPlayer) throws EndMatchException{
+        eliminatedPlayers.add(players.get(eliminatedPlayer));
+        if(eliminatedPlayers.size() == numberOfPlayers - 1) throw new EndMatchException(this);
     }
 
     public void setNumberOfCompletedTowers(int numberOfCompletedTowers) {
@@ -107,9 +104,9 @@ public class Match extends Observable {
     }
 
     public Player[] getPlayers() {
-        Player[] playerCpy = new Player[players.length];
-        for(int i = 0; i < players.length; ++i)
-            playerCpy[i] = players[i];
+        Player[] playerCpy = new Player[players.size()];
+        for(int i = 0; i < players.size(); ++i)
+            playerCpy[i] = players.get(i);
         return playerCpy;
     }
 
@@ -117,9 +114,9 @@ public class Match extends Observable {
         ArrayList<Message> listOfMessages = new ArrayList<>();
         this.getBoard().getGodCards().shuffleDeck();
         for(int i = 0; i < this.getNumberOfPlayers(); ++i){
-            this.players[i] = players[i];
-            this.players[i].setDivinePower(this.getBoard().getGodCards().giveCard());
-            this.players[i].setColor(Color.getColor(i));
+            this.players.add(players[i]);
+            this.players.get(i).setDivinePower(this.getBoard().getGodCards().giveCard());
+            this.players.get(i).setColor(Color.getColor(i));
             listOfMessages.add((new Message(players[i].getNickname())));
         }
         for(int i = 0; i < this.getNumberOfPlayers(); ++i){

@@ -90,19 +90,6 @@ public class MatchTest {
     }
 
     @Test
-    public void testSetEliminatedPlayer() {
-        Match match = new Match(board, 2, view);
-        match.setEliminatedPlayer(0);
-        assertEquals(0, match.getEliminatedPlayer());
-    }
-
-    @Test
-    public void testGetEliminatedPlayer() {
-        Match match = new Match(board, 2, view);
-        assertEquals(-1, match.getEliminatedPlayer());
-    }
-
-    @Test
     public void testSetNumberOfCompletedTowers() {
         Match match = new Match(board, 2, view);
         match.setNumberOfCompletedTowers(5);

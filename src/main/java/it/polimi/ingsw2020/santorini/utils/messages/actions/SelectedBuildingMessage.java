@@ -2,10 +2,10 @@ package it.polimi.ingsw2020.santorini.utils.messages.actions;
 
 import it.polimi.ingsw2020.santorini.utils.Direction;
 
-public class SelectedMoveMessage {
+public class SelectedBuildingMessage {
     private Direction direction;
 
-    public SelectedMoveMessage(Direction dir) {
+    public SelectedBuildingMessage(Direction dir) {
         this.direction = dir;
         /* due possibilità:
             la prima è far inserire le coordinate della cella in possibleMoves e poi ricavare la direzione

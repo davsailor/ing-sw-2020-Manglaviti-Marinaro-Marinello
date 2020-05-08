@@ -117,13 +117,6 @@ public class PlayerTest {
     }
 
     @Test
-    public void testSetAndGetBuildActions() {
-        assertTrue(player.getBuildActions());
-        player.setBuildActions(false);
-        assertFalse(player.getBuildActions());
-    }
-
-    @Test
     public void testSetAndGetPlayingBuilder() {
         assertNull(player.getPlayingBuilder());
         player.setBuilderF(new Builder(player, 'M',null, null));
