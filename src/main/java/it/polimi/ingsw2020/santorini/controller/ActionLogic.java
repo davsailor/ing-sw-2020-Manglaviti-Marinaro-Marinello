@@ -25,10 +25,21 @@ public class ActionLogic {
         this.turnManager = turnManager;
     }
 
+    /**
+     * Getter of the attribute turnManager
+     * @return the attribute turnManager
+     */
     public TurnLogic getTurnManager() {
         return turnManager;
     }
 
+    /**
+     * The method invokes the power of the player’s god
+     * @param match is the match that the controller is controlling
+     * @param caller is the username of the player invoking the god
+     * @param message is the match which asks to invoke the god
+     * @return an Array List of Message which contains messages to notify the use of the god
+     */
     public ArrayList<Message> invocation(Match match, String caller, Message message) {
         ArrayList<Message> listToSend = new ArrayList<>();
         GodCard god = match.getPlayerByName(caller).getDivinePower();
@@ -51,6 +62,13 @@ public class ActionLogic {
         return listToSend;
     }
 
+    /**
+     * The method handles the movement of the builder
+     * @param match is the reference of the match controlled by the controller
+     * @param caller is the username of the player that required the move
+     * @param message contains the direction of the movement
+     * @return the ArrayList created contains the message for the next phases of the turn
+     */
     public ArrayList<Message> move(Match match, String caller, SelectedMoveMessage message) {
         ArrayList<Message> listToSend = new ArrayList<>();
         try {
@@ -68,6 +86,13 @@ public class ActionLogic {
         return listToSend;
     }
 
+    /**
+     * The method handles the construction of the blocks
+     * @param match is the reference of the match controlled by the controller
+     * @param caller is the username of the player that required the move
+     * @param message contains the direction of construction
+     * @return the ArrayList created contains the message for the next phases of the turn
+     */
     public ArrayList<Message> build(Match match, String caller, SelectedBuildingMessage message) {
         ArrayList<Message> listToSend = new ArrayList<>();
         try {

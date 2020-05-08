@@ -38,14 +38,27 @@ public class GameLogic implements Observer {
         this.match = null;
     }
 
+    /**
+     * Setter of view Attribute
+     * @param view that has to be set
+     */
     public void setView(VirtualView view) {
         this.view = view;
     }
 
+    /**
+     * Getter of the server attribute
+     * @return the attribute server
+     */
     public Server getServer() {
         return server;
     }
 
+    /**
+     * The method initialize matches that have the required number of players. The matches created will have a reference to their relatives VirtualView
+     * @param view is the reference of GameLogic's VirtualView that will be the match VirtualView
+     * @param numberOfPlayers is the number of player that will take part to the match
+     */
     public void initializeMatch(VirtualView view, int numberOfPlayers) {
         System.out.printf("creo il match da %d\n", numberOfPlayers);
         setView(view);
@@ -61,6 +74,10 @@ public class GameLogic implements Observer {
         match.initialize(list);
     }
 
+    /**
+     * THe method will order the list of players based on their birth date
+     * @param list is the reference to the list of players that has to be ordered by the method
+     */
     private void bubbleSort(Player[] list){
         boolean ended = false;
         Player temp;
@@ -80,6 +97,11 @@ public class GameLogic implements Observer {
         }
     }
 
+    /**
+     * The method receives messages from the VirtualView and distributes them by their First Header
+     * @param view is the view observed by the controller
+     * @param mes is the message that has been received, is received has an Object.
+     */
     @Override
     public void update(Observable view, Object mes) {
         Message message = (Message) mes;
@@ -117,6 +139,10 @@ public class GameLogic implements Observer {
         }
     }
 
+    /**
+     * The method handles all the messages that have DO as First Header, messages that in fact represents an action specified by the Second Header
+     * @param message is the message that has to be handled by the method
+     */
     public void doHandler(Message message) throws EndMatchException{
         //System.out.println(message.getUsername() + message.getFirstLevelHeader() + message.getSecondLevelHeader());
         switch(message.getSecondLevelHeader()){
@@ -148,6 +174,10 @@ public class GameLogic implements Observer {
         }
     }
 
+    /**
+     * The method handles messages that have SYNCHRONIZATION as First Header, messages that are used to start and setup the match
+     * @param message is the message that has to be handled by the method
+     */
     synchronized public void synchronizationHandler(Message message){
         switch(message.getSecondLevelHeader()){
             case BEGIN_MATCH:
@@ -172,6 +202,11 @@ public class GameLogic implements Observer {
         }
     }
 
+    /**
+     * the method handles messages that have VERIFY as First Header by their Second Header
+     * CORRECT_SELECTION_POS: messages that are used to verify if the player selected correct position for his builder during Setup
+     * @param message the message that has to be handled
+     */
     public void validationHandler(Message message) throws EndMatchException {
         switch(message.getSecondLevelHeader()){
             case CORRECT_SELECTION_POS:
