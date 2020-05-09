@@ -6,23 +6,17 @@ import it.polimi.ingsw2020.santorini.model.Match;
 import it.polimi.ingsw2020.santorini.utils.ActionType;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
-import it.polimi.ingsw2020.santorini.utils.messages.actions.ActivateGodMessage;
-import it.polimi.ingsw2020.santorini.utils.messages.actions.AskBuildSelectionMessage;
-import it.polimi.ingsw2020.santorini.utils.messages.actions.AskMoveSelectionMessage;
-import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.TurnPlayerMessage;
-import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.UpdateMessage;
-import it.polimi.ingsw2020.santorini.utils.messages.actions.ActivationRequestInfoMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.actions.*;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.*;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
-
-import static it.polimi.ingsw2020.santorini.utils.ActionType.*;
 
 public class TurnLogic {
     /**
      * quello che gestisce le fasi del turno e le transizioni di esso
      * uno dei suoi attributi sarà ActionLogic, da cui si andrà a gestire le azioni
-     *
+     * <p>
      * 1) controllo sull'attivabilità del potere
      * 2) seleziono il builder -> risposta è show possible moves
      * 3) seleziono la cella -> risposta è move
@@ -45,15 +39,6 @@ public class TurnLogic {
     }
 
     /**
-     * The method resets the remainingActions, refilling it
-     */
-    public void reset(){
-        phase = PhaseType.START_TURN;
-        remainingActions.clear();
-        remainingActions = EnumSet.complementOf(remainingActions);
-    }
-
-    /**
      * Getter of the attribute remainingActions
      * @return the attribute remainingActions
      */
@@ -70,38 +55,12 @@ public class TurnLogic {
     }
 
     /**
-     * The method manages the various Phases of the match calling the respective Manager for each PhaseType
-     * @param match is the reference to the match controlled by the controller
-     * @param caller is the username of the players which is playing this turn
+     * The method resets the remainingActions, refilling it
      */
-    public void handlePhases(Match match, String caller) throws EndMatchException {
-        switch (phase){
-            case START_TURN:
-                startTurnManager(match);
-                break;
-            case STANDBY_PHASE_1:
-                if(match.getCurrentPlayer().canMove()) standByPhaseManager(match, caller, PhaseType.STANDBY_PHASE_1);
-                else match.setEliminatedPlayer(match.getCurrentPlayerIndex());
-                break;
-            case MOVE_PHASE:
-                moveManager(match, caller);
-                break;
-            case STANDBY_PHASE_2:
-                if(match.getCurrentPlayer().canBuild()) standByPhaseManager(match, caller, PhaseType.STANDBY_PHASE_2);
-                else match.setEliminatedPlayer(match.getCurrentPlayerIndex());
-                break;
-            case BUILD_PHASE:
-                buildManager(match, caller);
-                break;
-            case STANDBY_PHASE_3:
-                standByPhaseManager(match, caller, PhaseType.STANDBY_PHASE_3);
-                break;
-            case END_TURN:
-                endTurnManager(match);
-                break;
-            default:
-                break;
-        }
+    public void reset() {
+        phase = PhaseType.START_TURN;
+        remainingActions.clear();
+        remainingActions = EnumSet.complementOf(remainingActions);
     }
 
     /**
@@ -134,50 +93,72 @@ public class TurnLogic {
     }
 
     /**
-     * The method filters requests from actions that will be managed by ActionLogic
-     * @param action is the type of action that the method will handle
+     * The method manages the various Phases of the match calling the respective Manager for each PhaseType
      * @param match is the reference to the match controlled by the controller
-     * @param caller is the username of the players which is playing this turn
-     * @param message is the message that will be deserialized by the method to extrapolate information needed to handle the actions
+     *
      */
-    // filtro tra le richieste e le azioni vere e proprie che eseguirà action logic
-    public void requestManager(ActionType action, Match match, String caller, Message message) throws EndMatchException{
+    public void handlePhases(Match match) throws EndMatchException {
+        switch (phase){
+            case START_TURN:
+                startTurnManager(match);
+                break;
+            case STANDBY_PHASE_1:
+                if(match.getCurrentPlayer().canMove()) standByPhaseManager(match, PhaseType.STANDBY_PHASE_1);
+                else match.setEliminatedPlayer(match.getCurrentPlayerIndex());
+                break;
+            case MOVE_PHASE:
+                moveManager(match);
+                break;
+            case STANDBY_PHASE_2:
+                if(match.getCurrentPlayer().canBuild()) standByPhaseManager(match, PhaseType.STANDBY_PHASE_2);
+                else match.setEliminatedPlayer(match.getCurrentPlayerIndex());
+                break;
+            case BUILD_PHASE:
+                buildManager(match);
+                break;
+            case STANDBY_PHASE_3:
+                standByPhaseManager(match, PhaseType.STANDBY_PHASE_3);
+                break;
+            case END_TURN:
+                endTurnManager(match);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void requestManager(ActionType action, Match match, Message message) throws EndMatchException{
+        System.out.println("REQUEST MANAGER: " + action);
         switch(action) {
             case ACTIVATE_GOD:
                 ActivateGodMessage activateGod = message.deserializeActivateGodMessage(message.getSerializedPayload());
-                remainingActions.remove(ACTIVATE_GOD);
-                if(activateGod.isWantToActivate()) handlePhases(match, caller);
+                remainingActions.remove(ActionType.ACTIVATE_GOD);
+                if(activateGod.isWantToActivate()) handlePhases(match);
                 else{
-                    remainingActions.remove(SELECT_PARAMETERS);
-                    remainingActions.remove(USE_POWER);
+                    remainingActions.remove(ActionType.SELECT_PARAMETERS);
+                    remainingActions.remove(ActionType.USE_POWER);
                     nextPhase();
+                    handlePhases(match);
                 }
-            case SELECT_PARAMETERS:
-                requestManager(ActionType.USE_POWER, match, caller, message);
-                remainingActions.remove(SELECT_PARAMETERS);
                 break;
             case USE_POWER:
-                ArrayList<Message> afterActivation = actionManager.invocation(match, caller, message);
-                remainingActions.remove(USE_POWER);
+                ArrayList<Message> afterActivation = actionManager.invocation(match, message);
+                remainingActions.remove(ActionType.SELECT_PARAMETERS);
+                remainingActions.remove(ActionType.USE_POWER);
+                nextPhase(); // da rimuovere quando verranno implementati i poteri delle divinità -> ci penserà standbyphase manager a controllare se il potere non ha ulteriori effetti e quindi passare alla fase successiva
                 match.notifyView(afterActivation);
                 break;
-            case SELECT_CELL_MOVE:
-                requestManager(ActionType.MOVE, match, caller, message);
-                break;
             case MOVE:
-                ArrayList<Message> afterMove = actionManager.move(match, caller, message.deserializeSelectedMoveMessage());
-                remainingActions.remove(SELECT_CELL_MOVE);
-                remainingActions.remove(MOVE);
+                ArrayList<Message> afterMove = actionManager.move(match, message.deserializeSelectedMoveMessage());
+                remainingActions.remove(ActionType.SELECT_CELL_MOVE);
+                remainingActions.remove(ActionType.MOVE);
                 nextPhase();
                 match.notifyView(afterMove);
                 break;
-            case SELECT_CELL_BUILD:
-                requestManager(ActionType.BUILD, match, caller, message);
-                break;
             case BUILD:
-                ArrayList<Message> afterBuild = actionManager.build(match, caller, message.deserializeSelectedBuildingMessage());
-                remainingActions.remove(SELECT_CELL_BUILD);
-                remainingActions.remove(BUILD);
+                ArrayList<Message> afterBuild = actionManager.build(match, message.deserializeSelectedBuildingMessage());
+                remainingActions.remove(ActionType.SELECT_CELL_BUILD);
+                remainingActions.remove(ActionType.BUILD);
                 nextPhase();
                 match.notifyView(afterBuild);
                 break;
@@ -191,14 +172,15 @@ public class TurnLogic {
      * @param match is the reference to the match controlled by the controller
      */
     private void startTurnManager(Match match) {
+        System.out.println("START TURN MANAGER");
         ArrayList<Message> listOfUpdateMessages = new ArrayList<>();
         match.getCurrentPlayer().setPlayingBuilder(null);
         for (int i = 0; i < match.getNumberOfPlayers(); ++i) {
             listOfUpdateMessages.add(new Message(match.getPlayers()[i].getNickname()));
             listOfUpdateMessages.get(i).buildUpdateMessage(new UpdateMessage(match, this.phase));
         }
-        nextPhase();
         match.notifyView(listOfUpdateMessages);
+        nextPhase();
     }
 
     /**
@@ -206,52 +188,53 @@ public class TurnLogic {
      * can be activated by the player if it is not mandatory, in the other case it will be activated automatically if his
      * activation requirements are fulfilled
      * @param match is the reference to the match controlled by the controller
-     * @param caller is the username of the players which is playing this turn
      * @param phase is the Phase that would be handled.
      */
-    private void standByPhaseManager(Match match, String caller, PhaseType phase) throws EndMatchException{
+    private void standByPhaseManager(Match match, PhaseType phase) throws EndMatchException{
         // controllo se il potere divino è attivabile
-        GodCard god = match.getPlayerByName(caller).getDivinePower();
+        System.out.printf("STANDBY PHASE MANAGER: ");
+        GodCard god = match.getCurrentPlayer().getDivinePower();
         if(god.getTiming() == phase){ // && (god.canActivate() || !remainingActions.contains(ACTIVATE_GOD))
-            if (remainingActions.contains(ACTIVATE_GOD)) {
+            if (remainingActions.contains(ActionType.ACTIVATE_GOD)) {
+                System.out.printf("ACTIVATE GOD\n");
                 if (god.isMandatory()) {
-                    remainingActions.remove(ACTIVATE_GOD);
-                    remainingActions.remove(SELECT_PARAMETERS);
-                    remainingActions.remove(USE_POWER);
-                    requestManager(USE_POWER, match, caller, null);
-                    nextPhase();
+                    remainingActions.remove(ActionType.ACTIVATE_GOD);
+                    remainingActions.remove(ActionType.SELECT_PARAMETERS);
+                    remainingActions.remove(ActionType.USE_POWER);
+                    requestManager(ActionType.USE_POWER, match, null);
                 } else {
                     ArrayList<Message> listOfMessages = new ArrayList<>();
-                    Message message = new Message(caller);
-                    message.buildWouldActivateGodMessage(new ActivationRequestInfoMessage(caller, god.getName()));
+                    Message message = new Message(match.getCurrentPlayer().getNickname());
+                    message.buildWouldActivateGodMessage(new MatchStateMessage(match.getCurrentPlayer(), match.getBoard().getBoard()));
                     listOfMessages.add(message);
                     match.notifyView(listOfMessages);
                 }
-            } else if(remainingActions.contains(SELECT_PARAMETERS)) {
+            } else if(remainingActions.contains(ActionType.SELECT_PARAMETERS)) {
+                System.out.printf("SELECT PARAMETERS\n");
                 if(god.isNeedParameters()) {
                     ArrayList<Message> listOfMessages = new ArrayList<>();
-                    Message message = new Message(caller);
-                    message.buildSelectParametersMessage(new ActivationRequestInfoMessage(caller, god.getName()));
+                    Message message = new Message(match.getCurrentPlayer().getNickname());
+                    message.buildSelectParametersMessage(new MatchStateMessage(match.getCurrentPlayer(), match.getBoard().getBoard()));
                     listOfMessages.add(message);
                     match.notifyView(listOfMessages);
                 } else {
-                    remainingActions.remove(SELECT_PARAMETERS);
-                    requestManager(USE_POWER, match, caller, null);
+                    remainingActions.remove(ActionType.SELECT_PARAMETERS);
+                    requestManager(ActionType.USE_POWER, match, null);
                 }
-            } else if(remainingActions.contains(USE_POWER)){
+            } else if(remainingActions.contains(ActionType.USE_POWER)){
             } else {
-                if(god.isWillEnded()) { // controllo fatto per le divinità che possono attivare il potere più volte, vedi POSEIDONE
+                if(true) { // god.isWillEnded()  controllo fatto per le divinità che possono attivare il potere più volte, vedi POSEIDONE
                     nextPhase();
-                    handlePhases(match, caller);
+                    handlePhases(match);
                 } else {
-                    remainingActions.add(ACTIVATE_GOD);
-                    remainingActions.add(SELECT_PARAMETERS);
-                    remainingActions.add(USE_POWER);
+                    remainingActions.add(ActionType.ACTIVATE_GOD);
+                    remainingActions.add(ActionType.SELECT_PARAMETERS);
+                    remainingActions.add(ActionType.USE_POWER);
                 }
             }
         } else {
             nextPhase();
-            handlePhases(match, caller);
+            handlePhases(match);
         }
     }
 
@@ -259,52 +242,33 @@ public class TurnLogic {
      * the method handles the entire move phase from choosing the builder to the choice of the destination of the move
      * and the effective modification of the board
      * @param match is the reference to the match controlled by the controller
-     * @param caller is the username of the players which is playing this turn
+     *
      */
-    private void moveManager(Match match, String caller) throws EndMatchException{
-        System.out.println("move manager");
-            if(remainingActions.contains(SELECT_BUILDER)){
-                if(match.getCurrentPlayer().getPlayingBuilder() == null){
-                    ArrayList<Message> listOfMessages = new ArrayList<>();
-                    Message requestBuilder = new Message(caller);
-                    requestBuilder.buildSelectBuilderMessage(new TurnPlayerMessage(match.getCurrentPlayer(), match.getBoard().getBoard()));
-                    listOfMessages.add(requestBuilder);
-                    match.notifyView(listOfMessages);
-                } else {
-                    remainingActions.remove(SELECT_BUILDER);
-                    handlePhases(match, caller);
-                }
-            } else if(remainingActions.contains(SELECT_CELL_MOVE)){
-                match.getPlayerByName(caller).getPlayingBuilder().setPossibleMoves();
-                int[][] possibleMoves = match.getPlayerByName(caller).getPlayingBuilder().getPossibleMoves();
+    private void moveManager(Match match) throws EndMatchException{
+        System.out.printf("MOVE MANAGER: ");
+        if(remainingActions.contains(ActionType.SELECT_BUILDER)){
+            if(match.getCurrentPlayer().getPlayingBuilder() == null){
+                System.out.printf("SELECT BUILDER\n");
                 ArrayList<Message> listOfMessages = new ArrayList<>();
-                Message requestMove = new Message(caller);
-                requestMove.buildAskMoveSelectionMessage(new AskMoveSelectionMessage(possibleMoves, match.getCurrentPlayer().getRiseActions(), match.getCurrentPlayer().getMoveActions()));
-                listOfMessages.add(requestMove);
+                Message requestBuilder = new Message(match.getCurrentPlayer().getNickname());
+                requestBuilder.buildSelectBuilderMessage(new MatchStateMessage(match.getCurrentPlayer(), match.getBoard().getBoard()));
+                listOfMessages.add(requestBuilder);
                 match.notifyView(listOfMessages);
-            } else if(remainingActions.contains(MOVE)){
-                // richiediamo al client le informazioni necessarie
             } else {
-                nextPhase();
-        }
-    }
-
-    /**
-     * The method handles the entire build phase from choosing the cell where to build to the effective modification of the board.
-     * @param match is the reference to the match controlled by the controller
-     * @param caller is the username of the players which is playing this turn
-     */
-    private void buildManager(Match match, String caller) {
-        System.out.println("build manager");
-        if(remainingActions.contains(SELECT_CELL_BUILD)){
-            match.getPlayerByName(caller).getPlayingBuilder().setPossibleBuildings();
-            int[][] possibleBuilding = match.getPlayerByName(caller).getPlayingBuilder().getPossibleBuildings();
+                remainingActions.remove(ActionType.SELECT_BUILDER);
+                handlePhases(match);
+            }
+        } else if(remainingActions.contains(ActionType.SELECT_CELL_MOVE)){
+            System.out.printf("SELECT CELL MOVE\n");
+            match.getCurrentPlayer().getPlayingBuilder().setPossibleMoves();
+            int[][] possibleMoves = match.getCurrentPlayer().getPlayingBuilder().getPossibleMoves();
             ArrayList<Message> listOfMessages = new ArrayList<>();
-            Message requestBuild = new Message(caller);
-            requestBuild.buildAskBuildSelectionMessage(new AskBuildSelectionMessage(possibleBuilding));
-            listOfMessages.add(requestBuild);
+            Message requestMove = new Message(match.getCurrentPlayer().getNickname());
+            // se ci sono problemi di client che ricevono il messaggio, bisogna modificare askmove aggiungendo il current player name
+            requestMove.buildAskMoveSelectionMessage(new AskMoveSelectionMessage(possibleMoves, match.getCurrentPlayer().getRiseActions(), match.getCurrentPlayer().getMoveActions()));
+            listOfMessages.add(requestMove);
             match.notifyView(listOfMessages);
-        } else if(remainingActions.contains(BUILD)){
+        } else if(remainingActions.contains(ActionType.MOVE)){
             // richiediamo al client le informazioni necessarie
         } else {
             nextPhase();
@@ -312,11 +276,42 @@ public class TurnLogic {
     }
 
     /**
-     * The method finish the current TUrn starting a new one
+     * The method handles the entire build phase from choosing the cell where to build to the effective modification of the board.
+     * @param match is the reference to the match controlled by the controller
+     *
      */
-    private void endTurnManager(Match match) throws EndMatchException {
-        match.setNextPlayer();
+    private void buildManager(Match match) {
+        System.out.printf("BUILD MANAGER: ");
+        if(remainingActions.contains(ActionType.SELECT_CELL_BUILD)){
+            System.out.println("SELECT CELL BUILD");
+            match.getCurrentPlayer().getPlayingBuilder().setPossibleBuildings();
+            int[][] possibleBuilding = match.getCurrentPlayer().getPlayingBuilder().getPossibleBuildings();
+            ArrayList<Message> listOfMessages = new ArrayList<>();
+            Message requestBuild = new Message(match.getCurrentPlayer().getNickname());
+            requestBuild.buildAskBuildSelectionMessage(new AskBuildSelectionMessage(possibleBuilding));
+            listOfMessages.add(requestBuild);
+            match.notifyView(listOfMessages);
+        } else if(remainingActions.contains(ActionType.BUILD)){
+            // richiediamo al client le informazioni necessarie
+        } else {
+            nextPhase();
+        }
+    }
+
+
+    /**
+     * The method finish the current Turn starting a new one
+     * @param match is the reference to the match controller by the controller
+     */
+    private void endTurnManager(Match match) {
+        System.out.println("END TURN MANAGER");
+        ArrayList<Message> listOfUpdateMessages = new ArrayList<>();
+        for (int i = 0; i < match.getNumberOfPlayers(); ++i) {
+            listOfUpdateMessages.add(new Message(match.getPlayers()[i].getNickname()));
+            listOfUpdateMessages.get(i).buildUpdateMessage(new UpdateMessage(match, this.phase));
+        }
+        match.notifyView(listOfUpdateMessages);
         reset();
-        handlePhases(match, match.getCurrentPlayer().getNickname());
+        match.setNextPlayer();
     }
 }

@@ -13,7 +13,7 @@ public class UpdateMessage {
     private ArrayList<Player> players;
     private PhaseType phase;
     private int turnNumber;
-    private int currentPlayerIndex;
+    private Player currentPlayer;
     private boolean canActivateGod;
 
     public UpdateMessage(Match match, PhaseType phase) {
@@ -25,7 +25,7 @@ public class UpdateMessage {
         this.players.addAll(Arrays.asList(match.getPlayers()));
         this.phase = phase;
         this.turnNumber = match.getTurnNumber();
-        this.currentPlayerIndex = match.getCurrentPlayerIndex();
+        this.currentPlayer = match.getCurrentPlayer();
     }
 
     public ArrayList<Cell> getBoard() {
@@ -46,7 +46,7 @@ public class UpdateMessage {
         return turnNumber;
     }
 
-    public int getCurrentPlayerIndex() {
-        return currentPlayerIndex;
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 }

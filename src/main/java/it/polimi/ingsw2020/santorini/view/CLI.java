@@ -1,7 +1,6 @@
 package it.polimi.ingsw2020.santorini.view;
 
-import it.polimi.ingsw2020.santorini.model.Cell;
-import it.polimi.ingsw2020.santorini.model.Player;
+import it.polimi.ingsw2020.santorini.model.*;
 import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.network.client.ServerAdapter;
 import it.polimi.ingsw2020.santorini.network.client.ViewAdapter;
@@ -120,17 +119,17 @@ public class CLI implements ViewInterface{
 
     /**
      * metodo addetto alla selezione dei builder secondo l'ordine definito dal controller
-     * @param turnPlayerMessage
+     * @param matchStateMessage
      */
     @Override
-    public void displaySelectionBuilderWindow(TurnPlayerMessage turnPlayerMessage) {
-        String currentPlayer = turnPlayerMessage.getCurrentPlayer().getNickname();
+    public void displaySelectionBuilderWindow(MatchStateMessage matchStateMessage) {
+        String currentPlayer = matchStateMessage.getCurrentPlayer().getNickname();
         if(client.getUsername().equals(currentPlayer)) {
             int[] builderM, builderF;
             builderM = new int[2];
             builderF = new int[2];
             System.out.printf("\n%s, tocca a te! Dovrai inserire le coordinate di due celle per posizionare i tuoi costruttori!\n", currentPlayer);
-            showBoard(turnPlayerMessage.getCells());
+            showBoard(matchStateMessage.getCells());
             System.out.printf("iniziamo con la costruttrice\n");
             do{
                 System.out.printf("Inserisci la riga, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
@@ -212,24 +211,31 @@ public class CLI implements ViewInterface{
     public void updateMatch(UpdateMessage updateMessage) {
         switch(updateMessage.getPhase()){
             case START_TURN:
+                System.out.println("DISPLAY START TURN");
                 displayStartTurn(updateMessage);
                 break;
             case STANDBY_PHASE_1:
+                System.out.println("DISPLAY SP1, POTERE ATTIVATO");
                 displaySP(updateMessage, PhaseType.STANDBY_PHASE_1);
                 break;
             case MOVE_PHASE:
+                System.out.println("DISPLAY MOVE");
                 displayMoveUpdate(updateMessage);
                 break;
             case STANDBY_PHASE_2:
+                System.out.println("DISPLAY SP2, POTERE ATTIVATO");
                 displaySP(updateMessage, PhaseType.STANDBY_PHASE_2);
                 break;
             case BUILD_PHASE:
+                System.out.println("DISPLAY BUILD");
                 displayBuildUpdate(updateMessage);
                 break;
             case STANDBY_PHASE_3:
+                System.out.println("DISPLAY SP3, POTERE ATTIVATO");
                 displaySP(updateMessage, PhaseType.STANDBY_PHASE_3);
                 break;
             case END_TURN:
+                System.out.println("DISPLAY END TURN");
                 displayEndTurn(updateMessage);
                 break;
             default:
@@ -244,237 +250,191 @@ public class CLI implements ViewInterface{
     @Override
     public void displayStartTurn(UpdateMessage message) {
         showBoard(message.getBoard());
-        if(client.getUsername().equals(message.getPlayers().get(message.getCurrentPlayerIndex()).getNickname())) {
-            System.out.println(message.getPlayers().get(message.getCurrentPlayerIndex()).getNickname() + " tocca a te!");
+        if(client.getUsername().equals(message.getCurrentPlayer().getNickname())) {
+            System.out.println(message.getCurrentPlayer().getNickname() + " tocca a te!");
             Message nextPhase = new Message(client.getUsername());
-            nextPhase.buildNextPhaseMessage(new NextPhaseMessage(client.getUsername(), PhaseType.START_TURN));
+            nextPhase.buildNextPhaseMessage();
             client.getNetworkHandler().send(nextPhase);
         } else {
-            System.out.println("Ora è il turno di " + message.getPlayers().get(message.getCurrentPlayerIndex()).getNickname());
+            System.out.println("Ora è il turno di " + message.getCurrentPlayer().getNickname());
+        }
+    }
+
+    @Override
+    public void displayWouldActivate(MatchStateMessage question) {
+        // richiediamo se il giocatore vuole attivare il potere divino
+        if (client.getUsername().equals(question.getCurrentPlayer().getNickname())) {
+            System.out.println("Vuoi richiedere l'intervento di " + question.getCurrentPlayer().getDivinePower().getName() + "? Y-N");
+            Message message = new Message(client.getUsername());
+            boolean wrong;
+            do{
+                wrong = false;
+                String answer = scannerIn.nextLine();
+                answer = answer.toUpperCase();
+                if (answer.equals("Y"))
+                    message.buildActivateGodMessage(new ActivateGodMessage(true));
+                else if (answer.equals("N"))
+                    message.buildActivateGodMessage(new ActivateGodMessage(false));
+                else
+                    wrong = true;
+            } while(wrong);
+            client.getNetworkHandler().send(message);
+        }
+    }
+
+    @Override
+    public void displayParametersSelection(MatchStateMessage message) {
+        if(message.getCurrentPlayer().getNickname().equals(client.getUsername())) {
+            Message selectedParam = new Message(client.getUsername());
+            String god = message.getCurrentPlayer().getDivinePower().getName();
+            System.out.println(god + " è qui ad aiutarti!");
+            switch (god) {
+                case "Apollo":
+                    selectedParam.buildApolloParamMessage(displayApolloParamSel(message));
+                    break;
+                case "Ares":
+                    AresParamMessage aresParamMessage = new AresParamMessage();
+                    int[] targetedBlock = new int[2];
+                    System.out.println("Inserisci le coordinate di una qualsiasi cella che abbia almeno un edificio (massimo livello 3)");
+                    System.out.printf("Inserisci la riga: ");
+                    targetedBlock[0] = scannerIn.nextInt();
+                    System.out.printf("Inserisci la colonna: ");
+                    targetedBlock[1] = scannerIn.nextInt();
+                    aresParamMessage.setTargetedBlock(targetedBlock);
+                    selectedParam.buildAresParamMessage(displayAresParamSel(message));
+                    break;
+                case "Artemis":
+                    ArtemisParamMessage artemisParamMessage = new ArtemisParamMessage();
+                    int[] position = new int[2];
+                    System.out.println("Inserisci le coordinate della prossima cella accessibile che il tuo costruttore vuole occupare (attenzione, il tuo costruttore non vuole tornare nella cella precedente!");
+                    System.out.printf("Inserisci la riga: ");
+                    position[0] = scannerIn.nextInt();
+                    System.out.printf("Inserisci la colonna: ");
+                    position[1] = scannerIn.nextInt();
+                    artemisParamMessage.setPosition(position);
+                    selectedParam.buildArtemisParamMessage(artemisParamMessage);
+                    break;
+                case "Atlas":
+                    AtlasParamMessage atlasParamMessage = new AtlasParamMessage();
+                    int[] targetCell = new int[2];
+                    System.out.println("inserisci le coordinate della cella in cui vuoi costruire una DOME dove già non c'è");
+                    System.out.printf("Inserisci la riga: ");
+                    targetCell[0] = scannerIn.nextInt();
+                    System.out.printf("Inserisci la colonna: ");
+                    targetCell[1] = scannerIn.nextInt();
+                    atlasParamMessage.setTargetCell(targetCell);
+                    selectedParam.buildAtlasParamMessage(atlasParamMessage);
+                    break;
+                case "Demeter":
+                    DemeterParamMessage demeterParamMessage = new DemeterParamMessage();
+                    int[] targetedCell = new int[2];
+                    System.out.println("Inserisci le coorinate della cella in cui vuoi che il tuo costruttore costruisca di nuovo. Attenzione, il tuo builder non vuole costruire nella stessa cella!");
+                    System.out.printf("Inserisci la riga: ");
+                    targetedCell[0] = scannerIn.nextInt();
+                    System.out.printf("Inserisci la colonna: ");
+                    targetedCell[1] = scannerIn.nextInt();
+                    demeterParamMessage.setTargetedCell(targetedCell);
+                    selectedParam.buildDemeterParamMessage(demeterParamMessage);
+                    break;
+                case "Hestia":
+                    HestiaParamMessage hestiaParamMessage = new HestiaParamMessage();
+                    int[] hestiaTarget = new int[2];
+                    System.out.println("Inserisci le coordinate della cella in cui vuoi che il tuo costruttore costruisca di nuovo. Attenzione, il tuo costruttore soffre momentaneamente di vertigini, quindi non potrà costruire vicino alla costa");
+                    System.out.printf("Inserisci la riga: ");
+                    hestiaTarget[0] = scannerIn.nextInt();
+                    System.out.printf("Inserisci la colonna: ");
+                    hestiaTarget[1] = scannerIn.nextInt();
+                    hestiaParamMessage.setTargetedCell(hestiaTarget);
+                    selectedParam.buildHestiaParamMessage(hestiaParamMessage);
+                    break;
+                case "Minotaur":
+                    MinotaurParamMessage minotaurParamMessage = new MinotaurParamMessage();
+                    int[] yourBuilderMinotaur = new int[2];
+                    int[] opponentBuilderMinotaur = new int[2];
+                    System.out.println("Inserisci le coordinate del costruttore che vuoi muovere. Attenzione, il tuo costruttore deve essere vicino ad un costruttore avversario; inoltre la cella successiva guardando verso il costruttore avversario deve essere libera.");
+                    System.out.printf("Inserisci la riga: ");
+                    yourBuilderMinotaur[0] = scannerIn.nextInt();
+                    System.out.printf("Inserisci la colonna: ");
+                    yourBuilderMinotaur[1] = scannerIn.nextInt();
+                    System.out.println("Inserisci le coordinate del costruttore avversario vicino al tuo costruttore che hai scelto. L'avversario deve prepararsi all'incornata!");
+                    System.out.printf("Inserisci la riga: ");
+                    opponentBuilderMinotaur[0] = scannerIn.nextInt();
+                    System.out.printf("Inserisci la colonna: ");
+                    opponentBuilderMinotaur[1] = scannerIn.nextInt();
+                    minotaurParamMessage.setYourBuilder(yourBuilderMinotaur);
+                    minotaurParamMessage.setOpponentBuilder(opponentBuilderMinotaur);
+                    selectedParam.buildMinotaurParamMessage(minotaurParamMessage);
+                    break;
+                case "Poseidon":
+                    PoseidonParamMessage poseidonParamMessage = new PoseidonParamMessage();
+                    int[] poseidonTarget = new int[2];
+                    System.out.println("Inserisci le coordinate della cella in cui vuoi che il tuo costruttore rimasto fermo costruisca");
+                    System.out.printf("Inserisci la riga: ");
+                    poseidonTarget[0] = scannerIn.nextInt();
+                    System.out.printf("Inserisci la colonna: ");
+                    poseidonTarget[1] = scannerIn.nextInt();
+                    poseidonParamMessage.setTargetedCell(poseidonTarget);
+                    selectedParam.buildPoseidonParamMessage(poseidonParamMessage);
+                    break;
+                case "Prometheus":
+                    PrometheusParamMessage prometheusParamMessage = new PrometheusParamMessage();
+                    int[] builder = new int[2];
+                    int[] prometheusTarget = new int[2];
+                    System.out.println("Scegli il builder che userai in questo turno, mi raccomando sceglilo con cura, perchè non portrà salire di livello");
+                    System.out.printf("Inserisci la riga: ");
+                    builder[0] = scannerIn.nextInt();
+                    System.out.printf("Inserisci la colonna: ");
+                    builder[1] = scannerIn.nextInt();
+                    System.out.println("Ora scegli la cella in cui vuoi che il builder scelto costruisca prima di muoversi");
+                    System.out.printf("Inserisci la riga: ");
+                    prometheusTarget[0] = scannerIn.nextInt();
+                    System.out.printf("Inserisci la colonna: ");
+                    prometheusTarget[1] = scannerIn.nextInt();
+                    prometheusParamMessage.setBuilder(builder);
+                    prometheusParamMessage.setTargetedCell(prometheusTarget);
+                    selectedParam.buildPrometheusParamMessage(prometheusParamMessage);
+                    break;
+                default:
+                    break;
+            }
+            client.getNetworkHandler().send(selectedParam);
         }
     }
 
     @Override
     public void displaySP(UpdateMessage updateMessage, PhaseType phase) {
-        System.out.printf(updateMessage.getPlayers().get(updateMessage.getCurrentPlayerIndex()).getDivinePower().getName());
-        if(updateMessage.getPlayers().get(updateMessage.getCurrentPlayerIndex()).getNickname().equals(client.getUsername()))
+        System.out.printf(updateMessage.getCurrentPlayer().getDivinePower().getName());
+        if(updateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())) {
             System.out.println(" ha accettato la tua richiesta di aiuto");
+            Message nextPhase = new Message(client.getUsername());
+            nextPhase.buildNextPhaseMessage();
+            client.getNetworkHandler().send(nextPhase);
+        }
         else
-            System.out.println(" ha aiutato " + updateMessage.getPlayers().get(updateMessage.getCurrentPlayerIndex()).getNickname());
+            System.out.println(" ha aiutato " + updateMessage.getCurrentPlayer().getNickname());
         showBoard(updateMessage.getBoard());
-        Message nextPhase = new Message(client.getUsername());
-        nextPhase.buildNextPhaseMessage(new NextPhaseMessage(client.getUsername(), phase));
-        client.getNetworkHandler().send(nextPhase);
     }
 
     @Override
-    public void displayMoveUpdate(UpdateMessage updateMessage) {
-        // si dice cosa è successo, e si mostra la board. oppure si mostra solo la board
-        Message nextPhase = new Message(client.getUsername());
-        nextPhase.buildNextPhaseMessage(new NextPhaseMessage(client.getUsername(), null));
-        client.getNetworkHandler().send(nextPhase);
-    }
-
-    @Override
-    public void displayBuildUpdate(UpdateMessage updateMessage) {
-        // si dice cosa è successo, e si mostra la board. oppure si mostra solo la board
-        Message nextPhase = new Message(client.getUsername());
-        nextPhase.buildNextPhaseMessage(new NextPhaseMessage(client.getUsername(), null));
-        client.getNetworkHandler().send(nextPhase);
-    }
-
-    //TODO: USARE IL NUOVO METODO STATIC DI BOARD PER RESTRINGERE IL CAMPO DELLE SCELTE DELLE MOSSE O DELLE COSTRUZIONI
-    @Override
-    public void displayParametersSelection(String god) {
-        Message answer = new Message(client.getUsername());
-        System.out.println(god + " è qui ad aiutarti!");
-        switch(god){
-            case "Apollo":
-                ApolloParamMessage apolloParamMessage = new ApolloParamMessage();
-                int[] yourBuilder = new int[2];
-                int[] opponentBuilder = new int[2];
-                System.out.println("Inserisci le coordinate del costruttore che vuoi muovere. Attento, dovrà essere vicino ad un avversario e la cella deve essere accessibile!");
-                System.out.printf("Inserisci la riga: ");
-                yourBuilder[0] = scannerIn.nextInt();
-                System.out.printf("Inserisci la colonna: ");
-                yourBuilder[1] = scannerIn.nextInt();
-                System.out.println("Inserisci le coordinate del costruttore avversario di cui voui usurpare la cella");
-                System.out.printf("Inserisci la riga: ");
-                opponentBuilder[0] = scannerIn.nextInt();
-                System.out.printf("Inserisci la colonna: ");
-                opponentBuilder[1] = scannerIn.nextInt();
-                apolloParamMessage.setYourBuilder(yourBuilder);
-                apolloParamMessage.setOpponentBuilder(opponentBuilder);
-                answer.buildApolloParamMessage(apolloParamMessage);
-                break;
-            case "Ares":
-                AresParamMessage aresParamMessage = new AresParamMessage();
-                int[] targetedBlock = new int[2];
-                System.out.println("Inserisci le coordinate di una qualsiasi cella che abbia almeno un edificio (massimo livello 3)");
-                System.out.printf("Inserisci la riga: ");
-                targetedBlock[0] = scannerIn.nextInt();
-                System.out.printf("Inserisci la colonna: ");
-                targetedBlock[1] = scannerIn.nextInt();
-                aresParamMessage.setTargetedBlock(targetedBlock);
-                answer.buildAresParamMessage(aresParamMessage);
-                break;
-            case "Artemis":
-                ArtemisParamMessage artemisParamMessage = new ArtemisParamMessage();
-                int[] position = new int[2];
-                System.out.println("Inserisci le coordinate della prossima cella accessibile che il tuo costruttore vuole occupare (attenzione, il tuo costruttore non vuole tornare nella cella precedente!");
-                System.out.printf("Inserisci la riga: ");
-                position[0] = scannerIn.nextInt();
-                System.out.printf("Inserisci la colonna: ");
-                position[1] = scannerIn.nextInt();
-                artemisParamMessage.setPosition(position);
-                answer.buildArtemisParamMessage(artemisParamMessage);
-                break;
-            case "Atlas":
-                AtlasParamMessage atlasParamMessage = new AtlasParamMessage();
-                int[] targetCell = new int[2];
-                System.out.println("inserisci le coordinate della cella in cui vuoi costruire una DOME dove già non c'è");
-                System.out.printf("Inserisci la riga: ");
-                targetCell[0] = scannerIn.nextInt();
-                System.out.printf("Inserisci la colonna: ");
-                targetCell[1] = scannerIn.nextInt();
-                atlasParamMessage.setTargetCell(targetCell);
-                answer.buildAtlasParamMessage(atlasParamMessage);
-                break;
-            case "Demeter":
-                DemeterParamMessage demeterParamMessage = new DemeterParamMessage();
-                int[] targetedCell = new int[2];
-                System.out.println("Inserisci le coorinate della cella in cui vuoi che il tuo costruttore costruisca di nuovo. Attenzione, il tuo builder non vuole costruire nella stessa cella!");
-                System.out.printf("Inserisci la riga: ");
-                targetedCell[0] = scannerIn.nextInt();
-                System.out.printf("Inserisci la colonna: ");
-                targetedCell[1] = scannerIn.nextInt();
-                demeterParamMessage.setTargetedCell(targetedCell);
-                answer.buildDemeterParamMessage(demeterParamMessage);
-                break;
-            case "Hestia":
-                HestiaParamMessage hestiaParamMessage = new HestiaParamMessage();
-                int[] hestiaTarget = new int[2];
-                System.out.println("Inserisci le coordinate della cella in cui vuoi che il tuo costruttore costruisca di nuovo. Attenzione, il tuo costruttore soffre momentaneamente di vertigini, quindi non potrà costruire vicino alla costa");
-                System.out.printf("Inserisci la riga: ");
-                hestiaTarget[0] = scannerIn.nextInt();
-                System.out.printf("Inserisci la colonna: ");
-                hestiaTarget[1] = scannerIn.nextInt();
-                hestiaParamMessage.setTargetedCell(hestiaTarget);
-                answer.buildHestiaParamMessage(hestiaParamMessage);
-                break;
-            case "Minotaur":
-                MinotaurParamMessage minotaurParamMessage = new MinotaurParamMessage();
-                int[] yourBuilderMinotaur = new int[2];
-                int[] opponentBuilderMinotaur = new int[2];
-                System.out.println("Inserisci le coordinate del costruttore che vuoi muovere. Attenzione, il tuo costruttore deve essere vicino ad un costruttore avversario; inoltre la cella successiva guardando verso il costruttore avversario deve essere libera.");
-                System.out.printf("Inserisci la riga: ");
-                yourBuilderMinotaur[0] = scannerIn.nextInt();
-                System.out.printf("Inserisci la colonna: ");
-                yourBuilderMinotaur[1] = scannerIn.nextInt();
-                System.out.println("Inserisci le coordinate del costruttore avversario vicino al tuo costruttore che hai scelto. L'avversario deve prepararsi all'incornata!");
-                System.out.printf("Inserisci la riga: ");
-                opponentBuilderMinotaur[0] = scannerIn.nextInt();
-                System.out.printf("Inserisci la colonna: ");
-                opponentBuilderMinotaur[1] = scannerIn.nextInt();
-                minotaurParamMessage.setYourBuilder(yourBuilderMinotaur);
-                minotaurParamMessage.setOpponentBuilder(opponentBuilderMinotaur);
-                answer.buildMinotaurParamMessage(minotaurParamMessage);
-                break;
-            case "Poseidon":
-                PoseidonParamMessage poseidonParamMessage = new PoseidonParamMessage();
-                int[] poseidonTarget = new int[2];
-                System.out.println("Inserisci le coordinate della cella in cui vuoi che il tuo costruttore rimasto fermo costruisca");
-                System.out.printf("Inserisci la riga: ");
-                poseidonTarget[0] = scannerIn.nextInt();
-                System.out.printf("Inserisci la colonna: ");
-                poseidonTarget[1] = scannerIn.nextInt();
-                poseidonParamMessage.setTargetedCell(poseidonTarget);
-                answer.buildPoseidonParamMessage(poseidonParamMessage);
-                break;
-            case "Prometheus":
-                PrometheusParamMessage prometheusParamMessage = new PrometheusParamMessage();
-                int[] builder = new int[2];
-                int[] prometheusTarget = new int[2];
-                System.out.println("Scegli il builder che userai in questo turno, mi raccomando sceglilo con cura, perchè non portrà salire di livello");
-                System.out.printf("Inserisci la riga: ");
-                builder[0] = scannerIn.nextInt();
-                System.out.printf("Inserisci la colonna: ");
-                builder[1] = scannerIn.nextInt();
-                System.out.println("Ora scegli la cella in cui vuoi che il builder scelto costruisca prima di muoversi");
-                System.out.printf("Inserisci la riga: ");
-                prometheusTarget[0] = scannerIn.nextInt();
-                System.out.printf("Inserisci la colonna: ");
-                prometheusTarget[1] = scannerIn.nextInt();
-                prometheusParamMessage.setBuilder(builder);
-                prometheusParamMessage.setTargetedCell(prometheusTarget);
-                answer.buildPrometheusParamMessage(prometheusParamMessage);
-                break;
-            default:
-                break;
+    public void displayChooseBuilder(MatchStateMessage message) {
+        if(message.getCurrentPlayer().getNickname().equals(client.getUsername())) {
+            showBoard(message.getCells());
+            System.out.println("Quale builder vuoi muovere? Il maschio o la femmina?");
+            System.out.println("Premi il tasto M per selezionare il maschio, F per la femmina");
+            Message chosenBuilder = new Message(client.getUsername());
+            String choice = scannerIn.nextLine();
+            choice = choice.toUpperCase();
+            boolean wrong = false;
+            do {
+                if (choice.equals("M"))
+                    chosenBuilder.buildSelectedBuilderMessage(new SelectedBuilderMessage('M'));
+                else if (choice.equals("F"))
+                    chosenBuilder.buildSelectedBuilderMessage(new SelectedBuilderMessage('F'));
+                else
+                    wrong = true;
+            } while (wrong);
+            client.getNetworkHandler().send(chosenBuilder);
         }
-        client.getNetworkHandler().send(answer);
-    }
-
-    @Override
-    public void displayChooseBuilder(TurnPlayerMessage message) {
-        showBoard(message.getCells());
-        System.out.println("Quale builder vuoi muovere? Il maschio o la femmina?");
-        System.out.println("Premi il tasto M per selezionare il maschio, F per la femmina");
-        Message answer = new Message(client.getUsername());
-        String choice = scannerIn.nextLine();
-        choice = choice.toUpperCase();
-        boolean wrong = false;
-        do {
-            if (choice.equals("M"))
-                answer.buildSelectedBuilderMessage(new SelectedBuilderMessage('M'));
-            else if (choice.equals("F"))
-                answer.buildSelectedBuilderMessage(new SelectedBuilderMessage('F'));
-            else
-                wrong = true;
-        } while(wrong);
-        client.getNetworkHandler().send(answer);
-    }
-
-    /**
-     * prova
-     *
-     * @param updateMessage parameter
-     */
-    @Override
-    public void displayEndTurn(UpdateMessage updateMessage) {
-
-    }
-
-    @Override
-    public void displayWouldActivate(ActivationRequestInfoMessage question) {
-        // richiediamo se il giocatore vuole attivare il potere divino
-        if(client.getUsername().equals(question.getCurrentPlayer())) {
-            System.out.println("Vuoi richiedere l'intervento di " + question.getGod() +"? Y-N");
-            String answer = scannerIn.nextLine();
-            Message message = new Message(client.getUsername());
-            if (answer.equals("Y"))
-                message.buildActivateGodMessage(new ActivateGodMessage(true));
-            else
-                message.buildActivateGodMessage(new ActivateGodMessage(false));
-            client.getNetworkHandler().send(message);
-        }
-
-        /*
-        String choice = scannerIn.nextLine();
-        choice = choice.toUpperCase();
-        boolean wrong = false;
-        do {
-            if (choice.equals("M"))
-                answer.buildSelectedBuilderMessage(new SelectedBuilderMessage('M'));
-            else if (choice.equals("F"))
-                answer.buildSelectedBuilderMessage(new SelectedBuilderMessage('F'));
-            else
-                wrong = true;
-        } while(wrong);
-         */
-        // creiamo un message DO - ACTIVATE_GOD in ogni caso
-        // il payload avrà un boolean che rispecchierà la scelta del giocatore
-        // in questo modo standardizziamo il pattern della comunicazione
     }
 
     /**
@@ -493,6 +453,18 @@ public class CLI implements ViewInterface{
         // invio del messaggio al server
     }
 
+    @Override
+    public void displayMoveUpdate(UpdateMessage updateMessage) {
+        // si dice cosa è successo, e si mostra la board. oppure si mostra solo la board
+        showBoard(updateMessage.getBoard());
+        if(updateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())) {
+            System.out.println("richiedo prossima fase: build");
+            Message nextPhase = new Message(client.getUsername());
+            nextPhase.buildNextPhaseMessage();
+            client.getNetworkHandler().send(nextPhase);
+        }
+    }
+
     /**
      * method that shows to the player the possible block that his builder can do
      * metodo che mostra all'utente le possibili costruzioni che il builder mosso può fare
@@ -507,6 +479,32 @@ public class CLI implements ViewInterface{
         // conversione della direzione
         // creazione del messaggio di selezione
         // invio del messaggio al server
+    }
+
+    @Override
+    public void displayBuildUpdate(UpdateMessage updateMessage) {
+        // si dice cosa è successo, e si mostra la board. oppure si mostra solo la board
+        showBoard(updateMessage.getBoard());
+        if(updateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())) {
+            System.out.println("richiedo prossima fase: end");
+            Message nextPhase = new Message(client.getUsername());
+            nextPhase.buildNextPhaseMessage();
+            client.getNetworkHandler().send(nextPhase);
+        }
+    }
+
+    /**
+     * prova
+     *
+     * @param updateMessage parameter
+     */
+    @Override
+    public void displayEndTurn(UpdateMessage updateMessage) {
+        showBoard(updateMessage.getBoard());
+        System.out.println("Il turno di " + updateMessage.getCurrentPlayer().getNickname() + " è terminato!");
+        Message nextPhase = new Message(client.getUsername());
+        nextPhase.buildNextPhaseMessage();
+        client.getNetworkHandler().send(nextPhase);
     }
 
     /**
@@ -576,6 +574,128 @@ public class CLI implements ViewInterface{
         System.out.printf(                  "\n              █═════╩═════╩═════╩═════╩═════╩═════╩═════█" +
                 "\n                 0     1     2     3     4     5     6" +
                 "\n                                 SOUTH                   \n");
+    }
+
+    private ApolloParamMessage displayApolloParamSel(MatchStateMessage message){
+        ApolloParamMessage apolloParamMessage = new ApolloParamMessage();
+
+        char yourBuilderGender = 'O';
+        Builder chosen = null;
+        Direction direction = null;
+
+        String choice = scannerIn.nextLine();
+        choice = choice.toUpperCase();
+        boolean wrong;
+        do {
+            wrong  = false;
+            if (choice.equals("M")) {
+                chosen = message.getCurrentPlayer().getBuilderM();
+                yourBuilderGender = 'M';
+            }
+            else if (choice.equals("F")){
+                chosen = message.getCurrentPlayer().getBuilderF();
+                yourBuilderGender = 'F';
+            }
+            else wrong = true;
+        } while (wrong);
+
+        int[][] neighboringSwappingCell = Board.neighboringSwappingCell(chosen, AccessType.OCCUPIED);
+
+        boolean allZeros = true;
+        for(int i = 0; i < 3 && allZeros; ++i)
+            for(int j = 0; j < 3 && allZeros; ++j)
+                if(neighboringSwappingCell[i][j] != 0) allZeros = false;
+
+        if(allZeros){
+            System.out.println("Il builder che hai selezionato non è adatto a servire Apollo, viene selezionato l'altro builder automaticamente");
+            if(yourBuilderGender == 'M'){
+                yourBuilderGender = 'F';
+                chosen = message.getCurrentPlayer().getBuilderF();
+            } else {
+                yourBuilderGender = 'M';
+                chosen = message.getCurrentPlayer().getBuilderM();
+            }
+        }
+
+        do {
+
+            System.out.println("Ora è il momento di scegliere il costruttore avversario, premi il numero indicato per scegliere la direzione che preferisci");
+            if (neighboringSwappingCell[0][0] != 0) System.out.println("Premi 1 per andare a NORD-OVEST");
+            if (neighboringSwappingCell[0][1] != 0) System.out.println("Premi 2 per andare a NORD");
+            if (neighboringSwappingCell[0][2] != 0) System.out.println("Premi 3 per andare a NORD-EST");
+            if (neighboringSwappingCell[1][0] != 0) System.out.println("Premi 4 per andare a OVEST");
+            if (neighboringSwappingCell[1][2] != 0) System.out.println("Premi 5 per andare a EST");
+            if (neighboringSwappingCell[2][0] != 0) System.out.println("Premi 6 per andare a SUD-OVEST");
+            if (neighboringSwappingCell[2][1] != 0) System.out.println("Premi 7 per andare a SUD");
+            if (neighboringSwappingCell[2][2] != 0) System.out.println("Premi 8 per andare a SUD-EST");
+
+            int pressedButton;
+            pressedButton = scannerIn.nextInt();
+            scannerIn.nextLine();
+            wrong = true;
+
+            if (pressedButton == 1 && neighboringSwappingCell[0][0] != 0) {
+                direction = Direction.NORTH_WEST;
+                wrong = false;
+            } else if (pressedButton == 2 && neighboringSwappingCell[0][1] != 0) {
+                direction = Direction.NORTH;
+                wrong = false;
+            } else if (pressedButton == 3 && neighboringSwappingCell[0][2] != 0) {
+                direction = Direction.NORTH_EAST;
+                wrong = false;
+            } else if (pressedButton == 4 && neighboringSwappingCell[1][0] != 0) {
+                direction = Direction.WEST;
+                wrong = false;
+            } else if (pressedButton == 5 && neighboringSwappingCell[1][2] != 0) {
+                direction = Direction.EAST;
+                wrong = false;
+            } else if (pressedButton == 6 && neighboringSwappingCell[2][0] != 0) {
+                direction = Direction.SOUTH_WEST;
+                wrong = false;
+            } else if (pressedButton == 7 && neighboringSwappingCell[2][1] != 0) {
+                direction = Direction.SOUTH;
+                wrong = false;
+            } else if (pressedButton == 8 && neighboringSwappingCell[2][2] != 0) {
+                direction = Direction.SOUTH_EAST;
+                wrong = false;
+            }
+        } while(wrong);
+
+        apolloParamMessage.setYourBuilderGender(yourBuilderGender);
+        apolloParamMessage.setOpponentBuilderDirection(direction);
+        return apolloParamMessage;
+    }
+
+    private AresParamMessage displayAresParamSel(MatchStateMessage message){
+
+    }
+
+    private ArtemisParamMessage displayArtemisParamSel(MatchStateMessage message){
+
+    }
+
+    private AtlasParamMessage displayAtlasParamSel(MatchStateMessage message){
+
+    }
+
+    private DemeterParamMessage displayDemeterParamSel(MatchStateMessage message){
+
+    }
+
+    private HestiaParamMessage displayHestiaParamSel(MatchStateMessage message){
+
+    }
+
+    private MinotaurParamMessage displayMinotaurParamSel(MatchStateMessage message){
+
+    }
+
+    private PoseidonParamMessage displayPoseidonParamSel(MatchStateMessage message){
+
+    }
+
+    private PrometheusParamMessage displayPrometheusParamSel(MatchStateMessage message){
+
     }
 
 }

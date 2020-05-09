@@ -1,5 +1,6 @@
 package it.polimi.ingsw2020.santorini.view;
 
+import it.polimi.ingsw2020.santorini.network.client.Client;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +16,8 @@ public class AppGUI extends Application {
 
     @FXML
     Label messageLabel;
+
+    private Client client;
 
     public static void main(String[] args) {
         launch(args);

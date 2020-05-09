@@ -1,25 +1,27 @@
 package it.polimi.ingsw2020.santorini.utils.messages.godsParam;
 
+import it.polimi.ingsw2020.santorini.utils.Direction;
+
 public class ApolloParamMessage {
-    private int[] yourBuilder;
-    private int[] opponentBuilder;
+    private char yourBuilderGender;
+    private Direction opponentBuilderDirection;
 
     public ApolloParamMessage() {
     }
 
-    public int[] getYourBuilder() {
-        return yourBuilder;
+    public char getYourBuilderGender() {
+        return yourBuilderGender;
     }
 
-    public void setYourBuilder(int[] yourBuilder) {
-        this.yourBuilder = yourBuilder;
+    public void setYourBuilderGender(char yourBuilderGender) {
+        this.yourBuilderGender = yourBuilderGender;
     }
 
-    public int[] getOpponentBuilder() {
-        return opponentBuilder;
+    public Direction getOpponentBuilderDirection() {
+        return opponentBuilderDirection;
     }
 
-    public void setOpponentBuilder(int[] opponentBuilder) {
-        this.opponentBuilder = opponentBuilder;
+    public void setOpponentBuilderDirection(Direction opponentBuilderDirection) {
+        this.opponentBuilderDirection = opponentBuilderDirection;
     }
 }

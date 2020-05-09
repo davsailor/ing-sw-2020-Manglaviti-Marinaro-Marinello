@@ -2,12 +2,11 @@ package it.polimi.ingsw2020.santorini.view;
 
 import it.polimi.ingsw2020.santorini.model.Cell;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
-import it.polimi.ingsw2020.santorini.utils.messages.actions.ActivationRequestInfoMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.AskBuildSelectionMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.AskMoveSelectionMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchSetupMessage;
-import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.TurnPlayerMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.UpdateMessage;
 
 import java.util.ArrayList;
@@ -39,9 +38,9 @@ public interface ViewInterface {
 
     /**
      * metodo addetto alla selezione dei builder secondo l'ordine definito dal controller
-     * @param turnPlayerMessage
+     * @param matchStateMessage
      */
-    void displaySelectionBuilderWindow(TurnPlayerMessage turnPlayerMessage);
+    void displaySelectionBuilderWindow(MatchStateMessage matchStateMessage);
 
     void displayNewSelectionBuilderWindow(IllegalPositionMessage message);
 
@@ -62,9 +61,9 @@ public interface ViewInterface {
 
     void displayBuildUpdate(UpdateMessage updateMessage);
 
-    void displayParametersSelection(String god);
+    void displayParametersSelection(MatchStateMessage message);
 
-    void displayChooseBuilder(TurnPlayerMessage message);
+    void displayChooseBuilder(MatchStateMessage message);
 
     /**
      * prova
@@ -72,7 +71,7 @@ public interface ViewInterface {
      */
     void displayEndTurn(UpdateMessage updateMessage);
 
-    void displayWouldActivate(ActivationRequestInfoMessage question);
+    void displayWouldActivate(MatchStateMessage question);
 
     /**
      * metodo che mostra all'utente le possibili mosse che il builder selezionato può fare

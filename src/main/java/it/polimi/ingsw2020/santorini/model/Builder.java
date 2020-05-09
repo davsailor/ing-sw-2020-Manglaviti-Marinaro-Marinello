@@ -163,6 +163,8 @@ public class Builder {
 
     public void move(Direction direction) throws IllegalMovementException {
         if(direction == null) throw new IllegalMovementException("Something went wrong with your choice, please select another movement");
+        board.getBoard()[posX][posY].setBuilder(null);
+        board.getBoard()[posX][posY].setStatus(AccessType.FREE);
         switch (direction) {
             case NORTH_WEST:
                 this.posX=posX-1;
@@ -214,6 +216,7 @@ public class Builder {
         // mettere il builder nella nuova posizione
         // aggiornare lo stato delle celle
         board.getBoard()[posX][posY].setBuilder(this);
+        board.getBoard()[posX][posY].setStatus(AccessType.OCCUPIED);
     }
 
     public void setPossibleBuildings() {

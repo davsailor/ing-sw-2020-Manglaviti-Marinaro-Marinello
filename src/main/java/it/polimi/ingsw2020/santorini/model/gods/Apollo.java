@@ -24,7 +24,7 @@ public class Apollo extends GodCard {
     @Override
     public void invokeGod(Match match, Player invoker, Message message, TurnLogic turnManager) throws InvalidParametersException {
         ApolloParamMessage param = message.deserializeApolloParamMessage(message.getSerializedPayload());
-        checkParam(param, match);
+        //checkParam(param, match);
         System.out.println("potere di " + name + " attivato");
     }
 

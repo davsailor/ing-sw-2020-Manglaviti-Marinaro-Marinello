@@ -27,6 +27,7 @@ public class ActionLogic {
 
     /**
      * Getter of the attribute turnManager
+     *
      * @return the attribute turnManager
      */
     public TurnLogic getTurnManager() {
@@ -36,15 +37,14 @@ public class ActionLogic {
     /**
      * The method invokes the power of the player’s god
      * @param match is the match that the controller is controlling
-     * @param caller is the username of the player invoking the god
      * @param message is the match which asks to invoke the god
      * @return an Array List of Message which contains messages to notify the use of the god
      */
-    public ArrayList<Message> invocation(Match match, String caller, Message message) {
+    public ArrayList<Message> invocation(Match match, Message message) {
         ArrayList<Message> listToSend = new ArrayList<>();
-        GodCard god = match.getPlayerByName(caller).getDivinePower();
+        GodCard god = match.getCurrentPlayer().getDivinePower();
         try{
-            god.invokeGod(match, match.getPlayerByName(caller), message, turnManager);
+            god.invokeGod(match, match.getCurrentPlayer(), message, turnManager);
             for(int i = 0; i < match.getNumberOfPlayers(); ++i){
                 Message sendMessage = new Message(match.getPlayers()[i].getNickname());
                 sendMessage.buildUpdateMessage(new UpdateMessage(match, turnManager.getPhase()));
@@ -55,7 +55,7 @@ public class ActionLogic {
                 turnManager.nextPhase();
             }
         } catch (InvalidParametersException e) {
-            Message error = new Message(caller);
+            Message error = new Message(match.getCurrentPlayer().getNickname());
             error.buildInvalidParametersMessage(new InvalidParametersMessage(god.getName(), e.getError()));
             listToSend.add(error);
         }
@@ -65,21 +65,20 @@ public class ActionLogic {
     /**
      * The method handles the movement of the builder
      * @param match is the reference of the match controlled by the controller
-     * @param caller is the username of the player that required the move
      * @param message contains the direction of the movement
      * @return the ArrayList created contains the message for the next phases of the turn
      */
-    public ArrayList<Message> move(Match match, String caller, SelectedMoveMessage message) {
+    public ArrayList<Message> move(Match match, SelectedMoveMessage message) {
         ArrayList<Message> listToSend = new ArrayList<>();
         try {
-            match.getPlayerByName(caller).getPlayingBuilder().move(message.getDirection());
+            match.getCurrentPlayer().getPlayingBuilder().move(message.getDirection());
             for(int i = 0; i < match.getNumberOfPlayers(); ++i){
                 Message sendMessage = new Message(match.getPlayers()[i].getNickname());
                 sendMessage.buildUpdateMessage(new UpdateMessage(match, turnManager.getPhase()));
                 listToSend.add(sendMessage);
             }
         } catch (IllegalMovementException e) {
-            Message error = new Message(caller);
+            Message error = new Message(match.getCurrentPlayer().getNickname());
             error.buildInvalidMoveMessage(new GenericErrorMessage(e.getError()));
             listToSend.add(error);
         }
@@ -89,21 +88,20 @@ public class ActionLogic {
     /**
      * The method handles the construction of the blocks
      * @param match is the reference of the match controlled by the controller
-     * @param caller is the username of the player that required the move
      * @param message contains the direction of construction
      * @return the ArrayList created contains the message for the next phases of the turn
      */
-    public ArrayList<Message> build(Match match, String caller, SelectedBuildingMessage message) {
+    public ArrayList<Message> build(Match match, SelectedBuildingMessage message) {
         ArrayList<Message> listToSend = new ArrayList<>();
         try {
-            match.getPlayerByName(caller).getPlayingBuilder().build(message.getDirection());
+            match.getCurrentPlayer().getPlayingBuilder().build(message.getDirection());
             for(int i = 0; i < match.getNumberOfPlayers(); ++i){
                 Message sendMessage = new Message(match.getPlayers()[i].getNickname());
                 sendMessage.buildUpdateMessage(new UpdateMessage(match, turnManager.getPhase()));
                 listToSend.add(sendMessage);
             }
         } catch (IllegalConstructionException e) {
-            Message error = new Message(caller);
+            Message error = new Message(match.getCurrentPlayer().getNickname());
             error.buildInvalidBuildingMessage(new GenericErrorMessage(e.getError()));
             listToSend.add(error);
         }

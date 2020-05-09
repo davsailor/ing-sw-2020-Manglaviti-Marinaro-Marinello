@@ -105,7 +105,7 @@
 <i>5</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.errors.GenericErrorMessage;
 <i>6</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.CorrectLoginMessage;
 <i>7</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchSetupMessage;
-<i>8</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.TurnPlayerMessage;
+<i>8</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 <i>9</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.UpdateMessage;
 <i>10</i>&nbsp;
 <i>11</i>&nbsp;import java.util.logging.Level;
@@ -173,8 +173,8 @@
 <b class="nc"><i>73</i>&nbsp;                client.getView().displayMatchSetupWindow(matchSetupMessage);</b>
 <b class="nc"><i>74</i>&nbsp;                break;</b>
 <i>75</i>&nbsp;            case PLAYER_SELECTION:
-<b class="nc"><i>76</i>&nbsp;                TurnPlayerMessage turnPlayerMessage = message.deserializeTurnPlayerMessage(message.getSerializedPayload());</b>
-<b class="nc"><i>77</i>&nbsp;                client.getView().displaySelectionBuilderWindow(turnPlayerMessage);</b>
+<b class="nc"><i>76</i>&nbsp;                TurnPlayerMessage matchStateMessage = message.deserializeTurnPlayerMessage(message.getSerializedPayload());</b>
+<b class="nc"><i>77</i>&nbsp;                client.getView().displaySelectionBuilderWindow(matchStateMessage);</b>
 <i>78</i>&nbsp;            default:
 <i>79</i>&nbsp;                break;
 <i>80</i>&nbsp;        }

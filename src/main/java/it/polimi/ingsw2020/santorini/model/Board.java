@@ -34,11 +34,15 @@ public class Board {
 
     // da modificare perchè così è terribile
     public Cell[][] getBoard() {
+        return board;
+        /*
         Cell[][] boardCpy = new Cell[7][7];
         for(int i = 0; i < 7; ++i)
             System.arraycopy(board[i], 0, boardCpy[i], 0, 7);
         return boardCpy;
+         */
     }
+
 
     public GodDeck getGodCards() {
         return godCards;

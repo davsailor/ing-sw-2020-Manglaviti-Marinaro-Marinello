@@ -221,17 +221,17 @@
 <i>121</i>&nbsp;    /**
 <i>122</i>&nbsp;     * metodo addetto alla selezione dei builder secondo l&#39;ordine definito dal controller
 <i>123</i>&nbsp;     *
-<i>124</i>&nbsp;     * @param turnPlayerMessage
+<i>124</i>&nbsp;     * @param matchStateMessage
 <i>125</i>&nbsp;     */
 <i>126</i>&nbsp;    @Override
-<i>127</i>&nbsp;    public void displaySelectionBuilderWindow(TurnPlayerMessage turnPlayerMessage) {
-<b class="nc"><i>128</i>&nbsp;        String currentPlayer = turnPlayerMessage.getCurrentPlayer();</b>
+<i>127</i>&nbsp;    public void displaySelectionBuilderWindow(TurnPlayerMessage matchStateMessage) {
+<b class="nc"><i>128</i>&nbsp;        String currentPlayer = matchStateMessage.getCurrentPlayer();</b>
 <b class="nc"><i>129</i>&nbsp;        if(client.getUsername().equals(currentPlayer)) {</b>
 <i>130</i>&nbsp;            int[] builderM, builderF;
 <b class="nc"><i>131</i>&nbsp;            builderM = new int[2];</b>
 <b class="nc"><i>132</i>&nbsp;            builderF = new int[2];</b>
 <b class="nc"><i>133</i>&nbsp;            System.out.printf(&quot;\n%s, tocca a te! Dovrai inserire le coordinate di due celle per posizionare i tuoi costruttori!\n&quot;, currentPlayer);</b>
-<b class="nc"><i>134</i>&nbsp;            showBoard(turnPlayerMessage.getCells());</b>
+<b class="nc"><i>134</i>&nbsp;            showBoard(matchStateMessage.getCells());</b>
 <b class="nc"><i>135</i>&nbsp;            System.out.printf(&quot;iniziamo con la costruttrice\n&quot;);</b>
 <i>136</i>&nbsp;            do{
 <b class="nc"><i>137</i>&nbsp;                System.out.printf(&quot;Inserisci la riga, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: &quot;);</b>
