@@ -1,7 +1,10 @@
 package it.polimi.ingsw2020.santorini.model;
 
 import it.polimi.ingsw2020.santorini.utils.AccessType;
+import it.polimi.ingsw2020.santorini.utils.Color;
 import it.polimi.ingsw2020.santorini.utils.LevelType;
+
+import static it.polimi.ingsw2020.santorini.utils.AccessType.OCCUPIED;
 
 public class Board {
     private Cell[][] board;
@@ -48,12 +51,11 @@ public class Board {
      * 1 if they matches and the cell(intX, intY).getLevel is equal to the one's neighboring cells have
      * 2 if they matches and the cell(intX, intY).getLevel.getHeight is inferior by 1 to the one's neighboring cells have
      * 3 if they matches and the cell(intX, intY).getLevel.getHeight is bigger by 2 to the one's neighboring cells have
-     * @param intX is the coordinate of row
-     * @param intY is the coordinate of column
+     * @param currentBuilder is the Builder that is in the center of the neighboringStatusCell
      * @param target represent which kind of cell it is searching for
      * @return the references to a matrix of int
      */
-    public static int [][] neighboringStatusCell(Cell[][] board, int intX, int intY, AccessType target){
+    public static int [][] neighboringStatusCell(Builder currentBuilder,  AccessType target){
         int[][] neighborMatrix;
         neighborMatrix = new int[3][3];
         int k;
@@ -63,16 +65,19 @@ public class Board {
                     neighborMatrix[i][j] = 0;
                 }
                 else{//Analise the other cells of the matrix board
-                    if(board[intX-1+i][intY-1+j].getStatus().equals(target)){//checks if the cells'status correspond to target
-                        k = board[intX][intY].calculateJump(board[intX-1+i][intY-1+j]);
+                    if(currentBuilder.getBoard().getBoard()[currentBuilder.getPosX()-1+i][currentBuilder.getPosY()-1+j].getStatus().equals(target)){//checks if the cells'status correspond to target
+                        k = currentBuilder.getBoard().getBoard()[currentBuilder.getPosX()][currentBuilder.getPosY()].calculateJump(currentBuilder.getBoard().getBoard()[currentBuilder.getPosX()-1+i][currentBuilder.getPosY()-1+j]);
                         if((k == 0) || (k == -1)){//case with same height or drop from one block
-                            neighborMatrix[i][j] = 1;
+                            if(currentBuilder.getPlayer().getMoveActions()) {neighborMatrix[i][j] = 1;}
+                            else{neighborMatrix[i][j] = 0;}
                         }
                         else if (k == 1){//case that implies a rise(1 block)
-                            neighborMatrix[i][j] = 2;
+                            if(currentBuilder.getPlayer().getRiseActions()) {neighborMatrix[i][j] = 2;}
+                            else{neighborMatrix[i][j] = 0;}//ACCURA
                         }
                         else if (k < -1){//case that implies a drop from two blocks or more
-                            neighborMatrix[i][j] = 3;
+                            if(currentBuilder.getPlayer().getMoveActions()) {neighborMatrix[i][j] = 3;}
+                            else{neighborMatrix[i][j] = 0;}
                         }
                         else{//case that implies a rise of two blocks or more
                             neighborMatrix[i][j] = 0;
@@ -88,14 +93,13 @@ public class Board {
     }
 
     /**
-     * it builds and return a matrix of nine int, with each representing the eight of the buildings neighboring the
+     * it builds and return a matrix of nine int, with each representing the height of the buildings neighboring the
      * with coordinates posX and posY
-     * @param posX is the row coordinate of the cell where the builder is standing
-     * @param posY is the column coordinate of the cell where the builder is standing
+     * @param currentBuilder is the Builder that is in the center of the neighboringStatusCell
      * @return the matrix build within the function
      */
-    public static int[][] neighborLevelCell(Cell[][] board, int posX, int posY) throws IllegalArgumentException{
-        if (((posX == 0) || (posX == 6)) || (posY == 0) || posY == 6){
+    public static int[][] neighboringLevelCell(Builder currentBuilder) throws IllegalArgumentException{
+        if (((currentBuilder.getPosX() == 0) || (currentBuilder.getPosX() == 6)) || (currentBuilder.getPosY() == 0) || currentBuilder.getPosY() == 6){
             throw new IllegalArgumentException();
         }
         else{
@@ -103,11 +107,32 @@ public class Board {
             neighborMatrix = new int[3][3];
             for(int i = 0; i < 3; i++){//For of the row
                 for (int j = 0; j < 3 ; j++){//For of the column
-                    neighborMatrix[i][j] = board[posX-1+i][posY-1+j].getLevel().getHeight();
+                    neighborMatrix[i][j] = currentBuilder.getBoard().getBoard()[currentBuilder.getPosX()-1+i][currentBuilder.getPosY()-1+j].getLevel().getHeight();
                 }
             }
             return neighborMatrix;
         }
+    }
+
+    public static int[][] neighboringColorCell(Builder currentBuilder){
+        int[][] neighborMatrix;
+        neighborMatrix = new int[3][3];
+        for (int i= 0; i < 3; i++){
+            for (int j = 0; j < 3; j++){
+                if (currentBuilder.getBoard().getBoard()[currentBuilder.getPosX()-1+i][currentBuilder.getPosY()-1+j].getStatus() == OCCUPIED){
+                    if(currentBuilder.getBoard().getBoard()[currentBuilder.getPosX()-1+i][currentBuilder.getPosX()-1+j].getBuilder().getColor() != currentBuilder.getColor()){
+                        neighborMatrix[i][j] = 1;
+                    }
+                    else{
+                        neighborMatrix[i][j] = 0;
+                    }
+                }
+                else{
+                    neighborMatrix[i][j] = 0;
+                }
+            }
+        }
+        return  neighborMatrix;
     }
 
     /**
@@ -119,4 +144,19 @@ public class Board {
     public void buildBlock (int buildX, int buildY, LevelType block){
         board[buildX][buildY].setLevel(block);
     }
+
+    public static int[][] neighboringSwappingCell(Builder builder, AccessType target){
+        int[][] neighborMatrix = new int[3][3];
+        int[][] neighborMatrix1 = new int[3][3];
+        int[][] neighborMatrix2 = new int[3][3];
+        for (int i = 0; i < 3; i++){
+            for (int j = 0; j < 3; j++){
+                neighborMatrix1[i][j] = neighboringColorCell(builder)[i][j];
+                neighborMatrix2[i][j] = neighboringColorCell(builder)[i][j];
+                neighborMatrix[i][j]  = neighborMatrix1[i][j] * neighborMatrix2[i][j];
+            }
+        }
+        return neighborMatrix;
+    }
 }
+

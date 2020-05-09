@@ -25,6 +25,11 @@ public class Builder {
 
     //METODI
 
+
+    public Board getBoard() {
+        return board;
+    }
+
     public Color getColor() {
         return color;
     }
@@ -125,7 +130,7 @@ public class Builder {
     }
 
     public void setPossibleMoves() {
-        this.possibleMoves = Board.neighboringStatusCell(board.getBoard(), posX, posY, AccessType.FREE);
+        this.possibleMoves = Board.neighboringStatusCell( this ,AccessType.FREE);
     }
 
 
@@ -212,7 +217,7 @@ public class Builder {
     }
 
     public void setPossibleBuildings() {
-        possibleBuildings = Board.neighborLevelCell(board.getBoard(), posX, posY);
+        possibleBuildings = Board.neighboringLevelCell(this);
     }
 
     public int[][] getPossibleBuildings() {
