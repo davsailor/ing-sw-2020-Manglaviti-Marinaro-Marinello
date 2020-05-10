@@ -7,6 +7,7 @@ import it.polimi.ingsw2020.santorini.utils.Color;
 import it.polimi.ingsw2020.santorini.utils.Direction;
 import it.polimi.ingsw2020.santorini.utils.LevelType;
 
+
 public class Builder {
     private Color color;
     private char gender;
@@ -130,7 +131,7 @@ public class Builder {
     }
 
     public void setPossibleMoves() {
-        this.possibleMoves = Board.neighboringStatusCell( this ,AccessType.FREE);
+        this.possibleMoves = Board.neighboringStatusCell( this , AccessType.FREE);
     }
 
 
@@ -215,6 +216,7 @@ public class Builder {
         // mettere a null il puntatore nella vecchia cella (questo prima di aggiornare posX e posY) dopo IF
         // mettere il builder nella nuova posizione
         // aggiornare lo stato delle celle
+
         board.getBoard()[posX][posY].setBuilder(this);
         board.getBoard()[posX][posY].setStatus(AccessType.OCCUPIED);
     }
