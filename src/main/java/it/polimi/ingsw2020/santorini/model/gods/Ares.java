@@ -16,7 +16,6 @@ public class Ares extends GodCard {
         timingName = "End of Your Turn";
         timing = PhaseType.STANDBY_PHASE_3;
         mandatory = false;
-        willEnded = false;
         needParameters = true;
     }
 

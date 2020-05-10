@@ -2,8 +2,10 @@ package it.polimi.ingsw2020.santorini.network.client;
 
 
 import it.polimi.ingsw2020.santorini.utils.Message;
+import it.polimi.ingsw2020.santorini.view.AppGUI;
 import it.polimi.ingsw2020.santorini.view.CLI;
 import it.polimi.ingsw2020.santorini.view.ViewInterface;
+import javafx.application.Application;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,10 +26,12 @@ public class Client {
     }
 
     public static void main(String[] args) {
-        Client client = new Client();
-        CLI cli = new CLI(client);
-        client.setView(cli);
-        cli.displaySetupWindow();
+        if(args.length == 0){
+            Application.launch(AppGUI.class);
+        } else {
+            CLI cli = new CLI();
+            cli.displaySetupWindow();
+        }
     }
 
     public ServerAdapter getNetworkHandler() {
@@ -50,7 +54,7 @@ public class Client {
         return view;
     }
 
-    public void setView(CLI view) {
+    public void setView(ViewInterface view) {
         this.view = view;
     }
 

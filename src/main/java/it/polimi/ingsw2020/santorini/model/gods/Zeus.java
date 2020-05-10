@@ -14,7 +14,6 @@ public class Zeus extends GodCard {
         timingName = "Your Build";
         timing = PhaseType.STANDBY_PHASE_2;
         mandatory = false;
-        willEnded = false;
         needParameters = true;
     }
 

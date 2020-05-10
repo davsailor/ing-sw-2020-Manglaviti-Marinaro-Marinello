@@ -15,7 +15,6 @@ public class GodCard {
     protected String timingName;
     protected PhaseType timing;
     protected boolean mandatory;
-    protected boolean willEnded;
     protected boolean needParameters;
 
     public GodCard(){}
@@ -37,10 +36,6 @@ public class GodCard {
     public boolean isMandatory() {
         return mandatory;
     }
-
-    public boolean isWillEnded() { return willEnded; }
-
-    public void setWillEnded(boolean willEnded) { this.willEnded = willEnded; }
 
     public boolean isNeedParameters() { return needParameters; }
 

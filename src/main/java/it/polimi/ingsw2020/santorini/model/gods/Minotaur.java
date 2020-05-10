@@ -16,7 +16,6 @@ public class Minotaur extends GodCard {
         timingName = "Your Move";
         timing = PhaseType.STANDBY_PHASE_1;
         mandatory = false;
-        willEnded = false;
         needParameters = true;
     }
 

@@ -14,7 +14,6 @@ public class Pan extends GodCard {
         timingName = "Win Condition";
         timing = PhaseType.STANDBY_PHASE_2;
         mandatory = true;
-        willEnded = false;
         needParameters = false;
     }
 

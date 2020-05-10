@@ -16,7 +16,6 @@ public class Hestia extends GodCard {
         timingName = "Your Build";
         timing = PhaseType.STANDBY_PHASE_3;
         mandatory = false;
-        willEnded = false;
         needParameters = true;
     }
 

@@ -16,7 +16,6 @@ public class Prometheus extends GodCard {
         timingName = "Your Turn";
         timing = PhaseType.STANDBY_PHASE_1;
         mandatory = false;
-        willEnded = false;
         needParameters = true;
     }
 

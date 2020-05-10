@@ -24,8 +24,7 @@ public class CLI implements ViewInterface{
     private Client client;
     private Scanner scannerIn;
 
-    public CLI(Client client){
-        this.client = client;
+    public CLI(){
         this.scannerIn = new Scanner(System.in);
     }
 
@@ -35,6 +34,9 @@ public class CLI implements ViewInterface{
      */
     @Override
     public void displaySetupWindow() {
+        client = new Client();
+        client.setView(this);
+
         System.out.printf("Inserisci l'indirizzo IP del server: ");
         String ip = scannerIn.nextLine();
 
@@ -295,113 +297,27 @@ public class CLI implements ViewInterface{
                     break;
                 case "Ares":
                     selectedParam.buildAresParamMessage(displayAresParamSel(message));
-                    AresParamMessage aresParamMessage = new AresParamMessage();
-                    int[] targetedBlock = new int[2];
-                    System.out.println("Inserisci le coordinate di una qualsiasi cella che abbia almeno un edificio (massimo livello 3)");
-                    System.out.printf("Inserisci la riga: ");
-                    targetedBlock[0] = scannerIn.nextInt();
-                    System.out.printf("Inserisci la colonna: ");
-                    targetedBlock[1] = scannerIn.nextInt();
-                    aresParamMessage.setTargetedBlock(targetedBlock);
-                    selectedParam.buildAresParamMessage(displayAresParamSel(message));
                     break;
                 case "Artemis":
                     selectedParam.buildArtemisParamMessage(displayArtemisParamSel(message));
-                    ArtemisParamMessage artemisParamMessage = new ArtemisParamMessage();
-                    int[] position = new int[2];
-                    System.out.println("Inserisci le coordinate della prossima cella accessibile che il tuo costruttore vuole occupare (attenzione, il tuo costruttore non vuole tornare nella cella precedente!");
-                    System.out.printf("Inserisci la riga: ");
-                    position[0] = scannerIn.nextInt();
-                    System.out.printf("Inserisci la colonna: ");
-                    position[1] = scannerIn.nextInt();
-                    artemisParamMessage.setPosition(position);
-                    selectedParam.buildArtemisParamMessage(artemisParamMessage);
                     break;
                 case "Atlas":
                     selectedParam.buildAtlasParamMessage(displayAtlasParamSel(message));
-                    AtlasParamMessage atlasParamMessage = new AtlasParamMessage();
-                    int[] targetCell = new int[2];
-                    System.out.println("inserisci le coordinate della cella in cui vuoi costruire una DOME dove già non c'è");
-                    System.out.printf("Inserisci la riga: ");
-                    targetCell[0] = scannerIn.nextInt();
-                    System.out.printf("Inserisci la colonna: ");
-                    targetCell[1] = scannerIn.nextInt();
-                    atlasParamMessage.setTargetCell(targetCell);
-                    selectedParam.buildAtlasParamMessage(atlasParamMessage);
                     break;
                 case "Demeter":
                     selectedParam.buildDemeterParamMessage(displayDemeterParamSel(message));
-                    DemeterParamMessage demeterParamMessage = new DemeterParamMessage();
-                    int[] targetedCell = new int[2];
-                    System.out.println("Inserisci le coorinate della cella in cui vuoi che il tuo costruttore costruisca di nuovo. Attenzione, il tuo builder non vuole costruire nella stessa cella!");
-                    System.out.printf("Inserisci la riga: ");
-                    targetedCell[0] = scannerIn.nextInt();
-                    System.out.printf("Inserisci la colonna: ");
-                    targetedCell[1] = scannerIn.nextInt();
-                    demeterParamMessage.setTargetedCell(targetedCell);
-                    selectedParam.buildDemeterParamMessage(demeterParamMessage);
                     break;
                 case "Hestia":
                     selectedParam.buildHestiaParamMessage(displayHestiaParamSel(message));
-                    HestiaParamMessage hestiaParamMessage = new HestiaParamMessage();
-                    int[] hestiaTarget = new int[2];
-                    System.out.println("Inserisci le coordinate della cella in cui vuoi che il tuo costruttore costruisca di nuovo. Attenzione, il tuo costruttore soffre momentaneamente di vertigini, quindi non potrà costruire vicino alla costa");
-                    System.out.printf("Inserisci la riga: ");
-                    hestiaTarget[0] = scannerIn.nextInt();
-                    System.out.printf("Inserisci la colonna: ");
-                    hestiaTarget[1] = scannerIn.nextInt();
-                    hestiaParamMessage.setTargetedCell(hestiaTarget);
-                    selectedParam.buildHestiaParamMessage(hestiaParamMessage);
                     break;
                 case "Minotaur":
                     selectedParam.buildMinotaurParamMessage(displayMinotaurParamSel(message));
-                    MinotaurParamMessage minotaurParamMessage = new MinotaurParamMessage();
-                    int[] yourBuilderMinotaur = new int[2];
-                    int[] opponentBuilderMinotaur = new int[2];
-                    System.out.println("Inserisci le coordinate del costruttore che vuoi muovere. Attenzione, il tuo costruttore deve essere vicino ad un costruttore avversario; inoltre la cella successiva guardando verso il costruttore avversario deve essere libera.");
-                    System.out.printf("Inserisci la riga: ");
-                    yourBuilderMinotaur[0] = scannerIn.nextInt();
-                    System.out.printf("Inserisci la colonna: ");
-                    yourBuilderMinotaur[1] = scannerIn.nextInt();
-                    System.out.println("Inserisci le coordinate del costruttore avversario vicino al tuo costruttore che hai scelto. L'avversario deve prepararsi all'incornata!");
-                    System.out.printf("Inserisci la riga: ");
-                    opponentBuilderMinotaur[0] = scannerIn.nextInt();
-                    System.out.printf("Inserisci la colonna: ");
-                    opponentBuilderMinotaur[1] = scannerIn.nextInt();
-                    minotaurParamMessage.setYourBuilder(yourBuilderMinotaur);
-                    minotaurParamMessage.setOpponentBuilder(opponentBuilderMinotaur);
-                    selectedParam.buildMinotaurParamMessage(minotaurParamMessage);
                     break;
                 case "Poseidon":
                     selectedParam.buildPoseidonParamMessage(displayPoseidonParamSel(message));
-                    PoseidonParamMessage poseidonParamMessage = new PoseidonParamMessage();
-                    int[] poseidonTarget = new int[2];
-                    System.out.println("Inserisci le coordinate della cella in cui vuoi che il tuo costruttore rimasto fermo costruisca");
-                    System.out.printf("Inserisci la riga: ");
-                    poseidonTarget[0] = scannerIn.nextInt();
-                    System.out.printf("Inserisci la colonna: ");
-                    poseidonTarget[1] = scannerIn.nextInt();
-                    poseidonParamMessage.setTargetedCell(poseidonTarget);
-                    selectedParam.buildPoseidonParamMessage(poseidonParamMessage);
                     break;
                 case "Prometheus":
                     selectedParam.buildPrometheusParamMessage(displayPrometheusParamSel(message));
-                    PrometheusParamMessage prometheusParamMessage = new PrometheusParamMessage();
-                    int[] builder = new int[2];
-                    int[] prometheusTarget = new int[2];
-                    System.out.println("Scegli il builder che userai in questo turno, mi raccomando sceglilo con cura, perchè non portrà salire di livello");
-                    System.out.printf("Inserisci la riga: ");
-                    builder[0] = scannerIn.nextInt();
-                    System.out.printf("Inserisci la colonna: ");
-                    builder[1] = scannerIn.nextInt();
-                    System.out.println("Ora scegli la cella in cui vuoi che il builder scelto costruisca prima di muoversi");
-                    System.out.printf("Inserisci la riga: ");
-                    prometheusTarget[0] = scannerIn.nextInt();
-                    System.out.printf("Inserisci la colonna: ");
-                    prometheusTarget[1] = scannerIn.nextInt();
-                    prometheusParamMessage.setBuilder(builder);
-                    prometheusParamMessage.setTargetedCell(prometheusTarget);
-                    selectedParam.buildPrometheusParamMessage(prometheusParamMessage);
                     break;
                 default:
                     break;

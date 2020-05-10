@@ -16,7 +16,6 @@ public class Artemis extends GodCard {
         timingName = "Your Move";
         timing = PhaseType.STANDBY_PHASE_2;
         mandatory = false;
-        willEnded = false;
         needParameters = true;
     }
 

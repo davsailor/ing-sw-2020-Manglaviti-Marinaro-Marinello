@@ -14,7 +14,6 @@ public class Persephone extends GodCard {
         timingName = "Opponents' Turn";
         timing = PhaseType.STANDBY_PHASE_3;
         mandatory = true;
-        willEnded = false;
         needParameters = false;
     }
 

@@ -46,14 +46,6 @@ public class GodCardTest {
     }
 
     @Test
-    public void testWillEnded() {
-        tester = new Apollo();
-        assertFalse(tester.isWillEnded());
-        tester.setWillEnded(true);
-        assertTrue(tester.isWillEnded());
-    }
-
-    @Test
     public void testIsNeedParameters(){
         tester = new Apollo();
         assertTrue(tester.isNeedParameters());

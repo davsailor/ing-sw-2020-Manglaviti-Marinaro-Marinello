@@ -50,10 +50,8 @@ public class ActionLogic {
                 sendMessage.buildUpdateMessage(new UpdateMessage(match, turnManager.getPhase()));
                 listToSend.add(sendMessage);
             }
-            if(god.isWillEnded()) {
-                turnManager.getRemainingActions().remove(ActionType.ACTIVATE_GOD);
-                turnManager.nextPhase();
-            }
+            turnManager.getRemainingActions().remove(ActionType.ACTIVATE_GOD);
+            turnManager.nextPhase();
         } catch (InvalidParametersException e) {
             Message error = new Message(match.getCurrentPlayer().getNickname());
             error.buildInvalidParametersMessage(new InvalidParametersMessage(god.getName(), e.getError()));
