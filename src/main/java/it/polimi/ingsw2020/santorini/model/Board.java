@@ -4,6 +4,7 @@ import it.polimi.ingsw2020.santorini.utils.AccessType;
 import it.polimi.ingsw2020.santorini.utils.Color;
 import it.polimi.ingsw2020.santorini.utils.LevelType;
 
+import static it.polimi.ingsw2020.santorini.utils.AccessType.DOME;
 import static it.polimi.ingsw2020.santorini.utils.AccessType.OCCUPIED;
 
 public class Board {
@@ -141,12 +142,14 @@ public class Board {
 
     /**
      * it builds a block of building on the top of the cell
-     * @param buildX is row coordinate of ethe cell where the block will be placed
+     * @param buildX is row coordinate of the cell where the block will be placed
      * @param buildY is column coordinate of ethe cell where the block will be placed
      * @param block is the type/eight of the block that will be be build on the top of the cell
      */
     public void buildBlock (int buildX, int buildY, LevelType block){
+
         board[buildX][buildY].setLevel(block);
+        if(block == LevelType.DOME){board[buildX][buildY].setStatus(DOME);}
     }
 
     public static int[][] neighboringSwappingCell(Builder builder, AccessType target){
@@ -156,7 +159,7 @@ public class Board {
         for (int i = 0; i < 3; i++){
             for (int j = 0; j < 3; j++){
                 neighborMatrix1[i][j] = neighboringColorCell(builder)[i][j];
-                neighborMatrix2[i][j] = neighboringColorCell(builder)[i][j];
+                neighborMatrix2[i][j] = neighboringStatusCell(builder, target)[i][j];
                 neighborMatrix[i][j]  = neighborMatrix1[i][j] * neighborMatrix2[i][j];
             }
         }

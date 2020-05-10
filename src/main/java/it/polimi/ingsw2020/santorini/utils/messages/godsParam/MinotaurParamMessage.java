@@ -1,25 +1,27 @@
 package it.polimi.ingsw2020.santorini.utils.messages.godsParam;
 
+import it.polimi.ingsw2020.santorini.utils.Direction;
+
 public class MinotaurParamMessage {
-    private int[] yourBuilder;
-    private int[] opponentBuilder;
+    private Direction opponentBuilderDirection;
+    private char playingBuilderSex;
 
     public MinotaurParamMessage() {
     }
 
-    public int[] getYourBuilder() {
-        return yourBuilder;
+    public Direction getOpponentBuilderDirection() {
+        return opponentBuilderDirection;
     }
 
-    public void setYourBuilder(int[] yourBuilder) {
-        this.yourBuilder = yourBuilder;
+    public void setOpponentBuilderDirection(Direction opponentBuilderDirection) {
+        this.opponentBuilderDirection = opponentBuilderDirection;
     }
 
-    public int[] getOpponentBuilder() {
-        return opponentBuilder;
+    public char getPlayingBuilderSex() {
+        return playingBuilderSex;
     }
 
-    public void setOpponentBuilder(int[] opponentBuilder) {
-        this.opponentBuilder = opponentBuilder;
+    public void setPlayingBuilderSex(char playingBuilderSex) {
+        this.playingBuilderSex = playingBuilderSex;
     }
 }

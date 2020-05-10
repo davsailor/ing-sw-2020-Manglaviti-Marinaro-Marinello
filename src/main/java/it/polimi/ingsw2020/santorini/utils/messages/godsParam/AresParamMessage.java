@@ -1,16 +1,28 @@
 package it.polimi.ingsw2020.santorini.utils.messages.godsParam;
 
+import it.polimi.ingsw2020.santorini.utils.Direction;
+
 public class AresParamMessage {
-    private int[] targetedBlock;
+    private Direction targetedBlockDirection;
+
+    public char getDemolitionBuilderSex() {
+        return demolitionBuilderSex;
+    }
+
+    public void setDemolitionBuilderSex(char demolitionBuilderSex) {
+        this.demolitionBuilderSex = demolitionBuilderSex;
+    }
+
+    private char demolitionBuilderSex;
 
     public AresParamMessage() {
     }
 
-    public int[] getTargetedBlock() {
-        return targetedBlock;
+    public Direction getTargetedBlock() {
+        return targetedBlockDirection;
     }
 
-    public void setTargetedBlock(int[] targetedBlock) {
-        this.targetedBlock = targetedBlock;
+    public void setTargetedBlock(Direction targetedBlockDirection) {
+        this.targetedBlockDirection = targetedBlockDirection;
     }
 }
