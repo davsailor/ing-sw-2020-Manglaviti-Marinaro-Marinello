@@ -3,7 +3,6 @@ package it.polimi.ingsw2020.santorini.model;
 import it.polimi.ingsw2020.santorini.model.gods.Apollo;
 import it.polimi.ingsw2020.santorini.utils.Color;
 import it.polimi.ingsw2020.santorini.utils.PlayerStatus;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -46,14 +45,14 @@ public class PlayerTest {
 
     @Test
     public void testGetColor() {
-        player.setColor(Color.GREEN);
-        assertEquals(Color.GREEN, player.getColor());
+        player.setColor(Color.PLAYER_GREEN);
+        assertEquals(Color.PLAYER_GREEN, player.getColor());
     }
 
     @Test
     public void testSetColor() {
-        player.setColor(Color.GREEN);
-        assertEquals(Color.GREEN, player.getColor());
+        player.setColor(Color.PLAYER_GREEN);
+        assertEquals(Color.PLAYER_GREEN, player.getColor());
     }
 
     @Test

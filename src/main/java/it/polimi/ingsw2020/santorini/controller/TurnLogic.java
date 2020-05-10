@@ -223,14 +223,7 @@ public class TurnLogic {
                 }
             } else if(remainingActions.contains(ActionType.USE_POWER)){
             } else {
-                if(true) { // god.isWillEnded()  controllo fatto per le divinità che possono attivare il potere più volte, vedi POSEIDONE
-                    nextPhase();
-                    handlePhases(match);
-                } else {
-                    remainingActions.add(ActionType.ACTIVATE_GOD);
-                    remainingActions.add(ActionType.SELECT_PARAMETERS);
-                    remainingActions.add(ActionType.USE_POWER);
-                }
+                nextPhase();
             }
         } else {
             nextPhase();

@@ -1,7 +1,6 @@
 package it.polimi.ingsw2020.santorini.view;
 
 import it.polimi.ingsw2020.santorini.model.*;
-import it.polimi.ingsw2020.santorini.model.gods.Prometheus;
 import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.network.client.ServerAdapter;
 import it.polimi.ingsw2020.santorini.network.client.ViewAdapter;
@@ -99,9 +98,8 @@ public class CLI implements ViewInterface{
     public void displayMatchSetupWindow(MatchSetupMessage matchSetupMessage) {
         System.out.println("Giocatori della partita:\n");
         ArrayList<Player> listOfPlayers = matchSetupMessage.getPlayers();
-        for(Player player : listOfPlayers) {
-            System.out.printf("Username: %s\nGod:\n%s\nColor: %s\n", player.getNickname(), player.getDivinePower().toStringEffect(), player.getColor());
-        }
+        for(Player player : listOfPlayers)
+            System.out.println(player.toString() + Color.RESET);
         System.out.println("\n\nE' ora di scegliere la posizione dei builder! inizierà il primo giocatore a scegliere!");
         System.out.println("Abbiamo ordinato in base all'età, i più giovani avranno un piccolo vantaggio!");
         System.out.println("L'ordine voluto dagli dei è questo: ");
@@ -454,49 +452,49 @@ public class CLI implements ViewInterface{
     }
 
     public void showBoard(ArrayList<Cell> listOfCells){
-        String coast = "\u25DE\u25DC\u25B2 ";
+        String coast = Color.OCEAN_BLUE+"\u25DE\u25DC"+Color.MOUNTAIN_BROWN +"\u25B2 ";
         //wave: \u25DE\u25DC
         //mountain: \u25B2
         //configurazione funzionante: "\u25DE\u25DC\u25B2 "
         System.out.println("\n\nBoard:\n");
         System.out.printf(                  "                                 NORTH                \n" +
                 "                 0     1     2     3     4     5     6\n" +
-                "              █═════╦═════╦═════╦═════╦═════╦═════╦═════█");
+                "              "+Color.CORNER_WHITE +"█"+Color.BORDER_YELLOW+"═════╦═════╦═════╦═════╦═════╦═════╦═════"+Color.CORNER_WHITE +"█");
         int j = 0;
         for(int i = 0; i < listOfCells.size(); ++i){
             if(i % 7 == 0){
-                if(i == 0)  System.out.printf("\n           %d  ║%s║", i%7, coast);  //☠
+                if(i == 0)  System.out.printf(Color.RESET+"\n           %d  "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║", i%7, coast);
                 else {
                     if(j == 2) {
-                        System.out.printf(                                                            "  %d", j);
-                        System.out.printf(  "\n              ╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n ");
-                        System.out.printf(  "    WEST  %d  ║%s║", ++j, coast);
+                        System.out.printf(                                                            Color.RESET+"  %d", j);
+                        System.out.printf(  "\n              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n ");
+                        System.out.printf(  Color.RESET+"    WEST  %d  "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║", ++j, coast);
                     }
                     else if(j == 3){
-                        System.out.printf(                                                            "  %d  EAST", j);
-                        System.out.printf(  "\n              ╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n ");
-                        System.out.printf(  "          %d  ║%s║", ++j, coast);
+                        System.out.printf(                                                           Color.RESET + "  %d  EAST", j);
+                        System.out.printf(  "\n              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n ");
+                        System.out.printf(  Color.RESET+"          %d  "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║", ++j, coast);
                     }
                     else {
-                        System.out.printf(                                                            "  %d", j);
-                        System.out.printf(  "\n              ╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n ");
-                        System.out.printf(  "          %d  ║%s║", ++j, coast);
+                        System.out.printf(                                                            Color.RESET+"  %d", j);
+                        System.out.printf(  "\n              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n ");
+                        System.out.printf(  Color.RESET+"          %d  "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║", ++j, coast);
                     }
                 }
             } else {
-                if(listOfCells.get(i).getLevel() == LevelType.COAST) System.out.printf("%s║", coast);
+                if(listOfCells.get(i).getLevel() == LevelType.COAST) System.out.printf("%s"+Color.BORDER_YELLOW+"║", coast);
                 else{
                     if(listOfCells.get(i).getStatus() == AccessType.OCCUPIED){
-                        System.out.printf(" %d%2c ║", listOfCells.get(i).getLevel().getHeight(), listOfCells.get(i).getBuilder().getGender());
+                        System.out.printf(Color.RESET+" %d"+listOfCells.get(i).getBuilder().getColor()+"%2c"+Color.BORDER_YELLOW+" ║", listOfCells.get(i).getLevel().getHeight(), listOfCells.get(i).getBuilder().getGender());
                     }
                     else {
-                        System.out.printf(" %d   ║", listOfCells.get(i).getLevel().getHeight());
+                        System.out.printf(Color.RESET+" %d   "+Color.BORDER_YELLOW+"║", listOfCells.get(i).getLevel().getHeight());
                     }
                 }
             }
         }
-        System.out.printf("  6");
-        System.out.printf(                  "\n              █═════╩═════╩═════╩═════╩═════╩═════╩═════█" +
+        System.out.printf(Color.RESET+"  6");
+        System.out.printf(                  "\n              "+Color.CORNER_WHITE +"█"+Color.BORDER_YELLOW+"═════╩═════╩═════╩═════╩═════╩═════╩═════"+Color.CORNER_WHITE +"█" + Color.RESET+
                 "\n                 0     1     2     3     4     5     6" +
                 "\n                                 SOUTH                   \n");
     }

@@ -36,9 +36,9 @@ import static org.junit.Assert.*;
         @Test
         public void testGetColorAndPlayer(){
             Player player = new Player("davsailor", new Date(1999,2,15));
-            player.setColor(Color.GREEN);
+            player.setColor(Color.PLAYER_GREEN);
             Builder tester = new Builder(player, 'M', new Board(null), null);
-            assertEquals(Color.GREEN, tester.getColor());
+            assertEquals(Color.PLAYER_GREEN, tester.getColor());
             assertEquals(player, tester.getPlayer());
         }
 

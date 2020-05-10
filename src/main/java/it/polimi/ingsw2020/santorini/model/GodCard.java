@@ -1,7 +1,6 @@
 package it.polimi.ingsw2020.santorini.model;
 
 import it.polimi.ingsw2020.santorini.controller.TurnLogic;
-import it.polimi.ingsw2020.santorini.exceptions.InvalidParametersException;
 import it.polimi.ingsw2020.santorini.model.gods.*;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
@@ -45,7 +44,7 @@ public class GodCard {
      * @param invoker is the player that activates the power
      * @param turnManager
      */
-    public void invokeGod(Match match, Player invoker, Message message, TurnLogic turnManager) throws InvalidParametersException {
+    public void invokeGod(Match match, Player invoker, Message message, TurnLogic turnManager) {
 
     }
 
