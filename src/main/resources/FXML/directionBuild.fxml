@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane fx:controller="it.polimi.ingsw2020.santorini.view.gui.DirectionBuildController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="241.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button fx:id="insert" layoutX="277.0" layoutY="187.0" mnemonicParsing="false" onAction="#selectDirection" text="Insert" />
+      <ChoiceBox fx:id="direction" layoutX="217.0" layoutY="138.0" prefHeight="25.0" prefWidth="165.0" />
+      <Label layoutX="33.0" layoutY="38.0" text="SELECT THE DIRECTION IN WHICH YOU WANT TO BUILD">
+         <font>
+            <Font name="System Bold Italic" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="217.0" layoutY="107.0" text="Direction">
+         <font>
+            <Font name="System Bold Italic" size="19.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>
