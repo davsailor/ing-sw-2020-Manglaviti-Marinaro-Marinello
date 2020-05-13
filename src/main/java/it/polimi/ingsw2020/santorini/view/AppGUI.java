@@ -3,12 +3,14 @@ package it.polimi.ingsw2020.santorini.view;
 import it.polimi.ingsw2020.santorini.model.Cell;
 import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
-import it.polimi.ingsw2020.santorini.utils.messages.actions.AskBuildSelectionMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.actions.*;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.AskMoveSelectionMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchSetupMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.UpdateMessage;
+import it.polimi.ingsw2020.santorini.view.gui.BoardController;
+import it.polimi.ingsw2020.santorini.view.gui.RegisterController;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,28 +23,23 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class AppGUI extends Application implements ViewInterface {
-
-    @FXML
-    Label messageLabel;
+public class AppGUI extends Application implements ViewInterface{
 
     private Client client;
 
-    @Override
-    public void start(Stage primaryStage) throws IOException {
-        client = new Client();
-        client.setView(this);
+    private Stage primaryStage;
 
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/FXML/sample.fxml"));
-        Parent root = fxmlLoader.load();
-        primaryStage.setTitle("sample");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+    private RegisterController registerController;
+
+    private BoardController boardController;
+
+
+    public Client getClient() {
+        return client;
     }
 
-    public void surpriseAction(ActionEvent actionEvent) {
-        messageLabel.setText("La carne è TENERISSIMA");
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     /**
@@ -50,12 +47,47 @@ public class AppGUI extends Application implements ViewInterface {
      */
     @Override
     public void displaySetupWindow() {
+        Parent root;
+        Scene scene;
+
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/FXML/Register.fxml"));
+
+        try {
+            root = fxmlLoader.load();
+            scene = new Scene(root);
+        } catch (IOException e) {
+            root = null;
+            scene = new Scene(new Label ("ERROR "));
+        }
+
+        primaryStage.setTitle("REGISTER");
+        primaryStage.setScene(scene);
+        primaryStage.show();
 
     }
 
     @Override
     public void displayNewUsernameWindow() {
 
+        Stage stage = new Stage();
+        Parent children;
+        Scene scene;
+
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/FXML/newUsername.fxml"));
+
+        try {
+            children = fxmlLoader.load();
+            scene = new Scene(children);
+        } catch (IOException e) {
+            children = null;
+            scene = new Scene(new Label ("ERROR "));
+        }
+
+        stage.setTitle("NOT VALID USERNAME");
+        stage.setScene(scene);
+        stage.show();
     }
 
     /**
@@ -65,7 +97,7 @@ public class AppGUI extends Application implements ViewInterface {
      */
     @Override
     public void displayLoadingWindow(String message) {
-
+        //DA VEDERE
     }
 
     /**
@@ -76,22 +108,75 @@ public class AppGUI extends Application implements ViewInterface {
      */
     @Override
     public void displayMatchSetupWindow(MatchSetupMessage matchSetupMessage) {
+        Stage stage = new Stage();
+        Parent children;
+        Scene scene;
 
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/FXML/InfoMatch.fxml"));
+
+        try {
+            children = fxmlLoader.load();
+            scene = new Scene(children);
+        } catch (IOException e) {
+            children = null;
+            scene = new Scene(new Label ("ERROR "));
+        }
+
+        stage.setTitle("START GAME");
+        stage.setScene(scene);
+        stage.show();
+        stage.close();
     }
 
     /**
      * metodo addetto alla selezione dei builder secondo l'ordine definito dal controller
      *
-     * @param matchStateMessage
+     * @param turnPlayerMessage
      */
     @Override
-    public void displaySelectionBuilderWindow(MatchStateMessage matchStateMessage) {
+    public void displaySelectionBuilderWindow(MatchStateMessage turnPlayerMessage) {
+        Stage stage = new Stage();
+        Parent children;
+        Scene scene;
 
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/FXML/board.fxml"));
+
+        try {
+            children = fxmlLoader.load();
+            scene = new Scene(children);
+        } catch (IOException e) {
+            children = null;
+            scene = new Scene(new Label ("ERROR "));
+        }
+
+        stage.setTitle("SELECT THE COORDINATE WHERE YOU WANT TO PUT YOU BUILDER");
+        stage.setScene(scene);
+        stage.show();
     }
+
 
     @Override
     public void displayNewSelectionBuilderWindow(IllegalPositionMessage message) {
+        Stage stage = new Stage();
+        Parent children;
+        Scene scene;
 
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/FXML/board.fxml"));
+
+        try {
+            children = fxmlLoader.load();
+            scene = new Scene(children);
+        } catch (IOException e) {
+            children = null;
+            scene = new Scene(new Label("ERROR "));
+        }
+
+        stage.setTitle("POSITION SELECTED IS OCCUPIED. INSERT NEW COORDINATES");
+        stage.setScene(scene);
+        stage.show();
     }
 
     /**
@@ -122,12 +207,46 @@ public class AppGUI extends Application implements ViewInterface {
 
     @Override
     public void displayMoveUpdate(UpdateMessage updateMessage) {
+        Stage stage = new Stage();
+        Parent children;
+        Scene scene;
 
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/FXML/newUsername.fxml"));
+
+        try {
+            children = fxmlLoader.load();
+            scene = new Scene(children);
+        } catch (IOException e) {
+            children = null;
+            scene = new Scene(new Label ("ERROR "));
+        }
+
+        stage.setTitle("NOT VALID USERNAME");
+        stage.setScene(scene);
+        stage.show();
     }
 
     @Override
     public void displayBuildUpdate(UpdateMessage updateMessage) {
+        Stage stage = new Stage();
+        Parent children;
+        Scene scene;
 
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/FXML/newUsername.fxml"));
+
+        try {
+            children = fxmlLoader.load();
+            scene = new Scene(children);
+        } catch (IOException e) {
+            children = null;
+            scene = new Scene(new Label ("ERROR "));
+        }
+
+        stage.setTitle("NOT VALID USERNAME");
+        stage.setScene(scene);
+        stage.show();
     }
 
     @Override
@@ -137,7 +256,24 @@ public class AppGUI extends Application implements ViewInterface {
 
     @Override
     public void displayChooseBuilder(MatchStateMessage message) {
+        Stage stage = new Stage();
+        Parent children;
+        Scene scene;
 
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/FXML/newUsername.fxml"));
+
+        try {
+            children = fxmlLoader.load();
+            scene = new Scene(children);
+        } catch (IOException e) {
+            children = null;
+            scene = new Scene(new Label ("ERROR "));
+        }
+
+        stage.setTitle("NOT VALID USERNAME");
+        stage.setScene(scene);
+        stage.show();
     }
 
     /**
@@ -152,7 +288,24 @@ public class AppGUI extends Application implements ViewInterface {
 
     @Override
     public void displayWouldActivate(MatchStateMessage question) {
+        Stage stage = new Stage();
+        Parent children;
+        Scene scene;
 
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/FXML/newUsername.fxml"));
+
+        try {
+            children = fxmlLoader.load();
+            scene = new Scene(children);
+        } catch (IOException e) {
+            children = null;
+            scene = new Scene(new Label ("ERROR "));
+        }
+
+        stage.setTitle("NOT VALID USERNAME");
+        stage.setScene(scene);
+        stage.show();
     }
 
     /**
@@ -185,6 +338,7 @@ public class AppGUI extends Application implements ViewInterface {
 
     }
 
+
     /**
      * metodo che mostra all'utente possibili errori che sono capitati
      *
@@ -197,6 +351,16 @@ public class AppGUI extends Application implements ViewInterface {
 
     @Override
     public void showBoard(ArrayList<Cell> listOfCells) {
+
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        this.primaryStage = primaryStage;
+        client = new Client();
+        client.setView(this);
+
+        displaySetupWindow();
 
     }
 }
