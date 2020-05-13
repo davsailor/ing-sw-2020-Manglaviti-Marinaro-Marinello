@@ -2,7 +2,6 @@ package it.polimi.ingsw2020.santorini.controller;
 
 import it.polimi.ingsw2020.santorini.exceptions.IllegalConstructionException;
 import it.polimi.ingsw2020.santorini.exceptions.IllegalMovementException;
-import it.polimi.ingsw2020.santorini.exceptions.InvalidParametersException;
 import it.polimi.ingsw2020.santorini.model.GodCard;
 import it.polimi.ingsw2020.santorini.model.Match;
 import it.polimi.ingsw2020.santorini.utils.ActionType;
@@ -43,19 +42,11 @@ public class ActionLogic {
     public ArrayList<Message> invocation(Match match, Message message) {
         ArrayList<Message> listToSend = new ArrayList<>();
         GodCard god = match.getCurrentPlayer().getDivinePower();
-        try{
-            god.invokeGod(match, match.getCurrentPlayer(), message, turnManager);
-            for(int i = 0; i < match.getNumberOfPlayers(); ++i){
-                Message sendMessage = new Message(match.getPlayers()[i].getNickname());
-                sendMessage.buildUpdateMessage(new UpdateMessage(match, turnManager.getPhase()));
-                listToSend.add(sendMessage);
-            }
-            turnManager.getRemainingActions().remove(ActionType.ACTIVATE_GOD);
-            turnManager.nextPhase();
-        } catch (InvalidParametersException e) {
-            Message error = new Message(match.getCurrentPlayer().getNickname());
-            error.buildInvalidParametersMessage(new InvalidParametersMessage(god.getName(), e.getError()));
-            listToSend.add(error);
+        god.invokeGod(match, match.getCurrentPlayer(), message, turnManager);
+        for(int i = 0; i < match.getNumberOfPlayers(); ++i){
+            Message sendMessage = new Message(match.getPlayers()[i].getNickname());
+            sendMessage.buildUpdateMessage(new UpdateMessage(match, turnManager.getPhase()));
+            listToSend.add(sendMessage);
         }
         return listToSend;
     }

@@ -100,8 +100,6 @@ public class Player {
         moveActions=true;
     }
 
-    public void tostring(){}
-
     public Builder getBuilderF() {
         return builderF;
     }
@@ -126,5 +124,9 @@ public class Player {
         return builderF.canBuild() || builderM.canBuild();
     }
 
-    // public String chooseBuilder(Builder[] Builders){ }
+    @Override
+    public String toString(){
+        return color+"Username: "+nickname+"\nBirthDate: "+birthDate+"\nGod: "+divinePower.getName();
+    }
+
 }

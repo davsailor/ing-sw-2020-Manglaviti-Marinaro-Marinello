@@ -1,25 +1,27 @@
 package it.polimi.ingsw2020.santorini.utils.messages.godsParam;
 
+import it.polimi.ingsw2020.santorini.utils.Direction;
+
 public class PrometheusParamMessage {
-    private int[] builder;
-    private int[] targetedCell;
+    private char builderSex;
+    private Direction direction;
 
     public PrometheusParamMessage() {
     }
 
-    public int[] getTargetedCell() {
-        return targetedCell;
+    public char getBuilderSex() {
+        return builderSex;
     }
 
-    public int[] getBuilder() {
-        return builder;
+    public void setBuilderSex(char builderSex) {
+        this.builderSex = builderSex;
     }
 
-    public void setBuilder(int[] builder) {
-        this.builder = builder;
+    public Direction getDirection() {
+        return direction;
     }
 
-    public void setTargetedCell(int[] targetedCell) {
-        this.targetedCell = targetedCell;
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 }

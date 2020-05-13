@@ -4,7 +4,7 @@ import it.polimi.ingsw2020.santorini.utils.Direction;
 
 public class DemeterParamMessage {
     private Direction direction;
-    private char playingBuilderSex;
+
 
     public DemeterParamMessage() {
     }
@@ -17,11 +17,5 @@ public class DemeterParamMessage {
         this.direction = direction;
     }
 
-    public char getPlayingBuilderSex() {
-        return playingBuilderSex;
-    }
 
-    public void setPlayingBuilderSex(char playingBuilderSex) {
-        this.playingBuilderSex = playingBuilderSex;
-    }
 }

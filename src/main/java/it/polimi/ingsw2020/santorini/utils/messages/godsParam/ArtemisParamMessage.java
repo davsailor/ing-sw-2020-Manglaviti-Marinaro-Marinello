@@ -4,7 +4,7 @@ import it.polimi.ingsw2020.santorini.utils.Direction;
 
 public class ArtemisParamMessage {
     private Direction direction;
-    private char playingBuilderGender;
+
 
     public ArtemisParamMessage() {
     }
@@ -17,11 +17,4 @@ public class ArtemisParamMessage {
         this.direction = direction;
     }
 
-    public char getPlayingBuilderGender() {
-        return playingBuilderGender;
-    }
-
-    public void setPlayingBuilderGender(char playingBuilderGender) {
-        this.playingBuilderGender = playingBuilderGender;
-    }
 }

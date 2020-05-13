@@ -112,7 +112,9 @@ public class Board {
             neighborMatrix = new int[3][3];
             for(int i = 0; i < 3; i++){//For of the row
                 for (int j = 0; j < 3 ; j++){//For of the column
-                    neighborMatrix[i][j] = currentBuilder.getBoard().getBoard()[currentBuilder.getPosX()-1+i][currentBuilder.getPosY()-1+j].getLevel().getHeight();
+                    if(currentBuilder.getBoard().getBoard()[currentBuilder.getPosX()-1+i][currentBuilder.getPosY()-1+j].getStatus() == OCCUPIED){neighborMatrix[i][j] = -1;}
+                    else{neighborMatrix[i][j] = currentBuilder.getBoard().getBoard()[currentBuilder.getPosX()-1+i][currentBuilder.getPosY()-1+j].getLevel().getHeight();}
+
                 }
             }
             return neighborMatrix;

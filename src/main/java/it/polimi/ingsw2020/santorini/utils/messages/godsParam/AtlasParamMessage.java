@@ -4,7 +4,7 @@ import it.polimi.ingsw2020.santorini.utils.Direction;
 
 public class AtlasParamMessage {
     private Direction direction;
-    private char playingBuilderSex;
+
 
     public AtlasParamMessage() {
     }
@@ -17,11 +17,4 @@ public class AtlasParamMessage {
         this.direction = direction;
     }
 
-    public char getPlayingBuilderSex() {
-        return playingBuilderSex;
-    }
-
-    public void setPlayingBuilderSex(char playingBuilderSex) {
-        this.playingBuilderSex = playingBuilderSex;
-    }
 }
