@@ -1,7 +1,6 @@
 package it.polimi.ingsw2020.santorini.model;
 
 import it.polimi.ingsw2020.santorini.utils.AccessType;
-import it.polimi.ingsw2020.santorini.utils.Color;
 import it.polimi.ingsw2020.santorini.utils.LevelType;
 
 import static it.polimi.ingsw2020.santorini.utils.AccessType.DOME;
@@ -154,6 +153,15 @@ public class Board {
         if(block == LevelType.DOME){board[buildX][buildY].setStatus(DOME);}
     }
 
+    /**
+     * the method creates a matrix 3*3 that shows in which cell there is an opponent's builder that can be swapped with the builder of current player,
+     * the cells' values of this matrix are calculated by multiplying the respective values of neighboringColorCell and neighboringStatusCell:
+     * The value of the cell will be 0 if the correspondent cell of the board is either free, occupied by the other builder of the player or the cell is inaccessible
+     * by the builder. In all the other cases the cell will have the values of the correspondent cell of neighboringStatusCell
+     * @param builder is the current player's builder, the cell where it is will be the respective centre of the returned matrix
+     * @param target will passed to neighboringStatusCell, and its value will be OCCUPIED
+     * @return is the matrix of integers described above
+     */
     public static int[][] neighboringSwappingCell(Builder builder, AccessType target){
         int[][] neighborMatrix = new int[3][3];
         int[][] neighborMatrix1 = new int[3][3];
