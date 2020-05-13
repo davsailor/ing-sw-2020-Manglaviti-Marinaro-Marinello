@@ -82,12 +82,14 @@ public class Builder {
         this.gender = gender;
         this.player = player;
 
+        this.board= board;
         // if for test purpose
         if(pos != null){
             this.posX=pos[0];
             this.posY=pos[1];
             this.buildPosX=pos[0];
             this.buildPosY=pos[1];
+            board.getBoard()[pos[0]][pos[1]].setStatus(AccessType.OCCUPIED);
         } else {
             this.posX = 3;
             this.posY = 3;
@@ -95,7 +97,6 @@ public class Builder {
             this.buildPosY = 3;
         }
 
-        this.board= board;
         this.possibleMoves =new int[3][3];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
