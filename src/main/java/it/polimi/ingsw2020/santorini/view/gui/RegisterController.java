@@ -36,6 +36,9 @@ public class RegisterController {
     @FXML
     Button signUpButton;
 
+    public void setClient(Client client) {
+        this.client = client;
+    }
 
     public void initialize(){
         numberOfPlayers.setItems(list);
@@ -47,8 +50,6 @@ public class RegisterController {
     public void RegisterAction(ActionEvent actionEvent) {
         String ip = indirizzoIp.getText();
         System.out.println(ip);
-
-        client = AppGUI.getClient();
 
         client.setNetworkHandler(new ServerAdapter(client, ip));
         client.setViewHandler(new ViewAdapter(client));
@@ -67,7 +68,6 @@ public class RegisterController {
 
         client.setBirthDate(date);
         client.setUsername(usernameId);
-
         client.setSelectedMatch(numberPlayers);
 
         Message message = new Message(client.getUsername());

@@ -1,5 +1,6 @@
 package it.polimi.ingsw2020.santorini.controller;
 
+import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
 import it.polimi.ingsw2020.santorini.exceptions.IllegalConstructionException;
 import it.polimi.ingsw2020.santorini.exceptions.IllegalMovementException;
 import it.polimi.ingsw2020.santorini.model.GodCard;
@@ -39,10 +40,10 @@ public class ActionLogic {
      * @param message is the match which asks to invoke the god
      * @return an Array List of Message which contains messages to notify the use of the god
      */
-    public ArrayList<Message> invocation(Match match, Message message) {
+    public ArrayList<Message> invocation(Match match, Message message) throws EndMatchException {
         ArrayList<Message> listToSend = new ArrayList<>();
         GodCard god = match.getCurrentPlayer().getDivinePower();
-        god.invokeGod(match, match.getCurrentPlayer(), message, turnManager);
+        god.invokeGod(match, message, turnManager);
         for(int i = 0; i < match.getNumberOfPlayers(); ++i){
             Message sendMessage = new Message(match.getPlayers()[i].getNickname());
             sendMessage.buildUpdateMessage(new UpdateMessage(match, turnManager.getPhase()));
@@ -57,7 +58,7 @@ public class ActionLogic {
      * @param message contains the direction of the movement
      * @return the ArrayList created contains the message for the next phases of the turn
      */
-    public ArrayList<Message> move(Match match, SelectedMoveMessage message) {
+    public ArrayList<Message> move(Match match, SelectedMoveMessage message) throws EndMatchException {
         ArrayList<Message> listToSend = new ArrayList<>();
         try {
             match.getCurrentPlayer().getPlayingBuilder().move(message.getDirection());
@@ -70,6 +71,8 @@ public class ActionLogic {
             Message error = new Message(match.getCurrentPlayer().getNickname());
             error.buildInvalidMoveMessage(new GenericErrorMessage(e.getError()));
             listToSend.add(error);
+        } catch (EndMatchException e){
+            match.currentWins();
         }
         return listToSend;
     }

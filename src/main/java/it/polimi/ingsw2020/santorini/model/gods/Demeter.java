@@ -1,6 +1,7 @@
 package it.polimi.ingsw2020.santorini.model.gods;
 
 import it.polimi.ingsw2020.santorini.controller.TurnLogic;
+import it.polimi.ingsw2020.santorini.exceptions.IllegalConstructionException;
 import it.polimi.ingsw2020.santorini.model.*;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
@@ -9,7 +10,6 @@ import it.polimi.ingsw2020.santorini.utils.messages.godsParam.DemeterParamMessag
 public class Demeter extends GodCard {
 
     public Demeter(){
-        super();
         name = getClass().getSimpleName();
         maxPlayersNumber = 3;
         timingName = "Your Build";
@@ -19,8 +19,22 @@ public class Demeter extends GodCard {
     }
 
     @Override
-    public void invokeGod(Match match, Player invoker, Message message, TurnLogic turnManager) {
+    public boolean canActivate(Match match) {
+        for(int i = 0; i < 3; ++i)
+            for(int j = 0; j < 3; ++j)
+                if(match.getCurrentPlayer().getPlayingBuilder().getPossibleBuildings()[i][j] < 3 && match.getCurrentPlayer().getPlayingBuilder().getPossibleBuildings()[i][j] >= 0)
+                    return true;
+        return false;
+    }
+
+    @Override
+    public void invokeGod(Match match, Message message, TurnLogic turnManager) {
         DemeterParamMessage param = message.deserializeDemeterParamMessage();
+        try {
+            match.getCurrentPlayer().getPlayingBuilder().build(param.getDirection());
+        } catch (IllegalConstructionException e) {
+            e.printStackTrace();
+        }
         System.out.println("potere di " + name + " attivato");
     }
 

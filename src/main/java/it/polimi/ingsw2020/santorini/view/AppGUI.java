@@ -33,7 +33,6 @@ public class AppGUI extends Application implements ViewInterface{
 
     private BoardController boardController;
 
-
     public Client getClient() {
         return client;
     }
@@ -61,6 +60,8 @@ public class AppGUI extends Application implements ViewInterface{
             scene = new Scene(new Label ("ERROR "));
         }
 
+        registerController = fxmlLoader.getController();
+        registerController.setClient(client);
         primaryStage.setTitle("REGISTER");
         primaryStage.setScene(scene);
         primaryStage.show();

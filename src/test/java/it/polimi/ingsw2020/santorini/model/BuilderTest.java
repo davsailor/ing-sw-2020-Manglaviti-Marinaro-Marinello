@@ -41,7 +41,7 @@ import static org.junit.Assert.*;
             assertEquals(Color.PLAYER_GREEN, tester.getColor());
             assertEquals(player, tester.getPlayer());
         }
-
+/*
         @Test
         public void moveTest() throws IllegalMovementException {
             Board board = new Board(null);
@@ -120,7 +120,7 @@ import static org.junit.Assert.*;
             int posY=3;
             builder.move(null);
         }
-
+*/
         @Test
         public void setPossibleBuildingsTest() {}
 

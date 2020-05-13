@@ -83,7 +83,7 @@ public class GodDeck {
         } catch (EmptyDeckException e){
             System.out.println("No more gods available!");
         }
-        catch (UnexpectedGodException | NoSuchMethodException e) {
+        catch (UnexpectedGodException e) {
             System.out.println("Your god does not exist!");
         }
         return null;

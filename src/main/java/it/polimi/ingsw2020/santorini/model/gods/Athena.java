@@ -8,7 +8,6 @@ import it.polimi.ingsw2020.santorini.utils.PhaseType;
 public class Athena extends GodCard {
 
     public Athena(){
-        super();
         name = getClass().getSimpleName();
         maxPlayersNumber = 3;
         timingName = "Opponents' Turn";
@@ -18,7 +17,17 @@ public class Athena extends GodCard {
     }
 
     @Override
-    public void invokeGod(Match match, Player invoker, Message message, TurnLogic turnManager) {
+    public boolean canActivate(Match match) {
+        return match.getCurrentPlayer().getPlayingBuilder().isRisedThisTurn();
+    }
+
+    @Override
+    public void invokeGod(Match match, Message message, TurnLogic turnManager) {
+        for(Player p : match.getPlayers()){
+            if(!p.getNickname().equals(match.getCurrentPlayer().getNickname())){
+                p.setRiseActions(false);
+            }
+        }
         System.out.println("potere di " + name + " attivato");
     }
 

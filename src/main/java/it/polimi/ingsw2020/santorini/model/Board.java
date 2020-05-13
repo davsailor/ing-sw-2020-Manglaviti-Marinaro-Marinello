@@ -10,6 +10,10 @@ public class Board {
     private Cell[][] board;
     private transient GodDeck godCards;
 
+    public Board(Cell[][] cells){
+        this.board = cells;
+    }
+
     /**
      * it is the constructor of the class
      */

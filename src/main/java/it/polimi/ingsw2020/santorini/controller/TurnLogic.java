@@ -9,8 +9,13 @@ import it.polimi.ingsw2020.santorini.utils.PhaseType;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.*;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.*;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Set;
 
 public class TurnLogic {
     /**
@@ -29,13 +34,19 @@ public class TurnLogic {
     private PhaseType phase;
     private EnumSet<ActionType> remainingActions;
     private ActionLogic actionManager;
+    private Method persephoneEffect;
 
 
     public TurnLogic() {
         phase = PhaseType.START_TURN;
         remainingActions = EnumSet.allOf(ActionType.class);
         actionManager = new ActionLogic(this);
+        persephoneEffect = null;
         this.reset();
+    }
+
+    public void setPersephoneEffect(Method persephoneEffect) {
+        this.persephoneEffect = persephoneEffect;
     }
 
     /**
@@ -98,6 +109,7 @@ public class TurnLogic {
      *
      */
     public void handlePhases(Match match) throws EndMatchException {
+        ArrayList<Method> opponentEffects;
         switch (phase){
             case START_TURN:
                 startTurnManager(match);
@@ -117,6 +129,13 @@ public class TurnLogic {
                 buildManager(match);
                 break;
             case STANDBY_PHASE_3:
+                if(persephoneEffect != null) {
+                    try {
+                        persephoneEffect.invoke(match, null, this);
+                    } catch (IllegalAccessException | InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                }
                 standByPhaseManager(match, PhaseType.STANDBY_PHASE_3);
                 break;
             case END_TURN:

@@ -73,54 +73,39 @@ public enum GodFactotum {
         }
     }
 
-    public GodCard summon() throws UnexpectedGodException, NoSuchMethodException {
-        GodCard card;
+    public GodCard summon() throws UnexpectedGodException{
         switch(this.code){
             case 0:
-                card = new Apollo();
-                break;
+                return new Apollo();
             case 1:
-                card = new Artemis();
-                break;
+                return new Artemis();
             case 2:
-                card = new Athena();
-                break;
+                return new Athena();
             case 3:
-                card = new Atlas();
-                break;
+                return new Atlas();
             case 4:
-                card = new Demeter();
-                break;
+                return new Demeter();
             case 5:
-                card = new Hephaestus();
-                break;
+                return new Hephaestus();
             case 6:
-                card = new Minotaur();
-                break;
+                return new Minotaur();
             case 7:
-                card = new Pan();
-                break;
+                return new Pan();
             case 8:
-                card = new Prometheus();
-                break;
+                return new Prometheus();
             case 9:
-                card = new Ares();
-                break;
+                return new Ares();
             case 10:
-                card = new Hestia();
-                break;
+                return new Hestia();
             case 11:
-                card = new Persephone();
-                break;
+                return new Persephone();
             case 12:
-                card = new Poseidon();
-                break;
+                return new Poseidon();
             case 13:
-                card = new Zeus();
-                break;
+                return new Zeus();
             default:
                 throw new UnexpectedGodException();
         }
-        return card;
+
     }
 }

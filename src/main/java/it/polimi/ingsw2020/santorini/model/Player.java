@@ -126,7 +126,7 @@ public class Player {
 
     @Override
     public String toString(){
-        return color+"Username: "+nickname+"\nBirthDate: "+birthDate+"\nGod: "+divinePower.getName();
+        return color+"Username: "+nickname+"\nBirthDate: "+birthDate+"\nGod: "+divinePower.toStringEffect();
     }
 
 }

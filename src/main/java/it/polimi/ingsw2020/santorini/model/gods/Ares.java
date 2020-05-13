@@ -9,7 +9,6 @@ import it.polimi.ingsw2020.santorini.utils.messages.godsParam.AresParamMessage;
 public class Ares extends GodCard {
 
     public Ares(){
-        super();
         name = getClass().getSimpleName();
         maxPlayersNumber = 3;
         timingName = "End of Your Turn";
@@ -19,8 +18,63 @@ public class Ares extends GodCard {
     }
 
     @Override
-    public void invokeGod(Match match, Player invoker, Message message, TurnLogic turnManager) {
+    public boolean canActivate(Match match) {
+        Builder demolitionBuilder;
+        boolean canDestroy = false;
+
+        if(match.getCurrentPlayer().getPlayingBuilder().getGender() == 'M')
+            demolitionBuilder = match.getCurrentPlayer().getBuilderF();
+        else
+            demolitionBuilder = match.getCurrentPlayer().getBuilderM();
+
+        int[][] neighboringLevelMatrix = Board.neighboringLevelCell(demolitionBuilder);
+
+        for(int i = 0; i < 3 && !canDestroy; ++i)
+            for(int j = 0; j < 3 && !canDestroy; ++j)
+                if(neighboringLevelMatrix[i][j] > 0 && neighboringLevelMatrix[i][j] < 4) canDestroy = true;
+
+        return canDestroy;
+    }
+
+    @Override
+    public void invokeGod(Match match, Message message, TurnLogic turnManager) {
         AresParamMessage param = message.deserializeAresParamMessage();
+        Builder demolitionBuilder;
+
+        if(param.getDemolitionBuilderSex() == 'M') demolitionBuilder = match.getCurrentPlayer().getBuilderM();
+        else demolitionBuilder = match.getCurrentPlayer().getBuilderF();
+
+        Cell target = match.getBoard().getBoard()[demolitionBuilder.getPosX()][demolitionBuilder.getBuildPosY()-1];
+
+        switch(param.getTargetedBlock()){
+            case NORTH:
+                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()][demolitionBuilder.getBuildPosY()-1];
+                break;
+            case NORTH_WEST:
+                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()-1][demolitionBuilder.getBuildPosY()-1];
+                break;
+            case NORTH_EAST:
+                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()+1][demolitionBuilder.getBuildPosY()-1];
+                break;
+            case WEST:
+                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()-1][demolitionBuilder.getBuildPosY()];
+                break;
+            case EAST:
+                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()+1][demolitionBuilder.getBuildPosY()];
+                break;
+            case SOUTH:
+                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()][demolitionBuilder.getBuildPosY()+1];
+                break;
+            case SOUTH_EAST:
+                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()+1][demolitionBuilder.getBuildPosY()+1];
+                break;
+            case SOUTH_WEST:
+                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()-1][demolitionBuilder.getBuildPosY()+1];
+                break;
+        }
+
+        target.demolish();
+
         System.out.println("potere di " + name + " attivato");
     }
 

@@ -1,7 +1,10 @@
 package it.polimi.ingsw2020.santorini.model.gods;
 
 import it.polimi.ingsw2020.santorini.controller.TurnLogic;
+import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
+import it.polimi.ingsw2020.santorini.exceptions.IllegalMovementException;
 import it.polimi.ingsw2020.santorini.model.*;
+import it.polimi.ingsw2020.santorini.utils.LevelType;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.ArtemisParamMessage;
@@ -9,7 +12,6 @@ import it.polimi.ingsw2020.santorini.utils.messages.godsParam.ArtemisParamMessag
 public class Artemis extends GodCard {
 
     public Artemis(){
-        super();
         name = getClass().getSimpleName();
         maxPlayersNumber = 3;
         timingName = "Your Move";
@@ -19,8 +21,19 @@ public class Artemis extends GodCard {
     }
 
     @Override
-    public void invokeGod(Match match, Player invoker, Message message, TurnLogic turnManager) {
+    public boolean canActivate(Match match) {
+        return match.getCurrentPlayer().getPlayingBuilder().canMove();
+    }
+
+    @Override
+    public void invokeGod(Match match, Message message, TurnLogic turnManager) throws EndMatchException {
         ArtemisParamMessage param = message.deserializeArtemisParamMessage();
+        try {
+            match.getCurrentPlayer().getPlayingBuilder().move(param.getDirection());
+        } catch(IllegalMovementException ignored){}
+        catch (EndMatchException e){
+            match.currentWins();
+        }
         System.out.println("potere di " + name + " attivato");
     }
 

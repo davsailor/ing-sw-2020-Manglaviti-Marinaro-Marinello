@@ -613,6 +613,7 @@ public class CLI implements ViewInterface{
             }
         } while (wrong);
 
+        chosen.setBoard(new Board(message.getBoard()));
         int[][] neighboringSwappingCell = Board.neighboringSwappingCell(chosen, AccessType.OCCUPIED);
 
         boolean allZeros = true;
@@ -692,6 +693,8 @@ public class CLI implements ViewInterface{
             demolitionBuilder = message.getCurrentPlayer().getBuilderF();
             demolitionBuilderSex = 'F';
         }
+
+        demolitionBuilder.setBoard(new Board(message.getBoard()));
         int[][] neighboringLevelCell = Board.neighboringLevelCell(demolitionBuilder);
 
         //INserire display per mostrare le possibili costruzioni
@@ -807,6 +810,7 @@ public class CLI implements ViewInterface{
     private AtlasParamMessage displayAtlasParamSel(MatchStateMessage message){
         AtlasParamMessage atlasParamMessage = new AtlasParamMessage();
         Direction direction = null;
+        message.getCurrentPlayer().getPlayingBuilder().setBoard(new Board(message.getBoard()));
         int[][] neighboringLevelCell = Board.neighboringLevelCell(message.getCurrentPlayer().getPlayingBuilder());
         //INserire display per mostrare
         boolean wrong;
@@ -866,7 +870,6 @@ public class CLI implements ViewInterface{
         boolean wrong;
         int pressedButton;
         do {
-
             System.out.println("Ora è il momento di scegliere dove far costruire nuovamente al builder , premi il numero indicato per scegliere la direzione della costruzione");
             if (possibleBuildings[0][0] != 4 && possibleBuildings[0][0] != -1 && possibleBuildings[0][0] != -2) System.out.println("Premi 1 per costruire con il builder a NORD-OVEST");
             if (possibleBuildings[0][1] != 4 && possibleBuildings[0][1] != -1 && possibleBuildings[0][1] != -2) System.out.println("Premi 2 per costruire con il builder a NORD");
@@ -919,7 +922,8 @@ public class CLI implements ViewInterface{
         int[] posBuilder = new int[2];
         posBuilder[0] = message.getCurrentPlayer().getPlayingBuilder().getPosX();
         posBuilder[1] = message.getCurrentPlayer().getPlayingBuilder().getPosY();
-        int[][] possibleBuildingsH = Board.neighboringLevelCell(message.getCurrentPlayer().getPlayingBuilder());
+
+        message.getCurrentPlayer().getPlayingBuilder().setBoard(new Board(message.getBoard()));
 
         int[][] neighboringLevelCell = Board.neighboringLevelCell(message.getCurrentPlayer().getPlayingBuilder());
         if(message.getCurrentPlayer().getPlayingBuilder().getPosX() == 1 || message.getCurrentPlayer().getPlayingBuilder().getPosX() == 5){
@@ -954,59 +958,59 @@ public class CLI implements ViewInterface{
         do {
 
             System.out.println("Ora è il momento di scegliere dove far costruire nuovamente al builder , premi il numero indicato per scegliere la direzione della costruzione, attenzione a non scegliere una cella perimetrale!");
-            if (possibleBuildingsH[0][0] != -1 && possibleBuildingsH[0][0] != 4) System.out.println("Premi 1 per costruire con il builder a NORD-OVEST");
-            if (possibleBuildingsH[0][1] != -1 && possibleBuildingsH[0][1] != 4) System.out.println("Premi 2 per costruire con il builder a NORD");
-            if (possibleBuildingsH[0][2] != -1 && possibleBuildingsH[0][2] != 4) System.out.println("Premi 3 per costruire con il builder a NORD-EST");
-            if (possibleBuildingsH[1][0] != -1 && possibleBuildingsH[1][0] != 4) System.out.println("Premi 4 per costruire con il builder a OVEST");
-            if (possibleBuildingsH[1][2] != -1 && possibleBuildingsH[1][2] != 4) System.out.println("Premi 5 per costruire con il builder a EST");
-            if (possibleBuildingsH[2][0] != -1 && possibleBuildingsH[2][0] != 4) System.out.println("Premi 6 per costruire con il builder a SUD-OVEST");
-            if (possibleBuildingsH[2][1] != -1 && possibleBuildingsH[2][1] != 4) System.out.println("Premi 7 per costruire con il builder a SUD");
-            if (possibleBuildingsH[2][2] != -1 && possibleBuildingsH[2][2] != 4) System.out.println("Premi 8 per costruire con il builder a SUD-EST");
+            if (neighboringLevelCell[0][0] != -1 && neighboringLevelCell[0][0] != 4) System.out.println("Premi 1 per costruire con il builder a NORD-OVEST");
+            if (neighboringLevelCell[0][1] != -1 && neighboringLevelCell[0][1] != 4) System.out.println("Premi 2 per costruire con il builder a NORD");
+            if (neighboringLevelCell[0][2] != -1 && neighboringLevelCell[0][2] != 4) System.out.println("Premi 3 per costruire con il builder a NORD-EST");
+            if (neighboringLevelCell[1][0] != -1 && neighboringLevelCell[1][0] != 4) System.out.println("Premi 4 per costruire con il builder a OVEST");
+            if (neighboringLevelCell[1][2] != -1 && neighboringLevelCell[1][2] != 4) System.out.println("Premi 5 per costruire con il builder a EST");
+            if (neighboringLevelCell[2][0] != -1 && neighboringLevelCell[2][0] != 4) System.out.println("Premi 6 per costruire con il builder a SUD-OVEST");
+            if (neighboringLevelCell[2][1] != -1 && neighboringLevelCell[2][1] != 4) System.out.println("Premi 7 per costruire con il builder a SUD");
+            if (neighboringLevelCell[2][2] != -1 && neighboringLevelCell[2][2] != 4) System.out.println("Premi 8 per costruire con il builder a SUD-EST");
 
 
             pressedButton = scannerIn.nextInt();
             scannerIn.nextLine();
             wrong = true;
 
-            if (pressedButton == 1 && possibleBuildingsH[0][0] != 4 && possibleBuildingsH[0][0] != -1 )  {
+            if (pressedButton == 1 && neighboringLevelCell[0][0] != 4 && neighboringLevelCell[0][0] != -1 )  {
                 //if(3 <= posBuilder[0] && posBuilder[0] <= 4 && 3 <= posBuilder[1] && posBuilder[1] <= 4 ){
                 //}
                 direction = Direction.NORTH_WEST;
                 wrong = false;
 
-            } else if (pressedButton == 2 && possibleBuildingsH[0][1] != 4 && possibleBuildingsH[0][1] != -1) {
+            } else if (pressedButton == 2 && neighboringLevelCell[0][1] != 4 && neighboringLevelCell[0][1] != -1) {
                 //if(3 <= posBuilder[0] && posBuilder[0] <= 4 && 2 <= posBuilder[1] && posBuilder[1] <= 4 ){
                 //}
                 direction = Direction.NORTH;
                 wrong = false;
-            } else if (pressedButton == 3 && possibleBuildingsH[0][2] != 4 && possibleBuildingsH[0][2] != -1) {
+            } else if (pressedButton == 3 && neighboringLevelCell[0][2] != 4 && neighboringLevelCell[0][2] != -1) {
                 //if(3 <= posBuilder[0] && posBuilder[0] <= 4 && 2 <= posBuilder[1] && posBuilder[1] <= 3 ){
                 //}
                 direction = Direction.NORTH_EAST;
                 wrong = false;
 
-            } else if (pressedButton == 4 && possibleBuildingsH[1][0] != 4 && possibleBuildingsH[1][0] != -1 ) {
+            } else if (pressedButton == 4 && neighboringLevelCell[1][0] != 4 && neighboringLevelCell[1][0] != -1 ) {
                 //if(2 <= posBuilder[0] && posBuilder[0] <= 4 && 3 <= posBuilder[1] && posBuilder[1] <= 4 ){
                 //}
                 direction = Direction.WEST;
                 wrong = false;
 
-            } else if (pressedButton == 5 && possibleBuildingsH[1][2] != 4 && possibleBuildingsH[1][2] != -1 ) {
+            } else if (pressedButton == 5 && neighboringLevelCell[1][2] != 4 && neighboringLevelCell[1][2] != -1 ) {
                 //if(2 <= posBuilder[0] && posBuilder[0] <= 4 && 2 <= posBuilder[1] && posBuilder[1] <= 3 ){
                 //}
                 direction = Direction.EAST;
                 wrong = false;
-            } else if (pressedButton == 6 && possibleBuildingsH[2][0] != 4 && possibleBuildingsH[2][0] != -1 ) {
+            } else if (pressedButton == 6 && neighboringLevelCell[2][0] != 4 && neighboringLevelCell[2][0] != -1 ) {
                 //if(2 <= posBuilder[0] && posBuilder[0] <= 3 && 3 <= posBuilder[1] && posBuilder[1] <= 4 ){
                 //}
                 direction = Direction.SOUTH_WEST;
                 wrong = false;
-            } else if (pressedButton == 7 && possibleBuildingsH[2][1] != 4 && possibleBuildingsH[2][1] != -1 ) {
+            } else if (pressedButton == 7 && neighboringLevelCell[2][1] != 4 && neighboringLevelCell[2][1] != -1 ) {
                 //if(2 <= posBuilder[0] && posBuilder[0] <= 3 && 2 <= posBuilder[1] && posBuilder[1] <= 4 ){
                 //}
                 direction = Direction.SOUTH;
                 wrong = false;
-            } else if (pressedButton == 8 && possibleBuildingsH[2][2] != 4 && possibleBuildingsH[2][2] != -1 ) {
+            } else if (pressedButton == 8 && neighboringLevelCell[2][2] != 4 && neighboringLevelCell[2][2] != -1 ) {
                 //if(2 <= posBuilder[0] && posBuilder[0] <= 3 && 2 <= posBuilder[1] && posBuilder[1] <= 3 ){
                 //}
                 direction = Direction.SOUTH_EAST;
@@ -1048,6 +1052,7 @@ public class CLI implements ViewInterface{
             else wrong = true;
         } while (wrong);
 
+        chosenBuilderM.setBoard(new Board(message.getBoard()));
         int[][] possibleSwap = Board.neighboringSwappingCell(chosenBuilderM, AccessType.OCCUPIED);
         //Modifico possibleSwap per includere l'impossibilità di spingere l'avversario perché la cella dopo non è FREE
         if(message.getBoard()[posBuilder[0]-2][posBuilder[1]-2].getStatus() == AccessType.FREE ){
@@ -1167,6 +1172,7 @@ public class CLI implements ViewInterface{
             constructionBuilderSex = 'F';
         }
         //Salvataggio della possible buildings
+        constructionBuilder.setBoard(new Board(message.getBoard()));
         int[][] possibleBuildingsP = Board.neighboringLevelCell(constructionBuilder);
 
 
@@ -1293,6 +1299,7 @@ public class CLI implements ViewInterface{
             }
         } while (wrong);
 
+        builderScelto.setBoard(new Board(message.getBoard()));
         int[][] possibleBuildingsPr = Board.neighboringLevelCell(builderScelto);
         int pressedButton;
         do {

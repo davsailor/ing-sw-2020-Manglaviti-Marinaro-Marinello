@@ -3,7 +3,7 @@ package it.polimi.ingsw2020.santorini.exceptions;
 import it.polimi.ingsw2020.santorini.model.Match;
 
 public class EndMatchException extends Exception {
-    public Match match;
+    private Match match;
 
     /**
      * Constructs a new exception with {@code null} as its detail message.
@@ -12,5 +12,9 @@ public class EndMatchException extends Exception {
      */
     public EndMatchException(Match match) {
         this.match = match;
+    }
+
+    public Match getMatch() {
+        return match;
     }
 }

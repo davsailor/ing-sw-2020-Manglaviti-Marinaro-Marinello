@@ -1,5 +1,6 @@
 package it.polimi.ingsw2020.santorini.model;
 
+import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
 import it.polimi.ingsw2020.santorini.exceptions.IllegalConstructionException;
 import it.polimi.ingsw2020.santorini.exceptions.IllegalMovementException;
 import it.polimi.ingsw2020.santorini.utils.AccessType;
@@ -129,6 +130,8 @@ public class Builder {
         this.setPosY(b1.getPosY());
         b1.setPosX(tempX);
         b1.setPosY(tempY);
+        board.getBoard()[posX][posY].setBuilder(this);
+        board.getBoard()[b1.getPosX()][b1.getPosY()].setBuilder(b1);
     }
 
     public void setPossibleMoves() {
@@ -154,7 +157,7 @@ public class Builder {
         setPossibleBuildings();
         for(int i = 0; i < 3; ++i)
             for(int j = 0; j < 3; ++j)
-                if(possibleBuildings[i][j] < 3) return true;
+                if(possibleBuildings[i][j] < 3 && possibleBuildings[i][j] != -1) return true;
         return false;
     }
 
@@ -163,32 +166,34 @@ public class Builder {
      * @param direction is the direction in which the player wants to move
      */
 
-    public void move(Direction direction) throws IllegalMovementException {
+    public void move(Direction direction) throws IllegalMovementException, EndMatchException {
         if(direction == null) throw new IllegalMovementException("Something went wrong with your choice, please select another movement");
         board.getBoard()[posX][posY].setBuilder(null);
         board.getBoard()[posX][posY].setStatus(AccessType.FREE);
+        int oldPosX = posX;
+        int oldPosY = posY;
         switch (direction) {
             case NORTH_WEST:
                 this.posX=posX-1;
                 this.posY=posY-1;
                 setPossibleMoves();
-                possibleMoves[2][2]=4;
+                possibleMoves[2][2] = 4;
                 break;
             case NORTH:
                 this.posX=posX-1;
                 setPossibleMoves();
-                possibleMoves[2][1]=4;
+                possibleMoves[2][1] = 4;
                 break;
             case NORTH_EAST:
                 this.posX=posX-1;
                 this.posY=posY+1;
                 setPossibleMoves();
-                possibleMoves[2][0]=4;
+                possibleMoves[2][0] = 4;
                 break;
             case WEST:
                 this.posY=posY-1;
                 setPossibleMoves();
-                possibleMoves[1][2]=4;
+                possibleMoves[1][2] = 4;
                 break;
             case EAST:
                 this.posY=posY+1;
@@ -220,6 +225,12 @@ public class Builder {
 
         board.getBoard()[posX][posY].setBuilder(this);
         board.getBoard()[posX][posY].setStatus(AccessType.OCCUPIED);
+        if(board.getBoard()[oldPosX][oldPosY].getLevel() != LevelType.TOP && board.getBoard()[posX][posY].getLevel() == LevelType.TOP)
+            throw new EndMatchException(null);
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
     }
 
     public void setPossibleBuildings() {
@@ -296,5 +307,17 @@ public class Builder {
         this.buildPosX = buildPosX;
         this.buildPosY = buildPosY;
         possibleBuildings[buildPosX - this.posX + 1][buildPosY - this.posY + 1] = -2;
+    }
+
+    public boolean isMovedThisTurn() {
+        return movedThisTurn;
+    }
+
+    public boolean isRisedThisTurn() {
+        return risedThisTurn;
+    }
+
+    public boolean isBuiltThisTurn() {
+        return builtThisTurn;
     }
 }

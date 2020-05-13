@@ -45,6 +45,13 @@ public class Cell {
         this.building[i] = building;
     }
 
+    public void demolish(){
+        int i = 0;
+        while((i < 5) && (this.building[i] != null))
+            ++i;
+        this.building[i] = null;
+    }
+
 
     /**
      * it return the the status of the cell

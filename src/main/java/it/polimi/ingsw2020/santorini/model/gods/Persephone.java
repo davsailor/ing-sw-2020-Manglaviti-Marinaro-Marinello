@@ -2,13 +2,17 @@ package it.polimi.ingsw2020.santorini.model.gods;
 
 import it.polimi.ingsw2020.santorini.controller.TurnLogic;
 import it.polimi.ingsw2020.santorini.model.*;
+import it.polimi.ingsw2020.santorini.utils.AccessType;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
 
 public class Persephone extends GodCard {
 
+    private boolean activated = false;
+    private String invoker = null;
+    private boolean set = false;
+
     public Persephone(){
-        super();
         name = getClass().getSimpleName();
         maxPlayersNumber = 3;
         timingName = "Opponents' Turn";
@@ -18,8 +22,48 @@ public class Persephone extends GodCard {
     }
 
     @Override
-    public void invokeGod(Match match, Player invoker, Message message, TurnLogic turnManager) {
+    public boolean canActivate(Match match){
+        if(!activated) {
+            activated = true;
+            invoker = match.getCurrentPlayer().getNickname();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void invokeGod(Match match, Message message, TurnLogic turnManager) {
         System.out.println("potere di " + name + " attivato");
+        if(!set) {
+            try {
+                turnManager.setPersephoneEffect(Persephone.class.getMethod("invokeGod", Match.class, Message.class, TurnLogic.class));
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+            set = true;
+        }
+        int[][] matrix;
+        for(Player p : match.getPlayers()){
+            if(!p.getNickname().equals(invoker)){
+                matrix = Board.neighboringStatusCell(p.getBuilderF(), AccessType.FREE);
+                for(int i = 0; i < 3; ++i)
+                    for(int j = 0; j < 3; ++j)
+                        if(matrix[i][j] == 2){
+                            p.setMoveActions(false);
+                            p.setRiseActions(true);
+                            return;
+                        }
+
+                matrix = Board.neighboringStatusCell(p.getBuilderM(), AccessType.FREE);
+                for(int i = 0; i < 3; ++i)
+                    for(int j = 0; j < 3; ++j)
+                        if(matrix[i][j] == 2){
+                            p.setMoveActions(false);
+                            p.setRiseActions(true);
+                            return;
+                        }
+            }
+        }
     }
 
     public static String toStringEffect(GodCard card) {

@@ -1,11 +1,10 @@
 package it.polimi.ingsw2020.santorini.model;
 
 import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
-import it.polimi.ingsw2020.santorini.model.gods.Apollo;
-import it.polimi.ingsw2020.santorini.model.gods.Pan;
 import it.polimi.ingsw2020.santorini.network.server.VirtualView;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.Color;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.EndMatchMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchSetupMessage;
 
 import java.util.ArrayList;
@@ -97,6 +96,8 @@ public class Match extends Observable {
      */
     public void setEliminatedPlayer(int eliminatedPlayer) throws EndMatchException{
         eliminatedPlayers.add(players.get(eliminatedPlayer));
+        if(currentPlayerIndex < eliminatedPlayer)
+            --currentPlayerIndex;
         if(eliminatedPlayers.size() == numberOfPlayers - 1) throw new EndMatchException(this);
     }
 
@@ -156,7 +157,15 @@ public class Match extends Observable {
     }
 
     public void setNextPlayer() {
-        if (getCurrentPlayerIndex() == getNumberOfPlayers() - 1) setCurrentPlayerIndex(0);
+        if (getCurrentPlayerIndex() == players.size() - 1) setCurrentPlayerIndex(0);
         else setCurrentPlayerIndex(getCurrentPlayerIndex() + 1);
+    }
+
+    public void currentWins() throws EndMatchException{
+        for(int i = 0; i < getPlayers().length; ++i)
+            if(!getPlayers()[i].getNickname().equals(getCurrentPlayer().getNickname())) {
+                setEliminatedPlayer(i);
+                i = 0;
+            }
     }
 }

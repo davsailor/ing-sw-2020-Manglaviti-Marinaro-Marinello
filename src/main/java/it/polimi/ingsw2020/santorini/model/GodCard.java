@@ -1,6 +1,7 @@
 package it.polimi.ingsw2020.santorini.model;
 
 import it.polimi.ingsw2020.santorini.controller.TurnLogic;
+import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
 import it.polimi.ingsw2020.santorini.model.gods.*;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
@@ -41,11 +42,44 @@ public class GodCard {
     /**
      * the function that express the power of the god. Each God will have its power
      * @param match is the board of the game you are playing
-     * @param invoker is the player that activates the power
      * @param turnManager
      */
-    public void invokeGod(Match match, Player invoker, Message message, TurnLogic turnManager) {
+    public void invokeGod(Match match, Message message, TurnLogic turnManager) throws EndMatchException {}
 
+    public boolean canActivate(Match match){
+        /*try {
+            switch (this.getName()) {
+                case "Apollo":
+                    return Apollo.canActivateApollo(match);
+                case "Ares":
+                    return Ares.canActivateAres(match);
+                case "Artemis":
+                    return Artemis.canActivateArtemis(match);
+                case "Athena":
+                    return Athena.canActivateAthena(match);
+                case "Atlas":
+                    return Atlas.canActivateAtlas(match);
+                case "Demeter":
+                    return Demeter.canActivateDemeter(match);
+                case "Hephaestus":
+                    return Hephaestus.canActivateHephaestus(match);
+                case "Hestia":
+                    return Hestia.canActivateHestia(match);
+                case "Minotaur":
+                    return Minotaur.canActivateMinotaur(match);
+                case "Pan":
+                    return Pan.canActivatePan(match);
+                case "Persephone":
+                    return Persephone.canActivatePersephone(match);
+                case "Poseidon":
+                    return Poseidon.canActivatePoseidon(match);
+                case "Prometheus":
+                    return Prometheus.canActivatePrometheus(match);
+                case "Zeus":
+                    return Zeus.canActivateZeus(match);
+            }
+        } catch(NullPointerException ignored){}*/
+        return false;
     }
 
     /**

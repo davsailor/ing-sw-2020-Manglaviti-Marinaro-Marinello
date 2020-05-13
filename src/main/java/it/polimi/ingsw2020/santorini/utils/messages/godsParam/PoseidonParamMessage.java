@@ -8,8 +8,17 @@ public class PoseidonParamMessage {
 
     private ArrayList<Direction> direction;
     private int numberOfBuild;
+    private char constructionGender;
 
     public PoseidonParamMessage() {
+    }
+
+    public char getConstructionGender() {
+        return constructionGender;
+    }
+
+    public void setConstructionGender(char constructionGender) {
+        this.constructionGender = constructionGender;
     }
 
     public ArrayList<Direction> getDirection() {

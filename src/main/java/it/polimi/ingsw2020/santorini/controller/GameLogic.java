@@ -125,21 +125,6 @@ public class GameLogic implements Observer {
             }
         } catch (UnexpectedMessageException e) {
             System.out.println("unexpected message");
-        } catch (EndMatchException end) {
-            ArrayList<Message> listToSend = new ArrayList<>();
-            Message winner = new Message(match.getPlayers()[0].getNickname());
-            winner.buildEndMatchMessage(new EndMatchMessage(match.getPlayers()[0].getNickname()));
-            server.getPlayerInMatch().remove(match.getPlayers()[0].getNickname());
-            listToSend.add(winner);
-            for (int i = 0; i < match.getEliminatedPlayers().size(); ++i) {
-                Message looser = new Message(match.getEliminatedPlayers().get(i).getNickname());
-                looser.buildEndMatchMessage(new EndMatchMessage(match.getPlayers()[0].getNickname()));
-                listToSend.add(looser);
-                server.getPlayerInMatch().remove(match.getEliminatedPlayers().get(i).getNickname());
-            }
-            server.getVirtualViews().remove(match.getMatchID());
-            server.getControllers().remove(match.getMatchID());
-            match.notifyView(listToSend);
         }
     }
 
@@ -177,7 +162,7 @@ public class GameLogic implements Observer {
      * CORRECT_SELECTION_POS: messages that are used to verify if the player selected correct position for his builder during Setup
      * @param message the message that has to be handled
      */
-    synchronized public void validationHandler(Message message) throws EndMatchException {
+    synchronized public void validationHandler(Message message) {
         switch(message.getSecondLevelHeader()){
             case CORRECT_SELECTION_POS:
                 SelectedBuilderPositionMessage selectedBuilderPositionMessage = message.deserializeSelectedBuilderPosMessage(message.getSerializedPayload());
@@ -227,7 +212,9 @@ public class GameLogic implements Observer {
 
                     if (allPlaying) {
                         match.setCurrentPlayerIndex(0);
-                        turnManager.handlePhases(match);
+                        try {
+                            turnManager.handlePhases(match);
+                        } catch (EndMatchException ignored) {}
                     } else {
                         ArrayList<Message> orderMessage = new ArrayList<>();
                         for (int i = 0; i < match.getNumberOfPlayers(); ++i) {
@@ -247,36 +234,51 @@ public class GameLogic implements Observer {
      * The method handles all the messages that have DO as First Header, messages that in fact represents an action specified by the Second Header
      * @param message is the message that has to be handled by the method
      */
-    synchronized public void doHandler(Message message) throws EndMatchException{
+    synchronized public void doHandler(Message message){
         //System.out.println(message.getUsername() + message.getFirstLevelHeader() + message.getSecondLevelHeader());
-        switch(message.getSecondLevelHeader()){
-            case NEXT_PHASE:
-                if(message.getUsername().equals(match.getCurrentPlayer().getNickname()))
-                    turnManager.handlePhases(match);
-                break;
-            case ACTIVATE_GOD:
-                turnManager.requestManager(ActionType.ACTIVATE_GOD, match, message); // c'è da aggiungere il payload
-                break;
-            case SELECT_PARAMETERS:
-                turnManager.requestManager(ActionType.USE_POWER, match, message);
-                break;
-            case SELECT_BUILDER:
-                SelectedBuilderMessage selectedBuilderMessage = message.deserializeSelectedBuilderMessage();
-                if(selectedBuilderMessage.getGender() == 'M')
-                    match.getCurrentPlayer().setPlayingBuilder(
-                            match.getPlayerByName(message.getUsername()).getBuilderM());
-                else
-                    match.getCurrentPlayer().setPlayingBuilder(
-                            match.getPlayerByName(message.getUsername()).getBuilderF());
-                turnManager.getRemainingActions().remove(ActionType.SELECT_BUILDER);
-                turnManager.handlePhases(match); // c'è da aggiungere il payload
-                break;
-            case SELECT_CELL_MOVE:
-                turnManager.requestManager(ActionType.MOVE, match, message);
-                break;
-            case SELECT_CELL_BUILD:
-                turnManager.requestManager(ActionType.BUILD, match, message);
-                break;
+        try {
+            switch (message.getSecondLevelHeader()) {
+                case NEXT_PHASE:
+                    if (message.getUsername().equals(match.getCurrentPlayer().getNickname()))
+                        turnManager.handlePhases(match);
+                    break;
+                case ACTIVATE_GOD:
+                    turnManager.requestManager(ActionType.ACTIVATE_GOD, match, message); // c'è da aggiungere il payload
+                    break;
+                case SELECT_PARAMETERS:
+                    turnManager.requestManager(ActionType.USE_POWER, match, message);
+                    break;
+                case SELECT_BUILDER:
+                    SelectedBuilderMessage selectedBuilderMessage = message.deserializeSelectedBuilderMessage();
+                    if (selectedBuilderMessage.getGender() == 'M')
+                        match.getCurrentPlayer().setPlayingBuilder(
+                                match.getPlayerByName(message.getUsername()).getBuilderM());
+                    else
+                        match.getCurrentPlayer().setPlayingBuilder(
+                                match.getPlayerByName(message.getUsername()).getBuilderF());
+                    turnManager.getRemainingActions().remove(ActionType.SELECT_BUILDER);
+                    turnManager.handlePhases(match); // c'è da aggiungere il payload
+                    break;
+                case SELECT_CELL_MOVE:
+                    turnManager.requestManager(ActionType.MOVE, match, message);
+                    break;
+                case SELECT_CELL_BUILD:
+                    turnManager.requestManager(ActionType.BUILD, match, message);
+                    break;
+            }
+        } catch(EndMatchException e){
+            ArrayList<Message> endMatchMessages = new ArrayList<>();
+            Message winner = new Message(match.getCurrentPlayer().getNickname());
+            winner.buildEndMatchMessage(new EndMatchMessage(match.getCurrentPlayer().getNickname()));
+            endMatchMessages.add(winner);
+            for(Player p: match.getEliminatedPlayers()){
+                Message looser = new Message(p.getNickname());
+                looser.buildEndMatchMessage(new EndMatchMessage(match.getCurrentPlayer().getNickname()));
+                endMatchMessages.add(looser);
+            }
+            server.getVirtualViews().remove(match.getMatchID());
+            server.getControllers().remove(match.getMatchID());
+            match.notifyView(endMatchMessages);
         }
     }
 }
