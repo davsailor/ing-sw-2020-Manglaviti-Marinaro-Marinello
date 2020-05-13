@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane fx:controller="it.polimi.ingsw2020.santorini.view.gui.RegisterController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button fx:id="signUpButton" layoutX="264.0" layoutY="334.0" mnemonicParsing="false" onAction="#RegisterAction" text="Sign up" />
+      <Label layoutX="164.0" layoutY="198.0" text="Date of birth">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="170.0" layoutY="146.0" text="Username">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="170.0" layoutY="94.0" text="Indirizzo IP">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="212.0" layoutY="14.0" text="Register">
+         <font>
+            <Font name="System Bold Italic" size="42.0" />
+         </font>
+      </Label>
+      <TextField fx:id="indirizzoIp" layoutX="167.0" layoutY="121.0" prefHeight="25.0" prefWidth="265.0" />
+      <TextField fx:id="username" layoutX="167.0" layoutY="173.0" prefHeight="25.0" prefWidth="265.0" />
+      <DatePicker fx:id="birthDate" layoutX="168.0" layoutY="222.0" prefHeight="25.0" prefWidth="265.0" />
+      <Label layoutX="176.0" layoutY="264.0" text="Number of Players">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="numberOfPlayers" layoutX="374.0" layoutY="265.0" prefHeight="25.0" prefWidth="56.0" />
+   </children>
+</Pane>
