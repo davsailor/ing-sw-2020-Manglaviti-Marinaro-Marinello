@@ -16,7 +16,7 @@ public class BoardTest {
 
     @Before
     public void setUp() {
-        board = new Board(null);
+        board = new Board((Cell[][]) null);
         player1 = new Player("Dog", null);
         player2 = new Player ("Cat", null);
         int[] pos = new int[2];
@@ -65,14 +65,14 @@ public class BoardTest {
 
     @Test (expected = IllegalArgumentException.class)
     public void testNeighborLevelCell_wrongArgument_throwsException(){
-        Board board = new Board(null);
+        Board board = new Board((Cell[][])null);
         int[][] matrix = new int[3][3];
-        matrix = board.neighboringLevelCell(player1.getBuilderF());
+        matrix = Board.neighboringLevelCell(player1.getBuilderF());
     }
 
     @Test
     public void testBuildBlock() {
-        Board board = new Board(null);
+        Board board = new Board((Cell[][]) null);
         board.buildBlock(0,0, LevelType.BASE);
         assertEquals(LevelType.BASE, board.getBoard()[0][0].getLevel());
     }

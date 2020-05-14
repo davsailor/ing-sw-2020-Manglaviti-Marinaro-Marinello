@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
 
         @Test
         public void swapBuildersTest(){
-            Board board = new Board(null);
+            Board board = new Board((Cell[][]) null);
             Builder b1 = new Builder(null, 'm', board , null);
             b1.setPosX(1);
             b1.setPosY(1);
@@ -37,7 +37,7 @@ import static org.junit.Assert.*;
         public void testGetColorAndPlayer(){
             Player player = new Player("davsailor", new Date(1999,2,15));
             player.setColor(Color.PLAYER_GREEN);
-            Builder tester = new Builder(player, 'M', new Board(null), null);
+            Builder tester = new Builder(player, 'M', new Board( (Cell[][])null), null);
             assertEquals(Color.PLAYER_GREEN, tester.getColor());
             assertEquals(player, tester.getPlayer());
         }
@@ -126,7 +126,7 @@ import static org.junit.Assert.*;
 
         @Test
         public void buildTest() throws IllegalConstructionException {
-            Board board = new Board(null);
+            Board board = new Board((Cell[][]) null);
             int[] pos = {4, 4};
             Builder builder = new Builder(null, 'm', board, pos);
 
@@ -200,7 +200,7 @@ import static org.junit.Assert.*;
 
         @Test (expected = IllegalConstructionException.class)
         public void testBuild_tooMuchBuildActions_throwsException() throws IllegalConstructionException{
-            Board board = new Board(null);
+            Board board = new Board((Cell[][])null);
             int[] pos = {4, 4};
             Builder builder = new Builder(null, 'm', board, pos);
 
