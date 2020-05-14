@@ -1,8 +1,10 @@
 package it.polimi.ingsw2020.santorini.controller;
 
 import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
+import it.polimi.ingsw2020.santorini.model.Board;
 import it.polimi.ingsw2020.santorini.model.GodCard;
 import it.polimi.ingsw2020.santorini.model.Match;
+import it.polimi.ingsw2020.santorini.utils.AccessType;
 import it.polimi.ingsw2020.santorini.utils.ActionType;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
@@ -272,8 +274,7 @@ public class TurnLogic {
             }
         } else if(remainingActions.contains(ActionType.SELECT_CELL_MOVE)){
             System.out.printf("SELECT CELL MOVE\n");
-            match.getCurrentPlayer().getPlayingBuilder().setPossibleMoves();
-            int[][] possibleMoves = match.getCurrentPlayer().getPlayingBuilder().getPossibleMoves();
+            int[][] possibleMoves = Board.neighboringStatusCell(match.getCurrentPlayer().getPlayingBuilder(), AccessType.FREE);
             ArrayList<Message> listOfMessages = new ArrayList<>();
             Message requestMove = new Message(match.getCurrentPlayer().getNickname());
             // se ci sono problemi di client che ricevono il messaggio, bisogna modificare askmove aggiungendo il current player name
@@ -284,6 +285,7 @@ public class TurnLogic {
             // richiediamo al client le informazioni necessarie
         } else {
             nextPhase();
+            handlePhases(match);
         }
     }
 
@@ -296,8 +298,7 @@ public class TurnLogic {
         System.out.printf("BUILD MANAGER: ");
         if(remainingActions.contains(ActionType.SELECT_CELL_BUILD)){
             System.out.println("SELECT CELL BUILD");
-            match.getCurrentPlayer().getPlayingBuilder().setPossibleBuildings();
-            int[][] possibleBuilding = match.getCurrentPlayer().getPlayingBuilder().getPossibleBuildings();
+            int[][] possibleBuilding = Board.neighboringLevelCell(match.getCurrentPlayer().getPlayingBuilder());
             ArrayList<Message> listOfMessages = new ArrayList<>();
             Message requestBuild = new Message(match.getCurrentPlayer().getNickname());
             requestBuild.buildAskBuildSelectionMessage(new AskBuildSelectionMessage(possibleBuilding));
@@ -307,6 +308,9 @@ public class TurnLogic {
             // richiediamo al client le informazioni necessarie
         } else {
             nextPhase();
+            try {
+                handlePhases(match);
+            } catch (EndMatchException ignored) {}
         }
     }
 
@@ -323,6 +327,8 @@ public class TurnLogic {
             listOfUpdateMessages.get(i).buildUpdateMessage(new UpdateMessage(match, this.phase));
         }
         match.notifyView(listOfUpdateMessages);
+        match.getCurrentPlayer().setMoveActions(true);
+        match.getCurrentPlayer().setRiseActions(true);
         reset();
         match.setNextPlayer();
     }

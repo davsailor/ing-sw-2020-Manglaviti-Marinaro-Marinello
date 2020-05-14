@@ -443,41 +443,41 @@ public class CLI implements ViewInterface{
         boolean wrong;
         int buttonPressed;
         do {
-            System.out.println("Inserire la direzione scelta per lo spostamento");
-            if (possibleBuildings[0][0] != 0 && possibleBuildings[0][0] != -1 && possibleBuildings[0][0] != 4) System.out.println("Premi 1 per muovere il builder a NORD-OVEST");
-            if (possibleBuildings[0][1] != 0 && possibleBuildings[0][1] != -1 && possibleBuildings[0][1] != 4) System.out.println("Premi 2 per muovere con il builder a NORD");
-            if (possibleBuildings[0][2] != 0 && possibleBuildings[0][2] != -1 && possibleBuildings[0][2] != 4) System.out.println("Premi 3 per muovere con il builder a NORD-EST");
-            if (possibleBuildings[1][0] != 0 && possibleBuildings[1][0] != -1 && possibleBuildings[1][0] != 4) System.out.println("Premi 4 per muovere con il builder a OVEST");
-            if (possibleBuildings[1][2] != 0 && possibleBuildings[1][2] != -1 && possibleBuildings[1][2] != 4) System.out.println("Premi 5 per muovere con il builder a EST");
-            if (possibleBuildings[2][0] != 0 && possibleBuildings[2][0] != -1 && possibleBuildings[2][0] != 4) System.out.println("Premi 6 per muovere con il builder a SUD-OVEST");
-            if (possibleBuildings[2][1] != 0 && possibleBuildings[2][1] != -1 && possibleBuildings[2][1] != 4) System.out.println("Premi 7 per muovere con il builder a SUD");
-            if (possibleBuildings[2][2] != 0 && possibleBuildings[2][2] != -1 && possibleBuildings[2][2] != 4) System.out.println("Premi 8 per muovere con il builder a SUD-EST");
+            System.out.println("Inserire la direzione scelta per la costruzione");
+            if (possibleBuildings[0][0] >= 0 && possibleBuildings[0][0] < 4) System.out.println("Premi 1 per muovere il builder a NORD-OVEST");
+            if (possibleBuildings[0][1] >= 0 && possibleBuildings[0][1] < 4) System.out.println("Premi 2 per muovere con il builder a NORD");
+            if (possibleBuildings[0][2] >= 0 && possibleBuildings[0][2] < 4) System.out.println("Premi 3 per muovere con il builder a NORD-EST");
+            if (possibleBuildings[1][0] >= 0 && possibleBuildings[1][0] < 4) System.out.println("Premi 4 per muovere con il builder a OVEST");
+            if (possibleBuildings[1][2] >= 0 && possibleBuildings[1][2] < 4) System.out.println("Premi 5 per muovere con il builder a EST");
+            if (possibleBuildings[2][0] >= 0 && possibleBuildings[2][0] < 4) System.out.println("Premi 6 per muovere con il builder a SUD-OVEST");
+            if (possibleBuildings[2][1] >= 0 && possibleBuildings[2][1] < 4) System.out.println("Premi 7 per muovere con il builder a SUD");
+            if (possibleBuildings[2][2] >= 0 && possibleBuildings[2][2] < 4) System.out.println("Premi 8 per muovere con il builder a SUD-EST");
 
             buttonPressed = scannerIn.nextInt();
             scannerIn.nextLine();
             wrong = true;
-            if (buttonPressed == 1 && possibleBuildings[0][0] != 0 && possibleBuildings[0][0] != -1 && possibleBuildings[0][0] != 4) {
+            if (buttonPressed == 1 && possibleBuildings[0][0] >= 0 && possibleBuildings[0][0] < 4) {
                 direction = Direction.NORTH_WEST;
                 wrong = false;
-            } else if (buttonPressed == 2 && possibleBuildings[0][1] != 0 && possibleBuildings[0][1] != -1 && possibleBuildings[0][1] != 4) {
+            } else if (buttonPressed == 2 && possibleBuildings[0][1] >= 0 && possibleBuildings[0][1] < 4) {
                 direction = Direction.NORTH;
                 wrong = false;
-            } else if (buttonPressed == 3 && possibleBuildings[0][2] != 0 && possibleBuildings[0][2] != -1 && possibleBuildings[0][2] != 4) {
+            } else if (buttonPressed == 3 && possibleBuildings[0][2] >= 0 && possibleBuildings[0][2] < 4) {
                 direction = Direction.NORTH_EAST;
                 wrong = false;
-            } else if (buttonPressed == 4 && possibleBuildings[1][0] != 0 && possibleBuildings[1][0] != -1 && possibleBuildings[1][0] != 4) {
+            } else if (buttonPressed == 4 && possibleBuildings[1][0] >= 0 && possibleBuildings[1][0] < 4) {
                 direction = Direction.WEST;
                 wrong = false;
-            } else if (buttonPressed == 5 && possibleBuildings[1][2] != 0 && possibleBuildings[1][2] != -1 && possibleBuildings[1][2] != 4) {
+            } else if (buttonPressed == 5 && possibleBuildings[1][2] >= 0 && possibleBuildings[1][2] < 4) {
                 direction = Direction.EAST;
                 wrong = false;
-            } else if (buttonPressed == 6 && possibleBuildings[2][0] != 0 && possibleBuildings[2][0] != -1 && possibleBuildings[2][0] != 4) {
+            } else if (buttonPressed == 6 && possibleBuildings[2][0] >= 0 && possibleBuildings[2][0] < 4) {
                 direction = Direction.SOUTH_WEST;
                 wrong = false;
-            } else if (buttonPressed == 7 && possibleBuildings[2][1] != 0 && possibleBuildings[2][1] != -1 && possibleBuildings[2][1] != 4) {
+            } else if (buttonPressed == 7 && possibleBuildings[2][1] >= 0 && possibleBuildings[2][1] < 4) {
                 direction = Direction.SOUTH;
                 wrong = false;
-            } else if (buttonPressed == 8 && possibleBuildings[2][2] != 0 && possibleBuildings[2][2] != -1 && possibleBuildings[2][2] != 4) {
+            } else if (buttonPressed == 8 && possibleBuildings[2][2] >= 0 && possibleBuildings[2][2] < 4) {
                 direction = Direction.SOUTH_EAST;
                 wrong = false;
             }
@@ -1159,7 +1159,7 @@ public class CLI implements ViewInterface{
         return minotaurParamMessage;
     }
 
-    private  PoseidonParamMessage displayPoseidonParamSel(MatchStateMessage message){
+    private PoseidonParamMessage displayPoseidonParamSel(MatchStateMessage message){
         PoseidonParamMessage poseidonParamMessage = new PoseidonParamMessage();
         //Ricerca del builder non mosso
         Builder constructionBuilder = null;
@@ -1264,7 +1264,6 @@ public class CLI implements ViewInterface{
         poseidonParamMessage.setNumberOfBuild(numeroBuild);
         return poseidonParamMessage;
     }
-
 
     private PrometheusParamMessage displayPrometheusParamSel(MatchStateMessage message){
         PrometheusParamMessage prometheusParamMessage = new PrometheusParamMessage();

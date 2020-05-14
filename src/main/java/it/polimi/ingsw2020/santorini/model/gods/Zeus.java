@@ -15,7 +15,7 @@ public class Zeus extends GodCard {
         timingName = "Your Build";
         timing = PhaseType.STANDBY_PHASE_2;
         mandatory = false;
-        needParameters = true;
+        needParameters = false;
     }
 
     @Override

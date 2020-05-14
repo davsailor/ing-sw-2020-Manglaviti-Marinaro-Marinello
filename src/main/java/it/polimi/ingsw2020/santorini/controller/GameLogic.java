@@ -170,10 +170,10 @@ public class GameLogic implements Observer {
                 boolean builderFToChange, builderMToChange;
                 builderFToChange = true;
                 builderMToChange = true;
-                if(selectedBuilderPositionMessage.getBuilderF() != null && board[selectedBuilderPositionMessage.getBuilderF()[0]][selectedBuilderPositionMessage.getBuilderF()[1]].getStatus() == AccessType.FREE) builderFToChange = false;
-                if(selectedBuilderPositionMessage.getBuilderM() != null && board[selectedBuilderPositionMessage.getBuilderM()[0]][selectedBuilderPositionMessage.getBuilderM()[1]].getStatus() == AccessType.FREE) builderMToChange = false;
+                if((selectedBuilderPositionMessage.getBuilderF() != null && board[selectedBuilderPositionMessage.getBuilderF()[0]][selectedBuilderPositionMessage.getBuilderF()[1]].getStatus() == AccessType.FREE) || match.getCurrentPlayer().getBuilderF() != null) builderFToChange = false;
+                if((selectedBuilderPositionMessage.getBuilderM() != null && board[selectedBuilderPositionMessage.getBuilderM()[0]][selectedBuilderPositionMessage.getBuilderM()[1]].getStatus() == AccessType.FREE) || match.getCurrentPlayer().getBuilderM() != null) builderMToChange = false;
 
-                if(!builderFToChange){
+                if(!builderFToChange && match.getCurrentPlayer().getBuilderF() == null){
                     board[selectedBuilderPositionMessage.getBuilderF()[0]][selectedBuilderPositionMessage.getBuilderF()[1]].
                             setStatus(AccessType.OCCUPIED);
                     match.getPlayerByName(selectedBuilderPositionMessage.getUsername()).
@@ -183,7 +183,7 @@ public class GameLogic implements Observer {
                             setBuilder(match.getPlayerByName(selectedBuilderPositionMessage.getUsername()).getBuilderF());
                 }
 
-                if(!builderMToChange){
+                if(!builderMToChange && match.getCurrentPlayer().getBuilderM() == null){
                     board[selectedBuilderPositionMessage.getBuilderM()[0]][selectedBuilderPositionMessage.getBuilderM()[1]].
                             setStatus(AccessType.OCCUPIED);
                     match.getPlayerByName(selectedBuilderPositionMessage.getUsername()).
@@ -268,7 +268,7 @@ public class GameLogic implements Observer {
             }
         } catch(EndMatchException e){
             ArrayList<Message> endMatchMessages = new ArrayList<>();
-            Message winner = new Message(match.getCurrentPlayer().getNickname());
+            Message winner = new Message(match.getPlayers()[0].getNickname());
             winner.buildEndMatchMessage(new EndMatchMessage(match.getCurrentPlayer().getNickname()));
             endMatchMessages.add(winner);
             for(Player p: match.getEliminatedPlayers()){
