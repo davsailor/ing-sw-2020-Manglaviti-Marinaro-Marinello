@@ -29,15 +29,19 @@ public class Minotaur extends GodCard {
         for(int i = 0; i < 3; ++i)
             for(int j = 0; j < 3; ++j)
                 if(swappingMatrix[i][j] != 0)
-                    if(match.getBoard().getBoard()[match.getCurrentPlayer().getBuilderM().getPosX() + (i - 1) * 2][match.getCurrentPlayer().getBuilderM().getPosY() + (j - 1) * 2].getStatus() == AccessType.FREE)
-                        return true;
+                    try {
+                        if (match.getBoard().getBoard()[match.getCurrentPlayer().getBuilderM().getPosX() + (i - 1) * 2][match.getCurrentPlayer().getBuilderM().getPosY() + (j - 1) * 2].getStatus() != AccessType.FREE)
+                            return true;
+                    }catch (IndexOutOfBoundsException ignored){}
 
         swappingMatrix = Board.neighboringSwappingCell(match.getCurrentPlayer().getBuilderF(), AccessType.OCCUPIED);
         for(int i = 0; i < 3; ++i)
             for(int j = 0; j < 3; ++j)
                 if(swappingMatrix[i][j] != 0)
-                    if(match.getBoard().getBoard()[match.getCurrentPlayer().getBuilderF().getPosX() + (i - 1) * 2][match.getCurrentPlayer().getBuilderF().getPosY() + (j - 1) * 2].getStatus() == AccessType.FREE)
-                        return true;
+                    try {
+                        if (match.getBoard().getBoard()[match.getCurrentPlayer().getBuilderF().getPosX() + (i - 1) * 2][match.getCurrentPlayer().getBuilderF().getPosY() + (j - 1) * 2].getStatus() != AccessType.FREE)
+                            return true;
+                    }catch (IndexOutOfBoundsException ignored){}
 
         return false;
     }
@@ -54,21 +58,21 @@ public class Minotaur extends GodCard {
         Builder opponent = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 1].getBuilder();
         switch(param.getOpponentBuilderDirection()){
             case NORTH:
-                opponent = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 1].getBuilder();
+                opponent = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() -1][match.getCurrentPlayer().getPlayingBuilder().getPosY()].getBuilder();
 //                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 1].setBuilder(null);
 //                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 1].setStatus(AccessType.FREE);
 //                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 2].setBuilder(opponent);
 //                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 2].setStatus(AccessType.OCCUPIED);
                 break;
             case NORTH_EAST:
-                opponent = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() + 1][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 1].getBuilder();
+                opponent = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() - 1][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 1].getBuilder();
 //                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() + 1][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 1].setBuilder(null);
 //                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() + 1][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 1].setStatus(AccessType.FREE);
 //                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() + 2][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 2].setBuilder(opponent);
 //                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() + 2][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 2].setStatus(AccessType.OCCUPIED);
                 break;
             case EAST:
-                opponent = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() + 1][match.getCurrentPlayer().getPlayingBuilder().getPosY()].getBuilder();
+                opponent = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() ][match.getCurrentPlayer().getPlayingBuilder().getPosY() +1].getBuilder();
 //                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() + 1][match.getCurrentPlayer().getPlayingBuilder().getPosY()].setBuilder(null);
 //                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() + 1][match.getCurrentPlayer().getPlayingBuilder().getPosY()].setStatus(AccessType.FREE);
 //                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() + 2][match.getCurrentPlayer().getPlayingBuilder().getPosY()].setBuilder(opponent);
@@ -82,21 +86,21 @@ public class Minotaur extends GodCard {
 //                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() + 2][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 2].setStatus(AccessType.OCCUPIED);
                 break;
             case SOUTH:
-                opponent = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 1].getBuilder();
+                opponent = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() +1][match.getCurrentPlayer().getPlayingBuilder().getPosY() ].getBuilder();
 //                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 1].setBuilder(null);
 //                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 1].setStatus(AccessType.FREE);
 //                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 2].setBuilder(opponent);
 //                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 2].setStatus(AccessType.OCCUPIED);
                 break;
             case SOUTH_WEST:
-                opponent = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() - 1][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 1].getBuilder();
+                opponent = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() + 1][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 1].getBuilder();
 //                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() - 1][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 1].setBuilder(null);
 //                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() - 1][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 1].setStatus(AccessType.FREE);
 //                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() - 2][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 2].setBuilder(opponent);
 //                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() - 2][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 2].setStatus(AccessType.OCCUPIED);
                 break;
             case WEST:
-                opponent = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() - 1][match.getCurrentPlayer().getPlayingBuilder().getPosY()].getBuilder();
+                opponent = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() ][match.getCurrentPlayer().getPlayingBuilder().getPosY() -1].getBuilder();
 //                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() - 1][match.getCurrentPlayer().getPlayingBuilder().getPosY()].setBuilder(null);
 //                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() - 1][match.getCurrentPlayer().getPlayingBuilder().getPosY()].setStatus(AccessType.FREE);
 //                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() - 2][match.getCurrentPlayer().getPlayingBuilder().getPosY()].setBuilder(opponent);
@@ -110,6 +114,9 @@ public class Minotaur extends GodCard {
 //                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() - 2][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 2].setStatus(AccessType.OCCUPIED);
                 break;
         }
+        try {
+            opponent.move(param.getOpponentBuilderDirection());
+        } catch (EndMatchException | IllegalMovementException ignored){}
 
         try {
             match.getCurrentPlayer().getPlayingBuilder().move(param.getOpponentBuilderDirection());
@@ -118,9 +125,7 @@ public class Minotaur extends GodCard {
         } catch (EndMatchException e) {
             match.currentWins();
         }
-        try {
-            opponent.move(param.getOpponentBuilderDirection());
-        } catch (EndMatchException | IllegalMovementException ignored){}
+
 
         turnManager.getRemainingActions().remove(ActionType.SELECT_BUILDER);
         turnManager.getRemainingActions().remove(ActionType.SELECT_CELL_MOVE);

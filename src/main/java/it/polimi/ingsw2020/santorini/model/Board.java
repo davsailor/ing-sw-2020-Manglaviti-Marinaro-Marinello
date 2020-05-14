@@ -130,7 +130,7 @@ public class Board {
         for (int i= 0; i < 3; i++){
             for (int j = 0; j < 3; j++){
                 if (currentBuilder.getBoard().getBoard()[currentBuilder.getPosX()-1+i][currentBuilder.getPosY()-1+j].getStatus() == OCCUPIED){
-                    if(currentBuilder.getBoard().getBoard()[currentBuilder.getPosX()-1+i][currentBuilder.getPosX()-1+j].getBuilder().getColor() != currentBuilder.getColor()){
+                    if(currentBuilder.getBoard().getBoard()[currentBuilder.getPosX()-1+i][currentBuilder.getPosY()-1+j].getBuilder().getColor() != currentBuilder.getColor()){
                         neighborMatrix[i][j] = 1;
                     }
                     else{
@@ -170,10 +170,10 @@ public class Board {
         int[][] neighborMatrix = new int[3][3];
         int[][] neighborMatrix1 = new int[3][3];
         int[][] neighborMatrix2 = new int[3][3];
+        neighborMatrix1 = neighboringColorCell(builder);
+        neighborMatrix2 = neighboringStatusCell(builder, target);
         for (int i = 0; i < 3; i++){
             for (int j = 0; j < 3; j++){
-                neighborMatrix1[i][j] = neighboringColorCell(builder)[i][j];
-                neighborMatrix2[i][j] = neighboringStatusCell(builder, target)[i][j];
                 neighborMatrix[i][j]  = neighborMatrix1[i][j] * neighborMatrix2[i][j];
             }
         }

@@ -28,6 +28,10 @@ public class Builder {
     //METODI
 
 
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
     public Board getBoard() {
         return board;
     }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw2020.santorini.model;
 
 import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
+import it.polimi.ingsw2020.santorini.model.gods.Minotaur;
 import it.polimi.ingsw2020.santorini.network.server.VirtualView;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.Color;
@@ -117,7 +118,7 @@ public class Match extends Observable {
         this.getBoard().getGodCards().shuffleDeck();
         for(int i = 0; i < this.getNumberOfPlayers(); ++i){
             this.players.add(players[i]);
-            this.players.get(i).setDivinePower(this.getBoard().getGodCards().giveCard());
+            this.players.get(i).setDivinePower(this.getBoard().getGodCards().giveCard()); //new Minotaur()
             this.players.get(i).setColor(Color.getColor(i));
             listOfMessages.add((new Message(players[i].getNickname())));
         }

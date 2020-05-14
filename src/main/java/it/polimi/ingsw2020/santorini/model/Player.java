@@ -100,6 +100,20 @@ public class Player {
         moveActions=true;
     }
 
+    public Player (Player player){
+        this.nickname = player.getNickname();
+        this.birthDate = player.getBirthDate();
+        this.color = player.getColor();
+        this.status = player.getStatus();
+        this.divinePower =  player.getDivinePower();
+
+        //metodo per i builder
+        this.builderF = player.getBuilderF();
+        this.builderM = player.getBuilderM();
+        riseActions= player.getRiseActions();
+        moveActions= player.getMoveActions();
+    }
+
     public Builder getBuilderF() {
         return builderF;
     }

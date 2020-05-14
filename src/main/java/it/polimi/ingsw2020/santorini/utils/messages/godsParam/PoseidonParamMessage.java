@@ -10,6 +10,7 @@ public class PoseidonParamMessage {
     private int numberOfBuild;
     private char constructionGender;
 
+
     public PoseidonParamMessage() {
     }
 
@@ -35,4 +36,6 @@ public class PoseidonParamMessage {
     public void setNumberOfBuild(int numberOfBuild) {
         this.numberOfBuild = numberOfBuild;
     }
+
+
 }
