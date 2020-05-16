@@ -7,18 +7,22 @@ import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
 
 public class GodCard {
+
+    protected String name;                  // name of god
+    protected int maxPlayersNumber;         // max players number you can play with using this card
+    protected String timingName;            // name of the timing (only for text effect purpose)
+    protected PhaseType timing;             // phase in which you can activate its power
+    protected boolean mandatory;            // if the power MUST activate or CAN activate
+    protected boolean needParameters;       // if the god needs some information to activate
+
+    /**
+     * constructor for serialization and deserialization with Gson
+     */
+    public GodCard(){}
+
     /**
      * getter of class parameters, setter not needed since thy are considered final
      */
-    protected String name;
-    protected int maxPlayersNumber;
-    protected String timingName;
-    protected PhaseType timing;
-    protected boolean mandatory;
-    protected boolean needParameters;
-
-    public GodCard(){}
-
     public String getName() {
         return name;
     }
@@ -40,45 +44,24 @@ public class GodCard {
     public boolean isNeedParameters() { return needParameters; }
 
     /**
-     * the function that express the power of the god. Each God will have its power
-     * @param match is the board of the game you are playing
-     * @param turnManager
+     * the function that will modify the match and its normal phases following the instructions of god
+     * @param match the match playing
+     * @param message this message refers to possible parameters requested to players. Each overridden method can
+     *                deserialize correctly this message. Apollo will understand its own param message (ApolloParamMessage)
+     *                but will not understand other gods parameters messages
+     * @param turnManager since some gods modify phases of the match, we need a reference to turnManager to correctly
+     *                    modify the turn
+     * @throws EndMatchException some gods (such as Pan) can make you win the game
      */
     public void invokeGod(Match match, Message message, TurnLogic turnManager) throws EndMatchException {}
 
+    /**
+     * this function evaluate the match state and tells if the god's power can be used
+     * in the superclass is constantly false, because it's the state in which no god is selected
+     * @param match is the current match that has to be evaluate
+     * @return true if the god can be activated, false otherwise
+     */
     public boolean canActivate(Match match){
-        /*try {
-            switch (this.getName()) {
-                case "Apollo":
-                    return Apollo.canActivateApollo(match);
-                case "Ares":
-                    return Ares.canActivateAres(match);
-                case "Artemis":
-                    return Artemis.canActivateArtemis(match);
-                case "Athena":
-                    return Athena.canActivateAthena(match);
-                case "Atlas":
-                    return Atlas.canActivateAtlas(match);
-                case "Demeter":
-                    return Demeter.canActivateDemeter(match);
-                case "Hephaestus":
-                    return Hephaestus.canActivateHephaestus(match);
-                case "Hestia":
-                    return Hestia.canActivateHestia(match);
-                case "Minotaur":
-                    return Minotaur.canActivateMinotaur(match);
-                case "Pan":
-                    return Pan.canActivatePan(match);
-                case "Persephone":
-                    return Persephone.canActivatePersephone(match);
-                case "Poseidon":
-                    return Poseidon.canActivatePoseidon(match);
-                case "Prometheus":
-                    return Prometheus.canActivatePrometheus(match);
-                case "Zeus":
-                    return Zeus.canActivateZeus(match);
-            }
-        } catch(NullPointerException ignored){}*/
         return false;
     }
 

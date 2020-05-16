@@ -1,14 +1,13 @@
 package it.polimi.ingsw2020.santorini.view;
 
 import it.polimi.ingsw2020.santorini.model.*;
-import it.polimi.ingsw2020.santorini.model.gods.Prometheus;
+import it.polimi.ingsw2020.santorini.model.gods.*;
 import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.network.client.ServerAdapter;
 import it.polimi.ingsw2020.santorini.network.client.ViewAdapter;
 import it.polimi.ingsw2020.santorini.utils.*;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.*;
-import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.SelectedBuilderPositionMessage;
-import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.errors.*;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.*;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.*;
 
@@ -37,31 +36,55 @@ public class CLI implements ViewInterface{
     public void displaySetupWindow() {
         client = new Client();
         client.setView(this);
-        System.out.printf("Inserisci l'indirizzo IP del server: ");
-        String ip = scannerIn.nextLine();
+        String ip;
+        boolean wrong;
+        do{
+            try {
+                System.out.printf("Inserisci l'indirizzo IP del server: ");
+                ip = scannerIn.nextLine();
 
-        client.setNetworkHandler(new ServerAdapter(client, ip));
-        client.setViewHandler(new ViewAdapter(client));
+                client.setNetworkHandler(new ServerAdapter(client, ip));
+                client.setViewHandler(new ViewAdapter(client));
+                wrong = false;
+            } catch (Exception e) {
+                wrong = true;
+            }
+            if(wrong) System.out.println("Il server inserito non esiste, riprovare");
+        } while(wrong);
 
         client.getNetworkHandler().start();
         client.getViewHandler().start();
 
-        System.out.printf("Inserisci il tuo username: ");
-        client.setUsername(scannerIn.nextLine());
+        do{
+            try{
+                System.out.printf("Inserisci il tuo username: ");
+                client.setUsername(scannerIn.nextLine());
+                wrong = false;
+            } catch(InputMismatchException e){
+                wrong = true;
+            }
+            if(wrong) System.out.println("errore nell'username, reinserire");
+        }while(wrong);
 
         System.out.printf("Inserisci la tua data di nascita (dd/mm/yyyy): ");
         String date = scannerIn.nextLine();
         DateFormat parser = new SimpleDateFormat("dd/MM/yyyy");
-        client.setBirthDate(new Date(1900, 1, 1));
+        client.setBirthDate(new Date(1900, 0, 1));
         try {
             client.setBirthDate(parser.parse(date));
-        } catch (ParseException e) {
-            // do nothing
-        }
+        } catch (ParseException ignored) {}
 
-        System.out.printf("Inserisci il numero di giocatori della partita (2 o 3): ");
-        client.setSelectedMatch(scannerIn.nextInt());
-        scannerIn.nextLine();
+        do{
+            try{
+                System.out.printf("Inserisci il numero di giocatori della partita (2 o 3): ");
+                client.setSelectedMatch(scannerIn.nextInt());
+                scannerIn.nextLine();
+                wrong = client.getSelectedMatch() != 2 && client.getSelectedMatch() != 3;
+            }catch (InputMismatchException e){
+                wrong = true;
+            }
+            if(wrong) System.out.println("Inserire 2 o 3!");
+        }while(wrong);
 
         Message message = new Message(client.getUsername());
         message.buildLoginMessage(new LoginMessage(client.getUsername(), client.getBirthDate(), client.getSelectedMatch()));
@@ -78,7 +101,6 @@ public class CLI implements ViewInterface{
         Message message = new Message(client.getUsername());
         message.buildLoginMessage(new LoginMessage(client.getUsername(), client.getBirthDate(), client.getSelectedMatch()));
         client.getNetworkHandler().send(message);
-
     }
 
     /**
@@ -97,12 +119,12 @@ public class CLI implements ViewInterface{
      */
     @Override
     public void displayMatchSetupWindow(MatchSetupMessage matchSetupMessage) {
-        System.out.println("Giocatori della partita:\n");
+        System.out.println("Partita creata!\n");
+        System.out.println("L'ordine voluto dagli dei è questo: ");
         ArrayList<Player> listOfPlayers = matchSetupMessage.getPlayers();
         for(Player player : listOfPlayers) System.out.println(player.toString() + Color.RESET);
         System.out.println("\n\nE' ora di scegliere la posizione dei builder! inizierà il primo giocatore a scegliere!");
         System.out.println("Abbiamo ordinato in base all'età, i più giovani avranno un piccolo vantaggio!");
-        System.out.println("L'ordine voluto dagli dei è questo: ");
         for(Player p : listOfPlayers) System.out.println(p.getNickname());
         System.out.println("Attendi le direttive degli dei");
 
@@ -132,28 +154,46 @@ public class CLI implements ViewInterface{
             System.out.printf("\n%s, tocca a te! Dovrai inserire le coordinate di due celle per posizionare i tuoi costruttori!\n", currentPlayer);
             showBoard(matchStateMessage.getCells());
             System.out.printf("iniziamo con la costruttrice\n");
-            do{
-                System.out.printf("Inserisci la riga, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
-                builderF[0] = scannerIn.nextInt();
-                scannerIn.nextLine();
-            } while(builderF[0] < 1 || builderF[0] > 5);
-            do{
-                System.out.printf("Inserisci la colonna, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
-                builderF[1] = scannerIn.nextInt();
-                scannerIn.nextLine();
-            } while(builderF[1] < 1 || builderF[1] > 5);
+            boolean wrong;
 
-            System.out.printf("ora tocca al costruttore\n");
             do{
-                System.out.printf("Inserisci la riga, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
-                builderM[0] = scannerIn.nextInt();
-                scannerIn.nextLine();
-            } while(builderM[0] < 1 || builderM[0] > 5);
+                try{
+                    do{
+                        System.out.printf("Inserisci la riga, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
+                        builderF[0] = scannerIn.nextInt();
+                        scannerIn.nextLine();
+                    } while(builderF[0] < 1 || builderF[0] > 5);
+                    do{
+                        System.out.printf("Inserisci la colonna, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
+                        builderF[1] = scannerIn.nextInt();
+                        scannerIn.nextLine();
+                    } while(builderF[1] < 1 || builderF[1] > 5);
+                    wrong = false;
+                }catch (InputMismatchException e){
+                    wrong = true;
+                }
+                if(wrong) System.out.println("oh-oh, devi inserire dei numeri che rappresentino coordinate libere!");
+            }while(wrong);
+
             do{
-                System.out.printf("Inserisci la colonna, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
-                builderM[1] = scannerIn.nextInt();
-                scannerIn.nextLine();
-            } while(builderM[1] < 1 || builderM[1] > 5 || (builderM[1] == builderF[1] && builderM[0] == builderF[0]));
+                try{
+                    System.out.printf("ora tocca al costruttore\n");
+                    do{
+                        System.out.printf("Inserisci la riga, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
+                        builderM[0] = scannerIn.nextInt();
+                        scannerIn.nextLine();
+                    } while(builderM[0] < 1 || builderM[0] > 5);
+                    do{
+                        System.out.printf("Inserisci la colonna, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
+                        builderM[1] = scannerIn.nextInt();
+                        scannerIn.nextLine();
+                    } while(builderM[1] < 1 || builderM[1] > 5 || (builderM[1] == builderF[1] && builderM[0] == builderF[0]));
+                    wrong = false;
+                }catch (InputMismatchException e){
+                    wrong = true;
+                }
+                if(wrong) System.out.println("oh-oh, devi inserire dei numeri che rappresentino coordinate libere!");
+            }while(wrong);
 
             Message message = new Message(client.getUsername());
             message.buildSelectedBuilderPosMessage(new SelectedBuilderPositionMessage(client.getUsername(), builderF, builderM));
@@ -168,33 +208,50 @@ public class CLI implements ViewInterface{
     public void displayNewSelectionBuilderWindow(IllegalPositionMessage message){
         int[] builderM = null;
         int[] builderF = null;
+        boolean wrong;
         if(message.isBuilderFToChange()){
             builderF = new int[2];
-            System.out.printf("la tua costruttrice è in una posizione illegale\n");
-            do{
-                System.out.printf("Inserisci la riga, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
-                builderF[0] = scannerIn.nextInt();
-                scannerIn.nextLine();
-            } while(builderF[0] < 1 || builderF[0] > 5);
-            do{
-                System.out.printf("Inserisci la colonna, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
-                builderF[1] = scannerIn.nextInt();
-                scannerIn.nextLine();
-            } while(builderF[1] < 1 || builderF[1] > 5);
+            do {
+                try {
+                    System.out.printf("la tua costruttrice è in una posizione illegale\n");
+                    do {
+                        System.out.printf("Inserisci la riga, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
+                        builderF[0] = scannerIn.nextInt();
+                        scannerIn.nextLine();
+                    } while (builderF[0] < 1 || builderF[0] > 5);
+                    do {
+                        System.out.printf("Inserisci la colonna, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
+                        builderF[1] = scannerIn.nextInt();
+                        scannerIn.nextLine();
+                    } while (builderF[1] < 1 || builderF[1] > 5);
+                    wrong = false;
+                } catch (InputMismatchException e) {
+                    wrong = true;
+                }
+                if(wrong) System.out.println("errore, è necessario reinserire!");
+            }while(wrong);
         }
         if(message.isBuilderMToChange()) {
             builderM = new int[2];
-            System.out.printf("il tuo costruttore è in una posizione illegale\n");
-            do {
-                System.out.printf("Inserisci la riga, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
-                builderM[0] = scannerIn.nextInt();
-                scannerIn.nextLine();
-            } while (builderM[0] < 1 || builderM[0] > 5);
-            do {
-                System.out.printf("Inserisci la colonna, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
-                builderM[1] = scannerIn.nextInt();
-                scannerIn.nextLine();
-            } while (builderM[1] < 1 || builderM[1] > 5);
+            do{
+                try{
+                    System.out.printf("il tuo costruttore è in una posizione illegale\n");
+                    do {
+                        System.out.printf("Inserisci la riga, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
+                        builderM[0] = scannerIn.nextInt();
+                        scannerIn.nextLine();
+                    } while (builderM[0] < 1 || builderM[0] > 5);
+                    do {
+                        System.out.printf("Inserisci la colonna, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
+                        builderM[1] = scannerIn.nextInt();
+                        scannerIn.nextLine();
+                    } while (builderM[1] < 1 || builderM[1] > 5);
+                    wrong = false;
+                }catch (InputMismatchException e){
+                    wrong = true;
+                }
+                if(wrong) System.out.println("errore, è necessario reinserire!");
+            }while(wrong);
         }
 
         Message newPos = new Message(client.getUsername());
@@ -372,43 +429,47 @@ public class CLI implements ViewInterface{
         int buttonPressed;
         showPossibleMatrix(possibleMoves, 'm');
         do {
-            System.out.println("Inserire la direzione scelta per lo spostamento");
-            if (possibleMoves[0][0] != 0) System.out.println("Premi 1 per muovere il builder a NORD-OVEST");
-            if (possibleMoves[0][1] != 0) System.out.println("Premi 2 per muovere con il builder a NORD");
-            if (possibleMoves[0][2] != 0) System.out.println("Premi 3 per muovere con il builder a NORD-EST");
-            if (possibleMoves[1][0] != 0) System.out.println("Premi 4 per muovere con il builder a OVEST");
-            if (possibleMoves[1][2] != 0) System.out.println("Premi 5 per muovere con il builder a EST");
-            if (possibleMoves[2][0] != 0) System.out.println("Premi 6 per muovere con il builder a SUD-OVEST");
-            if (possibleMoves[2][1] != 0) System.out.println("Premi 7 per muovere con il builder a SUD");
-            if (possibleMoves[2][2] != 0) System.out.println("Premi 8 per muovere con il builder a SUD-EST");
+            try {
+                System.out.println("Inserire la direzione scelta per lo spostamento");
+                if (possibleMoves[0][0] != 0) System.out.println("Premi 1 per muovere il builder a NORD-OVEST");
+                if (possibleMoves[0][1] != 0) System.out.println("Premi 2 per muovere con il builder a NORD");
+                if (possibleMoves[0][2] != 0) System.out.println("Premi 3 per muovere con il builder a NORD-EST");
+                if (possibleMoves[1][0] != 0) System.out.println("Premi 4 per muovere con il builder a OVEST");
+                if (possibleMoves[1][2] != 0) System.out.println("Premi 5 per muovere con il builder a EST");
+                if (possibleMoves[2][0] != 0) System.out.println("Premi 6 per muovere con il builder a SUD-OVEST");
+                if (possibleMoves[2][1] != 0) System.out.println("Premi 7 per muovere con il builder a SUD");
+                if (possibleMoves[2][2] != 0) System.out.println("Premi 8 per muovere con il builder a SUD-EST");
 
-            buttonPressed = scannerIn.nextInt();
-            scannerIn.nextLine();
-            wrong = true;
-            if (buttonPressed == 1 && possibleMoves[0][0] != 0) {
-                direction = Direction.NORTH_WEST;
-                wrong = false;
-            } else if (buttonPressed == 2 && possibleMoves[0][1] != 0) {
-                direction = Direction.NORTH;
-                wrong = false;
-            } else if (buttonPressed == 3 && possibleMoves[0][2] != 0) {
-                direction = Direction.NORTH_EAST;
-                wrong = false;
-            } else if (buttonPressed == 4 && possibleMoves[1][0] != 0) {
-                direction = Direction.WEST;
-                wrong = false;
-            } else if (buttonPressed == 5 && possibleMoves[1][2] != 0) {
-                direction = Direction.EAST;
-                wrong = false;
-            } else if (buttonPressed == 6 && possibleMoves[2][0] != 0) {
-                direction = Direction.SOUTH_WEST;
-                wrong = false;
-            } else if (buttonPressed == 7 && possibleMoves[2][1] != 0) {
-                direction = Direction.SOUTH;
-                wrong = false;
-            } else if (buttonPressed == 8 && possibleMoves[2][2] != 0) {
-                direction = Direction.SOUTH_EAST;
-                wrong = false;
+                buttonPressed = scannerIn.nextInt();
+                scannerIn.nextLine();
+                wrong = true;
+                if (buttonPressed == 1 && possibleMoves[0][0] != 0) {
+                    direction = Direction.NORTH_WEST;
+                    wrong = false;
+                } else if (buttonPressed == 2 && possibleMoves[0][1] != 0) {
+                    direction = Direction.NORTH;
+                    wrong = false;
+                } else if (buttonPressed == 3 && possibleMoves[0][2] != 0) {
+                    direction = Direction.NORTH_EAST;
+                    wrong = false;
+                } else if (buttonPressed == 4 && possibleMoves[1][0] != 0) {
+                    direction = Direction.WEST;
+                    wrong = false;
+                } else if (buttonPressed == 5 && possibleMoves[1][2] != 0) {
+                    direction = Direction.EAST;
+                    wrong = false;
+                } else if (buttonPressed == 6 && possibleMoves[2][0] != 0) {
+                    direction = Direction.SOUTH_WEST;
+                    wrong = false;
+                } else if (buttonPressed == 7 && possibleMoves[2][1] != 0) {
+                    direction = Direction.SOUTH;
+                    wrong = false;
+                } else if (buttonPressed == 8 && possibleMoves[2][2] != 0) {
+                    direction = Direction.SOUTH_EAST;
+                    wrong = false;
+                }
+            }catch(InputMismatchException e){
+                wrong = true;
             }
             if(wrong) System.out.println("Direzione non valida! Inserire una direzione valida");
         }while(wrong);
@@ -446,43 +507,55 @@ public class CLI implements ViewInterface{
         int buttonPressed;
         showPossibleMatrix(possibleBuildings, 'b');
         do {
-            System.out.println("Inserire la direzione scelta per la costruzione");
-            if (possibleBuildings[0][0] >= 0 && possibleBuildings[0][0] < 4) System.out.println("Premi 1 per costruire con il builder a NORD-OVEST");
-            if (possibleBuildings[0][1] >= 0 && possibleBuildings[0][1] < 4) System.out.println("Premi 2 per costruire con il builder a NORD");
-            if (possibleBuildings[0][2] >= 0 && possibleBuildings[0][2] < 4) System.out.println("Premi 3 per costruire con il builder a NORD-EST");
-            if (possibleBuildings[1][0] >= 0 && possibleBuildings[1][0] < 4) System.out.println("Premi 4 per costruire con il builder a OVEST");
-            if (possibleBuildings[1][2] >= 0 && possibleBuildings[1][2] < 4) System.out.println("Premi 5 per costruire con il builder a EST");
-            if (possibleBuildings[2][0] >= 0 && possibleBuildings[2][0] < 4) System.out.println("Premi 6 per costruire con il builder a SUD-OVEST");
-            if (possibleBuildings[2][1] >= 0 && possibleBuildings[2][1] < 4) System.out.println("Premi 7 per costruire con il builder a SUD");
-            if (possibleBuildings[2][2] >= 0 && possibleBuildings[2][2] < 4) System.out.println("Premi 8 per costruire con il builder a SUD-EST");
+            try {
+                System.out.println("Inserire la direzione scelta per la costruzione");
+                if (possibleBuildings[0][0] >= 0 && possibleBuildings[0][0] < 4)
+                    System.out.println("Premi 1 per costruire con il builder a NORD-OVEST");
+                if (possibleBuildings[0][1] >= 0 && possibleBuildings[0][1] < 4)
+                    System.out.println("Premi 2 per costruire con il builder a NORD");
+                if (possibleBuildings[0][2] >= 0 && possibleBuildings[0][2] < 4)
+                    System.out.println("Premi 3 per costruire con il builder a NORD-EST");
+                if (possibleBuildings[1][0] >= 0 && possibleBuildings[1][0] < 4)
+                    System.out.println("Premi 4 per costruire con il builder a OVEST");
+                if (possibleBuildings[1][2] >= 0 && possibleBuildings[1][2] < 4)
+                    System.out.println("Premi 5 per costruire con il builder a EST");
+                if (possibleBuildings[2][0] >= 0 && possibleBuildings[2][0] < 4)
+                    System.out.println("Premi 6 per costruire con il builder a SUD-OVEST");
+                if (possibleBuildings[2][1] >= 0 && possibleBuildings[2][1] < 4)
+                    System.out.println("Premi 7 per costruire con il builder a SUD");
+                if (possibleBuildings[2][2] >= 0 && possibleBuildings[2][2] < 4)
+                    System.out.println("Premi 8 per costruire con il builder a SUD-EST");
 
-            buttonPressed = scannerIn.nextInt();
-            scannerIn.nextLine();
-            wrong = true;
-            if (buttonPressed == 1 && possibleBuildings[0][0] >= 0 && possibleBuildings[0][0] < 4) {
-                direction = Direction.NORTH_WEST;
-                wrong = false;
-            } else if (buttonPressed == 2 && possibleBuildings[0][1] >= 0 && possibleBuildings[0][1] < 4) {
-                direction = Direction.NORTH;
-                wrong = false;
-            } else if (buttonPressed == 3 && possibleBuildings[0][2] >= 0 && possibleBuildings[0][2] < 4) {
-                direction = Direction.NORTH_EAST;
-                wrong = false;
-            } else if (buttonPressed == 4 && possibleBuildings[1][0] >= 0 && possibleBuildings[1][0] < 4) {
-                direction = Direction.WEST;
-                wrong = false;
-            } else if (buttonPressed == 5 && possibleBuildings[1][2] >= 0 && possibleBuildings[1][2] < 4) {
-                direction = Direction.EAST;
-                wrong = false;
-            } else if (buttonPressed == 6 && possibleBuildings[2][0] >= 0 && possibleBuildings[2][0] < 4) {
-                direction = Direction.SOUTH_WEST;
-                wrong = false;
-            } else if (buttonPressed == 7 && possibleBuildings[2][1] >= 0 && possibleBuildings[2][1] < 4) {
-                direction = Direction.SOUTH;
-                wrong = false;
-            } else if (buttonPressed == 8 && possibleBuildings[2][2] >= 0 && possibleBuildings[2][2] < 4) {
-                direction = Direction.SOUTH_EAST;
-                wrong = false;
+                buttonPressed = scannerIn.nextInt();
+                scannerIn.nextLine();
+                wrong = true;
+                if (buttonPressed == 1 && possibleBuildings[0][0] >= 0 && possibleBuildings[0][0] < 4) {
+                    direction = Direction.NORTH_WEST;
+                    wrong = false;
+                } else if (buttonPressed == 2 && possibleBuildings[0][1] >= 0 && possibleBuildings[0][1] < 4) {
+                    direction = Direction.NORTH;
+                    wrong = false;
+                } else if (buttonPressed == 3 && possibleBuildings[0][2] >= 0 && possibleBuildings[0][2] < 4) {
+                    direction = Direction.NORTH_EAST;
+                    wrong = false;
+                } else if (buttonPressed == 4 && possibleBuildings[1][0] >= 0 && possibleBuildings[1][0] < 4) {
+                    direction = Direction.WEST;
+                    wrong = false;
+                } else if (buttonPressed == 5 && possibleBuildings[1][2] >= 0 && possibleBuildings[1][2] < 4) {
+                    direction = Direction.EAST;
+                    wrong = false;
+                } else if (buttonPressed == 6 && possibleBuildings[2][0] >= 0 && possibleBuildings[2][0] < 4) {
+                    direction = Direction.SOUTH_WEST;
+                    wrong = false;
+                } else if (buttonPressed == 7 && possibleBuildings[2][1] >= 0 && possibleBuildings[2][1] < 4) {
+                    direction = Direction.SOUTH;
+                    wrong = false;
+                } else if (buttonPressed == 8 && possibleBuildings[2][2] >= 0 && possibleBuildings[2][2] < 4) {
+                    direction = Direction.SOUTH_EAST;
+                    wrong = false;
+                }
+            } catch(InputMismatchException e){
+                wrong = true;
             }
             if(wrong) System.out.println("Direzione non valida! Inserire una direzione valida");
         }while(wrong);
@@ -538,8 +611,6 @@ public class CLI implements ViewInterface{
     @Override
     public void displayErrorMessage(String error) {
         System.out.println(error);
-        System.out.println("Press any key to proceed");
-        scannerIn.nextLine();
     }
 
     public void showBoard(ArrayList<Cell> listOfCells){

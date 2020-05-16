@@ -140,7 +140,7 @@ public class Player {
 
     @Override
     public String toString(){
-        return color+"Username: "+nickname+"\nBirthDate: "+birthDate+"\nGod: "+divinePower.toStringEffect();
+        return color+"Username: "+nickname+"\nGod: "+divinePower.toStringEffect();
     }
 
 }
