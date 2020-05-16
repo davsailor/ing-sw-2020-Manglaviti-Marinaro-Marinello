@@ -48,28 +48,28 @@ public class Ares extends GodCard {
 
         switch(param.getTargetedBlock()){
             case NORTH:
-                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()][demolitionBuilder.getBuildPosY()-1];
+                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()-1][demolitionBuilder.getBuildPosY()];
                 break;
             case NORTH_WEST:
                 target = match.getBoard().getBoard()[demolitionBuilder.getPosX()-1][demolitionBuilder.getBuildPosY()-1];
                 break;
             case NORTH_EAST:
-                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()+1][demolitionBuilder.getBuildPosY()-1];
+                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()-1][demolitionBuilder.getBuildPosY()+1];
                 break;
             case WEST:
-                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()-1][demolitionBuilder.getBuildPosY()];
+                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()][demolitionBuilder.getBuildPosY()-1];
                 break;
             case EAST:
-                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()+1][demolitionBuilder.getBuildPosY()];
+                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()][demolitionBuilder.getBuildPosY()+1];
                 break;
             case SOUTH:
-                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()][demolitionBuilder.getBuildPosY()+1];
+                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()+1][demolitionBuilder.getBuildPosY()];
                 break;
             case SOUTH_EAST:
                 target = match.getBoard().getBoard()[demolitionBuilder.getPosX()+1][demolitionBuilder.getBuildPosY()+1];
                 break;
             case SOUTH_WEST:
-                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()-1][demolitionBuilder.getBuildPosY()+1];
+                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()+1][demolitionBuilder.getBuildPosY()-1];
                 break;
         }
 

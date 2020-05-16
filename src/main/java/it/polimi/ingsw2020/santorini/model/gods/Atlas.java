@@ -33,19 +33,19 @@ public class Atlas extends GodCard {
 
         switch(param.getDirection()){
             case NORTH:
-                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()-1];
+                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()-1][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()];
                 break;
             case NORTH_WEST:
                 target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()-1][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()-1];
                 break;
             case NORTH_EAST:
-                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()+1][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()-1];
+                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()-1][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()+1];
                 break;
             case WEST:
-                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()-1][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()];
+                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()-1];
                 break;
             case EAST:
-                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()+1][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()];
+                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()+1];
                 break;
             case SOUTH:
                 target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()+1];
@@ -54,7 +54,7 @@ public class Atlas extends GodCard {
                 target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()+1][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()+1];
                 break;
             case SOUTH_WEST:
-                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()-1][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()+1];
+                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()+1][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()-1];
                 break;
         }
 
