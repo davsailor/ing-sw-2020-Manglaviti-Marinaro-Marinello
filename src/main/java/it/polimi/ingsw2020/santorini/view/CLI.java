@@ -15,6 +15,7 @@ import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.*;
 import java.text.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 @SuppressWarnings("deprecation")
@@ -369,6 +370,7 @@ public class CLI implements ViewInterface{
         Direction direction = null;
         boolean wrong;
         int buttonPressed;
+        showPossibleMatrix(possibleMoves, 'm');
         do {
             System.out.println("Inserire la direzione scelta per lo spostamento");
             if (possibleMoves[0][0] != 0) System.out.println("Premi 1 per muovere il builder a NORD-OVEST");
@@ -442,8 +444,9 @@ public class CLI implements ViewInterface{
         Direction direction = null;
         boolean wrong;
         int buttonPressed;
+        showPossibleMatrix(possibleBuildings, 'b');
         do {
-            System.out.println("Inserire la direzione scelta per lo spostamento");
+            System.out.println("Inserire la direzione scelta per la costruzione");
             if (possibleBuildings[0][0] >= 0 && possibleBuildings[0][0] < 4) System.out.println("Premi 1 per costruire con il builder a NORD-OVEST");
             if (possibleBuildings[0][1] >= 0 && possibleBuildings[0][1] < 4) System.out.println("Premi 2 per costruire con il builder a NORD");
             if (possibleBuildings[0][2] >= 0 && possibleBuildings[0][2] < 4) System.out.println("Premi 3 per costruire con il builder a NORD-EST");
@@ -587,6 +590,62 @@ public class CLI implements ViewInterface{
                 "\n                                 SOUTH                   \n");
     }
 
+    public void showPossibleMatrix(int[][] matrixToShow, char type){
+        System.out.println("\n\nPossibilità:\n");
+        System.out.printf(                  "                     NORTH                \n" +
+                "                 0     1     2 \n" +
+                "              "+Color.CORNER_WHITE +"█"+Color.BORDER_YELLOW+"═════╦═════╦═════"+Color.CORNER_WHITE +"█");
+        char[] cell = new char[3];
+        if(type == 'b') {
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if (matrixToShow[i][j] < 0) {
+                        cell[j] = 'X';
+                    } else if (matrixToShow[i][j] == 0) {
+                        cell[j] = '0';
+                    } else if (matrixToShow[i][j] == 1) {
+                        cell[j] = '1';
+                    } else if (matrixToShow[i][j] == 2) {
+                        cell[j] = '2';
+                    } else if (matrixToShow[i][j] == 3) {
+                        cell[j] = '3';
+                    } else cell[j] = 'X';
+                }
+                if (i == 0 || i == 2) {
+                    System.out.printf(Color.RESET + "\n              " + Color.BORDER_YELLOW + "║  %c  " + Color.BORDER_YELLOW + "║" + Color.BORDER_YELLOW + "  %c  " + Color.BORDER_YELLOW + "║" + Color.BORDER_YELLOW + "  %c  " + Color.BORDER_YELLOW + "║", cell[0], cell[1], cell[2]);
+                    if (i == 0) {
+                        System.out.printf("\n              " + Color.BORDER_YELLOW + "╠═════╬═════╬═════╬ ");
+                    }
+                } else {
+                    System.out.printf(Color.RESET + "\n       OVEST  " + Color.BORDER_YELLOW + "║  %c  " + Color.BORDER_YELLOW + "║" + Color.BORDER_YELLOW + "  %c  " + Color.BORDER_YELLOW + "║" + Color.BORDER_YELLOW + "  %c  " + Color.BORDER_YELLOW + "║" + Color.RESET + " EAST\n", cell[0], cell[1], cell[2]);
+                    System.out.printf("              " + Color.BORDER_YELLOW + "╠═════╬═════╬═════╬ ");
+                }
+            }
+        } else{
+            int k = 1;
+            for(int i = 0; i < 3; ++i) {
+                for (int j = 0; j < 3; ++j) {
+                    if (matrixToShow[i][j] != 0) cell[j] = Character.forDigit(k, 10);
+                    else cell[j] = ' ';
+                    ++k;
+                }
+                if (i == 0 || i == 2) {
+                    System.out.printf(Color.RESET + "\n              " + Color.BORDER_YELLOW + "║  %c  " + Color.BORDER_YELLOW + "║" + Color.BORDER_YELLOW + "  %c  " + Color.BORDER_YELLOW + "║" + Color.BORDER_YELLOW + "  %c  " + Color.BORDER_YELLOW + "║", cell[0], cell[1], cell[2]);
+                    if (i == 0) {
+                        System.out.printf("\n              " + Color.BORDER_YELLOW + "╠═════╬═════╬═════╬ ");
+                    }
+                } else {
+                    System.out.printf(Color.RESET + "\n       OVEST  " + Color.BORDER_YELLOW + "║  %c  " + Color.BORDER_YELLOW + "║" + Color.BORDER_YELLOW + "  %c  " + Color.BORDER_YELLOW + "║" + Color.BORDER_YELLOW + "  %c  " + Color.BORDER_YELLOW + "║" + Color.RESET + " EAST\n", cell[0], cell[1], cell[2]);
+                    System.out.printf("              " + Color.BORDER_YELLOW + "╠═════╬═════╬═════╬ ");
+                }
+            }
+
+        }
+        System.out.printf("\n              "+Color.CORNER_WHITE +"█"+Color.BORDER_YELLOW+"═════╩═════╩═════"+Color.CORNER_WHITE +"█" + Color.RESET+
+                "\n                 0     1     2     " +
+                "\n                     SOUTH                   \n\n");
+    }
+
     private ApolloParamMessage displayApolloParamSel(MatchStateMessage message){
         ApolloParamMessage apolloParamMessage = new ApolloParamMessage();
         //Inserire la sampa per la scelta del builder
@@ -594,13 +653,14 @@ public class CLI implements ViewInterface{
         Builder chosen = null;
         Direction direction = null;
         System.out.println("Seleziona il builder più adatto a servire Apollo. Ricorda che deve essere vicino ad un builder avversario affinché sia degno!");
-        String choice = scannerIn.nextLine();
-        choice = choice.toUpperCase();
+        String choice = null;
         boolean wrong;
         do {
-            choice = scannerIn.nextLine();
-            choice = choice.toUpperCase();
-            wrong  = false;
+            try{choice = scannerIn.nextLine();
+                choice = choice.toUpperCase();
+                wrong  = false;
+            } catch (InputMismatchException e){wrong = true;}
+
             if (choice.equals("M")) {
                 chosen = message.getCurrentPlayer().getBuilderM();
                 yourBuilderGender = 'M';
@@ -614,6 +674,7 @@ public class CLI implements ViewInterface{
         } while (wrong);
 
         chosen.setBoard(new Board(message.getBoard()));
+        chosen.setPlayer(message.getCurrentPlayer());
         int[][] neighboringSwappingCell = Board.neighboringSwappingCell(chosen, AccessType.OCCUPIED);
 
         boolean allZeros = true;
@@ -631,11 +692,16 @@ public class CLI implements ViewInterface{
                 chosen = message.getCurrentPlayer().getBuilderM();
             }
         }
-        //Mettere un display per far vedere le possibili scelte
+        //Ricalcola neighboringSwappingCell e la display
+
+        chosen.setBoard(new Board(message.getBoard()));
+        chosen.setPlayer(message.getCurrentPlayer());
+        neighboringSwappingCell = Board.neighboringSwappingCell(chosen, AccessType.OCCUPIED);
+        System.out.println("Ora è il momento di scegliere il costruttore avversario, premi il numero indicato per scegliere la direzione che preferisci");
+        showPossibleMatrix(neighboringSwappingCell, 'm');
         int pressedButton;
         do {
-
-            System.out.println("Ora è il momento di scegliere il costruttore avversario, premi il numero indicato per scegliere la direzione che preferisci");
+            //System.out.println("Ora è il momento di scegliere il costruttore avversario, premi il numero indicato per scegliere la direzione che preferisci");
             if (neighboringSwappingCell[0][0] != 0) System.out.println("Premi 1 per andare a NORD-OVEST");
             if (neighboringSwappingCell[0][1] != 0) System.out.println("Premi 2 per andare a NORD");
             if (neighboringSwappingCell[0][2] != 0) System.out.println("Premi 3 per andare a NORD-EST");
@@ -674,6 +740,7 @@ public class CLI implements ViewInterface{
                 direction = Direction.SOUTH_EAST;
                 wrong = false;
             }
+            System.out.println("Hai selezionato una direzione errata! Selezionane una nuova:");
         } while(wrong);
 
         apolloParamMessage.setYourBuilderGender(yourBuilderGender);
@@ -695,15 +762,17 @@ public class CLI implements ViewInterface{
         }
 
         demolitionBuilder.setBoard(new Board(message.getBoard()));
+        demolitionBuilder.setPlayer(message.getCurrentPlayer());
         int[][] neighboringLevelCell = Board.neighboringLevelCell(demolitionBuilder);
 
         //INserire display per mostrare le possibili costruzioni
 
         boolean wrong;
         int pressedButton;
+        System.out.println("Ora è il momento di scegliere il blocco da demolire, premi il numero indicato per scegliere la direzione del blocco che preferisci distruggere");
+        showPossibleMatrix(neighboringLevelCell, 'b');
         do {
-
-            System.out.println("Ora è il momento di scegliere il blocco da demolire, premi il numero indicato per scegliere la direzione del blocco che preferisci distruggere");
+            //System.out.println("Ora è il momento di scegliere il blocco da demolire, premi il numero indicato per scegliere la direzione del blocco che preferisci distruggere");
             if (neighboringLevelCell[0][0] > 0 && neighboringLevelCell[0][0] < 4) System.out.println("Premi 1 per demolire il blocco a NORD-OVEST");
             if (neighboringLevelCell[0][1] > 0 && neighboringLevelCell[0][1] < 4) System.out.println("Premi 2 per demolire il blocco a NORD");
             if (neighboringLevelCell[0][2] > 0 && neighboringLevelCell[0][2] < 4) System.out.println("Premi 3 per demolire il blocco a NORD-EST");
@@ -758,9 +827,10 @@ public class CLI implements ViewInterface{
         //INserire display per mostrare
         boolean wrong;
         int pressedButton;
+        System.out.println("Ora è il momento di scegliere dove muovere nuovamente il builder, premi il numero indicato per scegliere la direzione del movimento");
+        showPossibleMatrix(possibleMoves, 'm');
         do {
-
-            System.out.println("Ora è il momento di scegliere dove muovere nuovamente il builder, premi il numero indicato per scegliere la direzione del movimento");
+            //System.out.println("Ora è il momento di scegliere dove muovere nuovamente il builder, premi il numero indicato per scegliere la direzione del movimento");
             if (possibleMoves[0][0] > 0 && possibleMoves[0][0] < 4) System.out.println("Premi 1 per spostare il builder a NORD-OVEST");
             if (possibleMoves[0][1] > 0 && possibleMoves[0][1] < 4) System.out.println("Premi 2 per spostare il builder a NORD");
             if (possibleMoves[0][2] > 0 && possibleMoves[0][2] < 4) System.out.println("Premi 3 per spostare il builder a NORD-EST");
@@ -811,12 +881,15 @@ public class CLI implements ViewInterface{
         AtlasParamMessage atlasParamMessage = new AtlasParamMessage();
         Direction direction = null;
         message.getCurrentPlayer().getPlayingBuilder().setBoard(new Board(message.getBoard()));
+        message.getCurrentPlayer().getPlayingBuilder().setPlayer(message.getCurrentPlayer());
         int[][] neighboringLevelCell = Board.neighboringLevelCell(message.getCurrentPlayer().getPlayingBuilder());
         //INserire display per mostrare
         boolean wrong;
         int pressedButton;
+        System.out.println("Ora è il momento di scegliere dove far costruire al builder una cupola, premi il numero indicato per scegliere la direzione della costruzione");
+        showPossibleMatrix(neighboringLevelCell, 'b');
         do {
-            System.out.println("Ora è il momento di scegliere dove far costruire al builder una cupola, premi il numero indicato per scegliere la direzione della costruzione");
+            //System.out.println("Ora è il momento di scegliere dove far costruire al builder una cupola, premi il numero indicato per scegliere la direzione della costruzione");
             if (neighboringLevelCell[0][0] != 4 && neighboringLevelCell[0][0] != -1) System.out.println("Premi 1 per costruire il builder a NORD-OVEST");
             if (neighboringLevelCell[0][1] != 4 && neighboringLevelCell[0][1] != -1) System.out.println("Premi 2 per costruire il builder a NORD");
             if (neighboringLevelCell[0][2] != 4 && neighboringLevelCell[0][2] != -1) System.out.println("Premi 3 per costruire il builder a NORD-EST");
@@ -869,8 +942,10 @@ public class CLI implements ViewInterface{
         //INserire display per mostrare
         boolean wrong;
         int pressedButton;
+        System.out.println("Ora è il momento di scegliere dove far costruire nuovamente al builder , premi il numero indicato per scegliere la direzione della costruzione");
+        showPossibleMatrix(possibleBuildings, 'b');
         do {
-            System.out.println("Ora è il momento di scegliere dove far costruire nuovamente al builder , premi il numero indicato per scegliere la direzione della costruzione");
+            //System.out.println("Ora è il momento di scegliere dove far costruire nuovamente al builder , premi il numero indicato per scegliere la direzione della costruzione");
             if (possibleBuildings[0][0] != 4 && possibleBuildings[0][0] != -1 && possibleBuildings[0][0] != -2) System.out.println("Premi 1 per costruire con il builder a NORD-OVEST");
             if (possibleBuildings[0][1] != 4 && possibleBuildings[0][1] != -1 && possibleBuildings[0][1] != -2) System.out.println("Premi 2 per costruire con il builder a NORD");
             if (possibleBuildings[0][2] != 0 && possibleBuildings[0][2] != -1 && possibleBuildings[0][2] != -2) System.out.println("Premi 3 per costruire con il builder a NORD-EST");
@@ -924,6 +999,7 @@ public class CLI implements ViewInterface{
         posBuilder[1] = message.getCurrentPlayer().getPlayingBuilder().getPosY();
 
         message.getCurrentPlayer().getPlayingBuilder().setBoard(new Board(message.getBoard()));
+        message.getCurrentPlayer().getPlayingBuilder().setPlayer(message.getCurrentPlayer());
 
         int[][] neighboringLevelCell = Board.neighboringLevelCell(message.getCurrentPlayer().getPlayingBuilder());
         if(message.getCurrentPlayer().getPlayingBuilder().getPosX() == 1 || message.getCurrentPlayer().getPlayingBuilder().getPosX() == 5){
@@ -955,9 +1031,10 @@ public class CLI implements ViewInterface{
         //INserire display per mostrare
         boolean wrong;
         int pressedButton;
+        System.out.println("Ora è il momento di scegliere dove far costruire nuovamente al builder , premi il numero indicato per scegliere la direzione della costruzione, attenzione a non scegliere una cella perimetrale!");
+        showPossibleMatrix(neighboringLevelCell, 'b');
         do {
-
-            System.out.println("Ora è il momento di scegliere dove far costruire nuovamente al builder , premi il numero indicato per scegliere la direzione della costruzione, attenzione a non scegliere una cella perimetrale!");
+            //System.out.println("Ora è il momento di scegliere dove far costruire nuovamente al builder , premi il numero indicato per scegliere la direzione della costruzione, attenzione a non scegliere una cella perimetrale!");
             if (neighboringLevelCell[0][0] != -1 && neighboringLevelCell[0][0] != 4) System.out.println("Premi 1 per costruire con il builder a NORD-OVEST");
             if (neighboringLevelCell[0][1] != -1 && neighboringLevelCell[0][1] != 4) System.out.println("Premi 2 per costruire con il builder a NORD");
             if (neighboringLevelCell[0][2] != -1 && neighboringLevelCell[0][2] != 4) System.out.println("Premi 3 per costruire con il builder a NORD-EST");
@@ -1117,10 +1194,11 @@ public class CLI implements ViewInterface{
                         possibleSwap[i][j] = 0;
                     }
         int pressedButton;
+        System.out.println("Ora è il momento di scegliere il builder avversario, premi il numero indicato per scegliere la direzione che preferisci");
+        showPossibleMatrix(possibleSwap, 'm');
         //Mettere un display per far vedere le possibili scelte
         do {
-
-            System.out.println("Ora è il momento di scegliere il builder avversario, premi il numero indicato per scegliere la direzione che preferisci");
+            //System.out.println("Ora è il momento di scegliere il builder avversario, premi il numero indicato per scegliere la direzione che preferisci");
             if (possibleSwap[0][0] != 0) System.out.println("Premi 1 per muoverti a NORD-OVEST");
             if (possibleSwap[0][1] != 0) System.out.println("Premi 2 per muoverti a NORD");
             if (possibleSwap[0][2] != 0) System.out.println("Premi 3 per muoverti a NORD-EST");
@@ -1197,6 +1275,7 @@ public class CLI implements ViewInterface{
         }
         //Salvataggio della possible buildings
         constructionBuilder.setBoard(new Board(message.getBoard()));
+        constructionBuilder.setPlayer(message.getCurrentPlayer());
         int[][] possibleBuildingsP = Board.neighboringLevelCell(constructionBuilder);
 
 
@@ -1229,6 +1308,7 @@ public class CLI implements ViewInterface{
         int pressedButton ;
         System.out.printf("inserire ora un numero di direzioni pari a %d /n", numeroBuild);
         do {
+            showPossibleMatrix(possibleBuildingsP, 'b');
             if (possibleBuildingsP[0][0] != -1 && possibleBuildingsP[0][0] != 4) System.out.println("Premi 1 per costruire con il builder a NORD-OVEST");
             if (possibleBuildingsP[0][1] != -1 && possibleBuildingsP[0][1] != 4) System.out.println("Premi 2 per costruire con il builder a NORD");
             if (possibleBuildingsP[0][2] != -1 && possibleBuildingsP[0][2] != 4) System.out.println("Premi 3 per costruire con il builder a NORD-EST");
@@ -1323,11 +1403,13 @@ public class CLI implements ViewInterface{
         } while (wrong);
 
         builderScelto.setBoard(new Board(message.getBoard()));
+        builderScelto.setPlayer(message.getCurrentPlayer());
         int[][] possibleBuildingsPr = Board.neighboringLevelCell(builderScelto);
         int pressedButton;
+        System.out.println("Ora è il momento di scegliere il builder avversario, premi il numero indicato per scegliere la direzione che preferisci");
+        showPossibleMatrix(possibleBuildingsPr, 'b');
         do {
-
-            System.out.println("Ora è il momento di scegliere il builder avversario, premi il numero indicato per scegliere la direzione che preferisci");
+            //System.out.println("Ora è il momento di scegliere il builder avversario, premi il numero indicato per scegliere la direzione che preferisci");
             if (possibleBuildingsPr[0][0] >= 0 && possibleBuildingsPr[0][0] < 4) System.out.println("Premi 1 per costruire con il builder a NORD-OVEST");
             if (possibleBuildingsPr[0][1] >= 0 && possibleBuildingsPr[0][1] < 4) System.out.println("Premi 2 per costruire con il builder a NORD");
             if (possibleBuildingsPr[0][2] >= 0 && possibleBuildingsPr[0][2] < 4) System.out.println("Premi 3 per costruire con il builder a NORD-EST");
