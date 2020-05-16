@@ -72,6 +72,10 @@ public class Builder {
         return buildPosY;
     }
 
+    public void setRisedThisTurn(boolean risedThisTurn) {
+        this.risedThisTurn = risedThisTurn;
+    }
+
     /**
      *
      * @param player is the player of the builder
@@ -117,7 +121,6 @@ public class Builder {
         movedThisTurn = false;
         risedThisTurn = false;
         builtThisTurn = false;
-
     }
 
     /**
@@ -142,7 +145,6 @@ public class Builder {
         this.possibleMoves = Board.neighboringStatusCell( this , AccessType.FREE);
     }
 
-
     public int[][] getPossibleMoves() {
         return possibleMoves;
     }
@@ -161,7 +163,7 @@ public class Builder {
         setPossibleBuildings();
         for(int i = 0; i < 3; ++i)
             for(int j = 0; j < 3; ++j)
-                if(possibleBuildings[i][j] < 3 && possibleBuildings[i][j] != -1) return true;
+                if(possibleBuildings[i][j] < 4 && possibleBuildings[i][j] != -1) return true;
         return false;
     }
 
@@ -226,6 +228,9 @@ public class Builder {
         // mettere a null il puntatore nella vecchia cella (questo prima di aggiornare posX e posY) dopo IF
         // mettere il builder nella nuova posizione
         // aggiornare lo stato delle celle
+
+        if(board.getBoard()[oldPosX][oldPosY].calculateJump(board.getBoard()[posX][posY]) > 0)
+            risedThisTurn = true;
 
         board.getBoard()[posX][posY].setBuilder(this);
         board.getBoard()[posX][posY].setStatus(AccessType.OCCUPIED);

@@ -19,7 +19,7 @@ public class Hephaestus extends GodCard {
 
     @Override
     public boolean canActivate(Match match) {
-        return match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getBuildPosX()][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()].getLevel() != LevelType.DOME;
+        return match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getBuildPosX()][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()].getLevel().getHeight() < 3;
     }
 
     @Override
@@ -31,9 +31,6 @@ public class Hephaestus extends GodCard {
                 break;
             case MID:
                 target.setLevel(LevelType.TOP);
-                break;
-            case TOP:
-                target.setLevel(LevelType.DOME);
                 break;
         }
         System.out.println("potere di " + name + " attivato");

@@ -47,28 +47,28 @@ public class Apollo extends GodCard {
 
         switch(param.getOpponentBuilderDirection()){
             case NORTH:
-                opponent = match.getBoard().getBoard()[yours.getPosX()-1][yours.getBuildPosY()].getBuilder();
+                opponent = match.getBoard().getBoard()[yours.getPosX()-1][yours.getPosY()].getBuilder();
                 break;
             case NORTH_WEST:
-                opponent = match.getBoard().getBoard()[yours.getPosX()-1][yours.getBuildPosY()-1].getBuilder();
+                opponent = match.getBoard().getBoard()[yours.getPosX()-1][yours.getPosY()-1].getBuilder();
                 break;
             case NORTH_EAST:
-                opponent = match.getBoard().getBoard()[yours.getPosX()-1][yours.getBuildPosY()+1].getBuilder();
+                opponent = match.getBoard().getBoard()[yours.getPosX()-1][yours.getPosY()+1].getBuilder();
                 break;
             case WEST:
-                opponent = match.getBoard().getBoard()[yours.getPosX()][yours.getBuildPosY()-1].getBuilder();
+                opponent = match.getBoard().getBoard()[yours.getPosX()][yours.getPosY()-1].getBuilder();
                 break;
             case EAST:
-                opponent = match.getBoard().getBoard()[yours.getPosX()][yours.getBuildPosY()+1].getBuilder();
+                opponent = match.getBoard().getBoard()[yours.getPosX()][yours.getPosY()+1].getBuilder();
                 break;
             case SOUTH:
-                opponent = match.getBoard().getBoard()[yours.getPosX()+1][yours.getBuildPosY()].getBuilder();
+                opponent = match.getBoard().getBoard()[yours.getPosX()+1][yours.getPosY()].getBuilder();
                 break;
             case SOUTH_EAST:
-                opponent = match.getBoard().getBoard()[yours.getPosX()+1][yours.getBuildPosY()+1].getBuilder();
+                opponent = match.getBoard().getBoard()[yours.getPosX()+1][yours.getPosY()+1].getBuilder();
                 break;
             case SOUTH_WEST:
-                opponent = match.getBoard().getBoard()[yours.getPosX()+1][yours.getBuildPosY()-1].getBuilder();
+                opponent = match.getBoard().getBoard()[yours.getPosX()+1][yours.getPosY()-1].getBuilder();
                 break;
         }
 

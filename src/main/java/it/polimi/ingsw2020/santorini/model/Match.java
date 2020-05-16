@@ -1,12 +1,11 @@
 package it.polimi.ingsw2020.santorini.model;
 
 import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
-import it.polimi.ingsw2020.santorini.model.gods.Minotaur;
+import it.polimi.ingsw2020.santorini.model.gods.*;
 import it.polimi.ingsw2020.santorini.network.server.VirtualView;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.Color;
-import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.EndMatchMessage;
-import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchSetupMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.*;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -96,9 +95,12 @@ public class Match extends Observable {
      * @param eliminatedPlayer will be the int value of this attribute
      */
     public void setEliminatedPlayer(int eliminatedPlayer) throws EndMatchException{
-        eliminatedPlayers.add(players.get(eliminatedPlayer));
-        if(currentPlayerIndex < eliminatedPlayer)
+        if(currentPlayerIndex > eliminatedPlayer)
             --currentPlayerIndex;
+        else if(currentPlayerIndex == eliminatedPlayer)
+            setNextPlayer();
+        eliminatedPlayers.add(players.get(eliminatedPlayer));
+        players.remove(players.get(eliminatedPlayer));
         if(eliminatedPlayers.size() == numberOfPlayers - 1) throw new EndMatchException(this);
     }
 
@@ -118,7 +120,7 @@ public class Match extends Observable {
         this.getBoard().getGodCards().shuffleDeck();
         for(int i = 0; i < this.getNumberOfPlayers(); ++i){
             this.players.add(players[i]);
-            this.players.get(i).setDivinePower(this.getBoard().getGodCards().giveCard()); //new Minotaur()
+            this.players.get(i).setDivinePower(new Hestia()); //this.getBoard().getGodCards().giveCard()
             this.players.get(i).setColor(Color.getColor(i));
             listOfMessages.add((new Message(players[i].getNickname())));
         }

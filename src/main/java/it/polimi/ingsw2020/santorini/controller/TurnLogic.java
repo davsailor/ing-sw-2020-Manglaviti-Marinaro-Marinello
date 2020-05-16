@@ -124,7 +124,7 @@ public class TurnLogic {
                 moveManager(match);
                 break;
             case STANDBY_PHASE_2:
-                if(match.getCurrentPlayer().canBuild()) standByPhaseManager(match, PhaseType.STANDBY_PHASE_2);
+                if(match.getCurrentPlayer().getPlayingBuilder().canBuild()) standByPhaseManager(match, PhaseType.STANDBY_PHASE_2);
                 else match.setEliminatedPlayer(match.getCurrentPlayerIndex());
                 break;
             case BUILD_PHASE:
@@ -215,7 +215,7 @@ public class TurnLogic {
         // controllo se il potere divino è attivabile
         System.out.printf("STANDBY PHASE MANAGER: ");
         GodCard god = match.getCurrentPlayer().getDivinePower();
-        if(god.getTiming() == phase){ // && (god.canActivate() || !remainingActions.contains(ACTIVATE_GOD))
+        if(god.getTiming() == phase && god.canActivate(match)){ // || !remainingActions.contains(ACTIVATE_GOD)
             if (remainingActions.contains(ActionType.ACTIVATE_GOD)) {
                 System.out.printf("ACTIVATE GOD\n");
                 if (god.isMandatory()) {
@@ -329,6 +329,7 @@ public class TurnLogic {
         match.notifyView(listOfUpdateMessages);
         match.getCurrentPlayer().setMoveActions(true);
         match.getCurrentPlayer().setRiseActions(true);
+        match.getCurrentPlayer().getPlayingBuilder().setRisedThisTurn(false);
         reset();
         match.setNextPlayer();
     }

@@ -47,9 +47,9 @@ public class Cell {
 
     public void demolish(){
         int i = 0;
-        while((i < 5) && (this.building[i] != null))
+        while((i < 4) && (this.building[i] != null))
             ++i;
-        this.building[i] = null;
+        this.building[--i] = null;
     }
 
 

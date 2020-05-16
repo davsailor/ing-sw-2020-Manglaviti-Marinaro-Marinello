@@ -20,20 +20,19 @@ public class Ares extends GodCard {
     @Override
     public boolean canActivate(Match match) {
         Builder demolitionBuilder;
-        boolean canDestroy = false;
 
-        if(match.getCurrentPlayer().getPlayingBuilder().getGender() == 'M')
+        if(match.getCurrentPlayer().getPlayingBuilder().getGender() == '\u2642')
             demolitionBuilder = match.getCurrentPlayer().getBuilderF();
         else
             demolitionBuilder = match.getCurrentPlayer().getBuilderM();
 
         int[][] neighboringLevelMatrix = Board.neighboringLevelCell(demolitionBuilder);
 
-        for(int i = 0; i < 3 && !canDestroy; ++i)
-            for(int j = 0; j < 3 && !canDestroy; ++j)
-                if(neighboringLevelMatrix[i][j] > 0 && neighboringLevelMatrix[i][j] < 4) canDestroy = true;
+        for(int i = 0; i < 3; ++i)
+            for(int j = 0; j < 3; ++j)
+                if(neighboringLevelMatrix[i][j] > 0 && neighboringLevelMatrix[i][j] < 4) return true;
 
-        return canDestroy;
+        return false;
     }
 
     @Override
@@ -48,28 +47,28 @@ public class Ares extends GodCard {
 
         switch(param.getTargetedBlock()){
             case NORTH:
-                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()-1][demolitionBuilder.getBuildPosY()];
+                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()-1][demolitionBuilder.getPosY()];
                 break;
             case NORTH_WEST:
-                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()-1][demolitionBuilder.getBuildPosY()-1];
+                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()-1][demolitionBuilder.getPosY()-1];
                 break;
             case NORTH_EAST:
-                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()-1][demolitionBuilder.getBuildPosY()+1];
+                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()-1][demolitionBuilder.getPosY()+1];
                 break;
             case WEST:
-                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()][demolitionBuilder.getBuildPosY()-1];
+                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()][demolitionBuilder.getPosY()-1];
                 break;
             case EAST:
-                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()][demolitionBuilder.getBuildPosY()+1];
+                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()][demolitionBuilder.getPosY()+1];
                 break;
             case SOUTH:
-                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()+1][demolitionBuilder.getBuildPosY()];
+                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()+1][demolitionBuilder.getPosY()];
                 break;
             case SOUTH_EAST:
-                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()+1][demolitionBuilder.getBuildPosY()+1];
+                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()+1][demolitionBuilder.getPosY()+1];
                 break;
             case SOUTH_WEST:
-                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()+1][demolitionBuilder.getBuildPosY()-1];
+                target = match.getBoard().getBoard()[demolitionBuilder.getPosX()+1][demolitionBuilder.getPosY()-1];
                 break;
         }
 

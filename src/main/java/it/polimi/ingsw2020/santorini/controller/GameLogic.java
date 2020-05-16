@@ -269,12 +269,12 @@ public class GameLogic implements Observer {
         } catch(EndMatchException e){
             ArrayList<Message> endMatchMessages = new ArrayList<>();
             Message winner = new Message(match.getPlayers()[0].getNickname());
-            winner.buildEndMatchMessage(new EndMatchMessage(match.getCurrentPlayer().getNickname()));
+            winner.buildEndMatchMessage(new EndMatchMessage(match.getPlayers()[0].getNickname()));
             endMatchMessages.add(winner);
             for(Player p: match.getEliminatedPlayers()){
-                Message looser = new Message(p.getNickname());
-                looser.buildEndMatchMessage(new EndMatchMessage(match.getCurrentPlayer().getNickname()));
-                endMatchMessages.add(looser);
+                Message loser = new Message(p.getNickname());
+                loser.buildEndMatchMessage(new EndMatchMessage(match.getPlayers()[0].getNickname()));
+                endMatchMessages.add(loser);
             }
             server.getVirtualViews().remove(match.getMatchID());
             server.getControllers().remove(match.getMatchID());

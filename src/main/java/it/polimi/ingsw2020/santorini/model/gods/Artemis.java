@@ -22,7 +22,14 @@ public class Artemis extends GodCard {
 
     @Override
     public boolean canActivate(Match match) {
-        return match.getCurrentPlayer().getPlayingBuilder().canMove();
+        int[][] possibleMoves = match.getCurrentPlayer().getPlayingBuilder().getPossibleMoves();
+        Player player = match.getCurrentPlayer();
+        for(int i = 0; i < 3; ++i)
+            for(int j = 0; j < 3; ++j)
+                if(possibleMoves[i][j] == 1 && player.getMoveActions()) return true;
+                else if(possibleMoves[i][j] == 2 && player.getRiseActions()) return true;
+                else if(possibleMoves[i][j] == 3 && player.getMoveActions() && !(!player.getMoveActions() && player.getRiseActions())) return true;
+        return false;
     }
 
     @Override

@@ -29,32 +29,32 @@ public class Atlas extends GodCard {
     public void invokeGod(Match match, Message message, TurnLogic turnManager) {
         AtlasParamMessage param = message.deserializeAtlasParamMessage();
 
-        Cell target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()-1];
+        Cell target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getPosY()-1];
 
         switch(param.getDirection()){
             case NORTH:
-                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()-1][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()];
+                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()-1][match.getCurrentPlayer().getPlayingBuilder().getPosY()];
                 break;
             case NORTH_WEST:
-                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()-1][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()-1];
+                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()-1][match.getCurrentPlayer().getPlayingBuilder().getPosY()-1];
                 break;
             case NORTH_EAST:
-                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()-1][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()+1];
+                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()-1][match.getCurrentPlayer().getPlayingBuilder().getPosY()+1];
                 break;
             case WEST:
-                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()-1];
+                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getPosY()-1];
                 break;
             case EAST:
-                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()+1];
+                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getPosY()+1];
                 break;
             case SOUTH:
-                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()+1];
+                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()+1][match.getCurrentPlayer().getPlayingBuilder().getPosY()];
                 break;
             case SOUTH_EAST:
-                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()+1][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()+1];
+                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()+1][match.getCurrentPlayer().getPlayingBuilder().getPosY()+1];
                 break;
             case SOUTH_WEST:
-                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()+1][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()-1];
+                target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()+1][match.getCurrentPlayer().getPlayingBuilder().getPosY()-1];
                 break;
         }
 
