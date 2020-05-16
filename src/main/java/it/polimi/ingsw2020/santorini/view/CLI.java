@@ -1,7 +1,6 @@
 package it.polimi.ingsw2020.santorini.view;
 
 import it.polimi.ingsw2020.santorini.model.*;
-import it.polimi.ingsw2020.santorini.model.gods.*;
 import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.network.client.ServerAdapter;
 import it.polimi.ingsw2020.santorini.network.client.ViewAdapter;
@@ -400,18 +399,37 @@ public class CLI implements ViewInterface{
         if(message.getCurrentPlayer().getNickname().equals(client.getUsername())) {
             showBoard(message.getCells());
             System.out.println("Quale builder vuoi muovere? Il maschio o la femmina?");
-            System.out.println("Premi il tasto M per selezionare il maschio, F per la femmina");
             Message chosenBuilder = new Message(client.getUsername());
-            String choice = scannerIn.nextLine();
-            choice = choice.toUpperCase();
-            boolean wrong = false;
+            Builder builder = null;
+            String choice = null;
+            int[][] possibleMoves = new int[3][3];
+            boolean wrong;
             do {
-                if (choice.equals("M"))
-                    chosenBuilder.buildSelectedBuilderMessage(new SelectedBuilderMessage('M'));
-                else if (choice.equals("F"))
-                    chosenBuilder.buildSelectedBuilderMessage(new SelectedBuilderMessage('F'));
-                else
+                System.out.println("Premi il tasto M per selezionare il maschio, F per la femmina");
+                try{
+                    choice = scannerIn.nextLine();
+                    choice = choice.toUpperCase();
+                    if (choice.equals("M")) {
+                        builder = message.getCurrentPlayer().getBuilderM();
+                        builder.setBoard(new Board(message.getBoard()));
+                        builder.setPlayer(message.getCurrentPlayer());
+                        chosenBuilder.buildSelectedBuilderMessage(new SelectedBuilderMessage('M'));
+                        if(builder.canMove()) wrong = false;
+                        else wrong = true;
+                    }
+                    else if (choice.equals("F")){
+                        builder = message.getCurrentPlayer().getBuilderF();
+                        builder.setBoard(new Board(message.getBoard()));
+                        builder.setPlayer(message.getCurrentPlayer());
+                        chosenBuilder.buildSelectedBuilderMessage(new SelectedBuilderMessage('F'));
+                        if(builder.canMove()) wrong = false;
+                        else wrong = true;
+                    }
+                    else
+                        wrong = true;
+                } catch(InputMismatchException e){
                     wrong = true;
+                }
             } while (wrong);
             client.getNetworkHandler().send(chosenBuilder);
         }
@@ -696,9 +714,9 @@ public class CLI implements ViewInterface{
             int k = 1;
             for(int i = 0; i < 3; ++i) {
                 for (int j = 0; j < 3; ++j) {
-                    if (matrixToShow[i][j] != 0) cell[j] = Character.forDigit(k, 10);
+                    if (matrixToShow[i][j] > 0 && matrixToShow[i][j] < 4) cell[j] = Character.forDigit(k, 10);
                     else cell[j] = ' ';
-                    ++k;
+                    if(i != 1 || j != 1) ++k;
                 }
                 if (i == 0 || i == 2) {
                     System.out.printf(Color.RESET + "\n              " + Color.BORDER_YELLOW + "║  %c  " + Color.BORDER_YELLOW + "║" + Color.BORDER_YELLOW + "  %c  " + Color.BORDER_YELLOW + "║" + Color.BORDER_YELLOW + "  %c  " + Color.BORDER_YELLOW + "║", cell[0], cell[1], cell[2]);
@@ -784,6 +802,7 @@ public class CLI implements ViewInterface{
 
             try{pressedButton = scannerIn.nextInt();
                 scannerIn.nextLine();
+
                 if (pressedButton == 1 && neighboringSwappingCell[0][0] != 0) {
                     direction = Direction.NORTH_WEST;
                     wrong = false;
@@ -808,8 +827,11 @@ public class CLI implements ViewInterface{
                 } else if (pressedButton == 8 && neighboringSwappingCell[2][2] != 0) {
                     direction = Direction.SOUTH_EAST;
                     wrong = false;
-                }
-            } catch (InputMismatchException e){wrong = true;}
+                }else wrong = true;
+            } catch (InputMismatchException e){
+                wrong = true;
+                scannerIn.nextLine();
+            }
             if(wrong) System.out.println("Hai selezionato un carattere sbagliato: inserisci un numero corretto");
         } while(wrong);
 
@@ -918,28 +940,28 @@ public class CLI implements ViewInterface{
                 scannerIn.nextLine();
                 wrong = true;
 
-                if (pressedButton == 1 && possibleMoves[0][0] != 0 && possibleMoves[0][0] != 4) {
+                if (pressedButton == 1 && possibleMoves[0][0] > 0 && possibleMoves[0][0] < 4) {
                     direction = Direction.NORTH_WEST;
                     wrong = false;
-                } else if (pressedButton == 2 && possibleMoves[0][1] != 0 && possibleMoves[0][1] != 4) {
+                } else if (pressedButton == 2 && possibleMoves[0][1] > 0 && possibleMoves[0][1] < 4) {
                     direction = Direction.NORTH;
                     wrong = false;
-                } else if (pressedButton == 3 && possibleMoves[0][2] != 0 && possibleMoves[0][2] != 4) {
+                } else if (pressedButton == 3 && possibleMoves[0][2] > 0 && possibleMoves[0][2] < 4) {
                     direction = Direction.NORTH_EAST;
                     wrong = false;
-                } else if (pressedButton == 4 && possibleMoves[1][0] != 0 && possibleMoves[1][0] != 4) {
+                } else if (pressedButton == 4 && possibleMoves[1][0] > 0 && possibleMoves[1][0] < 4) {
                     direction = Direction.WEST;
                     wrong = false;
-                } else if (pressedButton == 5 && possibleMoves[1][2] != 0 && possibleMoves[1][2] != 4) {
+                } else if (pressedButton == 5 && possibleMoves[1][2] > 0 && possibleMoves[1][2] < 4) {
                     direction = Direction.EAST;
                     wrong = false;
-                } else if (pressedButton == 6 && possibleMoves[2][0] != 0 && possibleMoves[2][0] != 4) {
+                } else if (pressedButton == 6 && possibleMoves[2][0] > 0 && possibleMoves[2][0] < 4) {
                     direction = Direction.SOUTH_WEST;
                     wrong = false;
-                } else if (pressedButton == 7 && possibleMoves[2][1] != 0 && possibleMoves[2][1] != 4) {
+                } else if (pressedButton == 7 && possibleMoves[2][1] > 0 && possibleMoves[2][1] < 4) {
                     direction = Direction.SOUTH;
                     wrong = false;
-                } else if (pressedButton == 8 && possibleMoves[2][2] != 0 && possibleMoves[2][2] != 4) {
+                } else if (pressedButton == 8 && possibleMoves[2][2] > 0 && possibleMoves[2][2] < 4) {
                     direction = Direction.SOUTH_EAST;
                     wrong = false;
                 }
