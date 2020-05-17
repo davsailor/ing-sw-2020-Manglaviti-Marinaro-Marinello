@@ -51,7 +51,7 @@ public class RegisterController {
         String ip = indirizzoIp.getText();
         System.out.println(ip);
 
-        client.setNetworkHandler(new ServerAdapter(client, ip));
+        //client.setNetworkHandler(new ServerAdapter(client, ip));
         client.setViewHandler(new ViewAdapter(client));
 
         String usernameId = username.getText();

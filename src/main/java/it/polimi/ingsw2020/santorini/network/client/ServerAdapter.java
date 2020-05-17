@@ -21,16 +21,12 @@ public class ServerAdapter extends Thread implements NetworkInterface {
     private ObjectInputStream in;
     private final static Logger LOGGER = Logger.getLogger("ServerAdapter");
 
-    public ServerAdapter(Client client, String ip){
+    public ServerAdapter(Client client, String ip) throws IOException{
         this.client = client;
-        try {
-            server = new Socket(ip, Server.PORT);
-            out = new ObjectOutputStream(server.getOutputStream());
-            in = new ObjectInputStream(server.getInputStream());
-            connected = true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        server = new Socket(ip, Server.PORT);
+        out = new ObjectOutputStream(server.getOutputStream());
+        in = new ObjectInputStream(server.getInputStream());
+        connected = true;
     }
 
     public void send(Message message){

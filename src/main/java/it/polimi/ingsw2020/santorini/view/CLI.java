@@ -10,6 +10,8 @@ import it.polimi.ingsw2020.santorini.utils.messages.errors.*;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.*;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.*;
 
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.text.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,10 +47,10 @@ public class CLI implements ViewInterface{
                 client.setNetworkHandler(new ServerAdapter(client, ip));
                 client.setViewHandler(new ViewAdapter(client));
                 wrong = false;
-            } catch (Exception e) {
+            } catch (IOException e) {
+                System.out.println("Il server inserito non esiste, riprovare");
                 wrong = true;
             }
-            if(wrong) System.out.println("Il server inserito non esiste, riprovare");
         } while(wrong);
 
         client.getNetworkHandler().start();
@@ -156,6 +158,7 @@ public class CLI implements ViewInterface{
             boolean wrong;
 
             do{
+                wrong = true;
                 try{
                     do{
                         System.out.printf("Inserisci la riga, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: ");
@@ -168,13 +171,14 @@ public class CLI implements ViewInterface{
                         scannerIn.nextLine();
                     } while(builderF[1] < 1 || builderF[1] > 5);
                     wrong = false;
-                }catch (InputMismatchException e){
-                    wrong = true;
+                }catch (InputMismatchException ignored){
+                    scannerIn.nextLine();
                 }
                 if(wrong) System.out.println("oh-oh, devi inserire dei numeri che rappresentino coordinate libere!");
             }while(wrong);
 
             do{
+                wrong = false;
                 try{
                     System.out.printf("ora tocca al costruttore\n");
                     do{
@@ -190,6 +194,7 @@ public class CLI implements ViewInterface{
                     wrong = false;
                 }catch (InputMismatchException e){
                     wrong = true;
+                    scannerIn.nextLine();
                 }
                 if(wrong) System.out.println("oh-oh, devi inserire dei numeri che rappresentino coordinate libere!");
             }while(wrong);
@@ -226,6 +231,7 @@ public class CLI implements ViewInterface{
                     wrong = false;
                 } catch (InputMismatchException e) {
                     wrong = true;
+                    scannerIn.nextLine();
                 }
                 if(wrong) System.out.println("errore, è necessario reinserire!");
             }while(wrong);
@@ -248,6 +254,7 @@ public class CLI implements ViewInterface{
                     wrong = false;
                 }catch (InputMismatchException e){
                     wrong = true;
+                    scannerIn.nextLine();
                 }
                 if(wrong) System.out.println("errore, è necessario reinserire!");
             }while(wrong);
@@ -436,6 +443,7 @@ public class CLI implements ViewInterface{
                         wrong = true;
                 } catch(InputMismatchException e){
                     wrong = true;
+                    scannerIn.nextLine();
                 }
             } while (wrong);
             client.getNetworkHandler().send(chosenBuilder);
@@ -455,6 +463,7 @@ public class CLI implements ViewInterface{
         showPossibleMatrix(possibleMoves, 'm');
         do {
             try {
+                scannerIn.reset();
                 System.out.println("Inserire la direzione scelta per lo spostamento");
                 if (possibleMoves[0][0] != 0) System.out.println("Premi 1 per muovere con il builder a NORD-OVEST");
                 if (possibleMoves[0][1] != 0) System.out.println("Premi 2 per muovere con il builder a NORD");
@@ -494,6 +503,7 @@ public class CLI implements ViewInterface{
                     wrong = false;
                 }
             }catch(InputMismatchException e){
+                scannerIn.nextLine();
                 wrong = true;
             }
             if(wrong) System.out.println("Direzione non valida! Inserire una direzione valida");
@@ -580,6 +590,7 @@ public class CLI implements ViewInterface{
                     wrong = false;
                 }
             } catch(InputMismatchException e){
+                scannerIn.nextLine();
                 wrong = true;
             }
             if(wrong) System.out.println("Direzione non valida! Inserire una direzione valida");
@@ -912,6 +923,7 @@ public class CLI implements ViewInterface{
                 }
             }catch (InputMismatchException  e){
                 wrong = true;
+                scannerIn.nextLine();
             }
 
             if(wrong) System.out.println("hai selezionato un carattere sbagliato! ricorda non puoi demolire il terreno o una cupola");
@@ -973,6 +985,7 @@ public class CLI implements ViewInterface{
                     wrong = false;
                 }
             } catch(InputMismatchException e) {
+                scannerIn.nextLine();
                 wrong = true;
             }
             if(wrong) System.out.println("hai selezionato un carattere errato per una cella sbagliata! ricorda non puoi andare su celle edifici troppo alti, sulle sscogliere, o sulle cupole ");
@@ -1033,6 +1046,7 @@ public class CLI implements ViewInterface{
                     wrong = false;
                 }
             }catch(InputMismatchException e){
+                scannerIn.nextLine();
                 wrong = true;
             }
             if(wrong) System.out.println("hai selezionato un crattere errato! ricorda non puoi costruire cupole su delle altre cupole o sulla costa ");
@@ -1091,6 +1105,7 @@ public class CLI implements ViewInterface{
                     wrong = false;
                 }
             }catch (InputMismatchException e){
+                scannerIn.nextLine();
                 wrong = true;
             }
             if(wrong) System.out.println("hai selezionato un carattere sbagliato! ricorda non puoi costruire  su delle  cupole, sulla costa, o nella cella in cui hai costruito prima ");
@@ -1201,6 +1216,7 @@ public class CLI implements ViewInterface{
                     wrong = false;
                 }
             }catch (InputMismatchException e){
+                scannerIn.nextLine();
                 wrong = true;
             }
             if(wrong) System.out.println("hai selezionato un carattere sbagliato! ricorda non puoi costruire su delle  cupole, sulla costa, o nella in una cella vicino alla costa ");
@@ -1239,6 +1255,7 @@ public class CLI implements ViewInterface{
                 }
                 else wrong = true;
             } catch (InputMismatchException e){
+                scannerIn.nextLine();
                 wrong = true;
             }
             if (wrong) System.out.println("Hai inserito un carattere errato!");
@@ -1351,6 +1368,7 @@ public class CLI implements ViewInterface{
                     wrong = false;
                 }
             } catch (InputMismatchException e){
+                scannerIn.nextLine();
                 wrong = true;
             }
             if(wrong) System.out.println("hai selezionato una direzione sbaglitata! ricorda non puoi lanciare un builder avversario su una scogliera o su una cupola");
@@ -1400,6 +1418,7 @@ public class CLI implements ViewInterface{
                 scannerIn.nextLine();
                 if(numeroBuild > 0 && numeroBuild < 4) {wrong = false;}
             }catch (InputMismatchException e) {
+                scannerIn.nextLine();
                 wrong = true;
             }
             if(wrong) System.out.println("hai selezionato un caarattere non compreso tra quelli indicati");
@@ -1464,6 +1483,7 @@ public class CLI implements ViewInterface{
                     wrong = false;
                 }
             } catch (InputMismatchException e){
+                scannerIn.nextLine();
                 wrong = true;
             }
             if(wrong) System.out.println("hai selezionato una direzione sbaglitata! ricorda non puoi costruire qui");
@@ -1514,6 +1534,7 @@ public class CLI implements ViewInterface{
                     if(!builderScelto.canMove()) wrong = true;
                 } else wrong = true;
             }catch(InputMismatchException e){
+                scannerIn.nextLine();
                 wrong = true;
             }
             if (wrong){
@@ -1591,6 +1612,7 @@ public class CLI implements ViewInterface{
                     }
                 }
             }catch(InputMismatchException e){
+                scannerIn.nextLine();
                 wrong = true;
             }
             if(wrong) System.out.println("hai selezionato un carattere sbagliato! ricorda non puoi lanciare un builder avversario su una scogliera o su una cupola");
