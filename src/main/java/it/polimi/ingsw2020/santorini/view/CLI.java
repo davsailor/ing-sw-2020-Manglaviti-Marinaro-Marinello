@@ -404,8 +404,15 @@ public class CLI implements ViewInterface{
             String choice = null;
             int[][] possibleMoves = new int[3][3];
             boolean wrong;
+            message.getCurrentPlayer().getBuilderF().setBoard(new Board(message.getBoard()));
+            message.getCurrentPlayer().getBuilderF().setPlayer(message.getCurrentPlayer());
+            message.getCurrentPlayer().getBuilderM().setBoard(new Board(message.getBoard()));
+            message.getCurrentPlayer().getBuilderM().setPlayer(message.getCurrentPlayer());
             do {
-                System.out.println("Premi il tasto M per selezionare il maschio, F per la femmina");
+                if(message.getCurrentPlayer().getBuilderM().canMove())
+                    System.out.println("Premi il tasto M per selezionare il maschio");
+                if(message.getCurrentPlayer().getBuilderF().canMove())
+                    System.out.println("Premi il tasto F per selezionare la femmina");
                 try{
                     choice = scannerIn.nextLine();
                     choice = choice.toUpperCase();
@@ -449,7 +456,7 @@ public class CLI implements ViewInterface{
         do {
             try {
                 System.out.println("Inserire la direzione scelta per lo spostamento");
-                if (possibleMoves[0][0] != 0) System.out.println("Premi 1 per muovere il builder a NORD-OVEST");
+                if (possibleMoves[0][0] != 0) System.out.println("Premi 1 per muovere con il builder a NORD-OVEST");
                 if (possibleMoves[0][1] != 0) System.out.println("Premi 2 per muovere con il builder a NORD");
                 if (possibleMoves[0][2] != 0) System.out.println("Premi 3 per muovere con il builder a NORD-EST");
                 if (possibleMoves[1][0] != 0) System.out.println("Premi 4 per muovere con il builder a OVEST");
@@ -845,7 +852,7 @@ public class CLI implements ViewInterface{
         Direction direction = null;
         Builder demolitionBuilder = null;
         char demolitionBuilderSex ='O' ;
-        if (message.getCurrentPlayer().getPlayingBuilder() == message.getCurrentPlayer().getBuilderF()) {
+        if (message.getCurrentPlayer().getPlayingBuilder().getGender() == '\u2640') {
             demolitionBuilder = message.getCurrentPlayer().getBuilderM();
             demolitionBuilderSex = 'M';
         } else {
@@ -1210,7 +1217,6 @@ public class CLI implements ViewInterface{
 
         Builder chosenBuilderM = null;
         Direction direction = null;
-        System.out.println("Seleziona il builder più adatto a servire il Minotauro. Premi M o F. Ricorda che deve essere vicino ad un builder avversario affinché sia degno!");
         boolean wrong;
         String choice = null;
         do {
@@ -1359,7 +1365,7 @@ public class CLI implements ViewInterface{
         //Ricerca del builder non mosso
         Builder constructionBuilder = null;
         char constructionBuilderSex = 'o';
-        if (message.getCurrentPlayer().getPlayingBuilder() == message.getCurrentPlayer().getBuilderF()) {
+        if (message.getCurrentPlayer().getPlayingBuilder().getGender() == '\u2640') {
             constructionBuilder = message.getCurrentPlayer().getBuilderM();
             constructionBuilderSex = 'M';
         } else {
