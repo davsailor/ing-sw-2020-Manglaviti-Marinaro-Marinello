@@ -404,23 +404,26 @@ public class CLI implements ViewInterface{
             String choice = null;
             int[][] possibleMoves = new int[3][3];
             boolean wrong;
+            message.getCurrentPlayer().getBuilderF().setBoard(new Board(message.getBoard()));
+            message.getCurrentPlayer().getBuilderF().setPlayer(message.getCurrentPlayer());
+            message.getCurrentPlayer().getBuilderM().setBoard(new Board(message.getBoard()));
+            message.getCurrentPlayer().getBuilderM().setPlayer(message.getCurrentPlayer());
             do {
-                System.out.println("Premi il tasto M per selezionare il maschio, F per la femmina");
+                if(message.getCurrentPlayer().getBuilderM().canMove())
+                    System.out.println("Premi il tasto M per selezionare il maschio");
+                if(message.getCurrentPlayer().getBuilderF().canMove())
+                    System.out.println("Premi il tasto F per selezionare la femmina");
                 try{
                     choice = scannerIn.nextLine();
                     choice = choice.toUpperCase();
                     if (choice.equals("M")) {
                         builder = message.getCurrentPlayer().getBuilderM();
-                        builder.setBoard(new Board(message.getBoard()));
-                        builder.setPlayer(message.getCurrentPlayer());
                         chosenBuilder.buildSelectedBuilderMessage(new SelectedBuilderMessage('M'));
                         if(builder.canMove()) wrong = false;
                         else wrong = true;
                     }
                     else if (choice.equals("F")){
                         builder = message.getCurrentPlayer().getBuilderF();
-                        builder.setBoard(new Board(message.getBoard()));
-                        builder.setPlayer(message.getCurrentPlayer());
                         chosenBuilder.buildSelectedBuilderMessage(new SelectedBuilderMessage('F'));
                         if(builder.canMove()) wrong = false;
                         else wrong = true;
@@ -845,7 +848,7 @@ public class CLI implements ViewInterface{
         Direction direction = null;
         Builder demolitionBuilder = null;
         char demolitionBuilderSex ='O' ;
-        if (message.getCurrentPlayer().getPlayingBuilder() == message.getCurrentPlayer().getBuilderF()) {
+        if (message.getCurrentPlayer().getPlayingBuilder().getGender() == '\u2640') {
             demolitionBuilder = message.getCurrentPlayer().getBuilderM();
             demolitionBuilderSex = 'M';
         } else {
@@ -1116,6 +1119,7 @@ public class CLI implements ViewInterface{
             neighboringLevelCell[2][1] = -1;
             neighboringLevelCell[2][2] = -1;
         }
+
         if(message.getCurrentPlayer().getPlayingBuilder().getPosY() == 1 || message.getCurrentPlayer().getPlayingBuilder().getPosY() == 5){
             neighboringLevelCell[0][1] = -1;
             neighboringLevelCell[1][1] = -1;
@@ -1129,7 +1133,8 @@ public class CLI implements ViewInterface{
             neighboringLevelCell[1][2] = -1;
             neighboringLevelCell[2][2] = -1;
         }
-        //INserire display per mostrare
+
+        //Inserire display per mostrare
         boolean wrong;
         int pressedButton;
         System.out.println("Ora è il momento di scegliere dove far costruire nuovamente al builder , premi il numero indicato per scegliere la direzione della costruzione, attenzione a non scegliere una cella perimetrale!");
@@ -1354,12 +1359,12 @@ public class CLI implements ViewInterface{
         return minotaurParamMessage;
     }
 
-    private  PoseidonParamMessage displayPoseidonParamSel(MatchStateMessage message){
+    private PoseidonParamMessage displayPoseidonParamSel(MatchStateMessage message){
         PoseidonParamMessage poseidonParamMessage = new PoseidonParamMessage();
         //Ricerca del builder non mosso
         Builder constructionBuilder = null;
         char constructionBuilderSex = 'o';
-        if (message.getCurrentPlayer().getPlayingBuilder() == message.getCurrentPlayer().getBuilderF()) {
+        if (message.getCurrentPlayer().getPlayingBuilder().getGender() == '\u2640') {
             constructionBuilder = message.getCurrentPlayer().getBuilderM();
             constructionBuilderSex = 'M';
         } else {
@@ -1475,13 +1480,21 @@ public class CLI implements ViewInterface{
         char builderSex = '0';
         int[] posBuilder = new int[2];
         Direction direction = null;
-
         //Scelta del builder
         System.out.println("Seleziona il builder più adatto a servire Prometeo.");
         String choice;
-
         boolean wrong;
+        message.getCurrentPlayer().setRiseActions(false);
+        message.getCurrentPlayer().setMoveActions(true);
+        message.getCurrentPlayer().getBuilderF().setBoard(new Board(message.getBoard()));
+        message.getCurrentPlayer().getBuilderF().setPlayer(message.getCurrentPlayer());
+        message.getCurrentPlayer().getBuilderM().setBoard(new Board(message.getBoard()));
+        message.getCurrentPlayer().getBuilderM().setPlayer(message.getCurrentPlayer());
         do {
+            if(message.getCurrentPlayer().getBuilderM().canMove() && message.getCurrentPlayer().getBuilderM().canBuild())
+                System.out.println("Premi il tasto M per selezionare il maschio");
+            if(message.getCurrentPlayer().getBuilderF().canMove() && message.getCurrentPlayer().getBuilderF().canBuild())
+                System.out.println("Premi il tasto F per selezionare la femmina");
             try{
                 wrong  = false;
                 choice = scannerIn.nextLine();
@@ -1491,11 +1504,13 @@ public class CLI implements ViewInterface{
                     posBuilder[0] = message.getCurrentPlayer().getBuilderM().getPosX();
                     posBuilder[1] = message.getCurrentPlayer().getBuilderM().getPosY();
                     builderSex = 'M';
+                    if(!builderScelto.canMove() || !builderScelto.canBuild()) wrong = true;
                 } else if (choice.equals("F")){
                     builderScelto = message.getCurrentPlayer().getBuilderF();
                     posBuilder[0] = message.getCurrentPlayer().getBuilderF().getPosX();
                     posBuilder[1] = message.getCurrentPlayer().getBuilderF().getPosY();
                     builderSex = 'F';
+                    if(!builderScelto.canMove() || !builderScelto.canBuild()) wrong = true;
                 } else wrong = true;
             }catch(InputMismatchException e){
                 wrong = true;

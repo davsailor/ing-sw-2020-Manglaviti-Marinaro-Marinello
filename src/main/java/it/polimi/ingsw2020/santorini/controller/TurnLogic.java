@@ -4,6 +4,7 @@ import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
 import it.polimi.ingsw2020.santorini.model.Board;
 import it.polimi.ingsw2020.santorini.model.GodCard;
 import it.polimi.ingsw2020.santorini.model.Match;
+import it.polimi.ingsw2020.santorini.model.gods.Persephone;
 import it.polimi.ingsw2020.santorini.utils.AccessType;
 import it.polimi.ingsw2020.santorini.utils.ActionType;
 import it.polimi.ingsw2020.santorini.utils.Message;
@@ -11,13 +12,10 @@ import it.polimi.ingsw2020.santorini.utils.PhaseType;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.*;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.*;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Set;
 
 public class TurnLogic {
     /**
@@ -37,6 +35,7 @@ public class TurnLogic {
     private EnumSet<ActionType> remainingActions;
     private ActionLogic actionManager;
     private Method persephoneEffect;
+    private Persephone persephone;
 
 
     public TurnLogic() {
@@ -45,6 +44,10 @@ public class TurnLogic {
         actionManager = new ActionLogic(this);
         persephoneEffect = null;
         this.reset();
+    }
+
+    public void setPersephone(Persephone persephone) {
+        this.persephone = persephone;
     }
 
     public void setPersephoneEffect(Method persephoneEffect) {
@@ -117,11 +120,21 @@ public class TurnLogic {
                 startTurnManager(match);
                 break;
             case STANDBY_PHASE_1:
+                if(persephoneEffect != null && !persephone.getInvoker().equals(match.getCurrentPlayer().getNickname())) {
+                    try {
+                        persephoneEffect.invoke(persephone,match, null, this);
+                    } catch (IllegalAccessException | InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                }
                 if(match.getCurrentPlayer().canMove()) standByPhaseManager(match, PhaseType.STANDBY_PHASE_1);
                 else match.setEliminatedPlayer(match.getCurrentPlayerIndex());
                 break;
             case MOVE_PHASE:
-                moveManager(match);
+                if(match.getCurrentPlayer().getPlayingBuilder() != null)
+                    if(match.getCurrentPlayer().getPlayingBuilder().canMove()) moveManager(match);
+                    else match.setEliminatedPlayer(match.getCurrentPlayerIndex());
+                else moveManager(match);
                 break;
             case STANDBY_PHASE_2:
                 if(match.getCurrentPlayer().getPlayingBuilder().canBuild()) standByPhaseManager(match, PhaseType.STANDBY_PHASE_2);
@@ -131,13 +144,6 @@ public class TurnLogic {
                 buildManager(match);
                 break;
             case STANDBY_PHASE_3:
-                if(persephoneEffect != null) {
-                    try {
-                        persephoneEffect.invoke(match, null, this);
-                    } catch (IllegalAccessException | InvocationTargetException e) {
-                        e.printStackTrace();
-                    }
-                }
                 standByPhaseManager(match, PhaseType.STANDBY_PHASE_3);
                 break;
             case END_TURN:
