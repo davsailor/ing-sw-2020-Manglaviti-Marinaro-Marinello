@@ -452,7 +452,7 @@ public class CLI implements ViewInterface{
         do {
             try {
                 System.out.println("Inserire la direzione scelta per lo spostamento");
-                if (possibleMoves[0][0] != 0) System.out.println("Premi 1 per muovere il builder a NORD-OVEST");
+                if (possibleMoves[0][0] != 0) System.out.println("Premi 1 per muovere con il builder a NORD-OVEST");
                 if (possibleMoves[0][1] != 0) System.out.println("Premi 2 per muovere con il builder a NORD");
                 if (possibleMoves[0][2] != 0) System.out.println("Premi 3 per muovere con il builder a NORD-EST");
                 if (possibleMoves[1][0] != 0) System.out.println("Premi 4 per muovere con il builder a OVEST");
@@ -1215,7 +1215,6 @@ public class CLI implements ViewInterface{
 
         Builder chosenBuilderM = null;
         Direction direction = null;
-        System.out.println("Seleziona il builder più adatto a servire il Minotauro. Premi M o F. Ricorda che deve essere vicino ad un builder avversario affinché sia degno!");
         boolean wrong;
         String choice = null;
         do {
