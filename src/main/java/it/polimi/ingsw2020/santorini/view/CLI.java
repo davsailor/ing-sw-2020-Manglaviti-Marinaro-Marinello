@@ -748,7 +748,7 @@ public class CLI implements ViewInterface{
         char yourBuilderGender = 'O';
         Builder chosen = null;
         Direction direction = null;
-        System.out.println("Seleziona il builder più adatto a servire Apollo. Ricorda che deve essere vicino ad un builder avversario affinché sia degno!");
+        System.out.println("Seleziona il builder più adatto a servire Apollo.Premi M o F. Ricorda che deve essere vicino ad un builder avversario affinché sia degno!");
         String choice = null;
         boolean wrong;
         do {
@@ -1481,13 +1481,21 @@ public class CLI implements ViewInterface{
         char builderSex = '0';
         int[] posBuilder = new int[2];
         Direction direction = null;
-
         //Scelta del builder
-        System.out.println("Seleziona il builder più adatto a servire Prometeo.");
         String choice;
-
         boolean wrong;
+        message.getCurrentPlayer().setRiseActions(false);
+        message.getCurrentPlayer().setMoveActions(true);
+        message.getCurrentPlayer().getBuilderF().setBoard(new Board(message.getBoard()));
+        message.getCurrentPlayer().getBuilderF().setPlayer(message.getCurrentPlayer());
+        message.getCurrentPlayer().getBuilderM().setBoard(new Board(message.getBoard()));
+        message.getCurrentPlayer().getBuilderM().setPlayer(message.getCurrentPlayer());
+        System.out.println("Seleziona il builder più adatto a servire Prometeo.");
         do {
+            if(message.getCurrentPlayer().getBuilderM().canMove() && message.getCurrentPlayer().getBuilderM().canBuild())
+                System.out.println("Premi il tasto M per selezionare il maschio");
+            if(message.getCurrentPlayer().getBuilderF().canMove())
+                System.out.println("Premi il tasto F per selezionare la femmina");
             try{
                 wrong  = false;
                 choice = scannerIn.nextLine();
@@ -1497,11 +1505,13 @@ public class CLI implements ViewInterface{
                     posBuilder[0] = message.getCurrentPlayer().getBuilderM().getPosX();
                     posBuilder[1] = message.getCurrentPlayer().getBuilderM().getPosY();
                     builderSex = 'M';
+                    if(!builderScelto.canMove()) wrong = true;
                 } else if (choice.equals("F")){
                     builderScelto = message.getCurrentPlayer().getBuilderF();
                     posBuilder[0] = message.getCurrentPlayer().getBuilderF().getPosX();
                     posBuilder[1] = message.getCurrentPlayer().getBuilderF().getPosY();
                     builderSex = 'F';
+                    if(!builderScelto.canMove()) wrong = true;
                 } else wrong = true;
             }catch(InputMismatchException e){
                 wrong = true;
@@ -1510,7 +1520,7 @@ public class CLI implements ViewInterface{
                 System.out.println("Lettera Sbagliata, reinserisci");
             }
         } while (wrong);
-
+        //scelta direzione di costruzione
         builderScelto.setBoard(new Board(message.getBoard()));
         builderScelto.setPlayer(message.getCurrentPlayer());
         int[][] possibleBuildingsPr = Board.neighboringLevelCell(builderScelto);
