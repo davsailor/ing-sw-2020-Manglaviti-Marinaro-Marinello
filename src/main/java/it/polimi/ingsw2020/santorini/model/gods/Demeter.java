@@ -31,7 +31,7 @@ public class Demeter extends GodCard {
     public void invokeGod(Match match, Message message, TurnLogic turnManager) {
         DemeterParamMessage param = message.deserializeDemeterParamMessage();
         try {
-            match.getCurrentPlayer().getPlayingBuilder().build(param.getDirection());
+            match.getCurrentPlayer().getPlayingBuilder().build(param.getDirection(), match);
         } catch (IllegalConstructionException e) {
             e.printStackTrace();
         }

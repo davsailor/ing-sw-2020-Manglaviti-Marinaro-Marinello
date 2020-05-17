@@ -171,8 +171,6 @@ public class GameLogic implements Observer {
                 builderFToChange = true;
                 builderMToChange = true;
                 if((selectedBuilderPositionMessage.getBuilderF() != null && board[selectedBuilderPositionMessage.getBuilderF()[0]][selectedBuilderPositionMessage.getBuilderF()[1]].getStatus() == AccessType.FREE) || match.getCurrentPlayer().getBuilderF() != null) builderFToChange = false;
-                if((selectedBuilderPositionMessage.getBuilderM() != null && board[selectedBuilderPositionMessage.getBuilderM()[0]][selectedBuilderPositionMessage.getBuilderM()[1]].getStatus() == AccessType.FREE) || match.getCurrentPlayer().getBuilderM() != null) builderMToChange = false;
-
                 if(!builderFToChange && match.getCurrentPlayer().getBuilderF() == null){
                     board[selectedBuilderPositionMessage.getBuilderF()[0]][selectedBuilderPositionMessage.getBuilderF()[1]].
                             setStatus(AccessType.OCCUPIED);
@@ -183,6 +181,7 @@ public class GameLogic implements Observer {
                             setBuilder(match.getPlayerByName(selectedBuilderPositionMessage.getUsername()).getBuilderF());
                 }
 
+                if((selectedBuilderPositionMessage.getBuilderM() != null && board[selectedBuilderPositionMessage.getBuilderM()[0]][selectedBuilderPositionMessage.getBuilderM()[1]].getStatus() == AccessType.FREE) || match.getCurrentPlayer().getBuilderM() != null) builderMToChange = false;
                 if(!builderMToChange && match.getCurrentPlayer().getBuilderM() == null){
                     board[selectedBuilderPositionMessage.getBuilderM()[0]][selectedBuilderPositionMessage.getBuilderM()[1]].
                             setStatus(AccessType.OCCUPIED);

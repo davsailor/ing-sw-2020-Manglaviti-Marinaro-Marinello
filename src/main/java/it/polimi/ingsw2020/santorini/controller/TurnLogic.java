@@ -4,7 +4,7 @@ import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
 import it.polimi.ingsw2020.santorini.model.Board;
 import it.polimi.ingsw2020.santorini.model.GodCard;
 import it.polimi.ingsw2020.santorini.model.Match;
-import it.polimi.ingsw2020.santorini.model.gods.Persephone;
+import it.polimi.ingsw2020.santorini.model.gods.Chronus;
 import it.polimi.ingsw2020.santorini.utils.AccessType;
 import it.polimi.ingsw2020.santorini.utils.ActionType;
 import it.polimi.ingsw2020.santorini.utils.Message;
@@ -34,24 +34,34 @@ public class TurnLogic {
     private PhaseType phase;
     private EnumSet<ActionType> remainingActions;
     private ActionLogic actionManager;
-    private Method persephoneEffect;
-    private Persephone persephone;
+    private Method chronusEffect;
+    private Chronus chronus;
 
 
     public TurnLogic() {
         phase = PhaseType.START_TURN;
         remainingActions = EnumSet.allOf(ActionType.class);
         actionManager = new ActionLogic(this);
-        persephoneEffect = null;
+        chronusEffect = null;
         this.reset();
     }
 
-    public void setPersephone(Persephone persephone) {
-        this.persephone = persephone;
+    private void checkChronusEffect(Match match) throws EndMatchException{
+        if(chronusEffect != null) {
+            try {
+                chronusEffect.invoke(chronus,match, null, this);
+            } catch (InvocationTargetException e) {
+                throw new EndMatchException(match);
+            } catch (IllegalAccessException ignored){}
+        }
     }
 
-    public void setPersephoneEffect(Method persephoneEffect) {
-        this.persephoneEffect = persephoneEffect;
+    public void setChronus(Chronus chronus) {
+        this.chronus = chronus;
+    }
+
+    public void setChronusEffect(Method persephoneEffect) {
+        this.chronusEffect = persephoneEffect;
     }
 
     /**
@@ -120,15 +130,9 @@ public class TurnLogic {
                 startTurnManager(match);
                 break;
             case STANDBY_PHASE_1:
-                if(persephoneEffect != null && !persephone.getInvoker().equals(match.getCurrentPlayer().getNickname())) {
-                    try {
-                        persephoneEffect.invoke(persephone,match, null, this);
-                    } catch (IllegalAccessException | InvocationTargetException e) {
-                        e.printStackTrace();
-                    }
-                }
                 if(match.getCurrentPlayer().canMove()) standByPhaseManager(match, PhaseType.STANDBY_PHASE_1);
                 else match.setEliminatedPlayer(match.getCurrentPlayerIndex());
+                checkChronusEffect(match);
                 break;
             case MOVE_PHASE:
                 if(match.getCurrentPlayer().getPlayingBuilder() != null)
@@ -142,10 +146,11 @@ public class TurnLogic {
                 break;
             case BUILD_PHASE:
                 buildManager(match);
+                checkChronusEffect(match);
                 break;
             case STANDBY_PHASE_3:
                 standByPhaseManager(match, PhaseType.STANDBY_PHASE_3);
-                break;
+                checkChronusEffect(match);
             case END_TURN:
                 endTurnManager(match);
                 break;
@@ -319,8 +324,7 @@ public class TurnLogic {
             } catch (EndMatchException ignored) {}
         }
     }
-
-
+    
     /**
      * The method finish the current Turn starting a new one
      * @param match is the reference to the match controller by the controller
@@ -332,11 +336,11 @@ public class TurnLogic {
             listOfUpdateMessages.add(new Message(match.getPlayers()[i].getNickname()));
             listOfUpdateMessages.get(i).buildUpdateMessage(new UpdateMessage(match, this.phase));
         }
-        match.notifyView(listOfUpdateMessages);
         match.getCurrentPlayer().setMoveActions(true);
         match.getCurrentPlayer().setRiseActions(true);
         match.getCurrentPlayer().getPlayingBuilder().setRisedThisTurn(false);
-        reset();
         match.setNextPlayer();
+        reset();
+        match.notifyView(listOfUpdateMessages);
     }
 }

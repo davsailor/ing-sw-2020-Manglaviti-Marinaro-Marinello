@@ -32,7 +32,7 @@ public class ClientHandler extends Thread{
         }
     }
 
-    public void handleMessage() {
+    public synchronized void handleMessage() {
         Message message = owner.getNextMessage();
         owner.removeMessageQueue(message);
         switch (message.getFirstLevelHeader()) {

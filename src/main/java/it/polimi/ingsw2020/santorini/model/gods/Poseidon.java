@@ -47,7 +47,7 @@ public class Poseidon extends GodCard {
             constructionBuilder = match.getCurrentPlayer().getBuilderF();
         for(int i = 0; i < param.getNumberOfBuild(); ++i) {
             try {
-                constructionBuilder.build(param.getDirection().get(i));
+                constructionBuilder.build(param.getDirection().get(i), match);
             } catch (IllegalConstructionException e) {
                 e.printStackTrace();
             }

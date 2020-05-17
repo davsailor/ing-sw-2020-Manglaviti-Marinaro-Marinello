@@ -82,7 +82,7 @@ public class GodCardTest {
         tester = deck.giveCard();
         assertEquals(Hestia.toStringEffect(tester), tester.toStringEffect());
         tester = deck.giveCard();
-        assertEquals(Persephone.toStringEffect(tester), tester.toStringEffect());
+        assertEquals(Chronus.toStringEffect(tester), tester.toStringEffect());
         tester = deck.giveCard();
         assertEquals(Poseidon.toStringEffect(tester), tester.toStringEffect());
         tester = deck.giveCard();

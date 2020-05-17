@@ -121,11 +121,13 @@ public class Match extends Observable {
         for(int i = 0; i < this.getNumberOfPlayers(); ++i){
             this.players.add(players[i]);
             this.players.get(i).setDivinePower(this.getBoard().getGodCards().giveCard());
+            if(this.players.get(i).getDivinePower().getMaxPlayersNumber() < this.numberOfPlayers)
+                this.players.get(i).setDivinePower(this.getBoard().getGodCards().giveCard());
             this.players.get(i).setColor(Color.getColor(i));
             listOfMessages.add((new Message(players[i].getNickname())));
         }
-        this.players.get(0).setDivinePower(new Persephone());
-        this.players.get(1).setDivinePower(new Athena());
+        this.players.get(0).setDivinePower(new Chronus());
+        this.players.get(1).setDivinePower(new Poseidon());
         for(int i = 0; i < this.getNumberOfPlayers(); ++i){
             listOfMessages.get(i).buildMatchSetupMessage(new MatchSetupMessage(getPlayers(), getBoard().getBoard()));
         }

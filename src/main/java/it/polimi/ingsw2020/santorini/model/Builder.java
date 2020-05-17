@@ -253,9 +253,10 @@ public class Builder {
     /**
      *
      * @param direction is the direction in which the player wants to build
+     * @param match
      */
 
-    public void build (Direction direction) throws IllegalConstructionException{
+    public void build(Direction direction, Match match) throws IllegalConstructionException{
         //LevelType level;
         setPossibleBuildings();
         int buildPosX, buildPosY;
@@ -307,6 +308,7 @@ public class Builder {
                 break;
             case 3:
                 board.buildBlock(buildPosX, buildPosY, LevelType.DOME);
+                match.setNumberOfCompletedTowers(match.getNumberOfCompletedTowers() + 1);
                 break;
             case -2:
                 break;

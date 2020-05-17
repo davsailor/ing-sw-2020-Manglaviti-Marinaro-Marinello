@@ -61,7 +61,7 @@ public class Hestia extends GodCard {
     public void invokeGod(Match match, Message message, TurnLogic turnManager) {
         HestiaParamMessage param = message.deserializeHestiaParamMessage();
         try {
-            match.getCurrentPlayer().getPlayingBuilder().build(param.getDirection());
+            match.getCurrentPlayer().getPlayingBuilder().build(param.getDirection(), match);
         } catch (IllegalConstructionException e) {
             e.printStackTrace();
         }

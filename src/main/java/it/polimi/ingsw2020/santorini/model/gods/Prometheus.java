@@ -32,7 +32,7 @@ public class Prometheus extends GodCard {
             match.getCurrentPlayer().setPlayingBuilder(match.getCurrentPlayer().getBuilderF());
 
         try {
-            match.getCurrentPlayer().getPlayingBuilder().build(param.getDirection());
+            match.getCurrentPlayer().getPlayingBuilder().build(param.getDirection(), match);
         } catch (IllegalConstructionException ignored){}
 
         match.getCurrentPlayer().setRiseActions(false);

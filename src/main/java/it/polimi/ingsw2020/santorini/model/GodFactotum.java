@@ -63,7 +63,7 @@ public enum GodFactotum {
             case 10:
                 return Hestia.class.getSimpleName();
             case 11:
-                return Persephone.class.getSimpleName();
+                return Chronus.class.getSimpleName();
             case 12:
                 return Poseidon.class.getSimpleName();
             case 13:
@@ -98,7 +98,7 @@ public enum GodFactotum {
             case 10:
                 return new Hestia();
             case 11:
-                return new Persephone();
+                return new Chronus();
             case 12:
                 return new Poseidon();
             case 13:

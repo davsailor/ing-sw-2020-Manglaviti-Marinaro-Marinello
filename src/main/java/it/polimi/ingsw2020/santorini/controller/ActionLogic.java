@@ -5,12 +5,10 @@ import it.polimi.ingsw2020.santorini.exceptions.IllegalConstructionException;
 import it.polimi.ingsw2020.santorini.exceptions.IllegalMovementException;
 import it.polimi.ingsw2020.santorini.model.GodCard;
 import it.polimi.ingsw2020.santorini.model.Match;
-import it.polimi.ingsw2020.santorini.utils.ActionType;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.SelectedBuildingMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.SelectedMoveMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.errors.GenericErrorMessage;
-import it.polimi.ingsw2020.santorini.utils.messages.errors.InvalidParametersMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.UpdateMessage;
 
 import java.util.ArrayList;
@@ -86,7 +84,7 @@ public class ActionLogic {
     public ArrayList<Message> build(Match match, SelectedBuildingMessage message) {
         ArrayList<Message> listToSend = new ArrayList<>();
         try {
-            match.getCurrentPlayer().getPlayingBuilder().build(message.getDirection());
+            match.getCurrentPlayer().getPlayingBuilder().build(message.getDirection(), match);
             for(int i = 0; i < match.getNumberOfPlayers(); ++i){
                 Message sendMessage = new Message(match.getPlayers()[i].getNickname());
                 sendMessage.buildUpdateMessage(new UpdateMessage(match, turnManager.getPhase()));

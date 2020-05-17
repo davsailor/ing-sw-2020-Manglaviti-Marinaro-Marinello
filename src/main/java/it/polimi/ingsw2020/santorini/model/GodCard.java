@@ -92,8 +92,8 @@ public class GodCard {
                     return Minotaur.toStringEffect(this);
                 case "Pan":
                     return Pan.toStringEffect(this);
-                case "Persephone":
-                    return Persephone.toStringEffect(this);
+                case "Chronus":
+                    return Chronus.toStringEffect(this);
                 case "Poseidon":
                     return Poseidon.toStringEffect(this);
                 case "Prometheus":

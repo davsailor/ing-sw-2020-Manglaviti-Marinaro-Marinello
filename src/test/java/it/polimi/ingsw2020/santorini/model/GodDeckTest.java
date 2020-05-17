@@ -131,7 +131,7 @@ public class GodDeckTest {
         GodDeck deck = new GodDeck();
         deck.setValueToIndex(11,0);
         GodCard card = deck.giveCard();
-        assertTrue("Test passato!",card.getName().equals("Persephone") && deck.getNextCard() == 1);
+        assertTrue("Test passato!",card.getName().equals("Chronus") && deck.getNextCard() == 1);
     }
 
     @Test
