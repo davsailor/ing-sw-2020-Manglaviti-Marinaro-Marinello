@@ -16,9 +16,13 @@ public class Persephone extends GodCard {
         name = getClass().getSimpleName();
         maxPlayersNumber = 3;
         timingName = "Opponents' Turn";
-        timing = PhaseType.STANDBY_PHASE_3;
+        timing = PhaseType.STANDBY_PHASE_1;
         mandatory = true;
         needParameters = false;
+    }
+
+    public String getInvoker() {
+        return invoker;
     }
 
     @Override
@@ -36,6 +40,7 @@ public class Persephone extends GodCard {
         System.out.println("potere di " + name + " attivato");
         if(!set) {
             try {
+                turnManager.setPersephone(this);
                 turnManager.setPersephoneEffect(Persephone.class.getMethod("invokeGod", Match.class, Message.class, TurnLogic.class));
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
@@ -51,7 +56,7 @@ public class Persephone extends GodCard {
                         if(matrix[i][j] == 2){
                             p.setMoveActions(false);
                             p.setRiseActions(true);
-                            return;
+                            break;
                         }
 
                 matrix = Board.neighboringStatusCell(p.getBuilderM(), AccessType.FREE);
@@ -60,7 +65,7 @@ public class Persephone extends GodCard {
                         if(matrix[i][j] == 2){
                             p.setMoveActions(false);
                             p.setRiseActions(true);
-                            return;
+                            break;
                         }
             }
         }

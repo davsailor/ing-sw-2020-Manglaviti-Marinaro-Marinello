@@ -40,11 +40,11 @@ public class Hestia extends GodCard {
             neighboringLevelCell[0][1] = -1;
             neighboringLevelCell[1][1] = -1;
             neighboringLevelCell[2][1] = -1;
-        } else if(match.getCurrentPlayer().getPlayingBuilder().getPosX() == 2){
+        } else if(match.getCurrentPlayer().getPlayingBuilder().getPosY() == 2){
             neighboringLevelCell[0][0] = -1;
             neighboringLevelCell[1][0] = -1;
             neighboringLevelCell[2][0] = -1;
-        } else if(match.getCurrentPlayer().getPlayingBuilder().getPosX() == 4){
+        } else if(match.getCurrentPlayer().getPlayingBuilder().getPosY() == 4){
             neighboringLevelCell[0][2] = -1;
             neighboringLevelCell[1][2] = -1;
             neighboringLevelCell[2][2] = -1;
@@ -52,7 +52,7 @@ public class Hestia extends GodCard {
 
         for(int i = 0; i < 3; ++i)
             for(int j = 0; j < 3; ++j)
-                if(neighboringLevelCell[i][j] > 0 && neighboringLevelCell[i][j] < 4) return true;
+                if (neighboringLevelCell[i][j] >= 0 && neighboringLevelCell[i][j] < 4) return true;
 
         return false;
     }

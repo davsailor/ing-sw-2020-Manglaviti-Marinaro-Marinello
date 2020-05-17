@@ -23,7 +23,7 @@ public class Poseidon extends GodCard {
     @Override
     public boolean canActivate(Match match){
         Builder unmoved;
-        if(match.getCurrentPlayer().getPlayingBuilder().getGender() == 'M')
+        if(match.getCurrentPlayer().getPlayingBuilder().getGender() == '\u2642')
             unmoved = match.getCurrentPlayer().getBuilderF();
         else
             unmoved = match.getCurrentPlayer().getBuilderM();
