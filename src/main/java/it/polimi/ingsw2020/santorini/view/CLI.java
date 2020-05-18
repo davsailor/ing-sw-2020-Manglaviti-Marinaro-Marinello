@@ -206,6 +206,12 @@ public class CLI implements ViewInterface{
         }
     }
 
+    /**
+     * the method will be called only if a player will insert wrong parameters in displaySelectionBuilderWindow, and will ask to the player
+     * to insert them again.
+     * @param message contains the username of the player that has made the mistake and also a boolean that indicates which builder has the
+     * wrong coordinates
+     */
     @Override
     public void displayNewSelectionBuilderWindow(IllegalPositionMessage message){
         int[] builderM = null;
@@ -322,6 +328,10 @@ public class CLI implements ViewInterface{
         }
     }
 
+    /**
+     * the method asks to the player if he wants to activate his god's power
+     * @param question is a message that contains the name of the player (that will receive the question) and the name of the god
+     */
     @Override
     public void displayWouldActivate(MatchStateMessage question) {
         // richiediamo se il giocatore vuole attivare il potere divino
@@ -344,6 +354,10 @@ public class CLI implements ViewInterface{
         }
     }
 
+    /**
+     * the method calls a method linked to a specific God that will ask to the player to insert parameters needed to use the god
+     * @param message is a message that contains the name of the player (that will receive the question) and the name of the god
+     */
     @Override
     public void displayParametersSelection(MatchStateMessage message) {
         if(message.getCurrentPlayer().getNickname().equals(client.getUsername())) {
@@ -385,6 +399,11 @@ public class CLI implements ViewInterface{
         }
     }
 
+    /**
+     * the method prints to the players when and which god helped a player
+     * @param updateMessage contains the name of the god used and the user name of the player that used it
+     * @param phase is the phase in which the god helped the player
+     */
     @Override
     public void displaySP(UpdateMessage updateMessage, PhaseType phase) {
         System.out.printf(updateMessage.getCurrentPlayer().getDivinePower().getName());
@@ -399,6 +418,12 @@ public class CLI implements ViewInterface{
         showBoard(updateMessage.getBoard());
     }
 
+    /**
+     * the method asks to the current player which one of his builder he wants to move and build with.
+     * To help the player in his choice the method also shows the board in its current state and it allows the player to select a builder only
+     * if he or she can move
+     * @param message contains the username of the player and
+     */
     @Override
     public void displayChooseBuilder(MatchStateMessage message) {
         if(message.getCurrentPlayer().getNickname().equals(client.getUsername())) {
@@ -407,7 +432,6 @@ public class CLI implements ViewInterface{
             Message chosenBuilder = new Message(client.getUsername());
             Builder builder = null;
             String choice = null;
-            int[][] possibleMoves = new int[3][3];
             boolean wrong;
             message.getCurrentPlayer().getBuilderF().setBoard(new Board(message.getBoard()));
             message.getCurrentPlayer().getBuilderF().setPlayer(message.getCurrentPlayer());
@@ -449,7 +473,8 @@ public class CLI implements ViewInterface{
     }
 
     /**
-     * method that shows to the player his possible moves
+     * the method asks to the player in which direction he wants to move the builder. The method shows a little matrix to represents the
+     * allowed direction of movements. If the player inserts a wrong direction, he will be asked again to insert the direction
      * metodo che mostra all'utente le possibili mosse che il builder selezionato può fare
      */
     @Override
@@ -474,7 +499,7 @@ public class CLI implements ViewInterface{
 
                 buttonPressed = scannerIn.nextInt();
                 scannerIn.nextLine();
-                wrong = true;
+
                 if (buttonPressed == 1 && possibleMoves[0][0] != 0) {
                     direction = Direction.NORTH_WEST;
                     wrong = false;
@@ -499,7 +524,7 @@ public class CLI implements ViewInterface{
                 } else if (buttonPressed == 8 && possibleMoves[2][2] != 0) {
                     direction = Direction.SOUTH_EAST;
                     wrong = false;
-                }
+                }else wrong = true;
             }catch(InputMismatchException e){
                 scannerIn.nextLine();
                 wrong = true;
@@ -516,6 +541,10 @@ public class CLI implements ViewInterface{
         // invio del messaggio al server
     }
 
+    /**
+     * the method shows to the current player the board after the movement.
+     * @param updateMessage contains the username of current player and also a reference to the board(used to show the board to the player).
+     */
     @Override
     public void displayMoveUpdate(UpdateMessage updateMessage) {
         // si dice cosa è successo, e si mostra la board. oppure si mostra solo la board
@@ -529,7 +558,8 @@ public class CLI implements ViewInterface{
     }
 
     /**
-     * method that shows to the player the possible block that his builder can do
+     * the method asks to the player in which direction he wants to build. The method shows a little matrix to represents the
+     * allowed direction to construct near his playing builder. If the player inserts a wrong direction, he will be asked again to insert the direction
      * metodo che mostra all'utente le possibili costruzioni che il builder mosso può fare
      */
     @Override
@@ -561,7 +591,7 @@ public class CLI implements ViewInterface{
 
                 buttonPressed = scannerIn.nextInt();
                 scannerIn.nextLine();
-                wrong = true;
+
                 if (buttonPressed == 1 && possibleBuildings[0][0] >= 0 && possibleBuildings[0][0] < 4) {
                     direction = Direction.NORTH_WEST;
                     wrong = false;
@@ -586,7 +616,7 @@ public class CLI implements ViewInterface{
                 } else if (buttonPressed == 8 && possibleBuildings[2][2] >= 0 && possibleBuildings[2][2] < 4) {
                     direction = Direction.SOUTH_EAST;
                     wrong = false;
-                }
+                } else wrong = true;
             } catch(InputMismatchException e){
                 scannerIn.nextLine();
                 wrong = true;
@@ -615,9 +645,9 @@ public class CLI implements ViewInterface{
     }
 
     /**
-     * prova
-     *
-     * @param updateMessage parameter
+     *the method prints a message to the players showing how the board has been modified during the turn and communicates the end of the turn
+     * of the current player
+     * @param updateMessage contains the the user name of current player and the reference to the board
      */
     @Override
     public void displayEndTurn(UpdateMessage updateMessage) {
@@ -629,7 +659,7 @@ public class CLI implements ViewInterface{
     }
 
     /**
-     * method that shows winner and losers. It then close the match
+     * method that shows winner. It then close the match or if the players wants to begin a new match
      * metodo che mostra vincitori e vinti. conclude la partita con epic sax guy
      * @param winner
      */
@@ -676,6 +706,12 @@ public class CLI implements ViewInterface{
         System.out.println(error);
     }
 
+    /**
+     * the method prints the scheme of the board, whit numbers inside the cells to indicate the height of the buildings, nothing if there isn't
+     * any builder, the coloured symbol of the gender to indicate the gender of the builder and to whom it belongs. The triangle and the wave
+     * represent the coast.
+     * @param listOfCells is an array list of cells containing all the information of the board
+     */
     public void showBoard(ArrayList<Cell> listOfCells){
         String coast = Color.OCEAN_BLUE+"\u25DE\u25DC"+Color.MOUNTAIN_BROWN +"\u25B2 ";
         //wave: \u25DE\u25DC
@@ -724,6 +760,12 @@ public class CLI implements ViewInterface{
                 "\n                                 SOUTH                   \n");
     }
 
+    /**
+     * the method prints a 3*3 matrix that represents the possible choices both for building and moving the builders. The symbol 'X' is used
+     * to represent a cell in which a builder cannot build or move into.
+     * @param matrixToShow is the reference to a matrix 3*3 such as possible moves or possible buildings
+     * @param type is a char that is used for understand if matrixToShow is used for representing possible moves or buildings
+     */
     public void showPossibleMatrix(int[][] matrixToShow, char type){
         System.out.println("\n\nPossibilità:\n");
         System.out.printf(                  "                     NORTH                \n" +
@@ -780,6 +822,14 @@ public class CLI implements ViewInterface{
                 "\n                     SOUTH                   \n\n");
     }
 
+    /**
+     * the method asks to the current player to insert parameters need to use Apollo's power. These parameters are the choice of which builder
+     * the player want to move (and swap with opponent's builder) and in which direction. If the builder selected cannot be moved, the method will choose for the player the other
+     * builder. If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+     * message containing the parameters gathered
+     * @param message contains references about the board and the currents player(About the match ).
+     * @return the message containing the parameters gathered.
+     */
     private ApolloParamMessage displayApolloParamSel(MatchStateMessage message){
         ApolloParamMessage apolloParamMessage = new ApolloParamMessage();
         //Inserire la sampa per la scelta del builder
@@ -885,6 +935,14 @@ public class CLI implements ViewInterface{
         return apolloParamMessage;
     }
 
+    /**
+     * the method asks to the current player to insert parameters need to use  Ares's power. the Parameter asked is direction of the cell
+     * where the demolition will occur
+     * If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+     * message containing the parameters gathered
+     * @param message contains information about the match such as the current player
+     * @return the message containing the parameter insert by the player
+     */
     private AresParamMessage displayAresParamSel(MatchStateMessage message){
         AresParamMessage aresParamMessage = new AresParamMessage();
         Direction direction = null;
@@ -961,12 +1019,19 @@ public class CLI implements ViewInterface{
         return aresParamMessage;
     }
 
+    /**
+     * the method asks to the current player to insert parameters need to use Artemis's power. The Parameter asked is direction of the cell
+     * where the player wants to moved again the builder in.
+     * If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+     * message containing the parameters gathered
+     * @param message contains information about the match such as the current player, information used for acquiring which is the playing
+     * builder
+     * @return the message containing the parameter acquired by the method
+     */
     private ArtemisParamMessage displayArtemisParamSel(MatchStateMessage message){
         ArtemisParamMessage artemisParamMessage = new ArtemisParamMessage();
         int[][] possibleMoves = message.getCurrentPlayer().getPlayingBuilder().getPossibleMoves();
         Direction direction = null;
-
-        //INserire display per mostrare
         boolean wrong;
         int pressedButton;
         System.out.println("Ora è il momento di scegliere dove muovere nuovamente il builder, premi il numero indicato per scegliere la direzione del movimento");
@@ -1021,6 +1086,15 @@ public class CLI implements ViewInterface{
         return artemisParamMessage;
     }
 
+    /**
+     * the method asks to the current player to insert parameters need to use Atlas's power. the Parameter asked is direction of the cell
+     * where the dome will be built
+     * If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+     * message containing the parameters gathered
+     * @param message contains information about the match such as the current player, information used for acquiring which is the playing
+     * builder
+     * @return the message containing the parameter acquired by the method
+     */
     private AtlasParamMessage displayAtlasParamSel(MatchStateMessage message){
         AtlasParamMessage atlasParamMessage = new AtlasParamMessage();
         Direction direction = null;
@@ -1082,6 +1156,15 @@ public class CLI implements ViewInterface{
         return  atlasParamMessage;
     }
 
+    /**
+     * The method asks to the current player to insert parameters need to use Demeter's power. The Parameter asked is direction of the cell
+     * where the player wants to build again the builder in.
+     * If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+     * message containing the parameters gathered
+     * @param message contains information about the match such as the current player, information used for acquiring which is the playing
+     * builder
+     * @return the message containing the parameter acquired by the method
+     */
     private DemeterParamMessage displayDemeterParamSel(MatchStateMessage message){
         DemeterParamMessage demeterParamMessage = new DemeterParamMessage();
         Direction direction = null;
@@ -1141,6 +1224,15 @@ public class CLI implements ViewInterface{
         return demeterParamMessage;
     }
 
+    /**
+     * the method asks to the current player to insert parameters need to use Hestia's power. The Parameter asked is direction of the cell
+     * where the player wants to moved again the builder in.
+     * If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+     * message containing the parameters gathered
+     * @param message contains information about the match such as the current player, information used for acquiring which is the playing
+     * builder
+     * @return the message containing the parameter acquired by the method
+     */
     private HestiaParamMessage displayHestiaParamSel(MatchStateMessage message){
         HestiaParamMessage hestiaParamMessage = new HestiaParamMessage();
         Direction direction = null;
@@ -1252,6 +1344,14 @@ public class CLI implements ViewInterface{
         return hestiaParamMessage;
     }
 
+    /**
+     * the method asks to the current player to insert parameters need to use Minotaur's power. These parameters are che choice of which builder
+     * the player want to move (and push opponent's builder) and in which direction. If the builder selected cannot be moved, the method will choose for the player the other
+     * builder. If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+     * message containing the parameters gathered
+     * @param message contains references about the board and the currents player(About the match ).
+     * @return the message containing the parameters gathered.
+     */
     private MinotaurParamMessage displayMinotaurParamSel(MatchStateMessage message){
         MinotaurParamMessage minotaurParamMessage = new MinotaurParamMessage();
         //Inserire la stampa per la scelta del builder
@@ -1405,6 +1505,16 @@ public class CLI implements ViewInterface{
         return minotaurParamMessage;
     }
 
+    /**
+     * The method asks to the current player to insert parameters need to use Poseidon's power. The Parameters asked are direction of the cell
+     * where the player wants to build again the builder in and how many times he wants to build. The method will display the max and min numbers
+     * of times he can build
+     * If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+     * message containing the parameters gathered
+     * @param message contains information about the match such as the current player, information used for acquiring which is the playing
+     * builder
+     * @return the message containing the parameter acquired by the method
+     */
     private PoseidonParamMessage displayPoseidonParamSel(MatchStateMessage message){
         PoseidonParamMessage poseidonParamMessage = new PoseidonParamMessage();
         //Ricerca del builder non mosso
@@ -1522,6 +1632,16 @@ public class CLI implements ViewInterface{
         return poseidonParamMessage;
     }
 
+    /**
+     * the method asks to the current player to insert parameters need to use Prometheus's power. These parameters are the choice of which builder
+     * the player want to build (the choice of the builder will be memorized to be used for the next phase of movement and building)
+     * and in which direction.
+     * If the builder selected cannot be moved, the method will choose for the player the other
+     * builder. If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+     * message containing the parameters gathered
+     * @param message contains references about the board and the currents player(About the match ).
+     * @return the message containing the parameters gathered.
+     */
     private PrometheusParamMessage displayPrometheusParamSel(MatchStateMessage message){
         PrometheusParamMessage prometheusParamMessage = new PrometheusParamMessage();
         Builder builderScelto = null;
