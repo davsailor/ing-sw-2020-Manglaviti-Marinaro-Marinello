@@ -3,6 +3,7 @@ package it.polimi.ingsw2020.santorini.network;
 import it.polimi.ingsw2020.santorini.utils.Message;
 
 import java.io.IOException;
+import java.net.Socket;
 
 public interface NetworkInterface {
     /**
@@ -13,6 +14,8 @@ public interface NetworkInterface {
     void send(Message message) throws IOException;
 
     void receive(Message message);
+
+    void checkConnection(Socket client);
 
     //potremmo aggiungere receive
 }

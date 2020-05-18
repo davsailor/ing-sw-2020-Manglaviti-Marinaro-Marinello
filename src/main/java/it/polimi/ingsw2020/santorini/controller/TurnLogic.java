@@ -37,13 +37,12 @@ public class TurnLogic {
     private Method chronusEffect;
     private Chronus chronus;
 
-
     public TurnLogic() {
-        phase = PhaseType.START_TURN;
         remainingActions = EnumSet.allOf(ActionType.class);
         actionManager = new ActionLogic(this);
         chronusEffect = null;
         this.reset();
+        phase = null;
     }
 
     private void checkChronusEffect(Match match) throws EndMatchException{
@@ -54,6 +53,10 @@ public class TurnLogic {
                 throw new EndMatchException(match);
             } catch (IllegalAccessException ignored){}
         }
+    }
+
+    public void setStartTurn(){
+        phase = PhaseType.START_TURN;
     }
 
     public void setChronus(Chronus chronus) {
@@ -151,6 +154,7 @@ public class TurnLogic {
             case STANDBY_PHASE_3:
                 standByPhaseManager(match, PhaseType.STANDBY_PHASE_3);
                 checkChronusEffect(match);
+                break;
             case END_TURN:
                 endTurnManager(match);
                 break;
@@ -207,7 +211,7 @@ public class TurnLogic {
         System.out.println("START TURN MANAGER");
         ArrayList<Message> listOfUpdateMessages = new ArrayList<>();
         match.getCurrentPlayer().setPlayingBuilder(null);
-        for (int i = 0; i < match.getNumberOfPlayers(); ++i) {
+        for (int i = 0; i < match.getPlayers().length; ++i) {
             listOfUpdateMessages.add(new Message(match.getPlayers()[i].getNickname()));
             listOfUpdateMessages.get(i).buildUpdateMessage(new UpdateMessage(match, this.phase));
         }

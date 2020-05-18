@@ -11,7 +11,6 @@ import it.polimi.ingsw2020.santorini.utils.messages.godsParam.*;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.*;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.text.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,7 +42,6 @@ public class CLI implements ViewInterface{
             try {
                 System.out.printf("Inserisci l'indirizzo IP del server: ");
                 ip = scannerIn.nextLine();
-
                 client.setNetworkHandler(new ServerAdapter(client, ip));
                 client.setViewHandler(new ViewAdapter(client));
                 wrong = false;
@@ -638,6 +636,35 @@ public class CLI implements ViewInterface{
     @Override
     public void displayEndMatch(String winner) {
         System.out.println("AND THE WINNER IS... " + winner);
+        boolean wrong;
+        Message message = new Message(client.getUsername());
+        do{
+            wrong = false;
+            System.out.println("Vuoi fare una nuova partita? Rispondi Y-N: ");
+            String answer = scannerIn.nextLine();
+            answer = answer.toUpperCase();
+            if (answer.equals("Y")) {
+                do{
+                    try{
+                        System.out.printf("Inserisci il numero di giocatori della partita (2 o 3): ");
+                        client.setSelectedMatch(scannerIn.nextInt());
+                        scannerIn.nextLine();
+                        wrong = client.getSelectedMatch() != 2 && client.getSelectedMatch() != 3;
+                    }catch (InputMismatchException e){
+                        wrong = true;
+                    }
+                    if(wrong) System.out.println("Inserire 2 o 3!");
+                }while(wrong);
+                message.buildNewMatchMessage(new NewMatchMessage(true, client.getSelectedMatch(), client.getBirthDate()));
+            } else if (answer.equals("N")) {
+                System.out.println("Grazie per aver giocato con noi, a presto!");
+                message.buildNewMatchMessage(new NewMatchMessage(false, 0, null));
+                System.exit(0);
+            }
+            else
+                wrong = true;
+        } while(wrong);
+        client.getNetworkHandler().send(message);
     }
 
     /**
@@ -1378,7 +1405,7 @@ public class CLI implements ViewInterface{
         return minotaurParamMessage;
     }
 
-    private  PoseidonParamMessage displayPoseidonParamSel(MatchStateMessage message){
+    private PoseidonParamMessage displayPoseidonParamSel(MatchStateMessage message){
         PoseidonParamMessage poseidonParamMessage = new PoseidonParamMessage();
         //Ricerca del builder non mosso
         Builder constructionBuilder = null;

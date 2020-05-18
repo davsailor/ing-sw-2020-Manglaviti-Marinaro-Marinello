@@ -6,6 +6,7 @@ public enum SecondHeaderType {
     // riferiti a SETUP e LOADING
     LOGIN,
     MATCH,
+    NEW_MATCH,
     PLAYER_SELECTION,
     END_MATCH,
 
@@ -22,8 +23,6 @@ public enum SecondHeaderType {
     INVALID_MOVE,
     INVALID_BUILDING,
 
-    // riferiti a ASK
-
     // riferiti a DO
     NEXT_PHASE,
 
@@ -33,6 +32,4 @@ public enum SecondHeaderType {
     SELECT_BUILDER,
     SELECT_CELL_MOVE,
     SELECT_CELL_BUILD;
-
-    //UNDO, se vogliamo fare la FA
 }

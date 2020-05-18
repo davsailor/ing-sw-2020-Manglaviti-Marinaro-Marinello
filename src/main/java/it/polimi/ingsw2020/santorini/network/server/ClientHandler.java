@@ -6,6 +6,7 @@ import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.messages.errors.GenericErrorMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.CorrectLoginMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.LoginMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.NewMatchMessage;
 
 public class ClientHandler extends Thread{
     private ClientNetworkHandler owner;
@@ -40,7 +41,9 @@ public class ClientHandler extends Thread{
                 setupMessageHandler(message);
                 break;
             default:
-                owner.getServer().getViewFromMatch(owner.getServer().getMatchFromUsername(owner.getUsername())).notifyController(message);
+                try {
+                    owner.getServer().getViewFromMatch(owner.getServer().getMatchFromUsername(owner.getUsername())).notifyController(message);
+                } catch (NullPointerException ignored) {}
         }
     }
 
@@ -58,6 +61,13 @@ public class ClientHandler extends Thread{
                     error.buildUsernameErrorMessage(new GenericErrorMessage("Your Username is not available!"));
                     owner.send(error);
                 }
+                break;
+            case NEW_MATCH:
+                NewMatchMessage newMatchMessage = message.deserializeNewMatchMessage();
+                if(newMatchMessage.isWantNewMatch())
+                    owner.getServer().addWaitingPlayers(new Player(owner.getUsername(), newMatchMessage.getBirthDate()), newMatchMessage.getSelectedMatch());
+                else
+                    owner.getServer().removeVirtualClient(owner.getUsername());
                 break;
             default:
                 break;

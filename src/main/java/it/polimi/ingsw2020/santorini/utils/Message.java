@@ -44,6 +44,18 @@ public class Message implements Serializable {
         return gson.fromJson(payload, LoginMessage.class);
     }
 
+    public void buildNewMatchMessage(NewMatchMessage payload){
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.SETUP;
+        this.secondLevelHeader = SecondHeaderType.NEW_MATCH;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public NewMatchMessage deserializeNewMatchMessage(){
+        Gson gson = new Gson();
+        return gson.fromJson(serializedPayload, NewMatchMessage.class);
+    }
+
     public void buildMatchSetupMessage(MatchSetupMessage payload){
         Gson gson = new Gson();
         this.firstLevelHeader = FirstHeaderType.SETUP;
@@ -150,18 +162,6 @@ public class Message implements Serializable {
     public IllegalPositionMessage deserializeIllegalPositionMessage(String payload) {
         Gson gson = new Gson();
         return gson.fromJson(payload, IllegalPositionMessage.class);
-    }
-
-    public void buildInvalidParametersMessage(InvalidParametersMessage payload){
-        Gson gson = new Gson();
-        this.firstLevelHeader = FirstHeaderType.ERROR;
-        this.secondLevelHeader = SecondHeaderType.INVALID_PARAMETERS;
-        this.serializedPayload = gson.toJson(payload);
-    }
-
-    public InvalidParametersMessage deserializeInvalidParametersMessage(){
-        Gson gson = new Gson();
-        return gson.fromJson(this.serializedPayload, InvalidParametersMessage.class);
     }
 
     public void buildInvalidMoveMessage(GenericErrorMessage payload){

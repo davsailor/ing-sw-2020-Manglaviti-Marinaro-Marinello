@@ -2,7 +2,6 @@ package it.polimi.ingsw2020.santorini.network.client;
 
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
-import it.polimi.ingsw2020.santorini.utils.messages.errors.InvalidParametersMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.errors.GenericErrorMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.*;
 
@@ -18,9 +17,7 @@ public class ViewAdapter extends Thread {
         this.client = client;
     }
 
-    private void handleMessage() {
-        Message message = client.getNextMessage();
-        client.removeMessageQueue(message);
+    private void handleMessage(Message message) {
         //System.out.println(message.getFirstLevelHeader() + ", " + message.getSecondLevelHeader());
         switch (message.getFirstLevelHeader()) {
             case SETUP:
@@ -56,7 +53,10 @@ public class ViewAdapter extends Thread {
         LOGGER.log(Level.CONFIG, "ViewAdapter.run(): " + Thread.currentThread().getName());
         while(true){
             while(!client.hasNextMessage());
-            handleMessage();
+            Message message = client.getNextMessage();
+            client.removeMessageQueue(message);
+            //handleMessage(message);
+            (new Thread (() -> handleMessage(message))).start();
         }
     }
 
@@ -133,12 +133,6 @@ public class ViewAdapter extends Thread {
                 if(illegalPositionMessage.isBuilderMToChange() || illegalPositionMessage.isBuilderFToChange())
                     client.getView().displayNewSelectionBuilderWindow(illegalPositionMessage);
                 break;
-/*
-                case INVALID_PARAMETERS:
-                InvalidParametersMessage invalidParametersMessage = message.deserializeInvalidParametersMessage();
-                client.getView().displayErrorMessage("Errore nell'inserimento dei parametri di : " + invalidParametersMessage.getGod() + "\n" + invalidParametersMessage.getError());
-                client.getView().displayParametersSelection(invalidParametersMessage.getGod());
- */
             case INVALID_MOVE:
                 GenericErrorMessage invalidMoveMessage = message.deserializeInvalidMoveMessage();
                 client.getView().displayErrorMessage(invalidMoveMessage.getError());

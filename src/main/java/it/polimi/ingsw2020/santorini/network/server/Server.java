@@ -4,18 +4,24 @@ import it.polimi.ingsw2020.santorini.controller.GameLogic;
 import it.polimi.ingsw2020.santorini.model.Player;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Set;
 
 public class Server {
 
     public final static int PORT = 9999;
-    private int matchIDGen;
-
     private ServerSocket socket;
 
+    public final static int PING_PORT = 8888;
+    public final static int SO_TIMEOUT = 8000;
+    private ServerSocket pingSocket;
+
+    private int matchIDGen;
     private final HashMap<Player, Integer> waitingPlayers;
     private final HashMap<String, ClientNetworkHandler> virtualClients;
     private final HashMap<Integer, GameLogic> controllers;
@@ -29,6 +35,8 @@ public class Server {
         playerInMatch = new HashMap<>();
         try {
             socket = new ServerSocket(PORT);
+            pingSocket = new ServerSocket(PING_PORT);
+            //pingSocket.setSoTimeout(SO_TIMEOUT);
             System.out.println("server ready to receive");
         } catch (IOException e) {
             System.out.println("cannot use server port");
@@ -39,15 +47,23 @@ public class Server {
     }
     public static void main(String[] args) {
         Server server = new Server();
+        Thread acceptClient = new Thread(() -> {
         while(true) {
             try {
                 Socket client = server.socket.accept();
                 ClientNetworkHandler clientNetworkHandler = new ClientNetworkHandler(client, server);
+                Socket pingClient = server.pingSocket.accept();
                 clientNetworkHandler.start();
+                Thread pingHandler = new Thread(() -> {
+                    clientNetworkHandler.checkConnection(pingClient);
+                });
+                pingHandler.start();
+
             } catch (IOException e) {
-                System.out.println("connection failed!");
+                System.out.println("socket connection failed!");
             }
-        }
+        }});
+        acceptClient.start();
     }
 
     public ServerSocket getSocket() {
@@ -79,10 +95,22 @@ public class Server {
         waitingPlayers.remove(player);
     }
 
+    synchronized public void removeWaitingPlayers(String username){
+        Set<Player> player = waitingPlayers.keySet();
+        for(Player p : player)
+            if (p.getNickname().equals(username)) {
+                waitingPlayers.remove(p);
+                break;
+            }
+    }
 
-    public void addVirtualClient(String username, ClientNetworkHandler handler){
+    synchronized public void addVirtualClient(String username, ClientNetworkHandler handler){
         this.virtualClients.put(username, handler);
         System.out.println("il client appena connesso si chiama: " + username + "\n" + "client in attesa di fare partite");
+    }
+
+    synchronized public void removeVirtualClient(String username){
+        virtualClients.remove(username);
     }
 
     public HashMap<String, ClientNetworkHandler> getVirtualClients() {
@@ -125,6 +153,5 @@ public class Server {
         } catch (IOException e){
             System.out.println("cannot close server port");
         }
-
     }
 }

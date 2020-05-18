@@ -2,6 +2,7 @@ package it.polimi.ingsw2020.santorini.model;
 
 import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
 import it.polimi.ingsw2020.santorini.model.gods.*;
+import it.polimi.ingsw2020.santorini.network.server.Server;
 import it.polimi.ingsw2020.santorini.network.server.VirtualView;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.Color;
@@ -32,6 +33,7 @@ public class Match extends Observable {
         this.numberOfCompletedTowers = 0;
         this.turnNumber = 0;
         addObserver(view);
+        view.setMatch(this);
     }
 
     /**
@@ -100,8 +102,16 @@ public class Match extends Observable {
         else if(currentPlayerIndex == eliminatedPlayer)
             setNextPlayer();
         eliminatedPlayers.add(players.get(eliminatedPlayer));
+        if(eliminatedPlayers.size() == numberOfPlayers - 1) {
+            players.remove(players.get(eliminatedPlayer));
+            throw new EndMatchException(this);
+        }
+        else
+            for(int i = 1; i < 6; ++i)
+                for(int j = 1; j < 6; ++j)
+                    if(board.getBoard()[i][j].getBuilder() != null && board.getBoard()[i][j].getBuilder().getColor() == getPlayers()[eliminatedPlayer].getColor())
+                        board.getBoard()[i][j].setBuilder(null);
         players.remove(players.get(eliminatedPlayer));
-        if(eliminatedPlayers.size() == numberOfPlayers - 1) throw new EndMatchException(this);
     }
 
     public void setNumberOfCompletedTowers(int numberOfCompletedTowers) {
@@ -126,8 +136,6 @@ public class Match extends Observable {
             this.players.get(i).setColor(Color.getColor(i));
             listOfMessages.add((new Message(players[i].getNickname())));
         }
-        this.players.get(0).setDivinePower(new Chronus());
-        this.players.get(1).setDivinePower(new Poseidon());
         for(int i = 0; i < this.getNumberOfPlayers(); ++i){
             listOfMessages.get(i).buildMatchSetupMessage(new MatchSetupMessage(getPlayers(), getBoard().getBoard()));
         }
@@ -174,5 +182,24 @@ public class Match extends Observable {
                 setEliminatedPlayer(i);
                 i = 0;
             }
+    }
+
+    public void notifyEndMatch(Server server) {
+        ArrayList<Message> endMatchMessages = new ArrayList<>();
+        Message winner = new Message(getPlayers()[0].getNickname());
+        winner.buildEndMatchMessage(new EndMatchMessage(getPlayers()[0].getNickname()));
+        endMatchMessages.add(winner);
+        server.getPlayerInMatch().remove(getPlayers()[0].getNickname());
+        for(Player p: getEliminatedPlayers()){
+            if(server.getVirtualClients().containsKey(p.getNickname())) {
+                Message loser = new Message(p.getNickname());
+                loser.buildEndMatchMessage(new EndMatchMessage(getPlayers()[0].getNickname()));
+                endMatchMessages.add(loser);
+            }
+            server.getPlayerInMatch().remove(p.getNickname());
+        }
+        server.getVirtualViews().remove(getMatchID());
+        server.getControllers().remove(getMatchID());
+        notifyView(endMatchMessages);
     }
 }

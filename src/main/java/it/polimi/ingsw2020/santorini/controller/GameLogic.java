@@ -10,7 +10,6 @@ import it.polimi.ingsw2020.santorini.utils.ActionType;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PlayerStatus;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.SelectedBuilderMessage;
-import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.EndMatchMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.SelectedBuilderPositionMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
@@ -52,6 +51,10 @@ public class GameLogic implements Observer {
      */
     public Server getServer() {
         return server;
+    }
+
+    public TurnLogic getTurnManager() {
+        return turnManager;
     }
 
     /**
@@ -144,7 +147,7 @@ public class GameLogic implements Observer {
                 }
                 if(allReady) {
                     ArrayList<Message> orderMessage = new ArrayList<>();
-                    for (int i = 0; i < match.getNumberOfPlayers(); ++i) {
+                    for (int i = 0; i < match.getPlayers().length; ++i) {
                         orderMessage.add(new Message(players[i].getNickname()));
                         orderMessage.get(i).buildTurnPlayerMessage(new MatchStateMessage(players[match.getCurrentPlayerIndex()], match.getBoard().getBoard()));
                     }
@@ -211,6 +214,7 @@ public class GameLogic implements Observer {
 
                     if (allPlaying) {
                         match.setCurrentPlayerIndex(0);
+                        turnManager.setStartTurn();
                         try {
                             turnManager.handlePhases(match);
                         } catch (EndMatchException ignored) {}
@@ -238,6 +242,7 @@ public class GameLogic implements Observer {
         try {
             switch (message.getSecondLevelHeader()) {
                 case NEXT_PHASE:
+                    if(turnManager.getPhase() == null) turnManager.setStartTurn();
                     if (message.getUsername().equals(match.getCurrentPlayer().getNickname()))
                         turnManager.handlePhases(match);
                     break;
@@ -266,18 +271,7 @@ public class GameLogic implements Observer {
                     break;
             }
         } catch(EndMatchException e){
-            ArrayList<Message> endMatchMessages = new ArrayList<>();
-            Message winner = new Message(match.getPlayers()[0].getNickname());
-            winner.buildEndMatchMessage(new EndMatchMessage(match.getPlayers()[0].getNickname()));
-            endMatchMessages.add(winner);
-            for(Player p: match.getEliminatedPlayers()){
-                Message loser = new Message(p.getNickname());
-                loser.buildEndMatchMessage(new EndMatchMessage(match.getPlayers()[0].getNickname()));
-                endMatchMessages.add(loser);
-            }
-            server.getVirtualViews().remove(match.getMatchID());
-            server.getControllers().remove(match.getMatchID());
-            match.notifyView(endMatchMessages);
+            match.notifyEndMatch(server);
         }
     }
 }

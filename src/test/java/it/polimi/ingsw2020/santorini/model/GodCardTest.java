@@ -53,7 +53,6 @@ public class GodCardTest {
 
     @Test
     public void invokeGod() {
-        //TODO: quando saranno implementati i poteri degli dei: da fare per ogni divinità
     }
 
  /*   @Test
