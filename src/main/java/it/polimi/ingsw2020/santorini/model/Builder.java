@@ -108,11 +108,7 @@ public class Builder {
         return builtThisTurn;
     }
 
-    /**
-     * constructor of the class
-     * @param player is the player of the builder
-     * @param gender is the gender of the builder
-     */
+
     public Builder(Player player, char gender, Board board, int[] pos) {
         // if for test purpose
         if(player != null)
@@ -155,7 +151,7 @@ public class Builder {
     }
 
     /**
-     * method used to swap two builders
+     *the method swaps two builders' position
      * @param b1 is the builder that i have to swap
      */
     public void swapBuilders(Builder b1){
@@ -172,8 +168,8 @@ public class Builder {
     }
 
     /**
-     * method that evaluates the possibility of moving of the builder
-     * @return true if the builder can perform a move action, false otherwise
+     * themethod checks if the builder can be moved. it is checked through possible moves
+     * @return true if it can be moved, false if it cannot
      */
     public boolean canMove(){
         setPossibleMoves();
@@ -185,10 +181,6 @@ public class Builder {
         return false;
     }
 
-    /**
-     * method that evaluates the possibility of building of the builder
-     * @return true if the builder can perform a build action, false otherwise
-     */
     public boolean canBuild(){
         setPossibleBuildings();
         for(int i = 0; i < 3; ++i)
@@ -198,8 +190,9 @@ public class Builder {
     }
 
     /**
-     * method that performs the move action
-     * @param direction is the direction in which the player wants to move
+     *the method changes the position of the builder in the board. the movement start from the current position of the
+     * builder and follows the direction passed as parameter
+     * @param direction is the direction in which the player wants to move the builder
      */
     public void move(Direction direction) throws IllegalMovementException, EndMatchException {
         if(direction == null) throw new IllegalMovementException("Something went wrong with your choice, please select another movement");
@@ -263,9 +256,10 @@ public class Builder {
     }
 
     /**
-     * method that performs the build action
+     * the method builds a block in a cell of the board. the method will build a higher block in the cell that follows the direction
+     * passed as parameters.
      * @param direction is the direction in which the player wants to build
-     * @param match the match in which the builder is playing
+     * @param match is the reference to the match. This parameter is used to acquire the number of completed towers
      */
     public void build(Direction direction, Match match) throws IllegalConstructionException{
         //LevelType level;
