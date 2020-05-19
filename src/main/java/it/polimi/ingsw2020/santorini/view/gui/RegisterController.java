@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.Date;
@@ -74,6 +75,11 @@ public class RegisterController {
         message.buildLoginMessage(new LoginMessage(client.getUsername(), client.getBirthDate(), client.getSelectedMatch()));
         client.getNetworkHandler().send(message);
 
+        if(ip!=null && usernameId!=null){
+            Button button = (Button) actionEvent.getSource();
+            Stage stage = (Stage) button.getScene().getWindow();
+            stage.close();
+        }
 
     }
 

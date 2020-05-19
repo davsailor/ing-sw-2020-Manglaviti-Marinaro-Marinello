@@ -10,14 +10,18 @@ import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchSetupMessa
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.UpdateMessage;
 import it.polimi.ingsw2020.santorini.view.gui.BoardController;
+import it.polimi.ingsw2020.santorini.view.gui.InfoMatchController;
 import it.polimi.ingsw2020.santorini.view.gui.RegisterController;
+import it.polimi.ingsw2020.santorini.view.gui.SelectionBuilderController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -32,6 +36,8 @@ public class AppGUI extends Application implements ViewInterface{
     private RegisterController registerController;
 
     private BoardController boardController;
+
+    private InfoMatchController infoMatchController;
 
     public Client getClient() {
         return client;
@@ -68,28 +74,6 @@ public class AppGUI extends Application implements ViewInterface{
 
     }
 
-    @Override
-    public void displayNewUsernameWindow() {
-
-        Stage stage = new Stage();
-        Parent children;
-        Scene scene;
-
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/FXML/newUsername.fxml"));
-
-        try {
-            children = fxmlLoader.load();
-            scene = new Scene(children);
-        } catch (IOException e) {
-            children = null;
-            scene = new Scene(new Label ("ERROR "));
-        }
-
-        stage.setTitle("NOT VALID USERNAME");
-        stage.setScene(scene);
-        stage.show();
-    }
 
     /**
      * metodo per intrattenere l'utente mentre aspettiamo altri utenti che vogliono giocare
@@ -109,25 +93,29 @@ public class AppGUI extends Application implements ViewInterface{
      */
     @Override
     public void displayMatchSetupWindow(MatchSetupMessage matchSetupMessage) {
-        Stage stage = new Stage();
-        Parent children;
-        Scene scene;
+        Platform.runLater(()-> {
 
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/FXML/InfoMatch.fxml"));
+            Stage stage = new Stage();
+            Parent children;
+            Scene scene;
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/FXML/InfoMatch.fxml"));
 
-        try {
-            children = fxmlLoader.load();
-            scene = new Scene(children);
-        } catch (IOException e) {
-            children = null;
-            scene = new Scene(new Label ("ERROR "));
-        }
+            try {
+                children = fxmlLoader.load();
+                scene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                scene = new Scene(new Label ("ERROR "));
+            }
+            infoMatchController = fxmlLoader.getController();
+            infoMatchController.setClient(client);
+            stage.setTitle("START GAME");
+            stage.setScene(scene);
+            stage.show();
 
-        stage.setTitle("START GAME");
-        stage.setScene(scene);
-        stage.show();
-        stage.close();
+        });
+
     }
 
     /**

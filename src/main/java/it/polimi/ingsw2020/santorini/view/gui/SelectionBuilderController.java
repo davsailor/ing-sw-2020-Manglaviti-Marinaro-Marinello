@@ -1,11 +1,17 @@
 package it.polimi.ingsw2020.santorini.view.gui;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Circle;
 
 public class SelectionBuilderController {
 
+    @FXML
+    Label title;
     @FXML
     Button b00;
     @FXML
@@ -57,12 +63,19 @@ public class SelectionBuilderController {
     @FXML
     Button b44;
 
-    public void setPosition00(MouseEvent mouseEvent) {
+    @FXML
+    public void setPos(MouseEvent mouseEvent) {
+        title.setText("Clicca la cella dove vuoi inserire il builder ");
+        Node pos = (Node) mouseEvent.getSource();
+        if ( pos==b00){
+            
+        }
+
+
+
+
+
     }
 
-    public void setPosition01(MouseEvent mouseEvent) {
-    }
 
-
-    //Altri 24 metodi set pos per settare le pos in cui viene posizionato il builder
 }
