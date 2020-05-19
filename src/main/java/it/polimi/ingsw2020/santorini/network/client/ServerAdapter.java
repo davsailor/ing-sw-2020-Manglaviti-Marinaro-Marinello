@@ -16,9 +16,7 @@ import java.util.logging.Logger;
 public class ServerAdapter extends Thread implements NetworkInterface {
     private Client client;
     private Socket server;
-    private String ip;
     private boolean connected;
-    private final Object connectedLock;
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private final static Logger LOGGER = Logger.getLogger("ServerAdapter");
@@ -28,14 +26,15 @@ public class ServerAdapter extends Thread implements NetworkInterface {
      */
     public ServerAdapter(Client client, String ip) throws IOException{
         this.client = client;
-        this.ip = ip;
         server = new Socket(ip, Server.PORT);
+        server.setSoTimeout(Server.SO_TIMEOUT);
         out = new ObjectOutputStream(server.getOutputStream());
         in = new ObjectInputStream(server.getInputStream());
         connected = true;
-        connectedLock = new Object();
-        Thread checkConnection = new Thread(() -> {checkConnection(null);});
-        checkConnection.start();
+    }
+
+    synchronized public void setConnected(boolean status){
+        this.connected = status;
     }
 
     /**
@@ -49,6 +48,7 @@ public class ServerAdapter extends Thread implements NetworkInterface {
             out.flush();
         } catch (IOException e){
             System.out.println("cannot send message to server");
+            setConnected(false);
         }
     }
 
@@ -57,43 +57,24 @@ public class ServerAdapter extends Thread implements NetworkInterface {
      * @param message the received message
      */
     @Override
-    public void receive(Message message) {
+    public void receive(Message message) throws InterruptedException {
         client.addMessageQueue(message);
     }
 
     /**
-     * method used to check the connection client-side: it ping the server every SO_TIMEOUT / 4 milliseconds
-     * @param client the client that requested the ping
+     * method used to check the connection client-side: it ping the server every SO_TIMEOUT / 2 milliseconds
      */
     @Override
-    public void checkConnection(Socket client) {
-        Socket probeSocket;
-        ObjectInputStream pingIn;
-        ObjectOutputStream pingOut;
+    public void checkConnection() {
         try {
-            //Thread.sleep(1000);
-            probeSocket = new Socket(ip, Server.PING_PORT);
-            probeSocket.setSoTimeout(Server.SO_TIMEOUT);
-            pingOut = new ObjectOutputStream(probeSocket.getOutputStream());
-            pingIn = new ObjectInputStream(probeSocket.getInputStream());
-            Message ping = new Message(null);
             while (true) {
-                pingIn.readObject();
-                Thread.sleep(Server.SO_TIMEOUT / 4);
-                pingOut.reset();
-                pingOut.writeObject(ping);
-                pingOut.flush();
+                Message ping = new Message(null);
+                ping.buildPingMessage();
+                send(ping);
+                Thread.sleep(Server.SO_TIMEOUT / 2);
             }
-        } catch (SocketTimeoutException ex){
-            System.out.println("Socket timed out! Server is unreachable!");
-            synchronized (connectedLock) {
-                connected = false;
-            }
-        } catch (IOException | InterruptedException | ClassNotFoundException e) {
-            System.out.println("io exception");
-            synchronized (connectedLock) {
-                connected = false;
-            }
+        } catch (InterruptedException e) {
+            setConnected(false);
         }
     }
 
@@ -106,14 +87,17 @@ public class ServerAdapter extends Thread implements NetworkInterface {
      */
     public void run() {
         LOGGER.log(Level.CONFIG, "ServerAdapter.run(): " + Thread.currentThread().getName());
+        Thread checkConnection = new Thread(this::checkConnection);
+        checkConnection.start();
         while(connected){
             try {
                 Message message = (Message) in.readObject();
                 receive(message);
-            } catch (IOException | ClassNotFoundException e){
-                synchronized (connectedLock) {
-                    connected = false;
-                }
+            } catch (SocketTimeoutException so) {
+                System.out.println("Socket timed out");
+                setConnected(false);
+            } catch (IOException | ClassNotFoundException | InterruptedException io){
+                setConnected(false);
             }
         }
         System.exit(2);

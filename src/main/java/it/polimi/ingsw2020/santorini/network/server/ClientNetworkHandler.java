@@ -4,6 +4,7 @@ import it.polimi.ingsw2020.santorini.controller.GameLogic;
 import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
 import it.polimi.ingsw2020.santorini.model.Match;
 import it.polimi.ingsw2020.santorini.network.NetworkInterface;
+import it.polimi.ingsw2020.santorini.utils.FirstHeaderType;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 
@@ -13,6 +14,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class ClientNetworkHandler extends Thread implements NetworkInterface {
 
@@ -25,7 +27,6 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
     private ObjectOutputStream pingOut;
     private final ArrayList<Message> messageQueue;
     private boolean connected;
-    private final Object connectedLock;
 
     /**
      * constructor of the class
@@ -36,7 +37,6 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
         this.client = client;
         ClientHandler clientHandler = new ClientHandler(this);
         clientHandler.start();
-        connectedLock = new Object();
         this.messageQueue = new ArrayList<>();
         try {
             this.input = new ObjectInputStream(this.client.getInputStream());
@@ -67,20 +67,29 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
         return server;
     }
 
-    /**
-     * synchronized method to remove a message from the queue
-     * @param message the message to remove
-     */
-    synchronized public void removeMessageQueue(Message message){
-        messageQueue.remove(message);
+    synchronized public void setConnected(boolean status){
+        this.connected = status;
     }
 
     /**
      * synchronized method to add a message from the queue
      * @param message the message to add
      */
-    synchronized public void addMessageQueue(Message message) {
+    synchronized public void addMessageQueue(Message message) throws InterruptedException {
         messageQueue.add(message);
+    }
+
+    /**
+     * synchronized method that gets the next message of the queue
+     * @return the next message of the queue, null if the queue is empty
+     */
+    synchronized public Message getNextMessage() {
+        if(messageQueue.isEmpty()) return null;
+        else {
+            Message message = messageQueue.get(0);
+            messageQueue.remove(message);
+            return message;
+        }
     }
 
     /**
@@ -89,15 +98,6 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
      */
     synchronized public boolean hasNextMessage(){
         return !messageQueue.isEmpty();
-    }
-
-    /**
-     * synchronized method that gets the next message of the queue
-     * @return the next message of the queue, null if the queue is empty
-     */
-    synchronized public Message getNextMessage(){
-        if(messageQueue.isEmpty()) return null;
-        return messageQueue.get(0);
     }
 
     /**
@@ -119,35 +119,24 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
      * @param message the received message
      */
     @Override
-    public void receive(Message message) {
+    public void receive(Message message) throws InterruptedException {
         addMessageQueue(message);
     }
 
     /**
      * method used to check the connection server-side: it ping the client every SO_TIMEOUT / 4 milliseconds
-     * @param client the client we have to ping
      */
     @Override
-    public void checkConnection(Socket client) {
+    public void checkConnection() {
         try {
-            pingIn = new ObjectInputStream(client.getInputStream());
-            pingOut = new ObjectOutputStream(client.getOutputStream());
-            Message ping = new Message(null);
             while (connected) {
-                pingOut.reset();
-                pingOut.writeObject(ping);
-                pingOut.flush();
-                pingIn.readObject();
-                Thread.sleep(Server.SO_TIMEOUT / 4);
+                Message ping = new Message(null);
+                ping.buildPingMessage();
+                send(ping);
+                Thread.sleep(Server.SO_TIMEOUT / 2);
             }
-        } catch (SocketTimeoutException ex){
-            System.out.println("timeout exception!");
-        } catch (IOException | InterruptedException | ClassNotFoundException e) {
-            //e.printStackTrace();
-            //TODO: DOMANDA PER DANIELE -> COME POSSIAMO INTERROMPERE UN THREAD QUANDO CONNECTED DIVENTA FALSE?
-            synchronized (connectedLock) {
-                connected = false;
-            }
+        } catch (InterruptedException e) {
+            setConnected(false);
         }
     }
 
@@ -161,22 +150,22 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
      */
     @Override
     public void run(){
+        Thread checkConnection = new Thread(this::checkConnection);
+        checkConnection.start();
         while(connected){
             try {
                 Message message = (Message) input.readObject();
-                receive(message);
-            } catch (ClassNotFoundException | IOException e) {
+                if(message.getFirstLevelHeader() != FirstHeaderType.PING)
+                    receive(message);
+            } catch (ClassNotFoundException | IOException | InterruptedException e) {
                 System.out.println("connection error");
-                synchronized (connectedLock){
-                    connected = false;
-                }
+                setConnected(false);
             }
         }
         // gestire la disconnessione
         if(server.getVirtualClients().containsKey(username)) {
             server.getVirtualClients().remove(username);
             if(server.getPlayerInMatch().containsKey(username)){
-                // finisce la partita per quelli da 3
                 // si creano tutti i messaggi di tutti i giocatori
                 // se il virtual client c'è il messaggio si invia, altrimenti non si invia
                 int matchID = server.getMatchFromUsername(username);

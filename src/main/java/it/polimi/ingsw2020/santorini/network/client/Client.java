@@ -9,6 +9,7 @@ import javafx.application.Application;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class Client {
     private ServerAdapter networkHandler;
@@ -86,21 +87,26 @@ public class Client {
     }
 
     /**
-     * synchronized method to remove a message from the queue
-     * @param message the message to remove
+     * synchronized method to add a message from the queue
+     * @param message the message to add
      */
-    synchronized public void removeMessageQueue(Message message){
-        messageQueue.remove(message);
+    synchronized public void addMessageQueue(Message message) throws InterruptedException {
+        messageQueue.add(message);
         //System.out.println(messageQueue.toString());
     }
 
     /**
-     * synchronized method to add a message from the queue
-     * @param message the message to add
+     * synchronized method that gets the next message of the queue
+     * @return the next message of the queue, null if the queue is empty
      */
-    synchronized public void addMessageQueue(Message message) {
-        messageQueue.add(message);
+    synchronized public Message getNextMessage() {
         //System.out.println(messageQueue.toString());
+        if(messageQueue.isEmpty()) return null;
+        else {
+            Message message = messageQueue.get(0);
+            messageQueue.remove(message);
+            return message;
+        }
     }
 
     /**
@@ -109,15 +115,5 @@ public class Client {
      */
     synchronized public boolean hasNextMessage(){
         return !messageQueue.isEmpty();
-    }
-
-    /**
-     * synchronized method that gets the next message of the queue
-     * @return the next message of the queue, null if the queue is empty
-     */
-    synchronized public Message getNextMessage(){
-        if(messageQueue.isEmpty()) return null;
-        //System.out.println(messageQueue.toString());
-        return messageQueue.get(0);
     }
 }

@@ -5,7 +5,6 @@ import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessag
 import it.polimi.ingsw2020.santorini.utils.messages.errors.GenericErrorMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.*;
 
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -154,10 +153,16 @@ public class ViewAdapter extends Thread {
         LOGGER.setLevel(Level.CONFIG);
         LOGGER.log(Level.CONFIG, "ViewAdapter.run(): " + Thread.currentThread().getName());
         while(true){
-            while(!client.hasNextMessage());
-            Message message = client.getNextMessage();
-            client.removeMessageQueue(message);
-            handleMessage(message);
+            try {
+                if(client.hasNextMessage()) {
+                    Message message = client.getNextMessage();
+                    handleMessage(message);
+                }
+                else
+                    Thread.sleep(500);
+            } catch (InterruptedException e){
+                client.getNetworkHandler().setConnected(false);
+            }
         }
     }
 }

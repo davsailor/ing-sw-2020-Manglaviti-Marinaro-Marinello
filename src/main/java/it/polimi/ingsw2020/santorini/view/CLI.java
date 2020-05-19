@@ -280,31 +280,31 @@ public class CLI implements ViewInterface{
     public void updateMatch(UpdateMessage updateMessage) {
         switch(updateMessage.getPhase()){
             case START_TURN:
-                System.out.println("DISPLAY START TURN");
+                //System.out.println("DISPLAY START TURN");
                 displayStartTurn(updateMessage);
                 break;
             case STANDBY_PHASE_1:
-                System.out.println("DISPLAY SP1, POTERE ATTIVATO");
+                //System.out.println("DISPLAY SP1, POTERE ATTIVATO");
                 displaySP(updateMessage, PhaseType.STANDBY_PHASE_1);
                 break;
             case MOVE_PHASE:
-                System.out.println("DISPLAY MOVE");
+                //System.out.println("DISPLAY MOVE");
                 displayMoveUpdate(updateMessage);
                 break;
             case STANDBY_PHASE_2:
-                System.out.println("DISPLAY SP2, POTERE ATTIVATO");
+                //System.out.println("DISPLAY SP2, POTERE ATTIVATO");
                 displaySP(updateMessage, PhaseType.STANDBY_PHASE_2);
                 break;
             case BUILD_PHASE:
-                System.out.println("DISPLAY BUILD");
+                //System.out.println("DISPLAY BUILD");
                 displayBuildUpdate(updateMessage);
                 break;
             case STANDBY_PHASE_3:
-                System.out.println("DISPLAY SP3, POTERE ATTIVATO");
+                //System.out.println("DISPLAY SP3, POTERE ATTIVATO");
                 displaySP(updateMessage, PhaseType.STANDBY_PHASE_3);
                 break;
             case END_TURN:
-                System.out.println("DISPLAY END TURN");
+                //System.out.println("DISPLAY END TURN");
                 displayEndTurn(updateMessage);
                 break;
             default:
@@ -551,7 +551,6 @@ public class CLI implements ViewInterface{
         // si dice cosa è successo, e si mostra la board. oppure si mostra solo la board
         showBoard(updateMessage.getBoard());
         if(updateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())) {
-            System.out.println("richiedo prossima fase: build");
             Message nextPhase = new Message(client.getUsername());
             nextPhase.buildNextPhaseMessage();
             client.getNetworkHandler().send(nextPhase);
@@ -642,7 +641,6 @@ public class CLI implements ViewInterface{
         // si dice cosa è successo, e si mostra la board. oppure si mostra solo la board
         showBoard(updateMessage.getBoard());
         if(updateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())) {
-            System.out.println("richiedo prossima fase: end");
             Message nextPhase = new Message(client.getUsername());
             nextPhase.buildNextPhaseMessage();
             client.getNetworkHandler().send(nextPhase);

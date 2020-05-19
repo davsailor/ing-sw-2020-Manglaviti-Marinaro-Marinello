@@ -23,12 +23,12 @@ public class ClientHandler extends Thread{
      * proper method, looking at the firstLevelHeader of the message
      *
      */
-    public synchronized void handleMessage() {
-        Message message = owner.getNextMessage();
-        owner.removeMessageQueue(message);
+    public synchronized void handleMessage(Message message) {
         switch (message.getFirstLevelHeader()) {
             case SETUP:
                 setupMessageHandler(message);
+                break;
+            case PING:
                 break;
             default:
                 try {
@@ -103,8 +103,16 @@ public class ClientHandler extends Thread{
     @Override
     public void run() {
         while(true){
-            while(!owner.hasNextMessage());
-            handleMessage();
+            try {
+                if (owner.hasNextMessage()) {
+                    Message message = owner.getNextMessage();
+                    handleMessage(message);
+                }
+                else
+                    Thread.sleep(500);
+            } catch (InterruptedException e){
+                owner.setConnected(false);
+            }
         }
     }
 }

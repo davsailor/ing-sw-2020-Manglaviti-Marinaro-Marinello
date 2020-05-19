@@ -38,8 +38,6 @@ public class Server {
         playerInMatch = new HashMap<>();
         try {
             socket = new ServerSocket(PORT);
-            pingSocket = new ServerSocket(PING_PORT);
-            //pingSocket.setSoTimeout(SO_TIMEOUT);
             System.out.println("server ready to receive");
         } catch (IOException e) {
             System.out.println("cannot use server port");
@@ -55,22 +53,16 @@ public class Server {
      */
     public static void main(String[] args) {
         Server server = new Server();
-        Thread acceptClient = new Thread(() -> {
         while(true) {
             try {
                 Socket client = server.socket.accept();
+                client.setSoTimeout(SO_TIMEOUT);
                 ClientNetworkHandler clientNetworkHandler = new ClientNetworkHandler(client, server);
-                Socket pingClient = server.pingSocket.accept();
                 clientNetworkHandler.start();
-                Thread pingHandler = new Thread(() -> {
-                    clientNetworkHandler.checkConnection(pingClient);
-                });
-                pingHandler.start();
             } catch (IOException e) {
                 System.out.println("socket connection failed!");
             }
-        }});
-        acceptClient.start();
+        }
     }
 
     /*

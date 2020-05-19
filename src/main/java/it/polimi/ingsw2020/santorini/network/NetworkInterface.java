@@ -17,11 +17,10 @@ public interface NetworkInterface {
      * method that receive a message
      * @param message the message that has to be received
      */
-    void receive(Message message);
+    void receive(Message message) throws InterruptedException;
 
     /**
      * method that check the connection sending ping messages
-     * @param client the client that has to be pinged
      */
-    void checkConnection(Socket client);
+    void checkConnection();
 }

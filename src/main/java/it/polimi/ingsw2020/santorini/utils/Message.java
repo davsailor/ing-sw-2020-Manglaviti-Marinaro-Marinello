@@ -21,6 +21,11 @@ public class Message implements Serializable {
         this.username = username;
     }
 
+    /* Ping Message */
+
+    public void buildPingMessage(){
+        this.firstLevelHeader = FirstHeaderType.PING;
+    }
 
     /* MatchState Deserializer */
 
