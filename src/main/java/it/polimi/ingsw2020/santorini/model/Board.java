@@ -124,6 +124,13 @@ public class Board {
         }
     }
 
+    /**
+     * the method builds and return a matrix 3*3 of integers in which each cell contains a 0 or a 1, a 0 if the correspondent cell in the board
+     * is either free or occupied by a current player's builder; a 1 if the cell is occupied by a builder of the current player's opponent.
+     * All the cell of the board examined by the method are neighboring the current builder used by the current player
+     * @param currentBuilder is the reference of the current builder used by the current player
+     * @return a matrix 3*3 of integers
+     */
     public static int[][] neighboringColorCell(Builder currentBuilder){
         int[][] neighborMatrix;
         neighborMatrix = new int[3][3];
