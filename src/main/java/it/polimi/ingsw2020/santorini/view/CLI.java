@@ -140,8 +140,10 @@ public class CLI implements ViewInterface{
     }
 
     /**
+     * the method aks to the current player to choose where he wants to place the builders in the board. This method will be called only
+     * in the setup phase
      * metodo addetto alla selezione dei builder secondo l'ordine definito dal controller
-     * @param matchStateMessage
+     * @param matchStateMessage contains all the references to the current player, the match and the board
      */
     @Override
     public void displaySelectionBuilderWindow(MatchStateMessage matchStateMessage) {
@@ -271,7 +273,7 @@ public class CLI implements ViewInterface{
     }
 
     /**
-     * method that update the board every time that the model is modified
+     * method that update the board every time that the model is modified, it does that by calling other methods
      * metodo che aggiorna la board ogni volta che viene fatta una mossa (modificato il model)
      * parametro un messaggio con scritte le informazioni sulla board.
      */
@@ -632,6 +634,10 @@ public class CLI implements ViewInterface{
         // invio del messaggio al server
     }
 
+    /**
+     * the method shows the board updated after the build phase
+     * @param updateMessage is a message that contains the reference to the board, which is used to print the board itself
+     */
     @Override
     public void displayBuildUpdate(UpdateMessage updateMessage) {
         // si dice cosa è successo, e si mostra la board. oppure si mostra solo la board
