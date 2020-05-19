@@ -14,11 +14,14 @@ import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.UpdateMessage;
 import java.util.ArrayList;
 
 public class ActionLogic {
-    /**
+    /*
      * filtra e gestisce i messaggi che richiedono un movimento o una costruzione o una invocazione divina
      */
     private TurnLogic turnManager;
 
+    /*
+     * constructor of the class
+     */
     public ActionLogic(TurnLogic turnManager) {
         this.turnManager = turnManager;
     }

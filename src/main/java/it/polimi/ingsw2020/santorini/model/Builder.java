@@ -109,7 +109,7 @@ public class Builder {
     }
 
     /**
-     *
+     * constructor of the class
      * @param player is the player of the builder
      * @param gender is the gender of the builder
      */
@@ -155,7 +155,7 @@ public class Builder {
     }
 
     /**
-     *
+     * method used to swap two builders
      * @param b1 is the builder that i have to swap
      */
     public void swapBuilders(Builder b1){
@@ -171,6 +171,10 @@ public class Builder {
         board.getBoard()[b1.getPosX()][b1.getPosY()].setBuilder(b1);
     }
 
+    /**
+     * method that evaluates the possibility of moving of the builder
+     * @return true if the builder can perform a move action, false otherwise
+     */
     public boolean canMove(){
         setPossibleMoves();
         for(int i = 0; i < 3; ++i)
@@ -181,6 +185,10 @@ public class Builder {
         return false;
     }
 
+    /**
+     * method that evaluates the possibility of building of the builder
+     * @return true if the builder can perform a build action, false otherwise
+     */
     public boolean canBuild(){
         setPossibleBuildings();
         for(int i = 0; i < 3; ++i)
@@ -190,7 +198,7 @@ public class Builder {
     }
 
     /**
-     *
+     * method that performs the move action
      * @param direction is the direction in which the player wants to move
      */
     public void move(Direction direction) throws IllegalMovementException, EndMatchException {
@@ -255,9 +263,9 @@ public class Builder {
     }
 
     /**
-     *
+     * method that performs the build action
      * @param direction is the direction in which the player wants to build
-     * @param match
+     * @param match the match in which the builder is playing
      */
     public void build(Direction direction, Match match) throws IllegalConstructionException{
         //LevelType level;

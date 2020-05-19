@@ -29,26 +29,22 @@ public class GameLogic implements Observer {
     private Server server;
     private Match match;
 
+    /*
+     * constructor of the class
+     */
     public GameLogic(Server server) {
         turnManager = new TurnLogic();
         this.server = server;
         this.match = null;
     }
 
-    /**
-     * Setter of view Attribute
-     *
-     * @param view that has to be set
+    /*
+     * getters and setters
      */
     public void setView(VirtualView view) {
         this.view = view;
     }
 
-    /**
-     * Getter of the server attribute
-     *
-     * @return the attribute server
-     */
     public Server getServer() {
         return server;
     }
@@ -80,8 +76,7 @@ public class GameLogic implements Observer {
     }
 
     /**
-     * THe method will order the list of players based on their birth date
-     *
+     * The method will order the list of players based on their birth date
      * @param list is the reference to the list of players that has to be ordered by the method
      */
     private void bubbleSort(Player[] list) {
@@ -105,7 +100,6 @@ public class GameLogic implements Observer {
 
     /**
      * The method receives messages from the VirtualView and distributes them by their First Header
-     *
      * @param view is the view observed by the controller
      * @param mes  is the message that has been received, is received has an Object.
      */
@@ -158,7 +152,6 @@ public class GameLogic implements Observer {
                 break;
         }
     }
-
 
     /**
      * the method handles messages that have VERIFY as First Header by their Second Header
