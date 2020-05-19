@@ -676,28 +676,37 @@ public class CLI implements ViewInterface{
         do{
             wrong = false;
             System.out.println("Vuoi fare una nuova partita? Rispondi Y-N: ");
-            String answer = scannerIn.nextLine();
-            answer = answer.toUpperCase();
-            if (answer.equals("Y")) {
-                do{
-                    try{
-                        System.out.printf("Inserisci il numero di giocatori della partita (2 o 3): ");
-                        client.setSelectedMatch(scannerIn.nextInt());
-                        scannerIn.nextLine();
-                        wrong = client.getSelectedMatch() != 2 && client.getSelectedMatch() != 3;
-                    }catch (InputMismatchException e){
-                        wrong = true;
+            String answer;
+            boolean canGo;
+            do {
+                try {
+                    canGo = true;
+                    answer = scannerIn.next();
+                    answer = answer.toUpperCase();
+                    if (answer.equals("Y")) {
+                        do{
+                            try{
+                                System.out.printf("Inserisci il numero di giocatori della partita (2 o 3): ");
+                                client.setSelectedMatch(scannerIn.nextInt());
+                                scannerIn.nextLine();
+                                wrong = client.getSelectedMatch() != 2 && client.getSelectedMatch() != 3;
+                            }catch (InputMismatchException e){
+                                wrong = true;
+                            }
+                            if(wrong) System.out.println("Inserire 2 o 3!");
+                        }while(wrong);
+                        message.buildNewMatchMessage(new NewMatchMessage(true, client.getSelectedMatch(), client.getBirthDate()));
+                    } else if (answer.equals("N")) {
+                        System.out.println("Grazie per aver giocato con noi, a presto!");
+                        message.buildNewMatchMessage(new NewMatchMessage(false, 0, null));
+                        System.exit(0);
                     }
-                    if(wrong) System.out.println("Inserire 2 o 3!");
-                }while(wrong);
-                message.buildNewMatchMessage(new NewMatchMessage(true, client.getSelectedMatch(), client.getBirthDate()));
-            } else if (answer.equals("N")) {
-                System.out.println("Grazie per aver giocato con noi, a presto!");
-                message.buildNewMatchMessage(new NewMatchMessage(false, 0, null));
-                System.exit(0);
-            }
-            else
-                wrong = true;
+                    else
+                        wrong = true;
+                } catch (Exception e) {
+                    canGo = false;
+                }
+            } while(!canGo);
         } while(wrong);
         client.getNetworkHandler().send(message);
     }
@@ -795,11 +804,11 @@ public class CLI implements ViewInterface{
                 if (i == 0 || i == 2) {
                     System.out.printf(Color.RESET + "\n              " + Color.BORDER_YELLOW + "║  %c  " + Color.BORDER_YELLOW + "║" + Color.BORDER_YELLOW + "  %c  " + Color.BORDER_YELLOW + "║" + Color.BORDER_YELLOW + "  %c  " + Color.BORDER_YELLOW + "║", cell[0], cell[1], cell[2]);
                     if (i == 0) {
-                        System.out.printf("\n              " + Color.BORDER_YELLOW + "╠═════╬═════╬═════╬ ");
+                        System.out.printf("\n              " + Color.BORDER_YELLOW + "╠═════╬═════╬═════╣ ");
                     }
                 } else {
                     System.out.printf(Color.RESET + "\n       OVEST  " + Color.BORDER_YELLOW + "║  %c  " + Color.BORDER_YELLOW + "║" + Color.BORDER_YELLOW + "  %c  " + Color.BORDER_YELLOW + "║" + Color.BORDER_YELLOW + "  %c  " + Color.BORDER_YELLOW + "║" + Color.RESET + " EAST\n", cell[0], cell[1], cell[2]);
-                    System.out.printf("              " + Color.BORDER_YELLOW + "╠═════╬═════╬═════╬ ");
+                    System.out.printf("              " + Color.BORDER_YELLOW + "╠═════╬═════╬═════╣ ");
                 }
             }
         } else{

@@ -14,10 +14,10 @@ import java.util.Set;
 
 public class Server {
 
-    public final static int PORT = 9999;
+    public final static int PORT = 9998;
     private ServerSocket socket;
 
-    public final static int PING_PORT = 8888;
+    public final static int PING_PORT = 8889;
     public final static int SO_TIMEOUT = 8000;
     private ServerSocket pingSocket;
 
@@ -100,14 +100,14 @@ public class Server {
      * synchronized method that checks if a new match can be crated, looking at the waiting players queue
      * @param numberOfPlayers the number of players of the match we aro looking for
      */
-    public void checkForMatches(int numberOfPlayers){
+    synchronized public void checkForMatches(int numberOfPlayers){
         if(waitingPlayers.values().stream()
                 .filter(x -> x == numberOfPlayers)
                 .count() >= numberOfPlayers) {
-            synchronized (controllers) {
+         //   synchronized (controllers) {
                 controllers.put(matchIDGen, new GameLogic(this));
                 virtualViews.put(matchIDGen, new VirtualView(controllers.get(matchIDGen)));
-            }
+         //   }
             controllers.get(matchIDGen).initializeMatch(virtualViews.get(matchIDGen), numberOfPlayers);
         }
     }

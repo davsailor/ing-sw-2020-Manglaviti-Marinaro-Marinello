@@ -60,8 +60,10 @@ public class ClientHandler extends Thread{
                 break;
             case NEW_MATCH:
                 NewMatchMessage newMatchMessage = message.deserializeNewMatchMessage();
-                if(newMatchMessage.isWantNewMatch())
+                if(newMatchMessage.isWantNewMatch()) {
                     owner.getServer().addWaitingPlayers(new Player(owner.getUsername(), newMatchMessage.getBirthDate()), newMatchMessage.getSelectedMatch());
+                    owner.getServer().checkForMatches(newMatchMessage.getSelectedMatch());
+                }
                 else
                     owner.getServer().removeVirtualClient(owner.getUsername());
                 break;
