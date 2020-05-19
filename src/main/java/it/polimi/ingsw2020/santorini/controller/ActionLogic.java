@@ -19,6 +19,9 @@ public class ActionLogic {
      */
     private TurnLogic turnManager;
 
+    /*
+     * constructor of the class
+     */
     public ActionLogic(TurnLogic turnManager) {
         this.turnManager = turnManager;
     }

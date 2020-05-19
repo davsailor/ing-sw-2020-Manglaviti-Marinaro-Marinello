@@ -23,6 +23,9 @@ public class ServerAdapter extends Thread implements NetworkInterface {
     private ObjectInputStream in;
     private final static Logger LOGGER = Logger.getLogger("ServerAdapter");
 
+    /*
+     * constructor of the class
+     */
     public ServerAdapter(Client client, String ip) throws IOException{
         this.client = client;
         this.ip = ip;
@@ -35,6 +38,10 @@ public class ServerAdapter extends Thread implements NetworkInterface {
         checkConnection.start();
     }
 
+    /**
+     * method that performs all the required actions to send a message to the server
+     * @param message is the message that has to be sent
+     */
     public void send(Message message){
         try{
             out.reset();
@@ -45,11 +52,19 @@ public class ServerAdapter extends Thread implements NetworkInterface {
         }
     }
 
+    /**
+     * method used to add a new message from the server to the queue
+     * @param message the received message
+     */
     @Override
     public void receive(Message message) {
         client.addMessageQueue(message);
     }
 
+    /**
+     * method used to check the connection client-side: it ping the server every SO_TIMEOUT / 4 milliseconds
+     * @param client the client that requested the ping
+     */
     @Override
     public void checkConnection(Socket client) {
         Socket probeSocket;
@@ -83,14 +98,10 @@ public class ServerAdapter extends Thread implements NetworkInterface {
     }
 
     /**
-     * When an object implementing interface <code>Runnable</code> is used
-     * to create a thread, starting the thread causes the object's
-     * <code>run</code> method to be called in that separately executing
-     * thread.
-     * <p>
-     * The general contract of the method <code>run</code> is that it may
-     * take any action whatsoever.
-     *
+     * the main thread of the network handler of the client
+     * it listens to the server and reads all messages coming from the server
+     * then it adds the to the queue using receive method
+     * if the connection fails, the client is closed
      * @see Thread#run()
      */
     public void run() {

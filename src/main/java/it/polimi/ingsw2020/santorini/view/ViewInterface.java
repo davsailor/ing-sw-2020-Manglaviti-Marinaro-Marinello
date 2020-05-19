@@ -12,11 +12,9 @@ import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.UpdateMessage;
 import java.util.ArrayList;
 
 public interface ViewInterface {
-    /**
+    /*
      * interfaccia che standardizza i metodi di CLI e GUI
      */
-
-    // metodi sprovvisti di parametri perchè ancora non sappiamo cosa mettere
 
     /**
      * metodo in cui si chiede l'iP del server, dopodichè di fanno inserire username, data di nascita e tipo di partita (numero di giocatori nella partita)

@@ -31,8 +31,6 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
     private boolean connected;
     private final Object connectedLock;
 
-    // magari da aggiungere un metodo per gestire la disconnessione
-
     /**
      * constructor of the class
      * @param client is the socket of the client that has to be handled
@@ -54,6 +52,9 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
         }
     }
 
+    /*
+     * getters and setters
+     */
     public Socket getClient() {
         return client;
     }
@@ -66,6 +67,47 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
         this.username = username;
     }
 
+    public Server getServer() {
+        return server;
+    }
+
+    /**
+     * synchronized method to remove a message from the queue
+     * @param message the message to remove
+     */
+    synchronized public void removeMessageQueue(Message message){
+        messageQueue.remove(message);
+    }
+
+    /**
+     * synchronized method to add a message from the queue
+     * @param message the message to add
+     */
+    synchronized public void addMessageQueue(Message message) {
+        messageQueue.add(message);
+    }
+
+    /**
+     * synchronized method that inspects the queue of messages
+     * @return false if the queue is empty, true otherwise
+     */
+    synchronized public boolean hasNextMessage(){
+        return !messageQueue.isEmpty();
+    }
+
+    /**
+     * synchronized method that gets the next message of the queue
+     * @return the next message of the queue, null if the queue is empty
+     */
+    synchronized public Message getNextMessage(){
+        if(messageQueue.isEmpty()) return null;
+        return messageQueue.get(0);
+    }
+
+    /**
+     * method that performs all the required actions to send a message to the client
+     * @param message is the message that has to be sent
+     */
     public void send(Message message) {
         try{
             output.reset();
@@ -76,11 +118,19 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
         }
     }
 
+    /**
+     * method used to add a new message from the client to the queue
+     * @param message the received message
+     */
     @Override
     public void receive(Message message) {
         addMessageQueue(message);
     }
 
+    /**
+     * method used to check the connection server-side: it ping the client every SO_TIMEOUT / 4 milliseconds
+     * @param client the client we have to ping
+     */
     @Override
     public void checkConnection(Socket client) {
         try {
@@ -105,6 +155,14 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
         }
     }
 
+    /**
+     * the main thread of the client network handler of the server, associated to a specific client
+     * it listens to the client and reads all messages coming from the client
+     * then it adds the to the queue using receive method
+     * if the connection fails, it performs all the action required to remove the client from
+     * the list of virtual clients and terminates the connection
+     * @see Thread#run()
+     */
     @Override
     public void run(){
         while(connected){
@@ -151,28 +209,6 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
             } else {
                 server.removeWaitingPlayers(username);
             }
-
         }
-    }
-
-    public Server getServer() {
-        return server;
-    }
-
-    synchronized public void removeMessageQueue(Message message){
-        messageQueue.remove(message);
-    }
-
-    synchronized public void addMessageQueue(Message message) {
-        messageQueue.add(message);
-    }
-
-    synchronized public boolean hasNextMessage(){
-        return !messageQueue.isEmpty();
-    }
-
-    synchronized public Message getNextMessage(){
-        if(messageQueue.isEmpty()) return null;
-        return messageQueue.get(0);
     }
 }

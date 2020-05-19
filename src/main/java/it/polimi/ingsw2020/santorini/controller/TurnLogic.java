@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 
 public class TurnLogic {
-    /**
+    /*
      * quello che gestisce le fasi del turno e le transizioni di esso
      * uno dei suoi attributi sarà ActionLogic, da cui si andrà a gestire le azioni
      * <p>
@@ -37,6 +37,9 @@ public class TurnLogic {
     private Method chronusEffect;
     private Chronus chronus;
 
+    /*
+     * constructor of the class
+     */
     public TurnLogic() {
         remainingActions = EnumSet.allOf(ActionType.class);
         actionManager = new ActionLogic(this);
@@ -45,16 +48,9 @@ public class TurnLogic {
         phase = null;
     }
 
-    private void checkChronusEffect(Match match) throws EndMatchException{
-        if(chronusEffect != null) {
-            try {
-                chronusEffect.invoke(chronus,match, null, this);
-            } catch (InvocationTargetException e) {
-                throw new EndMatchException(match);
-            } catch (IllegalAccessException ignored){}
-        }
-    }
-
+    /*
+     * getters and setters
+     */
     public void setStartTurn(){
         phase = PhaseType.START_TURN;
     }
@@ -67,20 +63,28 @@ public class TurnLogic {
         this.chronusEffect = persephoneEffect;
     }
 
-    /**
-     * Getter of the attribute remainingActions
-     * @return the attribute remainingActions
-     */
     public EnumSet<ActionType> getRemainingActions() {
         return remainingActions;
     }
 
-    /**
-     * Getter of the attribute phase
-     * @return the attribute phase
-     */
     public PhaseType getPhase() {
         return phase;
+    }
+
+    /**
+     * method that sets the effect of chronus if it is activated.
+     * necessary since chronus is an ALWAYS_ACTIVE like effect, unique in its genre
+     * @param match the match where Chronus is activated
+     * @throws EndMatchException when the condition of Instant Win of Chronus is met
+     */
+    private void checkChronusEffect(Match match) throws EndMatchException{
+        if(chronusEffect != null) {
+            try {
+                chronusEffect.invoke(chronus,match, null, this);
+            } catch (InvocationTargetException e) {
+                throw new EndMatchException(match);
+            } catch (IllegalAccessException ignored){}
+        }
     }
 
     /**
@@ -93,7 +97,7 @@ public class TurnLogic {
     }
 
     /**
-     * THe method changes the currentPhase to the next one
+     * The method changes the currentPhase to the next one
      */
     public void nextPhase() {
         switch (this.phase){
@@ -124,7 +128,6 @@ public class TurnLogic {
     /**
      * The method manages the various Phases of the match calling the respective Manager for each PhaseType
      * @param match is the reference to the match controlled by the controller
-     *
      */
     public void handlePhases(Match match) throws EndMatchException {
         ArrayList<Method> opponentEffects;
@@ -163,6 +166,13 @@ public class TurnLogic {
         }
     }
 
+    /**
+     * method that satisfies specific requested actions, sending messages or calling action of action logic
+     * @param action the requested action
+     * @param match the associated match
+     * @param message the message that gives some more information
+     * @throws EndMatchException when s player wins the match
+     */
     public void requestManager(ActionType action, Match match, Message message) throws EndMatchException{
         System.out.println("REQUEST MANAGER: " + action);
         switch(action) {

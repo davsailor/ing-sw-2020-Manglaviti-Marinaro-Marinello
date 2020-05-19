@@ -11,28 +11,18 @@ import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.NewMatchMessage
 public class ClientHandler extends Thread{
     private ClientNetworkHandler owner;
 
+    /*
+     * constructor of the class
+     */
     public ClientHandler(ClientNetworkHandler owner){
         this.owner = owner;
     }
-    /**
-     * When an object implementing interface <code>Runnable</code> is used
-     * to create a thread, starting the thread causes the object's
-     * <code>run</code> method to be called in that separately executing
-     * thread.
-     * <p>
-     * The general contract of the method <code>run</code> is that it may
-     * take any action whatsoever.
-     *
-     * @see Thread#run()
-     */
-    @Override
-    public void run() {
-        while(true){
-            while(!owner.hasNextMessage());
-            handleMessage();
-        }
-    }
 
+    /**
+     * this is the message handler. it is the first clearing house of the messages and redirects them to the
+     * proper method, looking at the firstLevelHeader of the message
+     *
+     */
     public synchronized void handleMessage() {
         Message message = owner.getNextMessage();
         owner.removeMessageQueue(message);
@@ -47,6 +37,12 @@ public class ClientHandler extends Thread{
         }
     }
 
+    /**
+     * method that handle the messages received by the client with SETUP as the firstLevelHeader.
+     * this is the second clearing house for SETUP messages.
+     * after the deserialization of the message, it performs all required actions to satisfy the request
+     * @param message is the message that has to be handled
+     */
     public void setupMessageHandler(Message message){
         switch(message.getSecondLevelHeader()){
             case LOGIN:
@@ -74,6 +70,11 @@ public class ClientHandler extends Thread{
         }
     }
 
+    /**
+     * method that handle the messages received by the client with LOGIN as the secondLevelHeader.
+     * it performs all required actions to log in the client
+     * @param message is the message that has to be handled
+     */
     private void loginHandler(LoginMessage message) throws UnavailableUsernameException {
         if (owner.getServer().getVirtualClients().containsKey(message.getUsername()) || message.getUsername().equals("All")) {
             throw new UnavailableUsernameException();
@@ -89,6 +90,19 @@ public class ClientHandler extends Thread{
             owner.getServer().addWaitingPlayers(player, message.getNumberOfPlayers());
             owner.getServer().addVirtualClient(message.getUsername(), owner);
             owner.getServer().checkForMatches(message.getNumberOfPlayers());
+        }
+    }
+
+    /**
+     * the main thread of the class. it checks the queue and, when it is not empty, remove its first messages and tries
+     * to handle it
+     * @see Thread#run()
+     */
+    @Override
+    public void run() {
+        while(true){
+            while(!owner.hasNextMessage());
+            handleMessage();
         }
     }
 }

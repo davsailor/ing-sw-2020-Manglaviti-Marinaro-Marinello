@@ -13,10 +13,18 @@ public class ViewAdapter extends Thread {
     private Client client;
     private final static Logger LOGGER = Logger.getLogger("ViewAdapter");
 
+    /*
+     * constructor of the class
+     */
     public ViewAdapter(Client client){
         this.client = client;
     }
 
+    /**
+     * this is the message handler. it is the first clearing house of the messages and redirects them to the
+     * proper method, looking at the firstLevelHeader of the message
+     * @param message the message to handle
+     */
     private void handleMessage(Message message) {
         //System.out.println(message.getFirstLevelHeader() + ", " + message.getSecondLevelHeader());
         switch (message.getFirstLevelHeader()) {
@@ -38,31 +46,10 @@ public class ViewAdapter extends Thread {
     }
 
     /**
-     * When an object implementing interface <code>Runnable</code> is used
-     * to create a thread, starting the thread causes the object's
-     * <code>run</code> method to be called in that separately executing
-     * thread.
-     * <p>
-     * The general contract of the method <code>run</code> is that it may
-     * take any action whatsoever.
-     *
-     * @see Thread#run()
-     */
-    public void run() {
-        LOGGER.setLevel(Level.CONFIG);
-        LOGGER.log(Level.CONFIG, "ViewAdapter.run(): " + Thread.currentThread().getName());
-        while(true){
-            while(!client.hasNextMessage());
-            Message message = client.getNextMessage();
-            client.removeMessageQueue(message);
-            //handleMessage(message);
-            (new Thread (() -> handleMessage(message))).start();
-        }
-    }
-
-    /**
-     * method that handle the messages received by the server based on his SecondLevelHeader
-     * @param message is the message that has to be deserialized
+     * method that handle the messages received by the server with SETUP as the firstLevelHeader.
+     * this is the second clearing house for SETUP messages.
+     * after the deserialization of the message, it selects the correct view that has to be shown to the client
+     * @param message is the message that has to be handled
      */
     public void setupMessageHandler(Message message) {
         switch(message.getSecondLevelHeader()){
@@ -78,6 +65,12 @@ public class ViewAdapter extends Thread {
         }
     }
 
+    /**
+     * method that handle the messages received by the server with ASK as the firstLevelHeader.
+     * this is the second clearing house for ASK messages.
+     * after the deserialization of the message, it selects the correct view that has to be shown to the client
+     * @param message is the message that has to be handled
+     */
     public void askMessageHandler(Message message) {
         switch(message.getSecondLevelHeader()){
             case ACTIVATE_GOD:
@@ -99,6 +92,12 @@ public class ViewAdapter extends Thread {
         }
     }
 
+    /**
+     * method that handle the messages received by the server with LOADING as the firstLevelHeader.
+     * this is the second clearing house for LOADING messages.
+     * after the deserialization of the message, it selects the correct view that has to be shown to the client
+     * @param message is the message that has to be handled
+     */
     private void loadingMessageHandler(Message message) {
         switch(message.getSecondLevelHeader()){
             case LOGIN:
@@ -118,8 +117,10 @@ public class ViewAdapter extends Thread {
     }
 
     /**
-     * method that manages the messages that launch exceptions
-     * @param message that launches exceptions
+     * method that handle the messages received by the server with ERROR as the firstLevelHeader.
+     * this is the second clearing house for ERROR messages.
+     * after the deserialization of the message, it selects the correct view that has to be shown to the client
+     * @param message is the message that has to be handled
      */
     public void errorMessageHandler(Message message){
         switch(message.getSecondLevelHeader()){
@@ -140,6 +141,23 @@ public class ViewAdapter extends Thread {
                 nextPhaseMessage.buildNextPhaseMessage();
                 client.getNetworkHandler().send(nextPhaseMessage);
                 break;
+        }
+    }
+
+    /**
+     * the main thread of the class. it checks the queue and, when it is not empty, remove its first messages and tries
+     * to handle it
+     * @see Thread#run()
+     */
+    public void run() {
+        LOGGER.setLevel(Level.CONFIG);
+        LOGGER.log(Level.CONFIG, "ViewAdapter.run(): " + Thread.currentThread().getName());
+        while(true){
+            while(!client.hasNextMessage());
+            Message message = client.getNextMessage();
+            client.removeMessageQueue(message);
+            //handleMessage(message);
+            (new Thread (() -> handleMessage(message))).start();
         }
     }
 }
