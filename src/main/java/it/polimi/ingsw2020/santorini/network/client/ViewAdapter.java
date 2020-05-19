@@ -13,14 +13,12 @@ import java.util.logging.Logger;
 public class ViewAdapter extends Thread {
     private Client client;
     private final static Logger LOGGER = Logger.getLogger("ViewAdapter");
-    private final ArrayList<Thread> cliThreads;
 
     /*
      * constructor of the class
      */
     public ViewAdapter(Client client){
         this.client = client;
-        cliThreads = new ArrayList<>();
     }
 
     /**
@@ -46,7 +44,6 @@ public class ViewAdapter extends Thread {
             default:
                 break;
         }
-        cliThreads.remove(Thread.currentThread());
     }
 
     /**
@@ -114,15 +111,6 @@ public class ViewAdapter extends Thread {
                 break;
             case END_MATCH:
                 EndMatchMessage endMatchMessage = message.deserializeEndMatchMessage();
-                String name = Thread.currentThread().getName();
-                for(Thread t : cliThreads)
-                    if(!t.getName().equals(Thread.currentThread().getName())) {
-                        cliThreads.remove(t);
-                        try {
-                            t.wait();
-                            t.interrupt();
-                        } catch (Exception ignored) {}
-                    }
                 client.getView().displayEndMatch(endMatchMessage.getWinner());
             default:
                 break;
@@ -169,9 +157,7 @@ public class ViewAdapter extends Thread {
             while(!client.hasNextMessage());
             Message message = client.getNextMessage();
             client.removeMessageQueue(message);
-            Thread thread = new Thread (() -> handleMessage(message));
-            cliThreads.add(thread);
-            thread.start();
+            handleMessage(message);
         }
     }
 }
