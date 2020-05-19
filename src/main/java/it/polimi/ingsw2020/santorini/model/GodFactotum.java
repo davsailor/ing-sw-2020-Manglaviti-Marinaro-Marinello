@@ -73,6 +73,11 @@ public enum GodFactotum {
         }
     }
 
+    /**
+     * method that creates god's object that will be assigned to the player
+     * @return the god chosen, using its code
+     * @throws UnexpectedGodException if the god does not exist
+     */
     public GodCard summon() throws UnexpectedGodException{
         switch(this.code){
             case 0:
@@ -106,6 +111,5 @@ public enum GodFactotum {
             default:
                 throw new UnexpectedGodException();
         }
-
     }
 }

@@ -27,6 +27,10 @@ public class GodDeck {
     }
 
 
+    /**
+     * creates a shadow copy of the deck
+     * @return the shadow copy of the deck
+     */
     public int[] getDeck() {
         int[] deckCpy = new int[GOD_NUMBER];
         for(int i = 0; i < GOD_NUMBER; ++i)
@@ -34,16 +38,33 @@ public class GodDeck {
         return deckCpy;
     }
 
+    /**
+     * getter of god number
+     * @return the number of gods available in the game
+     */
     public int getGOD_NUMBER() {
         return GOD_NUMBER;
     }
 
+    /**
+     * method used for test only, it sets a specific god to a specific index
+     * @param value the code of the god (in GodFactotum)
+     * @param index the index where you want to set your god
+     */
     public void setValueToIndex(int value, int index) {
         deck[index] = value;
     }
 
+    /**
+     * test only, sets the index of the next card
+     * @param nextCard the index to set
+     */
     public void setNextCard(int nextCard) { this.nextCard = nextCard; }
 
+    /**
+     * test only
+     * @return the index of the next card
+     */
     public int getNextCard() {
         return nextCard;
     }

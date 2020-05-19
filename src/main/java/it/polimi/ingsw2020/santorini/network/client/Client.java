@@ -34,6 +34,9 @@ public class Client {
         }
     }
 
+    /*
+     * getter and setter of the class
+     */
     public ServerAdapter getNetworkHandler() {
         return networkHandler;
     }
@@ -82,20 +85,36 @@ public class Client {
         this.selectedMatch = selectedMatch;
     }
 
+    /**
+     * synchronized method to remove a message from the queue
+     * @param message the message to remove
+     */
     synchronized public void removeMessageQueue(Message message){
         messageQueue.remove(message);
         //System.out.println(messageQueue.toString());
     }
 
+    /**
+     * synchronized method to add a message from the queue
+     * @param message the message to add
+     */
     synchronized public void addMessageQueue(Message message) {
         messageQueue.add(message);
         //System.out.println(messageQueue.toString());
     }
 
+    /**
+     * synchronized method that inspects the queue of messages
+     * @return false if the queue is empty, true otherwise
+     */
     synchronized public boolean hasNextMessage(){
         return !messageQueue.isEmpty();
     }
 
+    /**
+     * synchronized method that gets the next message of the queue
+     * @return the next message of the queue, null if the queue is empty
+     */
     synchronized public Message getNextMessage(){
         if(messageQueue.isEmpty()) return null;
         //System.out.println(messageQueue.toString());

@@ -14,7 +14,7 @@ public class Board {
         this.board = cells;
     }
 
-    /**
+    /*
      * it is the constructor of the class
      */
     public Board(GodDeck godCards) {

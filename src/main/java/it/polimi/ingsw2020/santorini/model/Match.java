@@ -52,6 +52,11 @@ public class Match extends Observable {
         this.currentPlayerIndex = currentPlayerIndex;
     }
 
+    /**
+     * method that finds a player in the match using the corresponding username
+     * @param username the username of the player we are looking for
+     * @return the player we are looking for
+     */
     public Player getPlayerByName(String username){
         for(int i = 0; i < numberOfPlayers; ++i){
             if(players.get(i).getNickname().equals(username)) return players.get(i);
@@ -59,6 +64,10 @@ public class Match extends Observable {
         return null;
     }
 
+    /**
+     * getter of eliminated player
+     * @return an arraylist containing all eliminated players
+     */
     public ArrayList<Player> getEliminatedPlayers() {
         return eliminatedPlayers;
     }
@@ -114,10 +123,18 @@ public class Match extends Observable {
         players.remove(players.get(eliminatedPlayer));
     }
 
+    /**
+     * setter of number of completed towers
+     * @param numberOfCompletedTowers the number to set
+     */
     public void setNumberOfCompletedTowers(int numberOfCompletedTowers) {
         this.numberOfCompletedTowers = numberOfCompletedTowers;
     }
 
+    /**
+     * getter of players
+     * @return a shadow copy of player using an array
+     */
     public Player[] getPlayers() {
         Player[] playerCpy = new Player[players.size()];
         for(int i = 0; i < players.size(); ++i)
@@ -125,6 +142,10 @@ public class Match extends Observable {
         return playerCpy;
     }
 
+    /**
+     * method that creates the match
+     * @param players players of the match
+     */
     public void initialize(Player[] players) {
         ArrayList<Message> listOfMessages = new ArrayList<>();
         this.getBoard().getGodCards().shuffleDeck();
@@ -159,6 +180,11 @@ public class Match extends Observable {
         return numberOfPlayers;
     }
 
+    /**
+     * method that tells us if two matches are equals, using their matchID
+     * @param obj the object to test
+     * @return the result of the comparison
+     */
     @Override
     public boolean equals(Object obj){
         if(!(obj instanceof Match)) return false;
@@ -166,16 +192,27 @@ public class Match extends Observable {
         return this.matchID == match.getMatchID();
     }
 
+    /**
+     * method used to notify clients, using the virtual view
+     * @param list the list of messages to send
+     */
     public void notifyView(ArrayList<Message> list){
         setChanged();
         notifyObservers(list);
     }
 
+    /**
+     * method that calculates the next player
+     */
     public void setNextPlayer() {
         if (getCurrentPlayerIndex() == players.size() - 1) setCurrentPlayerIndex(0);
         else setCurrentPlayerIndex(getCurrentPlayerIndex() + 1);
     }
 
+    /**
+     * method that complete all the operations required for an instant win
+     * @throws EndMatchException exception that will tell us the match is ended
+     */
     public void currentWins() throws EndMatchException{
         for(int i = 0; i < getPlayers().length; ++i)
             if(!getPlayers()[i].getNickname().equals(getCurrentPlayer().getNickname())) {
@@ -184,6 +221,10 @@ public class Match extends Observable {
             }
     }
 
+    /**
+     * method that complete all the operations required to end a match
+     * @param server the server where the match is hosted
+     */
     public void notifyEndMatch(Server server) {
         ArrayList<Message> endMatchMessages = new ArrayList<>();
         Message winner = new Message(getPlayers()[0].getNickname());

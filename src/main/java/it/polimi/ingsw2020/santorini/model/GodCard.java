@@ -15,12 +15,12 @@ public class GodCard {
     protected boolean mandatory;            // if the power MUST activate or CAN activate
     protected boolean needParameters;       // if the god needs some information to activate
 
-    /**
+    /*
      * constructor for serialization and deserialization with Gson
      */
     public GodCard(){}
 
-    /**
+    /*
      * getter of class parameters, setter not needed since thy are considered final
      */
     public String getName() {

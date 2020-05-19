@@ -18,7 +18,9 @@ public class Player {
     private Boolean riseActions;
     private Boolean moveActions;
 
-    //METODI        ->GETTER e SETTER<-
+    /*
+     * getter and setter of the class
+     */
 
     public String getNickname() {
         return nickname;
@@ -84,36 +86,6 @@ public class Player {
         this.moveActions = moveActions;
     }
 
-    //COSTRUTTORE
-
-    public Player(String nickname, Date birthDate){
-        this.nickname = nickname;
-        this.birthDate = birthDate;
-        this.color = null;
-        this.status = PlayerStatus.WAITING;
-        this.divinePower =  null;
-
-        //metodo per i builder
-        this.builderF =null;
-        this.builderM =null;
-        riseActions=true;
-        moveActions=true;
-    }
-
-    public Player (Player player){
-        this.nickname = player.getNickname();
-        this.birthDate = player.getBirthDate();
-        this.color = player.getColor();
-        this.status = player.getStatus();
-        this.divinePower =  player.getDivinePower();
-
-        //metodo per i builder
-        this.builderF = player.getBuilderF();
-        this.builderM = player.getBuilderM();
-        riseActions= player.getRiseActions();
-        moveActions= player.getMoveActions();
-    }
-
     public Builder getBuilderF() {
         return builderF;
     }
@@ -134,13 +106,44 @@ public class Player {
         return builderF.canMove() || builderM.canMove();
     }
 
-    public boolean canBuild(){
-        return builderF.canBuild() || builderM.canBuild();
+
+    /*
+     * constructor of the class
+     */
+    public Player(String nickname, Date birthDate){
+        this.nickname = nickname;
+        this.birthDate = birthDate;
+        this.color = null;
+        this.status = PlayerStatus.WAITING;
+        this.divinePower =  null;
+        this.builderF =null;
+        this.builderM =null;
+        riseActions=true;
+        moveActions=true;
     }
 
+    /*
+     * copy constructor used to copy most representatives fields of the class. used in cli to recover transient fields in builder
+     */
+    public Player (Player player){
+        this.nickname = player.getNickname();
+        this.birthDate = player.getBirthDate();
+        this.color = player.getColor();
+        this.status = player.getStatus();
+        this.divinePower =  player.getDivinePower();
+        this.builderF = player.getBuilderF();
+        this.builderM = player.getBuilderM();
+        this.playingBuilder = player.playingBuilder;
+        riseActions= player.getRiseActions();
+        moveActions= player.getMoveActions();
+    }
+
+    /**
+     * method that formats the class as a string
+     * @return the string format of player, including name and god power
+     */
     @Override
     public String toString(){
         return color+"Username: "+nickname+"\nGod: "+divinePower.toStringEffect();
     }
-
 }

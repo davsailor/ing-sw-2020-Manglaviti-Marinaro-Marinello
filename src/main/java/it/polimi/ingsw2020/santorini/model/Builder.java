@@ -25,9 +25,9 @@ public class Builder {
     private boolean builtThisTurn;
 
 
-    //METODI
-
-
+    /*
+     * getter and setters
+     */
     public void setPlayer(Player player) {
         this.player = player;
     }
@@ -76,12 +76,43 @@ public class Builder {
         this.risedThisTurn = risedThisTurn;
     }
 
+    public void setPossibleMoves() {
+        this.possibleMoves = Board.neighboringStatusCell( this , AccessType.FREE);
+    }
+
+    public int[][] getPossibleMoves() {
+        return possibleMoves;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    public void setPossibleBuildings() {
+        possibleBuildings = Board.neighboringLevelCell(this);
+    }
+
+    public int[][] getPossibleBuildings() {
+        return possibleBuildings;
+    }
+
+    public boolean isMovedThisTurn() {
+        return movedThisTurn;
+    }
+
+    public boolean isRisedThisTurn() {
+        return risedThisTurn;
+    }
+
+    public boolean isBuiltThisTurn() {
+        return builtThisTurn;
+    }
+
     /**
      *
      * @param player is the player of the builder
      * @param gender is the gender of the builder
      */
-
     public Builder(Player player, char gender, Board board, int[] pos) {
         // if for test purpose
         if(player != null)
@@ -127,7 +158,6 @@ public class Builder {
      *
      * @param b1 is the builder that i have to swap
      */
-
     public void swapBuilders(Builder b1){
         int tempX;
         int tempY;
@@ -139,14 +169,6 @@ public class Builder {
         b1.setPosY(tempY);
         board.getBoard()[posX][posY].setBuilder(this);
         board.getBoard()[b1.getPosX()][b1.getPosY()].setBuilder(b1);
-    }
-
-    public void setPossibleMoves() {
-        this.possibleMoves = Board.neighboringStatusCell( this , AccessType.FREE);
-    }
-
-    public int[][] getPossibleMoves() {
-        return possibleMoves;
     }
 
     public boolean canMove(){
@@ -171,7 +193,6 @@ public class Builder {
      *
      * @param direction is the direction in which the player wants to move
      */
-
     public void move(Direction direction) throws IllegalMovementException, EndMatchException {
         if(direction == null) throw new IllegalMovementException("Something went wrong with your choice, please select another movement");
         board.getBoard()[posX][posY].setBuilder(null);
@@ -224,11 +245,6 @@ public class Builder {
                 possibleMoves[0][0]=4;
                 break;
         }
-        // aggiornare la board:
-        // mettere a null il puntatore nella vecchia cella (questo prima di aggiornare posX e posY) dopo IF
-        // mettere il builder nella nuova posizione
-        // aggiornare lo stato delle celle
-
         if(board.getBoard()[oldPosX][oldPosY].calculateJump(board.getBoard()[posX][posY]) > 0)
             risedThisTurn = true;
 
@@ -238,24 +254,11 @@ public class Builder {
             throw new EndMatchException(null);
     }
 
-    public void setBoard(Board board) {
-        this.board = board;
-    }
-
-    public void setPossibleBuildings() {
-        possibleBuildings = Board.neighboringLevelCell(this);
-    }
-
-    public int[][] getPossibleBuildings() {
-        return possibleBuildings;
-    }
-
     /**
      *
      * @param direction is the direction in which the player wants to build
      * @param match
      */
-
     public void build(Direction direction, Match match) throws IllegalConstructionException{
         //LevelType level;
         setPossibleBuildings();
@@ -318,17 +321,5 @@ public class Builder {
         this.buildPosX = buildPosX;
         this.buildPosY = buildPosY;
         possibleBuildings[buildPosX - this.posX + 1][buildPosY - this.posY + 1] = -2;
-    }
-
-    public boolean isMovedThisTurn() {
-        return movedThisTurn;
-    }
-
-    public boolean isRisedThisTurn() {
-        return risedThisTurn;
-    }
-
-    public boolean isBuiltThisTurn() {
-        return builtThisTurn;
     }
 }
