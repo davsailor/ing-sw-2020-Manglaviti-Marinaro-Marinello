@@ -45,7 +45,7 @@ public class AppGUI extends Application implements ViewInterface{
      * metodo in cui si chiede l'iP del server, dopodichè di fanno inserire username, data di nascita e tipo di partita (numero di giocatori nella partita)
      */
     @Override
-    public void displaySetupWindow() {
+    public void displaySetupWindow(boolean firstTime) {
         Parent root;
         Scene scene;
 
@@ -361,7 +361,7 @@ public class AppGUI extends Application implements ViewInterface{
         client = new Client();
         client.setView(this);
 
-        displaySetupWindow();
+        displaySetupWindow(true);
 
     }
 }

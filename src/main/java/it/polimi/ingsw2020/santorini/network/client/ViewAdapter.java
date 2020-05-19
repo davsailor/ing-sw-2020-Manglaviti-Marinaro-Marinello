@@ -127,7 +127,7 @@ public class ViewAdapter extends Thread {
             case USERNAME_ERROR:
                 GenericErrorMessage mes = message.deserializeUsernameErrorMessage(message.getSerializedPayload());
                 client.getView().displayErrorMessage(mes.getError());
-                client.getView().displayNewUsernameWindow();
+                client.getView().displaySetupWindow(false);
                 break;
             case INVALID_CELL_SELECTION:
                 IllegalPositionMessage illegalPositionMessage = message.deserializeIllegalPositionMessage(message.getSerializedPayload());

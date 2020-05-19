@@ -10,13 +10,9 @@ import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessa
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class ClientNetworkHandler extends Thread implements NetworkInterface {
 
@@ -186,7 +182,7 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
                 int matchID = server.getMatchFromUsername(username);
                 Match match = server.getViewFromMatch(matchID).getMatch();
                 int i;
-                for (i = 0; i < match.getNumberOfPlayers(); ++i)
+                for (i = 0; i < match.getPlayers().length; ++i)
                     if (username.equals(match.getPlayers()[i].getNickname())) break;
                 try {
                     if(i < match.getPlayers().length)
@@ -199,7 +195,7 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
                         ArrayList<Message> orderMessage = new ArrayList<>();
                         for (int k = 0; k < match.getPlayers().length; ++k) {
                             orderMessage.add(new Message(match.getPlayers()[k].getNickname()));
-                            orderMessage.get(i).buildTurnPlayerMessage(new MatchStateMessage(match.getPlayers()[match.getCurrentPlayerIndex()], match.getBoard().getBoard()));
+                            orderMessage.get(k).buildTurnPlayerMessage(new MatchStateMessage(match.getPlayers()[match.getCurrentPlayerIndex()], match.getBoard().getBoard()));
                         }
                         match.notifyView(orderMessage);
                     }

@@ -66,7 +66,6 @@ public class Server {
                     clientNetworkHandler.checkConnection(pingClient);
                 });
                 pingHandler.start();
-
             } catch (IOException e) {
                 System.out.println("socket connection failed!");
             }
@@ -101,12 +100,14 @@ public class Server {
      * synchronized method that checks if a new match can be crated, looking at the waiting players queue
      * @param numberOfPlayers the number of players of the match we aro looking for
      */
-    synchronized public void checkForMatches(int numberOfPlayers){
+    public void checkForMatches(int numberOfPlayers){
         if(waitingPlayers.values().stream()
                 .filter(x -> x == numberOfPlayers)
                 .count() >= numberOfPlayers) {
-            controllers.put(matchIDGen, new GameLogic(this));
-            virtualViews.put(matchIDGen, new VirtualView(controllers.get(matchIDGen)));
+            synchronized (controllers) {
+                controllers.put(matchIDGen, new GameLogic(this));
+                virtualViews.put(matchIDGen, new VirtualView(controllers.get(matchIDGen)));
+            }
             controllers.get(matchIDGen).initializeMatch(virtualViews.get(matchIDGen), numberOfPlayers);
         }
     }

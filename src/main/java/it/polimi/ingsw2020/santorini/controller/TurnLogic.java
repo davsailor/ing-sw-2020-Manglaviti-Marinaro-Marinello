@@ -346,7 +346,7 @@ public class TurnLogic {
     private void endTurnManager(Match match) {
         System.out.println("END TURN MANAGER");
         ArrayList<Message> listOfUpdateMessages = new ArrayList<>();
-        for (int i = 0; i < match.getNumberOfPlayers(); ++i) {
+        for (int i = 0; i < match.getPlayers().length; ++i) {
             listOfUpdateMessages.add(new Message(match.getPlayers()[i].getNickname()));
             listOfUpdateMessages.get(i).buildUpdateMessage(new UpdateMessage(match, this.phase));
         }

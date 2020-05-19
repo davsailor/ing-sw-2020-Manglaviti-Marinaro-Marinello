@@ -31,75 +31,74 @@ public class CLI implements ViewInterface{
     /**
      * method in which it's asked to the client to insert server's IP, and after that the username, birth date and type of match(number of players)
      * metodo in cui si chiede l'iP del server, dopodichè di fanno inserire username, data di nascita e tipo di partita (numero di giocatori nella partita)
+     * @param firstTime is true if it is the first time we call the method
+     *                  is false if the username is unavailable, and ask the client a new username
      */
     @Override
-    public void displaySetupWindow() {
-        client = new Client();
-        client.setView(this);
-        String ip;
-        boolean wrong;
-        do{
+    public void displaySetupWindow(boolean firstTime) {
+        if(firstTime) {
+            client = new Client();
+            client.setView(this);
+            String ip;
+            boolean wrong;
+            do {
+                try {
+                    System.out.printf("Inserisci l'indirizzo IP del server: ");
+                    ip = scannerIn.nextLine();
+                    client.setNetworkHandler(new ServerAdapter(client, ip));
+                    client.setViewHandler(new ViewAdapter(client));
+                    wrong = false;
+                } catch (IOException e) {
+                    System.out.println("Il server inserito non esiste, riprovare");
+                    wrong = true;
+                }
+            } while (wrong);
+
+            client.getNetworkHandler().start();
+            client.getViewHandler().start();
+
+            do {
+                try {
+                    System.out.printf("Inserisci il tuo username: ");
+                    client.setUsername(scannerIn.nextLine());
+                    wrong = false;
+                } catch (InputMismatchException e) {
+                    wrong = true;
+                }
+                if (wrong) System.out.println("errore nell'username, reinserire");
+            } while (wrong);
+
+            System.out.printf("Inserisci la tua data di nascita (dd/mm/yyyy): ");
+            String date = scannerIn.nextLine();
+            DateFormat parser = new SimpleDateFormat("dd/MM/yyyy");
+            client.setBirthDate(new Date(1900, 0, 1));
             try {
-                System.out.printf("Inserisci l'indirizzo IP del server: ");
-                ip = scannerIn.nextLine();
-                client.setNetworkHandler(new ServerAdapter(client, ip));
-                client.setViewHandler(new ViewAdapter(client));
-                wrong = false;
-            } catch (IOException e) {
-                System.out.println("Il server inserito non esiste, riprovare");
-                wrong = true;
+                client.setBirthDate(parser.parse(date));
+            } catch (ParseException ignored) {
             }
-        } while(wrong);
 
-        client.getNetworkHandler().start();
-        client.getViewHandler().start();
+            do {
+                try {
+                    System.out.printf("Inserisci il numero di giocatori della partita (2 o 3): ");
+                    client.setSelectedMatch(scannerIn.nextInt());
+                    scannerIn.nextLine();
+                    wrong = client.getSelectedMatch() != 2 && client.getSelectedMatch() != 3;
+                } catch (InputMismatchException e) {
+                    wrong = true;
+                }
+                if (wrong) System.out.println("Inserire 2 o 3!");
+            } while (wrong);
 
-        do{
-            try{
-                System.out.printf("Inserisci il tuo username: ");
-                client.setUsername(scannerIn.nextLine());
-                wrong = false;
-            } catch(InputMismatchException e){
-                wrong = true;
-            }
-            if(wrong) System.out.println("errore nell'username, reinserire");
-        }while(wrong);
-
-        System.out.printf("Inserisci la tua data di nascita (dd/mm/yyyy): ");
-        String date = scannerIn.nextLine();
-        DateFormat parser = new SimpleDateFormat("dd/MM/yyyy");
-        client.setBirthDate(new Date(1900, 0, 1));
-        try {
-            client.setBirthDate(parser.parse(date));
-        } catch (ParseException ignored) {}
-
-        do{
-            try{
-                System.out.printf("Inserisci il numero di giocatori della partita (2 o 3): ");
-                client.setSelectedMatch(scannerIn.nextInt());
-                scannerIn.nextLine();
-                wrong = client.getSelectedMatch() != 2 && client.getSelectedMatch() != 3;
-            }catch (InputMismatchException e){
-                wrong = true;
-            }
-            if(wrong) System.out.println("Inserire 2 o 3!");
-        }while(wrong);
-
-        Message message = new Message(client.getUsername());
-        message.buildLoginMessage(new LoginMessage(client.getUsername(), client.getBirthDate(), client.getSelectedMatch()));
-        client.getNetworkHandler().send(message);
-    }
-
-    /**
-     * method that re-ask the client to insert a username
-     */
-    @Override
-    public void displayNewUsernameWindow() {
-        System.out.printf("Inserisci di nuovo il tuo username: ");
-        client.setUsername(scannerIn.nextLine());
-        Message message = new Message(client.getUsername());
-        message.buildLoginMessage(new LoginMessage(client.getUsername(), client.getBirthDate(), client.getSelectedMatch()));
-        client.getNetworkHandler().send(message);
+            Message message = new Message(client.getUsername());
+            message.buildLoginMessage(new LoginMessage(client.getUsername(), client.getBirthDate(), client.getSelectedMatch()));
+            client.getNetworkHandler().send(message);
+        } else {
+            System.out.printf("Inserisci di nuovo il tuo username: ");
+            client.setUsername(scannerIn.nextLine());
+            Message message = new Message(client.getUsername());
+            message.buildLoginMessage(new LoginMessage(client.getUsername(), client.getBirthDate(), client.getSelectedMatch()));
+            client.getNetworkHandler().send(message);
+        }
     }
 
     /**

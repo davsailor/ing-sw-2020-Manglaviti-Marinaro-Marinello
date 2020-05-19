@@ -102,7 +102,7 @@ public class MatchTest {
         boolean containsAll = true;
         fullInit(3, match);
         Player[] playerCpy = match.getPlayers();
-        for(int i = 0; i < match.getNumberOfPlayers() && containsAll; ++i){
+        for(int i = 0; i < match.getPlayers().length && containsAll; ++i){
             if(playerCpy[i].getNickname().equals(match.getPlayers()[i].getNickname())) {}
             else containsAll = false;
         }

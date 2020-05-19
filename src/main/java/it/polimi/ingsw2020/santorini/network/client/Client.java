@@ -30,7 +30,7 @@ public class Client {
             Application.launch(AppGUI.class);
         } else {
             CLI cli = new CLI();
-            cli.displaySetupWindow();
+            cli.displaySetupWindow(true);
         }
     }
 

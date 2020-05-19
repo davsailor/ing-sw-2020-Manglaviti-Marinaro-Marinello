@@ -136,7 +136,7 @@ public class GameLogic implements Observer {
                 current.setStatus(PlayerStatus.READY);
                 Player[] players = match.getPlayers();
                 boolean allReady = true;
-                for(int i = 0; i < match.getNumberOfPlayers() && allReady; ++i){
+                for(int i = 0; i < match.getPlayers().length && allReady; ++i){
                     if (players[i].getStatus() != PlayerStatus.READY) allReady = false;
                 }
                 if(allReady) {
@@ -201,7 +201,7 @@ public class GameLogic implements Observer {
                     Player[] playingPlayers = match.getPlayers();
                     boolean allPlaying = true;
 
-                    for (int i = 0; i < match.getNumberOfPlayers() && allPlaying; ++i) {
+                    for (int i = 0; i < match.getPlayers().length && allPlaying; ++i) {
                         if (playingPlayers[i].getStatus() != PlayerStatus.PLAYING) allPlaying = false;
                     }
 
@@ -213,7 +213,7 @@ public class GameLogic implements Observer {
                         } catch (EndMatchException ignored) {}
                     } else {
                         ArrayList<Message> orderMessage = new ArrayList<>();
-                        for (int i = 0; i < match.getNumberOfPlayers(); ++i) {
+                        for (int i = 0; i < match.getPlayers().length; ++i) {
                             orderMessage.add(new Message(playingPlayers[i].getNickname()));
                             orderMessage.get(i).buildTurnPlayerMessage(new MatchStateMessage(match.getCurrentPlayer(), match.getBoard().getBoard()));
                         }

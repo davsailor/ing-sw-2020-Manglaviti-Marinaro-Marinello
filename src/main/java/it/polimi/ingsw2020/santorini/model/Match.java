@@ -157,7 +157,7 @@ public class Match extends Observable {
             this.players.get(i).setColor(Color.getColor(i));
             listOfMessages.add((new Message(players[i].getNickname())));
         }
-        for(int i = 0; i < this.getNumberOfPlayers(); ++i){
+        for(int i = 0; i < this.getPlayers().length; ++i){
             listOfMessages.get(i).buildMatchSetupMessage(new MatchSetupMessage(getPlayers(), getBoard().getBoard()));
         }
         setChanged();

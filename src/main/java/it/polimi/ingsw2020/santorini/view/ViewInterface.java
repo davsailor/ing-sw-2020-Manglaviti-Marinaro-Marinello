@@ -19,9 +19,7 @@ public interface ViewInterface {
     /**
      * metodo in cui si chiede l'iP del server, dopodichè di fanno inserire username, data di nascita e tipo di partita (numero di giocatori nella partita)
      */
-    void displaySetupWindow();
-
-    void displayNewUsernameWindow();
+    void displaySetupWindow(boolean firstTime);
 
     /**
      * metodo per intrattenere l'utente mentre aspettiamo altri utenti che vogliono giocare
