@@ -81,10 +81,12 @@ public class CLI implements ViewInterface{
                 try {
                     System.out.printf("Inserisci il numero di giocatori della partita (2 o 3): ");
                     client.setSelectedMatch(scannerIn.nextInt());
-                    scannerIn.nextLine();
-                    wrong = client.getSelectedMatch() != 2 && client.getSelectedMatch() != 3;
+
+                    if (client.getSelectedMatch() != 2 && client.getSelectedMatch() != 3) wrong = true;
+                    else wrong = false;
                 } catch (InputMismatchException e) {
                     wrong = true;
+                    scannerIn.nextLine();
                 }
                 if (wrong) System.out.println("Inserire 2 o 3!");
             } while (wrong);
