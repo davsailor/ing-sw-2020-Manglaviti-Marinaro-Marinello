@@ -53,11 +53,11 @@
             <Font name="System Bold Italic" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="b00" layoutX="181.0" layoutY="61.0"  mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="47.0" prefWidth="42.0" />
-      <Button fx:id="b01" layoutX="229.0" layoutY="61.0"  mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
-      <Button fx:id="b02" layoutX="276.0" layoutY="58.0"  mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" rotate="180.0" />
-      <Button fx:id="b03" layoutX="330.0" layoutY="61.0"  mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-      <Button fx:id="b04" layoutX="374.0" layoutY="61.0"  mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
+      <Button fx:id="b00" layoutX="181.0" layoutY="61.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="47.0" prefWidth="42.0" />
+      <Button fx:id="b01" layoutX="229.0" layoutY="61.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
+      <Button fx:id="b02" layoutX="276.0" layoutY="58.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" rotate="180.0" />
+      <Button fx:id="b03" layoutX="330.0" layoutY="61.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+      <Button fx:id="b04" layoutX="374.0" layoutY="61.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
       <Button fx:id="b40" layoutX="181.0" layoutY="294.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
       <Button fx:id="b41" layoutX="229.0" layoutY="294.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
       <Button fx:id="b42" layoutX="276.0" layoutY="294.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />

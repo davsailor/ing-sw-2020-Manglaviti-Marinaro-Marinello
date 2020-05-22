@@ -39,6 +39,8 @@ public class AppGUI extends Application implements ViewInterface{
 
     private InfoMatchController infoMatchController;
 
+    private SelectionBuilderController selectionBuilderController;
+
     public Client getClient() {
         return client;
     }
@@ -139,8 +141,9 @@ public class AppGUI extends Application implements ViewInterface{
             children = null;
             scene = new Scene(new Label ("ERROR "));
         }
-
-        stage.setTitle("SELECT THE COORDINATE WHERE YOU WANT TO PUT YOU BUILDER");
+        selectionBuilderController = fxmlLoader.getController();
+        selectionBuilderController.setClient(client);
+        stage.setTitle("SELECT THE CELL WHERE YOU WANT TO PUT YOUR BUILDER");
         stage.setScene(scene);
         stage.show();
     }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw2020.santorini.view.gui;
 
+import it.polimi.ingsw2020.santorini.network.client.Client;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -9,6 +10,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 
 public class SelectionBuilderController {
+
+    private Client client;
+
+    public void setClient(Client client) {
+    }
+
 
     @FXML
     Label title;
@@ -65,9 +72,121 @@ public class SelectionBuilderController {
 
     @FXML
     public void setPos(MouseEvent mouseEvent) {
-        title.setText("Clicca la cella dove vuoi inserire il builder ");
+        title.setText("Clicca la cella dove vuoi inserire la tua costruttrice ");
         Node pos = (Node) mouseEvent.getSource();
-        if ( pos==b00){
+
+        if(client.getUsername().equals(currentPlayer)) {
+            int[] builderM, builderF;
+            builderM = new int[2];
+            builderF = new int[2];
+            builderF[0]=-1;
+            builderF[1]=-1;
+
+
+             if (pos==b00){
+                 builderF[0]=1;
+                 builderF[1]=1;
+            }
+             else if (pos==b01){
+                 builderF[0]=1;
+                 builderF[1]=2;
+             }
+             else if (pos==b02){
+                 builderF[0]=1;
+                 builderF[1]=3;
+             }
+             else if (pos==b03){
+                 builderF[0]=1;
+                 builderF[1]=4;
+             }
+             else if (pos==b04){
+                 builderF[0]=1;
+                 builderF[1]=5;
+             }
+             else if (pos==b10){
+                 builderF[0]=2;
+                 builderF[1]=1;
+             }
+             else if (pos==b11){
+                 builderF[0]=2;
+                 builderF[1]=2;
+             }
+             else if (pos==b12){
+                 builderF[0]=2;
+                 builderF[1]=3;
+             }
+             else if (pos==b13){
+                 builderF[0]=2;
+                 builderF[1]=4;
+             }
+             else if (pos==b14){
+                 builderF[0]=2;
+                 builderF[1]=5;
+             }
+             else if (pos==b20){
+                 builderF[0]=3;
+                 builderF[1]=1;
+             }
+             else if (pos==b21){
+                 builderF[0]=3;
+                 builderF[1]=2;
+             }
+             else if (pos==b22){
+                 builderF[0]=3;
+                 builderF[1]=3;
+             }
+             else if (pos==b23){
+                 builderF[0]=3;
+                 builderF[1]=4;
+             }
+             else if (pos==b24){
+                 builderF[0]=3;
+                 builderF[1]=5;
+             }
+             else if (pos==b30){
+                 builderF[0]=4;
+                 builderF[1]=1;
+             }
+             else if (pos==b31){
+                 builderF[0]=4;
+                 builderF[1]=2;
+             }
+             else if (pos==b32){
+                 builderF[0]=4;
+                 builderF[1]=3;
+             }
+             else if (pos==b33){
+                 builderF[0]=4;
+                 builderF[1]=4;
+             }
+             else if (pos==b34){
+                 builderF[0]=4;
+                 builderF[1]=5;
+             }
+             else if (pos==b40){
+                 builderF[0]=5;
+                 builderF[1]=1;
+             }
+             else if (pos==b41){
+                 builderF[0]=5;
+                 builderF[1]=2;
+             }
+             else if (pos==b42){
+                 builderF[0]=5;
+                 builderF[1]=3;
+             }
+             else if (pos==b43){
+                 builderF[0]=5;
+                 builderF[1]=4;
+             }
+             else if (pos==b44){
+                 builderF[0]=5;
+                 builderF[1]=5;
+             }
+            title.setText("Clicca la cella dove vuoi inserire il tuo costruttore ");
+
+
+
             
         }
 
@@ -79,3 +198,4 @@ public class SelectionBuilderController {
 
 
 }
+
