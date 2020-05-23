@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 
@@ -20,7 +21,7 @@ public class RegisterController {
 
     private Client client;
 
-    ObservableList list = FXCollections.observableArrayList(2,3);
+    private ObservableList list = FXCollections.observableArrayList(2,3);
 
     @FXML
     TextField indirizzoIp;
@@ -44,44 +45,56 @@ public class RegisterController {
     public void initialize(){
         numberOfPlayers.setItems(list);
         numberOfPlayers.setValue(2);
+        indirizzoIp.clear();
     }
 
-
     @FXML
-    public void RegisterAction(ActionEvent actionEvent) {
-        String ip = indirizzoIp.getText();
-        System.out.println(ip);
+    public void registerAction(ActionEvent actionEvent) {
+        String ip;
+        boolean correct = true;
 
-        //client.setNetworkHandler(new ServerAdapter(client, ip));
-        client.setViewHandler(new ViewAdapter(client));
+        ip = indirizzoIp.getText();
+        if(!ip.isEmpty()) {
+            try {
+                client.setNetworkHandler(new ServerAdapter(client, ip));
+                client.setViewHandler(new ViewAdapter(client));
+                client.getNetworkHandler().start();
+                client.getViewHandler().start();
+            } catch (IOException e) {
+                Alert networkError = new Alert(Alert.AlertType.ERROR, "Cannot reach Olympus, try again with a new IP!");
+                networkError.showAndWait()
+                        .filter(action -> action == ButtonType.OK)
+                        .ifPresent(action -> networkError.close());
+                indirizzoIp.clear();
+                correct = false;
+            }
+        } else
+            correct = false;
 
         String usernameId = username.getText();
-        java.sql.Date sqlDate = java.sql.Date.valueOf(birthDate.getValue());
-        Date date = new Date(sqlDate.getTime());
+        Date date = new Date(1900, 0, 1);
+        try {
+            java.sql.Date sqlDate = java.sql.Date.valueOf(birthDate.getValue());
+            date = new Date(sqlDate.getTime());
+        } catch(Exception ignored) {}
+
         int numberPlayers;
         if (numberOfPlayers.getValue().equals(2))
             numberPlayers = 2;
         else
             numberPlayers = 3;
 
-        client.getNetworkHandler().start();
-        client.getViewHandler().start();
-
         client.setBirthDate(date);
         client.setUsername(usernameId);
         client.setSelectedMatch(numberPlayers);
 
-        Message message = new Message(client.getUsername());
-        message.buildLoginMessage(new LoginMessage(client.getUsername(), client.getBirthDate(), client.getSelectedMatch()));
-        client.getNetworkHandler().send(message);
-
-        if(ip!=null && usernameId!=null){
+        if(correct) {
+            Message message = new Message(client.getUsername());
+            message.buildLoginMessage(new LoginMessage(client.getUsername(), client.getBirthDate(), client.getSelectedMatch()));
+            client.getNetworkHandler().send(message);
             Button button = (Button) actionEvent.getSource();
             Stage stage = (Stage) button.getScene().getWindow();
             stage.close();
         }
-
     }
-
 }
-

@@ -22,6 +22,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -41,6 +42,8 @@ public class AppGUI extends Application implements ViewInterface{
 
     private SelectionBuilderController selectionBuilderController;
 
+    private Scene registerScene;
+
     public Client getClient() {
         return client;
     }
@@ -55,25 +58,26 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public void displaySetupWindow(boolean firstTime) {
         Parent root;
-        Scene scene;
 
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/FXML/Register.fxml"));
 
-        try {
-            root = fxmlLoader.load();
-            scene = new Scene(root);
-        } catch (IOException e) {
-            root = null;
-            scene = new Scene(new Label ("ERROR "));
+        if(firstTime) {
+            try {
+                root = fxmlLoader.load();
+                registerScene = new Scene(root);
+            } catch (IOException e) {
+                root = null;
+                registerScene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
+            }
+            registerController = fxmlLoader.getController();
+            registerController.setClient(client);
+            primaryStage.setTitle("Santorini");
+            primaryStage.setScene(registerScene);
+            primaryStage.show();
+        } else {
+            // si fa un alert sulla scene, disabilitando tutto tranne casella username
         }
-
-        registerController = fxmlLoader.getController();
-        registerController.setClient(client);
-        primaryStage.setTitle("REGISTER");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
     }
 
 

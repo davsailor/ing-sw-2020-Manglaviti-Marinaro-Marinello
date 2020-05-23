@@ -14,12 +14,9 @@ import java.util.Set;
 
 public class Server {
 
-    public final static int PORT = 9998;
+    public final static int PORT = 9999;
     private ServerSocket socket;
-
-    public final static int PING_PORT = 8889;
     public final static int SO_TIMEOUT = 8000;
-    private ServerSocket pingSocket;
 
     private int matchIDGen;
     private final HashMap<Player, Integer> waitingPlayers;

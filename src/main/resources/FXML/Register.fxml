@@ -1,44 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<Pane fx:controller="it.polimi.ingsw2020.santorini.view.gui.RegisterController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw2020.santorini.view.gui.RegisterController">
    <children>
-      <Button fx:id="signUpButton" layoutX="264.0" layoutY="334.0" mnemonicParsing="false" onAction="#RegisterAction" text="Sign up" />
-      <Label layoutX="164.0" layoutY="198.0" text="Date of birth">
+      <ImageView fitHeight="500.0" fitWidth="600.0">
+         <image>
+            <Image url="@../images/santorini_title.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="signUpButton" layoutX="263.0" layoutY="429.0" mnemonicParsing="false" onAction="#registerAction" text="Sign up" textAlignment="CENTER" textFill="#2276ab">
          <font>
-            <Font name="System Bold Italic" size="18.0" />
+            <Font name="Gabriola" size="20.0" />
+         </font>
+      </Button>
+      <Label layoutX="176.0" layoutY="291.0" text="Birthday" textFill="#2276ab">
+         <font>
+            <Font name="Gabriola" size="29.0" />
          </font>
       </Label>
-      <Label layoutX="170.0" layoutY="146.0" text="Username">
+      <Label layoutX="176.0" layoutY="223.0" text="Username" textFill="#2276ab">
          <font>
-            <Font name="System Bold Italic" size="18.0" />
+            <Font name="Gabriola" size="30.0" />
          </font>
       </Label>
-      <Label layoutX="170.0" layoutY="94.0" text="Indirizzo IP">
+      <Label layoutX="176.0" layoutY="156.0" text="Indirizzo IP" textFill="#2276ab">
          <font>
-            <Font name="System Bold Italic" size="18.0" />
+            <Font name="Gabriola" size="30.0" />
          </font>
       </Label>
-      <Label layoutX="212.0" layoutY="14.0" text="Register">
+      <TextField fx:id="indirizzoIp" layoutX="168.0" layoutY="191.0" prefHeight="25.0" prefWidth="265.0" />
+      <TextField fx:id="username" layoutX="168.0" layoutY="259.0" prefHeight="25.0" prefWidth="265.0" />
+      <DatePicker fx:id="birthDate" layoutX="168.0" layoutY="326.0" prefHeight="25.0" prefWidth="265.0" />
+      <Label layoutX="176.0" layoutY="372.0" text="Number of Players" textFill="#2276ab">
          <font>
-            <Font name="System Bold Italic" size="42.0" />
-         </font>
+            <Font name="Gabriola" size="29.0" />
+      </font>
       </Label>
-      <TextField fx:id="indirizzoIp" layoutX="167.0" layoutY="121.0" prefHeight="25.0" prefWidth="265.0" />
-      <TextField fx:id="username" layoutX="167.0" layoutY="173.0" prefHeight="25.0" prefWidth="265.0" />
-      <DatePicker fx:id="birthDate" layoutX="168.0" layoutY="222.0" prefHeight="25.0" prefWidth="265.0" />
-      <Label layoutX="176.0" layoutY="264.0" text="Number of Players">
-         <font>
-            <Font name="System Bold Italic" size="18.0" />
-         </font>
-      </Label>
-      <ChoiceBox fx:id="numberOfPlayers" layoutX="374.0" layoutY="265.0" prefHeight="25.0" prefWidth="56.0" />
+      <ChoiceBox fx:id="numberOfPlayers" layoutX="377.0" layoutY="377.0" prefHeight="25.0" prefWidth="56.0" />
    </children>
 </Pane>

@@ -74,7 +74,7 @@ public class SelectionBuilderController {
     public void setPos(MouseEvent mouseEvent) {
         title.setText("Clicca la cella dove vuoi inserire la tua costruttrice ");
         Node pos = (Node) mouseEvent.getSource();
-
+/*
         if(client.getUsername().equals(currentPlayer)) {
             int[] builderM, builderF;
             builderM = new int[2];
@@ -184,18 +184,6 @@ public class SelectionBuilderController {
                  builderF[1]=5;
              }
             title.setText("Clicca la cella dove vuoi inserire il tuo costruttore ");
-
-
-
-            
-        }
-
-
-
-
-
+        }*/
     }
-
-
 }
-
