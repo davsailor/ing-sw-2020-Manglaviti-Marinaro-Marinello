@@ -1,17 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<Pane fx:controller="it.polimi.ingsw2020.santorini.view.gui." maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="233.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ProgressIndicator layoutX="235.0" layoutY="148.0" progress="0.0" />
-      <Label layoutX="92.0" layoutY="60.0" text="WAITING FOR OTHER PLAYERS">
+      <ImageView fitHeight="450.0" fitWidth="619.0" layoutX="-12.0">
+         <image>
+            <Image url="@../images/SfondoConColonne.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="139.0" layoutX="50.0" layoutY="204.0">
+         <image>
+            <Image url="@../images/Gif1.gif" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="139.0" layoutX="231.0" layoutY="204.0">
+         <image>
+            <Image url="@../images/Gif2.gif" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="139.0" layoutX="411.0" layoutY="204.0">
+         <image>
+            <Image url="@../images/Gif3.gif" />
+         </image>
+      </ImageView>
+      <Label layoutX="134.0" layoutY="85.0" text="Waiting for other Players" textFill="#2276ab">
          <font>
-            <Font name="System Bold Italic" size="28.0" />
+            <Font name="Gabriola" size="45.0" />
+         </font>
+      </Label>
+      <Label layoutX="171.0" layoutY="23.0" text="Gods accepted You" textFill="#2276ab">
+         <font>
+            <Font name="Gabriola" size="45.0" />
          </font>
       </Label>
    </children>

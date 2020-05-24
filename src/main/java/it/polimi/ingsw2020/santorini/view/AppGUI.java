@@ -107,7 +107,22 @@ public class AppGUI extends Application implements ViewInterface{
      */
     @Override
     public void displayLoadingWindow(String message) {
-        //DA VEDERE
+        Platform.runLater(()-> {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Parent root;
+            Scene loadingScene;
+            fxmlLoader.setLocation(getClass().getResource("/FXML/loadingWindow.fxml"));
+            try {
+                root = fxmlLoader.load();
+                loadingScene = new Scene(root);
+            } catch (IOException e) {
+                root = null;
+                loadingScene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
+                e.printStackTrace();
+            }
+            primaryStage.setScene(loadingScene);
+            primaryStage.show();
+        });
     }
 
     /**
