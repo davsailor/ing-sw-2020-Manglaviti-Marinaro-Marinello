@@ -70,6 +70,14 @@ public class RegisterController {
             }
         } else
             correct = false;
+        if(!correct){
+            try {
+                ip = indirizzoIp.getText();
+                client.setNetworkHandler(new ServerAdapter(client, ip));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         String usernameId = username.getText();
         Date date = new Date(1900, 0, 1);

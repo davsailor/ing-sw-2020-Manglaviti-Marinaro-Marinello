@@ -2,10 +2,12 @@ package it.polimi.ingsw2020.santorini.view;
 
 import it.polimi.ingsw2020.santorini.model.Cell;
 import it.polimi.ingsw2020.santorini.network.client.Client;
+import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.*;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.AskMoveSelectionMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.LoginMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchSetupMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.UpdateMessage;
@@ -77,7 +79,11 @@ public class AppGUI extends Application implements ViewInterface{
             primaryStage.show();
         } else {
             // si fa un alert sulla scene, disabilitando tutto tranne casella username
+            //1 mostrare di nuovo RegisterController non facendo partire RegisterAction, ma un nuovo metodo che Mostri tutto uguale a Prima con
+            //soltanto la casella username da mostrare.
+            //2 Creare una nuova schermata che fa entrare solo l'username( ma ti costrine a creare una nuova classe)
         }
+
     }
 
 
