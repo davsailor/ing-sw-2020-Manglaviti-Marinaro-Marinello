@@ -4,6 +4,7 @@ import it.polimi.ingsw2020.santorini.model.Cell;
 import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
+import it.polimi.ingsw2020.santorini.utils.SecondHeaderType;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.*;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.AskMoveSelectionMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
@@ -122,6 +123,7 @@ public class AppGUI extends Application implements ViewInterface{
             }
             primaryStage.setScene(loadingScene);
             primaryStage.show();
+
         });
     }
 
@@ -149,7 +151,14 @@ public class AppGUI extends Application implements ViewInterface{
             infoMatchController.setClient(client);
             primaryStage.setScene(scene);
             primaryStage.show();
-
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();//TODO ricordiamo di cancellare sto print stack trace
+            }
+            Message message = new Message(client.getUsername());
+            message.buildSynchronizationMessage(SecondHeaderType.BEGIN_MATCH);
+            client.getNetworkHandler().send(message);
         });
 
     }
@@ -161,25 +170,26 @@ public class AppGUI extends Application implements ViewInterface{
      */
     @Override
     public void displaySelectionBuilderWindow(MatchStateMessage turnPlayerMessage) {
-        Stage stage = new Stage();
-        Parent children;
-        Scene scene;
+        Platform.runLater(()-> {
+            Parent children;
+            Scene scene;
 
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/FXML/board.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/FXML/board.fxml"));
 
-        try {
-            children = fxmlLoader.load();
-            scene = new Scene(children);
-        } catch (IOException e) {
-            children = null;
-            scene = new Scene(new Label ("ERROR "));
-        }
-        selectionBuilderController = fxmlLoader.getController();
-        selectionBuilderController.setClient(client);
-        stage.setTitle("SELECT THE CELL WHERE YOU WANT TO PUT YOUR BUILDER");
-        stage.setScene(scene);
-        stage.show();
+            try {
+                children = fxmlLoader.load();
+                scene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                scene = new Scene(new Label ("ERROR "));
+            }
+            selectionBuilderController = fxmlLoader.getController();
+            selectionBuilderController.setClient(client);
+            selectionBuilderController.setMatchStateMessage(turnPlayerMessage);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        });
     }
 
 

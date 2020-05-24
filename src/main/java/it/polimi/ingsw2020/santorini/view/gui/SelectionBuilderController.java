@@ -1,25 +1,32 @@
 package it.polimi.ingsw2020.santorini.view.gui;
 
 import it.polimi.ingsw2020.santorini.network.client.Client;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
 
 public class SelectionBuilderController {
 
     private Client client;
+    private MatchStateMessage matchStateMessage;
 
     public void setClient(Client client) {
+        this.client = client;
     }
 
+    public void setMatchStateMessage(MatchStateMessage matchStateMessage) {
+        this.matchStateMessage = matchStateMessage;
+    }
 
     @FXML
-    Label title;
-    @FXML
+    private Label title;
+   @FXML
     Button b00;
     @FXML
     Button b01;
@@ -71,119 +78,117 @@ public class SelectionBuilderController {
     Button b44;
 
     @FXML
-    public void setPos(MouseEvent mouseEvent) {
+    public void setPos(ActionEvent actionEvent) {
         title.setText("Clicca la cella dove vuoi inserire la tua costruttrice ");
-        Node pos = (Node) mouseEvent.getSource();
-/*
-        if(client.getUsername().equals(currentPlayer)) {
+        Button pos = (Button) actionEvent.getSource();
+        if(client.getUsername().equals(matchStateMessage.getCurrentPlayer().getNickname())) {
             int[] builderM, builderF;
             builderM = new int[2];
             builderF = new int[2];
             builderF[0]=-1;
             builderF[1]=-1;
 
-
-             if (pos==b00){
+            if (pos.equals(b00)){
                  builderF[0]=1;
                  builderF[1]=1;
             }
-             else if (pos==b01){
+            else if (pos.equals(b01)){
                  builderF[0]=1;
                  builderF[1]=2;
              }
-             else if (pos==b02){
+             else if (pos.equals(b02)){
                  builderF[0]=1;
                  builderF[1]=3;
              }
-             else if (pos==b03){
+             else if (pos.equals(b03)){
                  builderF[0]=1;
                  builderF[1]=4;
              }
-             else if (pos==b04){
+             else if (pos.equals(b04)){
                  builderF[0]=1;
                  builderF[1]=5;
              }
-             else if (pos==b10){
+             else if (pos.equals(b10)){
                  builderF[0]=2;
                  builderF[1]=1;
              }
-             else if (pos==b11){
+             else if (pos.equals(b11)){
                  builderF[0]=2;
                  builderF[1]=2;
              }
-             else if (pos==b12){
+             else if (pos.equals(b12)){
                  builderF[0]=2;
                  builderF[1]=3;
              }
-             else if (pos==b13){
+             else if (pos.equals(b13)){
                  builderF[0]=2;
                  builderF[1]=4;
              }
-             else if (pos==b14){
+             else if (pos.equals(b14)){
                  builderF[0]=2;
                  builderF[1]=5;
              }
-             else if (pos==b20){
+             else if (pos.equals(b20)){
                  builderF[0]=3;
                  builderF[1]=1;
              }
-             else if (pos==b21){
+             else if (pos.equals(b21)){
                  builderF[0]=3;
                  builderF[1]=2;
              }
-             else if (pos==b22){
+             else if (pos.equals(b22)){
                  builderF[0]=3;
                  builderF[1]=3;
              }
-             else if (pos==b23){
+             else if (pos.equals(b23)){
                  builderF[0]=3;
                  builderF[1]=4;
              }
-             else if (pos==b24){
+             else if (pos.equals(b24)){
                  builderF[0]=3;
                  builderF[1]=5;
              }
-             else if (pos==b30){
+             else if (pos.equals(b30)){
                  builderF[0]=4;
                  builderF[1]=1;
              }
-             else if (pos==b31){
+             else if (pos.equals(b31)){
                  builderF[0]=4;
                  builderF[1]=2;
              }
-             else if (pos==b32){
+             else if (pos.equals(b32)){
                  builderF[0]=4;
                  builderF[1]=3;
              }
-             else if (pos==b33){
+             else if (pos.equals(b33)){
                  builderF[0]=4;
                  builderF[1]=4;
              }
-             else if (pos==b34){
+             else if (pos.equals(b34)){
                  builderF[0]=4;
                  builderF[1]=5;
              }
-             else if (pos==b40){
+             else if (pos.equals(b40)){
                  builderF[0]=5;
                  builderF[1]=1;
              }
-             else if (pos==b41){
+             else if (pos.equals(b41)){
                  builderF[0]=5;
                  builderF[1]=2;
              }
-             else if (pos==b42){
+             else if (pos.equals(b42)){
                  builderF[0]=5;
                  builderF[1]=3;
              }
-             else if (pos==b43){
+             else if (pos.equals(b43)){
                  builderF[0]=5;
                  builderF[1]=4;
              }
-             else if (pos==b44){
+             else if (pos.equals(b44)){
                  builderF[0]=5;
                  builderF[1]=5;
              }
-            title.setText("Clicca la cella dove vuoi inserire il tuo costruttore ");
-        }*/
+            title.setText("Colonna: "+ builderF[1]+ "\nRighe: "+ builderF[0]);
+        }
     }
 }
