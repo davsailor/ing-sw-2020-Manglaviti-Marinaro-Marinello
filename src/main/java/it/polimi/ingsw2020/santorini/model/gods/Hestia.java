@@ -35,7 +35,6 @@ public class Hestia extends GodCard {
             neighboringLevelCell[2][1] = -1;
             neighboringLevelCell[2][2] = -1;
         }
-
         if(match.getCurrentPlayer().getPlayingBuilder().getPosY() == 1 || match.getCurrentPlayer().getPlayingBuilder().getPosY() == 5){
             neighboringLevelCell[0][1] = -1;
             neighboringLevelCell[1][1] = -1;

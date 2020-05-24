@@ -24,19 +24,19 @@ public class RegisterController {
     private ObservableList list = FXCollections.observableArrayList(2,3);
 
     @FXML
-    TextField indirizzoIp;
+    private TextField indirizzoIp;
 
     @FXML
-    TextField username;
+    private TextField username;
 
     @FXML
-    DatePicker birthDate;
+    private DatePicker birthDate;
 
     @FXML
-    ChoiceBox<Integer> numberOfPlayers;
+    private ChoiceBox<Integer> numberOfPlayers;
 
     @FXML
-    Button signUpButton;
+    private Button signUpButton;
 
     public void setClient(Client client) {
         this.client = client;
@@ -54,7 +54,7 @@ public class RegisterController {
         boolean correct = true;
 
         ip = indirizzoIp.getText();
-        if(!ip.isEmpty()) {
+        if(!ip.isBlank()) {
             try {
                 client.setNetworkHandler(new ServerAdapter(client, ip));
                 client.setViewHandler(new ViewAdapter(client));
@@ -70,14 +70,7 @@ public class RegisterController {
             }
         } else
             correct = false;
-        if(!correct){
-            try {
-                ip = indirizzoIp.getText();
-                client.setNetworkHandler(new ServerAdapter(client, ip));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+
 
         String usernameId = username.getText();
         Date date = new Date(1900, 0, 1);
@@ -100,9 +93,12 @@ public class RegisterController {
             Message message = new Message(client.getUsername());
             message.buildLoginMessage(new LoginMessage(client.getUsername(), client.getBirthDate(), client.getSelectedMatch()));
             client.getNetworkHandler().send(message);
+            /*
             Button button = (Button) actionEvent.getSource();
             Stage stage = (Stage) button.getScene().getWindow();
             stage.close();
+
+             */
         }
     }
 }

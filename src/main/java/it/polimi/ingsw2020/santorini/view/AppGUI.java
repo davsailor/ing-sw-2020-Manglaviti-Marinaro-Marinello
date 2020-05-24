@@ -11,10 +11,7 @@ import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.LoginMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchSetupMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.UpdateMessage;
-import it.polimi.ingsw2020.santorini.view.gui.BoardController;
-import it.polimi.ingsw2020.santorini.view.gui.InfoMatchController;
-import it.polimi.ingsw2020.santorini.view.gui.RegisterController;
-import it.polimi.ingsw2020.santorini.view.gui.SelectionBuilderController;
+import it.polimi.ingsw2020.santorini.view.gui.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -25,6 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -59,31 +57,46 @@ public class AppGUI extends Application implements ViewInterface{
      */
     @Override
     public void displaySetupWindow(boolean firstTime) {
-        Parent root;
-
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/FXML/Register.fxml"));
-
-        if(firstTime) {
-            try {
-                root = fxmlLoader.load();
-                registerScene = new Scene(root);
-            } catch (IOException e) {
-                root = null;
-                registerScene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
+        Platform.runLater(()-> {
+            if (firstTime) {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                Parent root;
+                Scene registerScene;
+                fxmlLoader.setLocation(getClass().getResource("/FXML/Register.fxml"));
+                try {
+                    root = fxmlLoader.load();
+                    registerScene = new Scene(root);
+                } catch (IOException e) {
+                    root = null;
+                    registerScene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
+                }
+                registerController = fxmlLoader.getController();
+                registerController.setClient(client);
+                primaryStage.setTitle("Santorini");
+                primaryStage.setScene(registerScene);
+                primaryStage.show();
+            } else {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                NewUsernameController newUsernameController;
+                Parent root;
+                Scene newUsername;
+                fxmlLoader.setLocation(getClass().getResource("/FXML/NewUsername.fxml"));
+                try {
+                    root = fxmlLoader.load();
+                    newUsername = new Scene(root);
+                } catch (IOException e) {
+                    root = null;
+                    newUsername = new Scene(new Label("Graphical Resources not found. Fatal Error"));
+                }
+                newUsernameController = fxmlLoader.getController();
+                newUsernameController.setClient(client);
+                Stage alertBox = new Stage();
+                alertBox.initModality(Modality.APPLICATION_MODAL);
+                alertBox.setTitle("New Username");
+                alertBox.setScene(newUsername);
+                alertBox.show();
             }
-            registerController = fxmlLoader.getController();
-            registerController.setClient(client);
-            primaryStage.setTitle("Santorini");
-            primaryStage.setScene(registerScene);
-            primaryStage.show();
-        } else {
-            // si fa un alert sulla scene, disabilitando tutto tranne casella username
-            //1 mostrare di nuovo RegisterController non facendo partire RegisterAction, ma un nuovo metodo che Mostri tutto uguale a Prima con
-            //soltanto la casella username da mostrare.
-            //2 Creare una nuova schermata che fa entrare solo l'username( ma ti costrine a creare una nuova classe)
-        }
-
+        });
     }
 
 
@@ -106,13 +119,10 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public void displayMatchSetupWindow(MatchSetupMessage matchSetupMessage) {
         Platform.runLater(()-> {
-
-            Stage stage = new Stage();
             Parent children;
             Scene scene;
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/FXML/InfoMatch.fxml"));
-
             try {
                 children = fxmlLoader.load();
                 scene = new Scene(children);
@@ -122,9 +132,8 @@ public class AppGUI extends Application implements ViewInterface{
             }
             infoMatchController = fxmlLoader.getController();
             infoMatchController.setClient(client);
-            stage.setTitle("START GAME");
-            stage.setScene(scene);
-            stage.show();
+            primaryStage.setScene(scene);
+            primaryStage.show();
 
         });
 
