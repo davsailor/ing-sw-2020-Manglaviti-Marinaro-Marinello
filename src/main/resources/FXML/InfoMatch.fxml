@@ -1,18 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<Pane fx:controller="it.polimi.ingsw2020.santorini.view.gui.InfoMatchController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="542.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw2020.santorini.view.gui.InfoMatchController">
    <children>
-      <Label layoutX="92.0" layoutY="29.0" text="GIOCATORI DELLA PARTITA:">
+      <ImageView fitHeight="377.0" fitWidth="271.0" layoutY="204.0">
+         <image>
+            <Image url="@../images/versus_bg2.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="377.0" fitWidth="271.0" layoutX="271.0" layoutY="204.0">
+         <image>
+            <Image url="@../images/versus_bg1.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="208.0" fitWidth="545.0" layoutX="-1.0" layoutY="-3.0" opacity="0.85">
+         <image>
+            <Image url="@../images/title_water.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="66.0" fitWidth="200.0" layoutX="331.0" layoutY="172.0">
+         <image>
+            <Image url="@../images/versus_nameflags.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="53.0" layoutY="196.0" prefHeight="17.0" prefWidth="141.0" text="Label" textAlignment="CENTER" />
+      <Label layoutX="370.0" layoutY="188.0" prefHeight="17.0" prefWidth="134.0" />
+      <ImageView fitHeight="122.0" fitWidth="162.0" layoutX="369.0" layoutY="55.0">
+         <image>
+            <Image url="@../images/ScyllaTail.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="94.0" fitWidth="110.0" layoutX="136.0" layoutY="81.0">
+         <image>
+            <Image url="@../images/title_boat_bottom.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="192.0" fitWidth="110.0" layoutY="1.0">
+         <image>
+            <Image url="@../images/title_poseidon.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="-1.0" layoutY="17.0" prefHeight="76.0" prefWidth="545.0" text="          CHALLENGERS" textAlignment="CENTER" textFill="#2276ab">
          <font>
-            <Font name="System Bold Italic" size="30.0" />
+            <Font name="Gabriola" size="63.0" />
          </font>
       </Label>
-      <TextArea fx:id="textArea" layoutX="10.0" layoutY="86.0" prefHeight="300.0" prefWidth="580.0" />
+      <ImageView fitHeight="59.0" fitWidth="200.0" layoutX="24.0" layoutY="175.0">
+         <image>
+            <Image url="@../images/versus_nameflags_1.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="66.0" fitWidth="78.0" layoutX="232.0" layoutY="171.0">
+         <image>
+            <Image url="@../images/versus_particle.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>
