@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 
@@ -55,6 +56,16 @@ public class InfoMatchController {
         imageView.setFitWidth(160.0);
         imageView.setFitHeight(217.0);
         god2.setGraphic(imageView);
+
+        if(players.size() == 3){
+            username3.setText(players.get(2).getNickname());
+            username3.setAlignment(Pos.TOP_CENTER);
+            image = godImage(players.get(2).getDivinePower().getName());
+            imageView = new ImageView(image);
+            imageView.setFitWidth(160.0);
+            imageView.setFitHeight(217.0);
+            god2.setGraphic(imageView);
+        }
     }
 
     private Image godImage(String name){
