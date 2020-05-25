@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="542.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw2020.santorini.view.gui.InfoMatchController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="542.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw2020.santorini.view.gui.InfoMatchController">
    <children>
-      <Label fx:id="god2" layoutX="282.0" layoutY="266.0" prefHeight="215.0" prefWidth="162.0" />
-      <Label fx:id="god1" layoutX="104.0" layoutY="263.0" prefHeight="215.0" prefWidth="153.0" />
+      <Label fx:id="god2" layoutX="282.0" layoutY="263.0" prefHeight="217.0" prefWidth="160.0" />
+      <Label fx:id="god1" layoutX="102.0" layoutY="263.0" prefHeight="217.0" prefWidth="160.0" />
       <ImageView fitHeight="377.0" fitWidth="271.0" layoutY="204.0">
          <image>
             <Image url="@../images/versus_bg2.png" />
@@ -24,13 +26,14 @@
             <Image url="@../images/title_water.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="66.0" fitWidth="200.0" layoutX="331.0" layoutY="172.0">
+      <ImageView fitHeight="66.0" fitWidth="200.0" layoutX="330.0" layoutY="175.0">
          <image>
             <Image url="@../images/versus_nameflags.png" />
          </image>
+         <effect>
+            <ColorAdjust brightness="0.06" contrast="0.06" hue="0.51" saturation="0.15" />
+         </effect>
       </ImageView>
-      <Label layoutX="53.0" layoutY="196.0" prefHeight="17.0" prefWidth="141.0" text="Label" textAlignment="CENTER" />
-      <Label layoutX="370.0" layoutY="188.0" prefHeight="17.0" prefWidth="134.0" />
       <ImageView fitHeight="122.0" fitWidth="162.0" layoutX="369.0" layoutY="55.0">
          <image>
             <Image url="@../images/ScyllaTail.png" />
@@ -46,20 +49,31 @@
             <Image url="@../images/title_poseidon.png" />
          </image>
       </ImageView>
-      <Label layoutX="-1.0" layoutY="17.0" prefHeight="76.0" prefWidth="545.0" text="          CHALLENGERS" textAlignment="CENTER" textFill="#2276ab">
+      <Label layoutX="111.0" layoutY="20.0" prefHeight="80.0" prefWidth="320.0" text="CHALLENGERS" textAlignment="CENTER" textFill="#2276ab">
          <font>
             <Font name="Gabriola" size="63.0" />
          </font>
       </Label>
-      <ImageView fitHeight="59.0" fitWidth="200.0" layoutX="24.0" layoutY="175.0">
+      <ImageView fitHeight="59.0" fitWidth="200.0" layoutX="25.0" layoutY="175.0">
          <image>
             <Image url="@../images/versus_nameflags_1.png" />
          </image>
+         <effect>
+            <ColorAdjust brightness="0.23" contrast="1.0" hue="-0.11" saturation="0.34" />
+         </effect>
       </ImageView>
       <ImageView fitHeight="66.0" fitWidth="78.0" layoutX="232.0" layoutY="171.0">
          <image>
             <Image url="@../images/versus_particle.png" />
          </image>
       </ImageView>
+      <Label fx:id="username1" layoutX="60.0" layoutY="190.0" prefHeight="20.0" prefWidth="140.0" textAlignment="CENTER">
+         <font>
+            <Font name="Gabriola" size="18.0" />
+         </font></Label>
+      <Label fx:id="username2" layoutX="365.0" layoutY="190.0" prefHeight="20.0" prefWidth="140.0" textAlignment="CENTER">
+         <font>
+            <Font name="Gabriola" size="18.0" />
+         </font></Label>
    </children>
 </Pane>

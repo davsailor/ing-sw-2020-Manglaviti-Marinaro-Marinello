@@ -73,6 +73,8 @@ public class AppGUI extends Application implements ViewInterface{
                 Parent root;
                 Scene newUsername;
                 fxmlLoader.setLocation(getClass().getResource("/FXML/NewUsername.fxml"));
+                newUsernameController = fxmlLoader.getController();
+                newUsernameController.setClient(client);
                 try {
                     root = fxmlLoader.load();
                     newUsername = new Scene(root);
@@ -80,8 +82,6 @@ public class AppGUI extends Application implements ViewInterface{
                     root = null;
                     newUsername = new Scene(new Label("Graphical Resources not found. Fatal Error"));
                 }
-                newUsernameController = fxmlLoader.getController();
-                newUsernameController.setClient(client);
                 Stage alertBox = new Stage();
                 alertBox.initModality(Modality.APPLICATION_MODAL);
                 alertBox.setTitle("New Username");
@@ -114,7 +114,6 @@ public class AppGUI extends Application implements ViewInterface{
             }
             primaryStage.setScene(loadingScene);
             primaryStage.show();
-
         });
     }
 
@@ -136,12 +135,13 @@ public class AppGUI extends Application implements ViewInterface{
                 children = fxmlLoader.load();
                 scene = new Scene(children);
             } catch (IOException e) {
+                e.printStackTrace();
                 children = null;
-                scene = new Scene(new Label ("ERROR "));
+                scene = new Scene(new Label ("Graphical Resources not found. Fatal Error"));
             }
             infoMatchController = fxmlLoader.getController();
             infoMatchController.setClient(client);
-            infoMatchController.setPlayers(players);
+            infoMatchController.initializePlayers(players);
             primaryStage.setScene(scene);
             primaryStage.show();
             try {
