@@ -8,6 +8,8 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="542.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw2020.santorini.view.gui.InfoMatchController">
    <children>
+      <Label fx:id="god2" layoutX="282.0" layoutY="266.0" prefHeight="215.0" prefWidth="162.0" />
+      <Label fx:id="god1" layoutX="104.0" layoutY="263.0" prefHeight="215.0" prefWidth="153.0" />
       <ImageView fitHeight="377.0" fitWidth="271.0" layoutY="204.0">
          <image>
             <Image url="@../images/versus_bg2.png" />
@@ -18,7 +20,7 @@
             <Image url="@../images/versus_bg1.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="208.0" fitWidth="545.0" layoutX="-1.0" layoutY="-3.0" opacity="0.85">
+      <ImageView fitHeight="208.0" fitWidth="543.0" layoutX="-1.0" layoutY="-3.0" opacity="0.85">
          <image>
             <Image url="@../images/title_water.png" />
          </image>
