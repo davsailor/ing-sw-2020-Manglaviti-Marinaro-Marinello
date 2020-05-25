@@ -1,5 +1,6 @@
 package it.polimi.ingsw2020.santorini.view.gui;
 
+import it.polimi.ingsw2020.santorini.model.Player;
 import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 import javafx.event.ActionEvent;
@@ -11,10 +12,17 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
 
+import java.util.ArrayList;
+
 public class SelectionBuilderController {
 
     private Client client;
     private MatchStateMessage matchStateMessage;
+    private ArrayList<Player> players;
+
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
 
     public void setClient(Client client) {
         this.client = client;

@@ -166,9 +166,12 @@ public class AppGUI extends Application implements ViewInterface{
         Platform.runLater(()-> {
             Parent children;
             Scene scene;
-
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/FXML/board.fxml"));
+            //Switch that choose which kind of board the window has to show, based on the number of players
+            switch (players.size()){
+                case(2): fxmlLoader.setLocation(getClass().getResource("/FXML/board.fxml"));
+                case(3):  fxmlLoader.setLocation(getClass().getResource("/FXML/board_3.fxml"));
+            }
 
             try {
                 children = fxmlLoader.load();
