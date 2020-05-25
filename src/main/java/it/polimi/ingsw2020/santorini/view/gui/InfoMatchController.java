@@ -5,6 +5,7 @@ import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.SecondHeaderType;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -16,14 +17,9 @@ import java.util.ArrayList;
 public class InfoMatchController {
 
     private Client client;
-    private ArrayList<Player> players;
 
     public void setClient(Client client) {
         this.client = client;
-    }
-
-    public void setPlayers(ArrayList<Player> players) {
-        this.players = players;
     }
 
     @FXML
@@ -40,20 +36,58 @@ public class InfoMatchController {
     private Label username3;
 
     public void initialize(){
-        Image image = new Image(getClass().getResourceAsStream("/images/Zeus.png"));
-        username1.setText("Diana");
+    }
+
+    public void initializePlayers(ArrayList<Player> players){
+        username1.setText(players.get(0).getNickname());
+        username1.setAlignment(Pos.TOP_CENTER);
+        username2.setText(players.get(1).getNickname());
+        username2.setAlignment(Pos.TOP_CENTER);
+
+        Image image = godImage(players.get(0).getDivinePower().getName());
         ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(153.0);
-        imageView.setFitHeight(215.0);
+        imageView.setFitWidth(160.0);
+        imageView.setFitHeight(217.0);
         god1.setGraphic(imageView);
 
-        image = new Image(getClass().getResourceAsStream("/images/Poseidon.png"));
-        username2.setText("Andrea");
+        image = godImage(players.get(1).getDivinePower().getName());
         imageView = new ImageView(image);
-        imageView.setFitWidth(162.0);
-        imageView.setFitHeight(215.0);
+        imageView.setFitWidth(160.0);
+        imageView.setFitHeight(217.0);
         god2.setGraphic(imageView);
     }
 
-
+    private Image godImage(String name){
+        switch (name){
+            case "Apollo" :
+                return new Image(getClass().getResourceAsStream("/images/Apollo.png"));
+            case "Ares" :
+                return new Image(getClass().getResourceAsStream("/images/Ares.png"));
+            case "Artemis" :
+                return new Image(getClass().getResourceAsStream("/images/Artemis.png"));
+            case "Athena" :
+                return new Image(getClass().getResourceAsStream("/images/Athena.png"));
+            case "Atlas" :
+                return new Image(getClass().getResourceAsStream("/images/Atlas.png"));
+            case "Chronus" :
+                return new Image(getClass().getResourceAsStream("/images/Chronus.png"));
+            case "Demeter" :
+                return new Image(getClass().getResourceAsStream("/images/Demeter.png"));
+            case "Hephaestus" :
+                return new Image(getClass().getResourceAsStream("/images/Hephaestus.png"));
+            case "Hestia" :
+                return new Image(getClass().getResourceAsStream("/images/Hestia.png"));
+            case "Minotaur" :
+                return new Image(getClass().getResourceAsStream("/images/Minotaur.png"));
+            case "Pan" :
+                return new Image(getClass().getResourceAsStream("/images/Pan.png"));
+            case "Poseidon" :
+                return new Image(getClass().getResourceAsStream("/images/Poseidon.png"));
+            case "Prometheus" :
+                return new Image(getClass().getResourceAsStream("/images/Prometheus.png"));
+            case "Zeus" :
+                return new Image(getClass().getResourceAsStream("/images/Zeus.png"));
+        }
+        return null;
+    }
 }

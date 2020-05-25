@@ -5,6 +5,7 @@ import it.polimi.ingsw2020.santorini.network.client.ServerAdapter;
 import it.polimi.ingsw2020.santorini.network.client.ViewAdapter;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.LoginMessage;
+import it.polimi.ingsw2020.santorini.view.AppGUI;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
