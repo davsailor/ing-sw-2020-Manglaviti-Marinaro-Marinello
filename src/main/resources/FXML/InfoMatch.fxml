@@ -28,7 +28,7 @@
       </ImageView>
       <ImageView fitHeight="66.0" fitWidth="200.0" layoutX="330.0" layoutY="175.0">
          <image>
-            <Image url="@../images/versus_nameflags.png" />
+            <Image url="@../images/nameflags.png" />
          </image>
          <effect>
             <ColorAdjust brightness="0.06" contrast="0.06" hue="0.51" saturation="0.15" />
@@ -56,7 +56,7 @@
       </Label>
       <ImageView fitHeight="59.0" fitWidth="200.0" layoutX="25.0" layoutY="175.0">
          <image>
-            <Image url="@../images/versus_nameflags_1.png" />
+            <Image url="@../images/nameflags_1.png" />
          </image>
          <effect>
             <ColorAdjust brightness="0.23" contrast="1.0" hue="-0.11" saturation="0.34" />

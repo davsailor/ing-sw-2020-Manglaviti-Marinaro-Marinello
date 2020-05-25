@@ -9,14 +9,14 @@
 
 <Pane layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="537.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw2020.santorini.view.gui.SelectionBuilderController">
     <children>
-      <ImageView fitHeight="209.0" fitWidth="600.0" layoutY="329.0" opacity="0.72">
+      <ImageView fitHeight="240.0" fitWidth="600.0" layoutY="-61.0">
          <image>
-            <Image url="@../../../../../../Downloads/Texture2D-20200524T184210Z-001/Texture2D/title_water.png" />
+            <Image url="@../images/Sea_v002.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="215.0" fitWidth="600.0" layoutY="-63.0">
+      <ImageView fitHeight="209.0" fitWidth="600.0" layoutY="329.0" opacity="0.72">
          <image>
-            <Image url="@../Downloads/title_sky_with_santorini.png" />
+            <Image url="@../images/title_water.png" />
          </image>
       </ImageView>
        <!--> <GridPane layoutX="111.0" layoutY="2.0" prefHeight="400.0" prefWidth="377.0">
@@ -91,84 +91,84 @@
         <Button fx:id="b14" layoutX="377.0" layoutY="117.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
       <ImageView fitHeight="269.0" fitWidth="185.0" layoutY="269.0">
          <image>
-            <Image url="@../../../../../../Downloads/Texture2D-20200524T184210Z-001/Texture2D/title_island.png" />
+            <Image url="@../images/island.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="78.0" fitWidth="111.0" layoutX="214.0" layoutY="445.0">
          <image>
-            <Image url="@../../../../../../Downloads/Texture2D-20200524T184210Z-001/Texture2D/title_boat_bottom.png" />
+            <Image url="@../images/title_boat_bottom.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="181.0" fitWidth="92.0" layoutX="1.0" layoutY="188.0">
          <image>
-            <Image url="@../../../../../../Downloads/Texture2D-20200524T184210Z-001/Texture2D/title_poseidon.png" />
+            <Image url="@../images/title_poseidon.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="28.0" fitWidth="48.0" layoutX="72.0" layoutY="280.0">
          <image>
-            <Image url="@../../../../../../Downloads/Texture2D-20200524T184210Z-001/Texture2D/title_poseidon_hand.png" />
+            <Image url="@../images/hand.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="143.0" fitWidth="144.0" layoutX="459.0" layoutY="185.0">
          <image>
-            <Image url="@../../../../../../Downloads/Texture2D-20200524T184210Z-001/Texture2D/ScyllaTail.png" />
+            <Image url="@../images/ScyllaTail.png" />
          </image>
       </ImageView>
-      <Label fx:id="god2" layoutX="471.0" layoutY="383.0" prefHeight="108.0" prefWidth="118.0" />
-      <Label fx:id="god1" layoutX="14.0" layoutY="25.0" prefHeight="114.0" prefWidth="111.0" />
-      <ImageView fitHeight="191.0" fitWidth="138.0">
+      <Label fx:id="god2" layoutX="490.0" layoutY="380.0" prefHeight="108.0" prefWidth="99.0" />
+      <Label fx:id="god1" layoutX="9.0" layoutY="31.0" prefHeight="108.0" prefWidth="99.0" />
+      <ImageView fitHeight="191.0" fitWidth="118.0">
          <image>
-            <Image url="@../Downloads/RisorseGrafiche-Santorini2.zip%20(Unzipped%20Files)-20200525T062304Z-001/RisorseGrafiche-Santorini2.zip%20(Unzipped%20Files)/santorini_risorse-grafiche-2/Sprite/fg_panel2.png" />
+            <Image url="@../images/fg_panel2.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="61.0" fitWidth="159.0" layoutX="-6.0" layoutY="-42.0">
+      <ImageView fitHeight="61.0" fitWidth="128.0" layoutX="-1.0" layoutY="-42.0">
          <image>
-            <Image url="@../Pictures/versus_nameflags_1.png" />
+            <Image url="@../images/nameflags_1.png" />
          </image>
          <effect>
-            <ColorAdjust brightness="0.05" contrast="0.09" hue="-0.17" />
+            <ColorAdjust brightness="0.23" contrast="0.1" hue="-0.11" saturation="0.34" />
          </effect>
       </ImageView>
-      <ImageView fitHeight="191.0" fitWidth="138.0" layoutX="462.0" layoutY="347.0">
+      <ImageView fitHeight="191.0" fitWidth="118.0" layoutX="482.0" layoutY="347.0">
          <image>
-            <Image url="@../Downloads/RisorseGrafiche-Santorini2.zip%20(Unzipped%20Files)-20200525T062304Z-001/RisorseGrafiche-Santorini2.zip%20(Unzipped%20Files)/santorini_risorse-grafiche-2/Sprite/fg_panel2.png" />
+            <Image url="@../images/fg_panel2.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="67.0" fitWidth="150.0" layoutX="453.0" layoutY="314.0">
+      <ImageView fitHeight="67.0" fitWidth="128.0" layoutX="475.0" layoutY="314.0">
          <image>
-            <Image url="@../Pictures/versus_nameflags.png" />
+            <Image url="@../images/nameflags.png" />
          </image>
          <effect>
-            <ColorAdjust brightness="-0.12" contrast="0.16" hue="0.47" saturation="0.09" />
+            <ColorAdjust brightness="0.06" contrast="0.06" hue="0.51" saturation="0.15" />
          </effect>
       </ImageView>
-      <Label fx:id="username2" layoutX="496.0" layoutY="321.0" prefHeight="17.0" prefWidth="68.0" textAlignment="CENTER">
+      <Label fx:id="username2" layoutX="495.0" layoutY="321.0" prefHeight="34.0" prefWidth="98.0" textAlignment="CENTER">
          <font>
-            <Font name="Gabriola" size="28.0" />
+            <Font name="Gabriola" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="god3" layoutX="476.0" layoutY="26.0" prefHeight="120.0" prefWidth="111.0" />
-      <ImageView fitHeight="191.0" fitWidth="138.0" layoutX="462.0">
+      <Label fx:id="god3" layoutX="492.0" layoutY="31.0" prefHeight="108.0" prefWidth="99.0" />
+      <ImageView fitHeight="191.0" fitWidth="118.0" layoutX="482.0">
          <image>
-            <Image url="@../Downloads/RisorseGrafiche-Santorini2.zip%20(Unzipped%20Files)-20200525T062304Z-001/RisorseGrafiche-Santorini2.zip%20(Unzipped%20Files)/santorini_risorse-grafiche-2/Sprite/fg_panel2.png" />
+            <Image url="@../images/fg_panel2.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="67.0" fitWidth="150.0" layoutX="453.0" layoutY="-33.0">
+      <ImageView fitHeight="67.0" fitWidth="128.0" layoutX="475.0" layoutY="-33.0">
          <image>
-            <Image url="@../Pictures/versus_nameflags.png" />
+            <Image url="@../images/nameflags.png" />
          </image>
          <effect>
-            <ColorAdjust brightness="-0.09" contrast="-0.07" hue="-0.33" saturation="-0.42" />
+            <ColorAdjust brightness="0.06" contrast="0.06" hue="-0.52" saturation="0.15" />
          </effect>
       </ImageView>
-      <Label fx:id="username3" layoutX="500.0" layoutY="-20.0" prefHeight="34.0" prefWidth="79.0">
+      <Label fx:id="username3" layoutX="500.0" layoutY="-20.0" prefHeight="34.0" prefWidth="86.0">
          <font>
-            <Font name="Gabriola" size="28.0" />
+            <Font name="Gabriola" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="username1" layoutX="42.0" layoutY="-32.0" prefHeight="17.0" prefWidth="61.0" textAlignment="CENTER">
+      <Label fx:id="username1" layoutX="17.0" layoutY="-32.0" prefHeight="31.0" prefWidth="86.0" textAlignment="CENTER">
          <font>
-            <Font name="Gabriola" size="25.0" />
+            <Font name="Gabriola" size="20.0" />
          </font>
       </Label>
     </children>
