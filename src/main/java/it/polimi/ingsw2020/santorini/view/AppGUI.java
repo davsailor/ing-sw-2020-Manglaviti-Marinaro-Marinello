@@ -130,7 +130,15 @@ public class AppGUI extends Application implements ViewInterface{
             Parent children;
             Scene scene;
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/FXML/InfoMatch.fxml"));
+            switch (players.size()) {
+                case (2):
+                    fxmlLoader.setLocation(getClass().getResource("/FXML/InfoMatch.fxml"));
+                    break;
+                case (3):
+                    fxmlLoader.setLocation(getClass().getResource("/FXML/InfoMatch3.fxml"));
+                    break;
+            }
+
             try {
                 children = fxmlLoader.load();
                 scene = new Scene(children);
@@ -166,11 +174,16 @@ public class AppGUI extends Application implements ViewInterface{
         Platform.runLater(()-> {
             Parent children;
             Scene scene;
+
             FXMLLoader fxmlLoader = new FXMLLoader();
-            //Switch that choose which kind of board the window has to show, based on the number of players
+
             switch (players.size()){
-                case(2): fxmlLoader.setLocation(getClass().getResource("/FXML/board.fxml"));
-                case(3):  fxmlLoader.setLocation(getClass().getResource("/FXML/board_3.fxml"));
+                case(2):
+                    fxmlLoader.setLocation(getClass().getResource("/FXML/board.fxml"));
+                    break;
+                case(3):
+                    fxmlLoader.setLocation(getClass().getResource("/FXML/board_3.fxml"));
+                    break;
             }
 
             try {
@@ -183,6 +196,7 @@ public class AppGUI extends Application implements ViewInterface{
             selectionBuilderController = fxmlLoader.getController();
             selectionBuilderController.setClient(client);
             selectionBuilderController.setMatchStateMessage(turnPlayerMessage);
+            selectionBuilderController.initializePlayers(players);
             primaryStage.setScene(scene);
             primaryStage.show();
         });
@@ -196,8 +210,14 @@ public class AppGUI extends Application implements ViewInterface{
         Scene scene;
 
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/FXML/board.fxml"));
-
+        switch (players.size()){
+            case(2):
+                fxmlLoader.setLocation(getClass().getResource("/FXML/board.fxml"));
+                break;
+            case(3):
+                fxmlLoader.setLocation(getClass().getResource("/FXML/board_3.fxml"));
+                break;
+        }
         try {
             children = fxmlLoader.load();
             scene = new Scene(children);
