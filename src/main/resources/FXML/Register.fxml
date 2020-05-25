@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
@@ -10,18 +15,13 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw2020.santorini.view.gui.RegisterController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw2020.santorini.view.gui.RegisterController">
    <children>
       <ImageView fitHeight="500.0" fitWidth="600.0">
          <image>
             <Image url="@../images/santorini_title.png" />
          </image>
       </ImageView>
-      <Button fx:id="signUpButton" layoutX="263.0" layoutY="429.0" mnemonicParsing="false" onAction="#registerAction" text="Sign up" textAlignment="CENTER" textFill="#2276ab">
-         <font>
-            <Font name="Gabriola" size="20.0" />
-         </font>
-      </Button>
       <Label layoutX="176.0" layoutY="291.0" text="Birthday" textFill="#2276ab">
          <font>
             <Font name="Gabriola" size="29.0" />
@@ -46,5 +46,15 @@
       </font>
       </Label>
       <ChoiceBox fx:id="numberOfPlayers" layoutX="377.0" layoutY="377.0" prefHeight="25.0" prefWidth="56.0" />
+      <ImageView fitHeight="87.0" fitWidth="107.0" layoutX="230.0" layoutY="414.0">
+         <image>
+            <Image url="@../images/button-play-down.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="signUpButton" layoutX="239.0" layoutY="420.0" mnemonicParsing="false" onAction="#registerAction" opacity="0.0" prefHeight="75.0" prefWidth="87.0" text="Sign up" textAlignment="CENTER" textFill="#2276ab">
+         <font>
+            <Font name="Gabriola" size="20.0" />
+         </font>
+      </Button>
    </children>
 </Pane>
