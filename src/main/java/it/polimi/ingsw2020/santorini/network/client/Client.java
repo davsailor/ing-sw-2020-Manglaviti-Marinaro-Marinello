@@ -30,8 +30,15 @@ public class Client {
         if(args.length == 0){
             Application.launch(AppGUI.class);
         } else {
-            CLI cli = new CLI();
-            cli.displaySetupWindow(true);
+            if(args[0].equals("-cli")) {
+                CLI cli = new CLI();
+                cli.displaySetupWindow(true);
+            } else if(args[0].equals("-gui"))
+                Application.launch(AppGUI.class);
+            else {
+                System.out.println("Command does not exist!");
+                System.exit(-1);
+            }
         }
     }
 

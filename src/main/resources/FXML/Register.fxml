@@ -37,7 +37,7 @@
             <Font name="Gabriola" size="30.0" />
          </font>
       </Label>
-      <TextField fx:id="indirizzoIp" layoutX="168.0" layoutY="191.0" prefHeight="25.0" prefWidth="265.0" />
+      <TextField fx:id="ipAddress" layoutX="168.0" layoutY="191.0" prefHeight="25.0" prefWidth="265.0" />
       <TextField fx:id="username" layoutX="168.0" layoutY="259.0" prefHeight="25.0" prefWidth="265.0" />
       <DatePicker fx:id="birthDate" layoutX="168.0" layoutY="326.0" prefHeight="25.0" prefWidth="265.0" />
       <Label layoutX="176.0" layoutY="372.0" text="Number of Players" textFill="#2276ab">

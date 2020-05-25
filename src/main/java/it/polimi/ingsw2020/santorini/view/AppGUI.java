@@ -1,6 +1,7 @@
 package it.polimi.ingsw2020.santorini.view;
 
 import it.polimi.ingsw2020.santorini.model.Cell;
+import it.polimi.ingsw2020.santorini.model.Player;
 import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
@@ -8,21 +9,16 @@ import it.polimi.ingsw2020.santorini.utils.SecondHeaderType;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.*;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.AskMoveSelectionMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
-import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.LoginMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchSetupMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.UpdateMessage;
 import it.polimi.ingsw2020.santorini.view.gui.*;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -32,26 +28,21 @@ import java.util.ArrayList;
 public class AppGUI extends Application implements ViewInterface{
 
     private Client client;
-
     private Stage primaryStage;
-
     private RegisterController registerController;
-
     private BoardController boardController;
-
     private InfoMatchController infoMatchController;
-
     private SelectionBuilderController selectionBuilderController;
-
     private Scene registerScene;
+    private ArrayList<Player> players;
 
     public Client getClient() {
         return client;
     }
-
     public void setClient(Client client) {
         this.client = client;
     }
+
 
     /**
      * metodo in cui si chiede l'iP del server, dopodichè di fanno inserire username, data di nascita e tipo di partita (numero di giocatori nella partita)
@@ -136,6 +127,7 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public void displayMatchSetupWindow(MatchSetupMessage matchSetupMessage) {
         Platform.runLater(()-> {
+            players = matchSetupMessage.getPlayers();
             Parent children;
             Scene scene;
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -149,6 +141,7 @@ public class AppGUI extends Application implements ViewInterface{
             }
             infoMatchController = fxmlLoader.getController();
             infoMatchController.setClient(client);
+            infoMatchController.setPlayers(players);
             primaryStage.setScene(scene);
             primaryStage.show();
             try {

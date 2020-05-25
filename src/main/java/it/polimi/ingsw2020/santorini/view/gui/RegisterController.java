@@ -5,16 +5,13 @@ import it.polimi.ingsw2020.santorini.network.client.ServerAdapter;
 import it.polimi.ingsw2020.santorini.network.client.ViewAdapter;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.LoginMessage;
-import it.polimi.ingsw2020.santorini.view.AppGUI;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Date;
 
 public class RegisterController {
@@ -24,7 +21,7 @@ public class RegisterController {
     private ObservableList list = FXCollections.observableArrayList(2,3);
 
     @FXML
-    private TextField indirizzoIp;
+    private TextField ipAddress;
 
     @FXML
     private TextField username;
@@ -45,15 +42,14 @@ public class RegisterController {
     public void initialize(){
         numberOfPlayers.setItems(list);
         numberOfPlayers.setValue(2);
-        indirizzoIp.clear();
+        ipAddress.clear();
     }
 
     @FXML
     public void registerAction(ActionEvent actionEvent) {
         String ip;
         boolean correct = true;
-
-        ip = indirizzoIp.getText();
+        ip = ipAddress.getText();
         if(!ip.isBlank()) {
             try {
                 client.setNetworkHandler(new ServerAdapter(client, ip));
@@ -65,7 +61,7 @@ public class RegisterController {
                 networkError.showAndWait()
                         .filter(action -> action == ButtonType.OK)
                         .ifPresent(action -> networkError.close());
-                indirizzoIp.clear();
+                ipAddress.clear();
                 correct = false;
             }
         } else

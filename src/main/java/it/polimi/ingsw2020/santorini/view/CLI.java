@@ -19,10 +19,11 @@ import java.util.Scanner;
 
 @SuppressWarnings("deprecation")
 
-public class CLI implements ViewInterface{
+public class CLI implements ViewInterface {
 
     private Client client;
     private Scanner scannerIn;
+    private ArrayList<Player> listOfPlayers;
 
     public CLI(){
         this.scannerIn = new Scanner(System.in);
@@ -121,7 +122,7 @@ public class CLI implements ViewInterface{
     public void displayMatchSetupWindow(MatchSetupMessage matchSetupMessage) {
         System.out.println("Partita creata!\n");
         System.out.println("L'ordine voluto dagli dei è questo: ");
-        ArrayList<Player> listOfPlayers = matchSetupMessage.getPlayers();
+        listOfPlayers = matchSetupMessage.getPlayers();
         for(Player player : listOfPlayers) System.out.println(player.toString() + Color.RESET);
         System.out.println("\n\nE' ora di scegliere la posizione dei builder! inizierà il primo giocatore a scegliere!");
         System.out.println("Abbiamo ordinato in base all'età, i più giovani avranno un piccolo vantaggio!");
