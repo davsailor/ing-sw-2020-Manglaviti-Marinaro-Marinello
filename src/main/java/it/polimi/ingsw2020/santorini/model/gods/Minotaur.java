@@ -135,7 +135,7 @@ public class Minotaur extends GodCard {
     }
 
     public static String toStringEffect(GodCard card) {
-        return card.getName() + "\n" + card.getTimingName() + ": Your Worker may move into an opponent Worker’s\n" +
+        return card.getTimingName() + ": Your Worker may move into an opponent Worker’s\n" +
                 "space (using normal movement rules), if the next space in the same direction is\n" +
                 "unoccupied. Their Worker is forced into that space (regardless of its level).";
     }

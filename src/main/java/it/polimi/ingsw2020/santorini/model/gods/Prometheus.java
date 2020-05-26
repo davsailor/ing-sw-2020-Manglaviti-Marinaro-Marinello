@@ -42,7 +42,7 @@ public class Prometheus extends GodCard {
     }
 
     public static String toStringEffect(GodCard card) {
-        return card.getName() + "\n" + card.getTimingName() + ": If your Worker does not move up,\n" +
+        return card.getTimingName() + ": If your Worker does not move up,\n" +
                 "it may build both before and after moving.";
     }
 }

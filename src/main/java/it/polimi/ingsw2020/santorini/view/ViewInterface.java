@@ -1,6 +1,7 @@
 package it.polimi.ingsw2020.santorini.view;
 
 import it.polimi.ingsw2020.santorini.model.Cell;
+import it.polimi.ingsw2020.santorini.model.Player;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.AskBuildSelectionMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.AskMoveSelectionMessage;
@@ -90,7 +91,7 @@ public interface ViewInterface {
      */
     void displayErrorMessage(String error);
 
-    void showBoard(ArrayList<Cell> listOfCells);
+    void showBoard(ArrayList<Cell> listOfCells, ArrayList<Player> players);
 
     // void displaySample();
     // void displaySample2();

@@ -9,12 +9,18 @@ import java.util.Arrays;
 public class MatchStateMessage {
     private Player currentPlayer;
     private Cell[][] cells;
+    private ArrayList<Player> players;
 
-    public MatchStateMessage(Player currentPlayer, Cell[][] cells) {
+    public MatchStateMessage(Player currentPlayer, Cell[][] cells, ArrayList<Player> players) {
         this.currentPlayer = currentPlayer;
         this.cells = new Cell[7][7];
         this.cells = cells;
+        this.players = new ArrayList<>();
+        this.players = players;
+    }
 
+    public ArrayList<Player> getPlayers() {
+        return players;
     }
 
     public Player getCurrentPlayer() {

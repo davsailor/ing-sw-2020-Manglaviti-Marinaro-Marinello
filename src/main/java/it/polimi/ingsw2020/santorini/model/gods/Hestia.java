@@ -68,7 +68,7 @@ public class Hestia extends GodCard {
     }
 
     public static String toStringEffect(GodCard card) {
-        return card.getName() + "\n" + card.getTimingName() + ": Your Worker may build one additional time.\n" +
+        return card.getTimingName() + ": Your Worker may build one additional time.\n" +
                 "The additional build cannot be on a perimeter space.";
     }
 }

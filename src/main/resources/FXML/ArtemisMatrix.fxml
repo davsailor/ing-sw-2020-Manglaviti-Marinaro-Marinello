@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw2020.santorini.view.gui.DirectionBuildController">
+    <children>
+        <ImageView fitHeight="400.0" fitWidth="606.0" layoutX="-2.0">
+            <image>
+                <Image url="@../images/WaterBack.png" />
+            </image>
+        </ImageView>
+        <Label layoutX="54.0" layoutY="14.0" text="SELECT THE CELL WHERE YOU WANT TO MOVE AGAIN" textFill="#2f79a0">
+            <font>
+                <Font name="Gabriola" size="28.0" />
+            </font>
+        </Label>
+        <Label layoutX="277.0" layoutY="76.0" text="North" textFill="#ff6e00">
+            <font>
+                <Font name="Gabriola" size="30.0" />
+            </font>
+        </Label>
+        <Label layoutX="278.0" layoutY="349.0" text="South" textFill="#ff6e00">
+            <font>
+                <Font name="Gabriola" size="30.0" />
+            </font>
+        </Label>
+        <Label layoutX="120.0" layoutY="200.0" text="West" textFill="#ff6e00">
+            <font>
+                <Font name="Gabriola" size="30.0" />
+            </font>
+        </Label>
+        <Label layoutX="447.0" layoutY="200.0" text="East" textFill="#ff6e00">
+            <font>
+                <Font name="Gabriola" size="30.0" />
+            </font>
+        </Label>
+        <ImageView fitHeight="236.0" fitWidth="246.0" layoutX="182.0" layoutY="113.0">
+            <image>
+                <Image url="@../images/MiniBoard.png" />
+            </image>
+        </ImageView>
+        <GridPane layoutX="182.0" layoutY="113.0" prefHeight="236.0" prefWidth="246.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="93.0" minWidth="10.0" prefWidth="84.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="85.0" minWidth="10.0" prefWidth="81.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="89.0" minWidth="10.0" prefWidth="83.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="74.0" minHeight="10.0" prefHeight="73.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="85.0" minHeight="10.0" prefHeight="79.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="83.0" minHeight="10.0" prefHeight="83.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label fx:id="cell122" layoutX="93.0" layoutY="196.0" opacity="0.56" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                    <padding>
+                        <Insets left="23.0" />
+                    </padding>
+                </Label>
+                <Label fx:id="cell121" layoutX="10.0" layoutY="196.0" opacity="0.56" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <padding>
+                        <Insets left="23.0" />
+                    </padding>
+                </Label>
+                <Label fx:id="cell120" layoutX="173.0" layoutY="115.0" opacity="0.56" text="Label" GridPane.rowIndex="2">
+                    <padding>
+                        <Insets left="23.0" />
+                    </padding>
+                </Label>
+                <Label fx:id="cell112" layoutX="10.0" layoutY="115.0" opacity="0.56" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                    <padding>
+                        <Insets left="23.0" />
+                    </padding>
+                </Label>
+                <Label fx:id="cell110" layoutX="173.0" layoutY="39.0" opacity="0.56" text="Label" GridPane.rowIndex="1">
+                    <padding>
+                        <Insets left="23.0" />
+                    </padding>
+                </Label>
+                <Label fx:id="cell102" layoutX="10.0" layoutY="39.0" opacity="0.56" text="Label" GridPane.columnIndex="2">
+                    <padding>
+                        <Insets left="23.0" />
+                    </padding>
+                </Label>
+                <Label fx:id="cell101" layoutX="10.0" layoutY="39.0" opacity="0.56" text="Label" GridPane.columnIndex="1">
+                    <padding>
+                        <Insets left="23.0" />
+                    </padding>
+                </Label>
+                <Label fx:id="cell100" layoutX="173.0" layoutY="115.0" opacity="0.56" text="Label">
+                    <padding>
+                        <Insets left="23.0" />
+                    </padding>
+                </Label>
+                <Label fx:id="cell12" opacity="0.56" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                    <padding>
+                        <Insets left="23.0" />
+                    </padding>
+                </Label>
+                <Label fx:id="cell21" opacity="0.56" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <padding>
+                        <Insets left="23.0" />
+                    </padding>
+                </Label>
+                <Label fx:id="cell20" opacity="0.56" text="Label" GridPane.rowIndex="2">
+                    <GridPane.margin>
+                        <Insets left="23.0" />
+                    </GridPane.margin>
+                </Label>
+                <Label fx:id="cell01" opacity="0.56" text="Label" GridPane.columnIndex="1">
+                    <GridPane.margin>
+                        <Insets left="23.0" />
+                    </GridPane.margin>
+                </Label>
+                <Label fx:id="cell10" opacity="0.56" text="Label" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets left="23.0" />
+                    </GridPane.margin>
+                </Label>
+                <Label fx:id="cell00" opacity="0.56" text="Label">
+                    <padding>
+                        <Insets left="23.0" />
+                    </padding>
+                </Label>
+                <Label fx:id="cell02" opacity="0.56" text="Label" GridPane.columnIndex="2">
+                    <padding>
+                        <Insets left="23.0" />
+                    </padding>
+                </Label>
+                <Label fx:id="cell22" opacity="0.56" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                    <padding>
+                        <Insets left="23.0" />
+                    </padding>
+                </Label>
+                <ImageView fitHeight="75.0" fitWidth="77.0" opacity="0.56" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                    <image>
+                        <Image url="@../images/Hades_Lava.png" />
+                    </image>
+                </ImageView>
+                <Button fx:id="button00" mnemonicParsing="false" opacity="0.0" prefHeight="73.0" prefWidth="82.0" />
+                <Button fx:id="button01" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" opacity="0.0" prefHeight="73.0" prefWidth="82.0" GridPane.columnIndex="1" />
+                <Button fx:id="button02" layoutX="93.0" layoutY="11.0" mnemonicParsing="false" opacity="0.0" prefHeight="73.0" prefWidth="82.0" GridPane.columnIndex="2" />
+                <Button fx:id="button10" layoutX="173.0" layoutY="11.0" mnemonicParsing="false" opacity="0.0" prefHeight="73.0" prefWidth="82.0" GridPane.rowIndex="1" />
+                <Button fx:id="button12" layoutX="10.0" layoutY="87.0" mnemonicParsing="false" opacity="0.0" prefHeight="73.0" prefWidth="82.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <Button fx:id="button20" layoutX="173.0" layoutY="87.0" mnemonicParsing="false" opacity="0.0" prefHeight="73.0" prefWidth="82.0" GridPane.rowIndex="2" />
+                <Button fx:id="button21" layoutX="10.0" layoutY="168.0" mnemonicParsing="false" opacity="0.0" prefHeight="73.0" prefWidth="82.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <Button fx:id="button22" layoutX="93.0" layoutY="168.0" mnemonicParsing="false" opacity="0.0" prefHeight="73.0" prefWidth="82.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            </children>
+        </GridPane>
+        <Label layoutX="227.0" layoutY="42.0" text="YOUR BUILDER" textFill="#2f79a0">
+            <font>
+                <Font name="Gabriola" size="28.0" />
+            </font>
+        </Label>
+    </children>
+</Pane>

@@ -39,7 +39,7 @@ public class Demeter extends GodCard {
     }
 
     public static String toStringEffect(GodCard card) {
-        return card.getName() + "\n" + card.getTimingName() + ": Your Worker may build one additional time,\n" +
+        return card.getTimingName() + ": Your Worker may build one additional time,\n" +
                 "but not on the same space.";
     }
 }

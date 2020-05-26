@@ -251,7 +251,7 @@ public class TurnLogic {
                 } else {
                     ArrayList<Message> listOfMessages = new ArrayList<>();
                     Message message = new Message(match.getCurrentPlayer().getNickname());
-                    message.buildWouldActivateGodMessage(new MatchStateMessage(match.getCurrentPlayer(), match.getBoard().getBoard()));
+                    message.buildWouldActivateGodMessage(new MatchStateMessage(match.getCurrentPlayer(), match.getBoard().getBoard(), match.getPlayersAsList()));
                     listOfMessages.add(message);
                     match.notifyView(listOfMessages);
                 }
@@ -260,7 +260,7 @@ public class TurnLogic {
                 if(god.isNeedParameters()) {
                     ArrayList<Message> listOfMessages = new ArrayList<>();
                     Message message = new Message(match.getCurrentPlayer().getNickname());
-                    message.buildSelectParametersMessage(new MatchStateMessage(match.getCurrentPlayer(), match.getBoard().getBoard()));
+                    message.buildSelectParametersMessage(new MatchStateMessage(match.getCurrentPlayer(), match.getBoard().getBoard(), match.getPlayersAsList()));
                     listOfMessages.add(message);
                     match.notifyView(listOfMessages);
                 } else {
@@ -290,7 +290,7 @@ public class TurnLogic {
                 System.out.printf("SELECT BUILDER\n");
                 ArrayList<Message> listOfMessages = new ArrayList<>();
                 Message requestBuilder = new Message(match.getCurrentPlayer().getNickname());
-                requestBuilder.buildSelectBuilderMessage(new MatchStateMessage(match.getCurrentPlayer(), match.getBoard().getBoard()));
+                requestBuilder.buildSelectBuilderMessage(new MatchStateMessage(match.getCurrentPlayer(), match.getBoard().getBoard(), match.getPlayersAsList()));
                 listOfMessages.add(requestBuilder);
                 match.notifyView(listOfMessages);
             } else {

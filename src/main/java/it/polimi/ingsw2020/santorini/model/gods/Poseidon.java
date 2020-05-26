@@ -57,7 +57,7 @@ public class Poseidon extends GodCard {
     }
 
     public static String toStringEffect(GodCard card) {
-        return card.getName() + "\n" + card.getTimingName() + ": If your unmoved Worker is on the ground level,\n" +
+        return card.getTimingName() + ": If your unmoved Worker is on the ground level,\n" +
                 "it may build up to three times in neighboring spaces.";
     }
 }

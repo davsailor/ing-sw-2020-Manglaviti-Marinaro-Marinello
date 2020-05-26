@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="400.0" fitWidth="600.0">
+         <image>
+            <Image url="@../images/SfondoConColonne.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="448.0" fitWidth="600.0">
+         <image>
+            <Image url="@../images/endgame_victorywin.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="164.0" fitWidth="156.0" layoutX="227.0" layoutY="186.0">
+         <image>
+            <Image url="@../images/trophy_large.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="180.0" layoutX="394.0">
+         <image>
+            <Image url="@../images/endgame_victorytrumpets.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="180.0" layoutX="25.0">
+         <image>
+            <Image url="@../images/endgame_victorytrumpets2.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="53.0" fitWidth="166.0" layoutX="227.0" layoutY="342.0">
+         <image>
+            <Image url="@../images/versus_nameflags.png" />
+         </image>
+         <effect>
+            <ColorAdjust brightness="-0.07" hue="0.89" saturation="1.0" />
+         </effect>
+      </ImageView>
+      <Label fx:id="labelWinner" layoutX="277.0" layoutY="347.0" text="davsailor" textFill="#c40000">
+         <font>
+            <Font name="Gabriola" size="24.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="200.0" fitWidth="180.0" layoutX="293.0" layoutY="8.0">
+         <image>
+            <Image url="@../images/endgame_victorytrumpets2.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="72.0" fitWidth="147.0" layoutX="337.0" layoutY="51.0">
+         <image>
+            <Image url="@../images/endgame_victorycloudright.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="180.0" layoutX="154.0" layoutY="8.0">
+         <image>
+            <Image url="@../images/endgame_victorytrumpets.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="72.0" fitWidth="147.0" layoutX="132.0" layoutY="51.0">
+         <image>
+            <Image url="@../images/endgame_victorycloudleft.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="217.0" layoutY="178.0" text="The Winner is" textFill="#2f79a0">
+         <font>
+            <Font name="Gabriola" size="36.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

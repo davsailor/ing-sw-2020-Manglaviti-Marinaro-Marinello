@@ -42,7 +42,7 @@ public class Zeus extends GodCard {
     }
 
     public static String toStringEffect(GodCard card) {
-        return card.getName() + "\n" + card.getTimingName() + ": Your Worker may build under itself in its current\n" +
+        return card.getTimingName() + ": Your Worker may build under itself in its current\n" +
                 "space, forcing it up one level. You do not win by forcing yourself up to the third level.";
     }
 }

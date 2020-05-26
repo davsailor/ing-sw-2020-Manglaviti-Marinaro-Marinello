@@ -78,7 +78,7 @@ public class Ares extends GodCard {
     }
 
     public static String toStringEffect(GodCard card) {
-        return card.getName() + "\n" + card.getTimingName() + ": You may remove an unoccupied block\n" +
+        return card.getTimingName() + ": You may remove an unoccupied block\n" +
                 "(not dome) neighboring your unmoved Worker";
     }
 }

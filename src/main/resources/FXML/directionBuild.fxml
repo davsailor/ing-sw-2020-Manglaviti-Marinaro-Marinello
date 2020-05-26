@@ -19,22 +19,22 @@
             <Font name="Gabriola" size="30.0" />
          </font>
       </Label>
-      <Label layoutX="277.0" layoutY="61.0" text="North" textFill="#e2e13f">
+      <Label layoutX="277.0" layoutY="61.0" text="North" textFill="#ff6e00">
          <font>
             <Font name="Gabriola" size="30.0" />
          </font>
       </Label>
-      <Label layoutX="278.0" layoutY="343.0" text="South" textFill="#e2e13f">
+      <Label layoutX="278.0" layoutY="343.0" text="South" textFill="#ff6e00">
          <font>
             <Font name="Gabriola" size="30.0" />
          </font>
       </Label>
-      <Label layoutX="121.0" layoutY="182.0" text="West" textFill="#e2e13f">
+      <Label layoutX="121.0" layoutY="182.0" text="West" textFill="#ff6e00">
          <font>
             <Font name="Gabriola" size="30.0" />
          </font>
       </Label>
-      <Label layoutX="445.0" layoutY="188.0" text="East" textFill="#e2e13f">
+      <Label layoutX="445.0" layoutY="188.0" text="East" textFill="#ff6e00">
          <font>
             <Font name="Gabriola" size="30.0" />
          </font>
@@ -136,7 +136,7 @@
                   <Insets left="23.0" />
                </padding>
             </Label>
-            <ImageView fitHeight="77.0" fitWidth="80.0" opacity="0.56" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <ImageView fitHeight="70.0" fitWidth="77.0" opacity="0.56" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <image>
                   <Image url="@../images/Hades_Lava.png" />
                </image>

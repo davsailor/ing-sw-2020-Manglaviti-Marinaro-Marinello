@@ -24,6 +24,7 @@ public enum Color {
             default: return null;
         }
     }
+    
 
     @Override
     public String toString(){
