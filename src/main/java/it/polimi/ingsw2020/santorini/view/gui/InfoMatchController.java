@@ -64,7 +64,7 @@ public class InfoMatchController {
             imageView = new ImageView(image);
             imageView.setFitWidth(160.0);
             imageView.setFitHeight(217.0);
-            god2.setGraphic(imageView);
+            god3.setGraphic(imageView);
         }
     }
 

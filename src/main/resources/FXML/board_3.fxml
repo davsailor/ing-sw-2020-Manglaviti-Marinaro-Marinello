@@ -64,31 +64,281 @@
                 <Font name="Gabriola" size="28.0" />
             </font>
         </Label>
-        <Button fx:id="b00" layoutX="181.0" layoutY="61.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="47.0" prefWidth="42.0" />
-        <Button fx:id="b01" layoutX="229.0" layoutY="61.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
-        <Button fx:id="b02" layoutX="276.0" layoutY="58.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" rotate="180.0" />
-        <Button fx:id="b03" layoutX="330.0" layoutY="61.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b04" layoutX="375.0" layoutY="61.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="47.0" />
-        <Button fx:id="b40" layoutX="181.0" layoutY="294.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b41" layoutX="229.0" layoutY="294.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
-        <Button fx:id="b42" layoutX="276.0" layoutY="294.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
-        <Button fx:id="b43" layoutX="327.0" layoutY="294.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
-        <Button fx:id="b44" layoutX="374.0" layoutY="294.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
-        <Button fx:id="b30" layoutX="181.0" layoutY="235.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b31" layoutX="229.0" layoutY="235.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b32" layoutX="279.0" layoutY="235.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b33" layoutX="330.0" layoutY="235.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b34" layoutX="377.0" layoutY="235.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b20" layoutX="181.0" layoutY="176.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b21" layoutX="229.0" layoutY="176.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b22" layoutX="279.0" layoutY="176.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b23" layoutX="330.0" layoutY="176.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b24" layoutX="377.0" layoutY="175.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b10" layoutX="181.0" layoutY="120.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="47.0" prefWidth="42.0" />
-        <Button fx:id="b11" layoutX="229.0" layoutY="117.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b12" layoutX="279.0" layoutY="117.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
-        <Button fx:id="b13" layoutX="330.0" layoutY="117.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b14" layoutX="377.0" layoutY="117.0" mnemonicParsing="false" onAction="#setPos" onMouseClicked="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Label fx:id="c20" layoutX="206.0" layoutY="177.0" prefHeight="53.0" prefWidth="17.0">
+            <font>
+                <Font name="Gabriola" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="c34" layoutX="403.0" layoutY="235.0" prefHeight="53.0" prefWidth="17.0">
+            <font>
+                <Font name="Gabriola" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="c21" layoutX="255.0" layoutY="180.0" prefHeight="47.0" prefWidth="17.0">
+            <font>
+                <Font name="Gabriola" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="c22" layoutX="306.0" layoutY="180.0" prefHeight="47.0" prefWidth="17.0">
+            <font>
+                <Font name="Gabriola" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="c24" layoutX="403.0" layoutY="180.0" prefHeight="47.0" prefWidth="17.0">
+            <font>
+                <Font name="Gabriola" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="c10" layoutX="206.0" layoutY="123.0" prefHeight="43.0" prefWidth="17.0">
+            <font>
+                <Font name="Gabriola" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="c11" layoutX="255.0" layoutY="119.0" prefHeight="47.0" prefWidth="17.0">
+            <font>
+                <Font name="Gabriola" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="c12" layoutX="308.0" layoutY="117.0" prefHeight="53.0" prefWidth="17.0">
+            <font>
+                <Font name="Gabriola" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="c13" layoutX="353.0" layoutY="123.0" prefHeight="47.0" prefWidth="17.0">
+            <font>
+                <Font name="Gabriola" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="c14" layoutX="403.0" layoutY="117.0" prefHeight="53.0" prefWidth="17.0">
+            <font>
+                <Font name="Gabriola" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="c04" layoutX="403.0" layoutY="61.0" prefHeight="53.0" prefWidth="17.0">
+            <font>
+                <Font name="Gabriola" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="c03" layoutX="356.0" layoutY="61.0" prefHeight="53.0" prefWidth="17.0">
+            <font>
+                <Font name="Gabriola" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="c02" layoutX="306.0" layoutY="61.0" prefHeight="53.0" prefWidth="17.0">
+            <font>
+                <Font name="Gabriola" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="c01" layoutX="255.0" layoutY="58.0" prefHeight="53.0" prefWidth="17.0">
+            <font>
+                <Font name="Gabriola" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="c00" layoutX="206.0" layoutY="58.0" prefHeight="53.0" prefWidth="17.0">
+            <font>
+                <Font name="Gabriola" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="c23" layoutX="356.0" layoutY="175.0" prefHeight="53.0" prefWidth="17.0">
+            <font>
+                <Font name="Gabriola" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="c32" layoutX="308.0" layoutY="238.0" prefHeight="47.0" prefWidth="17.0">
+            <font>
+                <Font name="Gabriola" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="c31" layoutX="255.0" layoutY="235.0" prefHeight="53.0" prefWidth="17.0">
+            <font>
+                <Font name="Gabriola" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="c30" layoutX="206.0" layoutY="238.0" prefHeight="53.0" prefWidth="17.0">
+            <font>
+                <Font name="Gabriola" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="c33" layoutX="356.0" layoutY="238.0" prefHeight="53.0" prefWidth="17.0">
+            <font>
+                <Font name="Gabriola" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="c44" layoutX="403.0" layoutY="294.0" prefHeight="53.0" prefWidth="17.0">
+            <font>
+                <Font name="Gabriola" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="c41" layoutX="255.0" layoutY="295.0" prefHeight="53.0" prefWidth="17.0">
+            <font>
+                <Font name="Gabriola" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="c42" layoutX="306.0" layoutY="294.0" prefHeight="53.0" prefWidth="17.0">
+            <font>
+                <Font name="Gabriola" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="c43" layoutX="353.0" layoutY="294.0" prefHeight="53.0" prefWidth="17.0">
+            <font>
+                <Font name="Gabriola" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="c40" layoutX="206.0" layoutY="294.0" prefHeight="53.0" prefWidth="17.0">
+            <font>
+                <Font name="Gabriola" size="32.0" />
+            </font>
+        </Label>
+        <Label fx:id="p40" layoutX="184.0" layoutY="294.0" prefHeight="53.0" prefWidth="18.0" text=" ">
+            <font>
+                <Font name="Gabriola" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="p41" layoutX="232.0" layoutY="294.0" prefHeight="53.0" prefWidth="18.0">
+            <font>
+                <Font name="Gabriola" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="p20" layoutX="184.0" layoutY="175.0" prefHeight="53.0" prefWidth="18.0">
+            <font>
+                <Font name="Gabriola" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="p30" layoutX="184.0" layoutY="235.0" prefHeight="53.0" prefWidth="18.0" text=" ">
+            <font>
+                <Font name="Gabriola" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="p44" layoutX="377.0" layoutY="295.0" prefHeight="53.0" prefWidth="18.0" text=" ">
+            <font>
+                <Font name="Gabriola" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="p43" layoutX="330.0" layoutY="295.0" prefHeight="53.0" prefWidth="18.0">
+            <font>
+                <Font name="Gabriola" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="p42" layoutX="279.0" layoutY="295.0" prefHeight="53.0" prefWidth="18.0">
+            <font>
+                <Font name="Gabriola" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="p31" layoutX="232.0" layoutY="238.0" prefHeight="53.0" prefWidth="18.0">
+            <font>
+                <Font name="Gabriola" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="p32" layoutX="279.0" layoutY="235.0" prefHeight="53.0" prefWidth="18.0" text=" ">
+            <font>
+                <Font name="Gabriola" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="p34" layoutX="377.0" layoutY="235.0" prefHeight="53.0" prefWidth="18.0">
+            <font>
+                <Font name="Gabriola" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="p23" layoutX="330.0" layoutY="179.0" prefHeight="53.0" prefWidth="18.0" text=" ">
+            <font>
+                <Font name="Gabriola" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="p21" layoutX="232.0" layoutY="175.0" prefHeight="53.0" prefWidth="18.0" text=" ">
+            <font>
+                <Font name="Gabriola" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="p22" layoutX="279.0" layoutY="179.0" prefHeight="53.0" prefWidth="18.0" text=" ">
+            <font>
+                <Font name="Gabriola" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="p33" layoutX="330.0" layoutY="235.0" prefHeight="53.0" prefWidth="18.0" text=" ">
+            <font>
+                <Font name="Gabriola" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="p11" layoutX="232.0" layoutY="120.0" prefHeight="53.0" prefWidth="18.0" text=" ">
+            <font>
+                <Font name="Gabriola" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="p01" layoutX="232.0" layoutY="58.0" prefHeight="53.0" prefWidth="18.0">
+            <font>
+                <Font name="Gabriola" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="p10" layoutX="186.0" layoutY="120.0" prefHeight="53.0" prefWidth="18.0">
+            <font>
+                <Font name="Gabriola" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="p24" layoutX="377.0" layoutY="176.0" prefHeight="53.0" prefWidth="18.0">
+            <font>
+                <Font name="Gabriola" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="p14" layoutX="377.0" layoutY="116.0" prefHeight="53.0" prefWidth="18.0">
+            <font>
+                <Font name="Gabriola" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="p13" layoutX="335.0" layoutY="120.0" prefHeight="53.0" prefWidth="18.0">
+            <font>
+                <Font name="Gabriola" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="p12" layoutX="279.0" layoutY="120.0" prefHeight="53.0" prefWidth="18.0">
+            <font>
+                <Font name="Gabriola" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="p04" layoutX="377.0" layoutY="61.0" prefHeight="53.0" prefWidth="18.0">
+            <font>
+                <Font name="Gabriola" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="p03" layoutX="330.0" layoutY="59.0" prefHeight="53.0" prefWidth="18.0">
+            <font>
+                <Font name="Gabriola" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="p02" layoutX="279.0" layoutY="58.0" prefHeight="53.0" prefWidth="18.0">
+            <font>
+                <Font name="Gabriola" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="p00" layoutX="184.0" layoutY="61.0" prefHeight="53.0" prefWidth="18.0">
+            <font>
+                <Font name="Gabriola" size="18.0" />
+            </font>
+        </Label>
+        <Button fx:id="b00" layoutX="181.0" layoutY="61.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="47.0" prefWidth="42.0" />
+        <Button fx:id="b01" layoutX="229.0" layoutY="61.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
+        <Button fx:id="b02" layoutX="276.0" layoutY="58.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" rotate="180.0" />
+        <Button fx:id="b03" layoutX="330.0" layoutY="61.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b04" layoutX="375.0" layoutY="61.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="47.0" />
+        <Button fx:id="b40" layoutX="181.0" layoutY="294.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b41" layoutX="229.0" layoutY="294.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
+        <Button fx:id="b42" layoutX="276.0" layoutY="294.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
+        <Button fx:id="b43" layoutX="327.0" layoutY="294.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
+        <Button fx:id="b44" layoutX="374.0" layoutY="294.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
+        <Button fx:id="b30" layoutX="181.0" layoutY="235.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b31" layoutX="229.0" layoutY="235.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b32" layoutX="279.0" layoutY="235.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b33" layoutX="330.0" layoutY="235.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b34" layoutX="377.0" layoutY="235.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b20" layoutX="181.0" layoutY="176.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b21" layoutX="229.0" layoutY="176.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b22" layoutX="279.0" layoutY="176.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b23" layoutX="330.0" layoutY="176.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b24" layoutX="377.0" layoutY="175.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b10" layoutX="181.0" layoutY="120.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="47.0" prefWidth="42.0" />
+        <Button fx:id="b11" layoutX="229.0" layoutY="117.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b12" layoutX="279.0" layoutY="117.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
+        <Button fx:id="b13" layoutX="330.0" layoutY="117.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b14" layoutX="377.0" layoutY="117.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
       <ImageView fitHeight="269.0" fitWidth="185.0" layoutY="269.0">
          <image>
             <Image url="@../images/island.png" />
@@ -139,7 +389,7 @@
             <Image url="@../images/nameflags.png" />
          </image>
          <effect>
-            <ColorAdjust brightness="0.06" contrast="0.06" hue="0.51" saturation="0.15" />
+            <ColorAdjust brightness="0.06" contrast="0.06" hue="-0.02" saturation="0.15" />
          </effect>
       </ImageView>
       <Label fx:id="username2" layoutX="495.0" layoutY="321.0" prefHeight="34.0" prefWidth="98.0" textAlignment="CENTER">
