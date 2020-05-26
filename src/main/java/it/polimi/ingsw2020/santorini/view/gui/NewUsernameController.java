@@ -33,10 +33,9 @@ public class NewUsernameController {
             Message message = new Message(client.getUsername());
             message.buildLoginMessage(new LoginMessage(client.getUsername(), client.getBirthDate(), client.getSelectedMatch()));
             client.getNetworkHandler().send(message);
-
-            Button button = (Button) actionEvent.getSource();
-            Stage stage = (Stage) button.getScene().getWindow();
-            stage.close();
+            //Button button = (Button) actionEvent.getSource();
+            //Stage stage = (Stage) button.getScene().getWindow();
+            //stage.close();
         }
     }
 
