@@ -4,6 +4,7 @@ import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
 import it.polimi.ingsw2020.santorini.model.gods.*;
 import it.polimi.ingsw2020.santorini.network.server.Server;
 import it.polimi.ingsw2020.santorini.network.server.VirtualView;
+import it.polimi.ingsw2020.santorini.utils.AccessType;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.Color;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.*;
@@ -118,8 +119,10 @@ public class Match extends Observable {
         else
             for(int i = 1; i < 6; ++i)
                 for(int j = 1; j < 6; ++j)
-                    if(board.getBoard()[i][j].getBuilder() != null && board.getBoard()[i][j].getBuilder().getColor() == getPlayers()[eliminatedPlayer].getColor())
+                    if(board.getBoard()[i][j].getBuilder() != null && board.getBoard()[i][j].getBuilder().getColor() == getPlayers()[eliminatedPlayer].getColor()) {
                         board.getBoard()[i][j].setBuilder(null);
+                        board.getBoard()[i][j].setStatus(AccessType.FREE);
+                    }
         players.remove(players.get(eliminatedPlayer));
     }
 
@@ -140,6 +143,10 @@ public class Match extends Observable {
         for(int i = 0; i < players.size(); ++i)
             playerCpy[i] = players.get(i);
         return playerCpy;
+    }
+
+    public ArrayList<Player> getPlayersAsList(){
+        return players;
     }
 
     /**

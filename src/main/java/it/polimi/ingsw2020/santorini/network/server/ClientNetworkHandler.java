@@ -174,19 +174,25 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
                 for (i = 0; i < match.getPlayers().length; ++i)
                     if (username.equals(match.getPlayers()[i].getNickname())) break;
                 try {
-                    if(i < match.getPlayers().length)
-                        match.setEliminatedPlayer(i);
                     GameLogic controller = server.getControllers().get(match.getMatchID());
                     if(controller.getTurnManager().getPhase() != null) {
+                        if(i < match.getPlayers().length)
+                            match.setEliminatedPlayer(i);
                         controller.getTurnManager().setStartTurn();
                         controller.getTurnManager().handlePhases(match);
                     } else {
-                        ArrayList<Message> orderMessage = new ArrayList<>();
-                        for (int k = 0; k < match.getPlayers().length; ++k) {
-                            orderMessage.add(new Message(match.getPlayers()[k].getNickname()));
-                            orderMessage.get(k).buildTurnPlayerMessage(new MatchStateMessage(match.getPlayers()[match.getCurrentPlayerIndex()], match.getBoard().getBoard()));
-                        }
-                        match.notifyView(orderMessage);
+                        if (username.equals(match.getCurrentPlayer().getNickname())) {
+                            if(i < match.getPlayers().length)
+                                match.setEliminatedPlayer(i);
+                            ArrayList<Message> orderMessage = new ArrayList<>();
+                            for (int k = 0; k < match.getPlayers().length; ++k) {
+                                orderMessage.add(new Message(match.getPlayers()[k].getNickname()));
+                                orderMessage.get(k).buildTurnPlayerMessage(new MatchStateMessage(match.getPlayers()[match.getCurrentPlayerIndex()], match.getBoard().getBoard(), match.getPlayersAsList()));
+                            }
+                            match.notifyView(orderMessage);
+                        } else
+                            if(i < match.getPlayers().length)
+                                match.setEliminatedPlayer(i);
                     }
                 } catch (EndMatchException e) {
                     match.notifyEndMatch(server);

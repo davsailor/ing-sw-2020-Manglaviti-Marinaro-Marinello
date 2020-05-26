@@ -37,7 +37,7 @@ public class Hephaestus extends GodCard {
     }
 
     public static String toStringEffect(GodCard card) {
-        return card.getName() + "\n" + card.getTimingName() + ": Your Worker may build one additional block\n" +
+        return card.getTimingName() + ": Your Worker may build one additional block\n" +
                 "(not dome) on top of your first block.";
     }
 }

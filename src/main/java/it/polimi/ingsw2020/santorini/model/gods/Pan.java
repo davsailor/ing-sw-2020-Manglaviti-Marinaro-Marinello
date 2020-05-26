@@ -37,6 +37,6 @@ public class Pan extends GodCard {
     }
 
     public static String toStringEffect(GodCard card) {
-        return card.getName() + "\n" + card.getTimingName() + ": You also win if your Worker moves down two or more levels.";
+        return card.getTimingName() + ": You also win if your Worker moves down two or more levels.";
     }
 }

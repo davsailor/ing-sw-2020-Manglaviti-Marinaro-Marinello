@@ -110,6 +110,7 @@ public class CLI implements ViewInterface {
      */
     @Override
     public void displayLoadingWindow(String message) {
+        System.out.flush();
         System.out.println(message);
     }
 
@@ -120,6 +121,7 @@ public class CLI implements ViewInterface {
      */
     @Override
     public void displayMatchSetupWindow(MatchSetupMessage matchSetupMessage) {
+        System.out.flush();
         System.out.println("Partita creata!\n");
         System.out.println("L'ordine voluto dagli dei è questo: ");
         listOfPlayers = matchSetupMessage.getPlayers();
@@ -149,13 +151,14 @@ public class CLI implements ViewInterface {
      */
     @Override
     public void displaySelectionBuilderWindow(MatchStateMessage matchStateMessage) {
+        System.out.flush();
         String currentPlayer = matchStateMessage.getCurrentPlayer().getNickname();
         if(client.getUsername().equals(currentPlayer)) {
             int[] builderM, builderF;
             builderM = new int[2];
             builderF = new int[2];
             System.out.printf("\n%s, tocca a te! Dovrai inserire le coordinate di due celle per posizionare i tuoi costruttori!\n", currentPlayer);
-            showBoard(matchStateMessage.getCells());
+            showBoard(matchStateMessage.getCells(), listOfPlayers);
             System.out.printf("iniziamo con la costruttrice\n");
             boolean wrong;
 
@@ -321,7 +324,8 @@ public class CLI implements ViewInterface {
      */
     @Override
     public void displayStartTurn(UpdateMessage message) {
-        showBoard(message.getBoard());
+        System.out.flush();
+        showBoard(message.getBoard(), message.getPlayers());
         if(client.getUsername().equals(message.getCurrentPlayer().getNickname())) {
             System.out.println(message.getCurrentPlayer().getNickname() + " tocca a te!");
             Message nextPhase = new Message(client.getUsername());
@@ -410,6 +414,7 @@ public class CLI implements ViewInterface {
      */
     @Override
     public void displaySP(UpdateMessage updateMessage, PhaseType phase) {
+        System.out.flush();
         System.out.printf(updateMessage.getCurrentPlayer().getDivinePower().getName());
         if(updateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())) {
             System.out.println(" ha accettato la tua richiesta di aiuto");
@@ -419,7 +424,7 @@ public class CLI implements ViewInterface {
         }
         else
             System.out.println(" ha aiutato " + updateMessage.getCurrentPlayer().getNickname());
-        showBoard(updateMessage.getBoard());
+        showBoard(updateMessage.getBoard(), updateMessage.getPlayers());
     }
 
     /**
@@ -430,8 +435,9 @@ public class CLI implements ViewInterface {
      */
     @Override
     public void displayChooseBuilder(MatchStateMessage message) {
+        System.out.flush();
         if(message.getCurrentPlayer().getNickname().equals(client.getUsername())) {
-            showBoard(message.getCells());
+            showBoard(message.getCells(), message.getPlayers());
             System.out.println("Quale builder vuoi muovere? Il maschio o la femmina?");
             Message chosenBuilder = new Message(client.getUsername());
             Builder builder = null;
@@ -551,8 +557,8 @@ public class CLI implements ViewInterface {
      */
     @Override
     public void displayMoveUpdate(UpdateMessage updateMessage) {
-        // si dice cosa è successo, e si mostra la board. oppure si mostra solo la board
-        showBoard(updateMessage.getBoard());
+        System.out.flush();
+        showBoard(updateMessage.getBoard(), updateMessage.getPlayers());
         if(updateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())) {
             Message nextPhase = new Message(client.getUsername());
             nextPhase.buildNextPhaseMessage();
@@ -629,10 +635,6 @@ public class CLI implements ViewInterface {
         Message buildSelection = new Message(client.getUsername());
         buildSelection.buildSelectedBuildingMessage(new SelectedBuildingMessage(direction));
         client.getNetworkHandler().send(buildSelection);
-        // display delle possible buildings per restringere il campo d'azione -> vedi canBuild
-        // conversione della direzione
-        // creazione del messaggio di selezione
-        // invio del messaggio al server
     }
 
     /**
@@ -641,8 +643,8 @@ public class CLI implements ViewInterface {
      */
     @Override
     public void displayBuildUpdate(UpdateMessage updateMessage) {
-        // si dice cosa è successo, e si mostra la board. oppure si mostra solo la board
-        showBoard(updateMessage.getBoard());
+        System.out.flush();
+        showBoard(updateMessage.getBoard(), updateMessage.getPlayers());
         if(updateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())) {
             Message nextPhase = new Message(client.getUsername());
             nextPhase.buildNextPhaseMessage();
@@ -657,7 +659,7 @@ public class CLI implements ViewInterface {
      */
     @Override
     public void displayEndTurn(UpdateMessage updateMessage) {
-        showBoard(updateMessage.getBoard());
+        showBoard(updateMessage.getBoard(), updateMessage.getPlayers());
         System.out.println("Il turno di " + updateMessage.getCurrentPlayer().getNickname() + " è terminato!");
         Message nextPhase = new Message(client.getUsername());
         nextPhase.buildNextPhaseMessage();
@@ -671,6 +673,7 @@ public class CLI implements ViewInterface {
      */
     @Override
     public void displayEndMatch(String winner) {
+        System.out.flush();
         System.out.println("AND THE WINNER IS... " + winner);
         boolean wrong;
         Message message = new Message(client.getUsername());
@@ -726,53 +729,77 @@ public class CLI implements ViewInterface {
      * any builder, the coloured symbol of the gender to indicate the gender of the builder and to whom it belongs. The triangle and the wave
      * represent the coast.
      * @param listOfCells is an array list of cells containing all the information of the board
+     * @param players
      */
-    public void showBoard(ArrayList<Cell> listOfCells){
+    public void showBoard(ArrayList<Cell> listOfCells, ArrayList<Player> players){
         String coast = Color.OCEAN_BLUE+"\u25DE\u25DC"+Color.MOUNTAIN_BROWN +"\u25B2 ";
-        //wave: \u25DE\u25DC
-        //mountain: \u25B2
-        //configurazione funzionante: "\u25DE\u25DC\u25B2 "
-        System.out.println("\n\nBoard:\n");
-        System.out.printf(                  "                                 NORTH                \n" +
-                "                 0     1     2     3     4     5     6\n" +
-                "              "+Color.CORNER_WHITE +"█"+Color.BORDER_YELLOW+"═════╦═════╦═════╦═════╦═════╦═════╦═════"+Color.CORNER_WHITE +"█");
+
+        String[][] printableBoard = new String[7][7];
         int j = 0;
         for(int i = 0; i < listOfCells.size(); ++i){
-            if(i % 7 == 0){
-                if(i == 0)  System.out.printf(Color.RESET+"\n           %d  "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║", i%7, coast);
-                else {
-                    if(j == 2) {
-                        System.out.printf(                                                            Color.RESET+"  %d", j);
-                        System.out.printf(  "\n              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n ");
-                        System.out.printf(  Color.RESET+"    WEST  %d  "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║", ++j, coast);
-                    }
-                    else if(j == 3){
-                        System.out.printf(                                                           Color.RESET + "  %d  EAST", j);
-                        System.out.printf(  "\n              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n ");
-                        System.out.printf(  Color.RESET+"          %d  "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║", ++j, coast);
-                    }
-                    else {
-                        System.out.printf(                                                            Color.RESET+"  %d", j);
-                        System.out.printf(  "\n              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣\n ");
-                        System.out.printf(  Color.RESET+"          %d  "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║", ++j, coast);
-                    }
-                }
-            } else {
-                if(listOfCells.get(i).getLevel() == LevelType.COAST) System.out.printf("%s"+Color.BORDER_YELLOW+"║", coast);
-                else{
-                    if(listOfCells.get(i).getStatus() == AccessType.OCCUPIED){
-                        System.out.printf(Color.RESET+" %d"+listOfCells.get(i).getBuilder().getColor()+"%2c"+Color.BORDER_YELLOW+" ║", listOfCells.get(i).getLevel().getHeight(), listOfCells.get(i).getBuilder().getGender());
-                    }
-                    else {
-                        System.out.printf(Color.RESET+" %d   "+Color.BORDER_YELLOW+"║", listOfCells.get(i).getLevel().getHeight());
-                    }
-                }
-            }
+            if(listOfCells.get(i).getLevel() == LevelType.COAST) printableBoard[j][i%7] = coast;
+            else if(listOfCells.get(i).getStatus() == AccessType.OCCUPIED) printableBoard[j][i%7] = " " + listOfCells.get(i).getLevel().getHeight() + " " + listOfCells.get(i).getBuilder().getColor() + listOfCells.get(i).getBuilder().getGender() + Color.RESET + " ";
+            else printableBoard[j][i%7] = " " + listOfCells.get(i).getLevel().getHeight() + "   ";
+            if(i % 7 == 6) ++j;
         }
-        System.out.printf(Color.RESET+"  6");
-        System.out.printf(                  "\n              "+Color.CORNER_WHITE +"█"+Color.BORDER_YELLOW+"═════╩═════╩═════╩═════╩═════╩═════╩═════"+Color.CORNER_WHITE +"█" + Color.RESET+
-                "\n                 0     1     2     3     4     5     6" +
-                "\n                                 SOUTH                   \n");
+        String temp;
+        String[] parseEffect;
+        String[] effects = new String[15];
+        Color color;
+        int np = 0;
+        for(Player p : listOfPlayers){
+            color = Color.CORNER_WHITE;
+            for(Player pl : players)
+                if(pl.getNickname().equals(p.getNickname())){
+                    color = p.getColor();
+                    break;
+                }
+            temp = p.getDivinePower().toStringEffect();
+            effects[np] = color + p.getNickname() + "\t[" + p.getDivinePower().getName().toUpperCase() + "]";
+            parseEffect = p.getDivinePower().toStringEffect().split("\n");
+            effects[np + 1] = color + (parseEffect.length < 1 ? "" : parseEffect[0]);
+            effects[np + 2] = color + (parseEffect.length < 2 ? "" : parseEffect[1]);
+            effects[np + 3] = color + (parseEffect.length < 3 ? "" : parseEffect[2]);
+            effects[np + 4] = ""+Color.RESET;
+            np += 5;
+        }
+
+        if(listOfPlayers.size() == 2) {
+            effects[10] = "";
+            effects[11] = "";
+            effects[12] = "";
+            effects[13] = "";
+            effects[14] = "";
+        }
+
+        System.out.printf(
+            Color.RESET+"                                 NORTH                                 \n" +
+            Color.RESET+"                 0     1     2     3     4     5     6                 \n" +
+            "              "+Color.CORNER_WHITE+"█"+Color.BORDER_YELLOW+"═════╦═════╦═════╦═════╦═════╦═════╦═════"+Color.CORNER_WHITE+"█              " + effects[0] + "\n"+
+            "          0   "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║"+Color.RESET+"   0          " + effects[1] + Color.RESET +"\n"+
+            "              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣              " + effects[2] + Color.RESET +"\n"+
+            "          1   "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║"+Color.RESET+"   1          " + effects[3] + Color.RESET +"\n"+
+            "              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣              " + effects[4] + Color.RESET +"\n"+
+            "          2   "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║"+Color.RESET+"   2          " + effects[5] + Color.RESET +"\n"+
+            "              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣              " + effects[6] + Color.RESET +"\n"+
+            "   WEST   3   "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║"+Color.RESET+"   3          " + effects[7] + Color.RESET +"\n"+
+            "              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣              " + effects[8] + Color.RESET +"\n"+
+            "          4   "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║"+Color.RESET+"   4          " + effects[9] + Color.RESET +"\n"+
+            "              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣              " + effects[10] + Color.RESET +"\n"+
+            "          5   "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║"+Color.RESET+"   5          " + effects[11] + Color.RESET +"\n"+
+            "              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣              " + effects[12] + Color.RESET +"\n"+
+            "          6   "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║"+Color.RESET+"   6          " + effects[13] + Color.RESET +"\n"+
+            "              "+Color.CORNER_WHITE+"█"+Color.BORDER_YELLOW+"═════╩═════╩═════╩═════╩═════╩═════╩═════"+Color.CORNER_WHITE+"█              " + effects[14] + Color.RESET +"\n"+
+            "                 0     1     2     3     4     5     6                 " +"\n"+
+            "                                 SOUTH                                 "+"\n",
+        printableBoard[0][0], printableBoard[0][1], printableBoard[0][2], printableBoard[0][3], printableBoard[0][4], printableBoard[0][5], printableBoard[0][6],
+        printableBoard[1][0], printableBoard[1][1], printableBoard[1][2], printableBoard[1][3], printableBoard[1][4], printableBoard[1][5], printableBoard[1][6],
+        printableBoard[2][0], printableBoard[2][1], printableBoard[2][2], printableBoard[2][3], printableBoard[2][4], printableBoard[2][5], printableBoard[2][6],
+        printableBoard[3][0], printableBoard[3][1], printableBoard[3][2], printableBoard[3][3], printableBoard[3][4], printableBoard[3][5], printableBoard[3][6],
+        printableBoard[4][0], printableBoard[4][1], printableBoard[4][2], printableBoard[4][3], printableBoard[4][4], printableBoard[4][5], printableBoard[4][6],
+        printableBoard[5][0], printableBoard[5][1], printableBoard[5][2], printableBoard[5][3], printableBoard[5][4], printableBoard[5][5], printableBoard[5][6],
+        printableBoard[6][0], printableBoard[6][1], printableBoard[6][2], printableBoard[6][3], printableBoard[6][4], printableBoard[6][5], printableBoard[6][6]
+        );
     }
 
     /**

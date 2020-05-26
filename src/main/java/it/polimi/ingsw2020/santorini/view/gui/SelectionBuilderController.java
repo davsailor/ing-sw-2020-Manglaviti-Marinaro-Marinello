@@ -2,6 +2,7 @@ package it.polimi.ingsw2020.santorini.view.gui;
 
 import it.polimi.ingsw2020.santorini.model.Player;
 import it.polimi.ingsw2020.santorini.network.client.Client;
+import it.polimi.ingsw2020.santorini.utils.Color;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 import it.polimi.ingsw2020.santorini.view.AppGUI;
 import javafx.event.ActionEvent;
@@ -23,6 +24,8 @@ public class SelectionBuilderController {
     private Client client;
     private MatchStateMessage matchStateMessage;
     private ArrayList<Player> players;
+    private int[] builderF;
+    private int[] builderM;
 
     public void setPlayers(ArrayList<Player> players) {
         this.players = players;
@@ -35,14 +38,6 @@ public class SelectionBuilderController {
     public void setMatchStateMessage(MatchStateMessage matchStateMessage) {
         this.matchStateMessage = matchStateMessage;
     }
-    private ArrayList<Player> players;
-
-    public void setPlayers(ArrayList<Player> players) {
-        this.players = players;
-    }
-
-
-
 
    @FXML
     Button b00;
@@ -94,7 +89,6 @@ public class SelectionBuilderController {
     Button b43;
     @FXML
     Button b44;
-
     @FXML
     Label username1;
     @FXML
@@ -108,125 +102,98 @@ public class SelectionBuilderController {
     @FXML
     Label god3;
 
-
-
-    public void initialize(){
-
-    }
+    public void initialize(){}
 
     @FXML
     public void setPos(ActionEvent actionEvent) {
-
-
         Button pos = (Button) actionEvent.getSource();
         if(client.getUsername().equals(matchStateMessage.getCurrentPlayer().getNickname())) {
-            int[] builderM, builderF;
-            builderM = new int[2];
-            builderF = new int[2];
-            builderF[0]=-1;
-            builderF[1]=-1;
-
-            if (pos.equals(b00)){
-                 builderF[0]=1;
-                 builderF[1]=1;
+            if(builderF == null) {
+                builderF = new int[2];
+                calcPosition(builderF, pos);
+            } else {
+                builderM = new int[2];
+                calcPosition(builderM, pos);
             }
-            else if (pos.equals(b01)){
-                 builderF[0]=1;
-                 builderF[1]=2;
-             }
-             else if (pos.equals(b02)){
-                 builderF[0]=1;
-                 builderF[1]=3;
-             }
-             else if (pos.equals(b03)){
-                 builderF[0]=1;
-                 builderF[1]=4;
-             }
-             else if (pos.equals(b04)){
-                 builderF[0]=1;
-                 builderF[1]=5;
-             }
-             else if (pos.equals(b10)){
-                 builderF[0]=2;
-                 builderF[1]=1;
-             }
-             else if (pos.equals(b11)){
-                 builderF[0]=2;
-                 builderF[1]=2;
-             }
-             else if (pos.equals(b12)){
-                 builderF[0]=2;
-                 builderF[1]=3;
-             }
-             else if (pos.equals(b13)){
-                 builderF[0]=2;
-                 builderF[1]=4;
-             }
-             else if (pos.equals(b14)){
-                 builderF[0]=2;
-                 builderF[1]=5;
-             }
-             else if (pos.equals(b20)){
-                 builderF[0]=3;
-                 builderF[1]=1;
-             }
-             else if (pos.equals(b21)){
-                 builderF[0]=3;
-                 builderF[1]=2;
-             }
-             else if (pos.equals(b22)){
-                 builderF[0]=3;
-                 builderF[1]=3;
-             }
-             else if (pos.equals(b23)){
-                 builderF[0]=3;
-                 builderF[1]=4;
-             }
-             else if (pos.equals(b24)){
-                 builderF[0]=3;
-                 builderF[1]=5;
-             }
-             else if (pos.equals(b30)){
-                 builderF[0]=4;
-                 builderF[1]=1;
-             }
-             else if (pos.equals(b31)){
-                 builderF[0]=4;
-                 builderF[1]=2;
-             }
-             else if (pos.equals(b32)){
-                 builderF[0]=4;
-                 builderF[1]=3;
-             }
-             else if (pos.equals(b33)){
-                 builderF[0]=4;
-                 builderF[1]=4;
-             }
-             else if (pos.equals(b34)){
-                 builderF[0]=4;
-                 builderF[1]=5;
-             }
-             else if (pos.equals(b40)){
-                 builderF[0]=5;
-                 builderF[1]=1;
-             }
-             else if (pos.equals(b41)){
-                 builderF[0]=5;
-                 builderF[1]=2;
-             }
-             else if (pos.equals(b42)){
-                 builderF[0]=5;
-                 builderF[1]=3;
-             }
-             else if (pos.equals(b43)){
-                 builderF[0]=5;
-                 builderF[1]=4;
-             }
-             else if (pos.equals(b44)){
-                 builderF[0]=5;
-                 builderF[1]=5;
-             }
+        }
+    }
 
+    private void calcPosition(int[] builder, Button pos){
+        if (pos.equals(b00)){
+            builder[0]=1;
+            builder[1]=1;
+        } else if (pos.equals(b01)){
+            builder[0]=1;
+            builder[1]=2;
+        } else if (pos.equals(b02)){
+            builder[0]=1;
+            builder[1]=3;
+        } else if (pos.equals(b03)){
+            builder[0]=1;
+            builder[1]=4;
+        } else if (pos.equals(b04)){
+            builder[0]=1;
+            builder[1]=5;
+        } else if (pos.equals(b10)){
+            builder[0]=2;
+            builder[1]=1;
+        } else if (pos.equals(b11)){
+            builder[0]=2;
+            builder[1]=2;
+        } else if (pos.equals(b12)){
+            builder[0]=2;
+            builder[1]=3;
+        } else if (pos.equals(b13)){
+            builder[0]=2;
+            builder[1]=4;
+        } else if (pos.equals(b14)){
+            builder[0]=2;
+            builder[1]=5;
+        } else if (pos.equals(b20)){
+            builder[0]=3;
+            builder[1]=1;
+        } else if (pos.equals(b21)){
+            builder[0]=3;
+            builder[1]=2;
+        } else if (pos.equals(b22)){
+            builder[0]=3;
+            builder[1]=3;
+        } else if (pos.equals(b23)){
+            builder[0]=3;
+            builder[1]=4;
+        } else if (pos.equals(b24)){
+            builder[0]=3;
+            builder[1]=5;
+        } else if (pos.equals(b30)){
+            builder[0]=4;
+            builder[1]=1;
+        } else if (pos.equals(b31)){
+            builder[0]=4;
+            builder[1]=2;
+        } else if (pos.equals(b32)){
+            builder[0]=4;
+            builder[1]=3;
+        } else if (pos.equals(b33)){
+            builder[0]=4;
+            builder[1]=4;
+        } else if (pos.equals(b34)){
+            builder[0]=4;
+            builder[1]=5;
+        } else if (pos.equals(b40)){
+            builder[0]=5;
+            builder[1]=1;
+        } else if (pos.equals(b41)){
+            builder[0]=5;
+            builder[1]=2;
+        } else if (pos.equals(b42)){
+            builder[0]=5;
+            builder[1]=3;
+        } else if (pos.equals(b43)){
+            builder[0]=5;
+            builder[1]=4;
+        } else if (pos.equals(b44)){
+            builder[0]=5;
+            builder[1]=5;
         }
     }
 
@@ -246,7 +213,6 @@ public class SelectionBuilderController {
         imageView.setFitWidth(99.0);
         imageView.setFitHeight(108.0);
         god2.setGraphic(imageView);
-
 
         if(players.size()==3){
             username3.setText(players.get(2).getNickname());

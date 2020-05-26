@@ -143,7 +143,7 @@ public class GameLogic implements Observer {
                     ArrayList<Message> orderMessage = new ArrayList<>();
                     for (int i = 0; i < match.getPlayers().length; ++i) {
                         orderMessage.add(new Message(players[i].getNickname()));
-                        orderMessage.get(i).buildTurnPlayerMessage(new MatchStateMessage(players[match.getCurrentPlayerIndex()], match.getBoard().getBoard()));
+                        orderMessage.get(i).buildTurnPlayerMessage(new MatchStateMessage(players[match.getCurrentPlayerIndex()], match.getBoard().getBoard(), match.getPlayersAsList()));
                     }
                     match.notifyView(orderMessage);
                 }
@@ -215,7 +215,7 @@ public class GameLogic implements Observer {
                         ArrayList<Message> orderMessage = new ArrayList<>();
                         for (int i = 0; i < match.getPlayers().length; ++i) {
                             orderMessage.add(new Message(playingPlayers[i].getNickname()));
-                            orderMessage.get(i).buildTurnPlayerMessage(new MatchStateMessage(match.getCurrentPlayer(), match.getBoard().getBoard()));
+                            orderMessage.get(i).buildTurnPlayerMessage(new MatchStateMessage(match.getCurrentPlayer(), match.getBoard().getBoard(), match.getPlayersAsList()));
                         }
                         match.notifyView(orderMessage);
                     }

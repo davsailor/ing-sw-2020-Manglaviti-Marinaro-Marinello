@@ -32,7 +32,7 @@ public class Athena extends GodCard {
     }
 
     public static String toStringEffect(GodCard card) {
-        return card.getName() + "\n" + card.getTimingName() + ": If one of your Workers moved up on your last turn, \n" +
+        return card.getTimingName() + ": If one of your Workers moved up on your last turn, \n" +
                 "opponent Workers cannot move up this turn.";
     }
 }

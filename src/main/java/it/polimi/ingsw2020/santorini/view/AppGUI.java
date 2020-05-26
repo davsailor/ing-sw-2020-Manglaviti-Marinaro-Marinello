@@ -3,6 +3,7 @@ package it.polimi.ingsw2020.santorini.view;
 import it.polimi.ingsw2020.santorini.model.Cell;
 import it.polimi.ingsw2020.santorini.model.Player;
 import it.polimi.ingsw2020.santorini.network.client.Client;
+import it.polimi.ingsw2020.santorini.utils.Color;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
 import it.polimi.ingsw2020.santorini.utils.SecondHeaderType;
@@ -19,7 +20,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -399,7 +399,7 @@ public class AppGUI extends Application implements ViewInterface{
     }
 
     @Override
-    public void showBoard(ArrayList<Cell> listOfCells) {
+    public void showBoard(ArrayList<Cell> listOfCells, ArrayList<Player> players) {
 
     }
 
@@ -410,6 +410,5 @@ public class AppGUI extends Application implements ViewInterface{
         client.setView(this);
 
         displaySetupWindow(true);
-
     }
 }

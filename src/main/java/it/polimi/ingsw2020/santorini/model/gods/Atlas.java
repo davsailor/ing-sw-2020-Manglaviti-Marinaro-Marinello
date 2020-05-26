@@ -67,7 +67,7 @@ public class Atlas extends GodCard {
     }
 
     public static String toStringEffect(GodCard card) {
-        return card.getName() + "\n" + card.getTimingName() + ": Your Worker may build a dome\n" +
+        return card.getTimingName() + ": Your Worker may build a dome\n" +
                 "at any level including the ground.";
     }
 }

@@ -45,7 +45,7 @@ public class Artemis extends GodCard {
     }
 
     public static String toStringEffect(GodCard card) {
-        return card.getName() + "\n" + card.getTimingName() + ": Your Worker may move one additional time,\n" +
+        return card.getTimingName() + ": Your Worker may move one additional time,\n" +
                 "but not back to the space it started on.";
     }
 }
