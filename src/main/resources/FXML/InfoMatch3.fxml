@@ -89,7 +89,7 @@
             <Image url="@../images/nameflags_1.png" />
          </image>
          <effect>
-            <ColorAdjust brightness="0.06" contrast="0.06" hue="-0.52" saturation="0.15" />
+            <ColorAdjust brightness="0.06" contrast="0.06" hue="0.85" saturation="0.15" />
          </effect>
       </ImageView>
       <Label fx:id="username2" layoutX="223.0" layoutY="187.0" prefHeight="37.0" prefWidth="110.0">

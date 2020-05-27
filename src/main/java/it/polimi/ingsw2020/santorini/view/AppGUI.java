@@ -20,6 +20,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -33,7 +34,6 @@ public class AppGUI extends Application implements ViewInterface{
     private BoardController boardController;
     private InfoMatchController infoMatchController;
     private SelectionBuilderController selectionBuilderController;
-    private Scene registerScene;
     private ArrayList<Player> players;
 
     public Client getClient() {
@@ -73,6 +73,7 @@ public class AppGUI extends Application implements ViewInterface{
                 Parent root;
                 Scene newUsername;
                 fxmlLoader.setLocation(getClass().getResource("/FXML/NewUsername.fxml"));
+
                 try {
                     root = fxmlLoader.load();
                     newUsername = new Scene(root);
@@ -82,8 +83,11 @@ public class AppGUI extends Application implements ViewInterface{
                 }
                 newUsernameController = fxmlLoader.getController();
                 newUsernameController.setClient(client);
-                primaryStage.setScene(newUsername);
-                primaryStage.show();
+                Stage alertBox = new Stage();
+                alertBox.initModality(Modality.APPLICATION_MODAL);
+                alertBox.setTitle("New Username");
+                alertBox.setScene(newUsername);
+                alertBox.show();
             }
         });
     }
@@ -169,63 +173,67 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public void displaySelectionBuilderWindow(MatchStateMessage turnPlayerMessage) {
         Platform.runLater(()-> {
-            Parent children;
-            Scene scene;
+                Parent children;
+                Scene scene;
 
-            FXMLLoader fxmlLoader = new FXMLLoader();
+                FXMLLoader fxmlLoader = new FXMLLoader();
 
-            switch (players.size()){
-                case(2):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/board.fxml"));
-                    break;
-                case(3):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/board_3.fxml"));
-                    break;
-            }
+                switch (players.size()) {
+                    case (2):
+                        fxmlLoader.setLocation(getClass().getResource("/FXML/board.fxml"));
+                        break;
+                    case (3):
+                        fxmlLoader.setLocation(getClass().getResource("/FXML/board_3.fxml"));
+                        break;
+                }
 
-            try {
-                children = fxmlLoader.load();
-                scene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                scene = new Scene(new Label ("ERROR "));
-            }
-            selectionBuilderController = fxmlLoader.getController();
-            selectionBuilderController.setClient(client);
-            selectionBuilderController.setMatchStateMessage(turnPlayerMessage);
-            selectionBuilderController.initializePlayers(players);
-            primaryStage.setScene(scene);
-            primaryStage.show();
+                try {
+                    children = fxmlLoader.load();
+                    scene = new Scene(children);
+                } catch (IOException e) {
+                    children = null;
+                    scene = new Scene(new Label("ERROR "));
+                }
+                selectionBuilderController = fxmlLoader.getController();
+                selectionBuilderController.setClient(client);
+                selectionBuilderController.setMatchStateMessage(turnPlayerMessage);
+                selectionBuilderController.initializePlayers(players);
+                selectionBuilderController.initializeBoard(turnPlayerMessage.getBoard());
+                primaryStage.setScene(scene);
+                primaryStage.show();
+
         });
     }
 
 
     @Override
     public void displayNewSelectionBuilderWindow(IllegalPositionMessage message) {
-        Stage stage = new Stage();
-        Parent children;
-        Scene scene;
+        Platform.runLater(()-> {
 
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        switch (players.size()){
-            case(2):
-                fxmlLoader.setLocation(getClass().getResource("/FXML/board.fxml"));
-                break;
-            case(3):
-                fxmlLoader.setLocation(getClass().getResource("/FXML/board_3.fxml"));
-                break;
-        }
-        try {
-            children = fxmlLoader.load();
-            scene = new Scene(children);
-        } catch (IOException e) {
-            children = null;
-            scene = new Scene(new Label("ERROR "));
-        }
+            Parent children;
+            Scene scene;
 
-        stage.setTitle("POSITION SELECTED IS OCCUPIED. INSERT NEW COORDINATES");
-        stage.setScene(scene);
-        stage.show();
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            switch (players.size()) {
+                case (2):
+                    fxmlLoader.setLocation(getClass().getResource("/FXML/board.fxml"));
+                    break;
+                case (3):
+                    fxmlLoader.setLocation(getClass().getResource("/FXML/board_3.fxml"));
+                    break;
+            }
+            try {
+                children = fxmlLoader.load();
+                scene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                scene = new Scene(new Label("ERROR "));
+            }
+
+            primaryStage.setTitle("POSITION SELECTED IS OCCUPIED. INSERT NEW COORDINATES");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        });
     }
 
     /**
@@ -399,7 +407,7 @@ public class AppGUI extends Application implements ViewInterface{
     }
 
     @Override
-    public void showBoard(ArrayList<Cell> listOfCells, ArrayList<Player> players) {
+    public void showBoard(ArrayList<Cell> listOfCells) {
 
     }
 
@@ -415,5 +423,22 @@ public class AppGUI extends Application implements ViewInterface{
         client.setView(this);
 
         displaySetupWindow(true);
+
+    }
+    public static String gender(char gender){
+        if(gender == '\u2642')
+            return "✱";
+        return "✿";
+    }
+    public static String color(Color color){
+        switch(color){
+            case PLAYER_CYAN:
+                return "#00ffcc";
+            case PLAYER_GREEN:
+                return "#f44040";
+            case PLAYER_PURPLE:
+                return "#b57fb8";
+        }
+        return null;
     }
 }
