@@ -86,6 +86,7 @@ public interface ViewInterface {
      */
     void displayEndMatch(String winner);
 
+
     /**
      * metodo che mostra all'utente possibili errori che sono capitati
      */
