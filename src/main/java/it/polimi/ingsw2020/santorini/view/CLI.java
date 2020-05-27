@@ -1,5 +1,6 @@
 package it.polimi.ingsw2020.santorini.view;
 
+import it.polimi.ingsw2020.santorini.exceptions.UnexpectedGodException;
 import it.polimi.ingsw2020.santorini.model.*;
 import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.network.client.ServerAdapter;
@@ -111,7 +112,7 @@ public class CLI implements ViewInterface {
     @Override
     public void displayLoadingWindow(String message) {
         System.out.flush();
-        System.out.println(message);
+        System.out.print(message);
     }
 
     /**
@@ -125,22 +126,88 @@ public class CLI implements ViewInterface {
         System.out.println("Partita creata!\n");
         System.out.println("L'ordine voluto dagli dei è questo: ");
         listOfPlayers = matchSetupMessage.getPlayers();
-        for(Player player : listOfPlayers) System.out.println(player.toString() + Color.RESET);
-        System.out.println("\n\nE' ora di scegliere la posizione dei builder! inizierà il primo giocatore a scegliere!");
-        System.out.println("Abbiamo ordinato in base all'età, i più giovani avranno un piccolo vantaggio!");
-        for(Player p : listOfPlayers) System.out.println(p.getNickname());
+        //scannerIn.nextLine();
+        for(Player player : listOfPlayers) System.out.println(player.getColor() + player.getNickname() + Color.RESET);
+        if(client.getUsername().equals(listOfPlayers.get(0).getNickname())) {
+            // scelta delle divinità
+            int[] selectedGods = new int[listOfPlayers.size()];
+            int i = 0;
+            boolean correct;
+            for(Player p : listOfPlayers){
+                do {
+                    correct = true;
+                    try {
+                        System.out.println("Scegli una carta delle divinità tra queste");
+                        System.out.println(matchSetupMessage.getGods().toString());
+                        System.out.print("Scelta: ");
+                        selectedGods[i] = Integer.parseInt(scannerIn.nextLine());
+                        if(matchSetupMessage.getGods().isExtracted(selectedGods[i])) {
+                            correct = false;
+                            System.out.println("Inserisci uno dei numeri indicati!");
+                        } else
+                            matchSetupMessage.getGods().extract(selectedGods[i]);
+                    } catch(InputMismatchException | NumberFormatException e){
+                        System.out.println("Inserisci uno dei numeri indicati!");
+                        correct = false;
+                    }
+                } while (!correct);
+                ++i;
+            }
+            Message message = new Message(client.getUsername());
+            message.buildSynchronizationMessage(SecondHeaderType.BEGIN_MATCH, new GameGodsSelectionMessage(selectedGods));
+            client.getNetworkHandler().send(message);
+        } else {
+            System.out.println("Il primo giocatore ora sceglierà le divnità che vi aiuteranno in questa partita");
+            System.out.println("Siccome è il più giovane, è il più vicino alle divinità");
+            Message message = new Message(client.getUsername());
+            message.buildSynchronizationMessage(SecondHeaderType.BEGIN_MATCH, null);
+            client.getNetworkHandler().send(message);
+        }
         System.out.println("Attendi le direttive degli dei");
+    }
 
-        // bisogna creare un messaggio che dica che i client siano correttamente entrati nella partita
-        // il server manderà uno alla volta i messaggi di scelta delle posizioni dei builder ai client nell'ordine prestabilito (verranno inviati a tutti i componenti della partita)
-        // il payload del messaggio inviato dal server conterrà il giocatore che deve scegliere
-        // verrà invocato il display choices per le scelte e ci sarà un if fondamentale:
-        // se il nome del giocatore corrisponde a quello nel payload, inizierà la procedura di scelta
-        // altrimenti comparirà "nome nel payload sta scegliendo"
-
-        Message message = new Message(client.getUsername());
-        message.buildSynchronizationMessage(SecondHeaderType.BEGIN_MATCH);
-        client.getNetworkHandler().send(message);
+    /**
+     * method that asks to the current player to choose which want he wants to his side
+     * @param matchSetupMessage contains all the information needed to perform this choice
+     */
+    @Override
+    public void displayGodSelectionWindow(MatchSetupMessage matchSetupMessage) {
+        System.out.flush();
+        if(client.getUsername().equals(matchSetupMessage.getPlayers().get(matchSetupMessage.getCurrentPlayerIndex()).getNickname())) {
+            boolean correct;
+            int selectedGod = -1;
+            do {
+                correct = true;
+                try {
+                    System.out.println("Tocca a te scegliere la tua divinità!");
+                    for(int i = 0; i < matchSetupMessage.getSelectedGods().size(); ++i){
+                        for(GodFactotum g : GodFactotum.values()){
+                            if(g.getCode() == matchSetupMessage.getSelectedGods().get(i)) {
+                                try {
+                                    System.out.println("Insert " + g.getCode() + ":\t" + g.getName());
+                                } catch (UnexpectedGodException ignored){}
+                                break;
+                            }
+                        }
+                    }
+                    System.out.print("Divinità scelta: ");
+                    selectedGod = scannerIn.nextInt();
+                    if(!matchSetupMessage.getSelectedGods().contains(selectedGod)) {
+                        System.out.println("Inserisci uno dei numeri indicati!");
+                        correct = false;
+                    }
+                } catch(InputMismatchException e){
+                    System.out.println("Inserisci uno dei numeri indicati!");
+                    correct = false;
+                }
+            } while (!correct);
+            matchSetupMessage.getSelectedGods().remove((Integer)selectedGod);
+            Message message = new Message(client.getUsername());
+            message.buildInvokedGodMessage(new GodSelectionMessage(selectedGod, matchSetupMessage.getSelectedGods()));
+            client.getNetworkHandler().send(message);
+        } else {
+            System.out.println("Attendi, " + matchSetupMessage.getPlayers().get(matchSetupMessage.getCurrentPlayerIndex()).getNickname() + " sta scegliendo la sua divinità!\n");
+        }
     }
 
     /**
@@ -152,6 +219,7 @@ public class CLI implements ViewInterface {
     @Override
     public void displaySelectionBuilderWindow(MatchStateMessage matchStateMessage) {
         System.out.flush();
+        listOfPlayers = matchStateMessage.getPlayers();
         String currentPlayer = matchStateMessage.getCurrentPlayer().getNickname();
         if(client.getUsername().equals(currentPlayer)) {
             int[] builderM, builderF;
@@ -775,7 +843,7 @@ public class CLI implements ViewInterface {
         System.out.printf(
             Color.RESET+"                                 NORTH                                 \n" +
             Color.RESET+"                 0     1     2     3     4     5     6                 \n" +
-            "              "+Color.CORNER_WHITE+"█"+Color.BORDER_YELLOW+"═════╦═════╦═════╦═════╦═════╦═════╦═════"+Color.CORNER_WHITE+"█              " + effects[0] + "\n"+
+            "              "+Color.CORNER_WHITE+"█"+Color.BORDER_YELLOW+"═════╦═════╦═════╦═════╦═════╦═════╦═════"+Color.CORNER_WHITE+"█              " + effects[0] + "\n"+Color.RESET+
             "          0   "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║"+Color.RESET+"   0          " + effects[1] + Color.RESET +"\n"+
             "              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣              " + effects[2] + Color.RESET +"\n"+
             "          1   "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║"+Color.RESET+"   1          " + effects[3] + Color.RESET +"\n"+

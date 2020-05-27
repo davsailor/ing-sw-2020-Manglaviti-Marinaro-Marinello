@@ -10,11 +10,11 @@ import it.polimi.ingsw2020.santorini.utils.ActionType;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PlayerStatus;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.SelectedBuilderMessage;
-import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
-import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.SelectedBuilderPositionMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.*;
 import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 @SuppressWarnings("deprecation")
@@ -63,7 +63,7 @@ public class GameLogic implements Observer {
     public void initializeMatch(VirtualView view, int numberOfPlayers) {
         System.out.printf("creo il match da %d\n", numberOfPlayers);
         setView(view);
-        this.match = new Match(new Board(new GodDeck()), numberOfPlayers, view);
+        this.match = new Match(new Board(new GodDeck(numberOfPlayers)), numberOfPlayers, view);
         Player[] list = new Player[numberOfPlayers];
         ArrayList<Player> queue = server.getWaitingPlayers(numberOfPlayers);
         for (int i = 0; i < numberOfPlayers; ++i) {
@@ -132,18 +132,27 @@ public class GameLogic implements Observer {
     synchronized public void synchronizationHandler(Message message){
         switch(message.getSecondLevelHeader()){
             case BEGIN_MATCH:
+                if(message.getSerializedPayload() != null){
+                    GameGodsSelectionMessage gameGodsSelectionMessage = message.deserializeGodSelectionMessage();
+                    ArrayList<Integer> remainingGods = new ArrayList<>();
+                    for(int i = 0; i < gameGodsSelectionMessage.getSelectedGods().length; ++i){
+                        match.getBoard().getGodCards().extract(gameGodsSelectionMessage.getSelectedGods()[i]);
+                        remainingGods.add(gameGodsSelectionMessage.getSelectedGods()[i]);
+                    }
+                    match.setRemainingGods(remainingGods);
+                }
                 Player current = match.getPlayerByName(message.getUsername());
                 current.setStatus(PlayerStatus.READY);
                 Player[] players = match.getPlayers();
                 boolean allReady = true;
-                for(int i = 0; i < match.getPlayers().length && allReady; ++i){
+                for(int i = 0; i < match.getPlayers().length && allReady; ++i)
                     if (players[i].getStatus() != PlayerStatus.READY) allReady = false;
-                }
                 if(allReady) {
                     ArrayList<Message> orderMessage = new ArrayList<>();
+                    match.setNextPlayer();
                     for (int i = 0; i < match.getPlayers().length; ++i) {
                         orderMessage.add(new Message(players[i].getNickname()));
-                        orderMessage.get(i).buildTurnPlayerMessage(new MatchStateMessage(players[match.getCurrentPlayerIndex()], match.getBoard().getBoard(), match.getPlayersAsList()));
+                        orderMessage.get(i).buildGodInvocationMessage(new MatchSetupMessage(match, null));
                     }
                     match.notifyView(orderMessage);
                 }
@@ -160,6 +169,38 @@ public class GameLogic implements Observer {
      */
     synchronized public void validationHandler(Message message) {
         switch(message.getSecondLevelHeader()){
+            case GOD_INVOCATION:
+                GodSelectionMessage godSelectionMessage = message.deserializeInvokedGodMessage();
+                match.getCurrentPlayer().setDivinePower(match.getBoard().getGodCards().giveCard(godSelectionMessage.getSelected()));
+                match.getCurrentPlayer().setStatus(PlayerStatus.INVOKING);
+                match.getBoard().getGodCards().setNextSelection(match.getBoard().getGodCards().getNextSelection() + 1);
+                match.setRemainingGods(godSelectionMessage.getRemaining());
+                if(godSelectionMessage.getRemaining().size() == 1) {
+                    match.setNextPlayer();
+                    match.getCurrentPlayer().setDivinePower(match.getBoard().getGodCards().giveCard(godSelectionMessage.getRemaining().get(0)));
+                    match.getCurrentPlayer().setStatus(PlayerStatus.INVOKING);
+                } else {
+                    ArrayList<Message> orderMessage = new ArrayList<>();
+                    match.setNextPlayer();
+                    for (int i = 0; i < match.getPlayers().length; ++i) {
+                        orderMessage.add(new Message(match.getPlayers()[i].getNickname()));
+                        orderMessage.get(i).buildGodInvocationMessage(new MatchSetupMessage(match, godSelectionMessage.getRemaining()));
+                    }
+                    match.notifyView(orderMessage);
+                }
+                boolean allInvoking = true;
+                for(int i = 0; i < match.getPlayers().length && allInvoking; ++i)
+                    if (match.getPlayers()[i].getStatus() != PlayerStatus.INVOKING) allInvoking = false;
+                if(allInvoking) {
+                    ArrayList<Message> orderMessage = new ArrayList<>();
+                    match.setCurrentPlayerIndex(0);
+                    for (int i = 0; i < match.getPlayers().length; ++i) {
+                        orderMessage.add(new Message(match.getPlayers()[i].getNickname()));
+                        orderMessage.get(i).buildTurnPlayerMessage(new MatchStateMessage(match.getPlayers()[match.getCurrentPlayerIndex()], match.getBoard().getBoard(), match.getPlayersAsList()));
+                    }
+                    match.notifyView(orderMessage);
+                }
+                break;
             case CORRECT_SELECTION_POS:
                 SelectedBuilderPositionMessage selectedBuilderPositionMessage = message.deserializeSelectedBuilderPosMessage(message.getSerializedPayload());
                 Cell[][] board = match.getBoard().getBoard();

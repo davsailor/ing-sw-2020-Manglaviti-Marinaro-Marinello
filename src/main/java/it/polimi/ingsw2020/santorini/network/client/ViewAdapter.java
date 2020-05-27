@@ -57,6 +57,10 @@ public class ViewAdapter extends Thread {
                 MatchSetupMessage matchSetupMessage = message.deserializeMatchSetupMessage(message.getSerializedPayload());
                 client.getView().displayMatchSetupWindow(matchSetupMessage);
                 break;
+            case GOD_INVOCATION:
+                MatchSetupMessage matchSetupMessage1 = message.deserializeMatchSetupMessage(message.getSerializedPayload());
+                client.getView().displayGodSelectionWindow(matchSetupMessage1);
+                break;
             case PLAYER_SELECTION:
                 MatchStateMessage matchStateMessage = message.deserializeMatchStateMessage(message.getSerializedPayload());
                 client.getView().displaySelectionBuilderWindow(matchStateMessage);

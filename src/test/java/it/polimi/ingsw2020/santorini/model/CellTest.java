@@ -27,7 +27,7 @@ public class CellTest {
     public void testSetBuilder(){
         Cell cell = new Cell(AccessType.FREE);
         Player player = new Player("davsailor", new Date(1999, 2, 15));
-        Builder builder = new Builder(player, '♂', new Board(new GodDeck()), null);
+        Builder builder = new Builder(player, '♂', new Board(new GodDeck(2)), null);
         cell.setBuilder(builder);
         assertEquals(builder, cell.getBuilder());
     }
@@ -37,7 +37,7 @@ public class CellTest {
         Cell cell = new Cell(AccessType.FREE);
         assertNull(cell.getBuilder());
         Player player = new Player("davsailor", new Date(1999, 2, 15));
-        Builder builder = new Builder(player, '♂', new Board(new GodDeck()), null);
+        Builder builder = new Builder(player, '♂', new Board(new GodDeck(2)), null);
         cell.setBuilder(builder);
         assertNotNull(cell.getBuilder());
         assertEquals(builder, cell.getBuilder());

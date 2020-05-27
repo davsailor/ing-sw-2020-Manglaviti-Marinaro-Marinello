@@ -7,6 +7,7 @@ public enum SecondHeaderType {
     LOGIN,
     MATCH,
     NEW_MATCH,
+    GOD_INVOCATION,
     PLAYER_SELECTION,
     END_MATCH,
 

@@ -22,7 +22,7 @@ public class MatchTest {
     @Before
     public void setup(){
         server = new Server();
-        board = new Board(new GodDeck());
+        board = new Board(new GodDeck(2));
         view = new VirtualView(new GameLogic(server));
     }
 

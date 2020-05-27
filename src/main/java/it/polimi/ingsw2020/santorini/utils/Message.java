@@ -73,6 +73,13 @@ public class Message implements Serializable {
         return gson.fromJson(payload, MatchSetupMessage.class);
     }
 
+    public void buildGodInvocationMessage(MatchSetupMessage payload){
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.SETUP;
+        this.secondLevelHeader = SecondHeaderType.GOD_INVOCATION;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
     public void buildTurnPlayerMessage(MatchStateMessage payload){
         Gson gson = new Gson();
         this.firstLevelHeader = FirstHeaderType.SETUP;
@@ -122,13 +129,33 @@ public class Message implements Serializable {
 
     /* SYNCHRONIZATION messages */
 
-    public void buildSynchronizationMessage(SecondHeaderType type){
+    public void buildSynchronizationMessage(SecondHeaderType type, GameGodsSelectionMessage payload) {
         this.firstLevelHeader = FirstHeaderType.SYNCHRONIZATION;
         this.secondLevelHeader = type;
+        Gson gson = new Gson();
+        if(payload != null) this.serializedPayload = gson.toJson(payload);
+        else this.serializedPayload = null;
+    }
+
+    public GameGodsSelectionMessage deserializeGodSelectionMessage(){
+        Gson gson = new Gson();
+        return gson.fromJson(this.serializedPayload, GameGodsSelectionMessage.class);
     }
 
 
     /* VERIFY messages */
+
+    public void buildInvokedGodMessage(GodSelectionMessage payload) {
+        Gson gson = new Gson();
+        this.firstLevelHeader = FirstHeaderType.VERIFY;
+        this.secondLevelHeader = SecondHeaderType.GOD_INVOCATION;
+        this.serializedPayload = gson.toJson(payload);
+    }
+
+    public GodSelectionMessage deserializeInvokedGodMessage(){
+        Gson gson = new Gson();
+        return gson.fromJson(serializedPayload, GodSelectionMessage.class);
+    }
 
     public void buildSelectedBuilderPosMessage(SelectedBuilderPositionMessage payload){
         Gson gson = new Gson();

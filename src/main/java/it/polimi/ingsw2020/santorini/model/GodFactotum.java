@@ -15,7 +15,7 @@ public enum GodFactotum {
     PROMETHEUS  (8),
     ARES        (9),
     HESTIA      (10),
-    PERSEPHONE  (11),
+    CHRONUS     (11),
     POSEIDON    (12),
     ZEUS        (13);
 
@@ -111,5 +111,14 @@ public enum GodFactotum {
             default:
                 throw new UnexpectedGodException();
         }
+    }
+
+    /**
+     * method that give us the maximum number of players related to a god card
+     * @return the maximum number of players supported by the god
+     */
+    public int getNumberOfPlayers(){
+        if(this.code == 11) return 2;
+        return 3;
     }
 }

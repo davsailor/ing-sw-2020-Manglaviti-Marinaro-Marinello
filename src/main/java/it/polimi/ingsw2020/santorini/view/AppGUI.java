@@ -155,7 +155,7 @@ public class AppGUI extends Application implements ViewInterface{
                 e.printStackTrace();//TODO ricordiamo di cancellare sto print stack trace
             }
             Message message = new Message(client.getUsername());
-            message.buildSynchronizationMessage(SecondHeaderType.BEGIN_MATCH);
+            message.buildSynchronizationMessage(SecondHeaderType.BEGIN_MATCH, null);
             client.getNetworkHandler().send(message);
         });
 
@@ -400,6 +400,11 @@ public class AppGUI extends Application implements ViewInterface{
 
     @Override
     public void showBoard(ArrayList<Cell> listOfCells, ArrayList<Player> players) {
+
+    }
+
+    @Override
+    public void displayGodSelectionWindow(MatchSetupMessage matchSetupMessage) {
 
     }
 

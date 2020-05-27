@@ -6,15 +6,15 @@ import it.polimi.ingsw2020.santorini.model.Match;
 import it.polimi.ingsw2020.santorini.network.NetworkInterface;
 import it.polimi.ingsw2020.santorini.utils.FirstHeaderType;
 import it.polimi.ingsw2020.santorini.utils.Message;
+import it.polimi.ingsw2020.santorini.utils.PlayerStatus;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchSetupMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.SocketTimeoutException;
 import java.util.ArrayList;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class ClientNetworkHandler extends Thread implements NetworkInterface {
 
@@ -162,12 +162,9 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
                 setConnected(false);
             }
         }
-        // gestire la disconnessione
         if(server.getVirtualClients().containsKey(username)) {
             server.getVirtualClients().remove(username);
             if(server.getPlayerInMatch().containsKey(username)){
-                // si creano tutti i messaggi di tutti i giocatori
-                // se il virtual client c'è il messaggio si invia, altrimenti non si invia
                 int matchID = server.getMatchFromUsername(username);
                 Match match = server.getViewFromMatch(matchID).getMatch();
                 int i;
@@ -182,14 +179,38 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
                         controller.getTurnManager().handlePhases(match);
                     } else {
                         if (username.equals(match.getCurrentPlayer().getNickname())) {
-                            if(i < match.getPlayers().length)
-                                match.setEliminatedPlayer(i);
-                            ArrayList<Message> orderMessage = new ArrayList<>();
-                            for (int k = 0; k < match.getPlayers().length; ++k) {
-                                orderMessage.add(new Message(match.getPlayers()[k].getNickname()));
-                                orderMessage.get(k).buildTurnPlayerMessage(new MatchStateMessage(match.getPlayers()[match.getCurrentPlayerIndex()], match.getBoard().getBoard(), match.getPlayersAsList()));
+                            if(match.getCurrentPlayer().getDivinePower() != null) {
+                                if (i < match.getPlayers().length)
+                                    match.setEliminatedPlayer(i);
+                                ArrayList<Message> orderMessage = new ArrayList<>();
+                                for (int k = 0; k < match.getPlayers().length; ++k) {
+                                    orderMessage.add(new Message(match.getPlayers()[k].getNickname()));
+                                    orderMessage.get(k).buildTurnPlayerMessage(new MatchStateMessage(match.getPlayers()[match.getCurrentPlayerIndex()], match.getBoard().getBoard(), match.getPlayersAsList()));
+                                }
+                                match.notifyView(orderMessage);
+                            } else {
+                                if(match.getRemainingGods() == null){
+                                    if (i < match.getPlayers().length)
+                                        match.setEliminatedPlayer(i);
+                                    match.setCurrentPlayerIndex(0);
+                                    ArrayList<Message> orderMessage = new ArrayList<>();
+                                    for (int k = 0; k < match.getPlayers().length; ++k) {
+                                        match.getPlayers()[k].setStatus(PlayerStatus.WAITING);
+                                        orderMessage.add(new Message(match.getPlayers()[k].getNickname()));
+                                        orderMessage.get(k).buildMatchSetupMessage(new MatchSetupMessage(match, null));
+                                    }
+                                    match.notifyView(orderMessage);
+                                } else {
+                                    if (i < match.getPlayers().length)
+                                        match.setEliminatedPlayer(i);
+                                    ArrayList<Message> orderMessage = new ArrayList<>();
+                                    for (int k = 0; k < match.getPlayers().length; ++k) {
+                                        orderMessage.add(new Message(match.getPlayers()[k].getNickname()));
+                                        orderMessage.get(k).buildGodInvocationMessage(new MatchSetupMessage(match, match.getRemainingGods()));
+                                    }
+                                    match.notifyView(orderMessage);
+                                }
                             }
-                            match.notifyView(orderMessage);
                         } else
                             if(i < match.getPlayers().length)
                                 match.setEliminatedPlayer(i);

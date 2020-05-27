@@ -93,6 +93,8 @@ public interface ViewInterface {
 
     void showBoard(ArrayList<Cell> listOfCells, ArrayList<Player> players);
 
+    void displayGodSelectionWindow(MatchSetupMessage matchSetupMessage);
+
     // void displaySample();
     // void displaySample2();
 }

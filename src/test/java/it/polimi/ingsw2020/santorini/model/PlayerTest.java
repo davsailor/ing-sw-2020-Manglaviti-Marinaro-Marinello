@@ -85,7 +85,7 @@ public class PlayerTest {
 
     @Test
     public void testGetAndSetBuilderF() {
-        player.setBuilderF(new Builder(player,'\u2640', new Board(new GodDeck()),null));
+        player.setBuilderF(new Builder(player,'\u2640', new Board(new GodDeck(2)),null));
         assertNotNull(player.getBuilderF());
         assertEquals('\u2640', player.getBuilderF().getGender());
         assertEquals(3, player.getBuilderF().getBuildPosX());
@@ -94,7 +94,7 @@ public class PlayerTest {
 
     @Test
     public void testGetAndSetBuilderM() {
-        player.setBuilderM(new Builder(player,'\u2642', new Board(new GodDeck()),null));
+        player.setBuilderM(new Builder(player,'\u2642', new Board(new GodDeck(2)),null));
         assertNotNull(player.getBuilderM());
         assertEquals('\u2642', player.getBuilderM().getGender());
         assertEquals(3, player.getBuilderM().getBuildPosX());

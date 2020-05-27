@@ -20,6 +20,7 @@ public class Match extends Observable {
     private int currentPlayerIndex;
     private final int numberOfPlayers;
     private ArrayList<Player> eliminatedPlayers;
+    private ArrayList<Integer> remainingGods;
     private Board board;
     private int numberOfCompletedTowers;
     private int turnNumber;
@@ -33,8 +34,17 @@ public class Match extends Observable {
         this.board = board;
         this.numberOfCompletedTowers = 0;
         this.turnNumber = 0;
+        remainingGods = null;
         addObserver(view);
         view.setMatch(this);
+    }
+
+    public ArrayList<Integer> getRemainingGods() {
+        return remainingGods;
+    }
+
+    public void setRemainingGods(ArrayList<Integer> remainingGods) {
+        this.remainingGods = remainingGods;
     }
 
     /**
@@ -109,8 +119,11 @@ public class Match extends Observable {
     public void setEliminatedPlayer(int eliminatedPlayer) throws EndMatchException{
         if(currentPlayerIndex > eliminatedPlayer)
             --currentPlayerIndex;
-        else if(currentPlayerIndex == eliminatedPlayer)
+        else if(currentPlayerIndex == eliminatedPlayer) {
             setNextPlayer();
+            if(currentPlayerIndex > eliminatedPlayer)
+                --currentPlayerIndex;
+        }
         eliminatedPlayers.add(players.get(eliminatedPlayer));
         if(eliminatedPlayers.size() == numberOfPlayers - 1) {
             players.remove(players.get(eliminatedPlayer));
@@ -155,18 +168,13 @@ public class Match extends Observable {
      */
     public void initialize(Player[] players) {
         ArrayList<Message> listOfMessages = new ArrayList<>();
-        this.getBoard().getGodCards().shuffleDeck();
         for(int i = 0; i < this.getNumberOfPlayers(); ++i){
             this.players.add(players[i]);
-            this.players.get(i).setDivinePower(this.getBoard().getGodCards().giveCard());
-            if(this.players.get(i).getDivinePower().getMaxPlayersNumber() < this.numberOfPlayers)
-                this.players.get(i).setDivinePower(this.getBoard().getGodCards().giveCard());
             this.players.get(i).setColor(Color.getColor(i));
             listOfMessages.add((new Message(players[i].getNickname())));
         }
-        for(int i = 0; i < this.getPlayers().length; ++i){
-            listOfMessages.get(i).buildMatchSetupMessage(new MatchSetupMessage(getPlayers(), getBoard().getBoard()));
-        }
+        for(int i = 0; i < this.getPlayers().length; ++i)
+            listOfMessages.get(i).buildMatchSetupMessage(new MatchSetupMessage(this, null));
         setChanged();
         notifyObservers(listOfMessages);
     }
