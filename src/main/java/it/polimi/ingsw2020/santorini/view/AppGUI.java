@@ -408,7 +408,7 @@ public class AppGUI extends Application implements ViewInterface{
 
     @Override
     public void showBoard(ArrayList<Cell> listOfCells, ArrayList<Player> players) {
-        
+
     }
 
 
