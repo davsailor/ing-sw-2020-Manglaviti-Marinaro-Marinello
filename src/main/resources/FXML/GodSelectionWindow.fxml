@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:controller="it.polimi.ingsw2020.santorini.view.gui.GodSelectionController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="400.0" fitWidth="600.0">
          <image>
@@ -168,19 +168,19 @@
             <Image url="@../images/heropower_inactive.png" />
          </image>
       </ImageView>
-      <Button fx:id="Apollo" layoutX="68.0" layoutY="61.0" mnemonicParsing="false" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
-      <Button fx:id="Artemis" layoutX="163.0" layoutY="63.0" mnemonicParsing="false" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
-      <Button fx:id="Atlas" layoutX="259.0" layoutY="63.0" mnemonicParsing="false" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
-      <Button fx:id="Demeter" layoutX="355.0" layoutY="70.0" mnemonicParsing="false" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
-      <Button fx:id="Minotaur" layoutX="451.0" layoutY="63.0" mnemonicParsing="false" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
-      <Button fx:id="Ares" layoutX="68.0" layoutY="180.0" mnemonicParsing="false" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
-      <Button fx:id="Athena" layoutX="163.0" layoutY="180.0" mnemonicParsing="false" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
-      <Button fx:id="Chronus" layoutX="259.0" layoutY="180.0" mnemonicParsing="false" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
-      <Button fx:id="Hestia" layoutX="355.0" layoutY="180.0" mnemonicParsing="false" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
-      <Button fx:id="Pan" layoutX="452.0" layoutY="180.0" mnemonicParsing="false" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
-      <Button fx:id="Hephaestus" layoutX="115.0" layoutY="293.0" mnemonicParsing="false" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
-      <Button fx:id="Poseidon" layoutX="211.0" layoutY="293.0" mnemonicParsing="false" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
-      <Button fx:id="Prometheus" layoutX="307.0" layoutY="293.0" mnemonicParsing="false" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
-      <Button fx:id="Zeus" layoutX="403.0" layoutY="293.0" mnemonicParsing="false" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Apollo" layoutX="68.0" layoutY="61.0" mnemonicParsing="false" opacity="0.0" onAction="#selectGod" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Artemis" layoutX="163.0" layoutY="63.0" mnemonicParsing="false" opacity="0.0" onAction="#selectGod" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Atlas" layoutX="259.0" layoutY="63.0" mnemonicParsing="false" opacity="0.0" onAction="#selectGod" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Demeter" layoutX="355.0" layoutY="70.0" mnemonicParsing="false" opacity="0.0" onAction="#selectGod" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Minotaur" layoutX="451.0" layoutY="63.0" mnemonicParsing="false" opacity="0.0" onAction="#selectGod" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Ares" layoutX="68.0" layoutY="180.0" mnemonicParsing="false" opacity="0.0" onAction="#selectGod" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Athena" layoutX="163.0" layoutY="180.0" mnemonicParsing="false" opacity="0.0"  onAction="#selectGod" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Chronus" layoutX="259.0" layoutY="180.0" mnemonicParsing="false" opacity="0.0" onAction="#selectGod" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Hestia" layoutX="355.0" layoutY="180.0" mnemonicParsing="false" opacity="0.0" onAction="#selectGod" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Pan" layoutX="452.0" layoutY="180.0" mnemonicParsing="false" opacity="0.0" onAction="#selectGod" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Hephaestus" layoutX="115.0" layoutY="293.0" mnemonicParsing="false" opacity="0.0" onAction="#selectGod" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Poseidon" layoutX="211.0" layoutY="293.0" mnemonicParsing="false" opacity="0.0"  onAction="#selectGod" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Prometheus" layoutX="307.0" layoutY="293.0" mnemonicParsing="false" opacity="0.0" onAction="#selectGod" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Zeus" layoutX="403.0" layoutY="293.0" mnemonicParsing="false" opacity="0.0"  onAction="#selectGod" prefHeight="86.0" prefWidth="61.0" text="Button" />
    </children>
 </Pane>

@@ -686,11 +686,6 @@ public class SelectionBuilderController {
         pos.setDisable(true);
     }
 
-
-
-
-
-
     public void initializePlayers(ArrayList<Player> players) {
         setPlayers(players);
 

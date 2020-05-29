@@ -26,6 +26,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static it.polimi.ingsw2020.santorini.utils.PhaseType.*;
+
 public class AppGUI extends Application implements ViewInterface{
 
     private Client client;
@@ -34,8 +36,9 @@ public class AppGUI extends Application implements ViewInterface{
     private BoardController boardController;
     private InfoMatchController infoMatchController;
     private SelectionBuilderController selectionBuilderController;
+    private SelectGodController selectGodController;
+    private GodSelectionController godSelectionController;
     private ArrayList<Player> players;
-
     public Client getClient() {
         return client;
     }
@@ -127,7 +130,84 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public void displayMatchSetupWindow(MatchSetupMessage matchSetupMessage) {
         Platform.runLater(()-> {
-            players = matchSetupMessage.getPlayers();
+            if(matchSetupMessage.getPlayers().get(matchSetupMessage.getCurrentPlayerIndex()).getNickname().equals(client.getUsername())) {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                Parent root;
+                Scene setUpScene;
+                fxmlLoader.setLocation(getClass().getResource("/FXML/GodSelectionWindow.fxml"));
+                try {
+                    root = fxmlLoader.load();
+                    setUpScene = new Scene(root);
+                } catch (IOException e) {
+                    root = null;
+                    setUpScene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
+                    e.printStackTrace();
+                }
+
+                godSelectionController = fxmlLoader.getController();
+                godSelectionController.setClient(client);
+                godSelectionController.setMatchSetupMessage(matchSetupMessage);
+                primaryStage.setScene(setUpScene);
+                primaryStage.show();
+            } else {
+                Message message = new Message(client.getUsername());
+                message.buildSynchronizationMessage(SecondHeaderType.BEGIN_MATCH, null);
+                client.getNetworkHandler().send(message);
+            }
+
+
+        });
+
+    }
+
+    @Override
+    public void displayGodSelectionWindow(MatchSetupMessage matchSetupMessage) {
+        Platform.runLater(() -> {
+            if(matchSetupMessage.getPlayers().get(matchSetupMessage.getCurrentPlayerIndex()).getNickname().equals(client.getUsername())) {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                Parent root;
+                Scene scene;
+                System.out.println(matchSetupMessage.getSelectedGods().size());
+                switch (matchSetupMessage.getSelectedGods().size()) {
+                    case (2):
+                        fxmlLoader.setLocation(getClass().getResource("/FXML/selectGod.fxml"));
+                        break;
+                    case (3):
+                        fxmlLoader.setLocation(getClass().getResource("/FXML/selectGod3.fxml"));
+                        break;
+                }
+                try {
+                    root = fxmlLoader.load();
+                    scene = new Scene(root);
+                } catch (IOException e) {
+                    root = null;
+                    scene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
+                    e.printStackTrace();
+                }
+
+                selectGodController = fxmlLoader.getController();
+                selectGodController.setClient(client);
+                selectGodController.initializeGods(matchSetupMessage.getSelectedGods());
+                selectGodController.setMatchSetupMessage(matchSetupMessage);
+                primaryStage.setScene(scene);
+                primaryStage.show();
+            }
+        });
+    }
+
+
+
+    /**
+     * metodo addetto alla selezione dei builder secondo l'ordine definito dal controller
+     *
+     * @param turnPlayerMessage
+     */
+    @Override
+    public void displaySelectionBuilderWindow(MatchStateMessage turnPlayerMessage) {
+        Platform.runLater(()-> {
+
+
+            players = turnPlayerMessage.getPlayers();
             Parent children;
             Scene scene;
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -158,49 +238,31 @@ public class AppGUI extends Application implements ViewInterface{
             } catch (InterruptedException e) {
                 e.printStackTrace();//TODO ricordiamo di cancellare sto print stack trace
             }
-            Message message = new Message(client.getUsername());
-            message.buildSynchronizationMessage(SecondHeaderType.BEGIN_MATCH, null);
-            client.getNetworkHandler().send(message);
-        });
 
-    }
+            FXMLLoader loader = new FXMLLoader();
+            switch (players.size()) {
+                case (2):
+                    loader.setLocation(getClass().getResource("/FXML/board.fxml"));
+                    break;
+                case (3):
+                    loader.setLocation(getClass().getResource("/FXML/board_3.fxml"));
+                    break;
+            }
 
-    /**
-     * metodo addetto alla selezione dei builder secondo l'ordine definito dal controller
-     *
-     * @param turnPlayerMessage
-     */
-    @Override
-    public void displaySelectionBuilderWindow(MatchStateMessage turnPlayerMessage) {
-        Platform.runLater(()-> {
-                Parent children;
-                Scene scene;
-
-                FXMLLoader fxmlLoader = new FXMLLoader();
-
-                switch (players.size()) {
-                    case (2):
-                        fxmlLoader.setLocation(getClass().getResource("/FXML/board.fxml"));
-                        break;
-                    case (3):
-                        fxmlLoader.setLocation(getClass().getResource("/FXML/board_3.fxml"));
-                        break;
-                }
-
-                try {
-                    children = fxmlLoader.load();
-                    scene = new Scene(children);
-                } catch (IOException e) {
-                    children = null;
-                    scene = new Scene(new Label("ERROR "));
-                }
-                selectionBuilderController = fxmlLoader.getController();
-                selectionBuilderController.setClient(client);
-                selectionBuilderController.setMatchStateMessage(turnPlayerMessage);
-                selectionBuilderController.initializePlayers(players);
-                selectionBuilderController.initializeBoard(turnPlayerMessage.getBoard());
-                primaryStage.setScene(scene);
-                primaryStage.show();
+            try {
+                children = loader.load();
+                scene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                scene = new Scene(new Label("ERROR "));
+            }
+            selectionBuilderController = loader.getController();
+            selectionBuilderController.setClient(client);
+            selectionBuilderController.setMatchStateMessage(turnPlayerMessage);
+            selectionBuilderController.initializePlayers(players);
+            selectionBuilderController.initializeBoard(turnPlayerMessage.getBoard());
+            primaryStage.setScene(scene);
+            primaryStage.show();
 
         });
     }
@@ -240,11 +302,43 @@ public class AppGUI extends Application implements ViewInterface{
      * metodo che aggiorna la board ogni volta che viene fatta una mossa (modificato il model)
      * parametro un messaggio con scritte le informazioni sulla board.
      *
-     * @param message
+     * @param updateMessage
      */
     @Override
-    public void updateMatch(UpdateMessage message) {
+    public void updateMatch(UpdateMessage updateMessage) {
 
+        switch(updateMessage.getPhase()) {
+            case START_TURN:
+                //System.out.println("DISPLAY START TURN");
+                displayStartTurn(updateMessage);
+                break;
+            case STANDBY_PHASE_1:
+                //System.out.println("DISPLAY SP1, POTERE ATTIVATO");
+                displaySP(updateMessage, PhaseType.STANDBY_PHASE_1);
+                break;
+            case MOVE_PHASE:
+                //System.out.println("DISPLAY MOVE");
+                displayMoveUpdate(updateMessage);
+                break;
+            case STANDBY_PHASE_2:
+                //System.out.println("DISPLAY SP2, POTERE ATTIVATO");
+                displaySP(updateMessage, PhaseType.STANDBY_PHASE_2);
+                break;
+            case BUILD_PHASE:
+                //System.out.println("DISPLAY BUILD");
+                displayBuildUpdate(updateMessage);
+                break;
+            case STANDBY_PHASE_3:
+                //System.out.println("DISPLAY SP3, POTERE ATTIVATO");
+                displaySP(updateMessage, STANDBY_PHASE_3);
+                break;
+            case END_TURN:
+                //System.out.println("DISPLAY END TURN");
+                displayEndTurn(updateMessage);
+                break;
+            default:
+                break;
+        }
     }
 
     /**
@@ -313,6 +407,7 @@ public class AppGUI extends Application implements ViewInterface{
 
     @Override
     public void displayChooseBuilder(MatchStateMessage message) {
+
         Stage stage = new Stage();
         Parent children;
         Scene scene;
@@ -345,12 +440,13 @@ public class AppGUI extends Application implements ViewInterface{
 
     @Override
     public void displayWouldActivate(MatchStateMessage question) {
+
         Stage stage = new Stage();
         Parent children;
         Scene scene;
 
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/FXML/newUsername.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/FXML/activationPower.fxml"));
 
         try {
             children = fxmlLoader.load();
@@ -360,7 +456,6 @@ public class AppGUI extends Application implements ViewInterface{
             scene = new Scene(new Label ("ERROR "));
         }
 
-        stage.setTitle("NOT VALID USERNAME");
         stage.setScene(scene);
         stage.show();
     }
@@ -408,14 +503,12 @@ public class AppGUI extends Application implements ViewInterface{
 
     @Override
     public void showBoard(ArrayList<Cell> listOfCells, ArrayList<Player> players) {
+
         
     }
 
 
-    @Override
-    public void displayGodSelectionWindow(MatchSetupMessage matchSetupMessage) {
 
-    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
