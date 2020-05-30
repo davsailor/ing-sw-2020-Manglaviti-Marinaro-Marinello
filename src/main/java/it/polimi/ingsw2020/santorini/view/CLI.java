@@ -776,7 +776,8 @@ public class CLI implements ViewInterface {
      * @param players players of the match
      */
     public void showBoard(ArrayList<Cell> listOfCells, ArrayList<Player> players){
-        String coast = Color.OCEAN_BLUE+"\u25DE\u25DC"+Color.MOUNTAIN_BROWN +"\u25B2 ";
+        String coast = Color.OCEAN_BLUE+" -^"+Color.MOUNTAIN_BROWN +"\u25B2 ";
+        // Color.OCEAN_BLUE+"\u25DE\u25DC"+Color.MOUNTAIN_BROWN +"\u25B2 "
         coast = String.format("%1$5s", coast);
         String[][] printableBoard = new String[7][7];
         int j = 0;

@@ -32,6 +32,21 @@ public class UpdateMessage {
         return board;
     }
 
+    public Cell[][] getCells(){
+        Cell[][] cells = new Cell[7][7];
+        int j = 0;
+        int k = 0;
+        for(int i = 0; i < board.size(); ++i){
+            cells[j][k] = board.get(i);
+            if(k < 7) ++k;
+            if(k == 7){
+                ++j;
+                k = 0;
+            }
+        }
+        return cells;
+    }
+
     public ArrayList<Player> getPlayers() {
         return players;
     }
