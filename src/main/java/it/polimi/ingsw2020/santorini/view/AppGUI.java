@@ -35,10 +35,16 @@ public class AppGUI extends Application implements ViewInterface{
     private RegisterController registerController;
     private BoardController boardController;
     private InfoMatchController infoMatchController;
-    private SelectionBuilderController selectionBuilderController;
     private SelectGodController selectGodController;
     private GodSelectionController godSelectionController;
     private ArrayList<Player> players;
+    private boolean infoMatchDisplay = true;
+
+    private void closeSantorini(){
+        primaryStage.close();
+        System.exit(1);
+    }
+
     public Client getClient() {
         return client;
     }
@@ -54,6 +60,7 @@ public class AppGUI extends Application implements ViewInterface{
     public void displaySetupWindow(boolean firstTime) {
         Platform.runLater(()-> {
             if (firstTime) {
+                primaryStage.setOnCloseRequest(e -> closeSantorini());
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 Parent root;
                 Scene registerScene;
@@ -94,7 +101,6 @@ public class AppGUI extends Application implements ViewInterface{
             }
         });
     }
-
 
     /**
      * metodo per intrattenere l'utente mentre aspettiamo altri utenti che vogliono giocare
@@ -143,7 +149,6 @@ public class AppGUI extends Application implements ViewInterface{
                     setUpScene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
                     e.printStackTrace();
                 }
-
                 godSelectionController = fxmlLoader.getController();
                 godSelectionController.setClient(client);
                 godSelectionController.setMatchSetupMessage(matchSetupMessage);
@@ -153,11 +158,9 @@ public class AppGUI extends Application implements ViewInterface{
                 Message message = new Message(client.getUsername());
                 message.buildSynchronizationMessage(SecondHeaderType.BEGIN_MATCH, null);
                 client.getNetworkHandler().send(message);
+                displayLoadingWindow("Il giocatore più giovane\nsta scegliendo le divinità");
             }
-
-
         });
-
     }
 
     @Override
@@ -184,13 +187,14 @@ public class AppGUI extends Application implements ViewInterface{
                     scene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
                     e.printStackTrace();
                 }
-
                 selectGodController = fxmlLoader.getController();
                 selectGodController.setClient(client);
                 selectGodController.initializeGods(matchSetupMessage.getSelectedGods());
                 selectGodController.setMatchSetupMessage(matchSetupMessage);
                 primaryStage.setScene(scene);
                 primaryStage.show();
+            } else {
+                displayLoadingWindow("Attendi che gli altri giocatori\nfacciano le loro scelte");
             }
         });
     }
@@ -205,41 +209,41 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public void displaySelectionBuilderWindow(MatchStateMessage turnPlayerMessage) {
         Platform.runLater(()-> {
-
-
-            players = turnPlayerMessage.getPlayers();
             Parent children;
             Scene scene;
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            switch (players.size()) {
-                case (2):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/InfoMatch.fxml"));
-                    break;
-                case (3):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/InfoMatch3.fxml"));
-                    break;
+            if(infoMatchDisplay) {
+                players = turnPlayerMessage.getPlayers();
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                switch (players.size()) {
+                    case (2):
+                        fxmlLoader.setLocation(getClass().getResource("/FXML/InfoMatch.fxml"));
+                        break;
+                    case (3):
+                        fxmlLoader.setLocation(getClass().getResource("/FXML/InfoMatch3.fxml"));
+                        break;
+                }
+                try {
+                    children = fxmlLoader.load();
+                    scene = new Scene(children);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    children = null;
+                    scene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
+                }
+                infoMatchController = fxmlLoader.getController();
+                infoMatchController.setClient(client);
+                infoMatchController.initializePlayers(players);
+                primaryStage.setScene(scene);
+                primaryStage.show();
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-
-            try {
-                children = fxmlLoader.load();
-                scene = new Scene(children);
-            } catch (IOException e) {
-                e.printStackTrace();
-                children = null;
-                scene = new Scene(new Label ("Graphical Resources not found. Fatal Error"));
-            }
-            infoMatchController = fxmlLoader.getController();
-            infoMatchController.setClient(client);
-            infoMatchController.initializePlayers(players);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();//TODO ricordiamo di cancellare sto print stack trace
-            }
-
+            infoMatchDisplay = false;
             FXMLLoader loader = new FXMLLoader();
+            SelectionBuilderController selectionBuilderController;
             switch (players.size()) {
                 case (2):
                     loader.setLocation(getClass().getResource("/FXML/board.fxml"));
@@ -248,7 +252,6 @@ public class AppGUI extends Application implements ViewInterface{
                     loader.setLocation(getClass().getResource("/FXML/board_3.fxml"));
                     break;
             }
-
             try {
                 children = loader.load();
                 scene = new Scene(children);
@@ -263,7 +266,6 @@ public class AppGUI extends Application implements ViewInterface{
             selectionBuilderController.initializeBoard(turnPlayerMessage.getBoard());
             primaryStage.setScene(scene);
             primaryStage.show();
-
         });
     }
 
@@ -271,7 +273,6 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public void displayNewSelectionBuilderWindow(IllegalPositionMessage message) {
         Platform.runLater(()-> {
-
             Parent children;
             Scene scene;
 
@@ -292,7 +293,6 @@ public class AppGUI extends Application implements ViewInterface{
                 scene = new Scene(new Label("ERROR "));
             }
 
-            primaryStage.setTitle("POSITION SELECTED IS OCCUPIED. INSERT NEW COORDINATES");
             primaryStage.setScene(scene);
             primaryStage.show();
         });
@@ -373,7 +373,6 @@ public class AppGUI extends Application implements ViewInterface{
             scene = new Scene(new Label ("ERROR "));
         }
 
-        stage.setTitle("NOT VALID USERNAME");
         stage.setScene(scene);
         stage.show();
     }
@@ -520,9 +519,9 @@ public class AppGUI extends Application implements ViewInterface{
 
     }
     public static String gender(char gender){
-        if(gender == '\u2642')
-            return "✱";
-        return "✿";
+        if(gender == '♀')
+            return "✿";
+        return "✱";
     }
     public static String color(Color color){
         switch(color){

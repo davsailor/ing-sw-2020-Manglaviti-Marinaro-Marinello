@@ -30,7 +30,7 @@ public class GodSelectionController {
         this.matchSetupMessage = matchSetupMessage;
     }
 
-    int cont=0;
+    private int cont = 0;
 
     @FXML
     Button Apollo;
@@ -61,18 +61,18 @@ public class GodSelectionController {
 
     @FXML
     public void selectGod(ActionEvent actionEvent){
-        if(cont<matchSetupMessage.getPlayers().size()) {
-            cont++;
+        if(cont < matchSetupMessage.getPlayers().size()) {
             Button pos = (Button) actionEvent.getSource();
             int selectedGod = calcInt(pos.getId());
             pos.setDisable(true);
-            selectedGods[cont-1] = selectedGod;
-
+            selectedGods[cont] = selectedGod;
+            cont++;
         }
         if(cont == matchSetupMessage.getPlayers().size()){
             Message message = new Message(client.getUsername());
             message.buildSynchronizationMessage(SecondHeaderType.BEGIN_MATCH, new GameGodsSelectionMessage(selectedGods));
             client.getNetworkHandler().send(message);
+            ++cont;
         }
     }
 

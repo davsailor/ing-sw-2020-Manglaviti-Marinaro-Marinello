@@ -23,6 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SelectionBuilderController {
 
@@ -44,7 +45,6 @@ public class SelectionBuilderController {
     }
     private int[] builderF;
     private int[] builderM;
-
 
     @FXML
     Button b00;
@@ -212,8 +212,6 @@ public class SelectionBuilderController {
     @FXML
     Label c44;
 
-
-
     @FXML
     public void setPos(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();
@@ -221,7 +219,6 @@ public class SelectionBuilderController {
             if(builderF == null) {
                 builderF = new int[2];
                 calcPosition(builderF, pos, '♀',client.getUsername());
-
             } else if(builderM == null){
                 builderM = new int[2];
                 calcPosition(builderM, pos,'♂', client.getUsername());
@@ -257,438 +254,46 @@ public class SelectionBuilderController {
         }
     }
     private void calcPosition(int[] builder, Button pos, char gender, String username){
-        if (pos.equals(b00)){
-            builder[0]=1;
-            builder[1]=1;
-            if(gender == '♀'){
-                p00.setText("✿");
-            }
-            else
-                p00.setText("✱");
-            if(username.equals(players.get(0).getNickname())){
-                p00.setTextFill(Color.web("#00ffcc"));
-            }
-            else if(username.equals(players.get(1).getNickname())){
-                p00.setTextFill(Color.web("#f44040"));
-            }
-            else{
-                p00.setTextFill(Color.web("#b57fb8"));
-            }
-        } else if (pos.equals(b01)){
-            builder[0]=1;
-            builder[1]=2;
-            if(gender == '♀'){
-                p01.setText("✿");
-            }
-            else
-                p01.setText("✱");
-            if(username.equals(players.get(0).getNickname())){
-                p01.setTextFill(Color.web("#00ffcc"));
-            }
-            else if(username.equals(players.get(1).getNickname())){
-                p01.setTextFill(Color.web("#f44040"));
-            }
-            else{
-                p01.setTextFill(Color.web("#b57fb8"));
-            }
-        } else if (pos.equals(b02)){
-            builder[0]=1;
-            builder[1]=3;
-            if(gender == '♀'){
-                p02.setText("✿");
-            }
-            else
-                p02.setText("✱");
-            if(username.equals(players.get(0).getNickname())){
-                p02.setTextFill(Color.web("#00ffcc"));
-            }
-            else if(username.equals(players.get(1).getNickname())){
-                p02.setTextFill(Color.web("#f44040"));
-            }
-            else{
-                p02.setTextFill(Color.web("#b57fb8"));
-            }
-        } else if (pos.equals(b03)){
-            builder[0]=1;
-            builder[1]=4;
-            if(gender == '♀'){
-                p03.setText("✿");
-            }
-            else
-                p03.setText("✱");
-            if(username.equals(players.get(0).getNickname())){
-                p03.setTextFill(Color.web("#00ffcc"));
-            }
-            else if(username.equals(players.get(1).getNickname())){
-                p03.setTextFill(Color.web("#f44040"));
-            }
-            else{
-                p03.setTextFill(Color.web("#b57fb8"));
-            }
-        } else if (pos.equals(b04)){
-            builder[0]=1;
-            builder[1]=5;
-            if(gender == '♀'){
-                p04.setText("✿");
-            }
-            else
-                p04.setText("✱");
-            if(username.equals(players.get(0).getNickname())){
-                p04.setTextFill(Color.web("#00ffcc"));
-            }
-            else if(username.equals(players.get(1).getNickname())){
-                p04.setTextFill(Color.web("#f44040"));
-            }
-            else{
-                p04.setTextFill(Color.web("#b57fb8"));
-            }
-        } else if (pos.equals(b10)){
-            builder[0]=2;
-            builder[1]=1;
-            if(gender == '♀'){
-                p10.setText("✿");
-            }
-            else
-                p10.setText("✱");
-            if(username.equals(players.get(0).getNickname())){
-                p10.setTextFill(Color.web("#00ffcc"));
-            }
-            else if(username.equals(players.get(1).getNickname())){
-                p10.setTextFill(Color.web("#f44040"));
-            }
-            else{
-                p10.setTextFill(Color.web("#b57fb8"));
-            }
-        } else if (pos.equals(b11)){
-            builder[0]=2;
-            builder[1]=2;
-            if(gender == '♀'){
-                p11.setText("✿");
-            }
-            else
-                p11.setText("✱");
-            if(username.equals(players.get(0).getNickname())){
-                p11.setTextFill(Color.web("#00ffcc"));
-            }
-            else if(username.equals(players.get(1).getNickname())){
-                p11.setTextFill(Color.web("#f44040"));
-            }
-            else{
-                p11.setTextFill(Color.web("#b57fb8"));
-            }
-        } else if (pos.equals(b12)){
-            builder[0]=2;
-            builder[1]=3;
-            if(gender == '♀'){
-                p12.setText("✿");
-            }
-            else
-                p12.setText("✱");
-            if(username.equals(players.get(0).getNickname())){
-                p12.setTextFill(Color.web("#00ffcc"));
-            }
-            else if(username.equals(players.get(1).getNickname())){
-                p12.setTextFill(Color.web("#f44040"));
-            }
-            else{
-                p12.setTextFill(Color.web("#b57fb8"));
-            }
-        } else if (pos.equals(b13)){
-            builder[0]=2;
-            builder[1]=4;
-            if(gender == '♀'){
-                p13.setText("✿");
-            }
-            else
-                p13.setText("✱");
-            if(username.equals(players.get(0).getNickname())){
-                p13.setTextFill(Color.web("#00ffcc"));
-            }
-            else if(username.equals(players.get(1).getNickname())){
-                p13.setTextFill(Color.web("#f44040"));
-            }
-            else{
-                p13.setTextFill(Color.web("#b57fb8"));
-            }
-        } else if (pos.equals(b14)){
-            builder[0]=2;
-            builder[1]=5;
-            if(gender == '♀'){
-                p14.setText("✿");
-            }
-            else
-                p14.setText("✱");
-            if(username.equals(players.get(0).getNickname())){
-                p14.setTextFill(Color.web("#00ffcc"));
-            }
-            else if(username.equals(players.get(1).getNickname())){
-                p14.setTextFill(Color.web("#f44040"));
-            }
-            else{
-                p14.setTextFill(Color.web("#b57fb8"));
-            }
-        } else if (pos.equals(b20)){
-            builder[0]=3;
-            builder[1]=1;
-            if(gender == '♀'){
-                p20.setText("✿");
-            }
-            else
-                p20.setText("✱");
-            if(username.equals(players.get(0).getNickname())){
-                p20.setTextFill(Color.web("#00ffcc"));
-            }
-            else if(username.equals(players.get(1).getNickname())){
-                p20.setTextFill(Color.web("#f44040"));
-            }
-            else{
-                p20.setTextFill(Color.web("#b57fb8"));
-            }
-        } else if (pos.equals(b21)){
-            builder[0]=3;
-            builder[1]=2;
-            if(gender == '♀'){
-                p21.setText("✿");
-            }
-            else
-                p21.setText("✱");
-            if(username.equals(players.get(0).getNickname())){
-                p21.setTextFill(Color.web("#00ffcc"));
-            }
-            else if(username.equals(players.get(1).getNickname())){
-                p21.setTextFill(Color.web("#f44040"));
-            }
-            else{
-                p21.setTextFill(Color.web("#b57fb8"));
-            }
-        } else if (pos.equals(b22)){
-            builder[0]=3;
-            builder[1]=3;
-            if(gender == '♀'){
-                p22.setText("✿");
-            }
-            else
-                p22.setText("✱");
-            if(username.equals(players.get(0).getNickname())){
-                p22.setTextFill(Color.web("#00ffcc"));
-            }
-            else if(username.equals(players.get(1).getNickname())){
-                p22.setTextFill(Color.web("#f44040"));
-            }
-            else{
-                p22.setTextFill(Color.web("#b57fb8"));
-            }
-        } else if (pos.equals(b23)){
-            builder[0]=3;
-            builder[1]=4;
-            if(gender == '♀'){
-                p23.setText("✿");
-            }
-            else
-                p23.setText("✱");
-            if(username.equals(players.get(0).getNickname())){
-                p23.setTextFill(Color.web("#00ffcc"));
-            }
-            else if(username.equals(players.get(1).getNickname())){
-                p23.setTextFill(Color.web("#f44040"));
-            }
-            else{
-                p23.setTextFill(Color.web("#b57fb8"));
-            }
-        } else if (pos.equals(b24)){
-            builder[0]=3;
-            builder[1]=5;
-            if(gender == '♀'){
-                p24.setText("✿");
-            }
-            else
-                p24.setText("✱");
-            if(username.equals(players.get(0).getNickname())){
-                p24.setTextFill(Color.web("#00ffcc"));
-            }
-            else if(username.equals(players.get(1).getNickname())){
-                p24.setTextFill(Color.web("#f44040"));
-            }
-            else{
-                p24.setTextFill(Color.web("#b57fb8"));
-            }
-        } else if (pos.equals(b30)){
-            builder[0]=4;
-            builder[1]=1;
-            if(gender == '♀'){
-                p30.setText("✿");
-            }
-            else
-                p30.setText("✱");
-            if(username.equals(players.get(0).getNickname())){
-                p30.setTextFill(Color.web("#00ffcc"));
-            }
-            else if(username.equals(players.get(1).getNickname())){
-                p30.setTextFill(Color.web("#f44040"));
-            }
-            else{
-                p30.setTextFill(Color.web("#b57fb8"));
-            }
-        } else if (pos.equals(b31)){
-            builder[0]=4;
-            builder[1]=2;
-            if(gender == '♀'){
-                p31.setText("✿");
-            }
-            else
-                p31.setText("✱");
-            if(username.equals(players.get(0).getNickname())){
-                p31.setTextFill(Color.web("#00ffcc"));
-            }
-            else if(username.equals(players.get(1).getNickname())){
-                p31.setTextFill(Color.web("#f44040"));
-            }
-            else{
-                p31.setTextFill(Color.web("#b57fb8"));
-            }
-        } else if (pos.equals(b32)){
-            builder[0]=4;
-            builder[1]=3;
-            if(gender == '♀'){
-                p32.setText("✿");
-            }
-            else
-                p32.setText("✱");
-            if(username.equals(players.get(0).getNickname())){
-                p32.setTextFill(Color.web("#00ffcc"));
-            }
-            else if(username.equals(players.get(1).getNickname())){
-                p32.setTextFill(Color.web("#f44040"));
-            }
-            else{
-                p32.setTextFill(Color.web("#b57fb8"));
-            }
-        } else if (pos.equals(b33)){
-            builder[0]=4;
-            builder[1]=4;
-            if(gender == '♀'){
-                p33.setText("✿");
-            }
-            else
-                p33.setText("✱");
-            if(username.equals(players.get(0).getNickname())){
-                p33.setTextFill(Color.web("#00ffcc"));
-            }
-            else if(username.equals(players.get(1).getNickname())){
-                p33.setTextFill(Color.web("#f44040"));
-            }
-            else{
-                p33.setTextFill(Color.web("#b57fb8"));
-            }
-        } else if (pos.equals(b34)){
-            builder[0]=4;
-            builder[1]=5;
-            if(gender == '♀'){
-                p34.setText("✿");
-            }
-            else
-                p34.setText("✱");
-            if(username.equals(players.get(0).getNickname())){
-                p34.setTextFill(Color.web("#00ffcc"));
-            }
-            else if(username.equals(players.get(1).getNickname())){
-                p34.setTextFill(Color.web("#f44040"));
-            }
-            else{
-                p34.setTextFill(Color.web("#b57fb8"));
-            }
-        } else if (pos.equals(b40)){
-            builder[0]=5;
-            builder[1]=1;
-            if(gender == '♀'){
-                p40.setText("✿");
-            }
-            else
-                p40.setText("✱");
-            if(username.equals(players.get(0).getNickname())){
-                p40.setTextFill(Color.web("#00ffcc"));
-            }
-            else if(username.equals(players.get(1).getNickname())){
-                p40.setTextFill(Color.web("#f44040"));
-            }
-            else{
-                p40.setTextFill(Color.web("#b57fb8"));
-            }
-        } else if (pos.equals(b41)){
-            builder[0]=5;
-            builder[1]=2;
-            if(gender == '♀'){
-                p41.setText("✿");
-            }
-            else
-                p41.setText("✱");
-            if(username.equals(players.get(0).getNickname())){
-                p41.setTextFill(Color.web("#00ffcc"));
-            }
-            else if(username.equals(players.get(1).getNickname())){
-                p41.setTextFill(Color.web("#f44040"));
-            }
-            else{
-                p41.setTextFill(Color.web("#b57fb8"));
-            }
-        } else if (pos.equals(b42)){
-            builder[0]=5;
-            builder[1]=3;
-            if(gender == '♀'){
-                p42.setText("✿");
-            }
-            else
-                p42.setText("✱");
-            if(username.equals(players.get(0).getNickname())){
-                p42.setTextFill(Color.web("#00ffcc"));
-            }
-            else if(username.equals(players.get(1).getNickname())){
-                p42.setTextFill(Color.web("#f44040"));
-            }
-            else{
-                p42.setTextFill(Color.web("#b57fb8"));
-            }
-        } else if (pos.equals(b43)){
-            builder[0]=5;
-            builder[1]=4;
-            if(gender == '♀'){
-                p43.setText("✿");
-            }
-            else
-                p43.setText("✱");
-            if(username.equals(players.get(0).getNickname())){
-                p43.setTextFill(Color.web("#00ffcc"));
-            }
-            else if(username.equals(players.get(1).getNickname())){
-                p43.setTextFill(Color.web("#f44040"));
-            }
-            else{
-                p43.setTextFill(Color.web("#b57fb8"));
-            }
-        } else if (pos.equals(b44)){
-            builder[0]=5;
-            builder[1]=5;
-            if(gender == '♀'){
-                p44.setText("✿");
-            }
-            else
-                p44.setText("✱");
-            if(username.equals(players.get(0).getNickname())){
-                p44.setTextFill(Color.web("#00ffcc"));
-            }
-            else if(username.equals(players.get(1).getNickname())){
-                p44.setTextFill(Color.web("#f44040"));
-            }
-            else{
-                p44.setTextFill(Color.web("#b57fb8"));
-            }
-        }
+        if (pos.equals(b00)) setBuilder(builder, 1, 1, username, gender, p00);
+        else if (pos.equals(b01)) setBuilder(builder, 1, 2, username, gender, p01);
+        else if (pos.equals(b02)) setBuilder(builder, 1, 3, username, gender, p02);
+        else if (pos.equals(b03)) setBuilder(builder, 1, 4, username, gender, p03);
+        else if (pos.equals(b04)) setBuilder(builder, 1, 5, username, gender, p04);
+        else if (pos.equals(b10)) setBuilder(builder, 2, 1, username, gender, p10);
+        else if (pos.equals(b11)) setBuilder(builder, 2, 2, username, gender, p11);
+        else if (pos.equals(b12)) setBuilder(builder, 2, 3, username, gender, p12);
+        else if (pos.equals(b13)) setBuilder(builder, 2, 4, username, gender, p13);
+        else if (pos.equals(b14)) setBuilder(builder, 2, 5, username, gender, p14);
+        else if (pos.equals(b20)) setBuilder(builder, 3, 1, username, gender, p20);
+        else if (pos.equals(b21)) setBuilder(builder, 3, 2, username, gender, p21);
+        else if (pos.equals(b22)) setBuilder(builder, 3, 3, username, gender, p22);
+        else if (pos.equals(b23)) setBuilder(builder, 3, 4, username, gender, p23);
+        else if (pos.equals(b24)) setBuilder(builder, 3, 5, username, gender, p24);
+        else if (pos.equals(b30)) setBuilder(builder, 4, 1, username, gender, p30);
+        else if (pos.equals(b31)) setBuilder(builder, 4, 2, username, gender, p31);
+        else if (pos.equals(b32)) setBuilder(builder, 4, 3, username, gender, p32);
+        else if (pos.equals(b33)) setBuilder(builder, 4, 4, username, gender, p33);
+        else if (pos.equals(b34)) setBuilder(builder, 4, 5, username, gender, p34);
+        else if (pos.equals(b40)) setBuilder(builder, 5, 1, username, gender, p40);
+        else if (pos.equals(b41)) setBuilder(builder, 5, 2, username, gender, p41);
+        else if (pos.equals(b42)) setBuilder(builder, 5, 3, username, gender, p42);
+        else if (pos.equals(b43)) setBuilder(builder, 5, 4, username, gender, p43);
+        else if (pos.equals(b44)) setBuilder(builder, 5, 5, username, gender, p44);
         pos.setDisable(true);
+    }
+
+    private void setBuilder(int[] builder, int row, int col, String username, char gender, Label label) {
+        builder[0] = row;
+        builder[1] = col;
+        if(gender == '♀') label.setText("✿");
+        else label.setText("✱");
+        if(username.equals(players.get(0).getNickname())) label.setTextFill(Color.web("#00ffcc"));
+        else if(username.equals(players.get(1).getNickname())) label.setTextFill(Color.web("#f44040"));
+        else label.setTextFill(Color.web("#b57fb8"));
     }
 
     public void initializePlayers(ArrayList<Player> players) {
         setPlayers(players);
-
         username1.setText(players.get(0).getNickname());
         username1.setAlignment(Pos.TOP_CENTER);
         username2.setText(players.get(1).getNickname());
@@ -706,7 +311,7 @@ public class SelectionBuilderController {
         god2.setGraphic(imageView);
 
 
-        if(players.size()==3){
+        if(players.size()==3) {
             username3.setText(players.get(2).getNickname());
             username3.setAlignment(Pos.TOP_CENTER);
             image = godImage(players.get(2).getDivinePower().getName());
@@ -752,82 +357,31 @@ public class SelectionBuilderController {
     }
 
     public void initializeBoard(Cell[][] board) {
-        if (board[1][1].getStatus()== AccessType.OCCUPIED){
-            p00.setText(AppGUI.gender(board[1][1].getBuilder().getGender()));
-            p00.setTextFill(Color.web(AppGUI.color(board[1][1].getBuilder().getColor())));
-        }else if(board[1][2].getStatus()== AccessType.OCCUPIED){
-            p01.setText(AppGUI.gender(board[1][2].getBuilder().getGender()));
-            p01.setTextFill(Color.web(AppGUI.color(board[1][2].getBuilder().getColor())));
-        }else if(board[1][3].getStatus()== AccessType.OCCUPIED){
-            p02.setText(AppGUI.gender(board[1][3].getBuilder().getGender()));
-            p02.setTextFill(Color.web(AppGUI.color(board[1][3].getBuilder().getColor())));
-        }else if(board[1][4].getStatus()== AccessType.OCCUPIED){
-            p03.setText(AppGUI.gender(board[1][4].getBuilder().getGender()));
-            p03.setTextFill(Color.web(AppGUI.color(board[1][4].getBuilder().getColor())));
-        }else if(board[1][5].getStatus()== AccessType.OCCUPIED){
-            p04.setText(AppGUI.gender(board[1][5].getBuilder().getGender()));
-            p04.setTextFill(Color.web(AppGUI.color(board[1][5].getBuilder().getColor())));
-        }else if(board[2][1].getStatus()== AccessType.OCCUPIED){
-            p10.setText(AppGUI.gender(board[2][1].getBuilder().getGender()));
-            p10.setTextFill(Color.web(AppGUI.color(board[2][1].getBuilder().getColor())));
-        }else if(board[2][2].getStatus()== AccessType.OCCUPIED){
-            p11.setText(AppGUI.gender(board[2][2].getBuilder().getGender()));
-            p11.setTextFill(Color.web(AppGUI.color(board[2][2].getBuilder().getColor())));
-        }else if(board[2][3].getStatus()== AccessType.OCCUPIED){
-            p12.setText(AppGUI.gender(board[2][3].getBuilder().getGender()));
-            p12.setTextFill(Color.web(AppGUI.color(board[2][3].getBuilder().getColor())));
-        }else if(board[2][4].getStatus()== AccessType.OCCUPIED){
-            p13.setText(AppGUI.gender(board[2][4].getBuilder().getGender()));
-            p13.setTextFill(Color.web(AppGUI.color(board[2][4].getBuilder().getColor())));
-        }else if(board[2][5].getStatus()== AccessType.OCCUPIED){
-            p14.setText(AppGUI.gender(board[2][5].getBuilder().getGender()));
-            p14.setTextFill(Color.web(AppGUI.color(board[2][5].getBuilder().getColor())));
-        }else if(board[3][1].getStatus()== AccessType.OCCUPIED){
-            p20.setText(AppGUI.gender(board[3][1].getBuilder().getGender()));
-            p20.setTextFill(Color.web(AppGUI.color(board[3][1].getBuilder().getColor())));
-        }else if(board[3][2].getStatus()== AccessType.OCCUPIED){
-            p21.setText(AppGUI.gender(board[3][2].getBuilder().getGender()));
-            p21.setTextFill(Color.web(AppGUI.color(board[3][2].getBuilder().getColor())));
-        }else if(board[3][3].getStatus()== AccessType.OCCUPIED){
-            p22.setText(AppGUI.gender(board[3][3].getBuilder().getGender()));
-            p22.setTextFill(Color.web(AppGUI.color(board[3][3].getBuilder().getColor())));
-        }else if(board[3][4].getStatus()== AccessType.OCCUPIED){
-            p23.setText(AppGUI.gender(board[3][4].getBuilder().getGender()));
-            p23.setTextFill(Color.web(AppGUI.color(board[3][4].getBuilder().getColor())));
-        }else if(board[3][5].getStatus()== AccessType.OCCUPIED){
-            p24.setText(AppGUI.gender(board[3][5].getBuilder().getGender()));
-            p24.setTextFill(Color.web(AppGUI.color(board[3][5].getBuilder().getColor())));
-        }else if(board[4][1].getStatus()== AccessType.OCCUPIED){
-            p30.setText(AppGUI.gender(board[4][1].getBuilder().getGender()));
-            p30.setTextFill(Color.web(AppGUI.color(board[4][1].getBuilder().getColor())));
-        }else if(board[4][2].getStatus()== AccessType.OCCUPIED){
-            p31.setText(AppGUI.gender(board[4][2].getBuilder().getGender()));
-            p31.setTextFill(Color.web(AppGUI.color(board[4][2].getBuilder().getColor())));
-        }else if(board[4][3].getStatus()== AccessType.OCCUPIED){
-            p32.setText(AppGUI.gender(board[4][3].getBuilder().getGender()));
-            p32.setTextFill(Color.web(AppGUI.color(board[4][3].getBuilder().getColor())));
-        }else if(board[4][4].getStatus()== AccessType.OCCUPIED){
-            p33.setText(AppGUI.gender(board[4][4].getBuilder().getGender()));
-            p33.setTextFill(Color.web(AppGUI.color(board[4][4].getBuilder().getColor())));
-        }else if(board[4][5].getStatus()== AccessType.OCCUPIED){
-            p34.setText(AppGUI.gender(board[4][5].getBuilder().getGender()));
-            p34.setTextFill(Color.web(AppGUI.color(board[4][5].getBuilder().getColor())));
-        }else if(board[5][1].getStatus()== AccessType.OCCUPIED){
-            p40.setText(AppGUI.gender(board[5][1].getBuilder().getGender()));
-            p40.setTextFill(Color.web(AppGUI.color(board[5][1].getBuilder().getColor())));
-        }else if(board[5][2].getStatus()== AccessType.OCCUPIED){
-            p41.setText(AppGUI.gender(board[5][2].getBuilder().getGender()));
-            p41.setTextFill(Color.web(AppGUI.color(board[5][2].getBuilder().getColor())));
-        }else if(board[5][3].getStatus()== AccessType.OCCUPIED){
-            p42.setText(AppGUI.gender(board[5][3].getBuilder().getGender()));
-            p42.setTextFill(Color.web(AppGUI.color(board[5][3].getBuilder().getColor())));
-        }else if(board[5][4].getStatus()== AccessType.OCCUPIED){
-            p43.setText(AppGUI.gender(board[5][4].getBuilder().getGender()));
-            p43.setTextFill(Color.web(AppGUI.color(board[5][4].getBuilder().getColor())));
-        }else if(board[5][5].getStatus()== AccessType.OCCUPIED){
-            p44.setText(AppGUI.gender(board[5][5].getBuilder().getGender()));
-            p44.setTextFill(Color.web(AppGUI.color(board[5][5].getBuilder().getColor())));
-        }
+        if(board[1][1].getStatus()== AccessType.OCCUPIED) initializeCell(p00, b00, board[1][1]);
+        if(board[1][2].getStatus()== AccessType.OCCUPIED) initializeCell(p01, b01, board[1][2]);
+        if(board[1][3].getStatus()== AccessType.OCCUPIED) initializeCell(p02, b02, board[1][3]);
+        if(board[1][4].getStatus()== AccessType.OCCUPIED) initializeCell(p03, b03, board[1][3]);
+        if(board[1][5].getStatus()== AccessType.OCCUPIED) initializeCell(p04, b04, board[1][4]);
+        if(board[2][1].getStatus()== AccessType.OCCUPIED) initializeCell(p10, b10, board[2][1]);
+        if(board[2][2].getStatus()== AccessType.OCCUPIED) initializeCell(p11, b11, board[2][2]);
+        if(board[2][3].getStatus()== AccessType.OCCUPIED) initializeCell(p12, b12, board[2][3]);
+        if(board[2][4].getStatus()== AccessType.OCCUPIED) initializeCell(p13, b13, board[2][4]);
+        if(board[2][5].getStatus()== AccessType.OCCUPIED) initializeCell(p14, b14, board[2][5]);
+        if(board[3][1].getStatus()== AccessType.OCCUPIED) initializeCell(p20, b20, board[3][1]);
+        if(board[3][2].getStatus()== AccessType.OCCUPIED) initializeCell(p21, b21, board[3][2]);
+        if(board[3][3].getStatus()== AccessType.OCCUPIED) initializeCell(p22, b22, board[3][3]);
+        if(board[3][4].getStatus()== AccessType.OCCUPIED) initializeCell(p23, b23, board[3][4]);
+        if(board[3][5].getStatus()== AccessType.OCCUPIED) initializeCell(p24, b24, board[3][5]);
+        if(board[4][1].getStatus()== AccessType.OCCUPIED) initializeCell(p30, b30, board[4][1]);
+        if(board[4][2].getStatus()== AccessType.OCCUPIED) initializeCell(p31, b31, board[4][2]);
+        if(board[4][3].getStatus()== AccessType.OCCUPIED) initializeCell(p32, b32, board[4][3]);
+        if(board[4][4].getStatus()== AccessType.OCCUPIED) initializeCell(p33, b33, board[4][4]);
+        if(board[4][5].getStatus()== AccessType.OCCUPIED) initializeCell(p34, b34, board[4][5]);
+        if(board[5][1].getStatus()== AccessType.OCCUPIED) initializeCell(p40, b40, board[5][1]);
+        if(board[5][2].getStatus()== AccessType.OCCUPIED) initializeCell(p41, b41, board[5][2]);
+        if(board[5][3].getStatus()== AccessType.OCCUPIED) initializeCell(p42, b42, board[5][3]);
+        if(board[5][4].getStatus()== AccessType.OCCUPIED) initializeCell(p43, b43, board[5][4]);
+        if(board[5][5].getStatus()== AccessType.OCCUPIED) initializeCell(p44, b44, board[5][5]);
         c00.setText(String.valueOf(board[1][1].getLevel().getHeight()));
         c01.setText(String.valueOf(board[1][2].getLevel().getHeight()));
         c02.setText(String.valueOf(board[1][3].getLevel().getHeight()));
@@ -853,5 +407,11 @@ public class SelectionBuilderController {
         c42.setText(String.valueOf(board[5][3].getLevel().getHeight()));
         c43.setText(String.valueOf(board[5][4].getLevel().getHeight()));
         c44.setText(String.valueOf(board[5][5].getLevel().getHeight()));
+    }
+
+    private void initializeCell(Label builder, Button button, Cell cell) {
+        builder.setText(AppGUI.gender(cell.getBuilder().getGender()));
+        builder.setTextFill(Color.web(AppGUI.color(cell.getBuilder().getColor())));
+        button.setDisable(true);
     }
 }

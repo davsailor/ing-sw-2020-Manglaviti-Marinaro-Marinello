@@ -75,7 +75,6 @@ public class RegisterController {
             java.sql.Date sqlDate = java.sql.Date.valueOf(birthDate.getValue());
             date = new Date(sqlDate.getTime());
         } catch(Exception ignored) {}
-
         int numberPlayers;
         if (numberOfPlayers.getValue().equals(2))
             numberPlayers = 2;
