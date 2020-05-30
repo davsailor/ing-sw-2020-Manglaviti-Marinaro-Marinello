@@ -8,7 +8,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw2020.santorini.view.gui.EndMatchController">
    <children>
       <ImageView fitHeight="400.0" fitWidth="600.0">
          <image>
@@ -35,15 +35,15 @@
             <Image url="@../images/endgame_victorytrumpets2.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="53.0" fitWidth="166.0" layoutX="227.0" layoutY="342.0">
+      <ImageView fitHeight="63.0" fitWidth="202.0" layoutX="205.0" layoutY="332.0">
          <image>
-            <Image url="@../images/versus_nameflags.png" />
+            <Image url="@../images/nameflags.png" />
          </image>
          <effect>
             <ColorAdjust brightness="-0.07" hue="0.89" saturation="1.0" />
          </effect>
       </ImageView>
-      <Label fx:id="labelWinner" layoutX="277.0" layoutY="347.0" text="davsailor" textFill="#c40000">
+      <Label fx:id="winner" layoutX="247.0" layoutY="342.0" prefHeight="25.0" prefWidth="119.0" textFill="#c40000">
          <font>
             <Font name="Gabriola" size="24.0" />
          </font>

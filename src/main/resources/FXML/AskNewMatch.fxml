@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="260.0" prefWidth="551.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw2020.santorini.view.gui.AskNewMatchController">
+   <children>
+      <ImageView fitHeight="260.0" fitWidth="551.0">
+         <image>
+            <Image url="@../images/cl_bg.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="96.0" layoutY="33.0" prefHeight="54.0" prefWidth="434.0" text="Do you want to play again?">
+         <font>
+            <Font name="Gabriola" size="39.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="70.0" fitWidth="76.0" layoutX="327.0" layoutY="127.0">
+         <image>
+            <Image url="@../images/heropower_inactive.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="70.0" fitWidth="76.0" layoutX="131.0" layoutY="127.0">
+         <image>
+            <Image url="@../images/heropower_active.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="356.0" layoutY="175.0" text="NO">
+         <font>
+            <Font name="Gabriola" size="17.0" />
+         </font>
+      </Label>
+      <Button fx:id="noButton" layoutX="331.0" layoutY="132.0" mnemonicParsing="false" onAction="#newMatch" opacity="0.0" prefHeight="61.0" prefWidth="69.0" text="NO" />
+      <Label layoutX="159.0" layoutY="175.0" text="YES">
+         <font>
+            <Font name="Gabriola" size="17.0" />
+         </font>
+      </Label>
+      <Button fx:id="yesButton" layoutX="131.0" layoutY="127.0" mnemonicParsing="false" onAction="#newMatch" opacity="0.0" prefHeight="70.0" prefWidth="76.0" text="YES" />
+   </children>
+</Pane>

@@ -33,7 +33,6 @@ public class AppGUI extends Application implements ViewInterface{
     private Client client;
     private Stage primaryStage;
     private RegisterController registerController;
-    private BoardController boardController;
     private InfoMatchController infoMatchController;
     private SelectionBuilderController selectionBuilderController;
     private SelectGodController selectGodController;
@@ -41,6 +40,11 @@ public class AppGUI extends Application implements ViewInterface{
     private UpdateMatchController updateMatchController;
     private ActivationPowerController activationPowerController;
     private ChooseBuilderController chooseBuilderController;
+    private PossibleMovesController possibleMovesController;
+    private PossibleBuildingsController possibleBuildingsController;
+    private EndMatchController endMatchController;
+    private NewMatchController newMatchController;
+    private AskNewMatchController askNewMatchController;
     private ArrayList<Player> players;
     private boolean infoMatchDisplay = true;
 
@@ -514,7 +518,7 @@ public class AppGUI extends Application implements ViewInterface{
             updateMatchController.initializeBoard(updateMessage.getCells());
             updateMatchController.initializePlayers(players);
             updateMatchController.setText();
-            primaryStage.setTitle("BUILD UPDATE");
+            primaryStage.setTitle("END TURN");
             primaryStage.setScene(scene);
             primaryStage.show();
 
@@ -555,6 +559,29 @@ public class AppGUI extends Application implements ViewInterface{
      */
     @Override
     public void displayPossibleMoves(AskMoveSelectionMessage message) {
+        Platform.runLater(()->{
+
+            Parent children;
+            Scene scene;
+
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/FXML/directionMove.fxml"));
+
+            try {
+                children = fxmlLoader.load();
+                scene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                scene = new Scene(new Label ("ERROR "));
+            }
+            possibleMovesController = fxmlLoader.getController();
+            possibleMovesController.setAskMoveSelectionMessage(message);
+            possibleMovesController.setClient(client);
+            possibleMovesController.initializeBoard(message.getPossibleMoves());
+            possibleMovesController.setText();
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        });
 
     }
 
@@ -565,6 +592,30 @@ public class AppGUI extends Application implements ViewInterface{
      */
     @Override
     public void displayPossibleBuildings(AskBuildSelectionMessage message) {
+        Platform.runLater(()->{
+
+            Parent children;
+            Scene scene;
+
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/FXML/directionBuild.fxml"));
+
+            try {
+                children = fxmlLoader.load();
+                scene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                scene = new Scene(new Label ("ERROR "));
+            }
+            possibleBuildingsController = fxmlLoader.getController();
+            possibleBuildingsController.setAskBuildSelectionMessage(message);
+            possibleBuildingsController.setClient(client);
+            possibleBuildingsController.initializeBoard(message.getPossibleBuildings());
+            possibleBuildingsController.setText();
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        });
+
 
     }
 
@@ -575,7 +626,77 @@ public class AppGUI extends Application implements ViewInterface{
      */
     @Override
     public void displayEndMatch(String winner) {
+        Platform.runLater(()->{
 
+            Parent children;
+            Scene scene;
+
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/FXML/directionBuild.fxml"));
+
+            try {
+                children = fxmlLoader.load();
+                scene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                scene = new Scene(new Label ("ERROR "));
+            }
+            endMatchController = fxmlLoader.getController();
+            endMatchController.setClient(client);
+            endMatchController.setWinner();
+            primaryStage.setScene(scene);
+            primaryStage.show();
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();//TODO ricordiamo di cancellare sto print stack trace
+            }
+            FXMLLoader loader_new = new FXMLLoader();
+            loader_new.setLocation(getClass().getResource("/FXML/AskNewMatch.fxml"));
+            try {
+                children = loader_new.load();
+                scene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                scene = new Scene(new Label ("ERROR "));
+            }
+            askNewMatchController = loader_new.getController();
+            primaryStage.setScene(scene);
+            primaryStage.show();
+
+            FXMLLoader loader = new FXMLLoader();
+            if(askNewMatchController.getAnswer().equals("YES")){
+                loader.setLocation(getClass().getResource("/FXML/newMatch.fxml"));
+                try {
+                    children = loader.load();
+                    scene = new Scene(children);
+                } catch (IOException e) {
+                    children = null;
+                    scene = new Scene(new Label ("ERROR "));
+                }
+                newMatchController = loader.getController();
+                newMatchController.setClient(client);
+                primaryStage.setScene(scene);
+                primaryStage.show();
+            }else{
+                loader.setLocation(getClass().getResource("/FXML/NoMatch.fxml"));
+                try {
+                    children = loader.load();
+                    scene = new Scene(children);
+                } catch (IOException e) {
+                    children = null;
+                    scene = new Scene(new Label ("ERROR "));
+                }
+                primaryStage.setScene(scene);
+                primaryStage.show(); try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();//TODO ricordiamo di cancellare sto print stack trace
+                }
+                primaryStage.close();
+            }
+
+        });
     }
 
 
