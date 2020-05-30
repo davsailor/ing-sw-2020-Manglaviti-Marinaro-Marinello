@@ -5,30 +5,27 @@ import it.polimi.ingsw2020.santorini.model.Player;
 import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.utils.AccessType;
 import it.polimi.ingsw2020.santorini.utils.Message;
-import it.polimi.ingsw2020.santorini.utils.messages.godsParam.ApolloParamMessage;
+import it.polimi.ingsw2020.santorini.utils.PhaseType;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
-import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.SelectedBuilderPositionMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.UpdateMessage;
 import it.polimi.ingsw2020.santorini.view.AppGUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class SelectionBuilderController {
+import static it.polimi.ingsw2020.santorini.utils.PhaseType.STANDBY_PHASE_3;
+
+public class UpdateMatchController {
 
     private Client client;
-    private MatchStateMessage matchStateMessage;
+    private UpdateMessage updateMessage;
 
     private ArrayList<Player> players;
 
@@ -40,11 +37,13 @@ public class SelectionBuilderController {
         this.client = client;
     }
 
-    public void setMatchStateMessage(MatchStateMessage matchStateMessage) {
-        this.matchStateMessage = matchStateMessage;
+
+    public void setUpdateMessage(UpdateMessage updateMessage) {
+        this.updateMessage = updateMessage;
     }
     private int[] builderF;
     private int[] builderM;
+
 
     @FXML
     Button b00;
@@ -96,10 +95,6 @@ public class SelectionBuilderController {
     Button b43;
     @FXML
     Button b44;
-    @FXML
-    Label text;
-    @FXML
-    Label text2;
 
     @FXML
     Label username1;
@@ -217,96 +212,78 @@ public class SelectionBuilderController {
     Label c44;
 
     @FXML
-    public void setPos(ActionEvent actionEvent) {
-        Button pos = (Button) actionEvent.getSource();
-        if(client.getUsername().equals(matchStateMessage.getCurrentPlayer().getNickname())) {
-            if(builderF == null) {
-                builderF = new int[2];
-                calcPosition(builderF, pos, '♀',client.getUsername());
-            } else if(builderM == null){
-                builderM = new int[2];
-                calcPosition(builderM, pos,'♂', client.getUsername());
-                Message message = new Message(client.getUsername());
-                message.buildSelectedBuilderPosMessage(new SelectedBuilderPositionMessage(client.getUsername(), builderF, builderM));
-                client.getNetworkHandler().send(message);
-                b00.setDisable(true);
-                b01.setDisable(true);
-                b02.setDisable(true);
-                b03.setDisable(true);
-                b04.setDisable(true);
-                b10.setDisable(true);
-                b11.setDisable(true);
-                b12.setDisable(true);
-                b13.setDisable(true);
-                b14.setDisable(true);
-                b20.setDisable(true);
-                b21.setDisable(true);
-                b22.setDisable(true);
-                b23.setDisable(true);
-                b24.setDisable(true);
-                b30.setDisable(true);
-                b31.setDisable(true);
-                b32.setDisable(true);
-                b33.setDisable(true);
-                b34.setDisable(true);
-                b40.setDisable(true);
-                b41.setDisable(true);
-                b42.setDisable(true);
-                b43.setDisable(true);
-                b44.setDisable(true);
-            }
-        }
-    }
+    Label text;
+
 
     public void setText(){
-        if(matchStateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())){
-            text.setText(client.getUsername() +", posiziona i tuoi builder");
-            text.setAlignment(Pos.TOP_CENTER);
-        }else{
-            text.setText( matchStateMessage.getCurrentPlayer().getNickname()+" sta posizionando i suoi builder" );
-            text.setAlignment(Pos.TOP_CENTER);
-            text2.setText("Aspetta il tuo turno");
-            text2.setAlignment(Pos.TOP_CENTER);
+        switch (updateMessage.getPhase()){
+            case START_TURN:
+                if(updateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())){
+                    text.setText(client.getUsername() + ", tocca a te!");
+                    Message nextPhase = new Message(client.getUsername());
+                    nextPhase.buildNextPhaseMessage();
+                    client.getNetworkHandler().send(nextPhase);
+                }
+                else{
+                    text.setText("Ora è il turno di "+ updateMessage.getCurrentPlayer().getNickname());
+                }
+                break;
+            case STANDBY_PHASE_1 :
+            case STANDBY_PHASE_2 :
+            case STANDBY_PHASE_3 :
+                if(updateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())){
+                    text.setText(updateMessage.getCurrentPlayer().getDivinePower().getName() + " ha accettato la tua richiesta di aiuto!");
+                    Message nextPhase = new Message(client.getUsername());
+                    nextPhase.buildNextPhaseMessage();
+                    client.getNetworkHandler().send(nextPhase);
+                }
+                else{
+                    text.setText(updateMessage.getCurrentPlayer().getDivinePower().getName() +" ha aiutato "+ updateMessage.getCurrentPlayer().getNickname());
+                }
+                break;
+            case MOVE_PHASE:
+            case BUILD_PHASE:
+                if(updateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())) {
+                    Message nextPhase = new Message(client.getUsername());
+                    nextPhase.buildNextPhaseMessage();
+                    client.getNetworkHandler().send(nextPhase);
+                }
+                break;
+            case END_TURN:
+                if(updateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())){
+                    text.setText(client.getUsername()+ " , il tuo turno è terminato");
+                }else{
+                    text.setText("Il turno di "+ updateMessage.getCurrentPlayer().getNickname()+ " è terminato!");
+                }
+                break;
+            default:
+                break;
         }
     }
 
-    private void calcPosition(int[] builder, Button pos, char gender, String username){
-        if (pos.equals(b00)) setBuilder(builder, 1, 1, username, gender, p00);
-        else if (pos.equals(b01)) setBuilder(builder, 1, 2, username, gender, p01);
-        else if (pos.equals(b02)) setBuilder(builder, 1, 3, username, gender, p02);
-        else if (pos.equals(b03)) setBuilder(builder, 1, 4, username, gender, p03);
-        else if (pos.equals(b04)) setBuilder(builder, 1, 5, username, gender, p04);
-        else if (pos.equals(b10)) setBuilder(builder, 2, 1, username, gender, p10);
-        else if (pos.equals(b11)) setBuilder(builder, 2, 2, username, gender, p11);
-        else if (pos.equals(b12)) setBuilder(builder, 2, 3, username, gender, p12);
-        else if (pos.equals(b13)) setBuilder(builder, 2, 4, username, gender, p13);
-        else if (pos.equals(b14)) setBuilder(builder, 2, 5, username, gender, p14);
-        else if (pos.equals(b20)) setBuilder(builder, 3, 1, username, gender, p20);
-        else if (pos.equals(b21)) setBuilder(builder, 3, 2, username, gender, p21);
-        else if (pos.equals(b22)) setBuilder(builder, 3, 3, username, gender, p22);
-        else if (pos.equals(b23)) setBuilder(builder, 3, 4, username, gender, p23);
-        else if (pos.equals(b24)) setBuilder(builder, 3, 5, username, gender, p24);
-        else if (pos.equals(b30)) setBuilder(builder, 4, 1, username, gender, p30);
-        else if (pos.equals(b31)) setBuilder(builder, 4, 2, username, gender, p31);
-        else if (pos.equals(b32)) setBuilder(builder, 4, 3, username, gender, p32);
-        else if (pos.equals(b33)) setBuilder(builder, 4, 4, username, gender, p33);
-        else if (pos.equals(b34)) setBuilder(builder, 4, 5, username, gender, p34);
-        else if (pos.equals(b40)) setBuilder(builder, 5, 1, username, gender, p40);
-        else if (pos.equals(b41)) setBuilder(builder, 5, 2, username, gender, p41);
-        else if (pos.equals(b42)) setBuilder(builder, 5, 3, username, gender, p42);
-        else if (pos.equals(b43)) setBuilder(builder, 5, 4, username, gender, p43);
-        else if (pos.equals(b44)) setBuilder(builder, 5, 5, username, gender, p44);
-        pos.setDisable(true);
-    }
+    @FXML
+    public void setPos(ActionEvent actionEvent) {
+        switch (updateMessage.getPhase()){
+            case START_TURN:
+                break;
+            case STANDBY_PHASE_1:
+                break;
+            case MOVE_PHASE:
 
-    private void setBuilder(int[] builder, int row, int col, String username, char gender, Label label) {
-        builder[0] = row;
-        builder[1] = col;
-        if(gender == '♀') label.setText("✿");
-        else label.setText("✱");
-        if(username.equals(players.get(0).getNickname())) label.setTextFill(Color.web("#00ffcc"));
-        else if(username.equals(players.get(1).getNickname())) label.setTextFill(Color.web("#f44040"));
-        else label.setTextFill(Color.web("#b57fb8"));
+                break;
+            case STANDBY_PHASE_2:
+                break;
+            case BUILD_PHASE:
+
+
+                break;
+            case STANDBY_PHASE_3:
+                break;
+            case END_TURN:
+                break;
+            default:
+                break;
+        }
     }
 
     public void initializePlayers(ArrayList<Player> players) {
@@ -430,5 +407,9 @@ public class SelectionBuilderController {
         builder.setText(AppGUI.gender(cell.getBuilder().getGender()));
         builder.setTextFill(Color.web(AppGUI.color(cell.getBuilder().getColor())));
         button.setDisable(true);
+    }
+
+    private void move(){
+
     }
 }

@@ -7,7 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="537.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw2020.santorini.view.gui.SelectionBuilderController">
+<Pane layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="537.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw2020.santorini.view.gui.ChooseBuilderController">
     <children>
       <ImageView fitHeight="240.0" fitWidth="600.0" layoutY="-61.0">
          <image>
@@ -314,31 +314,31 @@
                 <Font name="Gabriola" size="18.0" />
             </font>
         </Label>
-        <Button fx:id="b00" layoutX="181.0" layoutY="61.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="47.0" prefWidth="42.0" />
-        <Button fx:id="b01" layoutX="229.0" layoutY="61.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
-        <Button fx:id="b02" layoutX="276.0" layoutY="58.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" rotate="180.0" />
-        <Button fx:id="b03" layoutX="330.0" layoutY="61.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b04" layoutX="375.0" layoutY="61.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="47.0" />
-        <Button fx:id="b40" layoutX="181.0" layoutY="294.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b41" layoutX="229.0" layoutY="294.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
-        <Button fx:id="b42" layoutX="276.0" layoutY="294.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
-        <Button fx:id="b43" layoutX="327.0" layoutY="294.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
-        <Button fx:id="b44" layoutX="374.0" layoutY="294.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
-        <Button fx:id="b30" layoutX="181.0" layoutY="235.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b31" layoutX="229.0" layoutY="235.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b32" layoutX="279.0" layoutY="235.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b33" layoutX="330.0" layoutY="235.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b34" layoutX="377.0" layoutY="235.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b20" layoutX="181.0" layoutY="176.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b21" layoutX="229.0" layoutY="176.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b22" layoutX="279.0" layoutY="176.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b23" layoutX="330.0" layoutY="176.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b24" layoutX="377.0" layoutY="175.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b10" layoutX="181.0" layoutY="120.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="47.0" prefWidth="42.0" />
-        <Button fx:id="b11" layoutX="229.0" layoutY="117.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b12" layoutX="279.0" layoutY="117.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
-        <Button fx:id="b13" layoutX="330.0" layoutY="117.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
-        <Button fx:id="b14" layoutX="377.0" layoutY="117.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b00" layoutX="181.0" layoutY="61.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="47.0" prefWidth="42.0" />
+        <Button fx:id="b01" layoutX="229.0" layoutY="61.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
+        <Button fx:id="b02" layoutX="276.0" layoutY="58.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="53.0" prefWidth="48.0" rotate="180.0" />
+        <Button fx:id="b03" layoutX="330.0" layoutY="61.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b04" layoutX="375.0" layoutY="61.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="53.0" prefWidth="47.0" />
+        <Button fx:id="b40" layoutX="181.0" layoutY="294.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b41" layoutX="229.0" layoutY="294.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
+        <Button fx:id="b42" layoutX="276.0" layoutY="294.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
+        <Button fx:id="b43" layoutX="327.0" layoutY="294.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
+        <Button fx:id="b44" layoutX="374.0" layoutY="294.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
+        <Button fx:id="b30" layoutX="181.0" layoutY="235.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b31" layoutX="229.0" layoutY="235.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b32" layoutX="279.0" layoutY="235.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b33" layoutX="330.0" layoutY="235.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b34" layoutX="377.0" layoutY="235.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b20" layoutX="181.0" layoutY="176.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b21" layoutX="229.0" layoutY="176.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b22" layoutX="279.0" layoutY="176.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b23" layoutX="330.0" layoutY="176.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b24" layoutX="377.0" layoutY="175.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b10" layoutX="181.0" layoutY="120.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="47.0" prefWidth="42.0" />
+        <Button fx:id="b11" layoutX="229.0" layoutY="117.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b12" layoutX="279.0" layoutY="117.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="53.0" prefWidth="48.0" />
+        <Button fx:id="b13" layoutX="330.0" layoutY="117.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
+        <Button fx:id="b14" layoutX="377.0" layoutY="117.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="53.0" prefWidth="42.0" />
       <ImageView fitHeight="269.0" fitWidth="185.0" layoutY="269.0">
          <image>
             <Image url="@../images/island.png" />
@@ -421,14 +421,9 @@
             <Font name="Gabriola" size="20.0" />
          </font>
       </Label>
-        <Label fx:id="text" layoutX="2.0" layoutY="-60.0" prefHeight="12.0" prefWidth="594.0">
+        <Label fx:id="text" layoutX="129.0" layoutY="-52.0" prefHeight="47.0" prefWidth="299.0">
             <font>
                 <Font name="Gabriola" size="30.0" />
-            </font>
-        </Label>
-        <Label fx:id="text2" layoutX="127.0" layoutY="-28.0" prefHeight="15.0" prefWidth="340.0">
-            <font>
-                <Font name="Gabriola" size="27.0" />
             </font>
         </Label>
     </children>

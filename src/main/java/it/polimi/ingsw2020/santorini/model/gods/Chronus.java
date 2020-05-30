@@ -54,6 +54,8 @@ public class Chronus extends GodCard {
     }
 
     public static String toStringEffect(GodCard card) {
-        return card.getTimingName() + ": If possible, at least one Worker must move up this turn.";
+        return card.getTimingName() + ": You also win\n" +
+                "when there are at least five\n" +
+                "Complete Towers on the board..";
     }
 }

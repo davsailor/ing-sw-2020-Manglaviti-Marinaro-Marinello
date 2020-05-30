@@ -9,7 +9,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw2020.santorini.view.gui.DirectionBuildController">
     <children>
-        <ImageView fitHeight="400.0" fitWidth="606.0" layoutX="-2.0">
+        <ImageView fitHeight="400.0" fitWidth="600.0">
             <image>
                 <Image url="@../images/WaterBack.png" />
             </image>
@@ -136,7 +136,7 @@
                         <Insets left="23.0" />
                     </padding>
                 </Label>
-                <ImageView fitHeight="75.0" fitWidth="77.0" opacity="0.56" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                <ImageView fitHeight="70.0" fitWidth="77.0" opacity="0.56" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                     <image>
                         <Image url="@../images/Hades_Lava.png" />
                     </image>
