@@ -126,6 +126,7 @@ public class Builder {
             this.buildPosX=pos[0];
             this.buildPosY=pos[1];
             board.getBoard()[pos[0]][pos[1]].setStatus(AccessType.OCCUPIED);
+            board.getBoard()[pos[0]][pos[1]].setBuilder(this);
         } else {
             this.posX = 3;
             this.posY = 3;

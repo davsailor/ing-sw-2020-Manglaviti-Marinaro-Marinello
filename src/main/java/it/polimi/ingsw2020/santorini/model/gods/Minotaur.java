@@ -30,18 +30,18 @@ public class Minotaur extends GodCard {
             for(int j = 0; j < 3; ++j)
                 if(swappingMatrix[i][j] != 0)
                     try {
-                        if (match.getBoard().getBoard()[match.getCurrentPlayer().getBuilderM().getPosX() + (i - 1) * 2][match.getCurrentPlayer().getBuilderM().getPosY() + (j - 1) * 2].getStatus() != AccessType.FREE)
+                        if (match.getBoard().getBoard()[match.getCurrentPlayer().getBuilderM().getPosX() + (i - 1) * 2][match.getCurrentPlayer().getBuilderM().getPosY() + (j - 1) * 2].getStatus() == AccessType.FREE)
                             return true;
-                    }catch (IndexOutOfBoundsException ignored){}
+                    } catch (IndexOutOfBoundsException ignored){}
 
         swappingMatrix = Board.neighboringSwappingCell(match.getCurrentPlayer().getBuilderF(), AccessType.OCCUPIED);
         for(int i = 0; i < 3; ++i)
             for(int j = 0; j < 3; ++j)
                 if(swappingMatrix[i][j] != 0)
                     try {
-                        if (match.getBoard().getBoard()[match.getCurrentPlayer().getBuilderF().getPosX() + (i - 1) * 2][match.getCurrentPlayer().getBuilderF().getPosY() + (j - 1) * 2].getStatus() != AccessType.FREE)
+                        if (match.getBoard().getBoard()[match.getCurrentPlayer().getBuilderF().getPosX() + (i - 1) * 2][match.getCurrentPlayer().getBuilderF().getPosY() + (j - 1) * 2].getStatus() == AccessType.FREE)
                             return true;
-                    }catch (IndexOutOfBoundsException ignored){}
+                    } catch (IndexOutOfBoundsException ignored){}
 
         return false;
     }

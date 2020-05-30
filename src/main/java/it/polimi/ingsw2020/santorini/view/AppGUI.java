@@ -244,6 +244,7 @@ public class AppGUI extends Application implements ViewInterface{
                 infoMatchController.initializePlayers(players);
                 primaryStage.setScene(scene);
                 primaryStage.show();
+                System.out.println("per la miseria");
                 try {
                     Thread.sleep(5000);
                 } catch (InterruptedException e) {
