@@ -55,7 +55,7 @@ public class PossibleBuildingsController {
 
     private Button[][] matrix = new Button[3][3];
 
-    private Label[][] labelMatrix;
+    private Label[][] labelMatrix = new Label[3][3];
 
     private Client client;
     private AskBuildSelectionMessage askBuildSelectionMessage;
@@ -72,8 +72,8 @@ public class PossibleBuildingsController {
         text.setText("Seleziona la cella in cui vuoi costruire!");
     }
 
-    public void initializeBoard(Cell[][] board) {
-        int[][] possibleMatrix = askBuildSelectionMessage.getPossibleBuildings();
+    public void initializeBoard() {
+        int [][] possibleMatrix = askBuildSelectionMessage.getPossibleBuildings();
 
         matrix[0][0] = b00;
         matrix[0][1] = b01;
@@ -96,7 +96,7 @@ public class PossibleBuildingsController {
         for(int i=0 ; i<3 ;++i){
             for(int j=0; j<3 ; ++j){
                 if (i!=1 && j!= 1){
-                    if (possibleMatrix[i][j] < 0 && possibleMatrix[i][j] >= 4){
+                    if (possibleMatrix[i][j]> 0 && possibleMatrix[i][j] < 4 ){
                         matrix[i][j].setStyle("-fx-background-color: #ff0000");
                         matrix[i][j].setDisable(true);
                     }

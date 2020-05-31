@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="219.0" prefWidth="551.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="218.0" fitWidth="551.0">
+         <image>
+            <Image url="@../images/cl_bg.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="24.0" layoutY="67.0" prefHeight="54.0" prefWidth="503.0" text="Grazie per aver giocato con noi, a presto!">
+         <font>
+            <Font name="Gabriola" size="39.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

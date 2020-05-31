@@ -12,6 +12,7 @@ import it.polimi.ingsw2020.santorini.utils.messages.actions.AskMoveSelectionMess
 import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchSetupMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.NewMatchMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.UpdateMessage;
 import it.polimi.ingsw2020.santorini.view.gui.*;
 import javafx.application.Application;
@@ -577,7 +578,7 @@ public class AppGUI extends Application implements ViewInterface{
             possibleMovesController = fxmlLoader.getController();
             possibleMovesController.setAskMoveSelectionMessage(message);
             possibleMovesController.setClient(client);
-            possibleMovesController.initializeBoard(message.getPossibleMoves());
+            possibleMovesController.initializeBoard();
             possibleMovesController.setText();
             primaryStage.setScene(scene);
             primaryStage.show();
@@ -610,7 +611,7 @@ public class AppGUI extends Application implements ViewInterface{
             possibleBuildingsController = fxmlLoader.getController();
             possibleBuildingsController.setAskBuildSelectionMessage(message);
             possibleBuildingsController.setClient(client);
-            possibleBuildingsController.initializeBoard(message.getPossibleBuildings());
+            possibleBuildingsController.initializeBoard();
             possibleBuildingsController.setText();
             primaryStage.setScene(scene);
             primaryStage.show();
@@ -630,26 +631,47 @@ public class AppGUI extends Application implements ViewInterface{
 
             Parent children;
             Scene scene;
-
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/FXML/directionBuild.fxml"));
+            if(client.getUsername().equals(winner)) {
 
-            try {
-                children = fxmlLoader.load();
-                scene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                scene = new Scene(new Label ("ERROR "));
-            }
-            endMatchController = fxmlLoader.getController();
-            endMatchController.setClient(client);
-            endMatchController.setWinner();
-            primaryStage.setScene(scene);
-            primaryStage.show();
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();//TODO ricordiamo di cancellare sto print stack trace
+                fxmlLoader.setLocation(getClass().getResource("/FXML/WinnerWindow.fxml"));
+
+                try {
+                    children = fxmlLoader.load();
+                    scene = new Scene(children);
+                } catch (IOException e) {
+                    children = null;
+                    scene = new Scene(new Label("ERROR "));
+                }
+                endMatchController = fxmlLoader.getController();
+                endMatchController.setClient(client);
+                endMatchController.setWinner();
+                primaryStage.setScene(scene);
+                primaryStage.show();
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();//TODO ricordiamo di cancellare sto print stack trace
+                }
+            }else{
+                fxmlLoader.setLocation(getClass().getResource("/FXML/LoserWindow.fxml"));
+
+                try {
+                    children = fxmlLoader.load();
+                    scene = new Scene(children);
+                } catch (IOException e) {
+                    children = null;
+                    scene = new Scene(new Label("ERROR "));
+                }
+                endMatchController.setClient(client);
+                endMatchController.setText();
+                primaryStage.setScene(scene);
+                primaryStage.show();
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();//TODO ricordiamo di cancellare sto print stack trace
+                }
             }
             FXMLLoader loader_new = new FXMLLoader();
             loader_new.setLocation(getClass().getResource("/FXML/AskNewMatch.fxml"));
@@ -664,37 +686,53 @@ public class AppGUI extends Application implements ViewInterface{
             primaryStage.setScene(scene);
             primaryStage.show();
 
+            while (true) {
+                if (askNewMatchController.getAnswer() == null) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    break;
+                }
+            }
             FXMLLoader loader = new FXMLLoader();
-            if(askNewMatchController.getAnswer().equals("YES")){
+            if (askNewMatchController.getAnswer().equals("YES")) {
                 loader.setLocation(getClass().getResource("/FXML/newMatch.fxml"));
                 try {
                     children = loader.load();
                     scene = new Scene(children);
                 } catch (IOException e) {
                     children = null;
-                    scene = new Scene(new Label ("ERROR "));
+                    scene = new Scene(new Label("ERROR "));
                 }
                 newMatchController = loader.getController();
                 newMatchController.setClient(client);
                 primaryStage.setScene(scene);
                 primaryStage.show();
-            }else{
+            } else {
                 loader.setLocation(getClass().getResource("/FXML/NoMatch.fxml"));
                 try {
                     children = loader.load();
                     scene = new Scene(children);
                 } catch (IOException e) {
                     children = null;
-                    scene = new Scene(new Label ("ERROR "));
+                    scene = new Scene(new Label("ERROR "));
                 }
                 primaryStage.setScene(scene);
-                primaryStage.show(); try {
+                primaryStage.show();
+                try {
                     Thread.sleep(5000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();//TODO ricordiamo di cancellare sto print stack trace
                 }
+                Message message = new Message(client.getUsername());
+                message.buildNewMatchMessage(new NewMatchMessage(false, 0, null));
+                client.getNetworkHandler().send(message);
                 primaryStage.close();
             }
+
 
         });
     }

@@ -56,7 +56,7 @@ public class PossibleMovesController {
 
     private Button[][] matrix = new Button[3][3];
 
-    private Label[][] labelMatrix;
+    private Label[][] labelMatrix = new Label[3][3];
 
     private Client client;
 
@@ -108,7 +108,7 @@ public class PossibleMovesController {
         text.setText("Seleziona la cella in cui ti vuoi muovere!");
     }
 
-    public void initializeBoard(Cell[][] board) {
+    public void initializeBoard() {
         int[][] possibleMatrix = askMoveSelectionMessage.getPossibleMoves();
 
         matrix[0][0] = b00;
@@ -133,7 +133,9 @@ public class PossibleMovesController {
             for(int j=0; j<3 ; ++j){
                 if (i!=1 && j!= 1){
                     if (possibleMatrix[i][j] == 0) {
-                        labelMatrix[i][j].setText("0");
+                        System.out.println("bottone colorato");
+                        matrix[i][j].setStyle("-fx-background-color: #ff0000");
+                        matrix[i][j].setDisable(true);
                     }
                     else if (possibleMatrix[i][j] == 1){
                         labelMatrix[i][j].setText("1");
@@ -145,8 +147,7 @@ public class PossibleMovesController {
                         labelMatrix[i][j].setText("3");
                     }
                     else{
-                        matrix[i][j].setStyle("-fx-background-color: #ff0000");
-                        matrix[i][j].setDisable(true);
+
                     }
                 }
             }

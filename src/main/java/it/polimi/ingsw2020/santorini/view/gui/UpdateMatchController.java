@@ -255,6 +255,9 @@ public class UpdateMatchController {
                 }else{
                     text.setText("Il turno di "+ updateMessage.getCurrentPlayer().getNickname()+ " è terminato!");
                 }
+                Message nextPhase = new Message(client.getUsername());
+                nextPhase.buildNextPhaseMessage();
+                client.getNetworkHandler().send(nextPhase);
                 break;
             default:
                 break;
@@ -269,13 +272,10 @@ public class UpdateMatchController {
             case STANDBY_PHASE_1:
                 break;
             case MOVE_PHASE:
-
                 break;
             case STANDBY_PHASE_2:
                 break;
             case BUILD_PHASE:
-
-
                 break;
             case STANDBY_PHASE_3:
                 break;
