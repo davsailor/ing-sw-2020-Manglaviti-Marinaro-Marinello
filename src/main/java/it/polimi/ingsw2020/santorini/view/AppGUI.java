@@ -10,6 +10,7 @@ import it.polimi.ingsw2020.santorini.utils.SecondHeaderType;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.*;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.AskMoveSelectionMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.godsParam.*;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchSetupMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.NewMatchMessage;
@@ -17,6 +18,7 @@ import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.UpdateMessage;
 import it.polimi.ingsw2020.santorini.view.gui.*;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -46,6 +48,7 @@ public class AppGUI extends Application implements ViewInterface{
     private EndMatchController endMatchController;
     private NewMatchController newMatchController;
     private AskNewMatchController askNewMatchController;
+    private ApolloController apolloController;
     private ArrayList<Player> players;
     private boolean infoMatchDisplay = true;
 
@@ -129,7 +132,6 @@ public class AppGUI extends Application implements ViewInterface{
             } catch (IOException e) {
                 root = null;
                 loadingScene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
-                e.printStackTrace();
             }
             primaryStage.setScene(loadingScene);
             primaryStage.show();
@@ -165,6 +167,20 @@ public class AppGUI extends Application implements ViewInterface{
                 primaryStage.setScene(setUpScene);
                 primaryStage.show();
             } else {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                Parent root;
+                Scene setUpScene;
+                fxmlLoader.setLocation(getClass().getResource("/FXML/selectingGod.fxml"));
+                try {
+                    root = fxmlLoader.load();
+                    setUpScene = new Scene(root);
+                } catch (IOException e) {
+                    root = null;
+                    setUpScene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
+                    e.printStackTrace();
+                }
+                primaryStage.setScene(setUpScene);
+                primaryStage.show();
                 Message message = new Message(client.getUsername());
                 message.buildSynchronizationMessage(SecondHeaderType.BEGIN_MATCH, null);
                 client.getNetworkHandler().send(message);
@@ -206,10 +222,216 @@ public class AppGUI extends Application implements ViewInterface{
                 selectGodController.setMatchSetupMessage(matchSetupMessage);
                 primaryStage.setScene(scene);
                 primaryStage.show();
+            }else{
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                Parent root;
+                Scene setUpScene;
+                fxmlLoader.setLocation(getClass().getResource("/FXML/selectionGod.fxml"));
+                try {
+                    root = fxmlLoader.load();
+                    setUpScene = new Scene(root);
+                } catch (IOException e) {
+                    root = null;
+                    setUpScene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
+                    e.printStackTrace();
+                }
+                primaryStage.setScene(setUpScene);
+                primaryStage.show();
             }
         });
     }
 
+    /**
+     * the method asks to the current player to insert parameters need to use Apollo's power. These parameters are the choice of which builder
+     * the player want to move (and swap with opponent's builder) and in which direction. If the builder selected cannot be moved, the method will choose for the player the other
+     * builder. If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+     * message containing the parameters gathered
+     *
+     * @param message contains references about the board and the currents player(About the match ).
+     * @return the message containing the parameters gathered.
+     */
+    @Override
+    public ApolloParamMessage displayApolloParamSel(MatchStateMessage message) {
+
+        Platform.runLater(() -> {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Parent root;
+            Scene scene;
+
+            switch (players.size()) {
+                case (2):
+                    fxmlLoader.setLocation(getClass().getResource("/FXML/ApolloBoard.fxml"));
+                    break;
+                case (3):
+                    fxmlLoader.setLocation(getClass().getResource("/FXML/ApolloBoard_3.fxml"));
+                    break;
+            }
+            try {
+                root = fxmlLoader.load();
+                scene = new Scene(root);
+            } catch (IOException e) {
+                root = null;
+                scene = new Scene(new Label("ERROR "));
+            }
+
+            apolloController = fxmlLoader.getController();
+            apolloController.setClient(client);
+            apolloController.setMatchStateMessage(message);
+            apolloController.initializeBoard(message.getBoard());
+            apolloController.initializePlayers(players);
+            apolloController.setText();
+            apolloController.initializeBuilder();
+            primaryStage.setTitle("APOLLO POWER");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+
+
+            FXMLLoader loader = new FXMLLoader();
+            Parent children;
+            Scene swapScene;
+            loader.setLocation(getClass().getResource("/FXML/apolloMatrix.fxml"));
+            apolloController = loader.getController();
+
+            try {
+                children = loader.load();
+                scene = new Scene(children);
+            } catch (IOException e) {
+                root = null;
+                scene = new Scene(new Label("ERROR "));
+            }
+            /*if() {//non si può swappare
+                apolloController.initializeText("Il builder che hai selezionato non è adatto a servire Apollo, viene selezionato l'altro builder automaticamente");
+                //INVERTIRE IL BUILDER SCELTO
+            }else{
+                apolloController.initializeText("Ora è il momento di scegliere il costruttore avversario");
+            }
+             */
+            apolloController.initializeApolloMatrix();
+
+
+        });
+        return null;
+    }
+
+    /**
+     * the method asks to the current player to insert parameters need to use  Ares's power. the Parameter asked is direction of the cell
+     * where the demolition will occur
+     * If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+     * message containing the parameters gathered
+     *
+     * @param message contains information about the match such as the current player
+     * @return the message containing the parameter insert by the player
+     */
+    @Override
+    public AresParamMessage displayAresParamSel(MatchStateMessage message) {
+        return null;
+    }
+
+    /**
+     * the method asks to the current player to insert parameters need to use Artemis's power. The Parameter asked is direction of the cell
+     * where the player wants to moved again the builder in.
+     * If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+     * message containing the parameters gathered
+     *
+     * @param message contains information about the match such as the current player, information used for acquiring which is the playing
+     *                builder
+     * @return the message containing the parameter acquired by the method
+     */
+    @Override
+    public ArtemisParamMessage displayArtemisParamSel(MatchStateMessage message) {
+        return null;
+    }
+
+    /**
+     * the method asks to the current player to insert parameters need to use Atlas's power. the Parameter asked is direction of the cell
+     * where the dome will be built
+     * If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+     * message containing the parameters gathered
+     *
+     * @param message contains information about the match such as the current player, information used for acquiring which is the playing
+     *                builder
+     * @return the message containing the parameter acquired by the method
+     */
+    @Override
+    public AtlasParamMessage displayAtlasParamSel(MatchStateMessage message) {
+        return null;
+    }
+
+    /**
+     * The method asks to the current player to insert parameters need to use Demeter's power. The Parameter asked is direction of the cell
+     * where the player wants to build again the builder in.
+     * If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+     * message containing the parameters gathered
+     *
+     * @param message contains information about the match such as the current player, information used for acquiring which is the playing
+     *                builder
+     * @return the message containing the parameter acquired by the method
+     */
+    @Override
+    public DemeterParamMessage displayDemeterParamSel(MatchStateMessage message) {
+        return null;
+    }
+
+    /**
+     * the method asks to the current player to insert parameters need to use Hestia's power. The Parameter asked is direction of the cell
+     * where the player wants to moved again the builder in.
+     * If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+     * message containing the parameters gathered
+     *
+     * @param message contains information about the match such as the current player, information used for acquiring which is the playing
+     *                builder
+     * @return the message containing the parameter acquired by the method
+     */
+    @Override
+    public HestiaParamMessage displayHestiaParamSel(MatchStateMessage message) {
+        return null;
+    }
+
+    /**
+     * the method asks to the current player to insert parameters need to use Minotaur's power. These parameters are che choice of which builder
+     * the player want to move (and push opponent's builder) and in which direction. If the builder selected cannot be moved, the method will choose for the player the other
+     * builder. If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+     * message containing the parameters gathered
+     *
+     * @param message contains references about the board and the currents player(About the match ).
+     * @return the message containing the parameters gathered.
+     */
+    @Override
+    public MinotaurParamMessage displayMinotaurParamSel(MatchStateMessage message) {
+        return null;
+    }
+
+    /**
+     * The method asks to the current player to insert parameters need to use Poseidon's power. The Parameters asked are direction of the cell
+     * where the player wants to build again the builder in and how many times he wants to build. The method will display the max and min numbers
+     * of times he can build
+     * If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+     * message containing the parameters gathered
+     *
+     * @param message contains information about the match such as the current player, information used for acquiring which is the playing
+     *                builder
+     * @return the message containing the parameter acquired by the method
+     */
+    @Override
+    public PoseidonParamMessage displayPoseidonParamSel(MatchStateMessage message) {
+        return null;
+    }
+
+    /**
+     * the method asks to the current player to insert parameters need to use Prometheus's power. These parameters are the choice of which builder
+     * the player want to build (the choice of the builder will be memorized to be used for the next phase of movement and building)
+     * and in which direction.
+     * If the builder selected cannot be moved, the method will choose for the player the other
+     * builder. If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+     * message containing the parameters gathered
+     *
+     * @param message contains references about the board and the currents player(About the match ).
+     * @return the message containing the parameters gathered.
+     */
+    @Override
+    public PrometheusParamMessage displayPrometheusParamSel(MatchStateMessage message) {
+        return null;
+    }
 
 
     /**
@@ -357,8 +579,6 @@ public class AppGUI extends Application implements ViewInterface{
             updateMatchController.setClient(client);
             updateMatchController.setUpdateMessage(message);
             updateMatchController.initializePlayers(players);
-            System.out.println(message.getCells()[0][0].getLevel());
-            System.out.println(message.getCells()[0][0].getStatus());
             updateMatchController.initializeBoard(message.getCells());
             updateMatchController.setText();
             primaryStage.setTitle("START TURN");
@@ -409,7 +629,6 @@ public class AppGUI extends Application implements ViewInterface{
             primaryStage.setTitle("MOVE UPDATE");
             primaryStage.setScene(scene);
             primaryStage.show();
-
         });
     }
 
@@ -449,6 +668,43 @@ public class AppGUI extends Application implements ViewInterface{
 
     @Override
     public void displayParametersSelection(MatchStateMessage message) {
+        if(message.getCurrentPlayer().getNickname().equals(client.getUsername())) {
+            Message selectedParam = new Message(client.getUsername());
+            String god = message.getCurrentPlayer().getDivinePower().getName();
+            System.out.println(god + " è qui ad aiutarti!");
+            switch (god) {
+                case "Apollo":
+                    selectedParam.buildApolloParamMessage(displayApolloParamSel(message));
+                    break;
+                case "Ares":
+                    selectedParam.buildAresParamMessage(displayAresParamSel(message));
+                    break;
+                case "Artemis":
+                    selectedParam.buildArtemisParamMessage(displayArtemisParamSel(message));
+                    break;
+                case "Atlas":
+                    selectedParam.buildAtlasParamMessage(displayAtlasParamSel(message));
+                    break;
+                case "Demeter":
+                    selectedParam.buildDemeterParamMessage(displayDemeterParamSel(message));
+                    break;
+                case "Hestia":
+                    selectedParam.buildHestiaParamMessage(displayHestiaParamSel(message));
+                    break;
+                case "Minotaur":
+                    selectedParam.buildMinotaurParamMessage(displayMinotaurParamSel(message));
+                    break;
+                case "Poseidon":
+                    selectedParam.buildPoseidonParamMessage(displayPoseidonParamSel(message));
+                    break;
+                case "Prometheus":
+                    selectedParam.buildPrometheusParamMessage(displayPrometheusParamSel(message));
+                    break;
+                default:
+                    break;
+            }
+            client.getNetworkHandler().send(selectedParam);
+        }
 
     }
 
@@ -531,6 +787,9 @@ public class AppGUI extends Application implements ViewInterface{
     public void displayWouldActivate(MatchStateMessage question) {
         Platform.runLater(()->{
 
+            Stage powerStage = new Stage();
+            powerStage.setOnCloseRequest(Event::consume);
+            powerStage.initModality(Modality.APPLICATION_MODAL);
             Parent children;
             Scene scene;
 
@@ -548,8 +807,9 @@ public class AppGUI extends Application implements ViewInterface{
             activationPowerController.setMatchStateMessage(question);
             activationPowerController.setClient(client);
             activationPowerController.initializeText();
-            primaryStage.setScene(scene);
-            primaryStage.show();
+            activationPowerController.setStage(powerStage);
+            powerStage.setScene(scene);
+            powerStage.show();
         });
     }
 
@@ -561,7 +821,9 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public void displayPossibleMoves(AskMoveSelectionMessage message) {
         Platform.runLater(()->{
-
+            Stage moveStage = new Stage();
+            moveStage.setOnCloseRequest(Event::consume);
+            moveStage.initModality(Modality.APPLICATION_MODAL);
             Parent children;
             Scene scene;
 
@@ -580,8 +842,9 @@ public class AppGUI extends Application implements ViewInterface{
             possibleMovesController.setClient(client);
             possibleMovesController.initializeBoard();
             possibleMovesController.setText();
-            primaryStage.setScene(scene);
-            primaryStage.show();
+            possibleMovesController.setStage(moveStage);
+            moveStage.setScene(scene);
+            moveStage.show();
         });
 
     }
@@ -595,6 +858,9 @@ public class AppGUI extends Application implements ViewInterface{
     public void displayPossibleBuildings(AskBuildSelectionMessage message) {
         Platform.runLater(()->{
 
+            Stage buildStage = new Stage();
+            buildStage.setOnCloseRequest(Event::consume);
+            buildStage.initModality(Modality.APPLICATION_MODAL);
             Parent children;
             Scene scene;
 
@@ -613,11 +879,10 @@ public class AppGUI extends Application implements ViewInterface{
             possibleBuildingsController.setClient(client);
             possibleBuildingsController.initializeBoard();
             possibleBuildingsController.setText();
-            primaryStage.setScene(scene);
-            primaryStage.show();
+            possibleBuildingsController.setStage(buildStage);
+            buildStage.setScene(scene);
+            buildStage.show();
         });
-
-
     }
 
     /**
@@ -649,7 +914,7 @@ public class AppGUI extends Application implements ViewInterface{
                 primaryStage.setScene(scene);
                 primaryStage.show();
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();//TODO ricordiamo di cancellare sto print stack trace
                 }
@@ -667,8 +932,9 @@ public class AppGUI extends Application implements ViewInterface{
                 endMatchController.setText();
                 primaryStage.setScene(scene);
                 primaryStage.show();
+                System.out.println("LOSER");
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();//TODO ricordiamo di cancellare sto print stack trace
                 }
@@ -686,15 +952,12 @@ public class AppGUI extends Application implements ViewInterface{
             primaryStage.setScene(scene);
             primaryStage.show();
 
-            while (true) {
-                if (askNewMatchController.getAnswer() == null) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    break;
+            while (askNewMatchController.isNotDone()) {
+                    // TODO : DOBBIAMO ASPETTARE LA RISPOSTA
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();//TODO ricordiamo di cancellare sto print stack trace
                 }
             }
             FXMLLoader loader = new FXMLLoader();
@@ -775,4 +1038,7 @@ public class AppGUI extends Application implements ViewInterface{
         }
         return null;
     }
+
+
+
 }

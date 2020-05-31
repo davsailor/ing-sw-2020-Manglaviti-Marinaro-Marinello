@@ -13,6 +13,8 @@ public class AskNewMatchController {
     Button noButton;
     private String answer;
 
+    private boolean notDone = true;
+
     public void newMatch(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();
         if(pos.equals(yesButton)){
@@ -22,7 +24,12 @@ public class AskNewMatchController {
         }
         yesButton.setDisable(true);
         noButton.setDisable(true);
+        notDone = false;
     }
+    public boolean isNotDone() {
+        return notDone;
+    }
+
 
     public void setAnswer(String answer) {
         this.answer = answer;

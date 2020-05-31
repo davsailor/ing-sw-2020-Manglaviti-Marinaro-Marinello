@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 public class PossibleBuildingsController {
 
@@ -59,6 +60,8 @@ public class PossibleBuildingsController {
 
     private Client client;
     private AskBuildSelectionMessage askBuildSelectionMessage;
+    private Stage stage;
+
 
     public void setClient(Client client) {
         this.client = client;
@@ -95,24 +98,18 @@ public class PossibleBuildingsController {
 
         for(int i=0 ; i<3 ;++i){
             for(int j=0; j<3 ; ++j){
-                if (i!=1 && j!= 1){
-                    if (possibleMatrix[i][j]> 0 && possibleMatrix[i][j] < 4 ){
+                if (i != 1 || j != 1) {
+                    if (possibleMatrix[i][j] < 0 || possibleMatrix[i][j] >= 4) {
                         matrix[i][j].setStyle("-fx-background-color: #ff0000");
                         matrix[i][j].setDisable(true);
                     }
+                    labelMatrix[i][j].setText (possibleMatrix[i][j] == -1 ? " "  : String.valueOf(possibleMatrix[i][j]));
                 }
             }
         }
     }
 
-    private void initializeCell(Label builder, Button button, Cell cell) {
-        builder.setText(AppGUI.gender(cell.getBuilder().getGender()));
-        builder.setTextFill(Color.web(AppGUI.color(cell.getBuilder().getColor())));
-        button.setDisable(true);
-    }
-
     public void selectBuild(ActionEvent actionEvent) {
-        int[][] possibleBuildings = askBuildSelectionMessage.getPossibleBuildings();
         Button pos = (Button) actionEvent.getSource();
         Direction direction = null;
         if(pos.equals(b00)){
@@ -126,7 +123,7 @@ public class PossibleBuildingsController {
         }else if ( pos.equals(b12)){
             direction = Direction.EAST;
         }else if ( pos.equals(b20)){
-            direction = Direction.NORTH_WEST;
+            direction = Direction.SOUTH_WEST;
         }else if ( pos.equals(b21)){
             direction = Direction.SOUTH;
         }else if ( pos.equals(b22)){
@@ -144,5 +141,11 @@ public class PossibleBuildingsController {
         Message buildSelection = new Message(client.getUsername());
         buildSelection.buildSelectedBuildingMessage(new SelectedBuildingMessage(direction));
         client.getNetworkHandler().send(buildSelection);
+        stage.setOnCloseRequest(e->stage.close());
+        stage.close();
+    }
+
+    public void setStage(Stage stage){
+        this.stage = stage;
     }
 }

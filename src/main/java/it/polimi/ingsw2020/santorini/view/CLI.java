@@ -898,9 +898,9 @@ public class CLI implements ViewInterface {
      * @param message contains references about the board and the currents player(About the match ).
      * @return the message containing the parameters gathered.
      */
-    private ApolloParamMessage displayApolloParamSel(MatchStateMessage message){
+    public ApolloParamMessage displayApolloParamSel(MatchStateMessage message){
         ApolloParamMessage apolloParamMessage = new ApolloParamMessage();
-        //Inserire la sampa per la scelta del builder
+        //Inserire la stampa per la scelta del builder
         char yourBuilderGender = 'O';
         Builder chosen = null;
         Direction direction = null;
@@ -1010,7 +1010,7 @@ public class CLI implements ViewInterface {
      * @param message contains information about the match such as the current player
      * @return the message containing the parameter insert by the player
      */
-    private AresParamMessage displayAresParamSel(MatchStateMessage message){
+    public AresParamMessage displayAresParamSel(MatchStateMessage message){
         AresParamMessage aresParamMessage = new AresParamMessage();
         Direction direction = null;
         Builder demolitionBuilder = null;
@@ -1095,7 +1095,7 @@ public class CLI implements ViewInterface {
      * builder
      * @return the message containing the parameter acquired by the method
      */
-    private ArtemisParamMessage displayArtemisParamSel(MatchStateMessage message){
+    public ArtemisParamMessage displayArtemisParamSel(MatchStateMessage message){
         ArtemisParamMessage artemisParamMessage = new ArtemisParamMessage();
         int[][] possibleMoves = message.getCurrentPlayer().getPlayingBuilder().getPossibleMoves();
         Direction direction = null;
@@ -1162,7 +1162,7 @@ public class CLI implements ViewInterface {
      * builder
      * @return the message containing the parameter acquired by the method
      */
-    private AtlasParamMessage displayAtlasParamSel(MatchStateMessage message){
+    public AtlasParamMessage displayAtlasParamSel(MatchStateMessage message){
         AtlasParamMessage atlasParamMessage = new AtlasParamMessage();
         Direction direction = null;
         message.getCurrentPlayer().getPlayingBuilder().setBoard(new Board(message.getBoard()));
@@ -1232,7 +1232,7 @@ public class CLI implements ViewInterface {
      * builder
      * @return the message containing the parameter acquired by the method
      */
-    private DemeterParamMessage displayDemeterParamSel(MatchStateMessage message){
+    public DemeterParamMessage displayDemeterParamSel(MatchStateMessage message){
         DemeterParamMessage demeterParamMessage = new DemeterParamMessage();
         Direction direction = null;
         int[][] possibleBuildings = message.getCurrentPlayer().getPlayingBuilder().getPossibleBuildings();
@@ -1300,7 +1300,7 @@ public class CLI implements ViewInterface {
      * builder
      * @return the message containing the parameter acquired by the method
      */
-    private HestiaParamMessage displayHestiaParamSel(MatchStateMessage message){
+    public HestiaParamMessage displayHestiaParamSel(MatchStateMessage message){
         HestiaParamMessage hestiaParamMessage = new HestiaParamMessage();
         Direction direction = null;
         int[] posBuilder = new int[2];
@@ -1419,7 +1419,7 @@ public class CLI implements ViewInterface {
      * @param message contains references about the board and the currents player(About the match ).
      * @return the message containing the parameters gathered.
      */
-    private MinotaurParamMessage displayMinotaurParamSel(MatchStateMessage message){
+    public MinotaurParamMessage displayMinotaurParamSel(MatchStateMessage message){
         MinotaurParamMessage minotaurParamMessage = new MinotaurParamMessage();
         //Inserire la stampa per la scelta del builder
         char playerBuilderGender = 'G';
@@ -1582,7 +1582,7 @@ public class CLI implements ViewInterface {
      * builder
      * @return the message containing the parameter acquired by the method
      */
-    private PoseidonParamMessage displayPoseidonParamSel(MatchStateMessage message){
+    public PoseidonParamMessage displayPoseidonParamSel(MatchStateMessage message){
         PoseidonParamMessage poseidonParamMessage = new PoseidonParamMessage();
         //Ricerca del builder non mosso
         Builder constructionBuilder = null;
@@ -1707,7 +1707,7 @@ public class CLI implements ViewInterface {
      * @param message contains references about the board and the currents player(About the match ).
      * @return the message containing the parameters gathered.
      */
-    private PrometheusParamMessage displayPrometheusParamSel(MatchStateMessage message){
+    public PrometheusParamMessage displayPrometheusParamSel(MatchStateMessage message){
         PrometheusParamMessage prometheusParamMessage = new PrometheusParamMessage();
         Builder builderScelto = null;
         char builderSex = '0';

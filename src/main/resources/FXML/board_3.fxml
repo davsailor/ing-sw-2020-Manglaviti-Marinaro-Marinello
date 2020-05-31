@@ -421,9 +421,9 @@
             <Font name="Gabriola" size="20.0" />
          </font>
       </Label>
-        <Label fx:id="text" layoutX="2.0" layoutY="-60.0" prefHeight="12.0" prefWidth="594.0">
+        <Label fx:id="text" layoutX="113.0" layoutY="-60.0" prefHeight="37.0" prefWidth="374.0">
             <font>
-                <Font name="Gabriola" size="30.0" />
+                <Font name="Gabriola" size="25.0" />
             </font>
         </Label>
         <Label fx:id="text2" layoutX="127.0" layoutY="-28.0" prefHeight="15.0" prefWidth="340.0">

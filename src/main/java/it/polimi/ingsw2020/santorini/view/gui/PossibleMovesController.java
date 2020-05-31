@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 
 public class PossibleMovesController {
@@ -61,6 +62,8 @@ public class PossibleMovesController {
     private Client client;
 
     private AskMoveSelectionMessage askMoveSelectionMessage;
+    private Stage stage;
+
 
     public void setClient(Client client) {
         this.client = client;
@@ -72,6 +75,7 @@ public class PossibleMovesController {
 
     @FXML
     public void selectMove(ActionEvent actionEvent){
+
         Button pos = (Button) actionEvent.getSource();
         Direction direction = null;
         if(pos.equals(b00)){
@@ -85,7 +89,7 @@ public class PossibleMovesController {
         }else if ( pos.equals(b12)){
             direction = Direction.EAST;
         }else if ( pos.equals(b20)){
-            direction = Direction.NORTH_WEST;
+            direction = Direction.SOUTH_WEST;
         }else if ( pos.equals(b21)){
             direction = Direction.SOUTH;
         }else if ( pos.equals(b22)){
@@ -102,6 +106,12 @@ public class PossibleMovesController {
         Message moveSelection = new Message(client.getUsername());
         moveSelection.buildSelectedMoveMessage(new SelectedMoveMessage(direction));
         client.getNetworkHandler().send(moveSelection);
+        stage.setOnCloseRequest(e->stage.close());
+        stage.close();
+    }
+
+    public void setStage(Stage stage){
+        this.stage = stage;
     }
 
     public void setText(){
@@ -131,32 +141,14 @@ public class PossibleMovesController {
 
         for(int i=0 ; i<3 ;++i){
             for(int j=0; j<3 ; ++j){
-                if (i!=1 && j!= 1){
+                if (i!=1 || j!= 1){
                     if (possibleMatrix[i][j] == 0) {
-                        System.out.println("bottone colorato");
                         matrix[i][j].setStyle("-fx-background-color: #ff0000");
                         matrix[i][j].setDisable(true);
                     }
-                    else if (possibleMatrix[i][j] == 1){
-                        labelMatrix[i][j].setText("1");
-                    }
-                    else if (possibleMatrix[i][j] == 2) {
-                        labelMatrix[i][j].setText("2");
-                    }
-                    else if (possibleMatrix[i][j] == 3){
-                        labelMatrix[i][j].setText("3");
-                    }
-                    else{
-
-                    }
+                    // TODO : SETTARE I PIANI??
                 }
             }
         }
-    }
-
-    private void initializeCell(Label builder, Button button, Cell cell) {
-        builder.setText(AppGUI.gender(cell.getBuilder().getGender()));
-        builder.setTextFill(Color.web(AppGUI.color(cell.getBuilder().getColor())));
-        button.setDisable(true);
     }
 }

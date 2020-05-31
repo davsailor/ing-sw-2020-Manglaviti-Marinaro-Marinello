@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
 
 
 public class ActivationPowerController {
@@ -27,6 +28,7 @@ public class ActivationPowerController {
     Label power2;
     @FXML
     Label power3;
+    private Stage stage;
 
 
     public void setMatchStateMessage(MatchStateMessage matchStateMessage) {
@@ -52,7 +54,12 @@ public class ActivationPowerController {
         yesButton.setDisable(true);
         noButton.setDisable(true);
         client.getNetworkHandler().send(message);
+        stage.setOnCloseRequest(e->stage.close());
+        stage.close();
 
+    }
+    public void setStage(Stage stage){
+        this.stage = stage;
     }
 
     public  void initializeText(){
@@ -95,9 +102,9 @@ public class ActivationPowerController {
                 power2.setText("The additional build cannot be on a perimeter space.");
                 break;
             case "Minotaur" :
-                power1.setText("Your Worker may move into an opponent Worker’s space (using normal movement");
-                power2.setText("  rules), if the next space in the same direction is unoccupied.");
-                power3.setText(" Their Worker is forced into that space (regardless of its level).");
+                power1.setText("Your Worker may move into an opponent Worker’s space (normal");
+                power2.setText("rules), if the next space in the same direction is unoccupied.");
+                power3.setText("Their Worker is forced into that space (regardless of its level).");
                 break;
             case "Pan" :
                 power1.setText("You also win if your Worker moves down two or more levels.");
@@ -111,8 +118,9 @@ public class ActivationPowerController {
                 power2.setText("it may build both before and after moving.");
                 break;
             case "Zeus" :
-                power1.setText("Your Worker may build under itself in its current space, forcing");
-                power2.setText(" it up one level. You do not win by forcing yourself up to the third level.");
+                power1.setText("Your Worker may build under itself in its current space,");
+                power2.setText("forcing it up one level. You do not win by forcing ");
+                power3.setText("yourself up to the third level.");
                 break;
         }
     }

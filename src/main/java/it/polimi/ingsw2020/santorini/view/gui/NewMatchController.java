@@ -34,12 +34,14 @@ public class NewMatchController {
         numberOfPlayers.setValue(2);
     }
 
+
     public void registerAction(ActionEvent actionEvent) {
         Message message = new Message(client.getUsername());
         client.setSelectedMatch((Integer.parseInt(String.valueOf(numberOfPlayers.getValue()))));
         message.buildNewMatchMessage(new NewMatchMessage(true, client.getSelectedMatch(), client.getBirthDate()));
         client.getNetworkHandler().send(message);
         signUpButton.setDisable(true);
+
     }
 
 }
