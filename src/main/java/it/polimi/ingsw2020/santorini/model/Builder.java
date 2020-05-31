@@ -118,7 +118,7 @@ public class Builder {
         this.gender = gender;
         this.player = player;
 
-        this.board= board;
+        this.board = board;
         // if for test purpose
         if(pos != null){
             this.posX=pos[0];

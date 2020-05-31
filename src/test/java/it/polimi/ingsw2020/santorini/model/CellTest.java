@@ -63,4 +63,13 @@ public class CellTest {
         cell2.setLevel(LevelType.BASE);
         assertEquals( 1, cell.calculateJump(cell2));
     }
+
+    @Test
+    public void testDemolish(){
+        Cell cell = new Cell(AccessType.FREE);
+        cell.setLevel(LevelType.BASE);
+        cell.setLevel(LevelType.MID);
+        cell.demolish();
+        assertEquals(LevelType.BASE, cell.getLevel());
+    }
 }

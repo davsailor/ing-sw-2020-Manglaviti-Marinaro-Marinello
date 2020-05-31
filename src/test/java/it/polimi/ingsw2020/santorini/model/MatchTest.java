@@ -114,7 +114,7 @@ public class MatchTest {
         Match match = new Match(board, 3, view);
         fullInit(3, match);
         for(int i = 0; i < match.getNumberOfPlayers(); ++i){
-            assertNotNull(match.getPlayers()[i].getDivinePower());
+            assertNull(match.getPlayers()[i].getDivinePower());
             assertNotNull(match.getPlayers()[i].getColor());
         }
         assertFalse(match.hasChanged());
@@ -178,7 +178,7 @@ public class MatchTest {
         match.setNextPlayer();
         match.setNextPlayer();
         match.setNextPlayer();
-        assertEquals(0, match.getCurrentPlayerIndex());
+        assertEquals(3, match.getCurrentPlayerIndex());
     }
 
     private void fullInit(int param, Match match) {

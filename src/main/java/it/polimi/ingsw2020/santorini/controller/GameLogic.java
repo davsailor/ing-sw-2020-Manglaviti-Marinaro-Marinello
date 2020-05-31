@@ -53,6 +53,10 @@ public class GameLogic implements Observer {
         return turnManager;
     }
 
+    public Match getMatch() {
+        return match;
+    }
+
     /**
      * The method initialize matches that have the required number of players.
      * The matches created will have a reference to their relatives VirtualView

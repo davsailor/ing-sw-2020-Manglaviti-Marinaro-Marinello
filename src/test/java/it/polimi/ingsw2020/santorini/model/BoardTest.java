@@ -1,6 +1,7 @@
 package it.polimi.ingsw2020.santorini.model;
 
 import it.polimi.ingsw2020.santorini.utils.AccessType;
+import it.polimi.ingsw2020.santorini.utils.Color;
 import it.polimi.ingsw2020.santorini.utils.LevelType;
 
 import org.junit.Before;
@@ -16,9 +17,11 @@ public class BoardTest {
 
     @Before
     public void setUp() {
-        board = new Board((Cell[][]) null);
+        board = new Board((GodDeck) null);
         player1 = new Player("Dog", null);
         player2 = new Player ("Cat", null);
+        player1.setColor(Color.PLAYER_CYAN);
+        player2.setColor(Color.PLAYER_GREEN);
         int[] pos = new int[2];
         pos[0] = 3;
         pos[1] = 3;
@@ -36,7 +39,7 @@ public class BoardTest {
     @Test
     public void testNeighboringStatusCell() {
         int[][] neighborMatrix;
-        setUp();
+
         neighborMatrix = new int[3][3];
         board.getBoard()[3][2].setLevel(LevelType.BASE);
         board.getBoard()[2][3].setLevel(LevelType.MID);
@@ -55,7 +58,7 @@ public class BoardTest {
     @Test
     public void testNeighborLevelCell() {
         int[][] neighborMatrix;
-        setUp();
+
         neighborMatrix = new int[3][3];
         board.buildBlock(2, 2, LevelType.TOP);
         neighborMatrix = board.neighboringLevelCell(player1.getBuilderF());
@@ -65,15 +68,58 @@ public class BoardTest {
 
     @Test (expected = IllegalArgumentException.class)
     public void testNeighborLevelCell_wrongArgument_throwsException(){
-        Board board = new Board((Cell[][])null);
-        int[][] matrix = new int[3][3];
-        matrix = Board.neighboringLevelCell(player1.getBuilderF());
+
+       int[][] neighborMatrix;
+       int[] pos = new int[2];
+       pos[0] = 0;
+       pos[1] = 0;
+       Builder builderException = new Builder(player1, 'M', board, pos);
+       player1.setBuilderM(builderException);
+       neighborMatrix = board.neighboringLevelCell(player1.getBuilderM());
     }
 
     @Test
     public void testBuildBlock() {
-        Board board = new Board((Cell[][]) null);
+
         board.buildBlock(0,0, LevelType.BASE);
         assertEquals(LevelType.BASE, board.getBoard()[0][0].getLevel());
+    }
+
+    @Test
+    public void testNeighboringColorCell(){
+        int[][] neighborMatrix;
+
+        int[] pos = new int[2];
+        pos[0] = 3;
+        pos[1] = 2;
+        neighborMatrix = new int[3][3];
+        board.buildBlock(3, 2, LevelType.BASE);
+        Builder builderNemico = new Builder(player1,'M', board, pos);
+        player1.setBuilderM(builderNemico);
+        neighborMatrix = board.neighboringColorCell(player2.getBuilderM());
+        assertEquals(0, neighborMatrix[0][0]);
+        assertEquals(1, neighborMatrix[2][1]);
+        assertEquals(1, neighborMatrix[2][0]);
+    }
+
+    @Test
+    public void testNeighboringSwappingCell(){
+        int[][] neighborMatrix;
+
+        int[] pos = new int[2];
+        pos[0] = 3;
+        pos[1] = 2;
+        neighborMatrix = new int[3][3];
+        board.buildBlock(3, 2, LevelType.BASE);
+        board.buildBlock(3, 2, LevelType.MID);
+        Builder builderNemico = new Builder(player1,'M', board, pos);
+        player1.setBuilderM(builderNemico);
+        neighborMatrix = board.neighboringSwappingCell(player2.getBuilderM(), AccessType.OCCUPIED);
+        assertEquals(0, neighborMatrix[0][0]);
+        assertEquals(1, neighborMatrix[2][1]);
+        assertEquals(0, neighborMatrix[2][0]);
+        board.getBoard()[3][2].demolish();
+        neighborMatrix = board.neighboringSwappingCell(player2.getBuilderM(), AccessType.OCCUPIED);
+        assertEquals(2, neighborMatrix[2][0]);
     }
 }

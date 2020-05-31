@@ -108,7 +108,7 @@ public class GodSelectionController {
             case "Zeus" :
                 return GodFactotum.ZEUS.getCode();
             default:
-                System.out.println("sei stronzo");
+                System.out.println("Errore");
                 return null;
         }
     }

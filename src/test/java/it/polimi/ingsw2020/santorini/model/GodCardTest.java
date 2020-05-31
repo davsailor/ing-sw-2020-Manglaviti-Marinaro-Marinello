@@ -2,6 +2,7 @@ package it.polimi.ingsw2020.santorini.model;
 
 import it.polimi.ingsw2020.santorini.model.gods.*;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -52,42 +53,10 @@ public class GodCardTest {
     }
 
     @Test
-    public void invokeGod() {
+    public void testCanActivate(){
+        assertFalse(tester.canActivate(null));
     }
 
- /*   @Test
-    public void testToStringEffect() {
-        GodDeck deck = new GodDeck();
-        tester = deck.giveCard();
-        assertEquals(Apollo.toStringEffect(tester), tester.toStringEffect());
-        tester = deck.giveCard();
-        assertEquals(Artemis.toStringEffect(tester), tester.toStringEffect());
-        tester = deck.giveCard();
-        assertEquals(Athena.toStringEffect(tester), tester.toStringEffect());
-        tester = deck.giveCard();
-        assertEquals(Atlas.toStringEffect(tester), tester.toStringEffect());
-        tester = deck.giveCard();
-        assertEquals(Demeter.toStringEffect(tester), tester.toStringEffect());
-        tester = deck.giveCard();
-        assertEquals(Hephaestus.toStringEffect(tester), tester.toStringEffect());
-        tester = deck.giveCard();
-        assertEquals(Minotaur.toStringEffect(tester), tester.toStringEffect());
-        tester = deck.giveCard();
-        assertEquals(Pan.toStringEffect(tester), tester.toStringEffect());
-        tester = deck.giveCard();
-        assertEquals(Prometheus.toStringEffect(tester), tester.toStringEffect());
-        tester = deck.giveCard();
-        assertEquals(Ares.toStringEffect(tester), tester.toStringEffect());
-        tester = deck.giveCard();
-        assertEquals(Hestia.toStringEffect(tester), tester.toStringEffect());
-        tester = deck.giveCard();
-        assertEquals(Chronus.toStringEffect(tester), tester.toStringEffect());
-        tester = deck.giveCard();
-        assertEquals(Poseidon.toStringEffect(tester), tester.toStringEffect());
-        tester = deck.giveCard();
-        assertEquals(Zeus.toStringEffect(tester), tester.toStringEffect());
-    }
-*/
     @Test
     public void testToStringEffect_noExistentGod_noEffectToPrint(){
         GodCard tester = new GodCard();

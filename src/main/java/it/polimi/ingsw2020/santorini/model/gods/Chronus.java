@@ -48,7 +48,8 @@ public class Chronus extends GodCard {
             set = true;
         }
         if(match.getNumberOfCompletedTowers() == 5){
-            match.setNextPlayer();
+            if(!match.getCurrentPlayer().getNickname().equals(invoker))
+                match.setNextPlayer();
             match.currentWins();
         }
     }
