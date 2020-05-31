@@ -60,15 +60,11 @@ public class SelectGodController {
 
     public void selectGod(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();
-        System.out.println(name1.getText());
-        System.out.println(GodSelectionController.calcInt(name1.getText()));
 
         int selectedGod = GodSelectionController.calcInt(name1.getText());
         if(pos.equals(godButton1)){
-            // setto la divinità scelta
             selectedGod = GodSelectionController.calcInt(name1.getText());
         } else if(pos.equals(godButton2)){
-            // setto la divinità scelta
             selectedGod = GodSelectionController.calcInt(name2.getText());
             pos.setDisable(true);
         }else if(pos.equals(godButton3)) {

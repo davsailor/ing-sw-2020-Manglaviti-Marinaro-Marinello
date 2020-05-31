@@ -100,11 +100,6 @@ public class CLI implements ViewInterface {
             message.buildLoginMessage(new LoginMessage(client.getUsername(), client.getBirthDate(), client.getSelectedMatch()));
             client.getNetworkHandler().send(message);
         }
-        /*
-        try {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        } catch (IOException | InterruptedException ignored) {}
-        */
     }
 
     /**
