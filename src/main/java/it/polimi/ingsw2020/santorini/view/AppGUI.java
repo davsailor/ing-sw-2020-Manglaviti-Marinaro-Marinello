@@ -448,7 +448,7 @@ public class AppGUI extends Application implements ViewInterface{
             stage.setScene(demolitionScene);
             stage.showAndWait();
             atlasParamMessage = atlasController.getAtlasParamMessage();
-            System.out.println(atlasParamMessage);// TODO : PERCHE' E' NULL??????
+            System.out.println(atlasParamMessage);
         });
 
         return atlasParamMessage;
@@ -490,7 +490,7 @@ public class AppGUI extends Application implements ViewInterface{
             stage.setScene(demolitionScene);
             stage.showAndWait();
             demeterParamMessage = demeterController.getDemeterParamMessage();
-            System.out.println(demeterParamMessage);// TODO : PERCHE' E' NULL??????
+            System.out.println(demeterParamMessage);
         });
 
         return demeterParamMessage;
@@ -532,7 +532,7 @@ public class AppGUI extends Application implements ViewInterface{
             stage.setScene(demolitionScene);
             stage.showAndWait();
             hestiaParamMessage = hestiaController.getHestiaParamMessage();
-            System.out.println(hestiaParamMessage);// TODO : PERCHE' E' NULL??????
+            System.out.println(hestiaParamMessage);
         });
 
         return hestiaParamMessage;
@@ -550,32 +550,53 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public MinotaurParamMessage displayMinotaurParamSel(MatchStateMessage message) {
         Platform.runLater(()->{
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Stage swapStage = new Stage();
+            swapStage.setOnCloseRequest(Event::consume);
+            swapStage.initModality(Modality.APPLICATION_MODAL);
+            Parent root;
+            Scene scene;
+            fxmlLoader.setLocation(getClass().getResource("/FXML/askPush.fxml"));
+            try {
+                root = fxmlLoader.load();
+                scene = new Scene(root);
+            } catch (IOException e) {
+                root = null;
+                scene = new Scene(new Label("ERROR "));
+            }
+            minotaurController = fxmlLoader.getController();
+            minotaurController.setClient(client);
+            minotaurController.setStage(swapStage);
+            minotaurController.setMatchStateMessage(message);
+            minotaurController.initializeButtons();
+            swapStage.setTitle("MINOTAUR POWER");
+            swapStage.setScene(scene);
+            swapStage.showAndWait();
+            Builder chosen = minotaurController.getChosen();
+
             Stage stage = new Stage();
             stage.setOnCloseRequest(Event::consume);
             stage.initModality(Modality.APPLICATION_MODAL);
             FXMLLoader loader = new FXMLLoader();
             Parent children;
-            Scene demolitionScene;
-            loader.setLocation(getClass().getResource("/FXML/AresMatrix.fxml"));
+            Scene pushScene;
+            loader.setLocation(getClass().getResource("/FXML/MinotaurMatrix.fxml"));
             try {
                 children = loader.load();
-                demolitionScene = new Scene(children);
+                pushScene = new Scene(children);
             } catch (IOException e) {
                 children = null;
-                demolitionScene = new Scene(new Label("ERROR "));
+                pushScene = new Scene(new Label("ERROR "));
             }
-
             minotaurController = loader.getController();
             minotaurController.setClient(client);
             minotaurController.setStage(stage);
             minotaurController.setMatchStateMessage(message);
-            minotaurController.initializeMinotaurMatrix();
-            stage.setScene(demolitionScene);
+            minotaurController.initializeMinotaurMatrix(Board.neighboringSwappingCell(chosen, AccessType.OCCUPIED));
+            stage.setScene(pushScene);
             stage.showAndWait();
             minotaurParamMessage = minotaurController.getMinotaurParamMessage();
-            System.out.println(minotaurParamMessage);// TODO : PERCHE' E' NULL??????
         });
-
         return minotaurParamMessage;
     }
 
@@ -593,19 +614,42 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public PoseidonParamMessage displayPoseidonParamSel(MatchStateMessage message) {
         Platform.runLater(()->{
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Stage swapStage = new Stage();
+            swapStage.setOnCloseRequest(Event::consume);
+            swapStage.initModality(Modality.APPLICATION_MODAL);
+            Parent root;
+            Scene scene;
+            fxmlLoader.setLocation(getClass().getResource("/FXML/askNumberBuildings.fxml"));
+            try {
+                root = fxmlLoader.load();
+                scene = new Scene(root);
+            } catch (IOException e) {
+                root = null;
+                scene = new Scene(new Label("ERROR "));
+            }
+            poseidonController = fxmlLoader.getController();
+            poseidonController.setClient(client);
+            poseidonController.setStage(swapStage);
+            poseidonController.setMatchStateMessage(message);
+            poseidonController.initializeButtons();
+            swapStage.setTitle("POSEIDON POWER");
+            swapStage.setScene(scene);
+            swapStage.showAndWait();
+
             Stage stage = new Stage();
             stage.setOnCloseRequest(Event::consume);
             stage.initModality(Modality.APPLICATION_MODAL);
             FXMLLoader loader = new FXMLLoader();
             Parent children;
-            Scene demolitionScene;
+            Scene buildScene;
             loader.setLocation(getClass().getResource("/FXML/PoseidonMatrix.fxml"));
             try {
                 children = loader.load();
-                demolitionScene = new Scene(children);
+                buildScene = new Scene(children);
             } catch (IOException e) {
                 children = null;
-                demolitionScene = new Scene(new Label("ERROR "));
+                buildScene = new Scene(new Label("ERROR "));
             }
 
             poseidonController = loader.getController();
@@ -613,10 +657,9 @@ public class AppGUI extends Application implements ViewInterface{
             poseidonController.setStage(stage);
             poseidonController.setMatchStateMessage(message);
             poseidonController.initializePoseidonMatrix();
-            stage.setScene(demolitionScene);
+            stage.setScene(buildScene);
             stage.showAndWait();
             poseidonParamMessage = poseidonController.getPoseidonParamMessage();
-            System.out.println(poseidonParamMessage);// TODO : PERCHE' E' NULL??????
         });
 
         return poseidonParamMessage;
@@ -636,6 +679,30 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public PrometheusParamMessage displayPrometheusParamSel(MatchStateMessage message) {
         Platform.runLater(()->{
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Stage swapStage = new Stage();
+            swapStage.setOnCloseRequest(Event::consume);
+            swapStage.initModality(Modality.APPLICATION_MODAL);
+            Parent root;
+            Scene scene;
+            fxmlLoader.setLocation(getClass().getResource("/FXML/ask.fxml"));
+            try {
+                root = fxmlLoader.load();
+                scene = new Scene(root);
+            } catch (IOException e) {
+                root = null;
+                scene = new Scene(new Label("ERROR "));
+            }
+            prometheusController = fxmlLoader.getController();
+            prometheusController.setClient(client);
+            prometheusController.setStage(swapStage);
+            prometheusController.setMatchStateMessage(message);
+            prometheusController.initializeButtons();
+            swapStage.setTitle("PROMETHEUS POWER");
+            swapStage.setScene(scene);
+            swapStage.showAndWait();
+            Builder chosen = prometheusController.getChosen();
+
             Stage stage = new Stage();
             stage.setOnCloseRequest(Event::consume);
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -650,21 +717,17 @@ public class AppGUI extends Application implements ViewInterface{
                 children = null;
                 demolitionScene = new Scene(new Label("ERROR "));
             }
-
             prometheusController = loader.getController();
             prometheusController.setClient(client);
             prometheusController.setStage(stage);
             prometheusController.setMatchStateMessage(message);
-            prometheusController.initializePrometheusMatrix();
+            prometheusController.initializePrometheusMatrix(Board.neighboringLevelCell(chosen));
             stage.setScene(demolitionScene);
             stage.showAndWait();
             prometheusParamMessage = prometheusController.getPrometheusParamMessage();
-            System.out.println(prometheusParamMessage);// TODO : PERCHE' E' NULL??????
         });
-
         return prometheusParamMessage;
     }
-
 
     /**
      * metodo addetto alla selezione dei builder secondo l'ordine definito dal controller
@@ -703,7 +766,6 @@ public class AppGUI extends Application implements ViewInterface{
                 infoMatchController.initializePlayers(players);
                 primaryStage.setScene(scene);
                 primaryStage.show();
-                System.out.println("per la miseria");
                 try {
                     Thread.sleep(5000);
                 } catch (InterruptedException e) {
@@ -739,7 +801,6 @@ public class AppGUI extends Application implements ViewInterface{
 
         });
     }
-
 
     @Override
     public void displayNewSelectionBuilderWindow(IllegalPositionMessage message) {}

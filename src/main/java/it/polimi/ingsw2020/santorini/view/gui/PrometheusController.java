@@ -1,9 +1,10 @@
 package it.polimi.ingsw2020.santorini.view.gui;
 
+import it.polimi.ingsw2020.santorini.model.Board;
 import it.polimi.ingsw2020.santorini.model.Builder;
 import it.polimi.ingsw2020.santorini.network.client.Client;
+import it.polimi.ingsw2020.santorini.utils.AccessType;
 import it.polimi.ingsw2020.santorini.utils.Direction;
-import it.polimi.ingsw2020.santorini.utils.messages.godsParam.AresParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.PrometheusParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 import javafx.event.ActionEvent;
@@ -24,6 +25,10 @@ public class PrometheusController {
 
     private MatchStateMessage matchStateMessage;
 
+    private Builder chosen;
+
+    private char yourBuilderGender;
+
     private PrometheusParamMessage prometheusParamMessage = new PrometheusParamMessage();
 
     public void setClient(Client client) {
@@ -34,6 +39,10 @@ public class PrometheusController {
         this.stage = stage;
     }
 
+    public Builder getChosen() {
+        return chosen;
+    }
+
     public void setMatchStateMessage(MatchStateMessage matchStateMessage) {
         this.matchStateMessage = matchStateMessage;
     }
@@ -42,10 +51,10 @@ public class PrometheusController {
         return prometheusParamMessage;
     }
 
-    @FXML
-    Label text;
-    @FXML
-    Label text2;
+    public char getYourBuilderGender() {
+        return yourBuilderGender;
+    }
+
     @FXML
     Button b00;
     @FXML
@@ -78,9 +87,14 @@ public class PrometheusController {
     Label p21;
     @FXML
     Label p22;
+    @FXML
+    Button M;
+    @FXML
+    Button F;
 
 
-    public void selectDemolition(ActionEvent actionEvent) {
+    @FXML
+    public void build(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();
         Direction direction = null;
         if(pos.equals(b00)){
@@ -108,15 +122,13 @@ public class PrometheusController {
         b20.setDisable(true);
         b21.setDisable(true);
         b22.setDisable(true);
-
-
+        prometheusParamMessage.setDirection(direction);
+        prometheusParamMessage.setBuilderSex(getYourBuilderGender());
         stage.setOnCloseRequest(e->stage.close());
         stage.close();
     }
 
-    public void initializePrometheusMatrix(){
-        Builder demolitionBuilder;
-
+    public void initializePrometheusMatrix(int[][] PrometheusMatrix){
         matrix[0][0] = b00;
         matrix[0][1] = b01;
         matrix[0][2] = b02;
@@ -135,6 +147,55 @@ public class PrometheusController {
         labelMatrix[2][1] = p21;
         labelMatrix[2][2] = p22;
 
+        matchStateMessage.getCurrentPlayer().setRiseActions(false);
+        matchStateMessage.getCurrentPlayer().setMoveActions(true);
+        matchStateMessage.getCurrentPlayer().getBuilderF().setBoard(new Board(matchStateMessage.getBoard()));
+        matchStateMessage.getCurrentPlayer().getBuilderF().setPlayer(matchStateMessage.getCurrentPlayer());
+        matchStateMessage.getCurrentPlayer().getBuilderM().setBoard(new Board(matchStateMessage.getBoard()));
+        matchStateMessage.getCurrentPlayer().getBuilderM().setPlayer(matchStateMessage.getCurrentPlayer());
 
+        for(int i=0 ; i<3 ;++i){
+            for(int j=0; j<3 ; ++j){
+                if (i != 1 || j != 1) {
+                    if (PrometheusMatrix[i][j] < 0 || PrometheusMatrix[i][j] >= 4) {
+                        matrix[i][j].setStyle("-fx-background-color: #ff0000");
+                        matrix[i][j].setDisable(true);
+                    }
+                    labelMatrix[i][j].setText (PrometheusMatrix[i][j] == -1 ? " "  : String.valueOf(PrometheusMatrix[i][j]));
+                }
+            }
+        }
+
+    }
+
+    @FXML
+    public void selectGender(ActionEvent actionEvent) {
+        Button pos = (Button) actionEvent.getSource();
+        if(pos.getId().equals("F")){
+            chosen = matchStateMessage.getCurrentPlayer().getBuilderF();
+            yourBuilderGender = 'F';
+        }else{
+            chosen = matchStateMessage.getCurrentPlayer().getBuilderM();
+            yourBuilderGender = 'M';
+        }
+        chosen.setBoard(new Board(matchStateMessage.getBoard()));
+        chosen.setPlayer(matchStateMessage.getCurrentPlayer());
+        F.setDisable(true);
+        M.setDisable(true);
+        stage.setOnCloseRequest(e->stage.close());
+        stage.close();
+    }
+
+    public void initializeButtons() {
+        if (!matchStateMessage.getCurrentPlayer().getBuilderM().canMove() || !matchStateMessage.getCurrentPlayer().getBuilderM().canBuild()) {
+            M.setDisable(true);
+            M.setStyle("-fx-border-color: #ff0000; -fx-border-width: 5px;");
+        }else
+            M.setStyle("-fx-border-color: #00ff00; -fx-border-width: 5px;");
+        if(!matchStateMessage.getCurrentPlayer().getBuilderF().canMove() ||  !matchStateMessage.getCurrentPlayer().getBuilderF().canBuild()){
+            F.setDisable(true);
+            F.setStyle("-fx-border-color: #ff0000; -fx-border-width: 5px;");
+        }else
+            M.setStyle("-fx-border-color: #00ff00; -fx-border-width: 5px;");
     }
 }

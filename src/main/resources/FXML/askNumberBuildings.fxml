@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="251.0" prefWidth="408.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw2020.santorini.view.gui.PoseidonController">
+   <children>
+      <ImageView fitHeight="251.0" fitWidth="408.0">
+         <image>
+            <Image url="@../images/SfondoConColonne.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="212.0" fitWidth="418.0" layoutX="-5.0" layoutY="20.0">
+         <image>
+            <Image url="@../images/endgame_victorywin.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="49.0" prefHeight="48.0" prefWidth="311.0" text="Seleziona il numero di volte che vuoi  costruire">
+         <font>
+            <Font name="Gabriola" size="22.0" />
+         </font>
+      </Label>
+      <Button fx:id="one" layoutX="120.0" layoutY="136.0" mnemonicParsing="false" onAction="#selectNumber" prefHeight="40.0" prefWidth="40.0" text="1" />
+      <Button fx:id="three" layoutX="247.0" layoutY="136.0" mnemonicParsing="false" onAction="#selectNumber" prefHeight="40.0" prefWidth="40.0" text="3" />
+      <Button fx:id="two" layoutX="184.0" layoutY="136.0" mnemonicParsing="false" onAction="#selectNumber" prefHeight="40.0" prefWidth="40.0" text="2" />
+   </children>
+</Pane>

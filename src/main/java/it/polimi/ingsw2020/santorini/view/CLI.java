@@ -1517,43 +1517,27 @@ public class CLI implements ViewInterface {
                 wrong = true;
 
                 if (pressedButton == 1 && possibleSwap[0][0] != 0) {
-                    //if(message.getBoard()[posBuilder[0]-2][posBuilder[1]-2].getStatus() == AccessType.FREE ) {
-                    //}
                     direction = Direction.NORTH_WEST;
                     wrong = false;
                 } else if (pressedButton == 2 && possibleSwap[0][1] != 0) {
-                    //if(message.getBoard()[posBuilder[0]-2][posBuilder[1]].getStatus() == AccessType.FREE ) {
-                    //}
                     direction = Direction.NORTH;
                     wrong = false;
                 } else if (pressedButton == 3 && possibleSwap[0][2] != 0) {
-                    //if(message.getBoard()[posBuilder[0]-2][posBuilder[1]+2].getStatus() == AccessType.FREE ) {
-                    //}
                     direction = Direction.NORTH_EAST;
                     wrong = false;
                 } else if (pressedButton == 4 && possibleSwap[1][0] != 0) {
-                    //if(message.getBoard()[posBuilder[0]][posBuilder[1]-2].getStatus() == AccessType.FREE ) {
-                    //}
                     direction = Direction.WEST;
                     wrong = false;
                 } else if (pressedButton == 5 && possibleSwap[1][2] != 0) {
-                    //if(message.getBoard()[posBuilder[0]][posBuilder[1]+2].getStatus() == AccessType.FREE ) {
-                    //}
                     direction = Direction.EAST;
                     wrong = false;
                 } else if (pressedButton == 6 && possibleSwap[2][0] != 0) {
-                    //if(message.getBoard()[posBuilder[0]+2][posBuilder[1]-2].getStatus() == AccessType.FREE ) {
-                    //}
                     direction = Direction.SOUTH_WEST;
                     wrong = false;
                 } else if (pressedButton == 7 && possibleSwap[2][1] != 0) {
-                    //if(message.getBoard()[posBuilder[0]+2][posBuilder[1]].getStatus() == AccessType.FREE ) {
-                    //}
                     direction = Direction.SOUTH;
                     wrong = false;
                 } else if (pressedButton == 8 && possibleSwap[2][2] != 0) {
-                    //if(message.getBoard()[posBuilder[0]+2][posBuilder[1]+2].getStatus() == AccessType.FREE ) {
-                    //}
                     direction = Direction.SOUTH_EAST;
                     wrong = false;
                 }
@@ -1618,7 +1602,7 @@ public class CLI implements ViewInterface {
             }catch (NumberFormatException e) {
                 wrong = true;
             }
-            if(wrong) System.out.println("hai selezionato un caarattere non compreso tra quelli indicati");
+            if(wrong) System.out.println("hai selezionato un carattere non compreso tra quelli indicati");
         }while (wrong);
         //Preparazione alla ricezione delle direzioni
         ArrayList<Direction> directions = new ArrayList<>();

@@ -21,23 +21,18 @@ import java.util.ArrayList;
 public class ApolloController {
 
     private Client client;
+
     private MatchStateMessage matchStateMessage;
 
     private ArrayList<Player> players;
 
     private  ApolloParamMessage apolloParamMessage = new ApolloParamMessage();
 
-
+    private Stage stage;
 
     public  ApolloParamMessage getApolloParamMessage() {
-        System.out.println("dentro get");
-        System.out.println(apolloParamMessage);
         return apolloParamMessage;
     }
-
-
-
-    private Stage stage;
 
     @FXML
     Label text;
@@ -64,8 +59,8 @@ public class ApolloController {
     @FXML
     Button M;
 
-
     Builder chosen = null;
+
     private char yourBuilderGender;
 
     public char getYourBuilderGender() {
@@ -91,7 +86,6 @@ public class ApolloController {
         buttonMatrix[2][0] = b20;
         buttonMatrix[2][1] = b21;
         buttonMatrix[2][2] = b22;
-
         for(int i=0; i<3; ++i){
             for( int j=0 ; j < 3; ++j){
                 if(i!=1 || j!= 1){

@@ -1,9 +1,9 @@
 package it.polimi.ingsw2020.santorini.view.gui;
 
+import it.polimi.ingsw2020.santorini.model.Board;
 import it.polimi.ingsw2020.santorini.model.Builder;
 import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.utils.Direction;
-import it.polimi.ingsw2020.santorini.utils.messages.godsParam.AresParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.PoseidonParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 import javafx.event.ActionEvent;
@@ -11,6 +11,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+
+import java.util.ArrayList;
 
 public class PoseidonController {
 
@@ -25,6 +27,14 @@ public class PoseidonController {
     private MatchStateMessage matchStateMessage;
 
     private PoseidonParamMessage poseidonParamMessage = new PoseidonParamMessage();
+
+    private int number = 0;
+
+    private int selectedNumber = 0;
+
+    char constructionBuilderSex = 'o';
+
+    private ArrayList<Direction> directions;
 
     public void setClient(Client client) {
         this.client = client;
@@ -42,6 +52,20 @@ public class PoseidonController {
         return poseidonParamMessage;
     }
 
+    public int getSelectedNumber() {
+        return selectedNumber;
+    }
+
+    public char getConstructionBuilderSex() {
+        return constructionBuilderSex;
+    }
+
+    @FXML
+    Button one;
+    @FXML
+    Button two;
+    @FXML
+    Button three;
     @FXML
     Label text;
     @FXML
@@ -79,43 +103,78 @@ public class PoseidonController {
     @FXML
     Label p22;
 
-    public void selectDemolition(ActionEvent actionEvent) {
+    @FXML
+    public void build(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();
-        Direction direction = null;
         if(pos.equals(b00)){
-            direction = Direction.NORTH_WEST;
+            directions.add(Direction.NORTH_WEST);
+            if(p00.getText().equals("3")){
+                b00.setDisable(true);
+            }
+            p00.setText(String.valueOf(Integer.parseInt(p00.getText()) + 1));
         }else if ( pos.equals(b01)){
-            direction = Direction.NORTH;
+            directions.add(Direction.NORTH);
+            if(p01.getText().equals("3")){
+                b01.setDisable(true);
+            }
+            p01.setText(String.valueOf(Integer.parseInt(p01.getText()) + 1));
         }else if ( pos.equals(b02)){
-            direction = Direction.NORTH_EAST;
+            directions.add(Direction.NORTH_EAST);
+            if(p02.getText().equals("3")){
+                b02.setDisable(true);
+            }
+            p02.setText(String.valueOf(Integer.parseInt(p02.getText()) + 1));
         }else if ( pos.equals(b10)){
-            direction = Direction.WEST;
+            directions.add(Direction.WEST);
+            if(p10.getText().equals("3")){
+                b10.setDisable(true);
+            }
+            p10.setText(String.valueOf(Integer.parseInt(p10.getText()) + 1));
         }else if ( pos.equals(b12)){
-            direction = Direction.EAST;
+            directions.add(Direction.EAST);
+            if(p12.getText().equals("3")){
+                b12.setDisable(true);
+            }
+            p12.setText(String.valueOf(Integer.parseInt(p12.getText()) + 1));
         }else if ( pos.equals(b20)){
-            direction = Direction.SOUTH_WEST;
+            directions.add(Direction.SOUTH_WEST);
+            if(p20.getText().equals("3")){
+                b20.setDisable(true);
+            }
+            p20.setText(String.valueOf(Integer.parseInt(p20.getText()) + 1));
         }else if ( pos.equals(b21)){
-            direction = Direction.SOUTH;
+            directions.add(Direction.SOUTH);
+            if(p21.getText().equals("3")){
+                b21.setDisable(true);
+            }
+            p21.setText(String.valueOf(Integer.parseInt(p21.getText()) + 1));
         }else if ( pos.equals(b22)){
-            direction = Direction.SOUTH_EAST;
+            directions.add(Direction.SOUTH_EAST);
+            if(p22.getText().equals("3")){
+                b22.setDisable(true);
+            }
+            p22.setText(String.valueOf(Integer.parseInt(p22.getText()) + 1));
         }
-        b00.setDisable(true);
-        b01.setDisable(true);
-        b02.setDisable(true);
-        b10.setDisable(true);
-        b12.setDisable(true);
-        b20.setDisable(true);
-        b21.setDisable(true);
-        b22.setDisable(true);
+        number++;
 
-
-        stage.setOnCloseRequest(e->stage.close());
-        stage.close();
+        if(number==getSelectedNumber()) {
+            b00.setDisable(true);
+            b01.setDisable(true);
+            b02.setDisable(true);
+            b10.setDisable(true);
+            b12.setDisable(true);
+            b20.setDisable(true);
+            b21.setDisable(true);
+            b22.setDisable(true);
+            poseidonParamMessage.setConstructionGender(getConstructionBuilderSex());
+            poseidonParamMessage.setDirection(directions);
+            poseidonParamMessage.setNumberOfBuild(getSelectedNumber());
+            stage.setOnCloseRequest(e->stage.close());
+            stage.close();
+        }
     }
 
     public void initializePoseidonMatrix(){
-        Builder demolitionBuilder;
-
         matrix[0][0] = b00;
         matrix[0][1] = b01;
         matrix[0][2] = b02;
@@ -134,6 +193,87 @@ public class PoseidonController {
         labelMatrix[2][1] = p21;
         labelMatrix[2][2] = p22;
 
+        Builder constructionBuilder = null;
+        if (matchStateMessage.getCurrentPlayer().getPlayingBuilder().getGender() == '\u2640') {
+            constructionBuilder = matchStateMessage.getCurrentPlayer().getBuilderM();
+            constructionBuilderSex = 'M';
+        } else {
+            constructionBuilder = matchStateMessage.getCurrentPlayer().getBuilderF();
+            constructionBuilderSex = 'F';
+        }
+        //Salvataggio della possible buildings
+        constructionBuilder.setBoard(new Board(matchStateMessage.getBoard()));
+        constructionBuilder.setPlayer(matchStateMessage.getCurrentPlayer());
+        int[][] possibleBuildingsP = Board.neighboringLevelCell(constructionBuilder);
 
+        for(int i=0 ; i<3 ;++i){
+            for(int j=0; j<3 ; ++j){
+                if (i != 1 || j != 1) {
+                    if (possibleBuildingsP[i][j] < 0 || possibleBuildingsP[i][j] >= 4) {
+                        matrix[i][j].setStyle("-fx-background-color: #ff0000");
+                        matrix[i][j].setDisable(true);
+                    }
+                    labelMatrix[i][j].setText (possibleBuildingsP[i][j] == -1 ? " "  : String.valueOf(possibleBuildingsP[i][j]));
+                }
+            }
+        }
+    }
+
+    public void initializeButtons(){
+        Builder constructionBuilder = null;
+        char constructionBuilderSex = 'o';
+        if (matchStateMessage.getCurrentPlayer().getPlayingBuilder().getGender() == '\u2640') {
+            constructionBuilder = matchStateMessage.getCurrentPlayer().getBuilderM();
+            constructionBuilderSex = 'M';
+        } else {
+            constructionBuilder = matchStateMessage.getCurrentPlayer().getBuilderF();
+            constructionBuilderSex = 'F';
+        }
+        constructionBuilder.setBoard(new Board(matchStateMessage.getBoard()));
+        constructionBuilder.setPlayer(matchStateMessage.getCurrentPlayer());
+        int[][] possibleBuildingsP = Board.neighboringLevelCell(constructionBuilder);
+        int count = 0;
+        for(int i = 0; i < 3; ++i)
+            for(int j = 0; j < 3; ++j)
+                if(possibleBuildingsP[i][j] >= 0 && possibleBuildingsP[i][j] < 4) count = count + 4 - possibleBuildingsP[i][j];
+
+        //Salvataggio della posizione del builder
+        int[] posBuilder = new int[2];
+        posBuilder[0] = constructionBuilder.getPosX();
+        posBuilder[1] = constructionBuilder.getPosY();
+
+        if(count==1){
+            one.setStyle("-fx-border-color: #00ff00; -fx-border-width: 5px;");
+            two.setDisable(true);
+            two.setStyle("-fx-border-color: #ff0000; -fx-border-width: 5px;");
+            three.setDisable(true);
+            two.setStyle("-fx-border-color: #ff0000; -fx-border-width: 5px;");
+        }else if(count==2){
+            one.setStyle("-fx-border-color: #00ff00; -fx-border-width: 5px;");
+            two.setStyle("-fx-border-color: #00ff00; -fx-border-width: 5px;");
+            three.setDisable(true);
+            two.setStyle("-fx-border-color: #ff0000; -fx-border-width: 5px;");
+        }else {
+            one.setStyle("-fx-border-color: #00ff00; -fx-border-width: 5px;");
+            two.setStyle("-fx-border-color: #00ff00; -fx-border-width: 5px;");
+            three.setStyle("-fx-border-color: #00ff00; -fx-border-width: 5px;");
+        }
+    }
+
+    @FXML
+    public void selectNumber(ActionEvent actionEvent) {
+        Button pos = (Button) actionEvent.getSource();
+        if(pos.getId().equals("one")){
+            selectedNumber = 1;
+        }else if(pos.getId().equals("two")){
+            selectedNumber = 2;
+        }else{
+            selectedNumber = 3;
+        }
+        one.setDisable(true);
+        two.setDisable(true);
+        three.setDisable(true);
+        stage.setOnCloseRequest(e->stage.close());
+        stage.close();
     }
 }
