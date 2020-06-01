@@ -25,11 +25,19 @@ public class ApolloController {
 
     private ArrayList<Player> players;
 
-    private ApolloParamMessage apolloParamMessage;
+    private final ApolloParamMessage apolloParamMessage;
 
-    public ApolloParamMessage getApolloParamMessage() {
+    public ApolloController() {
+        apolloParamMessage = null;
+    }
+
+    public  ApolloParamMessage getApolloParamMessage() {
+        System.out.println("dentro get");
+        System.out.println(apolloParamMessage);
         return apolloParamMessage;
     }
+
+
 
     private Stage stage;
 
@@ -60,11 +68,12 @@ public class ApolloController {
 
 
     Builder chosen = null;
-    char yourBuilderGender;
+    private char yourBuilderGender;
 
     public char getYourBuilderGender() {
         return yourBuilderGender;
     }
+
 
     public void setClient(Client client) {
         this.client = client;
@@ -130,6 +139,7 @@ public class ApolloController {
 
         apolloParamMessage.setYourBuilderGender(getYourBuilderGender());
         apolloParamMessage.setOpponentBuilderDirection(direction);
+        System.out.println(apolloParamMessage);
         stage.setOnCloseRequest(e->stage.close());
         stage.close();
     }

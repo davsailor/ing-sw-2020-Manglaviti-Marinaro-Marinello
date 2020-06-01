@@ -62,8 +62,8 @@ public class PossibleMovesController {
     private Client client;
 
     private AskMoveSelectionMessage askMoveSelectionMessage;
-    private Stage stage;
 
+    private Stage stage;
 
     public void setClient(Client client) {
         this.client = client;

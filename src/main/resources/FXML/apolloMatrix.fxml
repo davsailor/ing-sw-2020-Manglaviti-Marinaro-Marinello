@@ -44,54 +44,14 @@
             <Image url="@../images/MiniBoard.png" />
          </image>
       </ImageView>
-      <Label fx:id="text" layoutX="12.0" layoutY="1.0" prefHeight="30.0" prefWidth="269.0">
+      <Label fx:id="text" layoutX="50.0" layoutY="1.0" prefHeight="30.0" prefWidth="197.0" text="Seleziona la cella nella quale ">
          <font>
             <Font name="Gabriola" size="22.0" />
          </font>
       </Label>
-      <Label fx:id="text2" layoutX="10.0" layoutY="31.0" prefHeight="30.0" prefWidth="269.0">
+      <Label fx:id="text2" layoutX="97.0" layoutY="31.0" prefHeight="30.0" prefWidth="86.0" text="vuoi andare">
          <font>
             <Font name="Gabriola" size="22.0" />
-         </font>
-      </Label>
-      <Label fx:id="p00" layoutX="86.0" layoutY="106.0" prefHeight="45.0" prefWidth="29.0">
-         <font>
-            <Font name="Gabriola" size="39.0" />
-         </font>
-      </Label>
-      <Label fx:id="p10" layoutX="86.0" layoutY="155.0" prefHeight="45.0" prefWidth="29.0">
-         <font>
-            <Font name="Gabriola" size="39.0" />
-         </font>
-      </Label>
-      <Label fx:id="p01" layoutX="138.0" layoutY="106.0" prefHeight="45.0" prefWidth="29.0">
-         <font>
-            <Font name="Gabriola" size="39.0" />
-         </font>
-      </Label>
-      <Label fx:id="p22" layoutX="188.0" layoutY="211.0" prefHeight="45.0" prefWidth="29.0">
-         <font>
-            <Font name="Gabriola" size="39.0" />
-         </font>
-      </Label>
-      <Label fx:id="p21" layoutX="138.0" layoutY="211.0" prefHeight="45.0" prefWidth="29.0">
-         <font>
-            <Font name="Gabriola" size="39.0" />
-         </font>
-      </Label>
-      <Label fx:id="p20" layoutX="86.0" layoutY="211.0" prefHeight="45.0" prefWidth="29.0">
-         <font>
-            <Font name="Gabriola" size="39.0" />
-         </font>
-      </Label>
-      <Label fx:id="p12" layoutX="188.0" layoutY="160.0" prefHeight="45.0" prefWidth="29.0">
-         <font>
-            <Font name="Gabriola" size="39.0" />
-         </font>
-      </Label>
-      <Label fx:id="p02" layoutX="188.0" layoutY="106.0" prefHeight="45.0" prefWidth="29.0">
-         <font>
-            <Font name="Gabriola" size="39.0" />
          </font>
       </Label>
       <Button fx:id="b00" layoutX="73.0" layoutY="113.0" mnemonicParsing="false" onAction="#selectSwap" opacity="0.37" prefHeight="45.0" prefWidth="47.0" />

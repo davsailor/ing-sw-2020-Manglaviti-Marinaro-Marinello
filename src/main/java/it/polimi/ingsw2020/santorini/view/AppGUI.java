@@ -34,6 +34,7 @@ public class AppGUI extends Application implements ViewInterface{
 
     private Client client;
     private Stage primaryStage;
+
     private RegisterController registerController;
     private InfoMatchController infoMatchController;
     private SelectionBuilderController selectionBuilderController;
@@ -49,10 +50,27 @@ public class AppGUI extends Application implements ViewInterface{
     private AskNewMatchController askNewMatchController;
     private ApolloController apolloController;
     private AresController aresController;
+    private ArtemisController artemisController;
+    private AtlasController atlasController;
+    private DemeterController demeterController;
+    private HestiaController hestiaController;
+    private MinotaurController minotaurController;
+    private PoseidonController poseidonController;
+    private PrometheusController prometheusController;
+
     private ArrayList<Player> players;
     private boolean infoMatchDisplay = true;
 
-    private ApolloParamMessage apolloParamMessage;
+    public ApolloParamMessage apolloParamMessage;
+    private AresParamMessage aresParamMessage;
+    private ArtemisParamMessage artemisParamMessage;
+    private AtlasParamMessage atlasParamMessage;
+    private DemeterParamMessage demeterParamMessage;
+    private HestiaParamMessage hestiaParamMessage;
+    private MinotaurParamMessage minotaurParamMessage;
+    private PoseidonParamMessage poseidonParamMessage;
+    private PrometheusParamMessage prometheusParamMessage;
+
 
 
 
@@ -279,6 +297,7 @@ public class AppGUI extends Application implements ViewInterface{
             swapStage.setTitle("APOLLO POWER");
             swapStage.setScene(scene);
             swapStage.showAndWait();
+            Builder chosen = apolloController.getChosen();
 
             Stage stage = new Stage();
             stage.setOnCloseRequest(Event::consume);
@@ -292,19 +311,19 @@ public class AppGUI extends Application implements ViewInterface{
                 children = loader.load();
                 swapScene = new Scene(children);
             } catch (IOException e) {
-                root = null;
+                children = null;
                 swapScene = new Scene(new Label("ERROR "));
             }
-            Builder chosen = apolloController.getChosen();
 
+            System.out.println(chosen.getGender());
             apolloController = loader.getController();
             apolloController.setStage(stage);
+            apolloController.setMatchStateMessage(message);
             apolloController.initializeApolloMatrix(Board.neighboringSwappingCell(chosen, AccessType.OCCUPIED));
-            apolloController.setStage(stage);
             stage.setScene(swapScene);
             stage.showAndWait();
             apolloParamMessage = apolloController.getApolloParamMessage();
-            System.out.println(apolloParamMessage);
+            System.out.println(apolloParamMessage);// TODO : PERCHE' E' NULL??????
         });
         return apolloParamMessage;
 
@@ -321,7 +340,34 @@ public class AppGUI extends Application implements ViewInterface{
      */
     @Override
     public AresParamMessage displayAresParamSel(MatchStateMessage message) {
-        return null;
+        Platform.runLater(()->{
+            Stage stage = new Stage();
+            stage.setOnCloseRequest(Event::consume);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            FXMLLoader loader = new FXMLLoader();
+            Parent children;
+            Scene demolitionScene;
+            loader.setLocation(getClass().getResource("/FXML/AresMatrix.fxml"));
+            try {
+                children = loader.load();
+                demolitionScene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                demolitionScene = new Scene(new Label("ERROR "));
+            }
+
+            aresController = loader.getController();
+            aresController.setClient(client);
+            aresController.setStage(stage);
+            aresController.setMatchStateMessage(message);
+            aresController.initializeAresMatrix();
+            stage.setScene(demolitionScene);
+            stage.showAndWait();
+            aresParamMessage = aresController.getAresParamMessage();
+            System.out.println(apolloParamMessage);// TODO : PERCHE' E' NULL??????
+    });
+
+        return aresParamMessage;
     }
 
     /**
@@ -336,7 +382,34 @@ public class AppGUI extends Application implements ViewInterface{
      */
     @Override
     public ArtemisParamMessage displayArtemisParamSel(MatchStateMessage message) {
-        return null;
+        Platform.runLater(()->{
+            Stage stage = new Stage();
+            stage.setOnCloseRequest(Event::consume);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            FXMLLoader loader = new FXMLLoader();
+            Parent children;
+            Scene demolitionScene;
+            loader.setLocation(getClass().getResource("/FXML/ArtemisMatrix.fxml"));
+            try {
+                children = loader.load();
+                demolitionScene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                demolitionScene = new Scene(new Label("ERROR "));
+            }
+
+            artemisController = loader.getController();
+            artemisController.setClient(client);
+            artemisController.setStage(stage);
+            artemisController.setMatchStateMessage(message);
+            artemisController.initializeArtemisMatrix();
+            stage.setScene(demolitionScene);
+            stage.showAndWait();
+            artemisParamMessage = artemisController.getArtemisParamMessage();
+            System.out.println(artemisParamMessage);// TODO : PERCHE' E' NULL??????
+        });
+
+        return artemisParamMessage;
     }
 
     /**
@@ -351,7 +424,34 @@ public class AppGUI extends Application implements ViewInterface{
      */
     @Override
     public AtlasParamMessage displayAtlasParamSel(MatchStateMessage message) {
-        return null;
+        Platform.runLater(()->{
+            Stage stage = new Stage();
+            stage.setOnCloseRequest(Event::consume);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            FXMLLoader loader = new FXMLLoader();
+            Parent children;
+            Scene demolitionScene;
+            loader.setLocation(getClass().getResource("/FXML/AtlasMatrix.fxml"));
+            try {
+                children = loader.load();
+                demolitionScene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                demolitionScene = new Scene(new Label("ERROR "));
+            }
+
+            atlasController = loader.getController();
+            atlasController.setClient(client);
+            atlasController.setStage(stage);
+            atlasController.setMatchStateMessage(message);
+            atlasController.initializeAtlasMatrix();
+            stage.setScene(demolitionScene);
+            stage.showAndWait();
+            atlasParamMessage = atlasController.getAtlasParamMessage();
+            System.out.println(atlasParamMessage);// TODO : PERCHE' E' NULL??????
+        });
+
+        return atlasParamMessage;
     }
 
     /**
@@ -366,7 +466,34 @@ public class AppGUI extends Application implements ViewInterface{
      */
     @Override
     public DemeterParamMessage displayDemeterParamSel(MatchStateMessage message) {
-        return null;
+        Platform.runLater(()->{
+            Stage stage = new Stage();
+            stage.setOnCloseRequest(Event::consume);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            FXMLLoader loader = new FXMLLoader();
+            Parent children;
+            Scene demolitionScene;
+            loader.setLocation(getClass().getResource("/FXML/DemeterMatrix.fxml"));
+            try {
+                children = loader.load();
+                demolitionScene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                demolitionScene = new Scene(new Label("ERROR "));
+            }
+
+            demeterController = loader.getController();
+            demeterController.setClient(client);
+            demeterController.setStage(stage);
+            demeterController.setMatchStateMessage(message);
+            demeterController.initializeDemeterMatrix();
+            stage.setScene(demolitionScene);
+            stage.showAndWait();
+            demeterParamMessage = demeterController.getDemeterParamMessage();
+            System.out.println(demeterParamMessage);// TODO : PERCHE' E' NULL??????
+        });
+
+        return demeterParamMessage;
     }
 
     /**
@@ -381,7 +508,34 @@ public class AppGUI extends Application implements ViewInterface{
      */
     @Override
     public HestiaParamMessage displayHestiaParamSel(MatchStateMessage message) {
-        return null;
+        Platform.runLater(()->{
+            Stage stage = new Stage();
+            stage.setOnCloseRequest(Event::consume);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            FXMLLoader loader = new FXMLLoader();
+            Parent children;
+            Scene demolitionScene;
+            loader.setLocation(getClass().getResource("/FXML/HestiaMatrix.fxml"));
+            try {
+                children = loader.load();
+                demolitionScene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                demolitionScene = new Scene(new Label("ERROR "));
+            }
+
+            hestiaController = loader.getController();
+            hestiaController.setClient(client);
+            hestiaController.setStage(stage);
+            hestiaController.setMatchStateMessage(message);
+            hestiaController.initializeHestiaMatrix();
+            stage.setScene(demolitionScene);
+            stage.showAndWait();
+            hestiaParamMessage = hestiaController.getHestiaParamMessage();
+            System.out.println(hestiaParamMessage);// TODO : PERCHE' E' NULL??????
+        });
+
+        return hestiaParamMessage;
     }
 
     /**
@@ -395,7 +549,34 @@ public class AppGUI extends Application implements ViewInterface{
      */
     @Override
     public MinotaurParamMessage displayMinotaurParamSel(MatchStateMessage message) {
-        return null;
+        Platform.runLater(()->{
+            Stage stage = new Stage();
+            stage.setOnCloseRequest(Event::consume);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            FXMLLoader loader = new FXMLLoader();
+            Parent children;
+            Scene demolitionScene;
+            loader.setLocation(getClass().getResource("/FXML/AresMatrix.fxml"));
+            try {
+                children = loader.load();
+                demolitionScene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                demolitionScene = new Scene(new Label("ERROR "));
+            }
+
+            minotaurController = loader.getController();
+            minotaurController.setClient(client);
+            minotaurController.setStage(stage);
+            minotaurController.setMatchStateMessage(message);
+            minotaurController.initializeMinotaurMatrix();
+            stage.setScene(demolitionScene);
+            stage.showAndWait();
+            minotaurParamMessage = minotaurController.getMinotaurParamMessage();
+            System.out.println(minotaurParamMessage);// TODO : PERCHE' E' NULL??????
+        });
+
+        return minotaurParamMessage;
     }
 
     /**
@@ -411,7 +592,34 @@ public class AppGUI extends Application implements ViewInterface{
      */
     @Override
     public PoseidonParamMessage displayPoseidonParamSel(MatchStateMessage message) {
-        return null;
+        Platform.runLater(()->{
+            Stage stage = new Stage();
+            stage.setOnCloseRequest(Event::consume);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            FXMLLoader loader = new FXMLLoader();
+            Parent children;
+            Scene demolitionScene;
+            loader.setLocation(getClass().getResource("/FXML/PoseidonMatrix.fxml"));
+            try {
+                children = loader.load();
+                demolitionScene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                demolitionScene = new Scene(new Label("ERROR "));
+            }
+
+            poseidonController = loader.getController();
+            poseidonController.setClient(client);
+            poseidonController.setStage(stage);
+            poseidonController.setMatchStateMessage(message);
+            poseidonController.initializePoseidonMatrix();
+            stage.setScene(demolitionScene);
+            stage.showAndWait();
+            poseidonParamMessage = poseidonController.getPoseidonParamMessage();
+            System.out.println(poseidonParamMessage);// TODO : PERCHE' E' NULL??????
+        });
+
+        return poseidonParamMessage;
     }
 
     /**
@@ -427,7 +635,34 @@ public class AppGUI extends Application implements ViewInterface{
      */
     @Override
     public PrometheusParamMessage displayPrometheusParamSel(MatchStateMessage message) {
-        return null;
+        Platform.runLater(()->{
+            Stage stage = new Stage();
+            stage.setOnCloseRequest(Event::consume);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            FXMLLoader loader = new FXMLLoader();
+            Parent children;
+            Scene demolitionScene;
+            loader.setLocation(getClass().getResource("/FXML/PrometheusMatrix.fxml"));
+            try {
+                children = loader.load();
+                demolitionScene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                demolitionScene = new Scene(new Label("ERROR "));
+            }
+
+            prometheusController = loader.getController();
+            prometheusController.setClient(client);
+            prometheusController.setStage(stage);
+            prometheusController.setMatchStateMessage(message);
+            prometheusController.initializePrometheusMatrix();
+            stage.setScene(demolitionScene);
+            stage.showAndWait();
+            prometheusParamMessage = prometheusController.getPrometheusParamMessage();
+            System.out.println(prometheusParamMessage);// TODO : PERCHE' E' NULL??????
+        });
+
+        return prometheusParamMessage;
     }
 
 
@@ -924,7 +1159,6 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public void displayEndMatch(String winner) {
         Platform.runLater(()->{
-
             Parent children;
             Scene scene;
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -944,11 +1178,7 @@ public class AppGUI extends Application implements ViewInterface{
                 endMatchController.setWinner();
                 primaryStage.setScene(scene);
                 primaryStage.show();
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();//TODO ricordiamo di cancellare sto print stack trace
-                }
+
             }else{
                 fxmlLoader.setLocation(getClass().getResource("/FXML/LoserWindow.fxml"));
 
@@ -964,12 +1194,11 @@ public class AppGUI extends Application implements ViewInterface{
                 primaryStage.setScene(scene);
                 primaryStage.show();
                 System.out.println("LOSER");
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();//TODO ricordiamo di cancellare sto print stack trace
-                }
+
             }
+            Stage stage = new Stage();
+            stage.setOnCloseRequest(Event::consume);
+            stage.initModality(Modality.APPLICATION_MODAL);
             FXMLLoader loader_new = new FXMLLoader();
             loader_new.setLocation(getClass().getResource("/FXML/AskNewMatch.fxml"));
             try {
@@ -980,8 +1209,8 @@ public class AppGUI extends Application implements ViewInterface{
                 scene = new Scene(new Label ("ERROR "));
             }
             askNewMatchController = loader_new.getController();
-            primaryStage.setScene(scene);
-            primaryStage.showAndWait();
+            stage.setScene(scene);
+            stage.showAndWait();
 
 
             FXMLLoader loader = new FXMLLoader();

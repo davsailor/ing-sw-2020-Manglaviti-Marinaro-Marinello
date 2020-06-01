@@ -11,9 +11,8 @@ public class AskNewMatchController {
     Button yesButton;
     @FXML
     Button noButton;
-    private String answer;
 
-    private boolean notDone = true;
+    public String answer;
 
     public void newMatch(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();
@@ -24,12 +23,7 @@ public class AskNewMatchController {
         }
         yesButton.setDisable(true);
         noButton.setDisable(true);
-        notDone = false;
     }
-    public boolean isNotDone() {
-        return notDone;
-    }
-
 
     public void setAnswer(String answer) {
         this.answer = answer;

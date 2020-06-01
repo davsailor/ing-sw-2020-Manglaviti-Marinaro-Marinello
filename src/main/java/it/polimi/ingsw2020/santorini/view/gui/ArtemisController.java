@@ -1,10 +1,10 @@
 package it.polimi.ingsw2020.santorini.view.gui;
 
-import it.polimi.ingsw2020.santorini.model.Board;
 import it.polimi.ingsw2020.santorini.model.Builder;
 import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.utils.Direction;
-import it.polimi.ingsw2020.santorini.utils.messages.godsParam.AresParamMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.godsParam.ArtemisParamMessage;
+import it.polimi.ingsw2020.santorini.utils.messages.godsParam.AtlasParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,11 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-public class AresController {
-
-
-
-    private AresParamMessage aresParamMessage;
+public class ArtemisController {
 
     private Stage stage;
 
@@ -26,9 +22,9 @@ public class AresController {
 
     private Client client;
 
-    public char demolitionBuilderSex;
-
     private MatchStateMessage matchStateMessage;
+
+    private ArtemisParamMessage artemisParamMessage;
 
     public void setClient(Client client) {
         this.client = client;
@@ -42,12 +38,8 @@ public class AresController {
         this.matchStateMessage = matchStateMessage;
     }
 
-    public char getDemolitionBuilderSex() {
-        return demolitionBuilderSex;
-    }
-
-    public AresParamMessage getAresParamMessage() {
-        return aresParamMessage;
+    public ArtemisParamMessage getArtemisParamMessage() {
+        return artemisParamMessage;
     }
 
     @FXML
@@ -116,13 +108,11 @@ public class AresController {
         b21.setDisable(true);
         b22.setDisable(true);
 
-        aresParamMessage.setDemolitionBuilderSex(demolitionBuilderSex);
-        aresParamMessage.setTargetedBlock(direction);
+
         stage.setOnCloseRequest(e->stage.close());
         stage.close();
     }
-
-    public void initializeAresMatrix(){
+    public void initializeArtemisMatrix() {
         Builder demolitionBuilder;
 
         matrix[0][0] = b00;
@@ -142,29 +132,5 @@ public class AresController {
         labelMatrix[2][0] = p20;
         labelMatrix[2][1] = p21;
         labelMatrix[2][2] = p22;
-
-        if(matchStateMessage.getCurrentPlayer().getPlayingBuilder().getGender() == '\u2640'){
-            demolitionBuilder = matchStateMessage.getCurrentPlayer().getBuilderM();
-            demolitionBuilderSex = 'M';
-        } else {
-            demolitionBuilder = matchStateMessage.getCurrentPlayer().getBuilderF();
-            demolitionBuilderSex = 'F';
-        }
-        demolitionBuilder.setBoard(new Board(matchStateMessage.getBoard()));
-        demolitionBuilder.setPlayer(matchStateMessage.getCurrentPlayer());
-
-        int[][] neighboringLevelCell = Board.neighboringLevelCell(demolitionBuilder);
-
-        for(int i=0; i<3; ++i){
-            for (int j=0; j<3;++j){
-                if(i!=1 || j!= 1){
-                    if (neighboringLevelCell[i][j] <= 0 || neighboringLevelCell[i][j] >= 4) {
-                        matrix[i][j].setStyle("-fx-background-color: #ff0000");
-                        matrix[i][j].setDisable(true);
-                    }
-                }
-            }
-        }
     }
-
 }
