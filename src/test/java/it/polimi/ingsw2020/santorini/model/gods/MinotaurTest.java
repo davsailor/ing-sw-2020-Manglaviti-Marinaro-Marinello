@@ -13,6 +13,7 @@ import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.ApolloParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.MinotaurParamMessage;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -69,6 +70,11 @@ public class MinotaurTest {
         godParamMessage.setOpponentBuilderDirection(Direction.NORTH_WEST);
         message.buildMinotaurParamMessage(godParamMessage);
         player1.setPlayingBuilder(player1.getBuilderF());
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        server.close();
     }
 
     @Test

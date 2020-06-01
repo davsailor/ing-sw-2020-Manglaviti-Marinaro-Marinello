@@ -71,6 +71,10 @@ public class TurnLogic {
         return phase;
     }
 
+    public void setPhase(PhaseType phase) {
+        this.phase = phase;
+    }
+
     /**
      * method that sets the effect of chronus if it is activated.
      * necessary since chronus is an ALWAYS_ACTIVE like effect, unique in its genre

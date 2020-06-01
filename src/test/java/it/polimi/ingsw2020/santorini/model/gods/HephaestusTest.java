@@ -13,6 +13,7 @@ import it.polimi.ingsw2020.santorini.utils.LevelType;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.DemeterParamMessage;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,7 +30,6 @@ public class HephaestusTest {
     private TurnLogic turnLogic;
     private PhaseType phase;
     private Message message;
-
 
     @Before
     public void setUp() throws Exception {
@@ -64,6 +64,11 @@ public class HephaestusTest {
         turnLogic.setStartTurn();
         message = new Message("Dog");
         player1.setPlayingBuilder(player1.getBuilderF());
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        server.close();
     }
 
     @Test

@@ -14,6 +14,7 @@ import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.ApolloParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.AresParamMessage;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -71,6 +72,11 @@ public class AresTest {
         message.buildAresParamMessage(godParamMessage);
         player1.setPlayingBuilder(player1.getBuilderF());
         player1.getBuilderF().build(Direction.NORTH_WEST, controller.getMatch());
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        server.close();
     }
 
     @Test

@@ -12,6 +12,7 @@ import it.polimi.ingsw2020.santorini.utils.Direction;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.ApolloParamMessage;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -68,6 +69,11 @@ public class ApolloTest {
         godParamMessage.setYourBuilderGender(player1.getBuilderF().getGender());
         godParamMessage.setOpponentBuilderDirection(Direction.NORTH_WEST);
         message.buildApolloParamMessage(godParamMessage);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        server.close();
     }
 
     @Test

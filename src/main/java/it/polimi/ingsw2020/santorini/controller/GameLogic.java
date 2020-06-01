@@ -14,7 +14,6 @@ import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.*;
 import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Observable;
 import java.util.Observer;
 @SuppressWarnings("deprecation")

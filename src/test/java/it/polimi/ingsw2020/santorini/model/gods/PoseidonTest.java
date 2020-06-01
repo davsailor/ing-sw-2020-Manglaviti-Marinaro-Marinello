@@ -13,6 +13,7 @@ import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.HestiaParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.PoseidonParamMessage;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -73,6 +74,11 @@ public class PoseidonTest {
         godParamMessage.setDirection(direction);
         message.buildPoseidonParamMessage(godParamMessage);
         player1.setPlayingBuilder(player1.getBuilderF());
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        server.close();
     }
 
     @Test

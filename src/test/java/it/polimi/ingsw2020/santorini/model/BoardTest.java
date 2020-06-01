@@ -4,6 +4,7 @@ import it.polimi.ingsw2020.santorini.utils.AccessType;
 import it.polimi.ingsw2020.santorini.utils.Color;
 import it.polimi.ingsw2020.santorini.utils.LevelType;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,9 +33,6 @@ public class BoardTest {
         Builder builder2 = new Builder(player2, 'M', board, pos);
         player2.setBuilderM(builder2);
     }
-
-
-
 
     @Test
     public void testNeighboringStatusCell() {

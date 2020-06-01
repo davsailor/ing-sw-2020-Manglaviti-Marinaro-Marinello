@@ -9,6 +9,7 @@ import it.polimi.ingsw2020.santorini.network.server.Server;
 import it.polimi.ingsw2020.santorini.network.server.VirtualView;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -61,6 +62,12 @@ public class ChronusTest {
         player1.setPlayingBuilder(player1.getBuilderF());
         controller.getMatch().setCurrentPlayerIndex(0);
     }
+
+    @After
+    public void tearDown() throws Exception {
+        server.close();
+    }
+
     @Test(expected =  EndMatchException.class)
     public void testInvokeGod() throws EndMatchException {
         controller.getMatch().setNumberOfCompletedTowers(5);

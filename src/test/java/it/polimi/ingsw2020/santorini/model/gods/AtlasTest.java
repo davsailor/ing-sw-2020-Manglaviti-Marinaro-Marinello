@@ -12,6 +12,7 @@ import it.polimi.ingsw2020.santorini.utils.LevelType;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PhaseType;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.AtlasParamMessage;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -66,6 +67,11 @@ public class AtlasTest {
         godParamMessage.setDirection(Direction.NORTH_WEST);
         message.buildAtlasParamMessage(godParamMessage);
         player1.setPlayingBuilder(player1.getBuilderF());
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        server.close();
     }
 
     @Test

@@ -83,6 +83,10 @@ public class Server {
         return playerInMatch;
     }
 
+    public HashMap<Player, Integer> getWaitingPlayers() {
+        return waitingPlayers;
+    }
+
     /**
      * synchronized method that checks if a new match can be crated, looking at the waiting players queue
      * @param numberOfPlayers the number of players of the match we aro looking for
