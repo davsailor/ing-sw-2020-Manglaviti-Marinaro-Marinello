@@ -24,7 +24,7 @@ public class MinotaurController {
 
     private MatchStateMessage matchStateMessage;
 
-    private MinotaurParamMessage minotaurParamMessage;
+    private MinotaurParamMessage minotaurParamMessage = new MinotaurParamMessage();
 
     public void setClient(Client client) {
         this.client = client;

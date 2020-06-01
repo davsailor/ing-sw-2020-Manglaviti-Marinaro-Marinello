@@ -12,7 +12,7 @@ public class AskNewMatchController {
     @FXML
     Button noButton;
 
-    public String answer;
+    private String answer;
 
     public void newMatch(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();

@@ -1,9 +1,8 @@
 package it.polimi.ingsw2020.santorini.view.gui;
 
-import it.polimi.ingsw2020.santorini.model.Builder;
+import it.polimi.ingsw2020.santorini.model.Board;
 import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.utils.Direction;
-import it.polimi.ingsw2020.santorini.utils.messages.godsParam.AresParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.HestiaParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 import javafx.event.ActionEvent;
@@ -24,7 +23,7 @@ public class HestiaController {
 
     private MatchStateMessage matchStateMessage;
 
-    private HestiaParamMessage hestiaParamMessage;
+    private HestiaParamMessage hestiaParamMessage = new HestiaParamMessage();
 
     public void setClient(Client client) {
         this.client = client;
@@ -79,7 +78,8 @@ public class HestiaController {
     @FXML
     Label p22;
 
-    public void selectDemolition(ActionEvent actionEvent) {
+    @FXML
+    public void build(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();
         Direction direction = null;
         if(pos.equals(b00)){
@@ -107,15 +107,13 @@ public class HestiaController {
         b20.setDisable(true);
         b21.setDisable(true);
         b22.setDisable(true);
-
-
+        hestiaParamMessage.setDirection(direction);
         stage.setOnCloseRequest(e->stage.close());
         stage.close();
     }
 
 
     public void initializeHestiaMatrix(){
-        Builder demolitionBuilder;
 
         matrix[0][0] = b00;
         matrix[0][1] = b01;
@@ -135,6 +133,48 @@ public class HestiaController {
         labelMatrix[2][1] = p21;
         labelMatrix[2][2] = p22;
 
+        int[] posBuilder = new int[2];
+        posBuilder[0] = matchStateMessage.getCurrentPlayer().getPlayingBuilder().getPosX();
+        posBuilder[1] =matchStateMessage.getCurrentPlayer().getPlayingBuilder().getPosY();
 
+
+        int[][] neighboringLevelCell = Board.neighboringLevelCell(matchStateMessage.getCurrentPlayer().getPlayingBuilder());
+        if(matchStateMessage.getCurrentPlayer().getPlayingBuilder().getPosX() == 1 || matchStateMessage.getCurrentPlayer().getPlayingBuilder().getPosX() == 5){
+            neighboringLevelCell[1][0] = -1;
+            neighboringLevelCell[1][1] = -1;
+            neighboringLevelCell[1][2] = -1;
+        } else if(matchStateMessage.getCurrentPlayer().getPlayingBuilder().getPosX() == 2){
+            neighboringLevelCell[0][0] = -1;
+            neighboringLevelCell[0][1] = -1;
+            neighboringLevelCell[0][2] = -1;
+        } else if(matchStateMessage.getCurrentPlayer().getPlayingBuilder().getPosX() == 4){
+            neighboringLevelCell[2][0] = -1;
+            neighboringLevelCell[2][1] = -1;
+            neighboringLevelCell[2][2] = -1;
+        }
+        if(matchStateMessage.getCurrentPlayer().getPlayingBuilder().getPosY() == 1 || matchStateMessage.getCurrentPlayer().getPlayingBuilder().getPosY() == 5){
+            neighboringLevelCell[0][1] = -1;
+            neighboringLevelCell[1][1] = -1;
+            neighboringLevelCell[2][1] = -1;
+        } else if(matchStateMessage.getCurrentPlayer().getPlayingBuilder().getPosY() == 2){
+            neighboringLevelCell[0][0] = -1;
+            neighboringLevelCell[1][0] = -1;
+            neighboringLevelCell[2][0] = -1;
+        } else if(matchStateMessage.getCurrentPlayer().getPlayingBuilder().getPosY() == 4){
+            neighboringLevelCell[0][2] = -1;
+            neighboringLevelCell[1][2] = -1;
+            neighboringLevelCell[2][2] = -1;
+        }
+        for(int i=0 ; i<3 ;++i){
+            for(int j=0; j<3 ; ++j){
+                if (i != 1 || j != 1) {
+                    if (neighboringLevelCell[i][j] < 0 || neighboringLevelCell[i][j] >= 4) {
+                        matrix[i][j].setStyle("-fx-background-color: #ff0000");
+                        matrix[i][j].setDisable(true);
+                    }
+                    labelMatrix[i][j].setText (neighboringLevelCell[i][j] == -1 ? " "  : String.valueOf(neighboringLevelCell[i][j]));
+                }
+            }
+        }
     }
 }

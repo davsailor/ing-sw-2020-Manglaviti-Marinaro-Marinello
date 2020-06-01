@@ -19,10 +19,7 @@ public class ParametersSelectionController {
         this.matchStateMessage = matchStateMessage;
     }
 
-    @FXML
-    public void selectParam(ActionEvent actionEvent){
 
-    }
 
     public void setText(){
         switch (matchStateMessage.getCurrentPlayer().getDivinePower().getName()){

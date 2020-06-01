@@ -24,7 +24,7 @@ public class PoseidonController {
 
     private MatchStateMessage matchStateMessage;
 
-    private PoseidonParamMessage poseidonParamMessage;
+    private PoseidonParamMessage poseidonParamMessage = new PoseidonParamMessage();
 
     public void setClient(Client client) {
         this.client = client;

@@ -1,10 +1,8 @@
 package it.polimi.ingsw2020.santorini.view.gui;
 
-import it.polimi.ingsw2020.santorini.model.Builder;
 import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.utils.Direction;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.ArtemisParamMessage;
-import it.polimi.ingsw2020.santorini.utils.messages.godsParam.AtlasParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,13 +16,11 @@ public class ArtemisController {
 
     private Button[][] matrix = new Button[3][3];
 
-    private Label[][] labelMatrix = new Label[3][3];
-
     private Client client;
 
     private MatchStateMessage matchStateMessage;
 
-    private ArtemisParamMessage artemisParamMessage;
+    private ArtemisParamMessage artemisParamMessage = new ArtemisParamMessage();
 
     public void setClient(Client client) {
         this.client = client;
@@ -62,24 +58,9 @@ public class ArtemisController {
     Button b21;
     @FXML
     Button b22;
-    @FXML
-    Label p00;
-    @FXML
-    Label p01;
-    @FXML
-    Label p02;
-    @FXML
-    Label p10;
-    @FXML
-    Label p12;
-    @FXML
-    Label p20;
-    @FXML
-    Label p21;
-    @FXML
-    Label p22;
 
-    public void selectDemolition(ActionEvent actionEvent) {
+
+    public void selectMove(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();
         Direction direction = null;
         if(pos.equals(b00)){
@@ -108,12 +89,12 @@ public class ArtemisController {
         b21.setDisable(true);
         b22.setDisable(true);
 
-
+        artemisParamMessage.setDirection(direction);
         stage.setOnCloseRequest(e->stage.close());
         stage.close();
     }
     public void initializeArtemisMatrix() {
-        Builder demolitionBuilder;
+        int[][] possibleMoves = matchStateMessage.getCurrentPlayer().getPlayingBuilder().getPossibleMoves();
 
         matrix[0][0] = b00;
         matrix[0][1] = b01;
@@ -124,13 +105,15 @@ public class ArtemisController {
         matrix[2][1] = b21;
         matrix[2][2] = b22;
 
-        labelMatrix[0][0] = p00;
-        labelMatrix[0][1] = p01;
-        labelMatrix[0][2] = p02;
-        labelMatrix[1][0] = p10;
-        labelMatrix[1][2] = p12;
-        labelMatrix[2][0] = p20;
-        labelMatrix[2][1] = p21;
-        labelMatrix[2][2] = p22;
+        for(int i=0 ; i<3 ;++i){
+            for(int j=0; j<3 ; ++j){
+                if (i!=1 || j!= 1){
+                    if (possibleMoves[i][j] == 0) {
+                        matrix[i][j].setStyle("-fx-background-color: #ff0000");
+                        matrix[i][j].setDisable(true);
+                    }
+                }
+            }
+        }
     }
 }

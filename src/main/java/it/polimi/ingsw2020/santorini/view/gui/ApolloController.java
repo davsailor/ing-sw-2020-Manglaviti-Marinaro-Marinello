@@ -25,11 +25,9 @@ public class ApolloController {
 
     private ArrayList<Player> players;
 
-    private final ApolloParamMessage apolloParamMessage;
+    private  ApolloParamMessage apolloParamMessage = new ApolloParamMessage();
 
-    public ApolloController() {
-        apolloParamMessage = null;
-    }
+
 
     public  ApolloParamMessage getApolloParamMessage() {
         System.out.println("dentro get");
@@ -108,7 +106,6 @@ public class ApolloController {
 
     @FXML
     public void selectSwap(ActionEvent actionEvent){
-        ApolloParamMessage apolloParamMessage = new ApolloParamMessage();
         Button pos = (Button) actionEvent.getSource();
         Direction direction = null;
         if(pos.equals(b00)){

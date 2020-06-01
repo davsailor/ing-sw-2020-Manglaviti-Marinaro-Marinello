@@ -16,7 +16,7 @@ public class AresController {
 
 
 
-    private AresParamMessage aresParamMessage;
+    private AresParamMessage aresParamMessage = new AresParamMessage();
 
     private Stage stage;
 

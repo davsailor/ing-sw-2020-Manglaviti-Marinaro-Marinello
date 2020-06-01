@@ -146,7 +146,6 @@ public class PossibleMovesController {
                         matrix[i][j].setStyle("-fx-background-color: #ff0000");
                         matrix[i][j].setDisable(true);
                     }
-                    // TODO : SETTARE I PIANI??
                 }
             }
         }

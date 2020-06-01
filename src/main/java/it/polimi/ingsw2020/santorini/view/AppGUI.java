@@ -61,7 +61,7 @@ public class AppGUI extends Application implements ViewInterface{
     private ArrayList<Player> players;
     private boolean infoMatchDisplay = true;
 
-    public ApolloParamMessage apolloParamMessage;
+    private ApolloParamMessage apolloParamMessage;
     private AresParamMessage aresParamMessage;
     private ArtemisParamMessage artemisParamMessage;
     private AtlasParamMessage atlasParamMessage;
@@ -323,8 +323,9 @@ public class AppGUI extends Application implements ViewInterface{
             stage.setScene(swapScene);
             stage.showAndWait();
             apolloParamMessage = apolloController.getApolloParamMessage();
-            System.out.println(apolloParamMessage);// TODO : PERCHE' E' NULL??????
+            System.out.println(apolloParamMessage);
         });
+
         return apolloParamMessage;
 
     }
@@ -364,7 +365,7 @@ public class AppGUI extends Application implements ViewInterface{
             stage.setScene(demolitionScene);
             stage.showAndWait();
             aresParamMessage = aresController.getAresParamMessage();
-            System.out.println(apolloParamMessage);// TODO : PERCHE' E' NULL??????
+            System.out.println(apolloParamMessage);
     });
 
         return aresParamMessage;
@@ -388,14 +389,14 @@ public class AppGUI extends Application implements ViewInterface{
             stage.initModality(Modality.APPLICATION_MODAL);
             FXMLLoader loader = new FXMLLoader();
             Parent children;
-            Scene demolitionScene;
+            Scene moveScene;
             loader.setLocation(getClass().getResource("/FXML/ArtemisMatrix.fxml"));
             try {
                 children = loader.load();
-                demolitionScene = new Scene(children);
+                moveScene = new Scene(children);
             } catch (IOException e) {
                 children = null;
-                demolitionScene = new Scene(new Label("ERROR "));
+                moveScene = new Scene(new Label("ERROR "));
             }
 
             artemisController = loader.getController();
@@ -403,12 +404,11 @@ public class AppGUI extends Application implements ViewInterface{
             artemisController.setStage(stage);
             artemisController.setMatchStateMessage(message);
             artemisController.initializeArtemisMatrix();
-            stage.setScene(demolitionScene);
+            stage.setScene(moveScene);
             stage.showAndWait();
             artemisParamMessage = artemisController.getArtemisParamMessage();
-            System.out.println(artemisParamMessage);// TODO : PERCHE' E' NULL??????
+            System.out.println(artemisParamMessage);
         });
-
         return artemisParamMessage;
     }
 

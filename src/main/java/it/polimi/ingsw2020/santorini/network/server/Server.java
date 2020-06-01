@@ -212,8 +212,4 @@ public class Server {
             System.out.println("cannot close server port");
         }
     }
-
-    public HashMap<Player, Integer> getWaitingPlayers() {
-        return waitingPlayers;
-    }
 }

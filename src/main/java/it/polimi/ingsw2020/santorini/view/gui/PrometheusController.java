@@ -24,7 +24,7 @@ public class PrometheusController {
 
     private MatchStateMessage matchStateMessage;
 
-    private PrometheusParamMessage prometheusParamMessage;
+    private PrometheusParamMessage prometheusParamMessage = new PrometheusParamMessage();
 
     public void setClient(Client client) {
         this.client = client;

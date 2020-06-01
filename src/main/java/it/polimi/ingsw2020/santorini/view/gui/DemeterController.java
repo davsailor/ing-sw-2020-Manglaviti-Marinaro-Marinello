@@ -1,9 +1,7 @@
 package it.polimi.ingsw2020.santorini.view.gui;
 
-import it.polimi.ingsw2020.santorini.model.Builder;
 import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.utils.Direction;
-import it.polimi.ingsw2020.santorini.utils.messages.godsParam.AresParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.DemeterParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 import javafx.event.ActionEvent;
@@ -24,7 +22,7 @@ public class DemeterController {
 
     private MatchStateMessage matchStateMessage;
 
-    private DemeterParamMessage demeterParamMessage;
+    private DemeterParamMessage demeterParamMessage = new DemeterParamMessage();
 
     public void setClient(Client client) {
         this.client = client;
@@ -80,7 +78,7 @@ public class DemeterController {
     Label p22;
 
 
-    public void selectDemolition(ActionEvent actionEvent) {
+    public void build(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();
         Direction direction = null;
         if(pos.equals(b00)){
@@ -108,14 +106,12 @@ public class DemeterController {
         b20.setDisable(true);
         b21.setDisable(true);
         b22.setDisable(true);
-
-
+        demeterParamMessage.setDirection(direction);
         stage.setOnCloseRequest(e->stage.close());
         stage.close();
     }
 
     public void initializeDemeterMatrix() {
-        Builder demolitionBuilder;
 
         matrix[0][0] = b00;
         matrix[0][1] = b01;
@@ -135,7 +131,17 @@ public class DemeterController {
         labelMatrix[2][1] = p21;
         labelMatrix[2][2] = p22;
 
-
+        int[][] possibleBuildings = matchStateMessage.getCurrentPlayer().getPlayingBuilder().getPossibleBuildings();
+        for(int i=0 ; i<3 ;++i){
+            for(int j=0; j<3 ; ++j){
+                if (i != 1 || j != 1) {
+                    if (possibleBuildings[i][j] < 0 || possibleBuildings[i][j] >= 4) {
+                        matrix[i][j].setStyle("-fx-background-color: #ff0000");
+                        matrix[i][j].setDisable(true);
+                    }
+                    labelMatrix[i][j].setText (possibleBuildings[i][j] == -1 ? " "  : String.valueOf(possibleBuildings[i][j]));
+                }
+            }
+        }
     }
-
 }
