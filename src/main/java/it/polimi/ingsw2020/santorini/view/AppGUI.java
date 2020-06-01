@@ -1,12 +1,11 @@
 package it.polimi.ingsw2020.santorini.view;
 
+import it.polimi.ingsw2020.santorini.model.Board;
+import it.polimi.ingsw2020.santorini.model.Builder;
 import it.polimi.ingsw2020.santorini.model.Cell;
 import it.polimi.ingsw2020.santorini.model.Player;
 import it.polimi.ingsw2020.santorini.network.client.Client;
-import it.polimi.ingsw2020.santorini.utils.Color;
-import it.polimi.ingsw2020.santorini.utils.Message;
-import it.polimi.ingsw2020.santorini.utils.PhaseType;
-import it.polimi.ingsw2020.santorini.utils.SecondHeaderType;
+import it.polimi.ingsw2020.santorini.utils.*;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.*;
 import it.polimi.ingsw2020.santorini.utils.messages.actions.AskMoveSelectionMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
@@ -49,8 +48,12 @@ public class AppGUI extends Application implements ViewInterface{
     private NewMatchController newMatchController;
     private AskNewMatchController askNewMatchController;
     private ApolloController apolloController;
+    private AresController aresController;
     private ArrayList<Player> players;
     private boolean infoMatchDisplay = true;
+
+    private ApolloParamMessage apolloParamMessage;
+
 
 
     public Client getClient() {
@@ -122,9 +125,9 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public void displayLoadingWindow(String message) {
         Platform.runLater(()-> {
-            FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root;
             Scene loadingScene;
+            FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/FXML/loadingWindow.fxml"));
             try {
                 root = fxmlLoader.load();
@@ -198,7 +201,6 @@ public class AppGUI extends Application implements ViewInterface{
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 Parent root;
                 Scene scene;
-                System.out.println(matchSetupMessage.getSelectedGods().size());
                 switch (matchSetupMessage.getSelectedGods().size()) {
                     case (2):
                         fxmlLoader.setLocation(getClass().getResource("/FXML/selectGod.fxml"));
@@ -255,17 +257,13 @@ public class AppGUI extends Application implements ViewInterface{
 
         Platform.runLater(() -> {
             FXMLLoader fxmlLoader = new FXMLLoader();
+            Stage swapStage = new Stage();
+            swapStage.setOnCloseRequest(Event::consume);
+            swapStage.initModality(Modality.APPLICATION_MODAL);
             Parent root;
             Scene scene;
 
-            switch (players.size()) {
-                case (2):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/ApolloBoard.fxml"));
-                    break;
-                case (3):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/ApolloBoard_3.fxml"));
-                    break;
-            }
+            fxmlLoader.setLocation(getClass().getResource("/FXML/askBuilder.fxml"));
             try {
                 root = fxmlLoader.load();
                 scene = new Scene(root);
@@ -273,44 +271,43 @@ public class AppGUI extends Application implements ViewInterface{
                 root = null;
                 scene = new Scene(new Label("ERROR "));
             }
-
             apolloController = fxmlLoader.getController();
             apolloController.setClient(client);
+            apolloController.setStage(swapStage);
             apolloController.setMatchStateMessage(message);
-            apolloController.initializeBoard(message.getBoard());
-            apolloController.initializePlayers(players);
-            apolloController.setText();
-            apolloController.initializeBuilder();
-            primaryStage.setTitle("APOLLO POWER");
-            primaryStage.setScene(scene);
-            primaryStage.show();
+            apolloController.initializeButtons();
+            swapStage.setTitle("APOLLO POWER");
+            swapStage.setScene(scene);
+            swapStage.showAndWait();
 
-
+            Stage stage = new Stage();
+            stage.setOnCloseRequest(Event::consume);
+            stage.initModality(Modality.APPLICATION_MODAL);
             FXMLLoader loader = new FXMLLoader();
             Parent children;
             Scene swapScene;
             loader.setLocation(getClass().getResource("/FXML/apolloMatrix.fxml"));
-            apolloController = loader.getController();
 
             try {
                 children = loader.load();
-                scene = new Scene(children);
+                swapScene = new Scene(children);
             } catch (IOException e) {
                 root = null;
-                scene = new Scene(new Label("ERROR "));
+                swapScene = new Scene(new Label("ERROR "));
             }
-            /*if() {//non si può swappare
-                apolloController.initializeText("Il builder che hai selezionato non è adatto a servire Apollo, viene selezionato l'altro builder automaticamente");
-                //INVERTIRE IL BUILDER SCELTO
-            }else{
-                apolloController.initializeText("Ora è il momento di scegliere il costruttore avversario");
-            }
-             */
-            apolloController.initializeApolloMatrix();
+            Builder chosen = apolloController.getChosen();
 
-
+            apolloController = loader.getController();
+            apolloController.setStage(stage);
+            apolloController.initializeApolloMatrix(Board.neighboringSwappingCell(chosen, AccessType.OCCUPIED));
+            apolloController.setStage(stage);
+            stage.setScene(swapScene);
+            stage.showAndWait();
+            apolloParamMessage = apolloController.getApolloParamMessage();
+            System.out.println(apolloParamMessage);
         });
-        return null;
+        return apolloParamMessage;
+
     }
 
     /**
@@ -596,6 +593,40 @@ public class AppGUI extends Application implements ViewInterface{
 
     @Override
     public void displaySP(UpdateMessage updateMessage, PhaseType phase) {
+        Platform.runLater(()->{
+            Parent children;
+            Scene scene;
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            switch (players.size()) {
+                case (2):
+                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard.fxml"));
+                    break;
+                case (3):
+                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard_3.fxml"));
+                    break;
+            }
+            try {
+                children = fxmlLoader.load();
+                scene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                scene = new Scene(new Label("ERROR "));
+            }
+            updateMatchController = fxmlLoader.getController();
+            updateMatchController.setClient(client);
+            System.out.println("1");
+            updateMatchController.setUpdateMessage(updateMessage);
+            System.out.println("2");
+            updateMatchController.initializeBoard(updateMessage.getCells());
+            System.out.println("3");
+            updateMatchController.initializePlayers(players);
+            System.out.println("4");
+            updateMatchController.setText();
+            System.out.println("5");
+            primaryStage.setTitle("SP UPDATE");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        });
 
     }
 
@@ -950,16 +981,9 @@ public class AppGUI extends Application implements ViewInterface{
             }
             askNewMatchController = loader_new.getController();
             primaryStage.setScene(scene);
-            primaryStage.show();
+            primaryStage.showAndWait();
 
-            while (askNewMatchController.isNotDone()) {
-                    // TODO : DOBBIAMO ASPETTARE LA RISPOSTA
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();//TODO ricordiamo di cancellare sto print stack trace
-                }
-            }
+
             FXMLLoader loader = new FXMLLoader();
             if (askNewMatchController.getAnswer().equals("YES")) {
                 loader.setLocation(getClass().getResource("/FXML/newMatch.fxml"));
@@ -1038,7 +1062,4 @@ public class AppGUI extends Application implements ViewInterface{
         }
         return null;
     }
-
-
-
 }

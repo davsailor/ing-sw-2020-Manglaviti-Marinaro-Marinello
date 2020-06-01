@@ -108,7 +108,7 @@ public class PossibleBuildingsController {
             }
         }
     }
-
+    @FXML
     public void selectBuild(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();
         Direction direction = null;

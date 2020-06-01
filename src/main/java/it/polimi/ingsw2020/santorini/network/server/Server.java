@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -210,5 +211,9 @@ public class Server {
         } catch (IOException e){
             System.out.println("cannot close server port");
         }
+    }
+
+    public HashMap<Player, Integer> getWaitingPlayers() {
+        return waitingPlayers;
     }
 }
