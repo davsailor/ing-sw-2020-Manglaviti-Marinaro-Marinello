@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="289.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw2020.santorini.view.gui.ArtemisController">
@@ -52,46 +50,6 @@
       <Label fx:id="text2" layoutX="25.0" layoutY="29.0" prefHeight="30.0" prefWidth="250.0" text="vuoi effettuare il secondo movimento">
          <font>
             <Font name="Gabriola" size="22.0" />
-         </font>
-      </Label>
-      <Label fx:id="p00" layoutX="86.0" layoutY="106.0" prefHeight="45.0" prefWidth="29.0">
-         <font>
-            <Font name="Gabriola" size="39.0" />
-         </font>
-      </Label>
-      <Label fx:id="p10" layoutX="86.0" layoutY="155.0" prefHeight="45.0" prefWidth="29.0">
-         <font>
-            <Font name="Gabriola" size="39.0" />
-         </font>
-      </Label>
-      <Label fx:id="p01" layoutX="138.0" layoutY="106.0" prefHeight="45.0" prefWidth="29.0">
-         <font>
-            <Font name="Gabriola" size="39.0" />
-         </font>
-      </Label>
-      <Label fx:id="p22" layoutX="188.0" layoutY="211.0" prefHeight="45.0" prefWidth="29.0">
-         <font>
-            <Font name="Gabriola" size="39.0" />
-         </font>
-      </Label>
-      <Label fx:id="p21" layoutX="138.0" layoutY="211.0" prefHeight="45.0" prefWidth="29.0">
-         <font>
-            <Font name="Gabriola" size="39.0" />
-         </font>
-      </Label>
-      <Label fx:id="p20" layoutX="86.0" layoutY="211.0" prefHeight="45.0" prefWidth="29.0">
-         <font>
-            <Font name="Gabriola" size="39.0" />
-         </font>
-      </Label>
-      <Label fx:id="p12" layoutX="188.0" layoutY="160.0" prefHeight="45.0" prefWidth="29.0">
-         <font>
-            <Font name="Gabriola" size="39.0" />
-         </font>
-      </Label>
-      <Label fx:id="p02" layoutX="188.0" layoutY="106.0" prefHeight="45.0" prefWidth="29.0">
-         <font>
-            <Font name="Gabriola" size="39.0" />
          </font>
       </Label>
       <Button fx:id="b00" layoutX="73.0" layoutY="113.0" mnemonicParsing="false" onAction="#selectMove" opacity="0.37" prefHeight="45.0" prefWidth="47.0" />
