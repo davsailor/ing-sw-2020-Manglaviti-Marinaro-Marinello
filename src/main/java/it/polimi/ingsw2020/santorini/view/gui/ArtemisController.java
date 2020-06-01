@@ -2,8 +2,10 @@ package it.polimi.ingsw2020.santorini.view.gui;
 
 import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.utils.Direction;
+import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.ArtemisParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
+import it.polimi.ingsw2020.santorini.view.AppGUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,16 +13,10 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 public class ArtemisController {
-
     private Stage stage;
-
     private Button[][] matrix = new Button[3][3];
-
     private Client client;
-
     private MatchStateMessage matchStateMessage;
-
-    private ArtemisParamMessage artemisParamMessage = new ArtemisParamMessage();
 
     public void setClient(Client client) {
         this.client = client;
@@ -32,10 +28,6 @@ public class ArtemisController {
 
     public void setMatchStateMessage(MatchStateMessage matchStateMessage) {
         this.matchStateMessage = matchStateMessage;
-    }
-
-    public ArtemisParamMessage getArtemisParamMessage() {
-        return artemisParamMessage;
     }
 
     @FXML
@@ -59,9 +51,31 @@ public class ArtemisController {
     @FXML
     Button b22;
 
+    public void initializeArtemisMatrix() {
+        int[][] possibleMoves = matchStateMessage.getCurrentPlayer().getPlayingBuilder().getPossibleMoves();
 
+        matrix[0][0] = b00;
+        matrix[0][1] = b01;
+        matrix[0][2] = b02;
+        matrix[1][0] = b10;
+        matrix[1][2] = b12;
+        matrix[2][0] = b20;
+        matrix[2][1] = b21;
+        matrix[2][2] = b22;
+
+        for(int i=0 ; i<3 ;++i)
+            for(int j=0; j<3 ; ++j)
+                if (i!=1 || j!= 1)
+                    if (possibleMoves[i][j] == 0) {
+                        matrix[i][j].setStyle("-fx-background-color: #ff0000");
+                        matrix[i][j].setDisable(true);
+                    }
+    }
+
+    @FXML
     public void selectMove(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();
+        ArtemisParamMessage artemisParamMessage = new ArtemisParamMessage();
         Direction direction = null;
         if(pos.equals(b00)){
             direction = Direction.NORTH_WEST;
@@ -89,31 +103,8 @@ public class ArtemisController {
         b21.setDisable(true);
         b22.setDisable(true);
 
-        artemisParamMessage.setDirection(direction);
+        AppGUI.getArtemisParamMessage().setDirection(direction);
         stage.setOnCloseRequest(e->stage.close());
         stage.close();
-    }
-    public void initializeArtemisMatrix() {
-        int[][] possibleMoves = matchStateMessage.getCurrentPlayer().getPlayingBuilder().getPossibleMoves();
-
-        matrix[0][0] = b00;
-        matrix[0][1] = b01;
-        matrix[0][2] = b02;
-        matrix[1][0] = b10;
-        matrix[1][2] = b12;
-        matrix[2][0] = b20;
-        matrix[2][1] = b21;
-        matrix[2][2] = b22;
-
-        for(int i=0 ; i<3 ;++i){
-            for(int j=0; j<3 ; ++j){
-                if (i!=1 || j!= 1){
-                    if (possibleMoves[i][j] == 0) {
-                        matrix[i][j].setStyle("-fx-background-color: #ff0000");
-                        matrix[i][j].setDisable(true);
-                    }
-                }
-            }
-        }
     }
 }

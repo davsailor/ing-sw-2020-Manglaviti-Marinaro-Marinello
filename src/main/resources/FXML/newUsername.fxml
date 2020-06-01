@@ -30,7 +30,7 @@
             <Font name="Gabriola" size="34.0" />
          </font>
       </Label>
-      <Button onAction="#newUsernameSelection" layoutX="233.0" layoutY="276.0" mnemonicParsing="false" text="OK">
+      <Button fx:id="confirmation" onAction="#newUsernameSelection" layoutX="233.0" layoutY="276.0" mnemonicParsing="false" text="OK">
          <font>
             <Font name="Gabriola" size="14.0" />
          </font>

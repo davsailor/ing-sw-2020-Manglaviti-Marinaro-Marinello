@@ -36,16 +36,18 @@ public class TurnLogic {
     private ActionLogic actionManager;
     private Method chronusEffect;
     private Chronus chronus;
+    private GameLogic owner;
 
     /*
      * constructor of the class
      */
-    public TurnLogic() {
+    public TurnLogic(GameLogic owner) {
         remainingActions = EnumSet.allOf(ActionType.class);
         actionManager = new ActionLogic(this);
         chronusEffect = null;
         this.reset();
         phase = null;
+        this.owner = owner;
     }
 
     /*
@@ -134,25 +136,45 @@ public class TurnLogic {
      * @param match is the reference to the match controlled by the controller
      */
     public void handlePhases(Match match) throws EndMatchException {
-        ArrayList<Method> opponentEffects;
         switch (phase){
             case START_TURN:
                 startTurnManager(match);
                 break;
             case STANDBY_PHASE_1:
                 if(match.getCurrentPlayer().canMove()) standByPhaseManager(match, PhaseType.STANDBY_PHASE_1);
-                else match.setEliminatedPlayer(match.getCurrentPlayerIndex());
+                else {
+                    match.setEliminatedPlayer(match.getCurrentPlayerIndex());
+                    Message message = new Message(match.getEliminatedPlayers().get(match.getEliminatedPlayers().size() - 1).getNickname());
+                    message.buildEndMatchMessage(new EndMatchMessage(null));
+                    owner.getServer().getVirtualClients().get(message.getUsername()).send(message);
+                    reset();
+                    handlePhases(match);
+                }
                 checkChronusEffect(match);
                 break;
             case MOVE_PHASE:
                 if(match.getCurrentPlayer().getPlayingBuilder() != null)
                     if(match.getCurrentPlayer().getPlayingBuilder().canMove()) moveManager(match);
-                    else match.setEliminatedPlayer(match.getCurrentPlayerIndex());
+                    else {
+                        match.setEliminatedPlayer(match.getCurrentPlayerIndex());
+                        Message message = new Message(match.getEliminatedPlayers().get(match.getEliminatedPlayers().size() - 1).getNickname());
+                        message.buildEndMatchMessage(new EndMatchMessage(null));
+                        owner.getServer().getVirtualClients().get(message.getUsername()).send(message);
+                        reset();
+                        handlePhases(match);
+                    }
                 else moveManager(match);
                 break;
             case STANDBY_PHASE_2:
                 if(match.getCurrentPlayer().getPlayingBuilder().canBuild()) standByPhaseManager(match, PhaseType.STANDBY_PHASE_2);
-                else match.setEliminatedPlayer(match.getCurrentPlayerIndex());
+                else {
+                    match.setEliminatedPlayer(match.getCurrentPlayerIndex());
+                    Message message = new Message(match.getEliminatedPlayers().get(match.getEliminatedPlayers().size() - 1).getNickname());
+                    message.buildEndMatchMessage(new EndMatchMessage(null));
+                    owner.getServer().getVirtualClients().get(message.getUsername()).send(message);
+                    reset();
+                    handlePhases(match);
+                }
                 break;
             case BUILD_PHASE:
                 buildManager(match);

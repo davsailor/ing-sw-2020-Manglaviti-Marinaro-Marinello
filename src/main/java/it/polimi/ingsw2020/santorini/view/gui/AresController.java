@@ -4,8 +4,10 @@ import it.polimi.ingsw2020.santorini.model.Board;
 import it.polimi.ingsw2020.santorini.model.Builder;
 import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.utils.Direction;
+import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.AresParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
+import it.polimi.ingsw2020.santorini.view.AppGUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -13,21 +15,12 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 public class AresController {
-
-
-
     private AresParamMessage aresParamMessage = new AresParamMessage();
-
     private Stage stage;
-
     private Button[][] matrix = new Button[3][3];
-
     private Label[][] labelMatrix = new Label[3][3];
-
     private Client client;
-
     public char demolitionBuilderSex;
-
     private MatchStateMessage matchStateMessage;
 
     public void setClient(Client client) {
@@ -44,10 +37,6 @@ public class AresController {
 
     public char getDemolitionBuilderSex() {
         return demolitionBuilderSex;
-    }
-
-    public AresParamMessage getAresParamMessage() {
-        return aresParamMessage;
     }
 
     @FXML
@@ -86,41 +75,6 @@ public class AresController {
     Label p21;
     @FXML
     Label p22;
-
-    public void selectDemolition(ActionEvent actionEvent) {
-        Button pos = (Button) actionEvent.getSource();
-        Direction direction = null;
-        if(pos.equals(b00)){
-            direction = Direction.NORTH_WEST;
-        }else if ( pos.equals(b01)){
-            direction = Direction.NORTH;
-        }else if ( pos.equals(b02)){
-            direction = Direction.NORTH_EAST;
-        }else if ( pos.equals(b10)){
-            direction = Direction.WEST;
-        }else if ( pos.equals(b12)){
-            direction = Direction.EAST;
-        }else if ( pos.equals(b20)){
-            direction = Direction.SOUTH_WEST;
-        }else if ( pos.equals(b21)){
-            direction = Direction.SOUTH;
-        }else if ( pos.equals(b22)){
-            direction = Direction.SOUTH_EAST;
-        }
-        b00.setDisable(true);
-        b01.setDisable(true);
-        b02.setDisable(true);
-        b10.setDisable(true);
-        b12.setDisable(true);
-        b20.setDisable(true);
-        b21.setDisable(true);
-        b22.setDisable(true);
-
-        aresParamMessage.setDemolitionBuilderSex(demolitionBuilderSex);
-        aresParamMessage.setTargetedBlock(direction);
-        stage.setOnCloseRequest(e->stage.close());
-        stage.close();
-    }
 
     public void initializeAresMatrix(){
         Builder demolitionBuilder;
@@ -167,4 +121,40 @@ public class AresController {
         }
     }
 
+    @FXML
+    public void selectDemolition(ActionEvent actionEvent) {
+        AresParamMessage aresParamMessage = new AresParamMessage();
+        Button pos = (Button) actionEvent.getSource();
+        Direction direction = null;
+        if(pos.equals(b00)){
+            direction = Direction.NORTH_WEST;
+        }else if ( pos.equals(b01)){
+            direction = Direction.NORTH;
+        }else if ( pos.equals(b02)){
+            direction = Direction.NORTH_EAST;
+        }else if ( pos.equals(b10)){
+            direction = Direction.WEST;
+        }else if ( pos.equals(b12)){
+            direction = Direction.EAST;
+        }else if ( pos.equals(b20)){
+            direction = Direction.SOUTH_WEST;
+        }else if ( pos.equals(b21)){
+            direction = Direction.SOUTH;
+        }else if ( pos.equals(b22)){
+            direction = Direction.SOUTH_EAST;
+        }
+        b00.setDisable(true);
+        b01.setDisable(true);
+        b02.setDisable(true);
+        b10.setDisable(true);
+        b12.setDisable(true);
+        b20.setDisable(true);
+        b21.setDisable(true);
+        b22.setDisable(true);
+
+        AppGUI.getAresParamMessage().setDemolitionBuilderSex(demolitionBuilderSex);
+        AppGUI.getAresParamMessage().setTargetedBlock(direction);
+        stage.setOnCloseRequest(e->stage.close());
+        stage.close();
+    }
 }

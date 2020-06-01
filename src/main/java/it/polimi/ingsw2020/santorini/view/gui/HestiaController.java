@@ -3,8 +3,10 @@ package it.polimi.ingsw2020.santorini.view.gui;
 import it.polimi.ingsw2020.santorini.model.Board;
 import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.utils.Direction;
+import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.HestiaParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
+import it.polimi.ingsw2020.santorini.view.AppGUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -14,16 +16,10 @@ import javafx.stage.Stage;
 public class HestiaController {
 
     private Stage stage;
-
     private Button[][] matrix = new Button[3][3];
-
     private Label[][] labelMatrix = new Label[3][3];
-
     private Client client;
-
     private MatchStateMessage matchStateMessage;
-
-    private HestiaParamMessage hestiaParamMessage = new HestiaParamMessage();
 
     public void setClient(Client client) {
         this.client = client;
@@ -35,10 +31,6 @@ public class HestiaController {
 
     public void setMatchStateMessage(MatchStateMessage matchStateMessage) {
         this.matchStateMessage = matchStateMessage;
-    }
-
-    public HestiaParamMessage getHestiaParamMessage() {
-        return hestiaParamMessage;
     }
 
     @FXML
@@ -80,23 +72,24 @@ public class HestiaController {
 
     @FXML
     public void build(ActionEvent actionEvent) {
+        HestiaParamMessage hestiaParamMessage = new HestiaParamMessage();
         Button pos = (Button) actionEvent.getSource();
         Direction direction = null;
         if(pos.equals(b00)){
             direction = Direction.NORTH_WEST;
-        }else if ( pos.equals(b01)){
+        } else if (pos.equals(b01)){
             direction = Direction.NORTH;
-        }else if ( pos.equals(b02)){
+        } else if (pos.equals(b02)){
             direction = Direction.NORTH_EAST;
-        }else if ( pos.equals(b10)){
+        } else if (pos.equals(b10)){
             direction = Direction.WEST;
-        }else if ( pos.equals(b12)){
+        } else if (pos.equals(b12)){
             direction = Direction.EAST;
-        }else if ( pos.equals(b20)){
+        } else if (pos.equals(b20)){
             direction = Direction.SOUTH_WEST;
-        }else if ( pos.equals(b21)){
+        } else if (pos.equals(b21)){
             direction = Direction.SOUTH;
-        }else if ( pos.equals(b22)){
+        } else if (pos.equals(b22)){
             direction = Direction.SOUTH_EAST;
         }
         b00.setDisable(true);
@@ -107,7 +100,7 @@ public class HestiaController {
         b20.setDisable(true);
         b21.setDisable(true);
         b22.setDisable(true);
-        hestiaParamMessage.setDirection(direction);
+        AppGUI.getHestiaParamMessage().setDirection(direction);
         stage.setOnCloseRequest(e->stage.close());
         stage.close();
     }

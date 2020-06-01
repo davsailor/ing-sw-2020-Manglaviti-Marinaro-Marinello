@@ -5,7 +5,6 @@ import it.polimi.ingsw2020.santorini.utils.Direction;
 public class DemeterParamMessage {
     private Direction direction;
 
-
     public DemeterParamMessage() {
     }
 

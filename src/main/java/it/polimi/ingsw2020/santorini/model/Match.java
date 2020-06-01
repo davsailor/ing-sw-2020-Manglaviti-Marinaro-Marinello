@@ -130,9 +130,9 @@ public class Match extends Observable {
             throw new EndMatchException(this);
         }
         else
-            for(int i = 1; i < 6; ++i)
-                for(int j = 1; j < 6; ++j)
-                    if(board.getBoard()[i][j].getBuilder() != null && board.getBoard()[i][j].getBuilder().getColor() == getPlayers()[eliminatedPlayer].getColor()) {
+            for (int i = 1; i < 6; ++i)
+                for (int j = 1; j < 6; ++j)
+                    if (board.getBoard()[i][j].getBuilder() != null && board.getBoard()[i][j].getBuilder().getColor() == getPlayers()[eliminatedPlayer].getColor()) {
                         board.getBoard()[i][j].setBuilder(null);
                         board.getBoard()[i][j].setStatus(AccessType.FREE);
                     }

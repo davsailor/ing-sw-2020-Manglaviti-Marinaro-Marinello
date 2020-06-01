@@ -7,6 +7,7 @@ import it.polimi.ingsw2020.santorini.utils.AccessType;
 import it.polimi.ingsw2020.santorini.utils.Direction;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.PrometheusParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
+import it.polimi.ingsw2020.santorini.view.AppGUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -14,26 +15,11 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 public class PrometheusController {
-
     private Stage stage;
-
     private Button[][] matrix = new Button[3][3];
-
     private Label[][] labelMatrix = new Label[3][3];
-
-    private Client client;
-
     private MatchStateMessage matchStateMessage;
-
     private Builder chosen;
-
-    private char yourBuilderGender;
-
-    private PrometheusParamMessage prometheusParamMessage = new PrometheusParamMessage();
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
 
     public void setStage(Stage stage){
         this.stage = stage;
@@ -45,14 +31,6 @@ public class PrometheusController {
 
     public void setMatchStateMessage(MatchStateMessage matchStateMessage) {
         this.matchStateMessage = matchStateMessage;
-    }
-
-    public PrometheusParamMessage getPrometheusParamMessage() {
-        return prometheusParamMessage;
-    }
-
-    public char getYourBuilderGender() {
-        return yourBuilderGender;
     }
 
     @FXML
@@ -122,8 +100,7 @@ public class PrometheusController {
         b20.setDisable(true);
         b21.setDisable(true);
         b22.setDisable(true);
-        prometheusParamMessage.setDirection(direction);
-        prometheusParamMessage.setBuilderSex(getYourBuilderGender());
+        AppGUI.getPrometheusParamMessage().setDirection(direction);
         stage.setOnCloseRequest(e->stage.close());
         stage.close();
     }
@@ -171,6 +148,7 @@ public class PrometheusController {
     @FXML
     public void selectGender(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();
+        char yourBuilderGender;
         if(pos.getId().equals("F")){
             chosen = matchStateMessage.getCurrentPlayer().getBuilderF();
             yourBuilderGender = 'F';
@@ -182,6 +160,7 @@ public class PrometheusController {
         chosen.setPlayer(matchStateMessage.getCurrentPlayer());
         F.setDisable(true);
         M.setDisable(true);
+        AppGUI.getPrometheusParamMessage().setBuilderSex(yourBuilderGender);
         stage.setOnCloseRequest(e->stage.close());
         stage.close();
     }

@@ -11,11 +11,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-
-
+import javafx.stage.Stage;
 
 public class NewMatchController {
-
     private ObservableList list = FXCollections.observableArrayList(2,3);
 
     @FXML
@@ -24,6 +22,7 @@ public class NewMatchController {
     private ChoiceBox<Integer> numberOfPlayers;
 
     private Client client;
+    private Stage selection;
 
     public void setClient(Client client) {
         this.client = client;
@@ -34,14 +33,17 @@ public class NewMatchController {
         numberOfPlayers.setValue(2);
     }
 
-
     public void registerAction(ActionEvent actionEvent) {
         Message message = new Message(client.getUsername());
         client.setSelectedMatch((Integer.parseInt(String.valueOf(numberOfPlayers.getValue()))));
         message.buildNewMatchMessage(new NewMatchMessage(true, client.getSelectedMatch(), client.getBirthDate()));
         client.getNetworkHandler().send(message);
         signUpButton.setDisable(true);
-
+        selection.setOnCloseRequest(e -> selection.close());
+        selection.close();
     }
 
+    public void setStage(Stage selection) {
+        this.selection = selection;
+    }
 }

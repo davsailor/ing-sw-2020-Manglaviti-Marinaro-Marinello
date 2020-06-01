@@ -32,7 +32,7 @@ public class GameLogic implements Observer {
      * constructor of the class
      */
     public GameLogic(Server server) {
-        turnManager = new TurnLogic();
+        turnManager = new TurnLogic(this);
         this.server = server;
         this.match = null;
     }

@@ -4,9 +4,11 @@ import it.polimi.ingsw2020.santorini.model.Board;
 import it.polimi.ingsw2020.santorini.model.Builder;
 import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.utils.Direction;
+import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.AresParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.AtlasParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
+import it.polimi.ingsw2020.santorini.view.AppGUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -14,18 +16,11 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 public class AtlasController {
-
     private Stage stage;
-
     private Button[][] matrix = new Button[3][3];
-
     private Label[][] labelMatrix = new Label[3][3];
-
     private Client client;
-
     private MatchStateMessage matchStateMessage;
-
-    private AtlasParamMessage atlasParamMessage = new AtlasParamMessage();
 
     public void setClient(Client client) {
         this.client = client;
@@ -37,10 +32,6 @@ public class AtlasController {
 
     public void setMatchStateMessage(MatchStateMessage matchStateMessage) {
         this.matchStateMessage = matchStateMessage;
-    }
-
-    public AtlasParamMessage getAtlasParamMessage() {
-        return atlasParamMessage;
     }
 
     @FXML
@@ -82,25 +73,27 @@ public class AtlasController {
 
     @FXML
     public void buildDome(ActionEvent actionEvent) {
+        AtlasParamMessage atlasParamMessage = new AtlasParamMessage();
         Button pos = (Button) actionEvent.getSource();
         Direction direction = null;
         if(pos.equals(b00)){
             direction = Direction.NORTH_WEST;
-        }else if ( pos.equals(b01)){
+        } else if (pos.equals(b01)) {
             direction = Direction.NORTH;
-        }else if ( pos.equals(b02)){
+        } else if (pos.equals(b02)) {
             direction = Direction.NORTH_EAST;
-        }else if ( pos.equals(b10)){
+        }else if (pos.equals(b10)) {
             direction = Direction.WEST;
-        }else if ( pos.equals(b12)){
+        } else if (pos.equals(b12)) {
             direction = Direction.EAST;
-        }else if ( pos.equals(b20)){
+        } else if (pos.equals(b20)) {
             direction = Direction.SOUTH_WEST;
-        }else if ( pos.equals(b21)){
+        } else if (pos.equals(b21)) {
             direction = Direction.SOUTH;
-        }else if ( pos.equals(b22)){
+        } else if (pos.equals(b22)) {
             direction = Direction.SOUTH_EAST;
         }
+
         b00.setDisable(true);
         b01.setDisable(true);
         b02.setDisable(true);
@@ -109,7 +102,8 @@ public class AtlasController {
         b20.setDisable(true);
         b21.setDisable(true);
         b22.setDisable(true);
-        atlasParamMessage.setDirection(direction);
+
+        AppGUI.getAtlasParamMessage().setDirection(direction);
         stage.setOnCloseRequest(e->stage.close());
         stage.close();
     }

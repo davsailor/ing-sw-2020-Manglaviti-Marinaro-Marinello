@@ -7,6 +7,7 @@ import it.polimi.ingsw2020.santorini.utils.AccessType;
 import it.polimi.ingsw2020.santorini.utils.Direction;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.MinotaurParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
+import it.polimi.ingsw2020.santorini.view.AppGUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -14,24 +15,10 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 public class MinotaurController {
-
     private Stage stage;
-
     private Button[][] matrix = new Button[3][3];
-
-    private Client client;
-
     private Builder chosen = null;
-
-    private char yourBuilderGender;
-
     private MatchStateMessage matchStateMessage;
-
-    private MinotaurParamMessage minotaurParamMessage = new MinotaurParamMessage();
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
 
     public void setStage(Stage stage){
         this.stage = stage;
@@ -39,10 +26,6 @@ public class MinotaurController {
 
     public void setMatchStateMessage(MatchStateMessage matchStateMessage) {
         this.matchStateMessage = matchStateMessage;
-    }
-
-    public MinotaurParamMessage getMinotaurParamMessage() {
-        return minotaurParamMessage;
     }
 
     public Builder getChosen() {
@@ -103,8 +86,7 @@ public class MinotaurController {
         b20.setDisable(true);
         b21.setDisable(true);
         b22.setDisable(true);
-        minotaurParamMessage.setOpponentBuilderDirection(direction);
-        minotaurParamMessage.setPlayingBuilderSex(yourBuilderGender);
+        AppGUI.getMinotaurParamMessage().setOpponentBuilderDirection(direction);
         stage.setOnCloseRequest(e->stage.close());
         stage.close();
     }
@@ -133,6 +115,7 @@ public class MinotaurController {
     @FXML
     public void selectGender(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();
+        char yourBuilderGender;
         if(pos.getId().equals("F")){
             chosen = matchStateMessage.getCurrentPlayer().getBuilderF();
             yourBuilderGender = 'F';
@@ -142,21 +125,17 @@ public class MinotaurController {
         }
         chosen.setBoard(new Board(matchStateMessage.getBoard()));
         chosen.setPlayer(matchStateMessage.getCurrentPlayer());
-        F.setDisable(true);
-        M.setDisable(true);
+        AppGUI.getMinotaurParamMessage().setPlayingBuilderSex(yourBuilderGender);
         stage.setOnCloseRequest(e->stage.close());
         stage.close();
     }
 
     public void initializeButtons() {
         int[] posBuilder = new int[2];
-
         Direction direction = null;
         chosen = matchStateMessage.getCurrentPlayer().getBuilderM();
         posBuilder[0] = matchStateMessage.getCurrentPlayer().getBuilderM().getPosX();
         posBuilder[1] = matchStateMessage.getCurrentPlayer().getBuilderM().getPosY();
-
-
         chosen.setBoard(new Board(matchStateMessage.getBoard()));
         chosen.setPlayer(matchStateMessage.getCurrentPlayer());
         int[][] possibleSwap = Board.neighboringSwappingCell(chosen, AccessType.OCCUPIED);

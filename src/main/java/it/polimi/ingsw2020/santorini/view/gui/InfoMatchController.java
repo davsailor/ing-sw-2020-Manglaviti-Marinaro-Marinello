@@ -18,7 +18,6 @@ import java.util.ArrayList;
 public class InfoMatchController {
 
     private Client client;
-    private boolean infoMatchDisplayed = false;
 
     public void setClient(Client client) {
         this.client = client;

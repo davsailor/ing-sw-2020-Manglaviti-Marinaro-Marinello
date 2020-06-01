@@ -39,8 +39,6 @@ public class ChooseBuilderController {
     public void setMatchStateMessage(MatchStateMessage matchStateMessage) {
         this.matchStateMessage = matchStateMessage;
     }
-    private int[] builderF;
-    private int[] builderM;
 
     @FXML
     Button b00;

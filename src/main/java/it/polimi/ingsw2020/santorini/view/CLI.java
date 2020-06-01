@@ -764,128 +764,6 @@ public class CLI implements ViewInterface {
     }
 
     /**
-     * the method prints the scheme of the board, whit numbers inside the cells to indicate the height of the buildings, nothing if there isn't
-     * any builder, the coloured symbol of the gender to indicate the gender of the builder and to whom it belongs. The triangle and the wave
-     * represent the coast.
-     * @param listOfCells is an array list of cells containing all the information of the board
-     * @param players players of the match
-     */
-    public void showBoard(ArrayList<Cell> listOfCells, ArrayList<Player> players){
-        String coast = Color.OCEAN_BLUE+" -^"+Color.MOUNTAIN_BROWN +"\u25B2 ";
-        // Color.OCEAN_BLUE+"\u25DE\u25DC"+Color.MOUNTAIN_BROWN +"\u25B2 "
-        coast = String.format("%1$5s", coast);
-        String[][] printableBoard = new String[7][7];
-        int j = 0;
-        for(int i = 0; i < listOfCells.size(); ++i){
-            if(listOfCells.get(i).getLevel() == LevelType.COAST) printableBoard[j][i%7] = coast;
-            else if(listOfCells.get(i).getStatus() == AccessType.OCCUPIED) printableBoard[j][i%7] = " " + listOfCells.get(i).getLevel().getHeight() + " " + listOfCells.get(i).getBuilder().getColor() + listOfCells.get(i).getBuilder().getGender() + Color.RESET + " ";
-            else printableBoard[j][i%7] = " " + listOfCells.get(i).getLevel().getHeight() + "   ";
-            if(i % 7 == 6) ++j;
-        }
-        String temp;
-        String[] parseEffect;
-        String[] effects = new String[15];
-        Color color;
-        int np = 0;
-        for(Player p : listOfPlayers){
-            color = Color.CORNER_WHITE;
-            for(Player pl : players)
-                if(pl.getNickname().equals(p.getNickname())){
-                    color = p.getColor();
-                    break;
-                }
-            temp = p.getDivinePower().toStringEffect();
-            effects[np] = color + p.getNickname() + "\t[" + p.getDivinePower().getName().toUpperCase() + "]";
-            parseEffect = p.getDivinePower().toStringEffect().split("\n");
-            effects[np + 1] = color + (parseEffect.length < 1 ? "" : parseEffect[0]);
-            effects[np + 2] = color + (parseEffect.length < 2 ? "" : parseEffect[1]);
-            effects[np + 3] = color + (parseEffect.length < 3 ? "" : parseEffect[2]);
-            effects[np + 4] = ""+Color.RESET;
-            np += 5;
-        }
-
-        if(listOfPlayers.size() == 2) {
-            effects[10] = "";
-            effects[11] = "";
-            effects[12] = "";
-            effects[13] = "";
-            effects[14] = "";
-        }
-
-        System.out.printf(
-            Color.RESET+"                                 NORTH                                 \n" +
-            Color.RESET+"                 0     1     2     3     4     5     6                 \n" +
-            "              "+Color.CORNER_WHITE+"█"+Color.BORDER_YELLOW+"═════╦═════╦═════╦═════╦═════╦═════╦═════"+Color.CORNER_WHITE+"█              " + effects[0] + "\n"+Color.RESET+
-            "          0   "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║"+Color.RESET+"   0          " + effects[1] + Color.RESET +"\n"+
-            "              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣              " + effects[2] + Color.RESET +"\n"+
-            "          1   "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║"+Color.RESET+"   1          " + effects[3] + Color.RESET +"\n"+
-            "              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣              " + effects[4] + Color.RESET +"\n"+
-            "          2   "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║"+Color.RESET+"   2          " + effects[5] + Color.RESET +"\n"+
-            "              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣              " + effects[6] + Color.RESET +"\n"+
-            "   WEST   3   "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║"+Color.RESET+"   3   EAST   " + effects[7] + Color.RESET +"\n"+
-            "              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣              " + effects[8] + Color.RESET +"\n"+
-            "          4   "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║"+Color.RESET+"   4          " + effects[9] + Color.RESET +"\n"+
-            "              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣              " + effects[10] + Color.RESET +"\n"+
-            "          5   "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║"+Color.RESET+"   5          " + effects[11] + Color.RESET +"\n"+
-            "              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣              " + effects[12] + Color.RESET +"\n"+
-            "          6   "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║"+Color.RESET+"   6          " + effects[13] + Color.RESET +"\n"+
-            "              "+Color.CORNER_WHITE+"█"+Color.BORDER_YELLOW+"═════╩═════╩═════╩═════╩═════╩═════╩═════"+Color.CORNER_WHITE+"█              " + effects[14] + Color.RESET +"\n"+
-            "                 0     1     2     3     4     5     6                 " +"\n"+
-            "                                 SOUTH                                 "+"\n",
-        printableBoard[0][0], printableBoard[0][1], printableBoard[0][2], printableBoard[0][3], printableBoard[0][4], printableBoard[0][5], printableBoard[0][6],
-        printableBoard[1][0], printableBoard[1][1], printableBoard[1][2], printableBoard[1][3], printableBoard[1][4], printableBoard[1][5], printableBoard[1][6],
-        printableBoard[2][0], printableBoard[2][1], printableBoard[2][2], printableBoard[2][3], printableBoard[2][4], printableBoard[2][5], printableBoard[2][6],
-        printableBoard[3][0], printableBoard[3][1], printableBoard[3][2], printableBoard[3][3], printableBoard[3][4], printableBoard[3][5], printableBoard[3][6],
-        printableBoard[4][0], printableBoard[4][1], printableBoard[4][2], printableBoard[4][3], printableBoard[4][4], printableBoard[4][5], printableBoard[4][6],
-        printableBoard[5][0], printableBoard[5][1], printableBoard[5][2], printableBoard[5][3], printableBoard[5][4], printableBoard[5][5], printableBoard[5][6],
-        printableBoard[6][0], printableBoard[6][1], printableBoard[6][2], printableBoard[6][3], printableBoard[6][4], printableBoard[6][5], printableBoard[6][6]
-        );
-    }
-
-    /**
-     * the method prints a 3*3 matrix that represents the possible choices both for building and moving the builders. The symbol 'X' is used
-     * to represent a cell in which a builder cannot build or move into.
-     * @param matrixToShow is the reference to a matrix 3*3 such as possible moves or possible buildings
-     * @param type is a char that is used for understand if matrixToShow is used for representing possible moves or buildings
-     */
-    public void showPossibleMatrix(int[][] matrixToShow, char type, String[] actions){
-        char[][] cell = new char[3][3];
-        if(type == 'b') {
-            for (int i = 0; i < 3; i++)
-                for (int j = 0; j < 3; j++)
-                    if (matrixToShow[i][j] == 0) cell[i][j] = '0';
-                    else if (matrixToShow[i][j] == 1) cell[i][j] = '1';
-                    else if (matrixToShow[i][j] == 2) cell[i][j] = '2';
-                    else if (matrixToShow[i][j] == 3) cell[i][j] = '3';
-                    else cell[i][j] = 'X';
-        } else {
-            int k = 1;
-            for(int i = 0; i < 3; ++i)
-                for (int j = 0; j < 3; ++j) {
-                    if (matrixToShow[i][j] > 0 && matrixToShow[i][j] < 4) cell[i][j] = Character.forDigit(k, 10);
-                    else cell[i][j] = ' ';
-                    if(i != 1 || j != 1) ++k;
-                }
-        }
-        System.out.printf(
-                        Color.RESET+"                     NORTH                                 \n" +
-                        Color.RESET+"                 0     1     2                 "+Color.RESET+(actions[0] == null ? " " : actions[0])+"\n" +
-                        "              "+Color.CORNER_WHITE+"█"+Color.BORDER_YELLOW+"═════╦═════╦═════"+Color.CORNER_WHITE+"█              "+ Color.RESET+ (actions[1] == null ? " " : actions[1]) + "\n"+Color.RESET+
-                        "          0   "+Color.BORDER_YELLOW+"║  %c  "+Color.BORDER_YELLOW+"║  %c  "+Color.BORDER_YELLOW+"║  %c  "+Color.BORDER_YELLOW+"║"+Color.RESET+"   0          " + (actions[2] == null ? " " : actions[2]) + Color.RESET +"\n"+
-                        "              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╣              " + Color.RESET+(actions[3] == null ? " " : actions[3]) + Color.RESET +"\n"+
-                        "   WEST   1   "+Color.BORDER_YELLOW+"║  %c  "+Color.BORDER_YELLOW+"║  %c  "+Color.BORDER_YELLOW+"║  %c  "+Color.BORDER_YELLOW+"║"+Color.RESET+"   1   EAST   " + (actions[4] == null ? " " : actions[4]) + Color.RESET +"\n"+
-                        "              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╣              " +Color.RESET+ (actions[5] == null ? " " : actions[5]) + Color.RESET +"\n"+
-                        "          2   "+Color.BORDER_YELLOW+"║  %c  "+Color.BORDER_YELLOW+"║  %c  "+Color.BORDER_YELLOW+"║  %c  "+Color.BORDER_YELLOW+"║"+Color.RESET+"   2          " + (actions[6] == null ? " " : actions[6]) + Color.RESET +"\n"+
-                        "              "+Color.CORNER_WHITE+"█"+Color.BORDER_YELLOW+"═════╩═════╩═════"+Color.CORNER_WHITE+"█              " + Color.RESET+(actions[7] == null ? " " : actions[7]) + Color.RESET +"\n"+
-                        "                 0     1     2                 " +"\n"+
-                        "                     SOUTH                                 "+"\n",
-                cell[0][0], cell[0][1], cell[0][2],
-                cell[1][0], cell[1][1], cell[1][2],
-                cell[2][0], cell[2][1], cell[2][2]
-        );
-    }
-
-    /**
      * the method asks to the current player to insert parameters need to use Apollo's power. These parameters are the choice of which builder
      * the player want to move (and swap with opponent's builder) and in which direction. If the builder selected cannot be moved, the method will choose for the player the other
      * builder. If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
@@ -1319,6 +1197,7 @@ public class CLI implements ViewInterface {
             neighboringLevelCell[2][1] = -1;
             neighboringLevelCell[2][2] = -1;
         }
+
         if(message.getCurrentPlayer().getPlayingBuilder().getPosY() == 1 || message.getCurrentPlayer().getPlayingBuilder().getPosY() == 5){
             neighboringLevelCell[0][1] = -1;
             neighboringLevelCell[1][1] = -1;
@@ -1810,5 +1689,127 @@ public class CLI implements ViewInterface {
         prometheusParamMessage.setDirection(direction);
         prometheusParamMessage.setBuilderSex(builderSex);
         return prometheusParamMessage;
+    }
+
+    /**
+     * the method prints the scheme of the board, whit numbers inside the cells to indicate the height of the buildings, nothing if there isn't
+     * any builder, the coloured symbol of the gender to indicate the gender of the builder and to whom it belongs. The triangle and the wave
+     * represent the coast.
+     * @param listOfCells is an array list of cells containing all the information of the board
+     * @param players players of the match
+     */
+    private void showBoard(ArrayList<Cell> listOfCells, ArrayList<Player> players){
+        String coast = Color.OCEAN_BLUE+" -^"+Color.MOUNTAIN_BROWN +"\u25B2 ";
+        // Color.OCEAN_BLUE+"\u25DE\u25DC"+Color.MOUNTAIN_BROWN +"\u25B2 "
+        coast = String.format("%1$5s", coast);
+        String[][] printableBoard = new String[7][7];
+        int j = 0;
+        for(int i = 0; i < listOfCells.size(); ++i){
+            if(listOfCells.get(i).getLevel() == LevelType.COAST) printableBoard[j][i%7] = coast;
+            else if(listOfCells.get(i).getStatus() == AccessType.OCCUPIED) printableBoard[j][i%7] = " " + listOfCells.get(i).getLevel().getHeight() + " " + listOfCells.get(i).getBuilder().getColor() + listOfCells.get(i).getBuilder().getGender() + Color.RESET + " ";
+            else printableBoard[j][i%7] = " " + listOfCells.get(i).getLevel().getHeight() + "   ";
+            if(i % 7 == 6) ++j;
+        }
+        String temp;
+        String[] parseEffect;
+        String[] effects = new String[15];
+        Color color;
+        int np = 0;
+        for(Player p : listOfPlayers){
+            color = Color.CORNER_WHITE;
+            for(Player pl : players)
+                if(pl.getNickname().equals(p.getNickname())){
+                    color = p.getColor();
+                    break;
+                }
+            temp = p.getDivinePower().toStringEffect();
+            effects[np] = color + p.getNickname() + "\t[" + p.getDivinePower().getName().toUpperCase() + "]";
+            parseEffect = p.getDivinePower().toStringEffect().split("\n");
+            effects[np + 1] = color + (parseEffect.length < 1 ? "" : parseEffect[0]);
+            effects[np + 2] = color + (parseEffect.length < 2 ? "" : parseEffect[1]);
+            effects[np + 3] = color + (parseEffect.length < 3 ? "" : parseEffect[2]);
+            effects[np + 4] = ""+Color.RESET;
+            np += 5;
+        }
+
+        if(listOfPlayers.size() == 2) {
+            effects[10] = "";
+            effects[11] = "";
+            effects[12] = "";
+            effects[13] = "";
+            effects[14] = "";
+        }
+
+        System.out.printf(
+                Color.RESET+"                                 NORTH                                 \n" +
+                        Color.RESET+"                 0     1     2     3     4     5     6                 \n" +
+                        "              "+Color.CORNER_WHITE+"█"+Color.BORDER_YELLOW+"═════╦═════╦═════╦═════╦═════╦═════╦═════"+Color.CORNER_WHITE+"█              " + effects[0] + "\n"+Color.RESET+
+                        "          0   "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║"+Color.RESET+"   0          " + effects[1] + Color.RESET +"\n"+
+                        "              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣              " + effects[2] + Color.RESET +"\n"+
+                        "          1   "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║"+Color.RESET+"   1          " + effects[3] + Color.RESET +"\n"+
+                        "              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣              " + effects[4] + Color.RESET +"\n"+
+                        "          2   "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║"+Color.RESET+"   2          " + effects[5] + Color.RESET +"\n"+
+                        "              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣              " + effects[6] + Color.RESET +"\n"+
+                        "   WEST   3   "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║"+Color.RESET+"   3   EAST   " + effects[7] + Color.RESET +"\n"+
+                        "              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣              " + effects[8] + Color.RESET +"\n"+
+                        "          4   "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║"+Color.RESET+"   4          " + effects[9] + Color.RESET +"\n"+
+                        "              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣              " + effects[10] + Color.RESET +"\n"+
+                        "          5   "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║"+Color.RESET+"   5          " + effects[11] + Color.RESET +"\n"+
+                        "              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╣              " + effects[12] + Color.RESET +"\n"+
+                        "          6   "+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║%s"+Color.BORDER_YELLOW+"║"+Color.RESET+"   6          " + effects[13] + Color.RESET +"\n"+
+                        "              "+Color.CORNER_WHITE+"█"+Color.BORDER_YELLOW+"═════╩═════╩═════╩═════╩═════╩═════╩═════"+Color.CORNER_WHITE+"█              " + effects[14] + Color.RESET +"\n"+
+                        "                 0     1     2     3     4     5     6                 " +"\n"+
+                        "                                 SOUTH                                 "+"\n",
+                printableBoard[0][0], printableBoard[0][1], printableBoard[0][2], printableBoard[0][3], printableBoard[0][4], printableBoard[0][5], printableBoard[0][6],
+                printableBoard[1][0], printableBoard[1][1], printableBoard[1][2], printableBoard[1][3], printableBoard[1][4], printableBoard[1][5], printableBoard[1][6],
+                printableBoard[2][0], printableBoard[2][1], printableBoard[2][2], printableBoard[2][3], printableBoard[2][4], printableBoard[2][5], printableBoard[2][6],
+                printableBoard[3][0], printableBoard[3][1], printableBoard[3][2], printableBoard[3][3], printableBoard[3][4], printableBoard[3][5], printableBoard[3][6],
+                printableBoard[4][0], printableBoard[4][1], printableBoard[4][2], printableBoard[4][3], printableBoard[4][4], printableBoard[4][5], printableBoard[4][6],
+                printableBoard[5][0], printableBoard[5][1], printableBoard[5][2], printableBoard[5][3], printableBoard[5][4], printableBoard[5][5], printableBoard[5][6],
+                printableBoard[6][0], printableBoard[6][1], printableBoard[6][2], printableBoard[6][3], printableBoard[6][4], printableBoard[6][5], printableBoard[6][6]
+        );
+    }
+
+    /**
+     * the method prints a 3*3 matrix that represents the possible choices both for building and moving the builders. The symbol 'X' is used
+     * to represent a cell in which a builder cannot build or move into.
+     * @param matrixToShow is the reference to a matrix 3*3 such as possible moves or possible buildings
+     * @param type is a char that is used for understand if matrixToShow is used for representing possible moves or buildings
+     */
+    private void showPossibleMatrix(int[][] matrixToShow, char type, String[] actions){
+        char[][] cell = new char[3][3];
+        if(type == 'b') {
+            for (int i = 0; i < 3; i++)
+                for (int j = 0; j < 3; j++)
+                    if (matrixToShow[i][j] == 0) cell[i][j] = '0';
+                    else if (matrixToShow[i][j] == 1) cell[i][j] = '1';
+                    else if (matrixToShow[i][j] == 2) cell[i][j] = '2';
+                    else if (matrixToShow[i][j] == 3) cell[i][j] = '3';
+                    else cell[i][j] = 'X';
+        } else {
+            int k = 1;
+            for(int i = 0; i < 3; ++i)
+                for (int j = 0; j < 3; ++j) {
+                    if (matrixToShow[i][j] > 0 && matrixToShow[i][j] < 4) cell[i][j] = Character.forDigit(k, 10);
+                    else cell[i][j] = ' ';
+                    if(i != 1 || j != 1) ++k;
+                }
+        }
+        System.out.printf(
+                Color.RESET+"                     NORTH                                 \n" +
+                        Color.RESET+"                 0     1     2                 "+Color.RESET+(actions[0] == null ? " " : actions[0])+"\n" +
+                        "              "+Color.CORNER_WHITE+"█"+Color.BORDER_YELLOW+"═════╦═════╦═════"+Color.CORNER_WHITE+"█              "+ Color.RESET+ (actions[1] == null ? " " : actions[1]) + "\n"+Color.RESET+
+                        "          0   "+Color.BORDER_YELLOW+"║  %c  "+Color.BORDER_YELLOW+"║  %c  "+Color.BORDER_YELLOW+"║  %c  "+Color.BORDER_YELLOW+"║"+Color.RESET+"   0          " + (actions[2] == null ? " " : actions[2]) + Color.RESET +"\n"+
+                        "              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╣              " + Color.RESET+(actions[3] == null ? " " : actions[3]) + Color.RESET +"\n"+
+                        "   WEST   1   "+Color.BORDER_YELLOW+"║  %c  "+Color.BORDER_YELLOW+"║  %c  "+Color.BORDER_YELLOW+"║  %c  "+Color.BORDER_YELLOW+"║"+Color.RESET+"   1   EAST   " + (actions[4] == null ? " " : actions[4]) + Color.RESET +"\n"+
+                        "              "+Color.BORDER_YELLOW+"╠═════╬═════╬═════╣              " +Color.RESET+ (actions[5] == null ? " " : actions[5]) + Color.RESET +"\n"+
+                        "          2   "+Color.BORDER_YELLOW+"║  %c  "+Color.BORDER_YELLOW+"║  %c  "+Color.BORDER_YELLOW+"║  %c  "+Color.BORDER_YELLOW+"║"+Color.RESET+"   2          " + (actions[6] == null ? " " : actions[6]) + Color.RESET +"\n"+
+                        "              "+Color.CORNER_WHITE+"█"+Color.BORDER_YELLOW+"═════╩═════╩═════"+Color.CORNER_WHITE+"█              " + Color.RESET+(actions[7] == null ? " " : actions[7]) + Color.RESET +"\n"+
+                        "                 0     1     2                 " +"\n"+
+                        "                     SOUTH                                 "+"\n",
+                cell[0][0], cell[0][1], cell[0][2],
+                cell[1][0], cell[1][1], cell[1][2],
+                cell[2][0], cell[2][1], cell[2][2]
+        );
     }
 }

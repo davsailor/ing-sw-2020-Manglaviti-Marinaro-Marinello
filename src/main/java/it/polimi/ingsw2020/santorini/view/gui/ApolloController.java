@@ -9,6 +9,7 @@ import it.polimi.ingsw2020.santorini.utils.Direction;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.ApolloParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
+import it.polimi.ingsw2020.santorini.view.AppGUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -19,20 +20,10 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 public class ApolloController {
-
-    private Client client;
-
     private MatchStateMessage matchStateMessage;
-
-    private ArrayList<Player> players;
-
-    private  ApolloParamMessage apolloParamMessage = new ApolloParamMessage();
-
+    private ApolloParamMessage apolloParamMessage = new ApolloParamMessage();
     private Stage stage;
-
-    public  ApolloParamMessage getApolloParamMessage() {
-        return apolloParamMessage;
-    }
+    private Builder chosen = null;
 
     @FXML
     Label text;
@@ -59,19 +50,6 @@ public class ApolloController {
     @FXML
     Button M;
 
-    Builder chosen = null;
-
-    private char yourBuilderGender;
-
-    public char getYourBuilderGender() {
-        return yourBuilderGender;
-    }
-
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
     public void setMatchStateMessage(MatchStateMessage matchStateMessage) {
         this.matchStateMessage = matchStateMessage;
     }
@@ -86,53 +64,14 @@ public class ApolloController {
         buttonMatrix[2][0] = b20;
         buttonMatrix[2][1] = b21;
         buttonMatrix[2][2] = b22;
-        for(int i=0; i<3; ++i){
-            for( int j=0 ; j < 3; ++j){
-                if(i!=1 || j!= 1){
+
+        for(int i=0; i<3; ++i)
+            for( int j=0 ; j < 3; ++j)
+                if(i!=1 || j!= 1)
                     if(apolloMatrix[i][j]==0){
                         buttonMatrix[i][j].setDisable(true);
                         buttonMatrix[i][j].setStyle("-fx-background-color: #ff0000");
                     }
-                }
-            }
-        }
-    }
-
-    @FXML
-    public void selectSwap(ActionEvent actionEvent){
-        Button pos = (Button) actionEvent.getSource();
-        Direction direction = null;
-        if(pos.equals(b00)){
-            direction = Direction.NORTH_WEST;
-        }else if ( pos.equals(b01)){
-            direction = Direction.NORTH;
-        }else if ( pos.equals(b02)){
-            direction = Direction.NORTH_EAST;
-        }else if ( pos.equals(b10)){
-            direction = Direction.WEST;
-        }else if ( pos.equals(b12)){
-            direction = Direction.EAST;
-        }else if ( pos.equals(b20)){
-            direction = Direction.SOUTH_WEST;
-        }else if ( pos.equals(b21)){
-            direction = Direction.SOUTH;
-        }else if ( pos.equals(b22)){
-            direction = Direction.SOUTH_EAST;
-        }
-        b00.setDisable(true);
-        b01.setDisable(true);
-        b02.setDisable(true);
-        b10.setDisable(true);
-        b12.setDisable(true);
-        b20.setDisable(true);
-        b21.setDisable(true);
-        b22.setDisable(true);
-
-        apolloParamMessage.setYourBuilderGender(getYourBuilderGender());
-        apolloParamMessage.setOpponentBuilderDirection(direction);
-        System.out.println(apolloParamMessage);
-        stage.setOnCloseRequest(e->stage.close());
-        stage.close();
     }
 
     public void setStage(Stage stage){
@@ -142,25 +81,6 @@ public class ApolloController {
     public Builder getChosen() {
         return chosen;
     }
-
-    @FXML
-    public void selectGender(ActionEvent actionEvent) {
-        Button pos = (Button) actionEvent.getSource();
-        if(pos.getId().equals("F")){
-            chosen = matchStateMessage.getCurrentPlayer().getBuilderF();
-            yourBuilderGender = 'F';
-        }else{
-            chosen = matchStateMessage.getCurrentPlayer().getBuilderM();
-            yourBuilderGender = 'M';
-        }
-        chosen.setBoard(new Board(matchStateMessage.getBoard()));
-        chosen.setPlayer(matchStateMessage.getCurrentPlayer());
-        F.setDisable(true);
-        M.setDisable(true);
-        stage.setOnCloseRequest(e->stage.close());
-        stage.close();
-    }
-
 
     public void initializeButtons() {
         Builder chosen = matchStateMessage.getCurrentPlayer().getBuilderF();
@@ -189,5 +109,60 @@ public class ApolloController {
             M.setStyle("-fx-border-color: #ff0000; -fx-border-width: 5px;");
         }else
             M.setStyle("-fx-border-color: #00ff00; -fx-border-width: 5px;");
+    }
+
+    @FXML
+    public void selectSwap(ActionEvent actionEvent){
+        Button pos = (Button) actionEvent.getSource();
+        Direction direction = null;
+        if(pos.equals(b00)){
+            direction = Direction.NORTH_WEST;
+        } else if (pos.equals(b01)){
+            direction = Direction.NORTH;
+        } else if (pos.equals(b02)){
+            direction = Direction.NORTH_EAST;
+        } else if (pos.equals(b10)){
+            direction = Direction.WEST;
+        } else if (pos.equals(b12)){
+            direction = Direction.EAST;
+        } else if (pos.equals(b20)){
+            direction = Direction.SOUTH_WEST;
+        } else if (pos.equals(b21)){
+            direction = Direction.SOUTH;
+        } else if (pos.equals(b22)){
+            direction = Direction.SOUTH_EAST;
+        }
+        b00.setDisable(true);
+        b01.setDisable(true);
+        b02.setDisable(true);
+        b10.setDisable(true);
+        b12.setDisable(true);
+        b20.setDisable(true);
+        b21.setDisable(true);
+        b22.setDisable(true);
+
+        AppGUI.getApolloParamMessage().setOpponentBuilderDirection(direction);
+        stage.setOnCloseRequest(e->stage.close());
+        stage.close();
+    }
+
+    @FXML
+    public void selectGender(ActionEvent actionEvent) {
+        Button pos = (Button) actionEvent.getSource();
+        char yourBuilderGender;
+        if(pos.getId().equals("F")){
+            chosen = matchStateMessage.getCurrentPlayer().getBuilderF();
+            yourBuilderGender = 'F';
+        }else{
+            chosen = matchStateMessage.getCurrentPlayer().getBuilderM();
+            yourBuilderGender = 'M';
+        }
+        chosen.setBoard(new Board(matchStateMessage.getBoard()));
+        chosen.setPlayer(matchStateMessage.getCurrentPlayer());
+        F.setDisable(true);
+        M.setDisable(true);
+        AppGUI.getApolloParamMessage().setYourBuilderGender(yourBuilderGender);
+        stage.setOnCloseRequest(e->stage.close());
+        stage.close();
     }
 }

@@ -31,10 +31,12 @@ public class GodCard {
         return maxPlayersNumber;
     }
 
-    public String getTimingName() { return timingName; }
-
     public PhaseType getTiming() {
         return timing;
+    }
+
+    public String getTimingName() {
+        return timingName;
     }
 
     public boolean isMandatory() {
@@ -69,7 +71,7 @@ public class GodCard {
      * the function that explains the power of god
      * @return string format of god's name and its power. Each God will have its own
      */
-    public String toStringEffect(){
+    public  String toStringEffect(){
         try {
             switch (this.getName()) {
                 case "Apollo":

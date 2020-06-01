@@ -1,35 +1,29 @@
 package it.polimi.ingsw2020.santorini.view.gui;
 
+import it.polimi.ingsw2020.santorini.view.AppGUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-
+import javafx.stage.Stage;
 
 public class AskNewMatchController {
-
+    private Stage stage;
     @FXML
     Button yesButton;
     @FXML
     Button noButton;
 
-    private String answer;
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 
     public void newMatch(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();
-        if(pos.equals(yesButton)){
-            setAnswer("YES");
-        }else{
-            setAnswer("NO");
-        }
+        if(pos.equals(yesButton)) AppGUI.setWantNewMatch("YES");
+        else AppGUI.setWantNewMatch("NO");
         yesButton.setDisable(true);
         noButton.setDisable(true);
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
-
-    public String getAnswer() {
-        return answer;
+        stage.setOnCloseRequest(e -> stage.close());
+        stage.close();
     }
 }

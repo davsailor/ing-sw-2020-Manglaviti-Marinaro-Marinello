@@ -6,6 +6,7 @@ import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.utils.Direction;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.PoseidonParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
+import it.polimi.ingsw2020.santorini.view.AppGUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -15,30 +16,14 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 public class PoseidonController {
-
     private Stage stage;
-
     private Button[][] matrix = new Button[3][3];
-
     private Label[][] labelMatrix = new Label[3][3];
-
-    private Client client;
-
     private MatchStateMessage matchStateMessage;
-
-    private PoseidonParamMessage poseidonParamMessage = new PoseidonParamMessage();
-
     private int number = 0;
-
     private int selectedNumber = 0;
 
-    char constructionBuilderSex = 'o';
-
-    private ArrayList<Direction> directions;
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
+    private ArrayList<Direction> directions = new ArrayList<>();
 
     public void setStage(Stage stage){
         this.stage = stage;
@@ -46,18 +31,6 @@ public class PoseidonController {
 
     public void setMatchStateMessage(MatchStateMessage matchStateMessage) {
         this.matchStateMessage = matchStateMessage;
-    }
-
-    public PoseidonParamMessage getPoseidonParamMessage() {
-        return poseidonParamMessage;
-    }
-
-    public int getSelectedNumber() {
-        return selectedNumber;
-    }
-
-    public char getConstructionBuilderSex() {
-        return constructionBuilderSex;
     }
 
     @FXML
@@ -156,8 +129,7 @@ public class PoseidonController {
             p22.setText(String.valueOf(Integer.parseInt(p22.getText()) + 1));
         }
         number++;
-
-        if(number==getSelectedNumber()) {
+        if(number==AppGUI.getPoseidonParamMessage().getNumberOfBuild()) {
             b00.setDisable(true);
             b01.setDisable(true);
             b02.setDisable(true);
@@ -166,9 +138,7 @@ public class PoseidonController {
             b20.setDisable(true);
             b21.setDisable(true);
             b22.setDisable(true);
-            poseidonParamMessage.setConstructionGender(getConstructionBuilderSex());
-            poseidonParamMessage.setDirection(directions);
-            poseidonParamMessage.setNumberOfBuild(getSelectedNumber());
+            AppGUI.getPoseidonParamMessage().setDirection(directions);
             stage.setOnCloseRequest(e->stage.close());
             stage.close();
         }
@@ -194,6 +164,7 @@ public class PoseidonController {
         labelMatrix[2][2] = p22;
 
         Builder constructionBuilder = null;
+        char constructionBuilderSex = 'o';
         if (matchStateMessage.getCurrentPlayer().getPlayingBuilder().getGender() == '\u2640') {
             constructionBuilder = matchStateMessage.getCurrentPlayer().getBuilderM();
             constructionBuilderSex = 'M';
@@ -201,6 +172,7 @@ public class PoseidonController {
             constructionBuilder = matchStateMessage.getCurrentPlayer().getBuilderF();
             constructionBuilderSex = 'F';
         }
+        AppGUI.getPoseidonParamMessage().setConstructionGender(constructionBuilderSex);
         //Salvataggio della possible buildings
         constructionBuilder.setBoard(new Board(matchStateMessage.getBoard()));
         constructionBuilder.setPlayer(matchStateMessage.getCurrentPlayer());
@@ -263,16 +235,13 @@ public class PoseidonController {
     @FXML
     public void selectNumber(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();
-        if(pos.getId().equals("one")){
-            selectedNumber = 1;
-        }else if(pos.getId().equals("two")){
-            selectedNumber = 2;
-        }else{
-            selectedNumber = 3;
-        }
+        if(pos.getId().equals("one")) selectedNumber = 1;
+        else if(pos.getId().equals("two")) selectedNumber = 2;
+        else selectedNumber = 3;
         one.setDisable(true);
         two.setDisable(true);
         three.setDisable(true);
+        AppGUI.getPoseidonParamMessage().setNumberOfBuild(selectedNumber);
         stage.setOnCloseRequest(e->stage.close());
         stage.close();
     }

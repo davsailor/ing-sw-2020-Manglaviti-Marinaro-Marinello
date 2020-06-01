@@ -32,6 +32,7 @@ import static it.polimi.ingsw2020.santorini.utils.PhaseType.*;
 
 public class AppGUI extends Application implements ViewInterface{
 
+    // TODO: settare le finestre non ridimensionabili
     private Client client;
     private Stage primaryStage;
 
@@ -61,18 +62,56 @@ public class AppGUI extends Application implements ViewInterface{
     private ArrayList<Player> players;
     private boolean infoMatchDisplay = true;
 
-    private ApolloParamMessage apolloParamMessage;
-    private AresParamMessage aresParamMessage;
-    private ArtemisParamMessage artemisParamMessage;
-    private AtlasParamMessage atlasParamMessage;
-    private DemeterParamMessage demeterParamMessage;
-    private HestiaParamMessage hestiaParamMessage;
-    private MinotaurParamMessage minotaurParamMessage;
-    private PoseidonParamMessage poseidonParamMessage;
-    private PrometheusParamMessage prometheusParamMessage;
+    private static ApolloParamMessage apolloParamMessage = new ApolloParamMessage();
+    private static AresParamMessage aresParamMessage = new AresParamMessage();
+    private static ArtemisParamMessage artemisParamMessage = new ArtemisParamMessage();
+    private static AtlasParamMessage atlasParamMessage = new AtlasParamMessage();
+    private static DemeterParamMessage demeterParamMessage = new DemeterParamMessage();
+    private static HestiaParamMessage hestiaParamMessage = new HestiaParamMessage();
+    private static MinotaurParamMessage minotaurParamMessage = new MinotaurParamMessage();
+    private static PoseidonParamMessage poseidonParamMessage = new PoseidonParamMessage();
+    private static PrometheusParamMessage prometheusParamMessage = new PrometheusParamMessage();
+    private static String wantNewMatch;
 
+    public static ApolloParamMessage getApolloParamMessage() {
+        return apolloParamMessage;
+    }
 
+    public static AresParamMessage getAresParamMessage() {
+        return aresParamMessage;
+    }
 
+    public static ArtemisParamMessage getArtemisParamMessage() {
+        return artemisParamMessage;
+    }
+
+    public static AtlasParamMessage getAtlasParamMessage() {
+        return atlasParamMessage;
+    }
+
+    public static DemeterParamMessage getDemeterParamMessage() {
+        return demeterParamMessage;
+    }
+
+    public static HestiaParamMessage getHestiaParamMessage() {
+        return hestiaParamMessage;
+    }
+
+    public static MinotaurParamMessage getMinotaurParamMessage() {
+        return minotaurParamMessage;
+    }
+
+    public static PoseidonParamMessage getPoseidonParamMessage() {
+        return poseidonParamMessage;
+    }
+
+    public static PrometheusParamMessage getPrometheusParamMessage() {
+        return prometheusParamMessage;
+    }
+
+    public static void setWantNewMatch(String wantNewMatch) {
+        AppGUI.wantNewMatch = wantNewMatch;
+    }
 
     public Client getClient() {
         return client;
@@ -85,13 +124,25 @@ public class AppGUI extends Application implements ViewInterface{
         primaryStage.close();
         System.exit(1);
     }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        this.primaryStage = primaryStage;
+        client = new Client();
+        client.setView(this);
+        displaySetupWindow(true);
+    }
+
     /**
+     * method in which it's asked to the client to insert server's IP, and after that the username, birth date and type of match(number of players)
      * metodo in cui si chiede l'iP del server, dopodichè di fanno inserire username, data di nascita e tipo di partita (numero di giocatori nella partita)
+     * @param firstTime is true if it is the first time we call the method
+     *                  is false if the username is unavailable, and ask the client a new username
      */
     @Override
     public void displaySetupWindow(boolean firstTime) {
-        Platform.runLater(()-> {
-            if (firstTime) {
+        if(firstTime){
+            Platform.runLater(() -> {
                 primaryStage.setOnCloseRequest(e -> closeSantorini());
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 Parent root;
@@ -109,13 +160,14 @@ public class AppGUI extends Application implements ViewInterface{
                 primaryStage.setTitle("Santorini");
                 primaryStage.setScene(registerScene);
                 primaryStage.show();
-            } else {
+            });
+        } else {
+            Platform.runLater(()-> {
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 NewUsernameController newUsernameController;
                 Parent root;
                 Scene newUsername;
                 fxmlLoader.setLocation(getClass().getResource("/FXML/NewUsername.fxml"));
-
                 try {
                     root = fxmlLoader.load();
                     newUsername = new Scene(root);
@@ -125,20 +177,16 @@ public class AppGUI extends Application implements ViewInterface{
                 }
                 newUsernameController = fxmlLoader.getController();
                 newUsernameController.setClient(client);
-                Stage alertBox = new Stage();
-                alertBox.initModality(Modality.APPLICATION_MODAL);
-                alertBox.setTitle("New Username");
-                alertBox.setScene(newUsername);
-                alertBox.show();
-            }
-        });
+                primaryStage.setTitle("New Username");
+                primaryStage.setScene(newUsername);
+                primaryStage.show();
+            });
+        }
     }
 
-
     /**
+     * method that display a Loading window to the client while the server waits other clients to join
      * metodo per intrattenere l'utente mentre aspettiamo altri utenti che vogliono giocare
-     *
-     * @param message
      */
     @Override
     public void displayLoadingWindow(String message) {
@@ -160,10 +208,9 @@ public class AppGUI extends Application implements ViewInterface{
     }
 
     /**
+     * method that gives the welcome to the clients and distributes color of the builders and Gods'cards
      * metodo in cui si da il welcome alla partita, vengono assegnate le carte e i colori.
      * viene visualizzata una board semplificata per facilitare il posizionamento delle pedine
-     *
-     * @param matchSetupMessage
      */
     @Override
     public void displayMatchSetupWindow(MatchSetupMessage matchSetupMessage) {
@@ -212,6 +259,10 @@ public class AppGUI extends Application implements ViewInterface{
 
     }
 
+    /**
+     * method that asks to the current player to choose which want he wants to his side
+     * @param matchSetupMessage contains all the information needed to perform this choice
+     */
     @Override
     public void displayGodSelectionWindow(MatchSetupMessage matchSetupMessage) {
         Platform.runLater(() -> {
@@ -262,6 +313,608 @@ public class AppGUI extends Application implements ViewInterface{
     }
 
     /**
+     * the method aks to the current player to choose where he wants to place the builders in the board. This method will be called only
+     * in the setup phase
+     * metodo addetto alla selezione dei builder secondo l'ordine definito dal controller
+     * @param turnPlayerMessage contains all the references to the current player, the match and the board
+     */
+    @Override
+    public void displaySelectionBuilderWindow(MatchStateMessage turnPlayerMessage) {
+        players = turnPlayerMessage.getPlayers();
+        if(infoMatchDisplay) {
+            Platform.runLater(() -> {
+                Parent children;
+                Scene scene;
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                switch (players.size()) {
+                    case (2):
+                        fxmlLoader.setLocation(getClass().getResource("/FXML/InfoMatch.fxml"));
+                        break;
+                    case (3):
+                        fxmlLoader.setLocation(getClass().getResource("/FXML/InfoMatch3.fxml"));
+                        break;
+                }
+                try {
+                    children = fxmlLoader.load();
+                    scene = new Scene(children);
+                } catch (IOException e) {
+                    children = null;
+                    scene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
+                }
+                infoMatchController = fxmlLoader.getController();
+                infoMatchController.setClient(client);
+                infoMatchController.initializePlayers(players);
+                primaryStage.setScene(scene);
+                primaryStage.show();
+            });
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException ignored) {}
+        }
+        infoMatchDisplay = false;
+        Platform.runLater(()-> {
+            Parent children;
+            Scene scene;
+            FXMLLoader loader = new FXMLLoader();
+            switch (players.size()) {
+                case (2):
+                    loader.setLocation(getClass().getResource("/FXML/board.fxml"));
+                    break;
+                case (3):
+                    loader.setLocation(getClass().getResource("/FXML/board_3.fxml"));
+                    break;
+            }
+            try {
+                children = loader.load();
+                scene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                scene = new Scene(new Label("ERROR "));
+            }
+            selectionBuilderController = loader.getController();
+            selectionBuilderController.setClient(client);
+            selectionBuilderController.setMatchStateMessage(turnPlayerMessage);
+            selectionBuilderController.initializePlayers(players);
+            selectionBuilderController.initializeBoard(turnPlayerMessage.getBoard());
+            selectionBuilderController.setText();
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        });
+    }
+
+    /**
+     * the method will be called only if a player will insert wrong parameters in displaySelectionBuilderWindow, and will ask to the player
+     * to insert them again.
+     * @param message contains the username of the player that has made the mistake and also a boolean that indicates which builder has the
+     * wrong coordinates
+     */
+    @Override
+    public void displayNewSelectionBuilderWindow(IllegalPositionMessage message) {}
+
+    /**
+     * method that update the board every time that the model is modified, it does that by calling other methods
+     * metodo che aggiorna la board ogni volta che viene fatta una mossa (modificato il model)
+     * parametro un messaggio con scritte le informazioni sulla board.
+     */
+    @Override
+    public void updateMatch(UpdateMessage updateMessage) {
+        switch(updateMessage.getPhase()) {
+            case START_TURN:
+                displayStartTurn(updateMessage);
+                break;
+            case STANDBY_PHASE_1:
+                displaySP(updateMessage, PhaseType.STANDBY_PHASE_1);
+                break;
+            case MOVE_PHASE:
+                displayMoveUpdate(updateMessage);
+                break;
+            case STANDBY_PHASE_2:
+                displaySP(updateMessage, PhaseType.STANDBY_PHASE_2);
+                break;
+            case BUILD_PHASE:
+                displayBuildUpdate(updateMessage);
+                break;
+            case STANDBY_PHASE_3:
+                displaySP(updateMessage, STANDBY_PHASE_3);
+                break;
+            case END_TURN:
+                displayEndTurn(updateMessage);
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * method that shows board, builders, the textual interface and the first player to play
+     * far visualizzare la board con le pedine e tutta l'interfaccia testuale e il primo giocatore che gioca
+     */
+    @Override
+    public void displayStartTurn(UpdateMessage message) {
+        Platform.runLater(()->{
+            Parent children;
+            Scene scene;
+            FXMLLoader fxmlLoader = new FXMLLoader();
+
+            switch (players.size()) {
+                case (2):
+                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard.fxml"));
+                    break;
+                case (3):
+                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard_3.fxml"));
+                    break;
+            }
+            try {
+                children = fxmlLoader.load();
+                scene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                scene = new Scene(new Label("ERROR "));
+            }
+            updateMatchController = fxmlLoader.getController();
+            updateMatchController.setClient(client);
+            updateMatchController.setUpdateMessage(message);
+            updateMatchController.initializePlayers(players);
+            updateMatchController.initializeBoard(message.getCells());
+            updateMatchController.setText();
+            primaryStage.setTitle("START TURN");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException ignored) {}
+        });
+    }
+
+    /**
+     * the method asks to the player if he wants to activate his god's power
+     * @param question is a message that contains the name of the player (that will receive the question) and the name of the god
+     */
+    @Override
+    public void displayWouldActivate(MatchStateMessage question) {
+        Platform.runLater(()->{
+
+            Stage powerStage = new Stage();
+            powerStage.setOnCloseRequest(Event::consume);
+            powerStage.initModality(Modality.APPLICATION_MODAL);
+            Parent children;
+            Scene scene;
+
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/FXML/activationPower.fxml"));
+
+            try {
+                children = fxmlLoader.load();
+                scene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                scene = new Scene(new Label ("ERROR "));
+            }
+            activationPowerController = fxmlLoader.getController();
+            activationPowerController.setMatchStateMessage(question);
+            activationPowerController.setClient(client);
+            activationPowerController.initializeText();
+            activationPowerController.setStage(powerStage);
+            powerStage.setScene(scene);
+            powerStage.show();
+        });
+    }
+
+    /**
+     * the method calls a method linked to a specific God that will ask to the player to insert parameters needed to use the god
+     * @param message is a message that contains the name of the player (that will receive the question) and the name of the god
+     */
+    //TODO: Tooltip per potere divinità
+    @Override
+    public void displayParametersSelection(MatchStateMessage message) {
+        if(message.getCurrentPlayer().getNickname().equals(client.getUsername())) {
+            String god = message.getCurrentPlayer().getDivinePower().getName();
+            switch (god) {
+                case "Apollo":
+                    displayApolloParamSel(message);
+                    break;
+                case "Ares":
+                    displayAresParamSel(message);
+                    break;
+                case "Artemis":
+                    displayArtemisParamSel(message);
+                    break;
+                case "Atlas":
+                    displayAtlasParamSel(message);
+                    break;
+                case "Demeter":
+                    displayDemeterParamSel(message);
+                    break;
+                case "Hestia":
+                    displayHestiaParamSel(message);
+                    break;
+                case "Minotaur":
+                    displayMinotaurParamSel(message);
+                    break;
+                case "Poseidon":
+                    displayPoseidonParamSel(message);
+                    break;
+                case "Prometheus":
+                    displayPrometheusParamSel(message);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    /**
+     * the method prints to the players when and which god helped a player
+     * @param updateMessage contains the name of the god used and the user name of the player that used it
+     * @param phase is the phase in which the god helped the player
+     */
+    @Override
+    public void displaySP(UpdateMessage updateMessage, PhaseType phase) {
+        Platform.runLater(()->{
+            Parent children;
+            Scene scene;
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            switch (players.size()) {
+                case (2):
+                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard.fxml"));
+                    break;
+                case (3):
+                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard_3.fxml"));
+                    break;
+            }
+            try {
+                children = fxmlLoader.load();
+                scene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                scene = new Scene(new Label("ERROR "));
+            }
+            updateMatchController = fxmlLoader.getController();
+            updateMatchController.setClient(client);
+            updateMatchController.setUpdateMessage(updateMessage);
+            updateMatchController.initializeBoard(updateMessage.getCells());
+            updateMatchController.initializePlayers(players);
+            updateMatchController.setText();
+            primaryStage.setTitle("SP UPDATE");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        });
+    }
+
+    /**
+     * the method asks to the current player which one of his builder he wants to move and build with.
+     * To help the player in his choice the method also shows the board in its current state and it allows the player to select a builder only
+     * if he or she can move
+     * @param message contains the username of the player and
+     */
+    @Override
+    public void displayChooseBuilder(MatchStateMessage message) {
+        Platform.runLater(()->{
+            Parent children;
+            Scene scene;
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            switch (players.size()) {
+                case (2):
+                    fxmlLoader.setLocation(getClass().getResource("/FXML/board_builder.fxml"));
+                    break;
+                case (3):
+                    fxmlLoader.setLocation(getClass().getResource("/FXML/board_3_builder.fxml"));
+                    break;
+            }
+            try {
+                children = fxmlLoader.load();
+                scene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                scene = new Scene(new Label("ERROR "));
+            }
+            chooseBuilderController = fxmlLoader.getController();
+            chooseBuilderController.setClient(client);
+            chooseBuilderController.setMatchStateMessage(message);
+            chooseBuilderController.initializeBoard(message.getBoard());
+            chooseBuilderController.initializePlayers(players);
+            chooseBuilderController.setText();
+            chooseBuilderController.initializeBuilder();
+            primaryStage.setTitle("CHOOSE BUILDER");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        });
+
+    }
+
+    /**
+     * the method asks to the player in which direction he wants to move the builder. The method shows a little matrix to represents the
+     * allowed direction of movements. If the player inserts a wrong direction, he will be asked again to insert the direction
+     * metodo che mostra all'utente le possibili mosse che il builder selezionato può fare
+     */
+    @Override
+    public void displayPossibleMoves(AskMoveSelectionMessage message) {
+        Platform.runLater(()->{
+            Stage moveStage = new Stage();
+            moveStage.setOnCloseRequest(Event::consume);
+            moveStage.initModality(Modality.APPLICATION_MODAL);
+            Parent children;
+            Scene scene;
+
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/FXML/directionMove.fxml"));
+
+            try {
+                children = fxmlLoader.load();
+                scene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                scene = new Scene(new Label ("ERROR "));
+            }
+            possibleMovesController = fxmlLoader.getController();
+            possibleMovesController.setAskMoveSelectionMessage(message);
+            possibleMovesController.setClient(client);
+            possibleMovesController.initializeBoard();
+            possibleMovesController.setText();
+            possibleMovesController.setStage(moveStage);
+            moveStage.setScene(scene);
+            moveStage.show();
+        });
+
+    }
+
+    /**
+     * the method asks to the player in which direction he wants to move the builder. The method shows a little matrix to represents the
+     * allowed direction of movements. If the player inserts a wrong direction, he will be asked again to insert the direction
+     * metodo che mostra all'utente le possibili mosse che il builder selezionato può fare
+     */
+    @Override
+    public void displayMoveUpdate(UpdateMessage updateMessage) {
+        Platform.runLater(()->{
+            Parent children;
+            Scene scene;
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            switch (players.size()) {
+                case (2):
+                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard.fxml"));
+                    break;
+                case (3):
+                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard_3.fxml"));
+                    break;
+            }
+            try {
+                children = fxmlLoader.load();
+                scene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                scene = new Scene(new Label("ERROR "));
+            }
+            updateMatchController = fxmlLoader.getController();
+            updateMatchController.setClient(client);
+            updateMatchController.setUpdateMessage(updateMessage);
+            updateMatchController.initializeBoard(updateMessage.getCells());
+            updateMatchController.initializePlayers(players);
+            updateMatchController.setText();
+            primaryStage.setTitle("MOVE UPDATE");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        });
+    }
+
+    /**
+     * the method asks to the player in which direction he wants to build. The method shows a little matrix to represents the
+     * allowed direction to construct near his playing builder. If the player inserts a wrong direction, he will be asked again to insert the direction
+     * metodo che mostra all'utente le possibili costruzioni che il builder mosso può fare
+     */
+    @Override
+    public void displayPossibleBuildings(AskBuildSelectionMessage message) {
+        Platform.runLater(()->{
+
+            Stage buildStage = new Stage();
+            buildStage.setOnCloseRequest(Event::consume);
+            buildStage.initModality(Modality.APPLICATION_MODAL);
+            Parent children;
+            Scene scene;
+
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/FXML/directionBuild.fxml"));
+
+            try {
+                children = fxmlLoader.load();
+                scene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                scene = new Scene(new Label ("ERROR "));
+            }
+            possibleBuildingsController = fxmlLoader.getController();
+            possibleBuildingsController.setAskBuildSelectionMessage(message);
+            possibleBuildingsController.setClient(client);
+            possibleBuildingsController.initializeBoard();
+            possibleBuildingsController.setText();
+            possibleBuildingsController.setStage(buildStage);
+            buildStage.setScene(scene);
+            buildStage.show();
+        });
+    }
+
+    /**
+     * the method shows the board updated after the build phase
+     * @param updateMessage is a message that contains the reference to the board, which is used to print the board itself
+     */
+    @Override
+    public void displayBuildUpdate(UpdateMessage updateMessage) {
+        Platform.runLater(()->{
+            Parent children;
+            Scene scene;
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            switch (players.size()) {
+                case (2):
+                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard.fxml"));
+                    break;
+                case (3):
+                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard_3.fxml"));
+                    break;
+            }
+            try {
+                children = fxmlLoader.load();
+                scene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                scene = new Scene(new Label("ERROR "));
+            }
+            updateMatchController = fxmlLoader.getController();
+            updateMatchController.setClient(client);
+            updateMatchController.setUpdateMessage(updateMessage);
+            updateMatchController.initializeBoard(updateMessage.getCells());
+            updateMatchController.initializePlayers(players);
+            updateMatchController.setText();
+            primaryStage.setTitle("BUILD UPDATE");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        });
+    }
+
+    /**
+     *the method prints a message to the players showing how the board has been modified during the turn and communicates the end of the turn
+     * of the current player
+     * @param updateMessage contains the the user name of current player and the reference to the board
+     */
+    @Override
+    public void displayEndTurn(UpdateMessage updateMessage) {
+        Platform.runLater(()->{
+            Parent children;
+            Scene scene;
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            switch (players.size()) {
+                case (2):
+                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard.fxml"));
+                    break;
+                case (3):
+                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard_3.fxml"));
+                    break;
+            }
+            try {
+                children = fxmlLoader.load();
+                scene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                scene = new Scene(new Label("ERROR "));
+            }
+            updateMatchController = fxmlLoader.getController();
+            updateMatchController.setClient(client);
+            updateMatchController.setUpdateMessage(updateMessage);
+            updateMatchController.initializeBoard(updateMessage.getCells());
+            updateMatchController.initializePlayers(players);
+            updateMatchController.setText();
+            primaryStage.setTitle("END TURN");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+
+        });
+
+    }
+
+    /**
+     * method that shows winner. It then close the match or if the players wants to begin a new match
+     * metodo che mostra vincitori e vinti. conclude la partita con epic sax guy
+     * @param winner
+     */
+    @Override
+    public void displayEndMatch(String winner) {
+        Platform.runLater(()->{
+            Parent children;
+            Scene scene;
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            if(client.getUsername().equals(winner)) {
+                fxmlLoader.setLocation(getClass().getResource("/FXML/WinnerWindow.fxml"));
+                try {
+                    children = fxmlLoader.load();
+                    scene = new Scene(children);
+                } catch (IOException e) {
+                    children = null;
+                    scene = new Scene(new Label("ERROR "));
+                }
+                endMatchController = fxmlLoader.getController();
+                endMatchController.setClient(client);
+                endMatchController.setWinner();
+                primaryStage.setScene(scene);
+                primaryStage.show();
+            } else {
+                fxmlLoader.setLocation(getClass().getResource("/FXML/LoserWindow.fxml"));
+                try {
+                    children = fxmlLoader.load();
+                    scene = new Scene(children);
+                } catch (IOException e) {
+                    children = null;
+                    scene = new Scene(new Label("ERROR "));
+                }
+                endMatchController = fxmlLoader.getController();
+                endMatchController.setClient(client);
+                endMatchController.setText();
+                primaryStage.setScene(scene);
+                primaryStage.show();
+                System.out.println("LOSER");
+            }
+            Stage stage = new Stage();
+            stage.setOnCloseRequest(Event::consume);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            FXMLLoader loader_new = new FXMLLoader();
+            loader_new.setLocation(getClass().getResource("/FXML/AskNewMatch.fxml"));
+            try {
+                children = loader_new.load();
+                scene = new Scene(children);
+            } catch (IOException e) {
+                children = null;
+                scene = new Scene(new Label ("ERROR "));
+            }
+            askNewMatchController = loader_new.getController();
+            askNewMatchController.setStage(stage);
+            stage.setScene(scene);
+            stage.showAndWait();
+
+            FXMLLoader loader = new FXMLLoader();
+            if (wantNewMatch.equals("YES")) {
+                Stage selection = new Stage();
+                loader.setLocation(getClass().getResource("/FXML/newMatch.fxml"));
+                try {
+                    children = loader.load();
+                    scene = new Scene(children);
+                } catch (IOException e) {
+                    children = null;
+                    scene = new Scene(new Label("ERROR "));
+                }
+                newMatchController = loader.getController();
+                newMatchController.setClient(client);
+                newMatchController.setStage(selection);
+                selection.setOnCloseRequest(Event::consume);
+                selection.setScene(scene);
+                selection.showAndWait();
+                displayLoadingWindow(null);
+            } else {
+                loader.setLocation(getClass().getResource("/FXML/NoMatch.fxml"));
+                try {
+                    children = loader.load();
+                    scene = new Scene(children);
+                } catch (IOException e) {
+                    children = null;
+                    scene = new Scene(new Label("ERROR "));
+                }
+                primaryStage.setScene(scene);
+                primaryStage.show();
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException ignored) {}
+                Message message = new Message(client.getUsername());
+                message.buildNewMatchMessage(new NewMatchMessage(false, 0, null));
+                client.getNetworkHandler().send(message);
+                primaryStage.close();
+            }
+        });
+    }
+
+    /**
+     * method that shows possible errors occurred
+     * metodo che mostra all'utente possibili errori che sono capitati
+     */
+    @Override
+    public void displayErrorMessage(String error) {}
+
+    /**
      * the method asks to the current player to insert parameters need to use Apollo's power. These parameters are the choice of which builder
      * the player want to move (and swap with opponent's builder) and in which direction. If the builder selected cannot be moved, the method will choose for the player the other
      * builder. If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
@@ -272,7 +925,6 @@ public class AppGUI extends Application implements ViewInterface{
      */
     @Override
     public ApolloParamMessage displayApolloParamSel(MatchStateMessage message) {
-
         Platform.runLater(() -> {
             FXMLLoader fxmlLoader = new FXMLLoader();
             Stage swapStage = new Stage();
@@ -280,7 +932,6 @@ public class AppGUI extends Application implements ViewInterface{
             swapStage.initModality(Modality.APPLICATION_MODAL);
             Parent root;
             Scene scene;
-
             fxmlLoader.setLocation(getClass().getResource("/FXML/askBuilder.fxml"));
             try {
                 root = fxmlLoader.load();
@@ -290,7 +941,6 @@ public class AppGUI extends Application implements ViewInterface{
                 scene = new Scene(new Label("ERROR "));
             }
             apolloController = fxmlLoader.getController();
-            apolloController.setClient(client);
             apolloController.setStage(swapStage);
             apolloController.setMatchStateMessage(message);
             apolloController.initializeButtons();
@@ -306,28 +956,25 @@ public class AppGUI extends Application implements ViewInterface{
             Parent children;
             Scene swapScene;
             loader.setLocation(getClass().getResource("/FXML/apolloMatrix.fxml"));
-
             try {
                 children = loader.load();
                 swapScene = new Scene(children);
             } catch (IOException e) {
-                children = null;
+                root = null;
                 swapScene = new Scene(new Label("ERROR "));
             }
 
-            System.out.println(chosen.getGender());
             apolloController = loader.getController();
             apolloController.setStage(stage);
             apolloController.setMatchStateMessage(message);
             apolloController.initializeApolloMatrix(Board.neighboringSwappingCell(chosen, AccessType.OCCUPIED));
             stage.setScene(swapScene);
             stage.showAndWait();
-            apolloParamMessage = apolloController.getApolloParamMessage();
-            System.out.println(apolloParamMessage);
+            Message paramMessage = new Message(client.getUsername());
+            paramMessage.buildApolloParamMessage(apolloParamMessage);
+            client.getNetworkHandler().send(paramMessage);
         });
-
-        return apolloParamMessage;
-
+        return null;
     }
 
     /**
@@ -364,11 +1011,11 @@ public class AppGUI extends Application implements ViewInterface{
             aresController.initializeAresMatrix();
             stage.setScene(demolitionScene);
             stage.showAndWait();
-            aresParamMessage = aresController.getAresParamMessage();
-            System.out.println(apolloParamMessage);
-    });
-
-        return aresParamMessage;
+            Message paramMessage = new Message(client.getUsername());
+            paramMessage.buildAresParamMessage(aresParamMessage);
+            client.getNetworkHandler().send(paramMessage);
+        });
+        return null;
     }
 
     /**
@@ -381,6 +1028,7 @@ public class AppGUI extends Application implements ViewInterface{
      *                builder
      * @return the message containing the parameter acquired by the method
      */
+    // TODO: verificare la condizione di attivazione di Artemis, anche sulla CLI -> GUI sicuramente sbagliato
     @Override
     public ArtemisParamMessage displayArtemisParamSel(MatchStateMessage message) {
         Platform.runLater(()->{
@@ -406,10 +1054,11 @@ public class AppGUI extends Application implements ViewInterface{
             artemisController.initializeArtemisMatrix();
             stage.setScene(moveScene);
             stage.showAndWait();
-            artemisParamMessage = artemisController.getArtemisParamMessage();
-            System.out.println(artemisParamMessage);
+            Message paramMessage = new Message(client.getUsername());
+            paramMessage.buildArtemisParamMessage(artemisParamMessage);
+            client.getNetworkHandler().send(paramMessage);
         });
-        return artemisParamMessage;
+        return null;
     }
 
     /**
@@ -447,11 +1096,11 @@ public class AppGUI extends Application implements ViewInterface{
             atlasController.initializeAtlasMatrix();
             stage.setScene(demolitionScene);
             stage.showAndWait();
-            atlasParamMessage = atlasController.getAtlasParamMessage();
-            System.out.println(atlasParamMessage);
+            Message paramMessage = new Message(client.getUsername());
+            paramMessage.buildAtlasParamMessage(atlasParamMessage);
+            client.getNetworkHandler().send(paramMessage);
         });
-
-        return atlasParamMessage;
+        return null;
     }
 
     /**
@@ -489,11 +1138,11 @@ public class AppGUI extends Application implements ViewInterface{
             demeterController.initializeDemeterMatrix();
             stage.setScene(demolitionScene);
             stage.showAndWait();
-            demeterParamMessage = demeterController.getDemeterParamMessage();
-            System.out.println(demeterParamMessage);
+            Message paramMessage = new Message(client.getUsername());
+            paramMessage.buildDemeterParamMessage(demeterParamMessage);
+            client.getNetworkHandler().send(paramMessage);
         });
-
-        return demeterParamMessage;
+        return null;
     }
 
     /**
@@ -531,11 +1180,11 @@ public class AppGUI extends Application implements ViewInterface{
             hestiaController.initializeHestiaMatrix();
             stage.setScene(demolitionScene);
             stage.showAndWait();
-            hestiaParamMessage = hestiaController.getHestiaParamMessage();
-            System.out.println(hestiaParamMessage);
+            Message paramMessage = new Message(client.getUsername());
+            paramMessage.buildHestiaParamMessage(hestiaParamMessage);
+            client.getNetworkHandler().send(paramMessage);
         });
-
-        return hestiaParamMessage;
+        return null;
     }
 
     /**
@@ -565,7 +1214,6 @@ public class AppGUI extends Application implements ViewInterface{
                 scene = new Scene(new Label("ERROR "));
             }
             minotaurController = fxmlLoader.getController();
-            minotaurController.setClient(client);
             minotaurController.setStage(swapStage);
             minotaurController.setMatchStateMessage(message);
             minotaurController.initializeButtons();
@@ -589,15 +1237,16 @@ public class AppGUI extends Application implements ViewInterface{
                 pushScene = new Scene(new Label("ERROR "));
             }
             minotaurController = loader.getController();
-            minotaurController.setClient(client);
             minotaurController.setStage(stage);
             minotaurController.setMatchStateMessage(message);
             minotaurController.initializeMinotaurMatrix(Board.neighboringSwappingCell(chosen, AccessType.OCCUPIED));
             stage.setScene(pushScene);
             stage.showAndWait();
-            minotaurParamMessage = minotaurController.getMinotaurParamMessage();
+            Message paramMessage = new Message(client.getUsername());
+            paramMessage.buildMinotaurParamMessage(minotaurParamMessage);
+            client.getNetworkHandler().send(paramMessage);
         });
-        return minotaurParamMessage;
+        return null;
     }
 
     /**
@@ -629,7 +1278,6 @@ public class AppGUI extends Application implements ViewInterface{
                 scene = new Scene(new Label("ERROR "));
             }
             poseidonController = fxmlLoader.getController();
-            poseidonController.setClient(client);
             poseidonController.setStage(swapStage);
             poseidonController.setMatchStateMessage(message);
             poseidonController.initializeButtons();
@@ -653,16 +1301,16 @@ public class AppGUI extends Application implements ViewInterface{
             }
 
             poseidonController = loader.getController();
-            poseidonController.setClient(client);
             poseidonController.setStage(stage);
             poseidonController.setMatchStateMessage(message);
             poseidonController.initializePoseidonMatrix();
             stage.setScene(buildScene);
             stage.showAndWait();
-            poseidonParamMessage = poseidonController.getPoseidonParamMessage();
+            Message paramMessage = new Message(client.getUsername());
+            paramMessage.buildPoseidonParamMessage(poseidonParamMessage);
+            client.getNetworkHandler().send(paramMessage);
         });
-
-        return poseidonParamMessage;
+        return null;
     }
 
     /**
@@ -694,7 +1342,6 @@ public class AppGUI extends Application implements ViewInterface{
                 scene = new Scene(new Label("ERROR "));
             }
             prometheusController = fxmlLoader.getController();
-            prometheusController.setClient(client);
             prometheusController.setStage(swapStage);
             prometheusController.setMatchStateMessage(message);
             prometheusController.initializeButtons();
@@ -718,629 +1365,24 @@ public class AppGUI extends Application implements ViewInterface{
                 demolitionScene = new Scene(new Label("ERROR "));
             }
             prometheusController = loader.getController();
-            prometheusController.setClient(client);
             prometheusController.setStage(stage);
             prometheusController.setMatchStateMessage(message);
             prometheusController.initializePrometheusMatrix(Board.neighboringLevelCell(chosen));
             stage.setScene(demolitionScene);
             stage.showAndWait();
-            prometheusParamMessage = prometheusController.getPrometheusParamMessage();
+            Message paramMessage = new Message(client.getUsername());
+            paramMessage.buildPrometheusParamMessage(prometheusParamMessage);
+            client.getNetworkHandler().send(paramMessage);
         });
-        return prometheusParamMessage;
+        return null;
     }
 
-    /**
-     * metodo addetto alla selezione dei builder secondo l'ordine definito dal controller
-     *
-     * @param turnPlayerMessage
-     */
-    @Override
-    public void displaySelectionBuilderWindow(MatchStateMessage turnPlayerMessage) {
-        Platform.runLater(()-> {
-            Parent children;
-            Scene scene;
-
-            if(infoMatchDisplay) {
-                players = turnPlayerMessage.getPlayers();
-
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                switch (players.size()) {
-                    case (2):
-                        fxmlLoader.setLocation(getClass().getResource("/FXML/InfoMatch.fxml"));
-                        break;
-                    case (3):
-                        fxmlLoader.setLocation(getClass().getResource("/FXML/InfoMatch3.fxml"));
-                        break;
-                }
-
-                try {
-                    children = fxmlLoader.load();
-                    scene = new Scene(children);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    children = null;
-                    scene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
-                }
-                infoMatchController = fxmlLoader.getController();
-                infoMatchController.setClient(client);
-                infoMatchController.initializePlayers(players);
-                primaryStage.setScene(scene);
-                primaryStage.show();
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();//TODO ricordiamo di cancellare sto print stack trace
-                }
-            }
-            infoMatchDisplay = false;
-            FXMLLoader loader = new FXMLLoader();
-            switch (players.size()) {
-                case (2):
-                    loader.setLocation(getClass().getResource("/FXML/board.fxml"));
-                    break;
-                case (3):
-                    loader.setLocation(getClass().getResource("/FXML/board_3.fxml"));
-                    break;
-            }
-
-            try {
-                children = loader.load();
-                scene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                scene = new Scene(new Label("ERROR "));
-            }
-            selectionBuilderController = loader.getController();
-            selectionBuilderController.setClient(client);
-            selectionBuilderController.setMatchStateMessage(turnPlayerMessage);
-            selectionBuilderController.initializePlayers(players);
-            selectionBuilderController.initializeBoard(turnPlayerMessage.getBoard());
-            selectionBuilderController.setText();
-            primaryStage.setScene(scene);
-            primaryStage.show();
-
-        });
-    }
-
-    @Override
-    public void displayNewSelectionBuilderWindow(IllegalPositionMessage message) {}
-
-    /**
-     * metodo che aggiorna la board ogni volta che viene fatta una mossa (modificato il model)
-     * parametro un messaggio con scritte le informazioni sulla board.
-     *
-     * @param updateMessage
-     */
-    @Override
-    public void updateMatch(UpdateMessage updateMessage) {
-
-        switch(updateMessage.getPhase()) {
-            case START_TURN:
-                displayStartTurn(updateMessage);
-                break;
-            case STANDBY_PHASE_1:
-                displaySP(updateMessage, PhaseType.STANDBY_PHASE_1);
-                break;
-            case MOVE_PHASE:
-                displayMoveUpdate(updateMessage);
-                break;
-            case STANDBY_PHASE_2:
-                displaySP(updateMessage, PhaseType.STANDBY_PHASE_2);
-                break;
-            case BUILD_PHASE:
-                displayBuildUpdate(updateMessage);
-                break;
-            case STANDBY_PHASE_3:
-                displaySP(updateMessage, STANDBY_PHASE_3);
-                break;
-            case END_TURN:
-                displayEndTurn(updateMessage);
-                break;
-            default:
-                break;
-        }
-    }
-
-    /**
-     * far visualizzare la board con le pedine e tutta l'interfaccia testuale e il primo giocatore che gioca
-     *
-     * @param message
-     */
-    @Override
-    public void displayStartTurn(UpdateMessage message) {
-        Platform.runLater(()->{
-            Parent children;
-            Scene scene;
-            FXMLLoader fxmlLoader = new FXMLLoader();
-
-            switch (players.size()) {
-                case (2):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard.fxml"));
-                    break;
-                case (3):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard_3.fxml"));
-                    break;
-            }
-            try {
-                children = fxmlLoader.load();
-                scene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                scene = new Scene(new Label("ERROR "));
-            }
-            updateMatchController = fxmlLoader.getController();
-            updateMatchController.setClient(client);
-            updateMatchController.setUpdateMessage(message);
-            updateMatchController.initializePlayers(players);
-            updateMatchController.initializeBoard(message.getCells());
-            updateMatchController.setText();
-            primaryStage.setTitle("START TURN");
-            primaryStage.setScene(scene);
-            primaryStage.show();
-            try {
-                Thread.sleep(1500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();//TODO ricordiamo di cancellare sto print stack trace
-            }
-
-        });
-
-    }
-
-    @Override
-    public void displaySP(UpdateMessage updateMessage, PhaseType phase) {
-        Platform.runLater(()->{
-            Parent children;
-            Scene scene;
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            switch (players.size()) {
-                case (2):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard.fxml"));
-                    break;
-                case (3):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard_3.fxml"));
-                    break;
-            }
-            try {
-                children = fxmlLoader.load();
-                scene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                scene = new Scene(new Label("ERROR "));
-            }
-            updateMatchController = fxmlLoader.getController();
-            updateMatchController.setClient(client);
-            System.out.println("1");
-            updateMatchController.setUpdateMessage(updateMessage);
-            System.out.println("2");
-            updateMatchController.initializeBoard(updateMessage.getCells());
-            System.out.println("3");
-            updateMatchController.initializePlayers(players);
-            System.out.println("4");
-            updateMatchController.setText();
-            System.out.println("5");
-            primaryStage.setTitle("SP UPDATE");
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        });
-
-    }
-
-    @Override
-    public void displayMoveUpdate(UpdateMessage updateMessage) {
-        Platform.runLater(()->{
-            Parent children;
-            Scene scene;
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            switch (players.size()) {
-                case (2):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard.fxml"));
-                    break;
-                case (3):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard_3.fxml"));
-                    break;
-            }
-            try {
-                children = fxmlLoader.load();
-                scene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                scene = new Scene(new Label("ERROR "));
-            }
-            updateMatchController = fxmlLoader.getController();
-            updateMatchController.setClient(client);
-            updateMatchController.setUpdateMessage(updateMessage);
-            updateMatchController.initializeBoard(updateMessage.getCells());
-            updateMatchController.initializePlayers(players);
-            updateMatchController.setText();
-            primaryStage.setTitle("MOVE UPDATE");
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        });
-    }
-
-    @Override
-    public void displayBuildUpdate(UpdateMessage updateMessage) {
-        Platform.runLater(()->{
-            Parent children;
-            Scene scene;
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            switch (players.size()) {
-                case (2):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard.fxml"));
-                    break;
-                case (3):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard_3.fxml"));
-                    break;
-            }
-            try {
-                children = fxmlLoader.load();
-                scene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                scene = new Scene(new Label("ERROR "));
-            }
-            updateMatchController = fxmlLoader.getController();
-            updateMatchController.setClient(client);
-            updateMatchController.setUpdateMessage(updateMessage);
-            updateMatchController.initializeBoard(updateMessage.getCells());
-            updateMatchController.initializePlayers(players);
-            updateMatchController.setText();
-            primaryStage.setTitle("BUILD UPDATE");
-            primaryStage.setScene(scene);
-            primaryStage.show();
-
-        });
-    }
-
-    @Override
-    public void displayParametersSelection(MatchStateMessage message) {
-        if(message.getCurrentPlayer().getNickname().equals(client.getUsername())) {
-            Message selectedParam = new Message(client.getUsername());
-            String god = message.getCurrentPlayer().getDivinePower().getName();
-            System.out.println(god + " è qui ad aiutarti!");
-            switch (god) {
-                case "Apollo":
-                    selectedParam.buildApolloParamMessage(displayApolloParamSel(message));
-                    break;
-                case "Ares":
-                    selectedParam.buildAresParamMessage(displayAresParamSel(message));
-                    break;
-                case "Artemis":
-                    selectedParam.buildArtemisParamMessage(displayArtemisParamSel(message));
-                    break;
-                case "Atlas":
-                    selectedParam.buildAtlasParamMessage(displayAtlasParamSel(message));
-                    break;
-                case "Demeter":
-                    selectedParam.buildDemeterParamMessage(displayDemeterParamSel(message));
-                    break;
-                case "Hestia":
-                    selectedParam.buildHestiaParamMessage(displayHestiaParamSel(message));
-                    break;
-                case "Minotaur":
-                    selectedParam.buildMinotaurParamMessage(displayMinotaurParamSel(message));
-                    break;
-                case "Poseidon":
-                    selectedParam.buildPoseidonParamMessage(displayPoseidonParamSel(message));
-                    break;
-                case "Prometheus":
-                    selectedParam.buildPrometheusParamMessage(displayPrometheusParamSel(message));
-                    break;
-                default:
-                    break;
-            }
-            client.getNetworkHandler().send(selectedParam);
-        }
-
-    }
-
-    @Override
-    public void displayChooseBuilder(MatchStateMessage message) {
-        Platform.runLater(()->{
-            Parent children;
-            Scene scene;
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            switch (players.size()) {
-                case (2):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/board_builder.fxml"));
-                    break;
-                case (3):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/board_3_builder.fxml"));
-                    break;
-            }
-            try {
-                children = fxmlLoader.load();
-                scene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                scene = new Scene(new Label("ERROR "));
-            }
-            chooseBuilderController = fxmlLoader.getController();
-            chooseBuilderController.setClient(client);
-            chooseBuilderController.setMatchStateMessage(message);
-            chooseBuilderController.initializeBoard(message.getBoard());
-            chooseBuilderController.initializePlayers(players);
-            chooseBuilderController.setText();
-            chooseBuilderController.initializeBuilder();
-            primaryStage.setTitle("CHOOSE BUILDER");
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        });
-
-    }
-
-    /**
-     * prova
-     *
-     * @param updateMessage parameter
-     */
-    @Override
-    public void displayEndTurn(UpdateMessage updateMessage) {
-        Platform.runLater(()->{
-            Parent children;
-            Scene scene;
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            switch (players.size()) {
-                case (2):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard.fxml"));
-                    break;
-                case (3):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard_3.fxml"));
-                    break;
-            }
-            try {
-                children = fxmlLoader.load();
-                scene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                scene = new Scene(new Label("ERROR "));
-            }
-            updateMatchController = fxmlLoader.getController();
-            updateMatchController.setClient(client);
-            updateMatchController.setUpdateMessage(updateMessage);
-            updateMatchController.initializeBoard(updateMessage.getCells());
-            updateMatchController.initializePlayers(players);
-            updateMatchController.setText();
-            primaryStage.setTitle("END TURN");
-            primaryStage.setScene(scene);
-            primaryStage.show();
-
-        });
-
-    }
-
-    @Override
-    public void displayWouldActivate(MatchStateMessage question) {
-        Platform.runLater(()->{
-
-            Stage powerStage = new Stage();
-            powerStage.setOnCloseRequest(Event::consume);
-            powerStage.initModality(Modality.APPLICATION_MODAL);
-            Parent children;
-            Scene scene;
-
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/FXML/activationPower.fxml"));
-
-            try {
-                children = fxmlLoader.load();
-                scene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                scene = new Scene(new Label ("ERROR "));
-            }
-            activationPowerController = fxmlLoader.getController();
-            activationPowerController.setMatchStateMessage(question);
-            activationPowerController.setClient(client);
-            activationPowerController.initializeText();
-            activationPowerController.setStage(powerStage);
-            powerStage.setScene(scene);
-            powerStage.show();
-        });
-    }
-
-    /**
-     * metodo che mostra all'utente le possibili mosse che il builder selezionato può fare
-     *
-     * @param message
-     */
-    @Override
-    public void displayPossibleMoves(AskMoveSelectionMessage message) {
-        Platform.runLater(()->{
-            Stage moveStage = new Stage();
-            moveStage.setOnCloseRequest(Event::consume);
-            moveStage.initModality(Modality.APPLICATION_MODAL);
-            Parent children;
-            Scene scene;
-
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/FXML/directionMove.fxml"));
-
-            try {
-                children = fxmlLoader.load();
-                scene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                scene = new Scene(new Label ("ERROR "));
-            }
-            possibleMovesController = fxmlLoader.getController();
-            possibleMovesController.setAskMoveSelectionMessage(message);
-            possibleMovesController.setClient(client);
-            possibleMovesController.initializeBoard();
-            possibleMovesController.setText();
-            possibleMovesController.setStage(moveStage);
-            moveStage.setScene(scene);
-            moveStage.show();
-        });
-
-    }
-
-    /**
-     * metodo che mostra all'utente le possibili costruzioni che il builder mosso può fare
-     *
-     * @param message
-     */
-    @Override
-    public void displayPossibleBuildings(AskBuildSelectionMessage message) {
-        Platform.runLater(()->{
-
-            Stage buildStage = new Stage();
-            buildStage.setOnCloseRequest(Event::consume);
-            buildStage.initModality(Modality.APPLICATION_MODAL);
-            Parent children;
-            Scene scene;
-
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/FXML/directionBuild.fxml"));
-
-            try {
-                children = fxmlLoader.load();
-                scene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                scene = new Scene(new Label ("ERROR "));
-            }
-            possibleBuildingsController = fxmlLoader.getController();
-            possibleBuildingsController.setAskBuildSelectionMessage(message);
-            possibleBuildingsController.setClient(client);
-            possibleBuildingsController.initializeBoard();
-            possibleBuildingsController.setText();
-            possibleBuildingsController.setStage(buildStage);
-            buildStage.setScene(scene);
-            buildStage.show();
-        });
-    }
-
-    /**
-     * metodo che mostra vincitori e vinti. conclude la partita con epic sax guy
-     *
-     * @param winner
-     */
-    @Override
-    public void displayEndMatch(String winner) {
-        Platform.runLater(()->{
-            Parent children;
-            Scene scene;
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            if(client.getUsername().equals(winner)) {
-
-                fxmlLoader.setLocation(getClass().getResource("/FXML/WinnerWindow.fxml"));
-
-                try {
-                    children = fxmlLoader.load();
-                    scene = new Scene(children);
-                } catch (IOException e) {
-                    children = null;
-                    scene = new Scene(new Label("ERROR "));
-                }
-                endMatchController = fxmlLoader.getController();
-                endMatchController.setClient(client);
-                endMatchController.setWinner();
-                primaryStage.setScene(scene);
-                primaryStage.show();
-
-            }else{
-                fxmlLoader.setLocation(getClass().getResource("/FXML/LoserWindow.fxml"));
-
-                try {
-                    children = fxmlLoader.load();
-                    scene = new Scene(children);
-                } catch (IOException e) {
-                    children = null;
-                    scene = new Scene(new Label("ERROR "));
-                }
-                endMatchController.setClient(client);
-                endMatchController.setText();
-                primaryStage.setScene(scene);
-                primaryStage.show();
-                System.out.println("LOSER");
-
-            }
-            Stage stage = new Stage();
-            stage.setOnCloseRequest(Event::consume);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            FXMLLoader loader_new = new FXMLLoader();
-            loader_new.setLocation(getClass().getResource("/FXML/AskNewMatch.fxml"));
-            try {
-                children = loader_new.load();
-                scene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                scene = new Scene(new Label ("ERROR "));
-            }
-            askNewMatchController = loader_new.getController();
-            stage.setScene(scene);
-            stage.showAndWait();
-
-
-            FXMLLoader loader = new FXMLLoader();
-            if (askNewMatchController.getAnswer().equals("YES")) {
-                loader.setLocation(getClass().getResource("/FXML/newMatch.fxml"));
-                try {
-                    children = loader.load();
-                    scene = new Scene(children);
-                } catch (IOException e) {
-                    children = null;
-                    scene = new Scene(new Label("ERROR "));
-                }
-                newMatchController = loader.getController();
-                newMatchController.setClient(client);
-                primaryStage.setScene(scene);
-                primaryStage.show();
-            } else {
-                loader.setLocation(getClass().getResource("/FXML/NoMatch.fxml"));
-                try {
-                    children = loader.load();
-                    scene = new Scene(children);
-                } catch (IOException e) {
-                    children = null;
-                    scene = new Scene(new Label("ERROR "));
-                }
-                primaryStage.setScene(scene);
-                primaryStage.show();
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();//TODO ricordiamo di cancellare sto print stack trace
-                }
-                Message message = new Message(client.getUsername());
-                message.buildNewMatchMessage(new NewMatchMessage(false, 0, null));
-                client.getNetworkHandler().send(message);
-                primaryStage.close();
-            }
-
-
-        });
-    }
-
-
-    /**
-     * metodo che mostra all'utente possibili errori che sono capitati
-     *
-     * @param error
-     */
-    @Override
-    public void displayErrorMessage(String error) {}
-
-    @Override
-    public void showBoard(ArrayList<Cell> listOfCells, ArrayList<Player> players) {}
-
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        this.primaryStage = primaryStage;
-        client = new Client();
-        client.setView(this);
-
-        displaySetupWindow(true);
-
-    }
     public static String gender(char gender){
         if(gender == '\u2642')
             return "✱";
         return "✿";
     }
+
     public static String color(Color color){
         switch(color){
             case PLAYER_CYAN:

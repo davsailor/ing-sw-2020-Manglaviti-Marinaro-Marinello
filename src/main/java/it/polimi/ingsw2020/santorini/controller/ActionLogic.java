@@ -45,7 +45,7 @@ public class ActionLogic {
         ArrayList<Message> listToSend = new ArrayList<>();
         GodCard god = match.getCurrentPlayer().getDivinePower();
         god.invokeGod(match, message, turnManager);
-        for(int i = 0; i < match.getNumberOfPlayers(); ++i){
+        for(int i = 0; i < match.getPlayers().length; ++i){
             Message sendMessage = new Message(match.getPlayers()[i].getNickname());
             sendMessage.buildUpdateMessage(new UpdateMessage(match, turnManager.getPhase()));
             listToSend.add(sendMessage);
