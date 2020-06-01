@@ -1721,7 +1721,7 @@ public class CLI implements ViewInterface {
         do {
             if(message.getCurrentPlayer().getBuilderM().canMove() && message.getCurrentPlayer().getBuilderM().canBuild())
                 System.out.println("Premi il tasto M per selezionare il maschio");
-            if(message.getCurrentPlayer().getBuilderF().canMove())
+            if(message.getCurrentPlayer().getBuilderF().canMove() && message.getCurrentPlayer().getBuilderF().canBuild())
                 System.out.println("Premi il tasto F per selezionare la femmina");
             try{
                 wrong  = false;

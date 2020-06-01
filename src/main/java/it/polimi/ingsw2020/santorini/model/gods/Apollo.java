@@ -14,7 +14,6 @@ public class Apollo extends GodCard {
     public Apollo(){
         name = getClass().getSimpleName();
         maxPlayersNumber = 3;
-        timingName = "Your Move";
         timing = PhaseType.STANDBY_PHASE_1;
         mandatory = false;
         needParameters = true;
@@ -100,7 +99,7 @@ public class Apollo extends GodCard {
     }
 
     public static String toStringEffect(GodCard card) {
-        return card.getTimingName() + ": Your Worker may move into an opponent Worker’s space\n" +
+        return "Your Move" + ": Your Worker may move into an opponent Worker’s space\n" +
                 "(using normal movement rules) and force their Worker to the space yours\n" +
                 "just vacated (swapping their positions).";
     }

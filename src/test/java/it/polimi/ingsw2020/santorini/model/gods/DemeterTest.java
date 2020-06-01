@@ -5,6 +5,7 @@ import it.polimi.ingsw2020.santorini.controller.TurnLogic;
 import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
 import it.polimi.ingsw2020.santorini.exceptions.IllegalConstructionException;
 import it.polimi.ingsw2020.santorini.model.Builder;
+import it.polimi.ingsw2020.santorini.model.GodCard;
 import it.polimi.ingsw2020.santorini.model.Player;
 import it.polimi.ingsw2020.santorini.network.server.Server;
 import it.polimi.ingsw2020.santorini.network.server.VirtualView;
@@ -84,4 +85,5 @@ public class DemeterTest {
         assertEquals(LevelType.BASE, controller.getMatch().getBoard().getBoard()[2][5].getLevel());
         assertTrue(player1.getDivinePower().canActivate(controller.getMatch()));
     }
+
 }

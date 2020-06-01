@@ -12,7 +12,6 @@ public class Hestia extends GodCard {
     public Hestia(){
         name = getClass().getSimpleName();
         maxPlayersNumber = 3;
-        timingName = "Your Build";
         timing = PhaseType.STANDBY_PHASE_3;
         mandatory = false;
         needParameters = true;
@@ -68,7 +67,7 @@ public class Hestia extends GodCard {
     }
 
     public static String toStringEffect(GodCard card) {
-        return card.getTimingName() + ": Your Worker may build one additional time.\n" +
+        return "Your Build" + ": Your Worker may build one additional time.\n" +
                 "The additional build cannot be on a perimeter space.";
     }
 }

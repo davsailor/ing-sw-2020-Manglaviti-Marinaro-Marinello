@@ -6,6 +6,7 @@ import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
 import it.polimi.ingsw2020.santorini.exceptions.IllegalConstructionException;
 import it.polimi.ingsw2020.santorini.exceptions.IllegalMovementException;
 import it.polimi.ingsw2020.santorini.model.Builder;
+import it.polimi.ingsw2020.santorini.model.GodCard;
 import it.polimi.ingsw2020.santorini.model.Player;
 import it.polimi.ingsw2020.santorini.network.server.Server;
 import it.polimi.ingsw2020.santorini.network.server.VirtualView;
@@ -82,4 +83,5 @@ public class AthenaTest {
         assertFalse(player2.getRiseActions());
         assertTrue(player1.getDivinePower().canActivate(controller.getMatch()));
     }
+
 }

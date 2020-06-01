@@ -10,7 +10,6 @@ public class Athena extends GodCard {
     public Athena(){
         name = getClass().getSimpleName();
         maxPlayersNumber = 3;
-        timingName = "Opponents' Turn";
         timing = PhaseType.STANDBY_PHASE_3;
         mandatory = true;
         needParameters = false;
@@ -32,7 +31,7 @@ public class Athena extends GodCard {
     }
 
     public static String toStringEffect(GodCard card) {
-        return card.getTimingName() + ": If one of your Workers moved up on your last turn, \n" +
+        return "Opponents' Turn" + ": If one of your Workers moved up on your last turn, \n" +
                 "opponent Workers cannot move up this turn.";
     }
 }

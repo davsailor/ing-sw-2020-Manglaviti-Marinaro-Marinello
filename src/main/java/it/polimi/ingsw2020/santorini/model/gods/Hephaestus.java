@@ -11,7 +11,6 @@ public class Hephaestus extends GodCard {
     public Hephaestus(){
         name = getClass().getSimpleName();
         maxPlayersNumber = 3;
-        timingName = "Your Build";
         timing = PhaseType.STANDBY_PHASE_3;
         mandatory = false;
         needParameters = false;
@@ -37,7 +36,7 @@ public class Hephaestus extends GodCard {
     }
 
     public static String toStringEffect(GodCard card) {
-        return card.getTimingName() + ": Your Worker may build one additional block\n" +
+        return "Your Build" + ": Your Worker may build one additional block\n" +
                 "(not dome) on top of your first block.";
     }
 }

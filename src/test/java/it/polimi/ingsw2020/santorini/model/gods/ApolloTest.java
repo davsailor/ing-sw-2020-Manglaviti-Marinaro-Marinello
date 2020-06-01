@@ -3,6 +3,7 @@ package it.polimi.ingsw2020.santorini.model.gods;
 import it.polimi.ingsw2020.santorini.controller.GameLogic;
 import it.polimi.ingsw2020.santorini.controller.TurnLogic;
 import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
+import it.polimi.ingsw2020.santorini.exceptions.IllegalMovementException;
 import it.polimi.ingsw2020.santorini.model.Builder;
 import it.polimi.ingsw2020.santorini.model.GodCard;
 import it.polimi.ingsw2020.santorini.model.Player;
@@ -77,16 +78,73 @@ public class ApolloTest {
     }
 
     @Test
-    public void testInvokeGod(){
-        try {
-            player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic );
-            assertEquals(2, player1.getBuilderF().getPosX());
-            assertEquals(3, player1.getBuilderF().getPosY());
-            assertEquals(3, player2.getBuilderF().getPosX());
-            assertEquals(4, player2.getBuilderF().getPosY());
-        } catch (EndMatchException e) {
-            e.printStackTrace();
-        }
+    public void testInvokeGod() throws IllegalMovementException, EndMatchException {
         assertTrue(player1.getDivinePower().canActivate(controller.getMatch()));
+        //Test di north_west
+        player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic );
+        assertEquals(2, player1.getBuilderF().getPosX());
+        assertEquals(3, player1.getBuilderF().getPosY());
+        assertEquals(3, player2.getBuilderF().getPosX());
+        assertEquals(4, player2.getBuilderF().getPosY());
+        //TEst di south_east
+        godParamMessage.setOpponentBuilderDirection(Direction.SOUTH_EAST);
+        message.buildApolloParamMessage(godParamMessage);
+        player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic );
+        assertEquals(3, player1.getBuilderF().getPosX());
+        assertEquals(4, player1.getBuilderF().getPosY());
+        assertEquals(2, player2.getBuilderF().getPosX());
+        assertEquals(3, player2.getBuilderF().getPosY());
+        //Test di north
+        player2.getBuilderF().move(Direction.EAST);
+        godParamMessage.setOpponentBuilderDirection(Direction.NORTH);
+        message.buildApolloParamMessage(godParamMessage);
+        player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic );
+        assertEquals(2, player1.getBuilderF().getPosX());
+        assertEquals(4, player1.getBuilderF().getPosY());
+        assertEquals(3, player2.getBuilderF().getPosX());
+        assertEquals(4, player2.getBuilderF().getPosY());
+        //Test di south
+        godParamMessage.setOpponentBuilderDirection(Direction.SOUTH);
+        message.buildApolloParamMessage(godParamMessage);
+        player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic );
+        assertEquals(3, player1.getBuilderF().getPosX());
+        assertEquals(4, player1.getBuilderF().getPosY());
+        assertEquals(2, player2.getBuilderF().getPosX());
+        assertEquals(4, player2.getBuilderF().getPosY());
+        //Test di North_east
+        player2.getBuilderF().move(Direction.EAST);
+        godParamMessage.setOpponentBuilderDirection(Direction.NORTH_EAST);
+        message.buildApolloParamMessage(godParamMessage);
+        player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic );
+        assertEquals(2, player1.getBuilderF().getPosX());
+        assertEquals(5, player1.getBuilderF().getPosY());
+        assertEquals(3, player2.getBuilderF().getPosX());
+        assertEquals(4, player2.getBuilderF().getPosY());
+        //test di SOUTH_ WEST
+        godParamMessage.setOpponentBuilderDirection(Direction.SOUTH_WEST);
+        message.buildApolloParamMessage(godParamMessage);
+        player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic );
+        assertEquals(3, player1.getBuilderF().getPosX());
+        assertEquals(4, player1.getBuilderF().getPosY());
+        assertEquals(2, player2.getBuilderF().getPosX());
+        assertEquals(5, player2.getBuilderF().getPosY());
+        //test di east
+        player2.getBuilderF().move(Direction.SOUTH);
+        godParamMessage.setOpponentBuilderDirection(Direction.EAST);
+        message.buildApolloParamMessage(godParamMessage);
+        player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic );
+        assertEquals(3, player1.getBuilderF().getPosX());
+        assertEquals(5, player1.getBuilderF().getPosY());
+        assertEquals(3, player2.getBuilderF().getPosX());
+        assertEquals(4, player2.getBuilderF().getPosY());
+        //test di ovest
+        godParamMessage.setOpponentBuilderDirection(Direction.WEST);
+        message.buildApolloParamMessage(godParamMessage);
+        player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic );
+        assertEquals(3, player1.getBuilderF().getPosX());
+        assertEquals(4, player1.getBuilderF().getPosY());
+        assertEquals(3, player2.getBuilderF().getPosX());
+        assertEquals(5, player2.getBuilderF().getPosY());
     }
+
 }

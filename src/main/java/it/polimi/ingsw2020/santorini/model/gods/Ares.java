@@ -11,7 +11,6 @@ public class Ares extends GodCard {
     public Ares(){
         name = getClass().getSimpleName();
         maxPlayersNumber = 3;
-        timingName = "End of Your Turn";
         timing = PhaseType.STANDBY_PHASE_3;
         mandatory = false;
         needParameters = true;
@@ -78,7 +77,7 @@ public class Ares extends GodCard {
     }
 
     public static String toStringEffect(GodCard card) {
-        return card.getTimingName() + ": You may remove an unoccupied block\n" +
+        return "End of Your Turn" + ": You may remove an unoccupied block\n" +
                 "(not dome) neighboring your unmoved Worker";
     }
 }

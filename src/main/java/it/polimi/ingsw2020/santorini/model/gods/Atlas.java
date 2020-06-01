@@ -13,7 +13,6 @@ public class Atlas extends GodCard {
     public Atlas(){
         name = getClass().getSimpleName();
         maxPlayersNumber = 3;
-        timingName = "Your Build";
         timing = PhaseType.STANDBY_PHASE_2;
         mandatory = false;
         needParameters = true;
@@ -67,7 +66,7 @@ public class Atlas extends GodCard {
     }
 
     public static String toStringEffect(GodCard card) {
-        return card.getTimingName() + ": Your Worker may build a dome\n" +
+        return "Your Build" + ": Your Worker may build a dome\n" +
                 "at any level including the ground.";
     }
 }
