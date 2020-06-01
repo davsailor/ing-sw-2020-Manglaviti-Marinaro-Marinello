@@ -12,7 +12,6 @@ public class Prometheus extends GodCard {
     public Prometheus(){
         name = getClass().getSimpleName();
         maxPlayersNumber = 3;
-        timingName = "Your Turn";
         timing = PhaseType.STANDBY_PHASE_1;
         mandatory = false;
         needParameters = true;
@@ -42,7 +41,7 @@ public class Prometheus extends GodCard {
     }
 
     public static String toStringEffect(GodCard card) {
-        return card.getTimingName() + ": If your Worker does not move up,\n" +
+        return "Your Turn" + ": If your Worker does not move up,\n" +
                 "it may build both before and after moving.";
     }
 }

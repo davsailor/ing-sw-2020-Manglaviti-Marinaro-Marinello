@@ -3,6 +3,7 @@ package it.polimi.ingsw2020.santorini.model.gods;
 import it.polimi.ingsw2020.santorini.controller.GameLogic;
 import it.polimi.ingsw2020.santorini.controller.TurnLogic;
 import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
+import it.polimi.ingsw2020.santorini.exceptions.IllegalConstructionException;
 import it.polimi.ingsw2020.santorini.model.Builder;
 import it.polimi.ingsw2020.santorini.model.GodCard;
 import it.polimi.ingsw2020.santorini.model.Player;
@@ -57,7 +58,7 @@ public class AresTest {
         pos[1] = 1;
         Builder builder3 = new Builder(player2, 'F', controller.getMatch().getBoard(), pos);
         player2.setBuilderF(builder3);
-        pos[0] = 3;
+        pos[0] = 5;
         pos[1] = 5;
         Builder builder4 = new Builder(player2, 'M', controller.getMatch().getBoard(), pos);
         player2.setBuilderM(builder4);
@@ -80,15 +81,54 @@ public class AresTest {
     }
 
     @Test
-    public void testInvokeGod() {
+    public void testInvokeGod() throws EndMatchException, IllegalConstructionException {
+        //test di northWest
         assertEquals(LevelType.BASE, controller.getMatch().getBoard().getBoard()[2][3].getLevel());
         assertTrue(player1.getDivinePower().canActivate(controller.getMatch()));
-        try {
-            player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic);
-        } catch (EndMatchException e) {
-            e.printStackTrace();
-        }
+        player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic);
         assertEquals(LevelType.GROUND, controller.getMatch().getBoard().getBoard()[2][3].getLevel());
-
+        //test di North
+        godParamMessage.setTargetedBlock(Direction.NORTH);
+        message.buildAresParamMessage(godParamMessage);
+        player1.getBuilderF().build(Direction.NORTH, controller.getMatch());
+        player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic);
+        assertEquals(LevelType.GROUND, controller.getMatch().getBoard().getBoard()[2][4].getLevel());
+        //test northEast
+        godParamMessage.setTargetedBlock(Direction.NORTH_EAST);
+        message.buildAresParamMessage(godParamMessage);
+        player1.getBuilderF().build(Direction.NORTH_EAST, controller.getMatch());
+        player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic);
+        assertEquals(LevelType.GROUND, controller.getMatch().getBoard().getBoard()[2][5].getLevel());
+        //test east
+        godParamMessage.setTargetedBlock(Direction.EAST);
+        message.buildAresParamMessage(godParamMessage);
+        player1.getBuilderF().build(Direction.EAST, controller.getMatch());
+        player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic);
+        assertEquals(LevelType.GROUND, controller.getMatch().getBoard().getBoard()[3][5].getLevel());
+        //test south east
+        godParamMessage.setTargetedBlock(Direction.SOUTH_EAST);
+        message.buildAresParamMessage(godParamMessage);
+        player1.getBuilderF().build(Direction.SOUTH_EAST, controller.getMatch());
+        player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic);
+        assertEquals(LevelType.GROUND, controller.getMatch().getBoard().getBoard()[4][5].getLevel());
+        //test south
+        godParamMessage.setTargetedBlock(Direction.SOUTH);
+        message.buildAresParamMessage(godParamMessage);
+        player1.getBuilderF().build(Direction.SOUTH, controller.getMatch());
+        player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic);
+        assertEquals(LevelType.GROUND, controller.getMatch().getBoard().getBoard()[4][4].getLevel());
+        //test south_west
+        godParamMessage.setTargetedBlock(Direction.SOUTH_WEST);
+        message.buildAresParamMessage(godParamMessage);
+        player1.getBuilderF().build(Direction.SOUTH_WEST, controller.getMatch());
+        player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic);
+        assertEquals(LevelType.GROUND, controller.getMatch().getBoard().getBoard()[4][3].getLevel());
+        //test west
+        godParamMessage.setTargetedBlock(Direction.WEST);
+        message.buildAresParamMessage(godParamMessage);
+        player1.getBuilderF().build(Direction.WEST, controller.getMatch());
+        player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic);
+        assertEquals(LevelType.GROUND, controller.getMatch().getBoard().getBoard()[3][3].getLevel());
     }
+
 }

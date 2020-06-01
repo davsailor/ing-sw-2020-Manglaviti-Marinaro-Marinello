@@ -5,6 +5,7 @@ import it.polimi.ingsw2020.santorini.controller.TurnLogic;
 import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
 import it.polimi.ingsw2020.santorini.exceptions.IllegalMovementException;
 import it.polimi.ingsw2020.santorini.model.Builder;
+import it.polimi.ingsw2020.santorini.model.GodCard;
 import it.polimi.ingsw2020.santorini.model.Player;
 import it.polimi.ingsw2020.santorini.network.server.Server;
 import it.polimi.ingsw2020.santorini.network.server.VirtualView;
@@ -123,4 +124,5 @@ public class ArtemisTest {
 
         player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic);
     }
+
 }

@@ -79,4 +79,9 @@ public class HephaestusTest {
         player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic);
         assertEquals(LevelType.TOP, controller.getMatch().getBoard().getBoard()[2][3].getLevel());
     }
+
+    @Test
+    public void testCanActivate(){
+        assertTrue(player1.getDivinePower().canActivate(controller.getMatch()));
+    }
 }

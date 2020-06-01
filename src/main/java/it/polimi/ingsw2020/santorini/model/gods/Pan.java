@@ -11,7 +11,6 @@ public class Pan extends GodCard {
     public Pan(){
         name = getClass().getSimpleName();
         maxPlayersNumber = 3;
-        timingName = "Win Condition";
         timing = PhaseType.STANDBY_PHASE_2;
         mandatory = true;
         needParameters = false;
@@ -37,6 +36,6 @@ public class Pan extends GodCard {
     }
 
     public static String toStringEffect(GodCard card) {
-        return card.getTimingName() + ": You also win if your Worker moves down two or more levels.";
+        return "Win Condition" + ": You also win if your Worker moves down two or more levels.";
     }
 }

@@ -15,7 +15,6 @@ public class Minotaur extends GodCard {
     public Minotaur(){
         name = getClass().getSimpleName();
         maxPlayersNumber = 3;
-        timingName = "Your Move";
         timing = PhaseType.STANDBY_PHASE_1;
         mandatory = false;
         needParameters = true;
@@ -59,59 +58,27 @@ public class Minotaur extends GodCard {
         switch(param.getOpponentBuilderDirection()){
             case NORTH:
                 opponent = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() -1][match.getCurrentPlayer().getPlayingBuilder().getPosY()].getBuilder();
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 1].setBuilder(null);
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 1].setStatus(AccessType.FREE);
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 2].setBuilder(opponent);
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 2].setStatus(AccessType.OCCUPIED);
                 break;
             case NORTH_EAST:
                 opponent = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() - 1][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 1].getBuilder();
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() + 1][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 1].setBuilder(null);
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() + 1][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 1].setStatus(AccessType.FREE);
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() + 2][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 2].setBuilder(opponent);
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() + 2][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 2].setStatus(AccessType.OCCUPIED);
                 break;
             case EAST:
                 opponent = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() ][match.getCurrentPlayer().getPlayingBuilder().getPosY() +1].getBuilder();
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() + 1][match.getCurrentPlayer().getPlayingBuilder().getPosY()].setBuilder(null);
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() + 1][match.getCurrentPlayer().getPlayingBuilder().getPosY()].setStatus(AccessType.FREE);
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() + 2][match.getCurrentPlayer().getPlayingBuilder().getPosY()].setBuilder(opponent);
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() + 2][match.getCurrentPlayer().getPlayingBuilder().getPosY()].setStatus(AccessType.OCCUPIED);
                 break;
             case SOUTH_EAST:
                 opponent = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() + 1][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 1].getBuilder();
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() + 1][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 1].setBuilder(null);
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() + 1][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 1].setStatus(AccessType.FREE);
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() + 2][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 2].setBuilder(opponent);
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() + 2][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 2].setStatus(AccessType.OCCUPIED);
                 break;
             case SOUTH:
                 opponent = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() +1][match.getCurrentPlayer().getPlayingBuilder().getPosY() ].getBuilder();
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 1].setBuilder(null);
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 1].setStatus(AccessType.FREE);
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 2].setBuilder(opponent);
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX()][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 2].setStatus(AccessType.OCCUPIED);
                 break;
             case SOUTH_WEST:
                 opponent = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() + 1][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 1].getBuilder();
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() - 1][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 1].setBuilder(null);
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() - 1][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 1].setStatus(AccessType.FREE);
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() - 2][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 2].setBuilder(opponent);
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() - 2][match.getCurrentPlayer().getPlayingBuilder().getPosY() + 2].setStatus(AccessType.OCCUPIED);
                 break;
             case WEST:
                 opponent = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() ][match.getCurrentPlayer().getPlayingBuilder().getPosY() -1].getBuilder();
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() - 1][match.getCurrentPlayer().getPlayingBuilder().getPosY()].setBuilder(null);
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() - 1][match.getCurrentPlayer().getPlayingBuilder().getPosY()].setStatus(AccessType.FREE);
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() - 2][match.getCurrentPlayer().getPlayingBuilder().getPosY()].setBuilder(opponent);
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() - 2][match.getCurrentPlayer().getPlayingBuilder().getPosY()].setStatus(AccessType.OCCUPIED);
                 break;
             case NORTH_WEST:
                 opponent = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() - 1][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 1].getBuilder();
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() - 1][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 1].setBuilder(null);
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() - 1][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 1].setStatus(AccessType.FREE);
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() - 2][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 2].setBuilder(opponent);
-//                match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getPosX() - 2][match.getCurrentPlayer().getPlayingBuilder().getPosY() - 2].setStatus(AccessType.OCCUPIED);
                 break;
         }
         try {
@@ -126,7 +93,6 @@ public class Minotaur extends GodCard {
             match.currentWins();
         }
 
-
         turnManager.getRemainingActions().remove(ActionType.SELECT_BUILDER);
         turnManager.getRemainingActions().remove(ActionType.SELECT_CELL_MOVE);
         turnManager.getRemainingActions().remove(ActionType.MOVE);
@@ -135,7 +101,7 @@ public class Minotaur extends GodCard {
     }
 
     public static String toStringEffect(GodCard card) {
-        return card.getTimingName() + ": Your Worker may move into an opponent Worker’s\n" +
+        return "Your Move" + ": Your Worker may move into an opponent Worker’s\n" +
                 "space (using normal movement rules), if the next space in the same direction is\n" +
                 "unoccupied. Their Worker is forced into that space (regardless of its level).";
     }

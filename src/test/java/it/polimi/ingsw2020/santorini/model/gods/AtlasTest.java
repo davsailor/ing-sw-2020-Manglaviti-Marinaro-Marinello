@@ -3,7 +3,9 @@ package it.polimi.ingsw2020.santorini.model.gods;
 import it.polimi.ingsw2020.santorini.controller.GameLogic;
 import it.polimi.ingsw2020.santorini.controller.TurnLogic;
 import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
+import it.polimi.ingsw2020.santorini.exceptions.IllegalConstructionException;
 import it.polimi.ingsw2020.santorini.model.Builder;
+import it.polimi.ingsw2020.santorini.model.GodCard;
 import it.polimi.ingsw2020.santorini.model.Player;
 import it.polimi.ingsw2020.santorini.network.server.Server;
 import it.polimi.ingsw2020.santorini.network.server.VirtualView;
@@ -75,13 +77,46 @@ public class AtlasTest {
     }
 
     @Test
-    public void testInvokeGod(){
-        try {
-            player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic);
-            assertEquals(LevelType.DOME, controller.getMatch().getBoard().getBoard()[2][3].getLevel());
-        } catch (EndMatchException e) {
-            e.printStackTrace();
-        }
+    public void testInvokeGod() throws EndMatchException, IllegalConstructionException {
+        //test north_west
         assertTrue(player1.getDivinePower().canActivate(controller.getMatch()));
+        player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic);
+        assertEquals(LevelType.DOME, controller.getMatch().getBoard().getBoard()[2][3].getLevel());
+        //test north
+        godParamMessage.setDirection(Direction.NORTH);
+        message.buildAtlasParamMessage(godParamMessage);
+        player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic);
+        assertEquals(LevelType.DOME, controller.getMatch().getBoard().getBoard()[2][4].getLevel());
+        //test north_east
+        godParamMessage.setDirection(Direction.NORTH_EAST);
+        message.buildAtlasParamMessage(godParamMessage);
+        player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic);
+        assertEquals(LevelType.DOME, controller.getMatch().getBoard().getBoard()[2][5].getLevel());
+        //test east
+        godParamMessage.setDirection(Direction.EAST);
+        message.buildAtlasParamMessage(godParamMessage);
+        player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic);
+        assertEquals(LevelType.DOME, controller.getMatch().getBoard().getBoard()[3][5].getLevel());
+        //test south_east
+        godParamMessage.setDirection(Direction.SOUTH_EAST);
+        message.buildAtlasParamMessage(godParamMessage);
+        player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic);
+        assertEquals(LevelType.DOME, controller.getMatch().getBoard().getBoard()[4][5].getLevel());
+        //test south
+        godParamMessage.setDirection(Direction.SOUTH);
+        message.buildAtlasParamMessage(godParamMessage);
+        player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic);
+        assertEquals(LevelType.DOME, controller.getMatch().getBoard().getBoard()[4][4].getLevel());
+        //test south_west
+        godParamMessage.setDirection(Direction.SOUTH_WEST);
+        message.buildAtlasParamMessage(godParamMessage);
+        player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic);
+        assertEquals(LevelType.DOME, controller.getMatch().getBoard().getBoard()[4][3].getLevel());
+        //test west
+        godParamMessage.setDirection(Direction.WEST);
+        message.buildAtlasParamMessage(godParamMessage);
+        player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic);
+        assertEquals(LevelType.DOME, controller.getMatch().getBoard().getBoard()[3][3].getLevel());
     }
+
 }

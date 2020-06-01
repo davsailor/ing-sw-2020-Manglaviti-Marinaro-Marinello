@@ -14,7 +14,6 @@ public class Poseidon extends GodCard {
     public Poseidon(){
         name = getClass().getSimpleName();
         maxPlayersNumber = 3;
-        timingName = "End of Your Turn";
         timing = PhaseType.STANDBY_PHASE_3;
         mandatory = false;
         needParameters = true;
@@ -57,7 +56,7 @@ public class Poseidon extends GodCard {
     }
 
     public static String toStringEffect(GodCard card) {
-        return card.getTimingName() + ": If your unmoved Worker is on the ground level,\n" +
+        return "End of Your Turn" + ": If your unmoved Worker is on the ground level,\n" +
                 "it may build up to three times in neighboring spaces.";
     }
 }

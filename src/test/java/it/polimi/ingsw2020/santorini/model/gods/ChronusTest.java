@@ -4,6 +4,7 @@ import it.polimi.ingsw2020.santorini.controller.GameLogic;
 import it.polimi.ingsw2020.santorini.controller.TurnLogic;
 import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
 import it.polimi.ingsw2020.santorini.model.Builder;
+import it.polimi.ingsw2020.santorini.model.GodCard;
 import it.polimi.ingsw2020.santorini.model.Player;
 import it.polimi.ingsw2020.santorini.network.server.Server;
 import it.polimi.ingsw2020.santorini.network.server.VirtualView;
@@ -74,4 +75,19 @@ public class ChronusTest {
         player1.getDivinePower().invokeGod(controller.getMatch(), message, turnLogic);
         assertTrue(player1.getDivinePower().canActivate(controller.getMatch()));
     }
+
+    @Test
+    public void testCanActivate(){
+        assertTrue(player1.getDivinePower().canActivate(controller.getMatch()));
+        assertFalse(player1.getDivinePower().canActivate(controller.getMatch()));
+    }
+
+    @Test
+    public void testGetInvoker(){
+        Chronus chronus = new Chronus();
+        player1.setDivinePower(chronus);
+        chronus.canActivate(controller.getMatch());
+        assertEquals(player1.getNickname(), chronus.getInvoker());
+    }
+
 }

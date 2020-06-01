@@ -12,7 +12,6 @@ public class Zeus extends GodCard {
     public Zeus(){
         name = getClass().getSimpleName();
         maxPlayersNumber = 3;
-        timingName = "Your Build";
         timing = PhaseType.STANDBY_PHASE_2;
         mandatory = false;
         needParameters = false;
@@ -42,7 +41,7 @@ public class Zeus extends GodCard {
     }
 
     public static String toStringEffect(GodCard card) {
-        return card.getTimingName() + ": Your Worker may build under itself in its current\n" +
+        return "Your Build" + ": Your Worker may build under itself in its current\n" +
                 "space, forcing it up one level. You do not win by forcing yourself up to the third level.";
     }
 }

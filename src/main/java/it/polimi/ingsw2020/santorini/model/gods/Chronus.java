@@ -15,7 +15,6 @@ public class Chronus extends GodCard {
     public Chronus(){
         name = getClass().getSimpleName();
         maxPlayersNumber = 2;
-        timingName = "Opponents' Turn";
         timing = PhaseType.STANDBY_PHASE_3;
         mandatory = true;
         needParameters = false;
@@ -55,7 +54,7 @@ public class Chronus extends GodCard {
     }
 
     public static String toStringEffect(GodCard card) {
-        return card.getTimingName() + ": You also win\n" +
+        return "Win Condition" + ": You also win\n" +
                 "when there are at least five\n" +
                 "Complete Towers on the board..";
     }
