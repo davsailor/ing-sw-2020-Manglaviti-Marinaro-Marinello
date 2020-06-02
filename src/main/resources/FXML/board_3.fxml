@@ -55,7 +55,7 @@
             <Image url="@../images/ScyllaTail.png" />
          </image>
       </ImageView>
-      <Label fx:id="god2" graphicTextGap="1.0" layoutX="662.0" layoutY="354.0" prefHeight="169.0" prefWidth="129.0" />
+      <Label fx:id="god2" graphicTextGap="1.0" layoutX="665.0" layoutY="354.0" prefHeight="169.0" prefWidth="123.0" />
       <ImageView fitHeight="293.0" fitWidth="150.0" layoutX="651.0" layoutY="308.0">
          <image>
             <Image url="@../images/fg_panel2.png" />
@@ -416,6 +416,6 @@
                 <Font name="Gabriola" size="29.0" />
             </font>
         </Label>
-      <Label fx:id="god3" layoutX="663.0" layoutY="7.0" prefHeight="169.0" prefWidth="123.0" />
+      <Label fx:id="god3" layoutX="664.0" layoutY="7.0" prefHeight="169.0" prefWidth="123.0" />
   </children>
 </Pane>

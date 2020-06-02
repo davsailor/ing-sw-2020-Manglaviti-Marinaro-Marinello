@@ -441,14 +441,14 @@ public class ChooseBuilderController {
         username2.setAlignment(Pos.TOP_CENTER);
         Image image = godImage(players.get(0).getDivinePower().getName());
         ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(99.0);
-        imageView.setFitHeight(108.0);
+        imageView.setFitWidth(123.0);
+        imageView.setFitHeight(169.0);
         god1.setGraphic(imageView);
 
         image = godImage(players.get(1).getDivinePower().getName());
         imageView = new ImageView(image);
-        imageView.setFitWidth(99.0);
-        imageView.setFitHeight(108.0);
+        imageView.setFitWidth(123.0);
+        imageView.setFitHeight(169.0);
         god2.setGraphic(imageView);
 
 
@@ -457,8 +457,8 @@ public class ChooseBuilderController {
             username3.setAlignment(Pos.TOP_CENTER);
             image = godImage(players.get(2).getDivinePower().getName());
             imageView = new ImageView(image);
-            imageView.setFitWidth(99.0);
-            imageView.setFitHeight(108.0);
+            imageView.setFitWidth(123.0);
+            imageView.setFitHeight(169.0);
             god3.setGraphic(imageView);
         }
     }
