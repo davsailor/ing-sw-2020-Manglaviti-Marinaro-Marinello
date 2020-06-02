@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw2020.santorini.view.gui.GodSelectionController">
+   <children>
+      <ImageView fitHeight="400.0" fitWidth="600.0">
+         <image>
+            <Image url="@../images/SfondoConColonne.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="101.0" fitWidth="67.0" layoutX="64.0" layoutY="55.0">
+         <image>
+            <Image url="@../images/Apollo.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="101.0" fitWidth="67.0" layoutX="64.0" layoutY="172.0">
+         <image>
+            <Image url="@../images/Ares.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="101.0" fitWidth="67.0" layoutX="160.0" layoutY="55.0">
+         <image>
+            <Image url="@../images/Artemis.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="101.0" fitWidth="67.0" layoutX="160.0" layoutY="172.0">
+         <image>
+            <Image url="@../images/Athena.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="101.0" fitWidth="67.0" layoutX="256.0" layoutY="55.0">
+         <image>
+            <Image url="@../images/Atlas.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="101.0" fitWidth="67.0" layoutX="352.0" layoutY="55.0">
+         <image>
+            <Image url="@../images/Demeter.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="101.0" fitWidth="67.0" layoutX="352.0" layoutY="172.0">
+         <image>
+            <Image url="@../images/Hestia.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="101.0" fitWidth="67.0" layoutX="448.0" layoutY="55.0">
+         <image>
+            <Image url="@../images/Minotaur.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="101.0" fitWidth="67.0" layoutX="448.0" layoutY="172.0">
+         <image>
+            <Image url="@../images/Pan.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="101.0" fitWidth="67.0" layoutX="160.0" layoutY="285.0">
+         <image>
+            <Image url="@../images/Hephaestus.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="101.0" fitWidth="67.0" layoutX="256.0" layoutY="285.0">
+         <image>
+            <Image url="@../images/Poseidon.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="101.0" fitWidth="67.0" layoutX="352.0" layoutY="285.0">
+         <image>
+            <Image url="@../images/Prometheus.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="101.0" fitWidth="67.0" layoutX="255.0" layoutY="172.0">
+         <image>
+            <Image url="@../images/Zeus.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="11.0" layoutY="10.0" text="Choose as many Gods as the number of players of this match" textFill="#074c6f">
+         <font>
+            <Font name="Gabriola" size="30.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="117.0" fitWidth="75.0" layoutX="60.0" layoutY="47.0">
+         <image>
+            <Image url="@../images/cornice_piccola.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="117.0" fitWidth="75.0" layoutX="156.0" layoutY="47.0">
+         <image>
+            <Image url="@../images/cornice_piccola.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="117.0" fitWidth="75.0" layoutX="156.0" layoutY="277.0">
+         <image>
+            <Image url="@../images/cornice_piccola.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="117.0" fitWidth="75.0" layoutX="60.0" layoutY="164.0">
+         <image>
+            <Image url="@../images/cornice_piccola.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="117.0" fitWidth="75.0" layoutX="252.0" layoutY="277.0">
+         <image>
+            <Image url="@../images/cornice_piccola.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="117.0" fitWidth="75.0" layoutX="348.0" layoutY="277.0">
+         <image>
+            <Image url="@../images/cornice_piccola.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="117.0" fitWidth="75.0" layoutX="156.0" layoutY="164.0">
+         <image>
+            <Image url="@../images/cornice_piccola.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="117.0" fitWidth="75.0" layoutX="252.0" layoutY="164.0">
+         <image>
+            <Image url="@../images/cornice_piccola.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="117.0" fitWidth="75.0" layoutX="348.0" layoutY="164.0">
+         <image>
+            <Image url="@../images/cornice_piccola.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="117.0" fitWidth="75.0" layoutX="444.0" layoutY="164.0">
+         <image>
+            <Image url="@../images/cornice_piccola.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="117.0" fitWidth="75.0" layoutX="444.0" layoutY="47.0">
+         <image>
+            <Image url="@../images/cornice_piccola.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="117.0" fitWidth="75.0" layoutX="348.0" layoutY="47.0">
+         <image>
+            <Image url="@../images/cornice_piccola.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="117.0" fitWidth="75.0" layoutX="252.0" layoutY="47.0">
+         <image>
+            <Image url="@../images/cornice_piccola.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="77.0" fitWidth="75.0" layoutX="22.0" layoutY="329.0">
+         <image>
+            <Image url="@../images/heropower_inactive.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="77.0" fitWidth="75.0" layoutX="497.0" layoutY="327.0">
+         <image>
+            <Image url="@../images/heropower_inactive.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="Apollo" layoutX="68.0" layoutY="61.0" mnemonicParsing="false" onAction="#selectGod" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Artemis" layoutX="163.0" layoutY="63.0" mnemonicParsing="false" onAction="#selectGod" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Atlas" layoutX="259.0" layoutY="63.0" mnemonicParsing="false" onAction="#selectGod" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Demeter" layoutX="355.0" layoutY="70.0" mnemonicParsing="false" onAction="#selectGod" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Minotaur" layoutX="451.0" layoutY="63.0" mnemonicParsing="false" onAction="#selectGod" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Ares" layoutX="68.0" layoutY="180.0" mnemonicParsing="false" onAction="#selectGod" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Athena" layoutX="163.0" layoutY="180.0" mnemonicParsing="false" onAction="#selectGod" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Hestia" layoutX="355.0" layoutY="180.0" mnemonicParsing="false" onAction="#selectGod" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Pan" layoutX="452.0" layoutY="180.0" mnemonicParsing="false" onAction="#selectGod" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Hephaestus" layoutX="163.0" layoutY="293.0" mnemonicParsing="false" onAction="#selectGod" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Poseidon" layoutX="259.0" layoutY="293.0" mnemonicParsing="false" onAction="#selectGod" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Prometheus" layoutX="355.0" layoutY="293.0" mnemonicParsing="false" onAction="#selectGod" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
+      <Button fx:id="Zeus" layoutX="259.0" layoutY="180.0" mnemonicParsing="false" onAction="#selectGod" opacity="0.0" prefHeight="86.0" prefWidth="61.0" text="Button" />
+   </children>
+</Pane>

@@ -80,7 +80,7 @@ public class GodSelectionController {
     }
 
     @FXML
-    public void initialize(){
+    public void initializeToolTip(){
         Tooltip tooltipApollo = new Tooltip();
         tooltipApollo.setText("Your Worker may move into an opponent Worker’s space\n" +
                 "(using normal movement rules) and force their Worker to the space yours\n" +
@@ -102,11 +102,13 @@ public class GodSelectionController {
         tooltipAtlas.setText("Your Worker may build a dome\n" +
                 "at any level including the ground.");
         Atlas.setTooltip(tooltipAtlas);
-        Tooltip tooltipChronus = new Tooltip();
-        tooltipChronus.setText("You also win\n" +
-                "when there are at least five\n" +
-                        "Complete Towers on the board..");
-        Chronus.setTooltip(tooltipChronus);
+        if(matchSetupMessage.getPlayers().size()== 2){
+            Tooltip tooltipChronus = new Tooltip();
+            tooltipChronus.setText("You also win\n" +
+                    "when there are at least five\n" +
+                    "Complete Towers on the board..");
+            Chronus.setTooltip(tooltipChronus);
+        }
         Tooltip tooltipDemeter = new Tooltip();
         tooltipDemeter.setText("Your Worker may build one additional time,\n" +
                 "but not on the same space.");

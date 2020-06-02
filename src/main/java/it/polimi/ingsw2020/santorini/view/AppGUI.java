@@ -20,6 +20,7 @@ import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -213,11 +214,19 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public void displayMatchSetupWindow(MatchSetupMessage matchSetupMessage) {
         Platform.runLater(()-> {
+            players = matchSetupMessage.getPlayers();
             if(matchSetupMessage.getPlayers().get(matchSetupMessage.getCurrentPlayerIndex()).getNickname().equals(client.getUsername())) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 Parent root;
                 Scene setUpScene;
-                fxmlLoader.setLocation(getClass().getResource("/FXML/GodSelectionWindow.fxml"));
+                switch (players.size()) {
+                    case (2):
+                        fxmlLoader.setLocation(getClass().getResource("/FXML/GodSelectionWindow.fxml"));
+                        break;
+                    case (3):
+                        fxmlLoader.setLocation(getClass().getResource("/FXML/GodSelectionWindow_3.fxml"));
+                        break;
+                }
                 try {
                     root = fxmlLoader.load();
                     setUpScene = new Scene(root);
@@ -230,6 +239,7 @@ public class AppGUI extends Application implements ViewInterface{
                 godSelectionController = fxmlLoader.getController();
                 godSelectionController.setClient(client);
                 godSelectionController.setMatchSetupMessage(matchSetupMessage);
+                godSelectionController.initializeToolTip();
                 primaryStage.setScene(setUpScene);
                 primaryStage.show();
             } else {
@@ -304,8 +314,6 @@ public class AppGUI extends Application implements ViewInterface{
                     setUpScene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
                     e.printStackTrace();
                 }
-                godSelectionController = fxmlLoader.getController();
-                godSelectionController.initialize();
                 primaryStage.setScene(setUpScene);
                 primaryStage.show();
             }
@@ -1367,12 +1375,22 @@ public class AppGUI extends Application implements ViewInterface{
         return null;
     }
 
+    /**
+     * the method is used to obtain the ascii character that we use to represent the female and the male builders
+     * @param gender is the char that contains the symbols used in the cli to represents the female and male builders
+     * @return the ascii character needed
+     */
     public static String gender(char gender){
         if(gender == '\u2642')
             return "✱";
         return "✿";
     }
 
+    /**
+     * the method gives the code corresponding to Colors
+     * @param color is the color of which we want the code
+     * @return the code as a String of the Color input
+     */
     public static String color(Color color){
         switch(color){
             case PLAYER_CYAN:
@@ -1384,4 +1402,17 @@ public class AppGUI extends Application implements ViewInterface{
         }
         return null;
     }
+    /*
+    public void initializeGodsMatrix(ArrayList<Button> buttons, ArrayList<Label> labels){
+        Button[][] matrixButton = new Button[3][3];
+        Label[][] matrixLabel = new Label[3][3];
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; i++){
+
+            }
+        }
+    }
+    
+     */
 }
+
