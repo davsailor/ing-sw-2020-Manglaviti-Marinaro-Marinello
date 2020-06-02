@@ -372,7 +372,6 @@ public class ChooseBuilderController {
         }else{
             text.setText("E' il turno di "+ matchStateMessage.getCurrentPlayer().getNickname());
         }
-
     }
 
     public void initializeBoard(Cell[][] board) {

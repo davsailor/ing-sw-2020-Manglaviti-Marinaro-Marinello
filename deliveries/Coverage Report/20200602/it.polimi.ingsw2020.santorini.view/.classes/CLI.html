@@ -1,0 +1,1924 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: CLI</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw2020.santorini.view</a> ]
+</div>
+
+<h1>Coverage Summary for Class: CLI (it.polimi.ingsw2020.santorini.view)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CLI</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 31)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1158)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">CLI$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 32)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1159)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw2020.santorini.view;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw2020.santorini.exceptions.UnexpectedGodException;
+<i>4</i>&nbsp;import it.polimi.ingsw2020.santorini.model.*;
+<i>5</i>&nbsp;import it.polimi.ingsw2020.santorini.network.client.Client;
+<i>6</i>&nbsp;import it.polimi.ingsw2020.santorini.network.client.ServerAdapter;
+<i>7</i>&nbsp;import it.polimi.ingsw2020.santorini.network.client.ViewAdapter;
+<i>8</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.*;
+<i>9</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.actions.*;
+<i>10</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.errors.*;
+<i>11</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.godsParam.*;
+<i>12</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.*;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;import java.io.IOException;
+<i>15</i>&nbsp;import java.text.*;
+<i>16</i>&nbsp;import java.util.ArrayList;
+<i>17</i>&nbsp;import java.util.Date;
+<i>18</i>&nbsp;import java.util.InputMismatchException;
+<i>19</i>&nbsp;import java.util.Scanner;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;@SuppressWarnings(&quot;deprecation&quot;)
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;public class CLI implements ViewInterface {
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    private Client client;
+<i>26</i>&nbsp;    private Scanner scannerIn;
+<i>27</i>&nbsp;    private ArrayList&lt;Player&gt; listOfPlayers;
+<i>28</i>&nbsp;
+<b class="nc"><i>29</i>&nbsp;    public CLI(){</b>
+<b class="nc"><i>30</i>&nbsp;        this.scannerIn = new Scanner(System.in);</b>
+<i>31</i>&nbsp;    }
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    /**
+<i>34</i>&nbsp;     * method in which it&#39;s asked to the client to insert server&#39;s IP, and after that the username, birth date and type of match(number of players)
+<i>35</i>&nbsp;     * metodo in cui si chiede l&#39;iP del server, dopodichè di fanno inserire username, data di nascita e tipo di partita (numero di giocatori nella partita)
+<i>36</i>&nbsp;     * @param firstTime is true if it is the first time we call the method
+<i>37</i>&nbsp;     * is false if the username is unavailable, and ask the client a new username
+<i>38</i>&nbsp;     */
+<i>39</i>&nbsp;    @Override
+<i>40</i>&nbsp;    public void displaySetupWindow(boolean firstTime) {
+<b class="nc"><i>41</i>&nbsp;        if(firstTime) {</b>
+<b class="nc"><i>42</i>&nbsp;            client = new Client();</b>
+<b class="nc"><i>43</i>&nbsp;            client.setView(this);</b>
+<i>44</i>&nbsp;            String ip;
+<i>45</i>&nbsp;            boolean wrong;
+<i>46</i>&nbsp;            do {
+<i>47</i>&nbsp;                try {
+<b class="nc"><i>48</i>&nbsp;                    System.out.printf(&quot;Inserisci l&#39;indirizzo IP del server: &quot;);</b>
+<b class="nc"><i>49</i>&nbsp;                    ip = scannerIn.nextLine();</b>
+<b class="nc"><i>50</i>&nbsp;                    client.setNetworkHandler(new ServerAdapter(client, ip));</b>
+<b class="nc"><i>51</i>&nbsp;                    client.setViewHandler(new ViewAdapter(client));</b>
+<b class="nc"><i>52</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>53</i>&nbsp;                } catch (IOException e) {</b>
+<b class="nc"><i>54</i>&nbsp;                    System.out.println(&quot;Il server inserito non esiste, riprovare&quot;);</b>
+<b class="nc"><i>55</i>&nbsp;                    wrong = true;</b>
+<b class="nc"><i>56</i>&nbsp;                }</b>
+<b class="nc"><i>57</i>&nbsp;            } while (wrong);</b>
+<i>58</i>&nbsp;
+<b class="nc"><i>59</i>&nbsp;            client.getNetworkHandler().start();</b>
+<b class="nc"><i>60</i>&nbsp;            client.getViewHandler().start();</b>
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;            do {
+<i>63</i>&nbsp;                try {
+<b class="nc"><i>64</i>&nbsp;                    System.out.printf(&quot;Inserisci il tuo username: &quot;);</b>
+<b class="nc"><i>65</i>&nbsp;                    client.setUsername(scannerIn.nextLine());</b>
+<b class="nc"><i>66</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>67</i>&nbsp;                } catch (InputMismatchException e) {</b>
+<b class="nc"><i>68</i>&nbsp;                    wrong = true;</b>
+<b class="nc"><i>69</i>&nbsp;                }</b>
+<b class="nc"><i>70</i>&nbsp;                if (wrong) System.out.println(&quot;errore nell&#39;username, reinserire&quot;);</b>
+<b class="nc"><i>71</i>&nbsp;            } while (wrong);</b>
+<i>72</i>&nbsp;
+<b class="nc"><i>73</i>&nbsp;            System.out.printf(&quot;Inserisci la tua data di nascita (dd/mm/yyyy): &quot;);</b>
+<b class="nc"><i>74</i>&nbsp;            String date = scannerIn.nextLine();</b>
+<b class="nc"><i>75</i>&nbsp;            DateFormat parser = new SimpleDateFormat(&quot;dd/MM/yyyy&quot;);</b>
+<b class="nc"><i>76</i>&nbsp;            client.setBirthDate(new Date(1900, 0, 1));</b>
+<i>77</i>&nbsp;            try {
+<b class="nc"><i>78</i>&nbsp;                client.setBirthDate(parser.parse(date));</b>
+<b class="nc"><i>79</i>&nbsp;            } catch (ParseException ignored) {}</b>
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;            do {
+<i>82</i>&nbsp;                try {
+<b class="nc"><i>83</i>&nbsp;                    System.out.printf(&quot;Inserisci il numero di giocatori della partita (2 o 3): &quot;);</b>
+<b class="nc"><i>84</i>&nbsp;                    client.setSelectedMatch(Integer.parseInt(scannerIn.nextLine()));</b>
+<b class="nc"><i>85</i>&nbsp;                    if (client.getSelectedMatch() != 2 &amp;&amp; client.getSelectedMatch() != 3) wrong = true;</b>
+<b class="nc"><i>86</i>&nbsp;                    else wrong = false;</b>
+<b class="nc"><i>87</i>&nbsp;                } catch (NumberFormatException e) {</b>
+<b class="nc"><i>88</i>&nbsp;                    wrong = true;</b>
+<b class="nc"><i>89</i>&nbsp;                }</b>
+<b class="nc"><i>90</i>&nbsp;                if (wrong) System.out.println(&quot;Inserire 2 o 3!&quot;);</b>
+<b class="nc"><i>91</i>&nbsp;            } while (wrong);</b>
+<i>92</i>&nbsp;
+<b class="nc"><i>93</i>&nbsp;            Message message = new Message(client.getUsername());</b>
+<b class="nc"><i>94</i>&nbsp;            message.buildLoginMessage(new LoginMessage(client.getUsername(), client.getBirthDate(), client.getSelectedMatch()));</b>
+<b class="nc"><i>95</i>&nbsp;            client.getNetworkHandler().send(message);</b>
+<b class="nc"><i>96</i>&nbsp;        } else {</b>
+<b class="nc"><i>97</i>&nbsp;            System.out.printf(&quot;Inserisci di nuovo il tuo username: &quot;);</b>
+<b class="nc"><i>98</i>&nbsp;            client.setUsername(scannerIn.nextLine());</b>
+<b class="nc"><i>99</i>&nbsp;            Message message = new Message(client.getUsername());</b>
+<b class="nc"><i>100</i>&nbsp;            message.buildLoginMessage(new LoginMessage(client.getUsername(), client.getBirthDate(), client.getSelectedMatch()));</b>
+<b class="nc"><i>101</i>&nbsp;            client.getNetworkHandler().send(message);</b>
+<i>102</i>&nbsp;        }
+<i>103</i>&nbsp;    }
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;    /**
+<i>106</i>&nbsp;     * method that display a Loading window to the client while the server waits other clients to join
+<i>107</i>&nbsp;     * metodo per intrattenere l&#39;utente mentre aspettiamo altri utenti che vogliono giocare
+<i>108</i>&nbsp;     */
+<i>109</i>&nbsp;    @Override
+<i>110</i>&nbsp;    public void displayLoadingWindow(String message) {
+<b class="nc"><i>111</i>&nbsp;        System.out.flush();</b>
+<b class="nc"><i>112</i>&nbsp;        System.out.print(message);</b>
+<i>113</i>&nbsp;    }
+<i>114</i>&nbsp;
+<i>115</i>&nbsp;    /**
+<i>116</i>&nbsp;     * method that gives the welcome to the clients and distributes color of the builders and Gods&#39;cards
+<i>117</i>&nbsp;     * metodo in cui si da il welcome alla partita, vengono assegnate le carte e i colori.
+<i>118</i>&nbsp;     * viene visualizzata una board semplificata per facilitare il posizionamento delle pedine
+<i>119</i>&nbsp;     */
+<i>120</i>&nbsp;    @Override
+<i>121</i>&nbsp;    public void displayMatchSetupWindow(MatchSetupMessage matchSetupMessage) {
+<b class="nc"><i>122</i>&nbsp;        System.out.flush();</b>
+<b class="nc"><i>123</i>&nbsp;        System.out.println(&quot;Partita creata!\n&quot;);</b>
+<b class="nc"><i>124</i>&nbsp;        System.out.println(&quot;L&#39;ordine voluto dagli dei è questo: &quot;);</b>
+<b class="nc"><i>125</i>&nbsp;        listOfPlayers = matchSetupMessage.getPlayers();</b>
+<i>126</i>&nbsp;        //scannerIn.nextLine();
+<b class="nc"><i>127</i>&nbsp;        for(Player player : listOfPlayers) System.out.println(player.getColor() + player.getNickname() + Color.RESET);</b>
+<b class="nc"><i>128</i>&nbsp;        if(client.getUsername().equals(listOfPlayers.get(0).getNickname())) {</b>
+<i>129</i>&nbsp;            // scelta delle divinità
+<b class="nc"><i>130</i>&nbsp;            int[] selectedGods = new int[listOfPlayers.size()];</b>
+<b class="nc"><i>131</i>&nbsp;            int i = 0;</b>
+<i>132</i>&nbsp;            boolean correct;
+<b class="nc"><i>133</i>&nbsp;            for(Player p : listOfPlayers){</b>
+<i>134</i>&nbsp;                do {
+<b class="nc"><i>135</i>&nbsp;                    correct = true;</b>
+<i>136</i>&nbsp;                    try {
+<b class="nc"><i>137</i>&nbsp;                        System.out.println(&quot;Scegli una carta delle divinità tra queste&quot;);</b>
+<b class="nc"><i>138</i>&nbsp;                        System.out.println(matchSetupMessage.getGods().toString());</b>
+<b class="nc"><i>139</i>&nbsp;                        System.out.print(&quot;Scelta: &quot;);</b>
+<b class="nc"><i>140</i>&nbsp;                        selectedGods[i] = Integer.parseInt(scannerIn.nextLine());</b>
+<b class="nc"><i>141</i>&nbsp;                        if(matchSetupMessage.getGods().isExtracted(selectedGods[i])) {</b>
+<b class="nc"><i>142</i>&nbsp;                            correct = false;</b>
+<b class="nc"><i>143</i>&nbsp;                            System.out.println(&quot;Inserisci uno dei numeri indicati!&quot;);</b>
+<i>144</i>&nbsp;                        } else
+<b class="nc"><i>145</i>&nbsp;                            matchSetupMessage.getGods().extract(selectedGods[i]);</b>
+<b class="nc"><i>146</i>&nbsp;                    } catch(NumberFormatException e){</b>
+<b class="nc"><i>147</i>&nbsp;                        System.out.println(&quot;Inserisci uno dei numeri indicati!&quot;);</b>
+<b class="nc"><i>148</i>&nbsp;                        correct = false;</b>
+<b class="nc"><i>149</i>&nbsp;                    }</b>
+<b class="nc"><i>150</i>&nbsp;                } while (!correct);</b>
+<b class="nc"><i>151</i>&nbsp;                ++i;</b>
+<b class="nc"><i>152</i>&nbsp;            }</b>
+<b class="nc"><i>153</i>&nbsp;            Message message = new Message(client.getUsername());</b>
+<b class="nc"><i>154</i>&nbsp;            message.buildSynchronizationMessage(SecondHeaderType.BEGIN_MATCH, new GameGodsSelectionMessage(selectedGods));</b>
+<b class="nc"><i>155</i>&nbsp;            client.getNetworkHandler().send(message);</b>
+<b class="nc"><i>156</i>&nbsp;        } else {</b>
+<b class="nc"><i>157</i>&nbsp;            System.out.println(&quot;Il primo giocatore ora sceglierà le divnità che vi aiuteranno in questa partita&quot;);</b>
+<b class="nc"><i>158</i>&nbsp;            System.out.println(&quot;Siccome è il più giovane, è il più vicino alle divinità&quot;);</b>
+<b class="nc"><i>159</i>&nbsp;            Message message = new Message(client.getUsername());</b>
+<b class="nc"><i>160</i>&nbsp;            message.buildSynchronizationMessage(SecondHeaderType.BEGIN_MATCH, null);</b>
+<b class="nc"><i>161</i>&nbsp;            client.getNetworkHandler().send(message);</b>
+<i>162</i>&nbsp;        }
+<b class="nc"><i>163</i>&nbsp;        System.out.println(&quot;Attendi le direttive degli dei&quot;);</b>
+<i>164</i>&nbsp;    }
+<i>165</i>&nbsp;
+<i>166</i>&nbsp;    /**
+<i>167</i>&nbsp;     * method that asks to the current player to choose which want he wants to his side
+<i>168</i>&nbsp;     * @param matchSetupMessage contains all the information needed to perform this choice
+<i>169</i>&nbsp;     */
+<i>170</i>&nbsp;    @Override
+<i>171</i>&nbsp;    public void displayGodSelectionWindow(MatchSetupMessage matchSetupMessage) {
+<b class="nc"><i>172</i>&nbsp;        System.out.flush();</b>
+<b class="nc"><i>173</i>&nbsp;        if(client.getUsername().equals(matchSetupMessage.getPlayers().get(matchSetupMessage.getCurrentPlayerIndex()).getNickname())) {</b>
+<i>174</i>&nbsp;            boolean correct;
+<b class="nc"><i>175</i>&nbsp;            int selectedGod = -1;</b>
+<i>176</i>&nbsp;            do {
+<b class="nc"><i>177</i>&nbsp;                correct = true;</b>
+<i>178</i>&nbsp;                try {
+<b class="nc"><i>179</i>&nbsp;                    System.out.println(&quot;Tocca a te scegliere la tua divinità!&quot;);</b>
+<b class="nc"><i>180</i>&nbsp;                    for(int i = 0; i &lt; matchSetupMessage.getSelectedGods().size(); ++i){</b>
+<b class="nc"><i>181</i>&nbsp;                        for(GodFactotum g : GodFactotum.values()){</b>
+<b class="nc"><i>182</i>&nbsp;                            if(g.getCode() == matchSetupMessage.getSelectedGods().get(i)) {</b>
+<i>183</i>&nbsp;                                try {
+<b class="nc"><i>184</i>&nbsp;                                    System.out.println(&quot;Insert &quot; + g.getCode() + &quot;:\t&quot; + g.getName());</b>
+<b class="nc"><i>185</i>&nbsp;                                } catch (UnexpectedGodException ignored){}</b>
+<b class="nc"><i>186</i>&nbsp;                                break;</b>
+<i>187</i>&nbsp;                            }
+<i>188</i>&nbsp;                        }
+<i>189</i>&nbsp;                    }
+<b class="nc"><i>190</i>&nbsp;                    System.out.print(&quot;Divinità scelta: &quot;);</b>
+<b class="nc"><i>191</i>&nbsp;                    selectedGod = Integer.parseInt(scannerIn.nextLine());</b>
+<b class="nc"><i>192</i>&nbsp;                    if(!matchSetupMessage.getSelectedGods().contains(selectedGod)) {</b>
+<b class="nc"><i>193</i>&nbsp;                        System.out.println(&quot;Inserisci uno dei numeri indicati!&quot;);</b>
+<b class="nc"><i>194</i>&nbsp;                        correct = false;</b>
+<i>195</i>&nbsp;                    }
+<b class="nc"><i>196</i>&nbsp;                } catch(NumberFormatException e){</b>
+<b class="nc"><i>197</i>&nbsp;                    System.out.println(&quot;Inserisci uno dei numeri indicati!&quot;);</b>
+<b class="nc"><i>198</i>&nbsp;                    correct = false;</b>
+<b class="nc"><i>199</i>&nbsp;                }</b>
+<b class="nc"><i>200</i>&nbsp;            } while (!correct);</b>
+<b class="nc"><i>201</i>&nbsp;            matchSetupMessage.getSelectedGods().remove((Integer)selectedGod);</b>
+<b class="nc"><i>202</i>&nbsp;            Message message = new Message(client.getUsername());</b>
+<b class="nc"><i>203</i>&nbsp;            message.buildInvokedGodMessage(new GodSelectionMessage(selectedGod, matchSetupMessage.getSelectedGods()));</b>
+<b class="nc"><i>204</i>&nbsp;            client.getNetworkHandler().send(message);</b>
+<b class="nc"><i>205</i>&nbsp;        } else {</b>
+<b class="nc"><i>206</i>&nbsp;            System.out.println(&quot;Attendi, &quot; + matchSetupMessage.getPlayers().get(matchSetupMessage.getCurrentPlayerIndex()).getNickname() + &quot; sta scegliendo la sua divinità!\n&quot;);</b>
+<i>207</i>&nbsp;        }
+<i>208</i>&nbsp;    }
+<i>209</i>&nbsp;
+<i>210</i>&nbsp;    /**
+<i>211</i>&nbsp;     * the method aks to the current player to choose where he wants to place the builders in the board. This method will be called only
+<i>212</i>&nbsp;     * in the setup phase
+<i>213</i>&nbsp;     * metodo addetto alla selezione dei builder secondo l&#39;ordine definito dal controller
+<i>214</i>&nbsp;     * @param matchStateMessage contains all the references to the current player, the match and the board
+<i>215</i>&nbsp;     */
+<i>216</i>&nbsp;    @Override
+<i>217</i>&nbsp;    public void displaySelectionBuilderWindow(MatchStateMessage matchStateMessage) {
+<b class="nc"><i>218</i>&nbsp;        System.out.flush();</b>
+<b class="nc"><i>219</i>&nbsp;        listOfPlayers = matchStateMessage.getPlayers();</b>
+<b class="nc"><i>220</i>&nbsp;        String currentPlayer = matchStateMessage.getCurrentPlayer().getNickname();</b>
+<b class="nc"><i>221</i>&nbsp;        if(client.getUsername().equals(currentPlayer)) {</b>
+<i>222</i>&nbsp;            int[] builderM, builderF;
+<b class="nc"><i>223</i>&nbsp;            builderM = new int[2];</b>
+<b class="nc"><i>224</i>&nbsp;            builderF = new int[2];</b>
+<b class="nc"><i>225</i>&nbsp;            System.out.printf(&quot;\n%s, tocca a te! Dovrai inserire le coordinate di due celle per posizionare i tuoi costruttori!\n&quot;, currentPlayer);</b>
+<b class="nc"><i>226</i>&nbsp;            showBoard(matchStateMessage.getCells(), listOfPlayers);</b>
+<b class="nc"><i>227</i>&nbsp;            System.out.printf(&quot;iniziamo con la costruttrice\n&quot;);</b>
+<i>228</i>&nbsp;            boolean wrong;
+<i>229</i>&nbsp;
+<i>230</i>&nbsp;            do{
+<b class="nc"><i>231</i>&nbsp;                wrong = true;</b>
+<i>232</i>&nbsp;                try{
+<i>233</i>&nbsp;                    do{
+<b class="nc"><i>234</i>&nbsp;                        System.out.printf(&quot;Inserisci la riga, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: &quot;);</b>
+<b class="nc"><i>235</i>&nbsp;                        builderF[0] = Integer.parseInt(scannerIn.nextLine());</b>
+<b class="nc"><i>236</i>&nbsp;                    } while(builderF[0] &lt; 1 || builderF[0] &gt; 5);</b>
+<i>237</i>&nbsp;                    do{
+<b class="nc"><i>238</i>&nbsp;                        System.out.printf(&quot;Inserisci la colonna, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: &quot;);</b>
+<b class="nc"><i>239</i>&nbsp;                        builderF[1] = Integer.parseInt(scannerIn.nextLine());</b>
+<b class="nc"><i>240</i>&nbsp;                    } while(builderF[1] &lt; 1 || builderF[1] &gt; 5);</b>
+<b class="nc"><i>241</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>242</i>&nbsp;                } catch (NumberFormatException ignored){}</b>
+<b class="nc"><i>243</i>&nbsp;                if(wrong) System.out.println(&quot;oh-oh, devi inserire dei numeri che rappresentino coordinate libere!&quot;);</b>
+<b class="nc"><i>244</i>&nbsp;            }while(wrong);</b>
+<i>245</i>&nbsp;
+<i>246</i>&nbsp;            do{
+<b class="nc"><i>247</i>&nbsp;                wrong = false;</b>
+<i>248</i>&nbsp;                try{
+<b class="nc"><i>249</i>&nbsp;                    System.out.printf(&quot;ora tocca al costruttore\n&quot;);</b>
+<i>250</i>&nbsp;                    do{
+<b class="nc"><i>251</i>&nbsp;                        System.out.printf(&quot;Inserisci la riga, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: &quot;);</b>
+<b class="nc"><i>252</i>&nbsp;                        builderM[0] = Integer.parseInt(scannerIn.nextLine());</b>
+<b class="nc"><i>253</i>&nbsp;                    } while(builderM[0] &lt; 1 || builderM[0] &gt; 5);</b>
+<i>254</i>&nbsp;                    do{
+<b class="nc"><i>255</i>&nbsp;                        System.out.printf(&quot;Inserisci la colonna, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: &quot;);</b>
+<b class="nc"><i>256</i>&nbsp;                        builderM[1] = Integer.parseInt(scannerIn.nextLine());</b>
+<b class="nc"><i>257</i>&nbsp;                    } while(builderM[1] &lt; 1 || builderM[1] &gt; 5 || (builderM[1] == builderF[1] &amp;&amp; builderM[0] == builderF[0]));</b>
+<b class="nc"><i>258</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>259</i>&nbsp;                }catch (NumberFormatException e){</b>
+<b class="nc"><i>260</i>&nbsp;                    wrong = true;</b>
+<b class="nc"><i>261</i>&nbsp;                }</b>
+<b class="nc"><i>262</i>&nbsp;                if(wrong) System.out.println(&quot;oh-oh, devi inserire dei numeri che rappresentino coordinate libere!&quot;);</b>
+<b class="nc"><i>263</i>&nbsp;            }while(wrong);</b>
+<i>264</i>&nbsp;
+<b class="nc"><i>265</i>&nbsp;            Message message = new Message(client.getUsername());</b>
+<b class="nc"><i>266</i>&nbsp;            message.buildSelectedBuilderPosMessage(new SelectedBuilderPositionMessage(client.getUsername(), builderF, builderM));</b>
+<b class="nc"><i>267</i>&nbsp;            System.out.println(&quot;In attesa che gli dei controllino le tue scelte...&quot;);</b>
+<b class="nc"><i>268</i>&nbsp;            client.getNetworkHandler().send(message);</b>
+<b class="nc"><i>269</i>&nbsp;        } else {</b>
+<b class="nc"><i>270</i>&nbsp;            System.out.printf(&quot;Ok, %s sta scegliendo la posizione dei suoi builder! Attendi...&quot;, currentPlayer);</b>
+<i>271</i>&nbsp;        }
+<i>272</i>&nbsp;    }
+<i>273</i>&nbsp;
+<i>274</i>&nbsp;    /**
+<i>275</i>&nbsp;     * the method will be called only if a player will insert wrong parameters in displaySelectionBuilderWindow, and will ask to the player
+<i>276</i>&nbsp;     * to insert them again.
+<i>277</i>&nbsp;     * @param message contains the username of the player that has made the mistake and also a boolean that indicates which builder has the
+<i>278</i>&nbsp;     * wrong coordinates
+<i>279</i>&nbsp;     */
+<i>280</i>&nbsp;    @Override
+<i>281</i>&nbsp;    public void displayNewSelectionBuilderWindow(IllegalPositionMessage message){
+<b class="nc"><i>282</i>&nbsp;        int[] builderM = null;</b>
+<b class="nc"><i>283</i>&nbsp;        int[] builderF = null;</b>
+<i>284</i>&nbsp;        boolean wrong;
+<b class="nc"><i>285</i>&nbsp;        if(message.isBuilderFToChange()){</b>
+<b class="nc"><i>286</i>&nbsp;            builderF = new int[2];</b>
+<i>287</i>&nbsp;            do {
+<i>288</i>&nbsp;                try {
+<b class="nc"><i>289</i>&nbsp;                    System.out.printf(&quot;la tua costruttrice è in una posizione illegale\n&quot;);</b>
+<i>290</i>&nbsp;                    do {
+<b class="nc"><i>291</i>&nbsp;                        System.out.printf(&quot;Inserisci la riga, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: &quot;);</b>
+<b class="nc"><i>292</i>&nbsp;                        builderF[0] = Integer.parseInt(scannerIn.nextLine());</b>
+<b class="nc"><i>293</i>&nbsp;                    } while (builderF[0] &lt; 1 || builderF[0] &gt; 5);</b>
+<i>294</i>&nbsp;                    do {
+<b class="nc"><i>295</i>&nbsp;                        System.out.printf(&quot;Inserisci la colonna, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: &quot;);</b>
+<b class="nc"><i>296</i>&nbsp;                        builderF[1] = Integer.parseInt(scannerIn.nextLine());</b>
+<b class="nc"><i>297</i>&nbsp;                    } while (builderF[1] &lt; 1 || builderF[1] &gt; 5);</b>
+<b class="nc"><i>298</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>299</i>&nbsp;                } catch (NumberFormatException e) {</b>
+<b class="nc"><i>300</i>&nbsp;                    wrong = true;</b>
+<b class="nc"><i>301</i>&nbsp;                }</b>
+<b class="nc"><i>302</i>&nbsp;                if(wrong) System.out.println(&quot;errore, è necessario reinserire!&quot;);</b>
+<b class="nc"><i>303</i>&nbsp;            } while(wrong);</b>
+<i>304</i>&nbsp;        }
+<b class="nc"><i>305</i>&nbsp;        if(message.isBuilderMToChange()) {</b>
+<b class="nc"><i>306</i>&nbsp;            builderM = new int[2];</b>
+<i>307</i>&nbsp;            do{
+<i>308</i>&nbsp;                try{
+<b class="nc"><i>309</i>&nbsp;                    System.out.printf(&quot;il tuo costruttore è in una posizione illegale\n&quot;);</b>
+<i>310</i>&nbsp;                    do {
+<b class="nc"><i>311</i>&nbsp;                        System.out.printf(&quot;Inserisci la riga, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: &quot;);</b>
+<b class="nc"><i>312</i>&nbsp;                        builderM[0] = Integer.parseInt(scannerIn.nextLine());</b>
+<b class="nc"><i>313</i>&nbsp;                    } while (builderM[0] &lt; 1 || builderM[0] &gt; 5);</b>
+<i>314</i>&nbsp;                    do {
+<b class="nc"><i>315</i>&nbsp;                        System.out.printf(&quot;Inserisci la colonna, deve essere compresa tra 1 e 5 e libera, come puoi vedere dalla board: &quot;);</b>
+<b class="nc"><i>316</i>&nbsp;                        builderM[1] = Integer.parseInt(scannerIn.nextLine());</b>
+<b class="nc"><i>317</i>&nbsp;                    } while (builderM[1] &lt; 1 || builderM[1] &gt; 5);</b>
+<b class="nc"><i>318</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>319</i>&nbsp;                }catch (InputMismatchException e){</b>
+<b class="nc"><i>320</i>&nbsp;                    wrong = true;</b>
+<b class="nc"><i>321</i>&nbsp;                }</b>
+<b class="nc"><i>322</i>&nbsp;                if(wrong) System.out.println(&quot;errore, è necessario reinserire!&quot;);</b>
+<b class="nc"><i>323</i>&nbsp;            }while(wrong);</b>
+<i>324</i>&nbsp;        }
+<i>325</i>&nbsp;
+<b class="nc"><i>326</i>&nbsp;        Message newPos = new Message(client.getUsername());</b>
+<b class="nc"><i>327</i>&nbsp;        newPos.buildSelectedBuilderPosMessage(new SelectedBuilderPositionMessage(client.getUsername(), builderF, builderM));</b>
+<b class="nc"><i>328</i>&nbsp;        System.out.println(&quot;In attesa che gli dei controllino le tue scelte...&quot;);</b>
+<b class="nc"><i>329</i>&nbsp;        client.getNetworkHandler().send(newPos);</b>
+<i>330</i>&nbsp;    }
+<i>331</i>&nbsp;
+<i>332</i>&nbsp;    /**
+<i>333</i>&nbsp;     * method that update the board every time that the model is modified, it does that by calling other methods
+<i>334</i>&nbsp;     * metodo che aggiorna la board ogni volta che viene fatta una mossa (modificato il model)
+<i>335</i>&nbsp;     * parametro un messaggio con scritte le informazioni sulla board.
+<i>336</i>&nbsp;     */
+<i>337</i>&nbsp;    @Override
+<i>338</i>&nbsp;    public void updateMatch(UpdateMessage updateMessage) {
+<b class="nc"><i>339</i>&nbsp;        switch(updateMessage.getPhase()){</b>
+<i>340</i>&nbsp;            case START_TURN:
+<i>341</i>&nbsp;                //System.out.println(&quot;DISPLAY START TURN&quot;);
+<b class="nc"><i>342</i>&nbsp;                displayStartTurn(updateMessage);</b>
+<b class="nc"><i>343</i>&nbsp;                break;</b>
+<i>344</i>&nbsp;            case STANDBY_PHASE_1:
+<i>345</i>&nbsp;                //System.out.println(&quot;DISPLAY SP1, POTERE ATTIVATO&quot;);
+<b class="nc"><i>346</i>&nbsp;                displaySP(updateMessage, PhaseType.STANDBY_PHASE_1);</b>
+<b class="nc"><i>347</i>&nbsp;                break;</b>
+<i>348</i>&nbsp;            case MOVE_PHASE:
+<i>349</i>&nbsp;                //System.out.println(&quot;DISPLAY MOVE&quot;);
+<b class="nc"><i>350</i>&nbsp;                displayMoveUpdate(updateMessage);</b>
+<b class="nc"><i>351</i>&nbsp;                break;</b>
+<i>352</i>&nbsp;            case STANDBY_PHASE_2:
+<i>353</i>&nbsp;                //System.out.println(&quot;DISPLAY SP2, POTERE ATTIVATO&quot;);
+<b class="nc"><i>354</i>&nbsp;                displaySP(updateMessage, PhaseType.STANDBY_PHASE_2);</b>
+<b class="nc"><i>355</i>&nbsp;                break;</b>
+<i>356</i>&nbsp;            case BUILD_PHASE:
+<i>357</i>&nbsp;                //System.out.println(&quot;DISPLAY BUILD&quot;);
+<b class="nc"><i>358</i>&nbsp;                displayBuildUpdate(updateMessage);</b>
+<b class="nc"><i>359</i>&nbsp;                break;</b>
+<i>360</i>&nbsp;            case STANDBY_PHASE_3:
+<i>361</i>&nbsp;                //System.out.println(&quot;DISPLAY SP3, POTERE ATTIVATO&quot;);
+<b class="nc"><i>362</i>&nbsp;                displaySP(updateMessage, PhaseType.STANDBY_PHASE_3);</b>
+<b class="nc"><i>363</i>&nbsp;                break;</b>
+<i>364</i>&nbsp;            case END_TURN:
+<i>365</i>&nbsp;                //System.out.println(&quot;DISPLAY END TURN&quot;);
+<b class="nc"><i>366</i>&nbsp;                displayEndTurn(updateMessage);</b>
+<b class="nc"><i>367</i>&nbsp;                break;</b>
+<i>368</i>&nbsp;            default:
+<i>369</i>&nbsp;                break;
+<i>370</i>&nbsp;        }
+<i>371</i>&nbsp;    }
+<i>372</i>&nbsp;
+<i>373</i>&nbsp;    /**
+<i>374</i>&nbsp;     * method that shows board, builders, the textual interface and the first player to play
+<i>375</i>&nbsp;     * far visualizzare la board con le pedine e tutta l&#39;interfaccia testuale e il primo giocatore che gioca
+<i>376</i>&nbsp;     */
+<i>377</i>&nbsp;    @Override
+<i>378</i>&nbsp;    public void displayStartTurn(UpdateMessage message) {
+<b class="nc"><i>379</i>&nbsp;        System.out.flush();</b>
+<b class="nc"><i>380</i>&nbsp;        showBoard(message.getBoard(), message.getPlayers());</b>
+<b class="nc"><i>381</i>&nbsp;        if(client.getUsername().equals(message.getCurrentPlayer().getNickname())) {</b>
+<b class="nc"><i>382</i>&nbsp;            System.out.println(message.getCurrentPlayer().getNickname() + &quot; tocca a te!&quot;);</b>
+<b class="nc"><i>383</i>&nbsp;            Message nextPhase = new Message(client.getUsername());</b>
+<b class="nc"><i>384</i>&nbsp;            nextPhase.buildNextPhaseMessage();</b>
+<b class="nc"><i>385</i>&nbsp;            client.getNetworkHandler().send(nextPhase);</b>
+<b class="nc"><i>386</i>&nbsp;        } else {</b>
+<b class="nc"><i>387</i>&nbsp;            System.out.println(&quot;Ora è il turno di &quot; + message.getCurrentPlayer().getNickname());</b>
+<i>388</i>&nbsp;        }
+<i>389</i>&nbsp;    }
+<i>390</i>&nbsp;
+<i>391</i>&nbsp;    /**
+<i>392</i>&nbsp;     * the method asks to the player if he wants to activate his god&#39;s power
+<i>393</i>&nbsp;     * @param question is a message that contains the name of the player (that will receive the question) and the name of the god
+<i>394</i>&nbsp;     */
+<i>395</i>&nbsp;    @Override
+<i>396</i>&nbsp;    public void displayWouldActivate(MatchStateMessage question) {
+<i>397</i>&nbsp;        // richiediamo se il giocatore vuole attivare il potere divino
+<b class="nc"><i>398</i>&nbsp;        if (client.getUsername().equals(question.getCurrentPlayer().getNickname())) {</b>
+<b class="nc"><i>399</i>&nbsp;            System.out.println(&quot;Vuoi richiedere l&#39;intervento di &quot; + question.getCurrentPlayer().getDivinePower().getName() + &quot;? Y-N&quot;);</b>
+<b class="nc"><i>400</i>&nbsp;            Message message = new Message(client.getUsername());</b>
+<i>401</i>&nbsp;            boolean wrong;
+<i>402</i>&nbsp;            do{
+<b class="nc"><i>403</i>&nbsp;                wrong = false;</b>
+<b class="nc"><i>404</i>&nbsp;                String answer = scannerIn.nextLine();</b>
+<b class="nc"><i>405</i>&nbsp;                answer = answer.toUpperCase();</b>
+<b class="nc"><i>406</i>&nbsp;                if (answer.equals(&quot;Y&quot;))</b>
+<b class="nc"><i>407</i>&nbsp;                    message.buildActivateGodMessage(new ActivateGodMessage(true));</b>
+<b class="nc"><i>408</i>&nbsp;                else if (answer.equals(&quot;N&quot;))</b>
+<b class="nc"><i>409</i>&nbsp;                    message.buildActivateGodMessage(new ActivateGodMessage(false));</b>
+<i>410</i>&nbsp;                else
+<b class="nc"><i>411</i>&nbsp;                    wrong = true;</b>
+<b class="nc"><i>412</i>&nbsp;            } while(wrong);</b>
+<b class="nc"><i>413</i>&nbsp;            client.getNetworkHandler().send(message);</b>
+<i>414</i>&nbsp;        }
+<i>415</i>&nbsp;    }
+<i>416</i>&nbsp;
+<i>417</i>&nbsp;    /**
+<i>418</i>&nbsp;     * the method calls a method linked to a specific God that will ask to the player to insert parameters needed to use the god
+<i>419</i>&nbsp;     * @param message is a message that contains the name of the player (that will receive the question) and the name of the god
+<i>420</i>&nbsp;     */
+<i>421</i>&nbsp;    @Override
+<i>422</i>&nbsp;    public void displayParametersSelection(MatchStateMessage message) {
+<b class="nc"><i>423</i>&nbsp;        if(message.getCurrentPlayer().getNickname().equals(client.getUsername())) {</b>
+<b class="nc"><i>424</i>&nbsp;            Message selectedParam = new Message(client.getUsername());</b>
+<b class="nc"><i>425</i>&nbsp;            String god = message.getCurrentPlayer().getDivinePower().getName();</b>
+<b class="nc"><i>426</i>&nbsp;            System.out.println(god + &quot; è qui ad aiutarti!&quot;);</b>
+<b class="nc"><i>427</i>&nbsp;            switch (god) {</b>
+<i>428</i>&nbsp;                case &quot;Apollo&quot;:
+<b class="nc"><i>429</i>&nbsp;                    selectedParam.buildApolloParamMessage(displayApolloParamSel(message));</b>
+<b class="nc"><i>430</i>&nbsp;                    break;</b>
+<i>431</i>&nbsp;                case &quot;Ares&quot;:
+<b class="nc"><i>432</i>&nbsp;                    selectedParam.buildAresParamMessage(displayAresParamSel(message));</b>
+<b class="nc"><i>433</i>&nbsp;                    break;</b>
+<i>434</i>&nbsp;                case &quot;Artemis&quot;:
+<b class="nc"><i>435</i>&nbsp;                    selectedParam.buildArtemisParamMessage(displayArtemisParamSel(message));</b>
+<b class="nc"><i>436</i>&nbsp;                    break;</b>
+<i>437</i>&nbsp;                case &quot;Atlas&quot;:
+<b class="nc"><i>438</i>&nbsp;                    selectedParam.buildAtlasParamMessage(displayAtlasParamSel(message));</b>
+<b class="nc"><i>439</i>&nbsp;                    break;</b>
+<i>440</i>&nbsp;                case &quot;Demeter&quot;:
+<b class="nc"><i>441</i>&nbsp;                    selectedParam.buildDemeterParamMessage(displayDemeterParamSel(message));</b>
+<b class="nc"><i>442</i>&nbsp;                    break;</b>
+<i>443</i>&nbsp;                case &quot;Hestia&quot;:
+<b class="nc"><i>444</i>&nbsp;                    selectedParam.buildHestiaParamMessage(displayHestiaParamSel(message));</b>
+<b class="nc"><i>445</i>&nbsp;                    break;</b>
+<i>446</i>&nbsp;                case &quot;Minotaur&quot;:
+<b class="nc"><i>447</i>&nbsp;                    selectedParam.buildMinotaurParamMessage(displayMinotaurParamSel(message));</b>
+<b class="nc"><i>448</i>&nbsp;                    break;</b>
+<i>449</i>&nbsp;                case &quot;Poseidon&quot;:
+<b class="nc"><i>450</i>&nbsp;                    selectedParam.buildPoseidonParamMessage(displayPoseidonParamSel(message));</b>
+<b class="nc"><i>451</i>&nbsp;                    break;</b>
+<i>452</i>&nbsp;                case &quot;Prometheus&quot;:
+<b class="nc"><i>453</i>&nbsp;                    selectedParam.buildPrometheusParamMessage(displayPrometheusParamSel(message));</b>
+<b class="nc"><i>454</i>&nbsp;                    break;</b>
+<i>455</i>&nbsp;                default:
+<i>456</i>&nbsp;                    break;
+<i>457</i>&nbsp;            }
+<b class="nc"><i>458</i>&nbsp;            client.getNetworkHandler().send(selectedParam);</b>
+<i>459</i>&nbsp;        }
+<i>460</i>&nbsp;    }
+<i>461</i>&nbsp;
+<i>462</i>&nbsp;    /**
+<i>463</i>&nbsp;     * the method prints to the players when and which god helped a player
+<i>464</i>&nbsp;     * @param updateMessage contains the name of the god used and the user name of the player that used it
+<i>465</i>&nbsp;     * @param phase is the phase in which the god helped the player
+<i>466</i>&nbsp;     */
+<i>467</i>&nbsp;    @Override
+<i>468</i>&nbsp;    public void displaySP(UpdateMessage updateMessage, PhaseType phase) {
+<b class="nc"><i>469</i>&nbsp;        System.out.flush();</b>
+<b class="nc"><i>470</i>&nbsp;        System.out.printf(updateMessage.getCurrentPlayer().getDivinePower().getName());</b>
+<b class="nc"><i>471</i>&nbsp;        if(updateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())) {</b>
+<b class="nc"><i>472</i>&nbsp;            System.out.println(&quot; ha accettato la tua richiesta di aiuto&quot;);</b>
+<b class="nc"><i>473</i>&nbsp;            Message nextPhase = new Message(client.getUsername());</b>
+<b class="nc"><i>474</i>&nbsp;            nextPhase.buildNextPhaseMessage();</b>
+<b class="nc"><i>475</i>&nbsp;            client.getNetworkHandler().send(nextPhase);</b>
+<b class="nc"><i>476</i>&nbsp;        }</b>
+<i>477</i>&nbsp;        else
+<b class="nc"><i>478</i>&nbsp;            System.out.println(&quot; ha aiutato &quot; + updateMessage.getCurrentPlayer().getNickname());</b>
+<b class="nc"><i>479</i>&nbsp;        showBoard(updateMessage.getBoard(), updateMessage.getPlayers());</b>
+<i>480</i>&nbsp;    }
+<i>481</i>&nbsp;
+<i>482</i>&nbsp;    /**
+<i>483</i>&nbsp;     * the method asks to the current player which one of his builder he wants to move and build with.
+<i>484</i>&nbsp;     * To help the player in his choice the method also shows the board in its current state and it allows the player to select a builder only
+<i>485</i>&nbsp;     * if he or she can move
+<i>486</i>&nbsp;     * @param message contains the username of the player and
+<i>487</i>&nbsp;     */
+<i>488</i>&nbsp;    @Override
+<i>489</i>&nbsp;    public void displayChooseBuilder(MatchStateMessage message) {
+<b class="nc"><i>490</i>&nbsp;        System.out.flush();</b>
+<b class="nc"><i>491</i>&nbsp;        if(message.getCurrentPlayer().getNickname().equals(client.getUsername())) {</b>
+<b class="nc"><i>492</i>&nbsp;            showBoard(message.getCells(), message.getPlayers());</b>
+<b class="nc"><i>493</i>&nbsp;            System.out.println(&quot;Quale builder vuoi muovere? Il maschio o la femmina?&quot;);</b>
+<b class="nc"><i>494</i>&nbsp;            Message chosenBuilder = new Message(client.getUsername());</b>
+<b class="nc"><i>495</i>&nbsp;            Builder builder = null;</b>
+<b class="nc"><i>496</i>&nbsp;            String choice = null;</b>
+<i>497</i>&nbsp;            boolean wrong;
+<b class="nc"><i>498</i>&nbsp;            message.getCurrentPlayer().getBuilderF().setBoard(new Board(message.getBoard()));</b>
+<b class="nc"><i>499</i>&nbsp;            message.getCurrentPlayer().getBuilderF().setPlayer(message.getCurrentPlayer());</b>
+<b class="nc"><i>500</i>&nbsp;            message.getCurrentPlayer().getBuilderM().setBoard(new Board(message.getBoard()));</b>
+<b class="nc"><i>501</i>&nbsp;            message.getCurrentPlayer().getBuilderM().setPlayer(message.getCurrentPlayer());</b>
+<i>502</i>&nbsp;            do {
+<b class="nc"><i>503</i>&nbsp;                if(message.getCurrentPlayer().getBuilderM().canMove())</b>
+<b class="nc"><i>504</i>&nbsp;                    System.out.println(&quot;Premi il tasto M per selezionare il maschio&quot;);</b>
+<b class="nc"><i>505</i>&nbsp;                if(message.getCurrentPlayer().getBuilderF().canMove())</b>
+<b class="nc"><i>506</i>&nbsp;                    System.out.println(&quot;Premi il tasto F per selezionare la femmina&quot;);</b>
+<i>507</i>&nbsp;                try{
+<b class="nc"><i>508</i>&nbsp;                    choice = scannerIn.nextLine();</b>
+<b class="nc"><i>509</i>&nbsp;                    choice = choice.toUpperCase();</b>
+<b class="nc"><i>510</i>&nbsp;                    if (choice.equals(&quot;M&quot;)) {</b>
+<b class="nc"><i>511</i>&nbsp;                        builder = message.getCurrentPlayer().getBuilderM();</b>
+<b class="nc"><i>512</i>&nbsp;                        builder.setBoard(new Board(message.getBoard()));</b>
+<b class="nc"><i>513</i>&nbsp;                        builder.setPlayer(message.getCurrentPlayer());</b>
+<b class="nc"><i>514</i>&nbsp;                        chosenBuilder.buildSelectedBuilderMessage(new SelectedBuilderMessage(&#39;M&#39;));</b>
+<b class="nc"><i>515</i>&nbsp;                        if(builder.canMove()) wrong = false;</b>
+<b class="nc"><i>516</i>&nbsp;                        else wrong = true;</b>
+<i>517</i>&nbsp;                    }
+<b class="nc"><i>518</i>&nbsp;                    else if (choice.equals(&quot;F&quot;)){</b>
+<b class="nc"><i>519</i>&nbsp;                        builder = message.getCurrentPlayer().getBuilderF();</b>
+<b class="nc"><i>520</i>&nbsp;                        builder.setBoard(new Board(message.getBoard()));</b>
+<b class="nc"><i>521</i>&nbsp;                        builder.setPlayer(message.getCurrentPlayer());</b>
+<b class="nc"><i>522</i>&nbsp;                        chosenBuilder.buildSelectedBuilderMessage(new SelectedBuilderMessage(&#39;F&#39;));</b>
+<b class="nc"><i>523</i>&nbsp;                        if(builder.canMove()) wrong = false;</b>
+<b class="nc"><i>524</i>&nbsp;                        else wrong = true;</b>
+<i>525</i>&nbsp;                    }
+<i>526</i>&nbsp;                    else
+<b class="nc"><i>527</i>&nbsp;                        wrong = true;</b>
+<b class="nc"><i>528</i>&nbsp;                } catch(InputMismatchException e){</b>
+<b class="nc"><i>529</i>&nbsp;                    wrong = true;</b>
+<b class="nc"><i>530</i>&nbsp;                    scannerIn.nextLine();</b>
+<b class="nc"><i>531</i>&nbsp;                }</b>
+<b class="nc"><i>532</i>&nbsp;            } while (wrong);</b>
+<b class="nc"><i>533</i>&nbsp;            client.getNetworkHandler().send(chosenBuilder);</b>
+<i>534</i>&nbsp;        }
+<i>535</i>&nbsp;    }
+<i>536</i>&nbsp;
+<i>537</i>&nbsp;    /**
+<i>538</i>&nbsp;     * the method asks to the player in which direction he wants to move the builder. The method shows a little matrix to represents the
+<i>539</i>&nbsp;     * allowed direction of movements. If the player inserts a wrong direction, he will be asked again to insert the direction
+<i>540</i>&nbsp;     * metodo che mostra all&#39;utente le possibili mosse che il builder selezionato può fare
+<i>541</i>&nbsp;     */
+<i>542</i>&nbsp;    @Override
+<i>543</i>&nbsp;    public void displayPossibleMoves(AskMoveSelectionMessage message) {
+<b class="nc"><i>544</i>&nbsp;        int[][] possibleMoves = message.getPossibleMoves();</b>
+<b class="nc"><i>545</i>&nbsp;        Direction direction = null;</b>
+<i>546</i>&nbsp;        boolean wrong;
+<i>547</i>&nbsp;        int buttonPressed;
+<b class="nc"><i>548</i>&nbsp;        String[] actions = new String[8];</b>
+<b class="nc"><i>549</i>&nbsp;        if (possibleMoves[0][0] != 0) actions[0] = (&quot;Premi 1 per muovere con il builder a NORD-OVEST&quot;);</b>
+<b class="nc"><i>550</i>&nbsp;        if (possibleMoves[0][1] != 0) actions[1] = (&quot;Premi 2 per muovere con il builder a NORD&quot;);</b>
+<b class="nc"><i>551</i>&nbsp;        if (possibleMoves[0][2] != 0) actions[2] = (&quot;Premi 3 per muovere con il builder a NORD-EST&quot;);</b>
+<b class="nc"><i>552</i>&nbsp;        if (possibleMoves[1][0] != 0) actions[3] = (&quot;Premi 4 per muovere con il builder a OVEST&quot;);</b>
+<b class="nc"><i>553</i>&nbsp;        if (possibleMoves[1][2] != 0) actions[4] = (&quot;Premi 5 per muovere con il builder a EST&quot;);</b>
+<b class="nc"><i>554</i>&nbsp;        if (possibleMoves[2][0] != 0) actions[5] = (&quot;Premi 6 per muovere con il builder a SUD-OVEST&quot;);</b>
+<b class="nc"><i>555</i>&nbsp;        if (possibleMoves[2][1] != 0) actions[6] = (&quot;Premi 7 per muovere con il builder a SUD&quot;);</b>
+<b class="nc"><i>556</i>&nbsp;        if (possibleMoves[2][2] != 0) actions[7] = (&quot;Premi 8 per muovere con il builder a SUD-EST&quot;);</b>
+<i>557</i>&nbsp;        do {
+<i>558</i>&nbsp;            try {
+<b class="nc"><i>559</i>&nbsp;                scannerIn.reset();</b>
+<b class="nc"><i>560</i>&nbsp;                showPossibleMatrix(possibleMoves, &#39;m&#39;, actions);</b>
+<b class="nc"><i>561</i>&nbsp;                System.out.print(&quot;Inserire la direzione scelta per lo spostamento: &quot;);</b>
+<b class="nc"><i>562</i>&nbsp;                buttonPressed = Integer.parseInt(scannerIn.nextLine());</b>
+<i>563</i>&nbsp;
+<b class="nc"><i>564</i>&nbsp;                if (buttonPressed == 1 &amp;&amp; possibleMoves[0][0] != 0) {</b>
+<b class="nc"><i>565</i>&nbsp;                    direction = Direction.NORTH_WEST;</b>
+<b class="nc"><i>566</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>567</i>&nbsp;                } else if (buttonPressed == 2 &amp;&amp; possibleMoves[0][1] != 0) {</b>
+<b class="nc"><i>568</i>&nbsp;                    direction = Direction.NORTH;</b>
+<b class="nc"><i>569</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>570</i>&nbsp;                } else if (buttonPressed == 3 &amp;&amp; possibleMoves[0][2] != 0) {</b>
+<b class="nc"><i>571</i>&nbsp;                    direction = Direction.NORTH_EAST;</b>
+<b class="nc"><i>572</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>573</i>&nbsp;                } else if (buttonPressed == 4 &amp;&amp; possibleMoves[1][0] != 0) {</b>
+<b class="nc"><i>574</i>&nbsp;                    direction = Direction.WEST;</b>
+<b class="nc"><i>575</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>576</i>&nbsp;                } else if (buttonPressed == 5 &amp;&amp; possibleMoves[1][2] != 0) {</b>
+<b class="nc"><i>577</i>&nbsp;                    direction = Direction.EAST;</b>
+<b class="nc"><i>578</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>579</i>&nbsp;                } else if (buttonPressed == 6 &amp;&amp; possibleMoves[2][0] != 0) {</b>
+<b class="nc"><i>580</i>&nbsp;                    direction = Direction.SOUTH_WEST;</b>
+<b class="nc"><i>581</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>582</i>&nbsp;                } else if (buttonPressed == 7 &amp;&amp; possibleMoves[2][1] != 0) {</b>
+<b class="nc"><i>583</i>&nbsp;                    direction = Direction.SOUTH;</b>
+<b class="nc"><i>584</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>585</i>&nbsp;                } else if (buttonPressed == 8 &amp;&amp; possibleMoves[2][2] != 0) {</b>
+<b class="nc"><i>586</i>&nbsp;                    direction = Direction.SOUTH_EAST;</b>
+<b class="nc"><i>587</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>588</i>&nbsp;                }else wrong = true;</b>
+<b class="nc"><i>589</i>&nbsp;            }catch(NumberFormatException e){</b>
+<b class="nc"><i>590</i>&nbsp;                wrong = true;</b>
+<b class="nc"><i>591</i>&nbsp;            }</b>
+<b class="nc"><i>592</i>&nbsp;            if(wrong) System.out.println(&quot;Direzione non valida! Inserire una direzione valida&quot;);</b>
+<b class="nc"><i>593</i>&nbsp;        }while(wrong);</b>
+<i>594</i>&nbsp;
+<b class="nc"><i>595</i>&nbsp;        Message moveSelection = new Message(client.getUsername());</b>
+<b class="nc"><i>596</i>&nbsp;        moveSelection.buildSelectedMoveMessage(new SelectedMoveMessage(direction));</b>
+<b class="nc"><i>597</i>&nbsp;        client.getNetworkHandler().send(moveSelection);</b>
+<i>598</i>&nbsp;        // display delle possible moves per restringere il campo d&#39;azione -&gt; vedi canMove
+<i>599</i>&nbsp;        // conversione della direzione
+<i>600</i>&nbsp;        // creazione del messaggio di selezione
+<i>601</i>&nbsp;        // invio del messaggio al server
+<i>602</i>&nbsp;    }
+<i>603</i>&nbsp;
+<i>604</i>&nbsp;    /**
+<i>605</i>&nbsp;     * the method shows to the current player the board after the movement.
+<i>606</i>&nbsp;     * @param updateMessage contains the username of current player and also a reference to the board(used to show the board to the player).
+<i>607</i>&nbsp;     */
+<i>608</i>&nbsp;    @Override
+<i>609</i>&nbsp;    public void displayMoveUpdate(UpdateMessage updateMessage) {
+<b class="nc"><i>610</i>&nbsp;        System.out.flush();</b>
+<b class="nc"><i>611</i>&nbsp;        showBoard(updateMessage.getBoard(), updateMessage.getPlayers());</b>
+<b class="nc"><i>612</i>&nbsp;        if(updateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())) {</b>
+<b class="nc"><i>613</i>&nbsp;            Message nextPhase = new Message(client.getUsername());</b>
+<b class="nc"><i>614</i>&nbsp;            nextPhase.buildNextPhaseMessage();</b>
+<b class="nc"><i>615</i>&nbsp;            client.getNetworkHandler().send(nextPhase);</b>
+<i>616</i>&nbsp;        }
+<i>617</i>&nbsp;    }
+<i>618</i>&nbsp;
+<i>619</i>&nbsp;    /**
+<i>620</i>&nbsp;     * the method asks to the player in which direction he wants to build. The method shows a little matrix to represents the
+<i>621</i>&nbsp;     * allowed direction to construct near his playing builder. If the player inserts a wrong direction, he will be asked again to insert the direction
+<i>622</i>&nbsp;     * metodo che mostra all&#39;utente le possibili costruzioni che il builder mosso può fare
+<i>623</i>&nbsp;     */
+<i>624</i>&nbsp;    @Override
+<i>625</i>&nbsp;    public void displayPossibleBuildings(AskBuildSelectionMessage message) {
+<b class="nc"><i>626</i>&nbsp;        int[][] possibleBuildings = message.getPossibleBuildings();</b>
+<b class="nc"><i>627</i>&nbsp;        Direction direction = null;</b>
+<i>628</i>&nbsp;        boolean wrong;
+<i>629</i>&nbsp;        int buttonPressed;
+<b class="nc"><i>630</i>&nbsp;        String[] actions = new String[8];</b>
+<b class="nc"><i>631</i>&nbsp;        if (possibleBuildings[0][0] &gt;= 0 &amp;&amp; possibleBuildings[0][0] &lt; 4) actions[0] = (&quot;Premi 1 per costruire con il builder a NORD-OVEST&quot;);</b>
+<b class="nc"><i>632</i>&nbsp;        if (possibleBuildings[0][1] &gt;= 0 &amp;&amp; possibleBuildings[0][1] &lt; 4) actions[1] = (&quot;Premi 2 per costruire con il builder a NORD&quot;);</b>
+<b class="nc"><i>633</i>&nbsp;        if (possibleBuildings[0][2] &gt;= 0 &amp;&amp; possibleBuildings[0][2] &lt; 4) actions[2] = (&quot;Premi 3 per costruire con il builder a NORD-EST&quot;);</b>
+<b class="nc"><i>634</i>&nbsp;        if (possibleBuildings[1][0] &gt;= 0 &amp;&amp; possibleBuildings[1][0] &lt; 4) actions[3] = (&quot;Premi 4 per costruire con il builder a OVEST&quot;);</b>
+<b class="nc"><i>635</i>&nbsp;        if (possibleBuildings[1][2] &gt;= 0 &amp;&amp; possibleBuildings[1][2] &lt; 4) actions[4] = (&quot;Premi 5 per costruire con il builder a EST&quot;);</b>
+<b class="nc"><i>636</i>&nbsp;        if (possibleBuildings[2][0] &gt;= 0 &amp;&amp; possibleBuildings[2][0] &lt; 4) actions[5] = (&quot;Premi 6 per costruire con il builder a SUD-OVEST&quot;);</b>
+<b class="nc"><i>637</i>&nbsp;        if (possibleBuildings[2][1] &gt;= 0 &amp;&amp; possibleBuildings[2][1] &lt; 4) actions[6] = (&quot;Premi 7 per costruire con il builder a SUD&quot;);</b>
+<b class="nc"><i>638</i>&nbsp;        if (possibleBuildings[2][2] &gt;= 0 &amp;&amp; possibleBuildings[2][2] &lt; 4) actions[7] = (&quot;Premi 8 per costruire con il builder a SUD-EST&quot;);</b>
+<i>639</i>&nbsp;        do {
+<b class="nc"><i>640</i>&nbsp;            showPossibleMatrix(possibleBuildings, &#39;b&#39;, actions);</b>
+<i>641</i>&nbsp;            try {
+<b class="nc"><i>642</i>&nbsp;                System.out.print(&quot;Inserire la direzione scelta per la costruzione: &quot;);</b>
+<b class="nc"><i>643</i>&nbsp;                buttonPressed = Integer.parseInt(scannerIn.nextLine());</b>
+<i>644</i>&nbsp;
+<b class="nc"><i>645</i>&nbsp;                if (buttonPressed == 1 &amp;&amp; possibleBuildings[0][0] &gt;= 0 &amp;&amp; possibleBuildings[0][0] &lt; 4) {</b>
+<b class="nc"><i>646</i>&nbsp;                    direction = Direction.NORTH_WEST;</b>
+<b class="nc"><i>647</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>648</i>&nbsp;                } else if (buttonPressed == 2 &amp;&amp; possibleBuildings[0][1] &gt;= 0 &amp;&amp; possibleBuildings[0][1] &lt; 4) {</b>
+<b class="nc"><i>649</i>&nbsp;                    direction = Direction.NORTH;</b>
+<b class="nc"><i>650</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>651</i>&nbsp;                } else if (buttonPressed == 3 &amp;&amp; possibleBuildings[0][2] &gt;= 0 &amp;&amp; possibleBuildings[0][2] &lt; 4) {</b>
+<b class="nc"><i>652</i>&nbsp;                    direction = Direction.NORTH_EAST;</b>
+<b class="nc"><i>653</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>654</i>&nbsp;                } else if (buttonPressed == 4 &amp;&amp; possibleBuildings[1][0] &gt;= 0 &amp;&amp; possibleBuildings[1][0] &lt; 4) {</b>
+<b class="nc"><i>655</i>&nbsp;                    direction = Direction.WEST;</b>
+<b class="nc"><i>656</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>657</i>&nbsp;                } else if (buttonPressed == 5 &amp;&amp; possibleBuildings[1][2] &gt;= 0 &amp;&amp; possibleBuildings[1][2] &lt; 4) {</b>
+<b class="nc"><i>658</i>&nbsp;                    direction = Direction.EAST;</b>
+<b class="nc"><i>659</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>660</i>&nbsp;                } else if (buttonPressed == 6 &amp;&amp; possibleBuildings[2][0] &gt;= 0 &amp;&amp; possibleBuildings[2][0] &lt; 4) {</b>
+<b class="nc"><i>661</i>&nbsp;                    direction = Direction.SOUTH_WEST;</b>
+<b class="nc"><i>662</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>663</i>&nbsp;                } else if (buttonPressed == 7 &amp;&amp; possibleBuildings[2][1] &gt;= 0 &amp;&amp; possibleBuildings[2][1] &lt; 4) {</b>
+<b class="nc"><i>664</i>&nbsp;                    direction = Direction.SOUTH;</b>
+<b class="nc"><i>665</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>666</i>&nbsp;                } else if (buttonPressed == 8 &amp;&amp; possibleBuildings[2][2] &gt;= 0 &amp;&amp; possibleBuildings[2][2] &lt; 4) {</b>
+<b class="nc"><i>667</i>&nbsp;                    direction = Direction.SOUTH_EAST;</b>
+<b class="nc"><i>668</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>669</i>&nbsp;                } else wrong = true;</b>
+<b class="nc"><i>670</i>&nbsp;            } catch(NumberFormatException e){</b>
+<b class="nc"><i>671</i>&nbsp;                wrong = true;</b>
+<b class="nc"><i>672</i>&nbsp;            }</b>
+<b class="nc"><i>673</i>&nbsp;            if(wrong) System.out.println(&quot;Direzione non valida! Inserire una direzione valida&quot;);</b>
+<b class="nc"><i>674</i>&nbsp;        }while(wrong);</b>
+<b class="nc"><i>675</i>&nbsp;        Message buildSelection = new Message(client.getUsername());</b>
+<b class="nc"><i>676</i>&nbsp;        buildSelection.buildSelectedBuildingMessage(new SelectedBuildingMessage(direction));</b>
+<b class="nc"><i>677</i>&nbsp;        client.getNetworkHandler().send(buildSelection);</b>
+<i>678</i>&nbsp;    }
+<i>679</i>&nbsp;
+<i>680</i>&nbsp;    /**
+<i>681</i>&nbsp;     * the method shows the board updated after the build phase
+<i>682</i>&nbsp;     * @param updateMessage is a message that contains the reference to the board, which is used to print the board itself
+<i>683</i>&nbsp;     */
+<i>684</i>&nbsp;    @Override
+<i>685</i>&nbsp;    public void displayBuildUpdate(UpdateMessage updateMessage) {
+<b class="nc"><i>686</i>&nbsp;        System.out.flush();</b>
+<b class="nc"><i>687</i>&nbsp;        showBoard(updateMessage.getBoard(), updateMessage.getPlayers());</b>
+<b class="nc"><i>688</i>&nbsp;        if(updateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())) {</b>
+<b class="nc"><i>689</i>&nbsp;            Message nextPhase = new Message(client.getUsername());</b>
+<b class="nc"><i>690</i>&nbsp;            nextPhase.buildNextPhaseMessage();</b>
+<b class="nc"><i>691</i>&nbsp;            client.getNetworkHandler().send(nextPhase);</b>
+<i>692</i>&nbsp;        }
+<i>693</i>&nbsp;    }
+<i>694</i>&nbsp;
+<i>695</i>&nbsp;    /**
+<i>696</i>&nbsp;     *the method prints a message to the players showing how the board has been modified during the turn and communicates the end of the turn
+<i>697</i>&nbsp;     * of the current player
+<i>698</i>&nbsp;     * @param updateMessage contains the the user name of current player and the reference to the board
+<i>699</i>&nbsp;     */
+<i>700</i>&nbsp;    @Override
+<i>701</i>&nbsp;    public void displayEndTurn(UpdateMessage updateMessage) {
+<b class="nc"><i>702</i>&nbsp;        showBoard(updateMessage.getBoard(), updateMessage.getPlayers());</b>
+<b class="nc"><i>703</i>&nbsp;        System.out.println(&quot;Il turno di &quot; + updateMessage.getCurrentPlayer().getNickname() + &quot; è terminato!&quot;);</b>
+<b class="nc"><i>704</i>&nbsp;        Message nextPhase = new Message(client.getUsername());</b>
+<b class="nc"><i>705</i>&nbsp;        nextPhase.buildNextPhaseMessage();</b>
+<b class="nc"><i>706</i>&nbsp;        client.getNetworkHandler().send(nextPhase);</b>
+<i>707</i>&nbsp;    }
+<i>708</i>&nbsp;
+<i>709</i>&nbsp;    /**
+<i>710</i>&nbsp;     * method that shows winner. It then close the match or if the players wants to begin a new match
+<i>711</i>&nbsp;     * metodo che mostra vincitori e vinti. conclude la partita con epic sax guy
+<i>712</i>&nbsp;     * @param winner
+<i>713</i>&nbsp;     */
+<i>714</i>&nbsp;    @Override
+<i>715</i>&nbsp;    public void displayEndMatch(String winner) {
+<b class="nc"><i>716</i>&nbsp;        System.out.flush();</b>
+<b class="nc"><i>717</i>&nbsp;        System.out.println(&quot;AND THE WINNER IS... &quot; + winner);</b>
+<i>718</i>&nbsp;        boolean wrong;
+<b class="nc"><i>719</i>&nbsp;        Message message = new Message(client.getUsername());</b>
+<i>720</i>&nbsp;        do{
+<b class="nc"><i>721</i>&nbsp;            wrong = false;</b>
+<b class="nc"><i>722</i>&nbsp;            System.out.println(&quot;Vuoi fare una nuova partita? Rispondi Y-N: &quot;);</b>
+<i>723</i>&nbsp;            String answer;
+<i>724</i>&nbsp;            boolean canGo;
+<i>725</i>&nbsp;            do {
+<i>726</i>&nbsp;                try {
+<b class="nc"><i>727</i>&nbsp;                    canGo = true;</b>
+<b class="nc"><i>728</i>&nbsp;                    answer = scannerIn.next();</b>
+<b class="nc"><i>729</i>&nbsp;                    answer = answer.toUpperCase();</b>
+<b class="nc"><i>730</i>&nbsp;                    if (answer.equals(&quot;Y&quot;)) {</b>
+<i>731</i>&nbsp;                        do{
+<i>732</i>&nbsp;                            try{
+<b class="nc"><i>733</i>&nbsp;                                System.out.printf(&quot;Inserisci il numero di giocatori della partita (2 o 3): &quot;);</b>
+<b class="nc"><i>734</i>&nbsp;                                client.setSelectedMatch(Integer.parseInt(scannerIn.nextLine()));</b>
+<b class="nc"><i>735</i>&nbsp;                                wrong = client.getSelectedMatch() != 2 &amp;&amp; client.getSelectedMatch() != 3;</b>
+<b class="nc"><i>736</i>&nbsp;                            }catch (NumberFormatException e){</b>
+<b class="nc"><i>737</i>&nbsp;                                wrong = true;</b>
+<b class="nc"><i>738</i>&nbsp;                            }</b>
+<b class="nc"><i>739</i>&nbsp;                            if(wrong) System.out.println(&quot;Inserire 2 o 3!&quot;);</b>
+<b class="nc"><i>740</i>&nbsp;                        }while(wrong);</b>
+<b class="nc"><i>741</i>&nbsp;                        message.buildNewMatchMessage(new NewMatchMessage(true, client.getSelectedMatch(), client.getBirthDate()));</b>
+<b class="nc"><i>742</i>&nbsp;                    } else if (answer.equals(&quot;N&quot;)) {</b>
+<b class="nc"><i>743</i>&nbsp;                        System.out.println(&quot;Grazie per aver giocato con noi, a presto!&quot;);</b>
+<b class="nc"><i>744</i>&nbsp;                        message.buildNewMatchMessage(new NewMatchMessage(false, 0, null));</b>
+<b class="nc"><i>745</i>&nbsp;                        System.exit(0);</b>
+<i>746</i>&nbsp;                    }
+<i>747</i>&nbsp;                    else
+<b class="nc"><i>748</i>&nbsp;                        wrong = true;</b>
+<b class="nc"><i>749</i>&nbsp;                } catch (Exception e) {</b>
+<b class="nc"><i>750</i>&nbsp;                    canGo = false;</b>
+<b class="nc"><i>751</i>&nbsp;                }</b>
+<b class="nc"><i>752</i>&nbsp;            } while(!canGo);</b>
+<b class="nc"><i>753</i>&nbsp;        } while(wrong);</b>
+<b class="nc"><i>754</i>&nbsp;        client.getNetworkHandler().send(message);</b>
+<i>755</i>&nbsp;    }
+<i>756</i>&nbsp;
+<i>757</i>&nbsp;    /**
+<i>758</i>&nbsp;     * method that shows possible errors occurred
+<i>759</i>&nbsp;     * metodo che mostra all&#39;utente possibili errori che sono capitati
+<i>760</i>&nbsp;     */
+<i>761</i>&nbsp;    @Override
+<i>762</i>&nbsp;    public void displayErrorMessage(String error) {
+<b class="nc"><i>763</i>&nbsp;        System.out.println(error);</b>
+<i>764</i>&nbsp;    }
+<i>765</i>&nbsp;
+<i>766</i>&nbsp;    /**
+<i>767</i>&nbsp;     * the method asks to the current player to insert parameters need to use Apollo&#39;s power. These parameters are the choice of which builder
+<i>768</i>&nbsp;     * the player want to move (and swap with opponent&#39;s builder) and in which direction. If the builder selected cannot be moved, the method will choose for the player the other
+<i>769</i>&nbsp;     * builder. If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+<i>770</i>&nbsp;     * message containing the parameters gathered
+<i>771</i>&nbsp;     * @param message contains references about the board and the currents player(About the match ).
+<i>772</i>&nbsp;     * @return the message containing the parameters gathered.
+<i>773</i>&nbsp;     */
+<i>774</i>&nbsp;    public ApolloParamMessage displayApolloParamSel(MatchStateMessage message){
+<b class="nc"><i>775</i>&nbsp;        ApolloParamMessage apolloParamMessage = new ApolloParamMessage();</b>
+<i>776</i>&nbsp;        //Inserire la stampa per la scelta del builder
+<b class="nc"><i>777</i>&nbsp;        char yourBuilderGender = &#39;O&#39;;</b>
+<b class="nc"><i>778</i>&nbsp;        Builder chosen = null;</b>
+<b class="nc"><i>779</i>&nbsp;        Direction direction = null;</b>
+<b class="nc"><i>780</i>&nbsp;        System.out.println(&quot;Seleziona il builder più adatto a servire Apollo.Premi M o F. Ricorda che deve essere vicino ad un builder avversario affinché sia degno!&quot;);</b>
+<b class="nc"><i>781</i>&nbsp;        String choice = null;</b>
+<i>782</i>&nbsp;        boolean wrong;
+<i>783</i>&nbsp;        do {
+<i>784</i>&nbsp;            try{
+<b class="nc"><i>785</i>&nbsp;                choice = scannerIn.nextLine();</b>
+<b class="nc"><i>786</i>&nbsp;                choice = choice.toUpperCase();</b>
+<b class="nc"><i>787</i>&nbsp;                wrong  = false;</b>
+<b class="nc"><i>788</i>&nbsp;            } catch (InputMismatchException e){wrong = true;}</b>
+<i>789</i>&nbsp;
+<b class="nc"><i>790</i>&nbsp;            if (choice.equals(&quot;M&quot;)) {</b>
+<b class="nc"><i>791</i>&nbsp;                chosen = message.getCurrentPlayer().getBuilderM();</b>
+<b class="nc"><i>792</i>&nbsp;                yourBuilderGender = &#39;M&#39;;</b>
+<b class="nc"><i>793</i>&nbsp;            } else if (choice.equals(&quot;F&quot;)){</b>
+<b class="nc"><i>794</i>&nbsp;                chosen = message.getCurrentPlayer().getBuilderF();</b>
+<b class="nc"><i>795</i>&nbsp;                yourBuilderGender = &#39;F&#39;;</b>
+<b class="nc"><i>796</i>&nbsp;            } else wrong = true;</b>
+<b class="nc"><i>797</i>&nbsp;            if(wrong){</b>
+<b class="nc"><i>798</i>&nbsp;                System.out.println(&quot;Lettera Sbagliata, reinserisci&quot;);</b>
+<i>799</i>&nbsp;            }
+<b class="nc"><i>800</i>&nbsp;        } while (wrong);</b>
+<i>801</i>&nbsp;
+<b class="nc"><i>802</i>&nbsp;        chosen.setBoard(new Board(message.getBoard()));</b>
+<b class="nc"><i>803</i>&nbsp;        chosen.setPlayer(message.getCurrentPlayer());</b>
+<b class="nc"><i>804</i>&nbsp;        int[][] neighboringSwappingCell = Board.neighboringSwappingCell(chosen, AccessType.OCCUPIED);</b>
+<i>805</i>&nbsp;
+<b class="nc"><i>806</i>&nbsp;        boolean allZeros = true;</b>
+<b class="nc"><i>807</i>&nbsp;        for(int i = 0; i &lt; 3 &amp;&amp; allZeros; ++i)</b>
+<b class="nc"><i>808</i>&nbsp;            for(int j = 0; j &lt; 3 &amp;&amp; allZeros; ++j)</b>
+<b class="nc"><i>809</i>&nbsp;                if(neighboringSwappingCell[i][j] != 0) allZeros = false;</b>
+<i>810</i>&nbsp;
+<b class="nc"><i>811</i>&nbsp;        if(allZeros){</b>
+<b class="nc"><i>812</i>&nbsp;            System.out.println(&quot;Il builder che hai selezionato non è adatto a servire Apollo, viene selezionato l&#39;altro builder automaticamente&quot;);</b>
+<b class="nc"><i>813</i>&nbsp;            if(yourBuilderGender == &#39;M&#39;){</b>
+<b class="nc"><i>814</i>&nbsp;                yourBuilderGender = &#39;F&#39;;</b>
+<b class="nc"><i>815</i>&nbsp;                chosen = message.getCurrentPlayer().getBuilderF();</b>
+<i>816</i>&nbsp;            } else {
+<b class="nc"><i>817</i>&nbsp;                yourBuilderGender = &#39;M&#39;;</b>
+<b class="nc"><i>818</i>&nbsp;                chosen = message.getCurrentPlayer().getBuilderM();</b>
+<i>819</i>&nbsp;            }
+<i>820</i>&nbsp;        }
+<i>821</i>&nbsp;        //Ricalcola neighboringSwappingCell e la display
+<b class="nc"><i>822</i>&nbsp;        chosen.setBoard(new Board(message.getBoard()));</b>
+<b class="nc"><i>823</i>&nbsp;        chosen.setPlayer(message.getCurrentPlayer());</b>
+<b class="nc"><i>824</i>&nbsp;        neighboringSwappingCell = Board.neighboringSwappingCell(chosen, AccessType.OCCUPIED);</b>
+<b class="nc"><i>825</i>&nbsp;        System.out.println(&quot;Ora è il momento di scegliere il costruttore avversario, premi il numero indicato per scegliere la direzione che preferisci&quot;);</b>
+<b class="nc"><i>826</i>&nbsp;        String[] actions = new String[8];</b>
+<b class="nc"><i>827</i>&nbsp;        if (neighboringSwappingCell[0][0] != 0) actions[0] = &quot;Premi 1 per andare a NORD-OVEST&quot;;</b>
+<b class="nc"><i>828</i>&nbsp;        if (neighboringSwappingCell[0][1] != 0) actions[0] = &quot;Premi 2 per andare a NORD&quot;;</b>
+<b class="nc"><i>829</i>&nbsp;        if (neighboringSwappingCell[0][2] != 0) actions[0] = &quot;Premi 3 per andare a NORD-EST&quot;;</b>
+<b class="nc"><i>830</i>&nbsp;        if (neighboringSwappingCell[1][0] != 0) actions[0] = &quot;Premi 4 per andare a OVEST&quot;;</b>
+<b class="nc"><i>831</i>&nbsp;        if (neighboringSwappingCell[1][2] != 0) actions[0] = &quot;Premi 5 per andare a EST&quot;;</b>
+<b class="nc"><i>832</i>&nbsp;        if (neighboringSwappingCell[2][0] != 0) actions[0] = &quot;Premi 6 per andare a SUD-OVEST&quot;;</b>
+<b class="nc"><i>833</i>&nbsp;        if (neighboringSwappingCell[2][1] != 0) actions[0] = &quot;Premi 7 per andare a SUD&quot;;</b>
+<b class="nc"><i>834</i>&nbsp;        if (neighboringSwappingCell[2][2] != 0) actions[0] = &quot;Premi 8 per andare a SUD-EST&quot;;</b>
+<i>835</i>&nbsp;        int pressedButton;
+<i>836</i>&nbsp;        do {
+<b class="nc"><i>837</i>&nbsp;            showPossibleMatrix(neighboringSwappingCell, &#39;m&#39;, actions);</b>
+<i>838</i>&nbsp;            //System.out.println(&quot;Ora è il momento di scegliere il costruttore avversario, premi il numero indicato per scegliere la direzione che preferisci&quot;);
+<i>839</i>&nbsp;            try{
+<b class="nc"><i>840</i>&nbsp;                System.out.print(&quot;Bottone premuto: &quot;);</b>
+<b class="nc"><i>841</i>&nbsp;                pressedButton = Integer.parseInt(scannerIn.nextLine());</b>
+<b class="nc"><i>842</i>&nbsp;                if (pressedButton == 1 &amp;&amp; neighboringSwappingCell[0][0] != 0) {</b>
+<b class="nc"><i>843</i>&nbsp;                    direction = Direction.NORTH_WEST;</b>
+<b class="nc"><i>844</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>845</i>&nbsp;                } else if (pressedButton == 2 &amp;&amp; neighboringSwappingCell[0][1] != 0) {</b>
+<b class="nc"><i>846</i>&nbsp;                    direction = Direction.NORTH;</b>
+<b class="nc"><i>847</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>848</i>&nbsp;                } else if (pressedButton == 3 &amp;&amp; neighboringSwappingCell[0][2] != 0) {</b>
+<b class="nc"><i>849</i>&nbsp;                    direction = Direction.NORTH_EAST;</b>
+<b class="nc"><i>850</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>851</i>&nbsp;                } else if (pressedButton == 4 &amp;&amp; neighboringSwappingCell[1][0] != 0) {</b>
+<b class="nc"><i>852</i>&nbsp;                    direction = Direction.WEST;</b>
+<b class="nc"><i>853</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>854</i>&nbsp;                } else if (pressedButton == 5 &amp;&amp; neighboringSwappingCell[1][2] != 0) {</b>
+<b class="nc"><i>855</i>&nbsp;                    direction = Direction.EAST;</b>
+<b class="nc"><i>856</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>857</i>&nbsp;                } else if (pressedButton == 6 &amp;&amp; neighboringSwappingCell[2][0] != 0) {</b>
+<b class="nc"><i>858</i>&nbsp;                    direction = Direction.SOUTH_WEST;</b>
+<b class="nc"><i>859</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>860</i>&nbsp;                } else if (pressedButton == 7 &amp;&amp; neighboringSwappingCell[2][1] != 0) {</b>
+<b class="nc"><i>861</i>&nbsp;                    direction = Direction.SOUTH;</b>
+<b class="nc"><i>862</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>863</i>&nbsp;                } else if (pressedButton == 8 &amp;&amp; neighboringSwappingCell[2][2] != 0) {</b>
+<b class="nc"><i>864</i>&nbsp;                    direction = Direction.SOUTH_EAST;</b>
+<b class="nc"><i>865</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>866</i>&nbsp;                }else wrong = true;</b>
+<b class="nc"><i>867</i>&nbsp;            } catch (NumberFormatException e){</b>
+<b class="nc"><i>868</i>&nbsp;                wrong = true;</b>
+<b class="nc"><i>869</i>&nbsp;            }</b>
+<b class="nc"><i>870</i>&nbsp;            if(wrong) System.out.println(&quot;Hai selezionato un carattere sbagliato: inserisci un numero corretto&quot;);</b>
+<b class="nc"><i>871</i>&nbsp;        } while(wrong);</b>
+<i>872</i>&nbsp;
+<b class="nc"><i>873</i>&nbsp;        apolloParamMessage.setYourBuilderGender(yourBuilderGender);</b>
+<b class="nc"><i>874</i>&nbsp;        apolloParamMessage.setOpponentBuilderDirection(direction);</b>
+<b class="nc"><i>875</i>&nbsp;        return apolloParamMessage;</b>
+<i>876</i>&nbsp;    }
+<i>877</i>&nbsp;
+<i>878</i>&nbsp;    /**
+<i>879</i>&nbsp;     * the method asks to the current player to insert parameters need to use  Ares&#39;s power. the Parameter asked is direction of the cell
+<i>880</i>&nbsp;     * where the demolition will occur
+<i>881</i>&nbsp;     * If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+<i>882</i>&nbsp;     * message containing the parameters gathered
+<i>883</i>&nbsp;     * @param message contains information about the match such as the current player
+<i>884</i>&nbsp;     * @return the message containing the parameter insert by the player
+<i>885</i>&nbsp;     */
+<i>886</i>&nbsp;    public AresParamMessage displayAresParamSel(MatchStateMessage message){
+<b class="nc"><i>887</i>&nbsp;        AresParamMessage aresParamMessage = new AresParamMessage();</b>
+<b class="nc"><i>888</i>&nbsp;        Direction direction = null;</b>
+<b class="nc"><i>889</i>&nbsp;        Builder demolitionBuilder = null;</b>
+<b class="nc"><i>890</i>&nbsp;        char demolitionBuilderSex =&#39;O&#39; ;</b>
+<b class="nc"><i>891</i>&nbsp;        if (message.getCurrentPlayer().getPlayingBuilder().getGender() == &#39;\u2640&#39;) {</b>
+<b class="nc"><i>892</i>&nbsp;            demolitionBuilder = message.getCurrentPlayer().getBuilderM();</b>
+<b class="nc"><i>893</i>&nbsp;            demolitionBuilderSex = &#39;M&#39;;</b>
+<i>894</i>&nbsp;        } else {
+<b class="nc"><i>895</i>&nbsp;            demolitionBuilder = message.getCurrentPlayer().getBuilderF();</b>
+<b class="nc"><i>896</i>&nbsp;            demolitionBuilderSex = &#39;F&#39;;</b>
+<i>897</i>&nbsp;        }
+<i>898</i>&nbsp;
+<b class="nc"><i>899</i>&nbsp;        demolitionBuilder.setBoard(new Board(message.getBoard()));</b>
+<b class="nc"><i>900</i>&nbsp;        demolitionBuilder.setPlayer(message.getCurrentPlayer());</b>
+<b class="nc"><i>901</i>&nbsp;        int[][] neighboringLevelCell = Board.neighboringLevelCell(demolitionBuilder);</b>
+<i>902</i>&nbsp;
+<i>903</i>&nbsp;        //INserire display per mostrare le possibili costruzioni
+<i>904</i>&nbsp;
+<i>905</i>&nbsp;        boolean wrong;
+<i>906</i>&nbsp;        int pressedButton;
+<b class="nc"><i>907</i>&nbsp;        String[] actions = new String[8];</b>
+<b class="nc"><i>908</i>&nbsp;        if (neighboringLevelCell[0][0] &gt; 0 &amp;&amp; neighboringLevelCell[0][0] &lt; 4) actions[0] = (&quot;Premi 1 per demolire il blocco a NORD-OVEST&quot;);</b>
+<b class="nc"><i>909</i>&nbsp;        if (neighboringLevelCell[0][1] &gt; 0 &amp;&amp; neighboringLevelCell[0][1] &lt; 4) actions[1] = (&quot;Premi 2 per demolire il blocco a NORD&quot;);</b>
+<b class="nc"><i>910</i>&nbsp;        if (neighboringLevelCell[0][2] &gt; 0 &amp;&amp; neighboringLevelCell[0][2] &lt; 4) actions[2] = (&quot;Premi 3 per demolire il blocco a NORD-EST&quot;);</b>
+<b class="nc"><i>911</i>&nbsp;        if (neighboringLevelCell[1][0] &gt; 0 &amp;&amp; neighboringLevelCell[1][0] &lt; 4) actions[3] = (&quot;Premi 4 per demolire il blocco a OVEST&quot;);</b>
+<b class="nc"><i>912</i>&nbsp;        if (neighboringLevelCell[1][2] &gt; 0 &amp;&amp; neighboringLevelCell[1][2] &lt; 4) actions[4] = (&quot;Premi 5 per demolire il blocco a EST&quot;);</b>
+<b class="nc"><i>913</i>&nbsp;        if (neighboringLevelCell[2][0] &gt; 0 &amp;&amp; neighboringLevelCell[2][0] &lt; 4) actions[5] = (&quot;Premi 6 per demolire il blocco a SUD-OVEST&quot;);</b>
+<b class="nc"><i>914</i>&nbsp;        if (neighboringLevelCell[2][1] &gt; 0 &amp;&amp; neighboringLevelCell[2][1] &lt; 4) actions[6] = (&quot;Premi 7 per demolire il blocco a SUD&quot;);</b>
+<b class="nc"><i>915</i>&nbsp;        if (neighboringLevelCell[2][2] &gt; 0 &amp;&amp; neighboringLevelCell[2][2] &lt; 4) actions[7] = (&quot;Premi 8 per demolire il blocco a SUD-EST&quot;);</b>
+<b class="nc"><i>916</i>&nbsp;        System.out.println(&quot;Ora è il momento di scegliere il blocco da demolire, premi il numero indicato per scegliere la direzione del blocco che preferisci distruggere&quot;);</b>
+<i>917</i>&nbsp;        do {
+<b class="nc"><i>918</i>&nbsp;            showPossibleMatrix(neighboringLevelCell, &#39;b&#39;, actions);</b>
+<i>919</i>&nbsp;            //System.out.println(&quot;Ora è il momento di scegliere il blocco da demolire, premi il numero indicato per scegliere la direzione del blocco che preferisci distruggere&quot;);
+<i>920</i>&nbsp;            try{
+<b class="nc"><i>921</i>&nbsp;                System.out.print(&quot;Bottone premuto: &quot;);</b>
+<b class="nc"><i>922</i>&nbsp;                pressedButton = Integer.parseInt(scannerIn.nextLine());</b>
+<b class="nc"><i>923</i>&nbsp;                wrong = true;</b>
+<i>924</i>&nbsp;
+<b class="nc"><i>925</i>&nbsp;                if (pressedButton == 1 &amp;&amp; neighboringLevelCell[0][0] != 0 &amp;&amp; neighboringLevelCell[0][0] != 4) {</b>
+<b class="nc"><i>926</i>&nbsp;                    direction = Direction.NORTH_WEST;</b>
+<b class="nc"><i>927</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>928</i>&nbsp;                } else if (pressedButton == 2 &amp;&amp; neighboringLevelCell[0][1] != 0 &amp;&amp; neighboringLevelCell[0][1] != 4) {</b>
+<b class="nc"><i>929</i>&nbsp;                    direction = Direction.NORTH;</b>
+<b class="nc"><i>930</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>931</i>&nbsp;                } else if (pressedButton == 3 &amp;&amp; neighboringLevelCell[0][2] != 0 &amp;&amp; neighboringLevelCell[0][2] != 4) {</b>
+<b class="nc"><i>932</i>&nbsp;                    direction = Direction.NORTH_EAST;</b>
+<b class="nc"><i>933</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>934</i>&nbsp;                } else if (pressedButton == 4 &amp;&amp; neighboringLevelCell[1][0] != 0 &amp;&amp; neighboringLevelCell[1][0] != 4) {</b>
+<b class="nc"><i>935</i>&nbsp;                    direction = Direction.WEST;</b>
+<b class="nc"><i>936</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>937</i>&nbsp;                } else if (pressedButton == 5 &amp;&amp; neighboringLevelCell[1][2] != 0 &amp;&amp; neighboringLevelCell[1][2] != 4) {</b>
+<b class="nc"><i>938</i>&nbsp;                    direction = Direction.EAST;</b>
+<b class="nc"><i>939</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>940</i>&nbsp;                } else if (pressedButton == 6 &amp;&amp; neighboringLevelCell[2][0] != 0 &amp;&amp; neighboringLevelCell[2][0] != 4) {</b>
+<b class="nc"><i>941</i>&nbsp;                    direction = Direction.SOUTH_WEST;</b>
+<b class="nc"><i>942</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>943</i>&nbsp;                } else if (pressedButton == 7 &amp;&amp; neighboringLevelCell[2][1] != 0 &amp;&amp; neighboringLevelCell[2][1] != 4) {</b>
+<b class="nc"><i>944</i>&nbsp;                    direction = Direction.SOUTH;</b>
+<b class="nc"><i>945</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>946</i>&nbsp;                } else if (pressedButton == 8 &amp;&amp; neighboringLevelCell[2][2] != 0 &amp;&amp; neighboringLevelCell[2][2] != 4) {</b>
+<b class="nc"><i>947</i>&nbsp;                    direction = Direction.SOUTH_EAST;</b>
+<b class="nc"><i>948</i>&nbsp;                    wrong = false;</b>
+<i>949</i>&nbsp;                }
+<b class="nc"><i>950</i>&nbsp;            }catch (NumberFormatException e){</b>
+<b class="nc"><i>951</i>&nbsp;                wrong = true;</b>
+<b class="nc"><i>952</i>&nbsp;            }</b>
+<i>953</i>&nbsp;
+<b class="nc"><i>954</i>&nbsp;            if(wrong) System.out.println(&quot;hai selezionato un carattere sbagliato! ricorda non puoi demolire il terreno o una cupola&quot;);</b>
+<b class="nc"><i>955</i>&nbsp;        } while(wrong);</b>
+<i>956</i>&nbsp;
+<b class="nc"><i>957</i>&nbsp;        aresParamMessage.setDemolitionBuilderSex(demolitionBuilderSex);</b>
+<b class="nc"><i>958</i>&nbsp;        aresParamMessage.setTargetedBlock(direction);</b>
+<b class="nc"><i>959</i>&nbsp;        return aresParamMessage;</b>
+<i>960</i>&nbsp;    }
+<i>961</i>&nbsp;
+<i>962</i>&nbsp;    /**
+<i>963</i>&nbsp;     * the method asks to the current player to insert parameters need to use Artemis&#39;s power. The Parameter asked is direction of the cell
+<i>964</i>&nbsp;     * where the player wants to moved again the builder in.
+<i>965</i>&nbsp;     * If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+<i>966</i>&nbsp;     * message containing the parameters gathered
+<i>967</i>&nbsp;     * @param message contains information about the match such as the current player, information used for acquiring which is the playing
+<i>968</i>&nbsp;     * builder
+<i>969</i>&nbsp;     * @return the message containing the parameter acquired by the method
+<i>970</i>&nbsp;     */
+<i>971</i>&nbsp;    public ArtemisParamMessage displayArtemisParamSel(MatchStateMessage message){
+<b class="nc"><i>972</i>&nbsp;        ArtemisParamMessage artemisParamMessage = new ArtemisParamMessage();</b>
+<b class="nc"><i>973</i>&nbsp;        int[][] possibleMoves = message.getCurrentPlayer().getPlayingBuilder().getPossibleMoves();</b>
+<b class="nc"><i>974</i>&nbsp;        Direction direction = null;</b>
+<i>975</i>&nbsp;        boolean wrong;
+<i>976</i>&nbsp;        int pressedButton;
+<b class="nc"><i>977</i>&nbsp;        String[] actions = new String[8];</b>
+<b class="nc"><i>978</i>&nbsp;        if (possibleMoves[0][0] &gt; 0 &amp;&amp; possibleMoves[0][0] &lt; 4) actions[0] = (&quot;Premi 1 per spostare il builder a NORD-OVEST&quot;);</b>
+<b class="nc"><i>979</i>&nbsp;        if (possibleMoves[0][1] &gt; 0 &amp;&amp; possibleMoves[0][1] &lt; 4) actions[1] = (&quot;Premi 2 per spostare il builder a NORD&quot;);</b>
+<b class="nc"><i>980</i>&nbsp;        if (possibleMoves[0][2] &gt; 0 &amp;&amp; possibleMoves[0][2] &lt; 4) actions[2] = (&quot;Premi 3 per spostare il builder a NORD-EST&quot;);</b>
+<b class="nc"><i>981</i>&nbsp;        if (possibleMoves[1][0] &gt; 0 &amp;&amp; possibleMoves[1][0] &lt; 4) actions[3] = (&quot;Premi 4 per spostare il builder a OVEST&quot;);</b>
+<b class="nc"><i>982</i>&nbsp;        if (possibleMoves[1][2] &gt; 0 &amp;&amp; possibleMoves[1][2] &lt; 4) actions[4] = (&quot;Premi 5 per spostare il builder a EST&quot;);</b>
+<b class="nc"><i>983</i>&nbsp;        if (possibleMoves[2][0] &gt; 0 &amp;&amp; possibleMoves[2][0] &lt; 4) actions[5] = (&quot;Premi 6 per spostare il builder a SUD-OVEST&quot;);</b>
+<b class="nc"><i>984</i>&nbsp;        if (possibleMoves[2][1] &gt; 0 &amp;&amp; possibleMoves[2][1] &lt; 4) actions[6] = (&quot;Premi 7 per spostare il builder a SUD&quot;);</b>
+<b class="nc"><i>985</i>&nbsp;        if (possibleMoves[2][2] &gt; 0 &amp;&amp; possibleMoves[2][2] &lt; 4) actions[7] = (&quot;Premi 8 per spostare il builder a SUD-EST&quot;);</b>
+<b class="nc"><i>986</i>&nbsp;        System.out.println(&quot;Ora è il momento di scegliere dove muovere nuovamente il builder, premi il numero indicato per scegliere la direzione del movimento&quot;);</b>
+<i>987</i>&nbsp;        do {
+<i>988</i>&nbsp;            //System.out.println(&quot;Ora è il momento di scegliere dove muovere nuovamente il builder, premi il numero indicato per scegliere la direzione del movimento&quot;);
+<b class="nc"><i>989</i>&nbsp;            showPossibleMatrix(possibleMoves, &#39;m&#39;, actions);</b>
+<i>990</i>&nbsp;            try{
+<b class="nc"><i>991</i>&nbsp;                System.out.print(&quot;Bottone premuto: &quot;);</b>
+<b class="nc"><i>992</i>&nbsp;                pressedButton = Integer.parseInt(scannerIn.nextLine());</b>
+<b class="nc"><i>993</i>&nbsp;                wrong = true;</b>
+<i>994</i>&nbsp;
+<b class="nc"><i>995</i>&nbsp;                if (pressedButton == 1 &amp;&amp; possibleMoves[0][0] &gt; 0 &amp;&amp; possibleMoves[0][0] &lt; 4) {</b>
+<b class="nc"><i>996</i>&nbsp;                    direction = Direction.NORTH_WEST;</b>
+<b class="nc"><i>997</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>998</i>&nbsp;                } else if (pressedButton == 2 &amp;&amp; possibleMoves[0][1] &gt; 0 &amp;&amp; possibleMoves[0][1] &lt; 4) {</b>
+<b class="nc"><i>999</i>&nbsp;                    direction = Direction.NORTH;</b>
+<b class="nc"><i>1000</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1001</i>&nbsp;                } else if (pressedButton == 3 &amp;&amp; possibleMoves[0][2] &gt; 0 &amp;&amp; possibleMoves[0][2] &lt; 4) {</b>
+<b class="nc"><i>1002</i>&nbsp;                    direction = Direction.NORTH_EAST;</b>
+<b class="nc"><i>1003</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1004</i>&nbsp;                } else if (pressedButton == 4 &amp;&amp; possibleMoves[1][0] &gt; 0 &amp;&amp; possibleMoves[1][0] &lt; 4) {</b>
+<b class="nc"><i>1005</i>&nbsp;                    direction = Direction.WEST;</b>
+<b class="nc"><i>1006</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1007</i>&nbsp;                } else if (pressedButton == 5 &amp;&amp; possibleMoves[1][2] &gt; 0 &amp;&amp; possibleMoves[1][2] &lt; 4) {</b>
+<b class="nc"><i>1008</i>&nbsp;                    direction = Direction.EAST;</b>
+<b class="nc"><i>1009</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1010</i>&nbsp;                } else if (pressedButton == 6 &amp;&amp; possibleMoves[2][0] &gt; 0 &amp;&amp; possibleMoves[2][0] &lt; 4) {</b>
+<b class="nc"><i>1011</i>&nbsp;                    direction = Direction.SOUTH_WEST;</b>
+<b class="nc"><i>1012</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1013</i>&nbsp;                } else if (pressedButton == 7 &amp;&amp; possibleMoves[2][1] &gt; 0 &amp;&amp; possibleMoves[2][1] &lt; 4) {</b>
+<b class="nc"><i>1014</i>&nbsp;                    direction = Direction.SOUTH;</b>
+<b class="nc"><i>1015</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1016</i>&nbsp;                } else if (pressedButton == 8 &amp;&amp; possibleMoves[2][2] &gt; 0 &amp;&amp; possibleMoves[2][2] &lt; 4) {</b>
+<b class="nc"><i>1017</i>&nbsp;                    direction = Direction.SOUTH_EAST;</b>
+<b class="nc"><i>1018</i>&nbsp;                    wrong = false;</b>
+<i>1019</i>&nbsp;                }
+<b class="nc"><i>1020</i>&nbsp;            } catch(NumberFormatException e) {</b>
+<b class="nc"><i>1021</i>&nbsp;                wrong = true;</b>
+<b class="nc"><i>1022</i>&nbsp;            }</b>
+<b class="nc"><i>1023</i>&nbsp;            if(wrong) System.out.println(&quot;hai selezionato un carattere errato per una cella sbagliata! ricorda non puoi andare su celle edifici troppo alti, sulle sscogliere, o sulle cupole &quot;);</b>
+<b class="nc"><i>1024</i>&nbsp;        } while(wrong);</b>
+<b class="nc"><i>1025</i>&nbsp;        artemisParamMessage.setDirection(direction);</b>
+<b class="nc"><i>1026</i>&nbsp;        return artemisParamMessage;</b>
+<i>1027</i>&nbsp;    }
+<i>1028</i>&nbsp;
+<i>1029</i>&nbsp;    /**
+<i>1030</i>&nbsp;     * the method asks to the current player to insert parameters need to use Atlas&#39;s power. the Parameter asked is direction of the cell
+<i>1031</i>&nbsp;     * where the dome will be built
+<i>1032</i>&nbsp;     * If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+<i>1033</i>&nbsp;     * message containing the parameters gathered
+<i>1034</i>&nbsp;     * @param message contains information about the match such as the current player, information used for acquiring which is the playing
+<i>1035</i>&nbsp;     * builder
+<i>1036</i>&nbsp;     * @return the message containing the parameter acquired by the method
+<i>1037</i>&nbsp;     */
+<i>1038</i>&nbsp;    public AtlasParamMessage displayAtlasParamSel(MatchStateMessage message){
+<b class="nc"><i>1039</i>&nbsp;        AtlasParamMessage atlasParamMessage = new AtlasParamMessage();</b>
+<b class="nc"><i>1040</i>&nbsp;        Direction direction = null;</b>
+<b class="nc"><i>1041</i>&nbsp;        message.getCurrentPlayer().getPlayingBuilder().setBoard(new Board(message.getBoard()));</b>
+<b class="nc"><i>1042</i>&nbsp;        message.getCurrentPlayer().getPlayingBuilder().setPlayer(message.getCurrentPlayer());</b>
+<b class="nc"><i>1043</i>&nbsp;        int[][] neighboringLevelCell = Board.neighboringLevelCell(message.getCurrentPlayer().getPlayingBuilder());</b>
+<i>1044</i>&nbsp;        //INserire display per mostrare
+<i>1045</i>&nbsp;        boolean wrong;
+<i>1046</i>&nbsp;        int pressedButton;
+<b class="nc"><i>1047</i>&nbsp;        String[] actions = new String[8];</b>
+<b class="nc"><i>1048</i>&nbsp;        if (neighboringLevelCell[0][0] != 4 &amp;&amp; neighboringLevelCell[0][0] != -1) actions[0] = (&quot;Premi 1 per costruire il builder a NORD-OVEST&quot;);</b>
+<b class="nc"><i>1049</i>&nbsp;        if (neighboringLevelCell[0][1] != 4 &amp;&amp; neighboringLevelCell[0][1] != -1) actions[1] = (&quot;Premi 2 per costruire il builder a NORD&quot;);</b>
+<b class="nc"><i>1050</i>&nbsp;        if (neighboringLevelCell[0][2] != 4 &amp;&amp; neighboringLevelCell[0][2] != -1) actions[2] = (&quot;Premi 3 per costruire il builder a NORD-EST&quot;);</b>
+<b class="nc"><i>1051</i>&nbsp;        if (neighboringLevelCell[1][0] != 4 &amp;&amp; neighboringLevelCell[1][0] != -1) actions[3] = (&quot;Premi 4 per costruire il builder a OVEST&quot;);</b>
+<b class="nc"><i>1052</i>&nbsp;        if (neighboringLevelCell[1][2] != 4 &amp;&amp; neighboringLevelCell[1][2] != -1) actions[4] = (&quot;Premi 5 per costruire il builder a EST&quot;);</b>
+<b class="nc"><i>1053</i>&nbsp;        if (neighboringLevelCell[2][0] != 4 &amp;&amp; neighboringLevelCell[2][0] != -1) actions[5] = (&quot;Premi 6 per costruire il builder a SUD-OVEST&quot;);</b>
+<b class="nc"><i>1054</i>&nbsp;        if (neighboringLevelCell[2][1] != 4 &amp;&amp; neighboringLevelCell[2][1] != -1) actions[6] = (&quot;Premi 7 per costruire il builder a SUD&quot;);</b>
+<b class="nc"><i>1055</i>&nbsp;        if (neighboringLevelCell[2][2] != 4 &amp;&amp; neighboringLevelCell[2][2] != -1) actions[7] = (&quot;Premi 8 per costruire il builder a SUD-EST&quot;);</b>
+<b class="nc"><i>1056</i>&nbsp;        System.out.println(&quot;Ora è il momento di scegliere dove far costruire al builder una cupola, premi il numero indicato per scegliere la direzione della costruzione&quot;);</b>
+<i>1057</i>&nbsp;        do {
+<i>1058</i>&nbsp;            //System.out.println(&quot;Ora è il momento di scegliere dove far costruire al builder una cupola, premi il numero indicato per scegliere la direzione della costruzione&quot;);
+<b class="nc"><i>1059</i>&nbsp;            showPossibleMatrix(neighboringLevelCell, &#39;b&#39;, actions);</b>
+<i>1060</i>&nbsp;            try{
+<b class="nc"><i>1061</i>&nbsp;                System.out.print(&quot;Bottone premuto: &quot;);</b>
+<b class="nc"><i>1062</i>&nbsp;                pressedButton = Integer.parseInt(scannerIn.nextLine());</b>
+<b class="nc"><i>1063</i>&nbsp;                wrong = true;</b>
+<i>1064</i>&nbsp;
+<b class="nc"><i>1065</i>&nbsp;                if (pressedButton == 1 &amp;&amp; neighboringLevelCell[0][0] != 4 &amp;&amp; neighboringLevelCell[0][0] != -1)  {</b>
+<b class="nc"><i>1066</i>&nbsp;                    direction = Direction.NORTH_WEST;</b>
+<b class="nc"><i>1067</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1068</i>&nbsp;                } else if (pressedButton == 2 &amp;&amp; neighboringLevelCell[0][1] != 4 &amp;&amp; neighboringLevelCell[0][1] != -1) {</b>
+<b class="nc"><i>1069</i>&nbsp;                    direction = Direction.NORTH;</b>
+<b class="nc"><i>1070</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1071</i>&nbsp;                } else if (pressedButton == 3 &amp;&amp; neighboringLevelCell[0][2] != 4 &amp;&amp; neighboringLevelCell[0][2] != -1) {</b>
+<b class="nc"><i>1072</i>&nbsp;                    direction = Direction.NORTH_EAST;</b>
+<b class="nc"><i>1073</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1074</i>&nbsp;                } else if (pressedButton == 4 &amp;&amp; neighboringLevelCell[1][0] != 4 &amp;&amp; neighboringLevelCell[1][0] != -1) {</b>
+<b class="nc"><i>1075</i>&nbsp;                    direction = Direction.WEST;</b>
+<b class="nc"><i>1076</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1077</i>&nbsp;                } else if (pressedButton == 5 &amp;&amp; neighboringLevelCell[1][2] != 4 &amp;&amp; neighboringLevelCell[1][2] != -1) {</b>
+<b class="nc"><i>1078</i>&nbsp;                    direction = Direction.EAST;</b>
+<b class="nc"><i>1079</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1080</i>&nbsp;                } else if (pressedButton == 6 &amp;&amp; neighboringLevelCell[2][0] != 4 &amp;&amp; neighboringLevelCell[2][0] != -1) {</b>
+<b class="nc"><i>1081</i>&nbsp;                    direction = Direction.SOUTH_WEST;</b>
+<b class="nc"><i>1082</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1083</i>&nbsp;                } else if (pressedButton == 7 &amp;&amp; neighboringLevelCell[2][1] != 4 &amp;&amp; neighboringLevelCell[2][1] != -1) {</b>
+<b class="nc"><i>1084</i>&nbsp;                    direction = Direction.SOUTH;</b>
+<b class="nc"><i>1085</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1086</i>&nbsp;                } else if (pressedButton == 8 &amp;&amp; neighboringLevelCell[2][2] != 4 &amp;&amp; neighboringLevelCell[2][2] != -1) {</b>
+<b class="nc"><i>1087</i>&nbsp;                    direction = Direction.SOUTH_EAST;</b>
+<b class="nc"><i>1088</i>&nbsp;                    wrong = false;</b>
+<i>1089</i>&nbsp;                }
+<b class="nc"><i>1090</i>&nbsp;            }catch(NumberFormatException e){</b>
+<b class="nc"><i>1091</i>&nbsp;                wrong = true;</b>
+<b class="nc"><i>1092</i>&nbsp;            }</b>
+<b class="nc"><i>1093</i>&nbsp;            if(wrong) System.out.println(&quot;hai selezionato un crattere errato! ricorda non puoi costruire cupole su delle altre cupole o sulla costa &quot;);</b>
+<b class="nc"><i>1094</i>&nbsp;        } while(wrong);</b>
+<b class="nc"><i>1095</i>&nbsp;        atlasParamMessage.setDirection(direction);</b>
+<b class="nc"><i>1096</i>&nbsp;        return  atlasParamMessage;</b>
+<i>1097</i>&nbsp;    }
+<i>1098</i>&nbsp;
+<i>1099</i>&nbsp;    /**
+<i>1100</i>&nbsp;     * The method asks to the current player to insert parameters need to use Demeter&#39;s power. The Parameter asked is direction of the cell
+<i>1101</i>&nbsp;     * where the player wants to build again the builder in.
+<i>1102</i>&nbsp;     * If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+<i>1103</i>&nbsp;     * message containing the parameters gathered
+<i>1104</i>&nbsp;     * @param message contains information about the match such as the current player, information used for acquiring which is the playing
+<i>1105</i>&nbsp;     * builder
+<i>1106</i>&nbsp;     * @return the message containing the parameter acquired by the method
+<i>1107</i>&nbsp;     */
+<i>1108</i>&nbsp;    public DemeterParamMessage displayDemeterParamSel(MatchStateMessage message){
+<b class="nc"><i>1109</i>&nbsp;        DemeterParamMessage demeterParamMessage = new DemeterParamMessage();</b>
+<b class="nc"><i>1110</i>&nbsp;        Direction direction = null;</b>
+<b class="nc"><i>1111</i>&nbsp;        int[][] possibleBuildings = message.getCurrentPlayer().getPlayingBuilder().getPossibleBuildings();</b>
+<i>1112</i>&nbsp;        //INserire display per mostrare
+<i>1113</i>&nbsp;        boolean wrong;
+<i>1114</i>&nbsp;        int pressedButton;
+<b class="nc"><i>1115</i>&nbsp;        String[] actions = new String[8];</b>
+<b class="nc"><i>1116</i>&nbsp;        if (possibleBuildings[0][0] != 4 &amp;&amp; possibleBuildings[0][0] != -1 &amp;&amp; possibleBuildings[0][0] != -2) actions[0] = (&quot;Premi 1 per costruire con il builder a NORD-OVEST&quot;);</b>
+<b class="nc"><i>1117</i>&nbsp;        if (possibleBuildings[0][1] != 4 &amp;&amp; possibleBuildings[0][1] != -1 &amp;&amp; possibleBuildings[0][1] != -2) actions[1] = (&quot;Premi 2 per costruire con il builder a NORD&quot;);</b>
+<b class="nc"><i>1118</i>&nbsp;        if (possibleBuildings[0][2] != 0 &amp;&amp; possibleBuildings[0][2] != -1 &amp;&amp; possibleBuildings[0][2] != -2) actions[2] = (&quot;Premi 3 per costruire con il builder a NORD-EST&quot;);</b>
+<b class="nc"><i>1119</i>&nbsp;        if (possibleBuildings[1][0] != 4 &amp;&amp; possibleBuildings[1][0] != -1 &amp;&amp; possibleBuildings[1][0] != -2) actions[3] = (&quot;Premi 4 per costruire con il builder a OVEST&quot;);</b>
+<b class="nc"><i>1120</i>&nbsp;        if (possibleBuildings[1][2] != 4 &amp;&amp; possibleBuildings[1][2] != -1 &amp;&amp; possibleBuildings[1][2] != -2) actions[4] = (&quot;Premi 5 per costruire con il builder a EST&quot;);</b>
+<b class="nc"><i>1121</i>&nbsp;        if (possibleBuildings[2][0] != 4 &amp;&amp; possibleBuildings[2][0] != -1 &amp;&amp; possibleBuildings[2][0] != -2) actions[5] = (&quot;Premi 6 per costruire con il builder a SUD-OVEST&quot;);</b>
+<b class="nc"><i>1122</i>&nbsp;        if (possibleBuildings[2][1] != 4 &amp;&amp; possibleBuildings[2][1] != -1 &amp;&amp; possibleBuildings[2][1] != -2) actions[6] = (&quot;Premi 7 per costruire con il builder a SUD&quot;);</b>
+<b class="nc"><i>1123</i>&nbsp;        if (possibleBuildings[2][2] != 4 &amp;&amp; possibleBuildings[2][2] != -1 &amp;&amp; possibleBuildings[2][2] != -2) actions[7] = (&quot;Premi 8 per costruire con il builder a SUD-EST&quot;);</b>
+<b class="nc"><i>1124</i>&nbsp;        System.out.println(&quot;Ora è il momento di scegliere dove far costruire nuovamente al builder , premi il numero indicato per scegliere la direzione della costruzione&quot;);</b>
+<i>1125</i>&nbsp;        do {
+<i>1126</i>&nbsp;            //System.out.println(&quot;Ora è il momento di scegliere dove far costruire nuovamente al builder , premi il numero indicato per scegliere la direzione della costruzione&quot;);
+<b class="nc"><i>1127</i>&nbsp;            showPossibleMatrix(possibleBuildings, &#39;b&#39;, actions);</b>
+<i>1128</i>&nbsp;            try {
+<b class="nc"><i>1129</i>&nbsp;                System.out.print(&quot;Bottone premuto: &quot;);</b>
+<b class="nc"><i>1130</i>&nbsp;                pressedButton = Integer.parseInt(scannerIn.nextLine());</b>
+<b class="nc"><i>1131</i>&nbsp;                wrong = true;</b>
+<i>1132</i>&nbsp;
+<b class="nc"><i>1133</i>&nbsp;                if (pressedButton == 1 &amp;&amp; possibleBuildings[0][0] != 4 &amp;&amp; possibleBuildings[0][0] != -1 &amp;&amp; possibleBuildings[0][0] != -2)  {</b>
+<b class="nc"><i>1134</i>&nbsp;                    direction = Direction.NORTH_WEST;</b>
+<b class="nc"><i>1135</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1136</i>&nbsp;                } else if (pressedButton == 2 &amp;&amp; possibleBuildings[0][1] != 4 &amp;&amp; possibleBuildings[0][1] != -1 &amp;&amp; possibleBuildings[0][1] != -2) {</b>
+<b class="nc"><i>1137</i>&nbsp;                    direction = Direction.NORTH;</b>
+<b class="nc"><i>1138</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1139</i>&nbsp;                } else if (pressedButton == 3 &amp;&amp; possibleBuildings[0][2] != 0 &amp;&amp; possibleBuildings[0][2] != -1 &amp;&amp; possibleBuildings[0][2] != -2) {</b>
+<b class="nc"><i>1140</i>&nbsp;                    direction = Direction.NORTH_EAST;</b>
+<b class="nc"><i>1141</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1142</i>&nbsp;                } else if (pressedButton == 4 &amp;&amp; possibleBuildings[1][0] != 4 &amp;&amp; possibleBuildings[1][0] != -1 &amp;&amp; possibleBuildings[1][0] != -2) {</b>
+<b class="nc"><i>1143</i>&nbsp;                    direction = Direction.WEST;</b>
+<b class="nc"><i>1144</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1145</i>&nbsp;                } else if (pressedButton == 5 &amp;&amp; possibleBuildings[1][2] != 4 &amp;&amp; possibleBuildings[1][2] != -1 &amp;&amp; possibleBuildings[1][2] != -2) {</b>
+<b class="nc"><i>1146</i>&nbsp;                    direction = Direction.EAST;</b>
+<b class="nc"><i>1147</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1148</i>&nbsp;                } else if (pressedButton == 6 &amp;&amp; possibleBuildings[2][0] != 4 &amp;&amp; possibleBuildings[2][0] != -1 &amp;&amp; possibleBuildings[2][0] != -2) {</b>
+<b class="nc"><i>1149</i>&nbsp;                    direction = Direction.SOUTH_WEST;</b>
+<b class="nc"><i>1150</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1151</i>&nbsp;                } else if (pressedButton == 7 &amp;&amp; possibleBuildings[2][1] != 4 &amp;&amp; possibleBuildings[2][1] != -1 &amp;&amp; possibleBuildings[2][1] != -2) {</b>
+<b class="nc"><i>1152</i>&nbsp;                    direction = Direction.SOUTH;</b>
+<b class="nc"><i>1153</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1154</i>&nbsp;                } else if (pressedButton == 8 &amp;&amp; possibleBuildings[2][2] != 4 &amp;&amp; possibleBuildings[2][2] != -1 &amp;&amp; possibleBuildings[2][2] != -2) {</b>
+<b class="nc"><i>1155</i>&nbsp;                    direction = Direction.SOUTH_EAST;</b>
+<b class="nc"><i>1156</i>&nbsp;                    wrong = false;</b>
+<i>1157</i>&nbsp;                }
+<b class="nc"><i>1158</i>&nbsp;            }catch (NumberFormatException e){</b>
+<b class="nc"><i>1159</i>&nbsp;                wrong = true;</b>
+<b class="nc"><i>1160</i>&nbsp;            }</b>
+<b class="nc"><i>1161</i>&nbsp;            if(wrong) System.out.println(&quot;hai selezionato un carattere sbagliato! ricorda non puoi costruire  su delle  cupole, sulla costa, o nella cella in cui hai costruito prima &quot;);</b>
+<b class="nc"><i>1162</i>&nbsp;        } while(wrong);</b>
+<b class="nc"><i>1163</i>&nbsp;        demeterParamMessage.setDirection(direction);</b>
+<b class="nc"><i>1164</i>&nbsp;        return demeterParamMessage;</b>
+<i>1165</i>&nbsp;    }
+<i>1166</i>&nbsp;
+<i>1167</i>&nbsp;    /**
+<i>1168</i>&nbsp;     * the method asks to the current player to insert parameters need to use Hestia&#39;s power. The Parameter asked is direction of the cell
+<i>1169</i>&nbsp;     * where the player wants to moved again the builder in.
+<i>1170</i>&nbsp;     * If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+<i>1171</i>&nbsp;     * message containing the parameters gathered
+<i>1172</i>&nbsp;     * @param message contains information about the match such as the current player, information used for acquiring which is the playing
+<i>1173</i>&nbsp;     * builder
+<i>1174</i>&nbsp;     * @return the message containing the parameter acquired by the method
+<i>1175</i>&nbsp;     */
+<i>1176</i>&nbsp;    public HestiaParamMessage displayHestiaParamSel(MatchStateMessage message){
+<b class="nc"><i>1177</i>&nbsp;        HestiaParamMessage hestiaParamMessage = new HestiaParamMessage();</b>
+<b class="nc"><i>1178</i>&nbsp;        Direction direction = null;</b>
+<b class="nc"><i>1179</i>&nbsp;        int[] posBuilder = new int[2];</b>
+<b class="nc"><i>1180</i>&nbsp;        posBuilder[0] = message.getCurrentPlayer().getPlayingBuilder().getPosX();</b>
+<b class="nc"><i>1181</i>&nbsp;        posBuilder[1] = message.getCurrentPlayer().getPlayingBuilder().getPosY();</b>
+<i>1182</i>&nbsp;
+<b class="nc"><i>1183</i>&nbsp;        message.getCurrentPlayer().getPlayingBuilder().setBoard(new Board(message.getBoard()));</b>
+<b class="nc"><i>1184</i>&nbsp;        message.getCurrentPlayer().getPlayingBuilder().setPlayer(message.getCurrentPlayer());</b>
+<i>1185</i>&nbsp;
+<b class="nc"><i>1186</i>&nbsp;        int[][] neighboringLevelCell = Board.neighboringLevelCell(message.getCurrentPlayer().getPlayingBuilder());</b>
+<b class="nc"><i>1187</i>&nbsp;        if(message.getCurrentPlayer().getPlayingBuilder().getPosX() == 1 || message.getCurrentPlayer().getPlayingBuilder().getPosX() == 5){</b>
+<b class="nc"><i>1188</i>&nbsp;            neighboringLevelCell[1][0] = -1;</b>
+<b class="nc"><i>1189</i>&nbsp;            neighboringLevelCell[1][1] = -1;</b>
+<b class="nc"><i>1190</i>&nbsp;            neighboringLevelCell[1][2] = -1;</b>
+<b class="nc"><i>1191</i>&nbsp;        } else if(message.getCurrentPlayer().getPlayingBuilder().getPosX() == 2){</b>
+<b class="nc"><i>1192</i>&nbsp;            neighboringLevelCell[0][0] = -1;</b>
+<b class="nc"><i>1193</i>&nbsp;            neighboringLevelCell[0][1] = -1;</b>
+<b class="nc"><i>1194</i>&nbsp;            neighboringLevelCell[0][2] = -1;</b>
+<b class="nc"><i>1195</i>&nbsp;        } else if(message.getCurrentPlayer().getPlayingBuilder().getPosX() == 4){</b>
+<b class="nc"><i>1196</i>&nbsp;            neighboringLevelCell[2][0] = -1;</b>
+<b class="nc"><i>1197</i>&nbsp;            neighboringLevelCell[2][1] = -1;</b>
+<b class="nc"><i>1198</i>&nbsp;            neighboringLevelCell[2][2] = -1;</b>
+<i>1199</i>&nbsp;        }
+<i>1200</i>&nbsp;
+<b class="nc"><i>1201</i>&nbsp;        if(message.getCurrentPlayer().getPlayingBuilder().getPosY() == 1 || message.getCurrentPlayer().getPlayingBuilder().getPosY() == 5){</b>
+<b class="nc"><i>1202</i>&nbsp;            neighboringLevelCell[0][1] = -1;</b>
+<b class="nc"><i>1203</i>&nbsp;            neighboringLevelCell[1][1] = -1;</b>
+<b class="nc"><i>1204</i>&nbsp;            neighboringLevelCell[2][1] = -1;</b>
+<b class="nc"><i>1205</i>&nbsp;        } else if(message.getCurrentPlayer().getPlayingBuilder().getPosY() == 2){</b>
+<b class="nc"><i>1206</i>&nbsp;            neighboringLevelCell[0][0] = -1;</b>
+<b class="nc"><i>1207</i>&nbsp;            neighboringLevelCell[1][0] = -1;</b>
+<b class="nc"><i>1208</i>&nbsp;            neighboringLevelCell[2][0] = -1;</b>
+<b class="nc"><i>1209</i>&nbsp;        } else if(message.getCurrentPlayer().getPlayingBuilder().getPosY() == 4){</b>
+<b class="nc"><i>1210</i>&nbsp;            neighboringLevelCell[0][2] = -1;</b>
+<b class="nc"><i>1211</i>&nbsp;            neighboringLevelCell[1][2] = -1;</b>
+<b class="nc"><i>1212</i>&nbsp;            neighboringLevelCell[2][2] = -1;</b>
+<i>1213</i>&nbsp;        }
+<i>1214</i>&nbsp;        //INserire display per mostrare
+<i>1215</i>&nbsp;        boolean wrong;
+<i>1216</i>&nbsp;        int pressedButton;
+<b class="nc"><i>1217</i>&nbsp;        String[] actions = new String[8];</b>
+<b class="nc"><i>1218</i>&nbsp;        if (neighboringLevelCell[0][0] != -1 &amp;&amp; neighboringLevelCell[0][0] != 4) actions[0] = (&quot;Premi 1 per costruire con il builder a NORD-OVEST&quot;);</b>
+<b class="nc"><i>1219</i>&nbsp;        if (neighboringLevelCell[0][1] != -1 &amp;&amp; neighboringLevelCell[0][1] != 4) actions[1] = (&quot;Premi 2 per costruire con il builder a NORD&quot;);</b>
+<b class="nc"><i>1220</i>&nbsp;        if (neighboringLevelCell[0][2] != -1 &amp;&amp; neighboringLevelCell[0][2] != 4) actions[2] = (&quot;Premi 3 per costruire con il builder a NORD-EST&quot;);</b>
+<b class="nc"><i>1221</i>&nbsp;        if (neighboringLevelCell[1][0] != -1 &amp;&amp; neighboringLevelCell[1][0] != 4) actions[3] = (&quot;Premi 4 per costruire con il builder a OVEST&quot;);</b>
+<b class="nc"><i>1222</i>&nbsp;        if (neighboringLevelCell[1][2] != -1 &amp;&amp; neighboringLevelCell[1][2] != 4) actions[4] = (&quot;Premi 5 per costruire con il builder a EST&quot;);</b>
+<b class="nc"><i>1223</i>&nbsp;        if (neighboringLevelCell[2][0] != -1 &amp;&amp; neighboringLevelCell[2][0] != 4) actions[5] = (&quot;Premi 6 per costruire con il builder a SUD-OVEST&quot;);</b>
+<b class="nc"><i>1224</i>&nbsp;        if (neighboringLevelCell[2][1] != -1 &amp;&amp; neighboringLevelCell[2][1] != 4) actions[6] = (&quot;Premi 7 per costruire con il builder a SUD&quot;);</b>
+<b class="nc"><i>1225</i>&nbsp;        if (neighboringLevelCell[2][2] != -1 &amp;&amp; neighboringLevelCell[2][2] != 4) actions[7] = (&quot;Premi 8 per costruire con il builder a SUD-EST&quot;);</b>
+<b class="nc"><i>1226</i>&nbsp;        System.out.println(&quot;Ora è il momento di scegliere dove far costruire nuovamente al builder , premi il numero indicato per scegliere la direzione della costruzione, attenzione a non scegliere una cella perimetrale!&quot;);</b>
+<i>1227</i>&nbsp;        do {
+<i>1228</i>&nbsp;            //System.out.println(&quot;Ora è il momento di scegliere dove far costruire nuovamente al builder , premi il numero indicato per scegliere la direzione della costruzione, attenzione a non scegliere una cella perimetrale!&quot;);
+<b class="nc"><i>1229</i>&nbsp;            showPossibleMatrix(neighboringLevelCell, &#39;b&#39;, actions);</b>
+<i>1230</i>&nbsp;            try {
+<b class="nc"><i>1231</i>&nbsp;                System.out.print(&quot;Bottone premuto: &quot;);</b>
+<b class="nc"><i>1232</i>&nbsp;                pressedButton = Integer.parseInt(scannerIn.nextLine());</b>
+<b class="nc"><i>1233</i>&nbsp;                wrong = true;</b>
+<i>1234</i>&nbsp;
+<b class="nc"><i>1235</i>&nbsp;                if (pressedButton == 1 &amp;&amp; neighboringLevelCell[0][0] != 4 &amp;&amp; neighboringLevelCell[0][0] != -1 )  {</b>
+<i>1236</i>&nbsp;                    //if(3 &lt;= posBuilder[0] &amp;&amp; posBuilder[0] &lt;= 4 &amp;&amp; 3 &lt;= posBuilder[1] &amp;&amp; posBuilder[1] &lt;= 4 ){
+<i>1237</i>&nbsp;                    //}
+<b class="nc"><i>1238</i>&nbsp;                    direction = Direction.NORTH_WEST;</b>
+<b class="nc"><i>1239</i>&nbsp;                    wrong = false;</b>
+<i>1240</i>&nbsp;
+<b class="nc"><i>1241</i>&nbsp;                } else if (pressedButton == 2 &amp;&amp; neighboringLevelCell[0][1] != 4 &amp;&amp; neighboringLevelCell[0][1] != -1) {</b>
+<i>1242</i>&nbsp;                    //if(3 &lt;= posBuilder[0] &amp;&amp; posBuilder[0] &lt;= 4 &amp;&amp; 2 &lt;= posBuilder[1] &amp;&amp; posBuilder[1] &lt;= 4 ){
+<i>1243</i>&nbsp;                    //}
+<b class="nc"><i>1244</i>&nbsp;                    direction = Direction.NORTH;</b>
+<b class="nc"><i>1245</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1246</i>&nbsp;                } else if (pressedButton == 3 &amp;&amp; neighboringLevelCell[0][2] != 4 &amp;&amp; neighboringLevelCell[0][2] != -1) {</b>
+<i>1247</i>&nbsp;                    //if(3 &lt;= posBuilder[0] &amp;&amp; posBuilder[0] &lt;= 4 &amp;&amp; 2 &lt;= posBuilder[1] &amp;&amp; posBuilder[1] &lt;= 3 ){
+<i>1248</i>&nbsp;                    //}
+<b class="nc"><i>1249</i>&nbsp;                    direction = Direction.NORTH_EAST;</b>
+<b class="nc"><i>1250</i>&nbsp;                    wrong = false;</b>
+<i>1251</i>&nbsp;
+<b class="nc"><i>1252</i>&nbsp;                } else if (pressedButton == 4 &amp;&amp; neighboringLevelCell[1][0] != 4 &amp;&amp; neighboringLevelCell[1][0] != -1 ) {</b>
+<i>1253</i>&nbsp;                    //if(2 &lt;= posBuilder[0] &amp;&amp; posBuilder[0] &lt;= 4 &amp;&amp; 3 &lt;= posBuilder[1] &amp;&amp; posBuilder[1] &lt;= 4 ){
+<i>1254</i>&nbsp;                    //}
+<b class="nc"><i>1255</i>&nbsp;                    direction = Direction.WEST;</b>
+<b class="nc"><i>1256</i>&nbsp;                    wrong = false;</b>
+<i>1257</i>&nbsp;
+<b class="nc"><i>1258</i>&nbsp;                } else if (pressedButton == 5 &amp;&amp; neighboringLevelCell[1][2] != 4 &amp;&amp; neighboringLevelCell[1][2] != -1 ) {</b>
+<i>1259</i>&nbsp;                    //if(2 &lt;= posBuilder[0] &amp;&amp; posBuilder[0] &lt;= 4 &amp;&amp; 2 &lt;= posBuilder[1] &amp;&amp; posBuilder[1] &lt;= 3 ){
+<i>1260</i>&nbsp;                    //}
+<b class="nc"><i>1261</i>&nbsp;                    direction = Direction.EAST;</b>
+<b class="nc"><i>1262</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1263</i>&nbsp;                } else if (pressedButton == 6 &amp;&amp; neighboringLevelCell[2][0] != 4 &amp;&amp; neighboringLevelCell[2][0] != -1 ) {</b>
+<i>1264</i>&nbsp;                    //if(2 &lt;= posBuilder[0] &amp;&amp; posBuilder[0] &lt;= 3 &amp;&amp; 3 &lt;= posBuilder[1] &amp;&amp; posBuilder[1] &lt;= 4 ){
+<i>1265</i>&nbsp;                    //}
+<b class="nc"><i>1266</i>&nbsp;                    direction = Direction.SOUTH_WEST;</b>
+<b class="nc"><i>1267</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1268</i>&nbsp;                } else if (pressedButton == 7 &amp;&amp; neighboringLevelCell[2][1] != 4 &amp;&amp; neighboringLevelCell[2][1] != -1 ) {</b>
+<i>1269</i>&nbsp;                    //if(2 &lt;= posBuilder[0] &amp;&amp; posBuilder[0] &lt;= 3 &amp;&amp; 2 &lt;= posBuilder[1] &amp;&amp; posBuilder[1] &lt;= 4 ){
+<i>1270</i>&nbsp;                    //}
+<b class="nc"><i>1271</i>&nbsp;                    direction = Direction.SOUTH;</b>
+<b class="nc"><i>1272</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1273</i>&nbsp;                } else if (pressedButton == 8 &amp;&amp; neighboringLevelCell[2][2] != 4 &amp;&amp; neighboringLevelCell[2][2] != -1 ) {</b>
+<i>1274</i>&nbsp;                    //if(2 &lt;= posBuilder[0] &amp;&amp; posBuilder[0] &lt;= 3 &amp;&amp; 2 &lt;= posBuilder[1] &amp;&amp; posBuilder[1] &lt;= 3 ){
+<i>1275</i>&nbsp;                    //}
+<b class="nc"><i>1276</i>&nbsp;                    direction = Direction.SOUTH_EAST;</b>
+<b class="nc"><i>1277</i>&nbsp;                    wrong = false;</b>
+<i>1278</i>&nbsp;                }
+<b class="nc"><i>1279</i>&nbsp;            }catch (NumberFormatException e){</b>
+<b class="nc"><i>1280</i>&nbsp;                wrong = true;</b>
+<b class="nc"><i>1281</i>&nbsp;            }</b>
+<b class="nc"><i>1282</i>&nbsp;            if(wrong) System.out.println(&quot;hai selezionato un carattere sbagliato! ricorda non puoi costruire su delle  cupole, sulla costa, o nella in una cella vicino alla costa &quot;);</b>
+<b class="nc"><i>1283</i>&nbsp;        } while(wrong);</b>
+<b class="nc"><i>1284</i>&nbsp;        hestiaParamMessage.setDirection(direction);</b>
+<b class="nc"><i>1285</i>&nbsp;        return hestiaParamMessage;</b>
+<i>1286</i>&nbsp;    }
+<i>1287</i>&nbsp;
+<i>1288</i>&nbsp;    /**
+<i>1289</i>&nbsp;     * the method asks to the current player to insert parameters need to use Minotaur&#39;s power. These parameters are che choice of which builder
+<i>1290</i>&nbsp;     * the player want to move (and push opponent&#39;s builder) and in which direction. If the builder selected cannot be moved, the method will choose for the player the other
+<i>1291</i>&nbsp;     * builder. If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+<i>1292</i>&nbsp;     * message containing the parameters gathered
+<i>1293</i>&nbsp;     * @param message contains references about the board and the currents player(About the match ).
+<i>1294</i>&nbsp;     * @return the message containing the parameters gathered.
+<i>1295</i>&nbsp;     */
+<i>1296</i>&nbsp;    public MinotaurParamMessage displayMinotaurParamSel(MatchStateMessage message){
+<b class="nc"><i>1297</i>&nbsp;        MinotaurParamMessage minotaurParamMessage = new MinotaurParamMessage();</b>
+<i>1298</i>&nbsp;        //Inserire la stampa per la scelta del builder
+<b class="nc"><i>1299</i>&nbsp;        char playerBuilderGender = &#39;G&#39;;</b>
+<b class="nc"><i>1300</i>&nbsp;        int[] posBuilder = new int[2];</b>
+<i>1301</i>&nbsp;
+<b class="nc"><i>1302</i>&nbsp;        Builder chosenBuilderM = null;</b>
+<b class="nc"><i>1303</i>&nbsp;        Direction direction = null;</b>
+<i>1304</i>&nbsp;        boolean wrong;
+<b class="nc"><i>1305</i>&nbsp;        String choice = null;</b>
+<i>1306</i>&nbsp;        do {
+<i>1307</i>&nbsp;            try {
+<b class="nc"><i>1308</i>&nbsp;                System.out.println(&quot;Seleziona il builder più adatto a servire il Minotauro. Premi M o F. Ricorda che deve essere vicino ad un builder avversario affinché sia degno!&quot;);</b>
+<b class="nc"><i>1309</i>&nbsp;                choice = scannerIn.nextLine();</b>
+<b class="nc"><i>1310</i>&nbsp;                choice = choice.toUpperCase();</b>
+<b class="nc"><i>1311</i>&nbsp;                wrong  = false;</b>
+<b class="nc"><i>1312</i>&nbsp;                if (choice.equals(&quot;M&quot;)) {</b>
+<b class="nc"><i>1313</i>&nbsp;                    chosenBuilderM = message.getCurrentPlayer().getBuilderM();</b>
+<b class="nc"><i>1314</i>&nbsp;                    posBuilder[0] = message.getCurrentPlayer().getBuilderM().getPosX();</b>
+<b class="nc"><i>1315</i>&nbsp;                    posBuilder[1] = message.getCurrentPlayer().getBuilderM().getPosY();</b>
+<b class="nc"><i>1316</i>&nbsp;                    playerBuilderGender = &#39;M&#39;;</b>
+<i>1317</i>&nbsp;                }
+<b class="nc"><i>1318</i>&nbsp;                else if (choice.equals(&quot;F&quot;)){</b>
+<b class="nc"><i>1319</i>&nbsp;                    chosenBuilderM = message.getCurrentPlayer().getBuilderF();</b>
+<b class="nc"><i>1320</i>&nbsp;                    posBuilder[0] = message.getCurrentPlayer().getBuilderF().getPosX();</b>
+<b class="nc"><i>1321</i>&nbsp;                    posBuilder[1] = message.getCurrentPlayer().getBuilderF().getPosY();</b>
+<b class="nc"><i>1322</i>&nbsp;                    playerBuilderGender = &#39;F&#39;;</b>
+<i>1323</i>&nbsp;                }
+<b class="nc"><i>1324</i>&nbsp;                else wrong = true;</b>
+<b class="nc"><i>1325</i>&nbsp;            } catch (InputMismatchException e){</b>
+<b class="nc"><i>1326</i>&nbsp;                scannerIn.nextLine();</b>
+<b class="nc"><i>1327</i>&nbsp;                wrong = true;</b>
+<b class="nc"><i>1328</i>&nbsp;            }</b>
+<b class="nc"><i>1329</i>&nbsp;            if (wrong) System.out.println(&quot;Hai inserito un carattere errato!&quot;);</b>
+<b class="nc"><i>1330</i>&nbsp;        } while (wrong);</b>
+<i>1331</i>&nbsp;
+<b class="nc"><i>1332</i>&nbsp;        chosenBuilderM.setBoard(new Board(message.getBoard()));</b>
+<b class="nc"><i>1333</i>&nbsp;        chosenBuilderM.setPlayer( message.getCurrentPlayer());</b>
+<b class="nc"><i>1334</i>&nbsp;        int[][] possibleSwap = Board.neighboringSwappingCell(chosenBuilderM, AccessType.OCCUPIED);</b>
+<i>1335</i>&nbsp;        //Modifico possibleSwap per includere l&#39;impossibilità di spingere l&#39;avversario perché la cella dopo non è FREE
+<b class="nc"><i>1336</i>&nbsp;        for(int i = 0; i &lt; 3; ++i)</b>
+<b class="nc"><i>1337</i>&nbsp;            for(int j = 0; j &lt; 3; ++j)</b>
+<b class="nc"><i>1338</i>&nbsp;                if(possibleSwap[i][j] != 0)</b>
+<i>1339</i>&nbsp;                    try {
+<b class="nc"><i>1340</i>&nbsp;                        if (message.getBoard()[posBuilder[0] + (i - 1) * 2][posBuilder[1] + (j - 1) * 2].getStatus() != AccessType.FREE)</b>
+<b class="nc"><i>1341</i>&nbsp;                            possibleSwap[i][j] = 0;</b>
+<b class="nc"><i>1342</i>&nbsp;                    }catch (IndexOutOfBoundsException e){</b>
+<b class="nc"><i>1343</i>&nbsp;                        possibleSwap[i][j] = 0;</b>
+<b class="nc"><i>1344</i>&nbsp;                    }</b>
+<i>1345</i>&nbsp;
+<b class="nc"><i>1346</i>&nbsp;        boolean allZeros = true;</b>
+<b class="nc"><i>1347</i>&nbsp;        for(int i = 0; i &lt; 3 &amp;&amp; allZeros; ++i)</b>
+<b class="nc"><i>1348</i>&nbsp;            for(int j = 0; j &lt; 3 &amp;&amp; allZeros; ++j)</b>
+<b class="nc"><i>1349</i>&nbsp;                if(possibleSwap[i][j] != 0) allZeros = false;</b>
+<i>1350</i>&nbsp;
+<b class="nc"><i>1351</i>&nbsp;        if(allZeros){</b>
+<b class="nc"><i>1352</i>&nbsp;            System.out.println(&quot;Il builder che hai selezionato non è adatto a servire il Minotauro, viene selezionato l&#39;altro builder automaticamente&quot;);</b>
+<b class="nc"><i>1353</i>&nbsp;            if(playerBuilderGender == &#39;M&#39;){</b>
+<b class="nc"><i>1354</i>&nbsp;                playerBuilderGender = &#39;F&#39;;</b>
+<b class="nc"><i>1355</i>&nbsp;                chosenBuilderM = message.getCurrentPlayer().getBuilderF();</b>
+<b class="nc"><i>1356</i>&nbsp;                posBuilder[0] = message.getCurrentPlayer().getBuilderF().getPosX();</b>
+<b class="nc"><i>1357</i>&nbsp;                posBuilder[1] = message.getCurrentPlayer().getBuilderF().getPosY();</b>
+<i>1358</i>&nbsp;            } else {
+<b class="nc"><i>1359</i>&nbsp;                playerBuilderGender = &#39;M&#39;;</b>
+<b class="nc"><i>1360</i>&nbsp;                chosenBuilderM = message.getCurrentPlayer().getBuilderM();</b>
+<b class="nc"><i>1361</i>&nbsp;                posBuilder[0] = message.getCurrentPlayer().getBuilderM().getPosX();</b>
+<b class="nc"><i>1362</i>&nbsp;                posBuilder[1] = message.getCurrentPlayer().getBuilderM().getPosY();</b>
+<i>1363</i>&nbsp;            }
+<i>1364</i>&nbsp;        }
+<b class="nc"><i>1365</i>&nbsp;        chosenBuilderM.setBoard(new Board(message.getBoard()));</b>
+<b class="nc"><i>1366</i>&nbsp;        chosenBuilderM.setPlayer( message.getCurrentPlayer());</b>
+<b class="nc"><i>1367</i>&nbsp;        possibleSwap = Board.neighboringSwappingCell(chosenBuilderM, AccessType.OCCUPIED);</b>
+<i>1368</i>&nbsp;        //Modifico possibleSwap per includere l&#39;impossibilità di spingere l&#39;avversario perché la cella dopo non è FREE
+<b class="nc"><i>1369</i>&nbsp;        for(int i = 0; i &lt; 3; ++i)</b>
+<b class="nc"><i>1370</i>&nbsp;            for(int j = 0; j &lt; 3; ++j)</b>
+<b class="nc"><i>1371</i>&nbsp;                if(possibleSwap[i][j] != 0)</b>
+<i>1372</i>&nbsp;                    try {
+<b class="nc"><i>1373</i>&nbsp;                        if (message.getBoard()[posBuilder[0] + (i - 1) * 2][posBuilder[1] + (j - 1) * 2].getStatus() != AccessType.FREE)</b>
+<b class="nc"><i>1374</i>&nbsp;                            possibleSwap[i][j] = 0;</b>
+<b class="nc"><i>1375</i>&nbsp;                    }catch (IndexOutOfBoundsException e){</b>
+<b class="nc"><i>1376</i>&nbsp;                        possibleSwap[i][j] = 0;</b>
+<b class="nc"><i>1377</i>&nbsp;                    }</b>
+<i>1378</i>&nbsp;        int pressedButton;
+<b class="nc"><i>1379</i>&nbsp;        String[] actions = new String[8];</b>
+<b class="nc"><i>1380</i>&nbsp;        System.out.println(&quot;Ora è il momento di scegliere il builder avversario, premi il numero indicato per scegliere la direzione che preferisci&quot;);</b>
+<b class="nc"><i>1381</i>&nbsp;        if (possibleSwap[0][0] != 0) actions[0] = (&quot;Premi 1 per muoverti a NORD-OVEST&quot;);</b>
+<b class="nc"><i>1382</i>&nbsp;        if (possibleSwap[0][1] != 0) actions[1] = (&quot;Premi 2 per muoverti a NORD&quot;);</b>
+<b class="nc"><i>1383</i>&nbsp;        if (possibleSwap[0][2] != 0) actions[2] = (&quot;Premi 3 per muoverti a NORD-EST&quot;);</b>
+<b class="nc"><i>1384</i>&nbsp;        if (possibleSwap[1][0] != 0) actions[3] = (&quot;Premi 4 per muoverti a OVEST&quot;);</b>
+<b class="nc"><i>1385</i>&nbsp;        if (possibleSwap[1][2] != 0) actions[4] = (&quot;Premi 5 per muoverti a EST&quot;);</b>
+<b class="nc"><i>1386</i>&nbsp;        if (possibleSwap[2][0] != 0) actions[5] = (&quot;Premi 6 per muoverti a SUD-OVEST&quot;);</b>
+<b class="nc"><i>1387</i>&nbsp;        if (possibleSwap[2][1] != 0) actions[6] = (&quot;Premi 7 per muoverti a SUD&quot;);</b>
+<b class="nc"><i>1388</i>&nbsp;        if (possibleSwap[2][2] != 0) actions[7] = (&quot;Premi 8 per muoverti a SUD-EST&quot;);</b>
+<i>1389</i>&nbsp;        //Mettere un display per far vedere le possibili scelte
+<i>1390</i>&nbsp;        do {
+<i>1391</i>&nbsp;            //System.out.println(&quot;Ora è il momento di scegliere il builder avversario, premi il numero indicato per scegliere la direzione che preferisci&quot;);
+<b class="nc"><i>1392</i>&nbsp;            showPossibleMatrix(possibleSwap, &#39;m&#39;, actions);</b>
+<i>1393</i>&nbsp;            try {
+<b class="nc"><i>1394</i>&nbsp;                System.out.print(&quot;Bottone premuto: &quot;);</b>
+<b class="nc"><i>1395</i>&nbsp;                pressedButton = Integer.parseInt(scannerIn.nextLine());</b>
+<b class="nc"><i>1396</i>&nbsp;                wrong = true;</b>
+<i>1397</i>&nbsp;
+<b class="nc"><i>1398</i>&nbsp;                if (pressedButton == 1 &amp;&amp; possibleSwap[0][0] != 0) {</b>
+<b class="nc"><i>1399</i>&nbsp;                    direction = Direction.NORTH_WEST;</b>
+<b class="nc"><i>1400</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1401</i>&nbsp;                } else if (pressedButton == 2 &amp;&amp; possibleSwap[0][1] != 0) {</b>
+<b class="nc"><i>1402</i>&nbsp;                    direction = Direction.NORTH;</b>
+<b class="nc"><i>1403</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1404</i>&nbsp;                } else if (pressedButton == 3 &amp;&amp; possibleSwap[0][2] != 0) {</b>
+<b class="nc"><i>1405</i>&nbsp;                    direction = Direction.NORTH_EAST;</b>
+<b class="nc"><i>1406</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1407</i>&nbsp;                } else if (pressedButton == 4 &amp;&amp; possibleSwap[1][0] != 0) {</b>
+<b class="nc"><i>1408</i>&nbsp;                    direction = Direction.WEST;</b>
+<b class="nc"><i>1409</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1410</i>&nbsp;                } else if (pressedButton == 5 &amp;&amp; possibleSwap[1][2] != 0) {</b>
+<b class="nc"><i>1411</i>&nbsp;                    direction = Direction.EAST;</b>
+<b class="nc"><i>1412</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1413</i>&nbsp;                } else if (pressedButton == 6 &amp;&amp; possibleSwap[2][0] != 0) {</b>
+<b class="nc"><i>1414</i>&nbsp;                    direction = Direction.SOUTH_WEST;</b>
+<b class="nc"><i>1415</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1416</i>&nbsp;                } else if (pressedButton == 7 &amp;&amp; possibleSwap[2][1] != 0) {</b>
+<b class="nc"><i>1417</i>&nbsp;                    direction = Direction.SOUTH;</b>
+<b class="nc"><i>1418</i>&nbsp;                    wrong = false;</b>
+<b class="nc"><i>1419</i>&nbsp;                } else if (pressedButton == 8 &amp;&amp; possibleSwap[2][2] != 0) {</b>
+<b class="nc"><i>1420</i>&nbsp;                    direction = Direction.SOUTH_EAST;</b>
+<b class="nc"><i>1421</i>&nbsp;                    wrong = false;</b>
+<i>1422</i>&nbsp;                }
+<b class="nc"><i>1423</i>&nbsp;            } catch (NumberFormatException e){</b>
+<b class="nc"><i>1424</i>&nbsp;                wrong = true;</b>
+<b class="nc"><i>1425</i>&nbsp;            }</b>
+<b class="nc"><i>1426</i>&nbsp;            if(wrong) System.out.println(&quot;hai selezionato una direzione sbaglitata! ricorda non puoi lanciare un builder avversario su una scogliera o su una cupola&quot;);</b>
+<b class="nc"><i>1427</i>&nbsp;        } while(wrong);</b>
+<b class="nc"><i>1428</i>&nbsp;        minotaurParamMessage.setOpponentBuilderDirection(direction);</b>
+<b class="nc"><i>1429</i>&nbsp;        minotaurParamMessage.setPlayingBuilderSex(playerBuilderGender);</b>
+<b class="nc"><i>1430</i>&nbsp;        return minotaurParamMessage;</b>
+<i>1431</i>&nbsp;    }
+<i>1432</i>&nbsp;
+<i>1433</i>&nbsp;    /**
+<i>1434</i>&nbsp;     * The method asks to the current player to insert parameters need to use Poseidon&#39;s power. The Parameters asked are direction of the cell
+<i>1435</i>&nbsp;     * where the player wants to build again the builder in and how many times he wants to build. The method will display the max and min numbers
+<i>1436</i>&nbsp;     * of times he can build
+<i>1437</i>&nbsp;     * If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+<i>1438</i>&nbsp;     * message containing the parameters gathered
+<i>1439</i>&nbsp;     * @param message contains information about the match such as the current player, information used for acquiring which is the playing
+<i>1440</i>&nbsp;     * builder
+<i>1441</i>&nbsp;     * @return the message containing the parameter acquired by the method
+<i>1442</i>&nbsp;     */
+<i>1443</i>&nbsp;    public PoseidonParamMessage displayPoseidonParamSel(MatchStateMessage message){
+<b class="nc"><i>1444</i>&nbsp;        PoseidonParamMessage poseidonParamMessage = new PoseidonParamMessage();</b>
+<i>1445</i>&nbsp;        //Ricerca del builder non mosso
+<b class="nc"><i>1446</i>&nbsp;        Builder constructionBuilder = null;</b>
+<b class="nc"><i>1447</i>&nbsp;        char constructionBuilderSex = &#39;o&#39;;</b>
+<b class="nc"><i>1448</i>&nbsp;        if (message.getCurrentPlayer().getPlayingBuilder().getGender() == &#39;\u2640&#39;) {</b>
+<b class="nc"><i>1449</i>&nbsp;            constructionBuilder = message.getCurrentPlayer().getBuilderM();</b>
+<b class="nc"><i>1450</i>&nbsp;            constructionBuilderSex = &#39;M&#39;;</b>
+<i>1451</i>&nbsp;        } else {
+<b class="nc"><i>1452</i>&nbsp;            constructionBuilder = message.getCurrentPlayer().getBuilderF();</b>
+<b class="nc"><i>1453</i>&nbsp;            constructionBuilderSex = &#39;F&#39;;</b>
+<i>1454</i>&nbsp;        }
+<i>1455</i>&nbsp;        //Salvataggio della possible buildings
+<b class="nc"><i>1456</i>&nbsp;        constructionBuilder.setBoard(new Board(message.getBoard()));</b>
+<b class="nc"><i>1457</i>&nbsp;        constructionBuilder.setPlayer(message.getCurrentPlayer());</b>
+<b class="nc"><i>1458</i>&nbsp;        int[][] possibleBuildingsP = Board.neighboringLevelCell(constructionBuilder);</b>
+<i>1459</i>&nbsp;
+<b class="nc"><i>1460</i>&nbsp;        int count = 0;</b>
+<b class="nc"><i>1461</i>&nbsp;        for(int i = 0; i &lt; 3; ++i)</b>
+<b class="nc"><i>1462</i>&nbsp;            for(int j = 0; j &lt; 3; ++j)</b>
+<b class="nc"><i>1463</i>&nbsp;                if(possibleBuildingsP[i][j] &gt;= 0 &amp;&amp; possibleBuildingsP[i][j] &lt; 4) count = count + 4 - possibleBuildingsP[i][j];</b>
+<i>1464</i>&nbsp;
+<i>1465</i>&nbsp;        //Salvataggio della posizione del builder
+<b class="nc"><i>1466</i>&nbsp;        int[] posBuilder = new int[2];</b>
+<b class="nc"><i>1467</i>&nbsp;        posBuilder[0] = constructionBuilder.getPosX();</b>
+<b class="nc"><i>1468</i>&nbsp;        posBuilder[1] = constructionBuilder.getPosY();</b>
+<i>1469</i>&nbsp;        //Mostrare la possible buildings
+<i>1470</i>&nbsp;        //Creazione delle variabili per l&#39;acquisizione di quante volte si vuole costruire
+<b class="nc"><i>1471</i>&nbsp;        if(count &lt; 3)</b>
+<b class="nc"><i>1472</i>&nbsp;            System.out.printf(&quot;Indicare il numero di volte che si vuole costruire grazie al potere di Poseidone. Inserire un numero compreso tra 1 e %d: &quot;, count);</b>
+<i>1473</i>&nbsp;        else
+<b class="nc"><i>1474</i>&nbsp;            System.out.println(&quot;Indicare il numero di volte che si vuole costruire grazie al potere di Poseidone. Inserire un numero compreso tra 1 e 3: &quot;);</b>
+<b class="nc"><i>1475</i>&nbsp;        int numeroBuild = 0;</b>
+<b class="nc"><i>1476</i>&nbsp;        boolean wrong = true;</b>
+<i>1477</i>&nbsp;        do{
+<i>1478</i>&nbsp;            try{
+<b class="nc"><i>1479</i>&nbsp;                numeroBuild = Integer.parseInt(scannerIn.nextLine());</b>
+<b class="nc"><i>1480</i>&nbsp;                if(numeroBuild &gt; 0 &amp;&amp; numeroBuild &lt; 4) {wrong = false;}</b>
+<b class="nc"><i>1481</i>&nbsp;            }catch (NumberFormatException e) {</b>
+<b class="nc"><i>1482</i>&nbsp;                wrong = true;</b>
+<b class="nc"><i>1483</i>&nbsp;            }</b>
+<b class="nc"><i>1484</i>&nbsp;            if(wrong) System.out.println(&quot;hai selezionato un carattere non compreso tra quelli indicati&quot;);</b>
+<b class="nc"><i>1485</i>&nbsp;        }while (wrong);</b>
+<i>1486</i>&nbsp;        //Preparazione alla ricezione delle direzioni
+<b class="nc"><i>1487</i>&nbsp;        ArrayList&lt;Direction&gt; directions = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>1488</i>&nbsp;        int i = 0;</b>
+<i>1489</i>&nbsp;        int pressedButton;
+<b class="nc"><i>1490</i>&nbsp;        String[] actions = new String[8];</b>
+<b class="nc"><i>1491</i>&nbsp;        if (possibleBuildingsP[0][0] != -1 &amp;&amp; possibleBuildingsP[0][0] != 4) actions[0] = (&quot;Premi 1 per costruire con il builder a NORD-OVEST&quot;);</b>
+<b class="nc"><i>1492</i>&nbsp;        if (possibleBuildingsP[0][1] != -1 &amp;&amp; possibleBuildingsP[0][1] != 4) actions[1] = (&quot;Premi 2 per costruire con il builder a NORD&quot;);</b>
+<b class="nc"><i>1493</i>&nbsp;        if (possibleBuildingsP[0][2] != -1 &amp;&amp; possibleBuildingsP[0][2] != 4) actions[2] = (&quot;Premi 3 per costruire con il builder a NORD-EST&quot;);</b>
+<b class="nc"><i>1494</i>&nbsp;        if (possibleBuildingsP[1][0] != -1 &amp;&amp; possibleBuildingsP[1][0] != 4) actions[3] = (&quot;Premi 4 per costruire con il builder a OVEST&quot;);</b>
+<b class="nc"><i>1495</i>&nbsp;        if (possibleBuildingsP[1][2] != -1 &amp;&amp; possibleBuildingsP[1][2] != 4) actions[4] = (&quot;Premi 5 per costruire con il builder a EST&quot;);</b>
+<b class="nc"><i>1496</i>&nbsp;        if (possibleBuildingsP[2][0] != -1 &amp;&amp; possibleBuildingsP[2][0] != 4) actions[5] = (&quot;Premi 6 per costruire con il builder a SUD-OVEST&quot;);</b>
+<b class="nc"><i>1497</i>&nbsp;        if (possibleBuildingsP[2][1] != -1 &amp;&amp; possibleBuildingsP[2][1] != 4) actions[6] = (&quot;Premi 7 per costruire con il builder a SUD&quot;);</b>
+<b class="nc"><i>1498</i>&nbsp;        if (possibleBuildingsP[2][2] != -1 &amp;&amp; possibleBuildingsP[2][2] != 4) actions[7] = (&quot;Premi 8 per costruire con il builder a SUD-EST&quot;);</b>
+<b class="nc"><i>1499</i>&nbsp;        System.out.printf(&quot;inserire ora un numero di direzioni pari a %d /n&quot;, numeroBuild);</b>
+<i>1500</i>&nbsp;        do {
+<b class="nc"><i>1501</i>&nbsp;            showPossibleMatrix(possibleBuildingsP, &#39;b&#39;, actions);</b>
+<i>1502</i>&nbsp;            try {
+<b class="nc"><i>1503</i>&nbsp;                System.out.print(&quot;Bottone premuto: &quot;);</b>
+<b class="nc"><i>1504</i>&nbsp;                pressedButton = Integer.parseInt(scannerIn.nextLine());</b>
+<b class="nc"><i>1505</i>&nbsp;                wrong = true;</b>
+<b class="nc"><i>1506</i>&nbsp;                if (pressedButton == 1 &amp;&amp; possibleBuildingsP[0][0] != -1 &amp;&amp; possibleBuildingsP[0][0] != 4) {</b>
+<b class="nc"><i>1507</i>&nbsp;                    directions.add(Direction.NORTH_WEST);</b>
+<b class="nc"><i>1508</i>&nbsp;                    possibleBuildingsP[0][0] = possibleBuildingsP[0][0] + 1;</b>
+<b class="nc"><i>1509</i>&nbsp;                    wrong = false;</b>
+<i>1510</i>&nbsp;
+<b class="nc"><i>1511</i>&nbsp;                } else if (pressedButton == 2 &amp;&amp; possibleBuildingsP[0][1] != -1 &amp;&amp; possibleBuildingsP[0][1] != -4) {</b>
+<b class="nc"><i>1512</i>&nbsp;                    directions.add( Direction.NORTH);</b>
+<b class="nc"><i>1513</i>&nbsp;                    possibleBuildingsP[0][1] = possibleBuildingsP[0][1] + 1;</b>
+<b class="nc"><i>1514</i>&nbsp;                    wrong = false;</b>
+<i>1515</i>&nbsp;
+<b class="nc"><i>1516</i>&nbsp;                } else if (pressedButton == 3 &amp;&amp; possibleBuildingsP[0][2] != -1 &amp;&amp; possibleBuildingsP[0][2] != 4) {</b>
+<b class="nc"><i>1517</i>&nbsp;                    directions.add( Direction.NORTH_EAST);</b>
+<b class="nc"><i>1518</i>&nbsp;                    possibleBuildingsP[0][2] = possibleBuildingsP[0][2] + 1;</b>
+<b class="nc"><i>1519</i>&nbsp;                    wrong = false;</b>
+<i>1520</i>&nbsp;
+<b class="nc"><i>1521</i>&nbsp;                } else if (pressedButton == 4 &amp;&amp; possibleBuildingsP[1][0] != -1 &amp;&amp; possibleBuildingsP[1][0] != 4) {</b>
+<b class="nc"><i>1522</i>&nbsp;                    directions.add( Direction.WEST);</b>
+<b class="nc"><i>1523</i>&nbsp;                    possibleBuildingsP[1][0] = possibleBuildingsP[1][0] + 1;</b>
+<b class="nc"><i>1524</i>&nbsp;                    wrong = false;</b>
+<i>1525</i>&nbsp;
+<b class="nc"><i>1526</i>&nbsp;                } else if (pressedButton == 5 &amp;&amp; possibleBuildingsP[1][2] != -1 &amp;&amp; possibleBuildingsP[1][2] != 4) {</b>
+<b class="nc"><i>1527</i>&nbsp;                    directions.add(Direction.EAST);</b>
+<b class="nc"><i>1528</i>&nbsp;                    possibleBuildingsP[1][2] = possibleBuildingsP[1][2] +1;</b>
+<b class="nc"><i>1529</i>&nbsp;                    wrong = false;</b>
+<i>1530</i>&nbsp;
+<b class="nc"><i>1531</i>&nbsp;                } else if (pressedButton == 6 &amp;&amp; possibleBuildingsP[2][0] != -1 &amp;&amp; possibleBuildingsP[2][0] != 4) {</b>
+<b class="nc"><i>1532</i>&nbsp;                    directions.add(Direction.SOUTH_WEST);</b>
+<b class="nc"><i>1533</i>&nbsp;                    possibleBuildingsP[2][0] = possibleBuildingsP[2][0] +1;</b>
+<b class="nc"><i>1534</i>&nbsp;                    wrong = false;</b>
+<i>1535</i>&nbsp;
+<b class="nc"><i>1536</i>&nbsp;                } else if (pressedButton == 7 &amp;&amp; possibleBuildingsP[2][1] != -1 &amp;&amp; possibleBuildingsP[2][1] != 4) {</b>
+<b class="nc"><i>1537</i>&nbsp;                    directions.add(Direction.SOUTH);</b>
+<b class="nc"><i>1538</i>&nbsp;                    possibleBuildingsP[2][1] = possibleBuildingsP[2][1] + 1;</b>
+<b class="nc"><i>1539</i>&nbsp;                    wrong = false;</b>
+<i>1540</i>&nbsp;
+<b class="nc"><i>1541</i>&nbsp;                } else if (pressedButton == 8 &amp;&amp; possibleBuildingsP[2][2] != -1 &amp;&amp; possibleBuildingsP[2][2] != 4) {</b>
+<b class="nc"><i>1542</i>&nbsp;                    directions.add(Direction.SOUTH_EAST);</b>
+<b class="nc"><i>1543</i>&nbsp;                    possibleBuildingsP[2][2] = possibleBuildingsP[2][2] + 1;</b>
+<b class="nc"><i>1544</i>&nbsp;                    wrong = false;</b>
+<i>1545</i>&nbsp;                }
+<b class="nc"><i>1546</i>&nbsp;            } catch (NumberFormatException e){</b>
+<b class="nc"><i>1547</i>&nbsp;                wrong = true;</b>
+<b class="nc"><i>1548</i>&nbsp;            }</b>
+<b class="nc"><i>1549</i>&nbsp;            if(wrong) System.out.println(&quot;hai selezionato una direzione sbaglitata! ricorda non puoi costruire qui&quot;);</b>
+<b class="nc"><i>1550</i>&nbsp;            else { ++i;}</b>
+<b class="nc"><i>1551</i>&nbsp;        } while(i &lt; numeroBuild);</b>
+<b class="nc"><i>1552</i>&nbsp;        poseidonParamMessage.setConstructionGender(constructionBuilderSex);</b>
+<b class="nc"><i>1553</i>&nbsp;        poseidonParamMessage.setDirection(directions);</b>
+<b class="nc"><i>1554</i>&nbsp;        poseidonParamMessage.setNumberOfBuild(numeroBuild);</b>
+<b class="nc"><i>1555</i>&nbsp;        return poseidonParamMessage;</b>
+<i>1556</i>&nbsp;    }
+<i>1557</i>&nbsp;
+<i>1558</i>&nbsp;    /**
+<i>1559</i>&nbsp;     * the method asks to the current player to insert parameters need to use Prometheus&#39;s power. These parameters are the choice of which builder
+<i>1560</i>&nbsp;     * the player want to build (the choice of the builder will be memorized to be used for the next phase of movement and building)
+<i>1561</i>&nbsp;     * and in which direction.
+<i>1562</i>&nbsp;     * If the builder selected cannot be moved, the method will choose for the player the other
+<i>1563</i>&nbsp;     * builder. If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+<i>1564</i>&nbsp;     * message containing the parameters gathered
+<i>1565</i>&nbsp;     * @param message contains references about the board and the currents player(About the match ).
+<i>1566</i>&nbsp;     * @return the message containing the parameters gathered.
+<i>1567</i>&nbsp;     */
+<i>1568</i>&nbsp;    public PrometheusParamMessage displayPrometheusParamSel(MatchStateMessage message){
+<b class="nc"><i>1569</i>&nbsp;        PrometheusParamMessage prometheusParamMessage = new PrometheusParamMessage();</b>
+<b class="nc"><i>1570</i>&nbsp;        Builder builderScelto = null;</b>
+<b class="nc"><i>1571</i>&nbsp;        char builderSex = &#39;0&#39;;</b>
+<b class="nc"><i>1572</i>&nbsp;        int[] posBuilder = new int[2];</b>
+<b class="nc"><i>1573</i>&nbsp;        Direction direction = null;</b>
+<i>1574</i>&nbsp;        //Scelta del builder
+<i>1575</i>&nbsp;        String choice;
+<i>1576</i>&nbsp;        boolean wrong;
+<b class="nc"><i>1577</i>&nbsp;        message.getCurrentPlayer().setRiseActions(false);</b>
+<b class="nc"><i>1578</i>&nbsp;        message.getCurrentPlayer().setMoveActions(true);</b>
+<b class="nc"><i>1579</i>&nbsp;        message.getCurrentPlayer().getBuilderF().setBoard(new Board(message.getBoard()));</b>
+<b class="nc"><i>1580</i>&nbsp;        message.getCurrentPlayer().getBuilderF().setPlayer(message.getCurrentPlayer());</b>
+<b class="nc"><i>1581</i>&nbsp;        message.getCurrentPlayer().getBuilderM().setBoard(new Board(message.getBoard()));</b>
+<b class="nc"><i>1582</i>&nbsp;        message.getCurrentPlayer().getBuilderM().setPlayer(message.getCurrentPlayer());</b>
+<b class="nc"><i>1583</i>&nbsp;        System.out.println(&quot;Seleziona il builder più adatto a servire Prometeo.&quot;);</b>
+<i>1584</i>&nbsp;        do {
+<b class="nc"><i>1585</i>&nbsp;            if(message.getCurrentPlayer().getBuilderM().canMove() &amp;&amp; message.getCurrentPlayer().getBuilderM().canBuild())</b>
+<b class="nc"><i>1586</i>&nbsp;                System.out.println(&quot;Premi il tasto M per selezionare il maschio&quot;);</b>
+<b class="nc"><i>1587</i>&nbsp;            if(message.getCurrentPlayer().getBuilderF().canMove() &amp;&amp; message.getCurrentPlayer().getBuilderF().canBuild())</b>
+<b class="nc"><i>1588</i>&nbsp;                System.out.println(&quot;Premi il tasto F per selezionare la femmina&quot;);</b>
+<i>1589</i>&nbsp;            try{
+<b class="nc"><i>1590</i>&nbsp;                wrong  = false;</b>
+<b class="nc"><i>1591</i>&nbsp;                choice = scannerIn.nextLine();</b>
+<b class="nc"><i>1592</i>&nbsp;                choice = choice.toUpperCase();</b>
+<b class="nc"><i>1593</i>&nbsp;                if (choice.equals(&quot;M&quot;)) {</b>
+<b class="nc"><i>1594</i>&nbsp;                    builderScelto = message.getCurrentPlayer().getBuilderM();</b>
+<b class="nc"><i>1595</i>&nbsp;                    posBuilder[0] = message.getCurrentPlayer().getBuilderM().getPosX();</b>
+<b class="nc"><i>1596</i>&nbsp;                    posBuilder[1] = message.getCurrentPlayer().getBuilderM().getPosY();</b>
+<b class="nc"><i>1597</i>&nbsp;                    builderSex = &#39;M&#39;;</b>
+<b class="nc"><i>1598</i>&nbsp;                    if(!builderScelto.canMove()) wrong = true;</b>
+<b class="nc"><i>1599</i>&nbsp;                } else if (choice.equals(&quot;F&quot;)){</b>
+<b class="nc"><i>1600</i>&nbsp;                    builderScelto = message.getCurrentPlayer().getBuilderF();</b>
+<b class="nc"><i>1601</i>&nbsp;                    posBuilder[0] = message.getCurrentPlayer().getBuilderF().getPosX();</b>
+<b class="nc"><i>1602</i>&nbsp;                    posBuilder[1] = message.getCurrentPlayer().getBuilderF().getPosY();</b>
+<b class="nc"><i>1603</i>&nbsp;                    builderSex = &#39;F&#39;;</b>
+<b class="nc"><i>1604</i>&nbsp;                    if(!builderScelto.canMove()) wrong = true;</b>
+<b class="nc"><i>1605</i>&nbsp;                } else wrong = true;</b>
+<b class="nc"><i>1606</i>&nbsp;            }catch(InputMismatchException e){</b>
+<b class="nc"><i>1607</i>&nbsp;                scannerIn.nextLine();</b>
+<b class="nc"><i>1608</i>&nbsp;                wrong = true;</b>
+<b class="nc"><i>1609</i>&nbsp;            }</b>
+<b class="nc"><i>1610</i>&nbsp;            if (wrong)</b>
+<b class="nc"><i>1611</i>&nbsp;                System.out.println(&quot;Lettera Sbagliata, reinserisci&quot;);</b>
+<b class="nc"><i>1612</i>&nbsp;        } while (wrong);</b>
+<i>1613</i>&nbsp;        //scelta direzione di costruzione
+<b class="nc"><i>1614</i>&nbsp;        builderScelto.setBoard(new Board(message.getBoard()));</b>
+<b class="nc"><i>1615</i>&nbsp;        builderScelto.setPlayer(message.getCurrentPlayer());</b>
+<b class="nc"><i>1616</i>&nbsp;        int[][] possibleBuildingsPr = Board.neighboringLevelCell(builderScelto);</b>
+<i>1617</i>&nbsp;        int pressedButton;
+<b class="nc"><i>1618</i>&nbsp;        String[] actions = new String[8];</b>
+<b class="nc"><i>1619</i>&nbsp;        if (possibleBuildingsPr[0][0] &gt;= 0 &amp;&amp; possibleBuildingsPr[0][0] &lt; 4) actions[0] = (&quot;Premi 1 per costruire con il builder a NORD-OVEST&quot;);</b>
+<b class="nc"><i>1620</i>&nbsp;        if (possibleBuildingsPr[0][1] &gt;= 0 &amp;&amp; possibleBuildingsPr[0][1] &lt; 4) actions[1] = (&quot;Premi 2 per costruire con il builder a NORD&quot;);</b>
+<b class="nc"><i>1621</i>&nbsp;        if (possibleBuildingsPr[0][2] &gt;= 0 &amp;&amp; possibleBuildingsPr[0][2] &lt; 4) actions[2] = (&quot;Premi 3 per costruire con il builder a NORD-EST&quot;);</b>
+<b class="nc"><i>1622</i>&nbsp;        if (possibleBuildingsPr[1][0] &gt;= 0 &amp;&amp; possibleBuildingsPr[1][0] &lt; 4) actions[3] = (&quot;Premi 4 per costruire con il builder a OVEST&quot;);</b>
+<b class="nc"><i>1623</i>&nbsp;        if (possibleBuildingsPr[1][2] &gt;= 0 &amp;&amp; possibleBuildingsPr[1][2] &lt; 4) actions[4] = (&quot;Premi 5 per costruire con il builder a EST&quot;);</b>
+<b class="nc"><i>1624</i>&nbsp;        if (possibleBuildingsPr[2][0] &gt;= 0 &amp;&amp; possibleBuildingsPr[2][0] &lt; 4) actions[5] = (&quot;Premi 6 per costruire con il builder a SUD-OVEST&quot;);</b>
+<b class="nc"><i>1625</i>&nbsp;        if (possibleBuildingsPr[2][1] &gt;= 0 &amp;&amp; possibleBuildingsPr[2][1] &lt; 4) actions[6] = (&quot;Premi 7 per costruire con il builder a SUD&quot;);</b>
+<b class="nc"><i>1626</i>&nbsp;        if (possibleBuildingsPr[2][2] &gt;= 0 &amp;&amp; possibleBuildingsPr[2][2] &lt; 4) actions[7] = (&quot;Premi 8 per costruire con il builder a SUD-EST&quot;);</b>
+<b class="nc"><i>1627</i>&nbsp;        System.out.println(&quot;Ora è il momento di scegliere il builder avversario, premi il numero indicato per scegliere la direzione che preferisci&quot;);</b>
+<i>1628</i>&nbsp;        do {
+<i>1629</i>&nbsp;            //System.out.println(&quot;Ora è il momento di scegliere il builder avversario, premi il numero indicato per scegliere la direzione che preferisci&quot;);
+<b class="nc"><i>1630</i>&nbsp;            showPossibleMatrix(possibleBuildingsPr, &#39;b&#39;, actions);</b>
+<i>1631</i>&nbsp;            try{
+<b class="nc"><i>1632</i>&nbsp;                System.out.print(&quot;Bottone premuto: &quot;);</b>
+<b class="nc"><i>1633</i>&nbsp;                pressedButton = Integer.parseInt(scannerIn.nextLine());</b>
+<b class="nc"><i>1634</i>&nbsp;                wrong = true;</b>
+<i>1635</i>&nbsp;
+<b class="nc"><i>1636</i>&nbsp;                if (pressedButton == 1 &amp;&amp; possibleBuildingsPr[0][0] &gt;= 0 &amp;&amp; possibleBuildingsPr[0][0] &lt; 4) {</b>
+<b class="nc"><i>1637</i>&nbsp;                    if(message.getBoard()[posBuilder[0]-1][posBuilder[1]-1].getStatus() == AccessType.FREE ) {</b>
+<b class="nc"><i>1638</i>&nbsp;                        direction = Direction.NORTH_WEST;</b>
+<b class="nc"><i>1639</i>&nbsp;                        wrong = false;</b>
+<i>1640</i>&nbsp;                    }
+<i>1641</i>&nbsp;
+<b class="nc"><i>1642</i>&nbsp;                } else if (pressedButton == 2 &amp;&amp; possibleBuildingsPr[0][1] &gt;= 0 &amp;&amp; possibleBuildingsPr[0][1] &lt; 4) {</b>
+<b class="nc"><i>1643</i>&nbsp;                    if(message.getBoard()[posBuilder[0]-1][posBuilder[1]].getStatus() == AccessType.FREE ) {</b>
+<b class="nc"><i>1644</i>&nbsp;                        direction = Direction.NORTH;</b>
+<b class="nc"><i>1645</i>&nbsp;                        wrong = false;</b>
+<i>1646</i>&nbsp;                    }
+<i>1647</i>&nbsp;
+<b class="nc"><i>1648</i>&nbsp;                } else if (pressedButton == 3 &amp;&amp; possibleBuildingsPr[0][2] &gt;= 0 &amp;&amp; possibleBuildingsPr[0][2] &lt; 4) {</b>
+<b class="nc"><i>1649</i>&nbsp;                    if(message.getBoard()[posBuilder[0]-1][posBuilder[1]+1].getStatus() == AccessType.FREE ) {</b>
+<b class="nc"><i>1650</i>&nbsp;                        direction = Direction.NORTH_EAST;</b>
+<b class="nc"><i>1651</i>&nbsp;                        wrong = false;</b>
+<i>1652</i>&nbsp;                    }
+<i>1653</i>&nbsp;
+<b class="nc"><i>1654</i>&nbsp;                } else if (pressedButton == 4 &amp;&amp; possibleBuildingsPr[1][0] &gt;= 0 &amp;&amp; possibleBuildingsPr[1][0] &lt; 4) {</b>
+<b class="nc"><i>1655</i>&nbsp;                    if(message.getBoard()[posBuilder[0]][posBuilder[1]-1].getStatus() == AccessType.FREE ) {</b>
+<b class="nc"><i>1656</i>&nbsp;                        direction = Direction.WEST;</b>
+<b class="nc"><i>1657</i>&nbsp;                        wrong = false;</b>
+<i>1658</i>&nbsp;                    }
+<i>1659</i>&nbsp;
+<b class="nc"><i>1660</i>&nbsp;                } else if (pressedButton == 5 &amp;&amp; possibleBuildingsPr[1][2] &gt;= 0 &amp;&amp; possibleBuildingsPr[1][2] &lt; 4) {</b>
+<b class="nc"><i>1661</i>&nbsp;                    if(message.getBoard()[posBuilder[0]][posBuilder[1]+1].getStatus() == AccessType.FREE ) {</b>
+<b class="nc"><i>1662</i>&nbsp;                        direction = Direction.EAST;</b>
+<b class="nc"><i>1663</i>&nbsp;                        wrong = false;</b>
+<i>1664</i>&nbsp;                    }
+<i>1665</i>&nbsp;
+<b class="nc"><i>1666</i>&nbsp;                } else if (pressedButton == 6 &amp;&amp; possibleBuildingsPr[2][0] &gt;= 0 &amp;&amp; possibleBuildingsPr[2][0] &lt; 4) {</b>
+<b class="nc"><i>1667</i>&nbsp;                    if(message.getBoard()[posBuilder[0]+1][posBuilder[1]-1].getStatus() == AccessType.FREE ) {</b>
+<b class="nc"><i>1668</i>&nbsp;                        direction = Direction.SOUTH_WEST;</b>
+<b class="nc"><i>1669</i>&nbsp;                        wrong = false;</b>
+<i>1670</i>&nbsp;                    }
+<i>1671</i>&nbsp;
+<b class="nc"><i>1672</i>&nbsp;                } else if (pressedButton == 7 &amp;&amp; possibleBuildingsPr[2][1] &gt;= 0 &amp;&amp; possibleBuildingsPr[2][1] &lt; 4) {</b>
+<b class="nc"><i>1673</i>&nbsp;                    if(message.getBoard()[posBuilder[0]+1][posBuilder[1]].getStatus() == AccessType.FREE ) {</b>
+<b class="nc"><i>1674</i>&nbsp;                        direction = Direction.SOUTH;</b>
+<b class="nc"><i>1675</i>&nbsp;                        wrong = false;</b>
+<i>1676</i>&nbsp;                    }
+<i>1677</i>&nbsp;
+<b class="nc"><i>1678</i>&nbsp;                } else if (pressedButton == 8 &amp;&amp; possibleBuildingsPr[2][2] &gt;= 0 &amp;&amp; possibleBuildingsPr[2][2] &lt; 4) {</b>
+<b class="nc"><i>1679</i>&nbsp;                    if(message.getBoard()[posBuilder[0]+1][posBuilder[1]+1].getStatus() == AccessType.FREE ) {</b>
+<b class="nc"><i>1680</i>&nbsp;                        direction = Direction.SOUTH_EAST;</b>
+<b class="nc"><i>1681</i>&nbsp;                        wrong = false;</b>
+<i>1682</i>&nbsp;                    }
+<i>1683</i>&nbsp;                }
+<b class="nc"><i>1684</i>&nbsp;            }catch(NumberFormatException e){</b>
+<b class="nc"><i>1685</i>&nbsp;                wrong = true;</b>
+<b class="nc"><i>1686</i>&nbsp;            }</b>
+<b class="nc"><i>1687</i>&nbsp;            if(wrong) System.out.println(&quot;hai selezionato un carattere sbagliato! ricorda non puoi lanciare un builder avversario su una scogliera o su una cupola&quot;);</b>
+<b class="nc"><i>1688</i>&nbsp;        } while(wrong);</b>
+<b class="nc"><i>1689</i>&nbsp;        prometheusParamMessage.setDirection(direction);</b>
+<b class="nc"><i>1690</i>&nbsp;        prometheusParamMessage.setBuilderSex(builderSex);</b>
+<b class="nc"><i>1691</i>&nbsp;        return prometheusParamMessage;</b>
+<i>1692</i>&nbsp;    }
+<i>1693</i>&nbsp;
+<i>1694</i>&nbsp;    /**
+<i>1695</i>&nbsp;     * the method prints the scheme of the board, whit numbers inside the cells to indicate the height of the buildings, nothing if there isn&#39;t
+<i>1696</i>&nbsp;     * any builder, the coloured symbol of the gender to indicate the gender of the builder and to whom it belongs. The triangle and the wave
+<i>1697</i>&nbsp;     * represent the coast.
+<i>1698</i>&nbsp;     * @param listOfCells is an array list of cells containing all the information of the board
+<i>1699</i>&nbsp;     * @param players players of the match
+<i>1700</i>&nbsp;     */
+<i>1701</i>&nbsp;    private void showBoard(ArrayList&lt;Cell&gt; listOfCells, ArrayList&lt;Player&gt; players){
+<b class="nc"><i>1702</i>&nbsp;        String coast = Color.OCEAN_BLUE+&quot; -^&quot;+Color.MOUNTAIN_BROWN +&quot;\u25B2 &quot;;</b>
+<i>1703</i>&nbsp;        // Color.OCEAN_BLUE+&quot;\u25DE\u25DC&quot;+Color.MOUNTAIN_BROWN +&quot;\u25B2 &quot;
+<b class="nc"><i>1704</i>&nbsp;        coast = String.format(&quot;%1$5s&quot;, coast);</b>
+<b class="nc"><i>1705</i>&nbsp;        String[][] printableBoard = new String[7][7];</b>
+<b class="nc"><i>1706</i>&nbsp;        int j = 0;</b>
+<b class="nc"><i>1707</i>&nbsp;        for(int i = 0; i &lt; listOfCells.size(); ++i){</b>
+<b class="nc"><i>1708</i>&nbsp;            if(listOfCells.get(i).getLevel() == LevelType.COAST) printableBoard[j][i%7] = coast;</b>
+<b class="nc"><i>1709</i>&nbsp;            else if(listOfCells.get(i).getStatus() == AccessType.OCCUPIED) printableBoard[j][i%7] = &quot; &quot; + listOfCells.get(i).getLevel().getHeight() + &quot; &quot; + listOfCells.get(i).getBuilder().getColor() + listOfCells.get(i).getBuilder().getGender() + Color.RESET + &quot; &quot;;</b>
+<b class="nc"><i>1710</i>&nbsp;            else printableBoard[j][i%7] = &quot; &quot; + listOfCells.get(i).getLevel().getHeight() + &quot;   &quot;;</b>
+<b class="nc"><i>1711</i>&nbsp;            if(i % 7 == 6) ++j;</b>
+<i>1712</i>&nbsp;        }
+<i>1713</i>&nbsp;        String temp;
+<i>1714</i>&nbsp;        String[] parseEffect;
+<b class="nc"><i>1715</i>&nbsp;        String[] effects = new String[15];</b>
+<i>1716</i>&nbsp;        Color color;
+<b class="nc"><i>1717</i>&nbsp;        int np = 0;</b>
+<b class="nc"><i>1718</i>&nbsp;        for(Player p : listOfPlayers){</b>
+<b class="nc"><i>1719</i>&nbsp;            color = Color.CORNER_WHITE;</b>
+<b class="nc"><i>1720</i>&nbsp;            for(Player pl : players)</b>
+<b class="nc"><i>1721</i>&nbsp;                if(pl.getNickname().equals(p.getNickname())){</b>
+<b class="nc"><i>1722</i>&nbsp;                    color = p.getColor();</b>
+<b class="nc"><i>1723</i>&nbsp;                    break;</b>
+<i>1724</i>&nbsp;                }
+<b class="nc"><i>1725</i>&nbsp;            temp = p.getDivinePower().toStringEffect();</b>
+<b class="nc"><i>1726</i>&nbsp;            effects[np] = color + p.getNickname() + &quot;\t[&quot; + p.getDivinePower().getName().toUpperCase() + &quot;]&quot;;</b>
+<b class="nc"><i>1727</i>&nbsp;            parseEffect = p.getDivinePower().toStringEffect().split(&quot;\n&quot;);</b>
+<b class="nc"><i>1728</i>&nbsp;            effects[np + 1] = color + (parseEffect.length &lt; 1 ? &quot;&quot; : parseEffect[0]);</b>
+<b class="nc"><i>1729</i>&nbsp;            effects[np + 2] = color + (parseEffect.length &lt; 2 ? &quot;&quot; : parseEffect[1]);</b>
+<b class="nc"><i>1730</i>&nbsp;            effects[np + 3] = color + (parseEffect.length &lt; 3 ? &quot;&quot; : parseEffect[2]);</b>
+<b class="nc"><i>1731</i>&nbsp;            effects[np + 4] = &quot;&quot;+Color.RESET;</b>
+<b class="nc"><i>1732</i>&nbsp;            np += 5;</b>
+<b class="nc"><i>1733</i>&nbsp;        }</b>
+<i>1734</i>&nbsp;
+<b class="nc"><i>1735</i>&nbsp;        if(listOfPlayers.size() == 2) {</b>
+<b class="nc"><i>1736</i>&nbsp;            effects[10] = &quot;&quot;;</b>
+<b class="nc"><i>1737</i>&nbsp;            effects[11] = &quot;&quot;;</b>
+<b class="nc"><i>1738</i>&nbsp;            effects[12] = &quot;&quot;;</b>
+<b class="nc"><i>1739</i>&nbsp;            effects[13] = &quot;&quot;;</b>
+<b class="nc"><i>1740</i>&nbsp;            effects[14] = &quot;&quot;;</b>
+<i>1741</i>&nbsp;        }
+<i>1742</i>&nbsp;
+<b class="nc"><i>1743</i>&nbsp;        System.out.printf(</b>
+<i>1744</i>&nbsp;                Color.RESET+&quot;                                 NORTH                                 \n&quot; +
+<i>1745</i>&nbsp;                        Color.RESET+&quot;                 0     1     2     3     4     5     6                 \n&quot; +
+<i>1746</i>&nbsp;                        &quot;              &quot;+Color.CORNER_WHITE+&quot;?&quot;+Color.BORDER_YELLOW+&quot;?????????????????????????????????????????&quot;+Color.CORNER_WHITE+&quot;?              &quot; + effects[0] + &quot;\n&quot;+Color.RESET+
+<i>1747</i>&nbsp;                        &quot;          0   &quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?&quot;+Color.RESET+&quot;   0          &quot; + effects[1] + Color.RESET +&quot;\n&quot;+
+<i>1748</i>&nbsp;                        &quot;              &quot;+Color.BORDER_YELLOW+&quot;???????????????????????????????????????????              &quot; + effects[2] + Color.RESET +&quot;\n&quot;+
+<i>1749</i>&nbsp;                        &quot;          1   &quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?&quot;+Color.RESET+&quot;   1          &quot; + effects[3] + Color.RESET +&quot;\n&quot;+
+<i>1750</i>&nbsp;                        &quot;              &quot;+Color.BORDER_YELLOW+&quot;???????????????????????????????????????????              &quot; + effects[4] + Color.RESET +&quot;\n&quot;+
+<i>1751</i>&nbsp;                        &quot;          2   &quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?&quot;+Color.RESET+&quot;   2          &quot; + effects[5] + Color.RESET +&quot;\n&quot;+
+<i>1752</i>&nbsp;                        &quot;              &quot;+Color.BORDER_YELLOW+&quot;???????????????????????????????????????????              &quot; + effects[6] + Color.RESET +&quot;\n&quot;+
+<i>1753</i>&nbsp;                        &quot;   WEST   3   &quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?&quot;+Color.RESET+&quot;   3   EAST   &quot; + effects[7] + Color.RESET +&quot;\n&quot;+
+<i>1754</i>&nbsp;                        &quot;              &quot;+Color.BORDER_YELLOW+&quot;???????????????????????????????????????????              &quot; + effects[8] + Color.RESET +&quot;\n&quot;+
+<i>1755</i>&nbsp;                        &quot;          4   &quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?&quot;+Color.RESET+&quot;   4          &quot; + effects[9] + Color.RESET +&quot;\n&quot;+
+<i>1756</i>&nbsp;                        &quot;              &quot;+Color.BORDER_YELLOW+&quot;???????????????????????????????????????????              &quot; + effects[10] + Color.RESET +&quot;\n&quot;+
+<i>1757</i>&nbsp;                        &quot;          5   &quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?&quot;+Color.RESET+&quot;   5          &quot; + effects[11] + Color.RESET +&quot;\n&quot;+
+<i>1758</i>&nbsp;                        &quot;              &quot;+Color.BORDER_YELLOW+&quot;???????????????????????????????????????????              &quot; + effects[12] + Color.RESET +&quot;\n&quot;+
+<i>1759</i>&nbsp;                        &quot;          6   &quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?%s&quot;+Color.BORDER_YELLOW+&quot;?&quot;+Color.RESET+&quot;   6          &quot; + effects[13] + Color.RESET +&quot;\n&quot;+
+<i>1760</i>&nbsp;                        &quot;              &quot;+Color.CORNER_WHITE+&quot;?&quot;+Color.BORDER_YELLOW+&quot;?????????????????????????????????????????&quot;+Color.CORNER_WHITE+&quot;?              &quot; + effects[14] + Color.RESET +&quot;\n&quot;+
+<i>1761</i>&nbsp;                        &quot;                 0     1     2     3     4     5     6                 &quot; +&quot;\n&quot;+
+<i>1762</i>&nbsp;                        &quot;                                 SOUTH                                 &quot;+&quot;\n&quot;,
+<i>1763</i>&nbsp;                printableBoard[0][0], printableBoard[0][1], printableBoard[0][2], printableBoard[0][3], printableBoard[0][4], printableBoard[0][5], printableBoard[0][6],
+<i>1764</i>&nbsp;                printableBoard[1][0], printableBoard[1][1], printableBoard[1][2], printableBoard[1][3], printableBoard[1][4], printableBoard[1][5], printableBoard[1][6],
+<i>1765</i>&nbsp;                printableBoard[2][0], printableBoard[2][1], printableBoard[2][2], printableBoard[2][3], printableBoard[2][4], printableBoard[2][5], printableBoard[2][6],
+<i>1766</i>&nbsp;                printableBoard[3][0], printableBoard[3][1], printableBoard[3][2], printableBoard[3][3], printableBoard[3][4], printableBoard[3][5], printableBoard[3][6],
+<i>1767</i>&nbsp;                printableBoard[4][0], printableBoard[4][1], printableBoard[4][2], printableBoard[4][3], printableBoard[4][4], printableBoard[4][5], printableBoard[4][6],
+<i>1768</i>&nbsp;                printableBoard[5][0], printableBoard[5][1], printableBoard[5][2], printableBoard[5][3], printableBoard[5][4], printableBoard[5][5], printableBoard[5][6],
+<i>1769</i>&nbsp;                printableBoard[6][0], printableBoard[6][1], printableBoard[6][2], printableBoard[6][3], printableBoard[6][4], printableBoard[6][5], printableBoard[6][6]
+<i>1770</i>&nbsp;        );
+<i>1771</i>&nbsp;    }
+<i>1772</i>&nbsp;
+<i>1773</i>&nbsp;    /**
+<i>1774</i>&nbsp;     * the method prints a 3*3 matrix that represents the possible choices both for building and moving the builders. The symbol &#39;X&#39; is used
+<i>1775</i>&nbsp;     * to represent a cell in which a builder cannot build or move into.
+<i>1776</i>&nbsp;     * @param matrixToShow is the reference to a matrix 3*3 such as possible moves or possible buildings
+<i>1777</i>&nbsp;     * @param type is a char that is used for understand if matrixToShow is used for representing possible moves or buildings
+<i>1778</i>&nbsp;     */
+<i>1779</i>&nbsp;    private void showPossibleMatrix(int[][] matrixToShow, char type, String[] actions){
+<b class="nc"><i>1780</i>&nbsp;        char[][] cell = new char[3][3];</b>
+<b class="nc"><i>1781</i>&nbsp;        if(type == &#39;b&#39;) {</b>
+<b class="nc"><i>1782</i>&nbsp;            for (int i = 0; i &lt; 3; i++)</b>
+<b class="nc"><i>1783</i>&nbsp;                for (int j = 0; j &lt; 3; j++)</b>
+<b class="nc"><i>1784</i>&nbsp;                    if (matrixToShow[i][j] == 0) cell[i][j] = &#39;0&#39;;</b>
+<b class="nc"><i>1785</i>&nbsp;                    else if (matrixToShow[i][j] == 1) cell[i][j] = &#39;1&#39;;</b>
+<b class="nc"><i>1786</i>&nbsp;                    else if (matrixToShow[i][j] == 2) cell[i][j] = &#39;2&#39;;</b>
+<b class="nc"><i>1787</i>&nbsp;                    else if (matrixToShow[i][j] == 3) cell[i][j] = &#39;3&#39;;</b>
+<b class="nc"><i>1788</i>&nbsp;                    else cell[i][j] = &#39;X&#39;;</b>
+<i>1789</i>&nbsp;        } else {
+<b class="nc"><i>1790</i>&nbsp;            int k = 1;</b>
+<b class="nc"><i>1791</i>&nbsp;            for(int i = 0; i &lt; 3; ++i)</b>
+<b class="nc"><i>1792</i>&nbsp;                for (int j = 0; j &lt; 3; ++j) {</b>
+<b class="nc"><i>1793</i>&nbsp;                    if (matrixToShow[i][j] &gt; 0 &amp;&amp; matrixToShow[i][j] &lt; 4) cell[i][j] = Character.forDigit(k, 10);</b>
+<b class="nc"><i>1794</i>&nbsp;                    else cell[i][j] = &#39; &#39;;</b>
+<b class="nc"><i>1795</i>&nbsp;                    if(i != 1 || j != 1) ++k;</b>
+<i>1796</i>&nbsp;                }
+<i>1797</i>&nbsp;        }
+<b class="nc"><i>1798</i>&nbsp;        System.out.printf(</b>
+<i>1799</i>&nbsp;                Color.RESET+&quot;                     NORTH                                 \n&quot; +
+<b class="nc"><i>1800</i>&nbsp;                        Color.RESET+&quot;                 0     1     2                 &quot;+Color.RESET+(actions[0] == null ? &quot; &quot; : actions[0])+&quot;\n&quot; +</b>
+<b class="nc"><i>1801</i>&nbsp;                        &quot;              &quot;+Color.CORNER_WHITE+&quot;?&quot;+Color.BORDER_YELLOW+&quot;?????????????????&quot;+Color.CORNER_WHITE+&quot;?              &quot;+ Color.RESET+ (actions[1] == null ? &quot; &quot; : actions[1]) + &quot;\n&quot;+Color.RESET+</b>
+<b class="nc"><i>1802</i>&nbsp;                        &quot;          0   &quot;+Color.BORDER_YELLOW+&quot;?  %c  &quot;+Color.BORDER_YELLOW+&quot;?  %c  &quot;+Color.BORDER_YELLOW+&quot;?  %c  &quot;+Color.BORDER_YELLOW+&quot;?&quot;+Color.RESET+&quot;   0          &quot; + (actions[2] == null ? &quot; &quot; : actions[2]) + Color.RESET +&quot;\n&quot;+</b>
+<b class="nc"><i>1803</i>&nbsp;                        &quot;              &quot;+Color.BORDER_YELLOW+&quot;???????????????????              &quot; + Color.RESET+(actions[3] == null ? &quot; &quot; : actions[3]) + Color.RESET +&quot;\n&quot;+</b>
+<b class="nc"><i>1804</i>&nbsp;                        &quot;   WEST   1   &quot;+Color.BORDER_YELLOW+&quot;?  %c  &quot;+Color.BORDER_YELLOW+&quot;?  %c  &quot;+Color.BORDER_YELLOW+&quot;?  %c  &quot;+Color.BORDER_YELLOW+&quot;?&quot;+Color.RESET+&quot;   1   EAST   &quot; + (actions[4] == null ? &quot; &quot; : actions[4]) + Color.RESET +&quot;\n&quot;+</b>
+<b class="nc"><i>1805</i>&nbsp;                        &quot;              &quot;+Color.BORDER_YELLOW+&quot;???????????????????              &quot; +Color.RESET+ (actions[5] == null ? &quot; &quot; : actions[5]) + Color.RESET +&quot;\n&quot;+</b>
+<b class="nc"><i>1806</i>&nbsp;                        &quot;          2   &quot;+Color.BORDER_YELLOW+&quot;?  %c  &quot;+Color.BORDER_YELLOW+&quot;?  %c  &quot;+Color.BORDER_YELLOW+&quot;?  %c  &quot;+Color.BORDER_YELLOW+&quot;?&quot;+Color.RESET+&quot;   2          &quot; + (actions[6] == null ? &quot; &quot; : actions[6]) + Color.RESET +&quot;\n&quot;+</b>
+<b class="nc"><i>1807</i>&nbsp;                        &quot;              &quot;+Color.CORNER_WHITE+&quot;?&quot;+Color.BORDER_YELLOW+&quot;?????????????????&quot;+Color.CORNER_WHITE+&quot;?              &quot; + Color.RESET+(actions[7] == null ? &quot; &quot; : actions[7]) + Color.RESET +&quot;\n&quot;+</b>
+<i>1808</i>&nbsp;                        &quot;                 0     1     2                 &quot; +&quot;\n&quot;+
+<i>1809</i>&nbsp;                        &quot;                     SOUTH                                 &quot;+&quot;\n&quot;,
+<b class="nc"><i>1810</i>&nbsp;                cell[0][0], cell[0][1], cell[0][2],</b>
+<b class="nc"><i>1811</i>&nbsp;                cell[1][0], cell[1][1], cell[1][2],</b>
+<b class="nc"><i>1812</i>&nbsp;                cell[2][0], cell[2][1], cell[2][2]</b>
+<i>1813</i>&nbsp;        );
+<i>1814</i>&nbsp;    }
+<i>1815</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-02 12:34</div>
+</div>
+</body>
+</html>

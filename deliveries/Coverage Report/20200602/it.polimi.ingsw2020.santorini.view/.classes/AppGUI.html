@@ -1,0 +1,1501 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: AppGUI</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw2020.santorini.view</a> ]
+</div>
+
+<h1>Coverage Summary for Class: AppGUI (it.polimi.ingsw2020.santorini.view)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AppGUI</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 71)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 756)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">AppGUI$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 72)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 758)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw2020.santorini.view;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw2020.santorini.model.Board;
+<i>4</i>&nbsp;import it.polimi.ingsw2020.santorini.model.Builder;
+<i>5</i>&nbsp;import it.polimi.ingsw2020.santorini.model.Cell;
+<i>6</i>&nbsp;import it.polimi.ingsw2020.santorini.model.Player;
+<i>7</i>&nbsp;import it.polimi.ingsw2020.santorini.network.client.Client;
+<i>8</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.*;
+<i>9</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.actions.*;
+<i>10</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.actions.AskMoveSelectionMessage;
+<i>11</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
+<i>12</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.godsParam.*;
+<i>13</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchSetupMessage;
+<i>14</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
+<i>15</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.NewMatchMessage;
+<i>16</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.UpdateMessage;
+<i>17</i>&nbsp;import it.polimi.ingsw2020.santorini.view.gui.*;
+<i>18</i>&nbsp;import javafx.application.Application;
+<i>19</i>&nbsp;import javafx.application.Platform;
+<i>20</i>&nbsp;import javafx.event.Event;
+<i>21</i>&nbsp;import javafx.fxml.FXMLLoader;
+<i>22</i>&nbsp;import javafx.scene.Parent;
+<i>23</i>&nbsp;import javafx.scene.Scene;
+<i>24</i>&nbsp;import javafx.scene.control.Label;
+<i>25</i>&nbsp;import javafx.stage.Modality;
+<i>26</i>&nbsp;import javafx.stage.Stage;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;import java.io.IOException;
+<i>29</i>&nbsp;import java.util.ArrayList;
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;import static it.polimi.ingsw2020.santorini.utils.PhaseType.*;
+<i>32</i>&nbsp;
+<b class="nc"><i>33</i>&nbsp;public class AppGUI extends Application implements ViewInterface{</b>
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    // TODO: settare le finestre non ridimensionabili
+<i>36</i>&nbsp;    private Client client;
+<i>37</i>&nbsp;    private Stage primaryStage;
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    private RegisterController registerController;
+<i>40</i>&nbsp;    private InfoMatchController infoMatchController;
+<i>41</i>&nbsp;    private SelectionBuilderController selectionBuilderController;
+<i>42</i>&nbsp;    private SelectGodController selectGodController;
+<i>43</i>&nbsp;    private GodSelectionController godSelectionController;
+<i>44</i>&nbsp;    private UpdateMatchController updateMatchController;
+<i>45</i>&nbsp;    private ActivationPowerController activationPowerController;
+<i>46</i>&nbsp;    private ChooseBuilderController chooseBuilderController;
+<i>47</i>&nbsp;    private PossibleMovesController possibleMovesController;
+<i>48</i>&nbsp;    private PossibleBuildingsController possibleBuildingsController;
+<i>49</i>&nbsp;    private EndMatchController endMatchController;
+<i>50</i>&nbsp;    private NewMatchController newMatchController;
+<i>51</i>&nbsp;    private AskNewMatchController askNewMatchController;
+<i>52</i>&nbsp;    private ApolloController apolloController;
+<i>53</i>&nbsp;    private AresController aresController;
+<i>54</i>&nbsp;    private ArtemisController artemisController;
+<i>55</i>&nbsp;    private AtlasController atlasController;
+<i>56</i>&nbsp;    private DemeterController demeterController;
+<i>57</i>&nbsp;    private HestiaController hestiaController;
+<i>58</i>&nbsp;    private MinotaurController minotaurController;
+<i>59</i>&nbsp;    private PoseidonController poseidonController;
+<i>60</i>&nbsp;    private PrometheusController prometheusController;
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    private ArrayList&lt;Player&gt; players;
+<b class="nc"><i>63</i>&nbsp;    private boolean infoMatchDisplay = true;</b>
+<i>64</i>&nbsp;
+<b class="nc"><i>65</i>&nbsp;    private static ApolloParamMessage apolloParamMessage = new ApolloParamMessage();</b>
+<b class="nc"><i>66</i>&nbsp;    private static AresParamMessage aresParamMessage = new AresParamMessage();</b>
+<b class="nc"><i>67</i>&nbsp;    private static ArtemisParamMessage artemisParamMessage = new ArtemisParamMessage();</b>
+<b class="nc"><i>68</i>&nbsp;    private static AtlasParamMessage atlasParamMessage = new AtlasParamMessage();</b>
+<b class="nc"><i>69</i>&nbsp;    private static DemeterParamMessage demeterParamMessage = new DemeterParamMessage();</b>
+<b class="nc"><i>70</i>&nbsp;    private static HestiaParamMessage hestiaParamMessage = new HestiaParamMessage();</b>
+<b class="nc"><i>71</i>&nbsp;    private static MinotaurParamMessage minotaurParamMessage = new MinotaurParamMessage();</b>
+<b class="nc"><i>72</i>&nbsp;    private static PoseidonParamMessage poseidonParamMessage = new PoseidonParamMessage();</b>
+<b class="nc"><i>73</i>&nbsp;    private static PrometheusParamMessage prometheusParamMessage = new PrometheusParamMessage();</b>
+<i>74</i>&nbsp;    private static String wantNewMatch;
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;    public static ApolloParamMessage getApolloParamMessage() {
+<b class="nc"><i>77</i>&nbsp;        return apolloParamMessage;</b>
+<i>78</i>&nbsp;    }
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    public static AresParamMessage getAresParamMessage() {
+<b class="nc"><i>81</i>&nbsp;        return aresParamMessage;</b>
+<i>82</i>&nbsp;    }
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;    public static ArtemisParamMessage getArtemisParamMessage() {
+<b class="nc"><i>85</i>&nbsp;        return artemisParamMessage;</b>
+<i>86</i>&nbsp;    }
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    public static AtlasParamMessage getAtlasParamMessage() {
+<b class="nc"><i>89</i>&nbsp;        return atlasParamMessage;</b>
+<i>90</i>&nbsp;    }
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;    public static DemeterParamMessage getDemeterParamMessage() {
+<b class="nc"><i>93</i>&nbsp;        return demeterParamMessage;</b>
+<i>94</i>&nbsp;    }
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    public static HestiaParamMessage getHestiaParamMessage() {
+<b class="nc"><i>97</i>&nbsp;        return hestiaParamMessage;</b>
+<i>98</i>&nbsp;    }
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;    public static MinotaurParamMessage getMinotaurParamMessage() {
+<b class="nc"><i>101</i>&nbsp;        return minotaurParamMessage;</b>
+<i>102</i>&nbsp;    }
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;    public static PoseidonParamMessage getPoseidonParamMessage() {
+<b class="nc"><i>105</i>&nbsp;        return poseidonParamMessage;</b>
+<i>106</i>&nbsp;    }
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;    public static PrometheusParamMessage getPrometheusParamMessage() {
+<b class="nc"><i>109</i>&nbsp;        return prometheusParamMessage;</b>
+<i>110</i>&nbsp;    }
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;    public static void setWantNewMatch(String wantNewMatch) {
+<b class="nc"><i>113</i>&nbsp;        AppGUI.wantNewMatch = wantNewMatch;</b>
+<i>114</i>&nbsp;    }
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;    public Client getClient() {
+<b class="nc"><i>117</i>&nbsp;        return client;</b>
+<i>118</i>&nbsp;    }
+<i>119</i>&nbsp;    public void setClient(Client client) {
+<b class="nc"><i>120</i>&nbsp;        this.client = client;</b>
+<i>121</i>&nbsp;    }
+<i>122</i>&nbsp;
+<i>123</i>&nbsp;    private void closeSantorini(){
+<b class="nc"><i>124</i>&nbsp;        primaryStage.close();</b>
+<b class="nc"><i>125</i>&nbsp;        System.exit(1);</b>
+<i>126</i>&nbsp;    }
+<i>127</i>&nbsp;
+<i>128</i>&nbsp;    @Override
+<i>129</i>&nbsp;    public void start(Stage primaryStage) throws Exception {
+<b class="nc"><i>130</i>&nbsp;        this.primaryStage = primaryStage;</b>
+<b class="nc"><i>131</i>&nbsp;        client = new Client();</b>
+<b class="nc"><i>132</i>&nbsp;        client.setView(this);</b>
+<b class="nc"><i>133</i>&nbsp;        displaySetupWindow(true);</b>
+<i>134</i>&nbsp;    }
+<i>135</i>&nbsp;
+<i>136</i>&nbsp;    /**
+<i>137</i>&nbsp;     * method in which it&#39;s asked to the client to insert server&#39;s IP, and after that the username, birth date and type of match(number of players)
+<i>138</i>&nbsp;     * metodo in cui si chiede l&#39;iP del server, dopodichè di fanno inserire username, data di nascita e tipo di partita (numero di giocatori nella partita)
+<i>139</i>&nbsp;     * @param firstTime is true if it is the first time we call the method
+<i>140</i>&nbsp;     *                  is false if the username is unavailable, and ask the client a new username
+<i>141</i>&nbsp;     */
+<i>142</i>&nbsp;    @Override
+<i>143</i>&nbsp;    public void displaySetupWindow(boolean firstTime) {
+<b class="nc"><i>144</i>&nbsp;        if(firstTime){</b>
+<b class="nc"><i>145</i>&nbsp;            Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>146</i>&nbsp;                primaryStage.setOnCloseRequest(e -&gt; closeSantorini());</b>
+<b class="nc"><i>147</i>&nbsp;                FXMLLoader fxmlLoader = new FXMLLoader();</b>
+<i>148</i>&nbsp;                Parent root;
+<i>149</i>&nbsp;                Scene registerScene;
+<b class="nc"><i>150</i>&nbsp;                fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/Register.fxml&quot;));</b>
+<i>151</i>&nbsp;                try {
+<b class="nc"><i>152</i>&nbsp;                    root = fxmlLoader.load();</b>
+<b class="nc"><i>153</i>&nbsp;                    registerScene = new Scene(root);</b>
+<b class="nc"><i>154</i>&nbsp;                } catch (IOException e) {</b>
+<b class="nc"><i>155</i>&nbsp;                    root = null;</b>
+<b class="nc"><i>156</i>&nbsp;                    registerScene = new Scene(new Label(&quot;Graphical Resources not found. Fatal Error&quot;));</b>
+<b class="nc"><i>157</i>&nbsp;                }</b>
+<b class="nc"><i>158</i>&nbsp;                registerController = fxmlLoader.getController();</b>
+<b class="nc"><i>159</i>&nbsp;                registerController.setClient(client);</b>
+<b class="nc"><i>160</i>&nbsp;                primaryStage.setTitle(&quot;Santorini&quot;);</b>
+<b class="nc"><i>161</i>&nbsp;                primaryStage.setScene(registerScene);</b>
+<b class="nc"><i>162</i>&nbsp;                primaryStage.show();</b>
+<i>163</i>&nbsp;            });
+<i>164</i>&nbsp;        } else {
+<b class="nc"><i>165</i>&nbsp;            Platform.runLater(()-&gt; {</b>
+<b class="nc"><i>166</i>&nbsp;                FXMLLoader fxmlLoader = new FXMLLoader();</b>
+<i>167</i>&nbsp;                NewUsernameController newUsernameController;
+<i>168</i>&nbsp;                Parent root;
+<i>169</i>&nbsp;                Scene newUsername;
+<b class="nc"><i>170</i>&nbsp;                fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/NewUsername.fxml&quot;));</b>
+<i>171</i>&nbsp;                try {
+<b class="nc"><i>172</i>&nbsp;                    root = fxmlLoader.load();</b>
+<b class="nc"><i>173</i>&nbsp;                    newUsername = new Scene(root);</b>
+<b class="nc"><i>174</i>&nbsp;                } catch (IOException e) {</b>
+<b class="nc"><i>175</i>&nbsp;                    root = null;</b>
+<b class="nc"><i>176</i>&nbsp;                    newUsername = new Scene(new Label(&quot;Graphical Resources not found. Fatal Error&quot;));</b>
+<b class="nc"><i>177</i>&nbsp;                }</b>
+<b class="nc"><i>178</i>&nbsp;                newUsernameController = fxmlLoader.getController();</b>
+<b class="nc"><i>179</i>&nbsp;                newUsernameController.setClient(client);</b>
+<b class="nc"><i>180</i>&nbsp;                primaryStage.setTitle(&quot;New Username&quot;);</b>
+<b class="nc"><i>181</i>&nbsp;                primaryStage.setScene(newUsername);</b>
+<b class="nc"><i>182</i>&nbsp;                primaryStage.show();</b>
+<i>183</i>&nbsp;            });
+<i>184</i>&nbsp;        }
+<i>185</i>&nbsp;    }
+<i>186</i>&nbsp;
+<i>187</i>&nbsp;    /**
+<i>188</i>&nbsp;     * method that display a Loading window to the client while the server waits other clients to join
+<i>189</i>&nbsp;     * metodo per intrattenere l&#39;utente mentre aspettiamo altri utenti che vogliono giocare
+<i>190</i>&nbsp;     */
+<i>191</i>&nbsp;    @Override
+<i>192</i>&nbsp;    public void displayLoadingWindow(String message) {
+<b class="nc"><i>193</i>&nbsp;        Platform.runLater(()-&gt; {</b>
+<i>194</i>&nbsp;            Parent root;
+<i>195</i>&nbsp;            Scene loadingScene;
+<b class="nc"><i>196</i>&nbsp;            FXMLLoader fxmlLoader = new FXMLLoader();</b>
+<b class="nc"><i>197</i>&nbsp;            fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/loadingWindow.fxml&quot;));</b>
+<i>198</i>&nbsp;            try {
+<b class="nc"><i>199</i>&nbsp;                root = fxmlLoader.load();</b>
+<b class="nc"><i>200</i>&nbsp;                loadingScene = new Scene(root);</b>
+<b class="nc"><i>201</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>202</i>&nbsp;                root = null;</b>
+<b class="nc"><i>203</i>&nbsp;                loadingScene = new Scene(new Label(&quot;Graphical Resources not found. Fatal Error&quot;));</b>
+<b class="nc"><i>204</i>&nbsp;            }</b>
+<b class="nc"><i>205</i>&nbsp;            primaryStage.setScene(loadingScene);</b>
+<b class="nc"><i>206</i>&nbsp;            primaryStage.show();</b>
+<i>207</i>&nbsp;        });
+<i>208</i>&nbsp;    }
+<i>209</i>&nbsp;
+<i>210</i>&nbsp;    /**
+<i>211</i>&nbsp;     * method that gives the welcome to the clients and distributes color of the builders and Gods&#39;cards
+<i>212</i>&nbsp;     * metodo in cui si da il welcome alla partita, vengono assegnate le carte e i colori.
+<i>213</i>&nbsp;     * viene visualizzata una board semplificata per facilitare il posizionamento delle pedine
+<i>214</i>&nbsp;     */
+<i>215</i>&nbsp;    @Override
+<i>216</i>&nbsp;    public void displayMatchSetupWindow(MatchSetupMessage matchSetupMessage) {
+<b class="nc"><i>217</i>&nbsp;        Platform.runLater(()-&gt; {</b>
+<b class="nc"><i>218</i>&nbsp;            if(matchSetupMessage.getPlayers().get(matchSetupMessage.getCurrentPlayerIndex()).getNickname().equals(client.getUsername())) {</b>
+<b class="nc"><i>219</i>&nbsp;                FXMLLoader fxmlLoader = new FXMLLoader();</b>
+<i>220</i>&nbsp;                Parent root;
+<i>221</i>&nbsp;                Scene setUpScene;
+<b class="nc"><i>222</i>&nbsp;                fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/GodSelectionWindow.fxml&quot;));</b>
+<i>223</i>&nbsp;                try {
+<b class="nc"><i>224</i>&nbsp;                    root = fxmlLoader.load();</b>
+<b class="nc"><i>225</i>&nbsp;                    setUpScene = new Scene(root);</b>
+<b class="nc"><i>226</i>&nbsp;                } catch (IOException e) {</b>
+<b class="nc"><i>227</i>&nbsp;                    root = null;</b>
+<b class="nc"><i>228</i>&nbsp;                    setUpScene = new Scene(new Label(&quot;Graphical Resources not found. Fatal Error&quot;));</b>
+<b class="nc"><i>229</i>&nbsp;                    e.printStackTrace();</b>
+<b class="nc"><i>230</i>&nbsp;                }</b>
+<i>231</i>&nbsp;
+<b class="nc"><i>232</i>&nbsp;                godSelectionController = fxmlLoader.getController();</b>
+<b class="nc"><i>233</i>&nbsp;                godSelectionController.setClient(client);</b>
+<b class="nc"><i>234</i>&nbsp;                godSelectionController.setMatchSetupMessage(matchSetupMessage);</b>
+<b class="nc"><i>235</i>&nbsp;                primaryStage.setScene(setUpScene);</b>
+<b class="nc"><i>236</i>&nbsp;                primaryStage.show();</b>
+<b class="nc"><i>237</i>&nbsp;            } else {</b>
+<b class="nc"><i>238</i>&nbsp;                FXMLLoader fxmlLoader = new FXMLLoader();</b>
+<i>239</i>&nbsp;                Parent root;
+<i>240</i>&nbsp;                Scene setUpScene;
+<b class="nc"><i>241</i>&nbsp;                fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/selectingGod.fxml&quot;));</b>
+<i>242</i>&nbsp;                try {
+<b class="nc"><i>243</i>&nbsp;                    root = fxmlLoader.load();</b>
+<b class="nc"><i>244</i>&nbsp;                    setUpScene = new Scene(root);</b>
+<b class="nc"><i>245</i>&nbsp;                } catch (IOException e) {</b>
+<b class="nc"><i>246</i>&nbsp;                    root = null;</b>
+<b class="nc"><i>247</i>&nbsp;                    setUpScene = new Scene(new Label(&quot;Graphical Resources not found. Fatal Error&quot;));</b>
+<b class="nc"><i>248</i>&nbsp;                    e.printStackTrace();</b>
+<b class="nc"><i>249</i>&nbsp;                }</b>
+<b class="nc"><i>250</i>&nbsp;                primaryStage.setScene(setUpScene);</b>
+<b class="nc"><i>251</i>&nbsp;                primaryStage.show();</b>
+<b class="nc"><i>252</i>&nbsp;                Message message = new Message(client.getUsername());</b>
+<b class="nc"><i>253</i>&nbsp;                message.buildSynchronizationMessage(SecondHeaderType.BEGIN_MATCH, null);</b>
+<b class="nc"><i>254</i>&nbsp;                client.getNetworkHandler().send(message);</b>
+<i>255</i>&nbsp;            }
+<i>256</i>&nbsp;
+<i>257</i>&nbsp;
+<i>258</i>&nbsp;        });
+<i>259</i>&nbsp;
+<i>260</i>&nbsp;    }
+<i>261</i>&nbsp;
+<i>262</i>&nbsp;    /**
+<i>263</i>&nbsp;     * method that asks to the current player to choose which want he wants to his side
+<i>264</i>&nbsp;     * @param matchSetupMessage contains all the information needed to perform this choice
+<i>265</i>&nbsp;     */
+<i>266</i>&nbsp;    @Override
+<i>267</i>&nbsp;    public void displayGodSelectionWindow(MatchSetupMessage matchSetupMessage) {
+<b class="nc"><i>268</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>269</i>&nbsp;            if(matchSetupMessage.getPlayers().get(matchSetupMessage.getCurrentPlayerIndex()).getNickname().equals(client.getUsername())) {</b>
+<b class="nc"><i>270</i>&nbsp;                FXMLLoader fxmlLoader = new FXMLLoader();</b>
+<i>271</i>&nbsp;                Parent root;
+<i>272</i>&nbsp;                Scene scene;
+<b class="nc"><i>273</i>&nbsp;                switch (matchSetupMessage.getSelectedGods().size()) {</b>
+<i>274</i>&nbsp;                    case (2):
+<b class="nc"><i>275</i>&nbsp;                        fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/selectGod.fxml&quot;));</b>
+<b class="nc"><i>276</i>&nbsp;                        break;</b>
+<i>277</i>&nbsp;                    case (3):
+<b class="nc"><i>278</i>&nbsp;                        fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/selectGod3.fxml&quot;));</b>
+<i>279</i>&nbsp;                        break;
+<i>280</i>&nbsp;                }
+<i>281</i>&nbsp;                try {
+<b class="nc"><i>282</i>&nbsp;                    root = fxmlLoader.load();</b>
+<b class="nc"><i>283</i>&nbsp;                    scene = new Scene(root);</b>
+<b class="nc"><i>284</i>&nbsp;                } catch (IOException e) {</b>
+<b class="nc"><i>285</i>&nbsp;                    root = null;</b>
+<b class="nc"><i>286</i>&nbsp;                    scene = new Scene(new Label(&quot;Graphical Resources not found. Fatal Error&quot;));</b>
+<b class="nc"><i>287</i>&nbsp;                    e.printStackTrace();</b>
+<b class="nc"><i>288</i>&nbsp;                }</b>
+<i>289</i>&nbsp;
+<b class="nc"><i>290</i>&nbsp;                selectGodController = fxmlLoader.getController();</b>
+<b class="nc"><i>291</i>&nbsp;                selectGodController.setClient(client);</b>
+<b class="nc"><i>292</i>&nbsp;                selectGodController.initializeGods(matchSetupMessage.getSelectedGods());</b>
+<b class="nc"><i>293</i>&nbsp;                selectGodController.setMatchSetupMessage(matchSetupMessage);</b>
+<b class="nc"><i>294</i>&nbsp;                primaryStage.setScene(scene);</b>
+<b class="nc"><i>295</i>&nbsp;                primaryStage.show();</b>
+<b class="nc"><i>296</i>&nbsp;            }else{</b>
+<b class="nc"><i>297</i>&nbsp;                FXMLLoader fxmlLoader = new FXMLLoader();</b>
+<i>298</i>&nbsp;                Parent root;
+<i>299</i>&nbsp;                Scene setUpScene;
+<b class="nc"><i>300</i>&nbsp;                fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/selectionGod.fxml&quot;));</b>
+<i>301</i>&nbsp;                try {
+<b class="nc"><i>302</i>&nbsp;                    root = fxmlLoader.load();</b>
+<b class="nc"><i>303</i>&nbsp;                    setUpScene = new Scene(root);</b>
+<b class="nc"><i>304</i>&nbsp;                } catch (IOException e) {</b>
+<b class="nc"><i>305</i>&nbsp;                    root = null;</b>
+<b class="nc"><i>306</i>&nbsp;                    setUpScene = new Scene(new Label(&quot;Graphical Resources not found. Fatal Error&quot;));</b>
+<b class="nc"><i>307</i>&nbsp;                    e.printStackTrace();</b>
+<b class="nc"><i>308</i>&nbsp;                }</b>
+<b class="nc"><i>309</i>&nbsp;                primaryStage.setScene(setUpScene);</b>
+<b class="nc"><i>310</i>&nbsp;                primaryStage.show();</b>
+<i>311</i>&nbsp;            }
+<i>312</i>&nbsp;        });
+<i>313</i>&nbsp;    }
+<i>314</i>&nbsp;
+<i>315</i>&nbsp;    /**
+<i>316</i>&nbsp;     * the method aks to the current player to choose where he wants to place the builders in the board. This method will be called only
+<i>317</i>&nbsp;     * in the setup phase
+<i>318</i>&nbsp;     * metodo addetto alla selezione dei builder secondo l&#39;ordine definito dal controller
+<i>319</i>&nbsp;     * @param turnPlayerMessage contains all the references to the current player, the match and the board
+<i>320</i>&nbsp;     */
+<i>321</i>&nbsp;    @Override
+<i>322</i>&nbsp;    public void displaySelectionBuilderWindow(MatchStateMessage turnPlayerMessage) {
+<b class="nc"><i>323</i>&nbsp;        players = turnPlayerMessage.getPlayers();</b>
+<b class="nc"><i>324</i>&nbsp;        if(infoMatchDisplay) {</b>
+<b class="nc"><i>325</i>&nbsp;            Platform.runLater(() -&gt; {</b>
+<i>326</i>&nbsp;                Parent children;
+<i>327</i>&nbsp;                Scene scene;
+<b class="nc"><i>328</i>&nbsp;                FXMLLoader fxmlLoader = new FXMLLoader();</b>
+<b class="nc"><i>329</i>&nbsp;                switch (players.size()) {</b>
+<i>330</i>&nbsp;                    case (2):
+<b class="nc"><i>331</i>&nbsp;                        fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/InfoMatch.fxml&quot;));</b>
+<b class="nc"><i>332</i>&nbsp;                        break;</b>
+<i>333</i>&nbsp;                    case (3):
+<b class="nc"><i>334</i>&nbsp;                        fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/InfoMatch3.fxml&quot;));</b>
+<i>335</i>&nbsp;                        break;
+<i>336</i>&nbsp;                }
+<i>337</i>&nbsp;                try {
+<b class="nc"><i>338</i>&nbsp;                    children = fxmlLoader.load();</b>
+<b class="nc"><i>339</i>&nbsp;                    scene = new Scene(children);</b>
+<b class="nc"><i>340</i>&nbsp;                } catch (IOException e) {</b>
+<b class="nc"><i>341</i>&nbsp;                    children = null;</b>
+<b class="nc"><i>342</i>&nbsp;                    scene = new Scene(new Label(&quot;Graphical Resources not found. Fatal Error&quot;));</b>
+<b class="nc"><i>343</i>&nbsp;                }</b>
+<b class="nc"><i>344</i>&nbsp;                infoMatchController = fxmlLoader.getController();</b>
+<b class="nc"><i>345</i>&nbsp;                infoMatchController.setClient(client);</b>
+<b class="nc"><i>346</i>&nbsp;                infoMatchController.initializePlayers(players);</b>
+<b class="nc"><i>347</i>&nbsp;                primaryStage.setScene(scene);</b>
+<b class="nc"><i>348</i>&nbsp;                primaryStage.show();</b>
+<i>349</i>&nbsp;            });
+<i>350</i>&nbsp;            try {
+<b class="nc"><i>351</i>&nbsp;                Thread.sleep(5000);</b>
+<b class="nc"><i>352</i>&nbsp;            } catch (InterruptedException ignored) {}</b>
+<i>353</i>&nbsp;        }
+<b class="nc"><i>354</i>&nbsp;        infoMatchDisplay = false;</b>
+<b class="nc"><i>355</i>&nbsp;        Platform.runLater(()-&gt; {</b>
+<i>356</i>&nbsp;            Parent children;
+<i>357</i>&nbsp;            Scene scene;
+<b class="nc"><i>358</i>&nbsp;            FXMLLoader loader = new FXMLLoader();</b>
+<b class="nc"><i>359</i>&nbsp;            switch (players.size()) {</b>
+<i>360</i>&nbsp;                case (2):
+<b class="nc"><i>361</i>&nbsp;                    loader.setLocation(getClass().getResource(&quot;/FXML/board.fxml&quot;));</b>
+<b class="nc"><i>362</i>&nbsp;                    break;</b>
+<i>363</i>&nbsp;                case (3):
+<b class="nc"><i>364</i>&nbsp;                    loader.setLocation(getClass().getResource(&quot;/FXML/board_3.fxml&quot;));</b>
+<i>365</i>&nbsp;                    break;
+<i>366</i>&nbsp;            }
+<i>367</i>&nbsp;            try {
+<b class="nc"><i>368</i>&nbsp;                children = loader.load();</b>
+<b class="nc"><i>369</i>&nbsp;                scene = new Scene(children);</b>
+<b class="nc"><i>370</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>371</i>&nbsp;                children = null;</b>
+<b class="nc"><i>372</i>&nbsp;                scene = new Scene(new Label(&quot;ERROR &quot;));</b>
+<b class="nc"><i>373</i>&nbsp;            }</b>
+<b class="nc"><i>374</i>&nbsp;            selectionBuilderController = loader.getController();</b>
+<b class="nc"><i>375</i>&nbsp;            selectionBuilderController.setClient(client);</b>
+<b class="nc"><i>376</i>&nbsp;            selectionBuilderController.setMatchStateMessage(turnPlayerMessage);</b>
+<b class="nc"><i>377</i>&nbsp;            selectionBuilderController.initializePlayers(players);</b>
+<b class="nc"><i>378</i>&nbsp;            selectionBuilderController.initializeBoard(turnPlayerMessage.getBoard());</b>
+<b class="nc"><i>379</i>&nbsp;            selectionBuilderController.setText();</b>
+<b class="nc"><i>380</i>&nbsp;            primaryStage.setScene(scene);</b>
+<b class="nc"><i>381</i>&nbsp;            primaryStage.show();</b>
+<i>382</i>&nbsp;        });
+<i>383</i>&nbsp;    }
+<i>384</i>&nbsp;
+<i>385</i>&nbsp;    /**
+<i>386</i>&nbsp;     * the method will be called only if a player will insert wrong parameters in displaySelectionBuilderWindow, and will ask to the player
+<i>387</i>&nbsp;     * to insert them again.
+<i>388</i>&nbsp;     * @param message contains the username of the player that has made the mistake and also a boolean that indicates which builder has the
+<i>389</i>&nbsp;     * wrong coordinates
+<i>390</i>&nbsp;     */
+<i>391</i>&nbsp;    @Override
+<i>392</i>&nbsp;    public void displayNewSelectionBuilderWindow(IllegalPositionMessage message) {}
+<i>393</i>&nbsp;
+<i>394</i>&nbsp;    /**
+<i>395</i>&nbsp;     * method that update the board every time that the model is modified, it does that by calling other methods
+<i>396</i>&nbsp;     * metodo che aggiorna la board ogni volta che viene fatta una mossa (modificato il model)
+<i>397</i>&nbsp;     * parametro un messaggio con scritte le informazioni sulla board.
+<i>398</i>&nbsp;     */
+<i>399</i>&nbsp;    @Override
+<i>400</i>&nbsp;    public void updateMatch(UpdateMessage updateMessage) {
+<b class="nc"><i>401</i>&nbsp;        switch(updateMessage.getPhase()) {</b>
+<i>402</i>&nbsp;            case START_TURN:
+<b class="nc"><i>403</i>&nbsp;                displayStartTurn(updateMessage);</b>
+<b class="nc"><i>404</i>&nbsp;                break;</b>
+<i>405</i>&nbsp;            case STANDBY_PHASE_1:
+<b class="nc"><i>406</i>&nbsp;                displaySP(updateMessage, PhaseType.STANDBY_PHASE_1);</b>
+<b class="nc"><i>407</i>&nbsp;                break;</b>
+<i>408</i>&nbsp;            case MOVE_PHASE:
+<b class="nc"><i>409</i>&nbsp;                displayMoveUpdate(updateMessage);</b>
+<b class="nc"><i>410</i>&nbsp;                break;</b>
+<i>411</i>&nbsp;            case STANDBY_PHASE_2:
+<b class="nc"><i>412</i>&nbsp;                displaySP(updateMessage, PhaseType.STANDBY_PHASE_2);</b>
+<b class="nc"><i>413</i>&nbsp;                break;</b>
+<i>414</i>&nbsp;            case BUILD_PHASE:
+<b class="nc"><i>415</i>&nbsp;                displayBuildUpdate(updateMessage);</b>
+<b class="nc"><i>416</i>&nbsp;                break;</b>
+<i>417</i>&nbsp;            case STANDBY_PHASE_3:
+<b class="nc"><i>418</i>&nbsp;                displaySP(updateMessage, STANDBY_PHASE_3);</b>
+<b class="nc"><i>419</i>&nbsp;                break;</b>
+<i>420</i>&nbsp;            case END_TURN:
+<b class="nc"><i>421</i>&nbsp;                displayEndTurn(updateMessage);</b>
+<b class="nc"><i>422</i>&nbsp;                break;</b>
+<i>423</i>&nbsp;            default:
+<i>424</i>&nbsp;                break;
+<i>425</i>&nbsp;        }
+<i>426</i>&nbsp;    }
+<i>427</i>&nbsp;
+<i>428</i>&nbsp;    /**
+<i>429</i>&nbsp;     * method that shows board, builders, the textual interface and the first player to play
+<i>430</i>&nbsp;     * far visualizzare la board con le pedine e tutta l&#39;interfaccia testuale e il primo giocatore che gioca
+<i>431</i>&nbsp;     */
+<i>432</i>&nbsp;    @Override
+<i>433</i>&nbsp;    public void displayStartTurn(UpdateMessage message) {
+<b class="nc"><i>434</i>&nbsp;        Platform.runLater(()-&gt;{</b>
+<i>435</i>&nbsp;            Parent children;
+<i>436</i>&nbsp;            Scene scene;
+<b class="nc"><i>437</i>&nbsp;            FXMLLoader fxmlLoader = new FXMLLoader();</b>
+<i>438</i>&nbsp;
+<b class="nc"><i>439</i>&nbsp;            switch (players.size()) {</b>
+<i>440</i>&nbsp;                case (2):
+<b class="nc"><i>441</i>&nbsp;                    fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/updateBoard.fxml&quot;));</b>
+<b class="nc"><i>442</i>&nbsp;                    break;</b>
+<i>443</i>&nbsp;                case (3):
+<b class="nc"><i>444</i>&nbsp;                    fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/updateBoard_3.fxml&quot;));</b>
+<i>445</i>&nbsp;                    break;
+<i>446</i>&nbsp;            }
+<i>447</i>&nbsp;            try {
+<b class="nc"><i>448</i>&nbsp;                children = fxmlLoader.load();</b>
+<b class="nc"><i>449</i>&nbsp;                scene = new Scene(children);</b>
+<b class="nc"><i>450</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>451</i>&nbsp;                children = null;</b>
+<b class="nc"><i>452</i>&nbsp;                scene = new Scene(new Label(&quot;ERROR &quot;));</b>
+<b class="nc"><i>453</i>&nbsp;            }</b>
+<b class="nc"><i>454</i>&nbsp;            updateMatchController = fxmlLoader.getController();</b>
+<b class="nc"><i>455</i>&nbsp;            updateMatchController.setClient(client);</b>
+<b class="nc"><i>456</i>&nbsp;            updateMatchController.setUpdateMessage(message);</b>
+<b class="nc"><i>457</i>&nbsp;            updateMatchController.initializePlayers(players);</b>
+<b class="nc"><i>458</i>&nbsp;            updateMatchController.initializeBoard(message.getCells());</b>
+<b class="nc"><i>459</i>&nbsp;            updateMatchController.setText();</b>
+<b class="nc"><i>460</i>&nbsp;            primaryStage.setTitle(&quot;START TURN&quot;);</b>
+<b class="nc"><i>461</i>&nbsp;            primaryStage.setScene(scene);</b>
+<b class="nc"><i>462</i>&nbsp;            primaryStage.show();</b>
+<i>463</i>&nbsp;            try {
+<b class="nc"><i>464</i>&nbsp;                Thread.sleep(1500);</b>
+<b class="nc"><i>465</i>&nbsp;            } catch (InterruptedException ignored) {}</b>
+<i>466</i>&nbsp;        });
+<i>467</i>&nbsp;    }
+<i>468</i>&nbsp;
+<i>469</i>&nbsp;    /**
+<i>470</i>&nbsp;     * the method asks to the player if he wants to activate his god&#39;s power
+<i>471</i>&nbsp;     * @param question is a message that contains the name of the player (that will receive the question) and the name of the god
+<i>472</i>&nbsp;     */
+<i>473</i>&nbsp;    @Override
+<i>474</i>&nbsp;    public void displayWouldActivate(MatchStateMessage question) {
+<b class="nc"><i>475</i>&nbsp;        Platform.runLater(()-&gt;{</b>
+<i>476</i>&nbsp;
+<b class="nc"><i>477</i>&nbsp;            Stage powerStage = new Stage();</b>
+<b class="nc"><i>478</i>&nbsp;            powerStage.setOnCloseRequest(Event::consume);</b>
+<b class="nc"><i>479</i>&nbsp;            powerStage.initModality(Modality.APPLICATION_MODAL);</b>
+<i>480</i>&nbsp;            Parent children;
+<i>481</i>&nbsp;            Scene scene;
+<i>482</i>&nbsp;
+<b class="nc"><i>483</i>&nbsp;            FXMLLoader fxmlLoader = new FXMLLoader();</b>
+<b class="nc"><i>484</i>&nbsp;            fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/activationPower.fxml&quot;));</b>
+<i>485</i>&nbsp;
+<i>486</i>&nbsp;            try {
+<b class="nc"><i>487</i>&nbsp;                children = fxmlLoader.load();</b>
+<b class="nc"><i>488</i>&nbsp;                scene = new Scene(children);</b>
+<b class="nc"><i>489</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>490</i>&nbsp;                children = null;</b>
+<b class="nc"><i>491</i>&nbsp;                scene = new Scene(new Label (&quot;ERROR &quot;));</b>
+<b class="nc"><i>492</i>&nbsp;            }</b>
+<b class="nc"><i>493</i>&nbsp;            activationPowerController = fxmlLoader.getController();</b>
+<b class="nc"><i>494</i>&nbsp;            activationPowerController.setMatchStateMessage(question);</b>
+<b class="nc"><i>495</i>&nbsp;            activationPowerController.setClient(client);</b>
+<b class="nc"><i>496</i>&nbsp;            activationPowerController.initializeText();</b>
+<b class="nc"><i>497</i>&nbsp;            activationPowerController.setStage(powerStage);</b>
+<b class="nc"><i>498</i>&nbsp;            powerStage.setScene(scene);</b>
+<b class="nc"><i>499</i>&nbsp;            powerStage.show();</b>
+<i>500</i>&nbsp;        });
+<i>501</i>&nbsp;    }
+<i>502</i>&nbsp;
+<i>503</i>&nbsp;    /**
+<i>504</i>&nbsp;     * the method calls a method linked to a specific God that will ask to the player to insert parameters needed to use the god
+<i>505</i>&nbsp;     * @param message is a message that contains the name of the player (that will receive the question) and the name of the god
+<i>506</i>&nbsp;     */
+<i>507</i>&nbsp;    //TODO: Tooltip per potere divinità
+<i>508</i>&nbsp;    @Override
+<i>509</i>&nbsp;    public void displayParametersSelection(MatchStateMessage message) {
+<b class="nc"><i>510</i>&nbsp;        if(message.getCurrentPlayer().getNickname().equals(client.getUsername())) {</b>
+<b class="nc"><i>511</i>&nbsp;            String god = message.getCurrentPlayer().getDivinePower().getName();</b>
+<b class="nc"><i>512</i>&nbsp;            switch (god) {</b>
+<i>513</i>&nbsp;                case &quot;Apollo&quot;:
+<b class="nc"><i>514</i>&nbsp;                    displayApolloParamSel(message);</b>
+<b class="nc"><i>515</i>&nbsp;                    break;</b>
+<i>516</i>&nbsp;                case &quot;Ares&quot;:
+<b class="nc"><i>517</i>&nbsp;                    displayAresParamSel(message);</b>
+<b class="nc"><i>518</i>&nbsp;                    break;</b>
+<i>519</i>&nbsp;                case &quot;Artemis&quot;:
+<b class="nc"><i>520</i>&nbsp;                    displayArtemisParamSel(message);</b>
+<b class="nc"><i>521</i>&nbsp;                    break;</b>
+<i>522</i>&nbsp;                case &quot;Atlas&quot;:
+<b class="nc"><i>523</i>&nbsp;                    displayAtlasParamSel(message);</b>
+<b class="nc"><i>524</i>&nbsp;                    break;</b>
+<i>525</i>&nbsp;                case &quot;Demeter&quot;:
+<b class="nc"><i>526</i>&nbsp;                    displayDemeterParamSel(message);</b>
+<b class="nc"><i>527</i>&nbsp;                    break;</b>
+<i>528</i>&nbsp;                case &quot;Hestia&quot;:
+<b class="nc"><i>529</i>&nbsp;                    displayHestiaParamSel(message);</b>
+<b class="nc"><i>530</i>&nbsp;                    break;</b>
+<i>531</i>&nbsp;                case &quot;Minotaur&quot;:
+<b class="nc"><i>532</i>&nbsp;                    displayMinotaurParamSel(message);</b>
+<b class="nc"><i>533</i>&nbsp;                    break;</b>
+<i>534</i>&nbsp;                case &quot;Poseidon&quot;:
+<b class="nc"><i>535</i>&nbsp;                    displayPoseidonParamSel(message);</b>
+<b class="nc"><i>536</i>&nbsp;                    break;</b>
+<i>537</i>&nbsp;                case &quot;Prometheus&quot;:
+<b class="nc"><i>538</i>&nbsp;                    displayPrometheusParamSel(message);</b>
+<b class="nc"><i>539</i>&nbsp;                    break;</b>
+<i>540</i>&nbsp;                default:
+<i>541</i>&nbsp;                    break;
+<i>542</i>&nbsp;            }
+<i>543</i>&nbsp;        }
+<i>544</i>&nbsp;    }
+<i>545</i>&nbsp;
+<i>546</i>&nbsp;    /**
+<i>547</i>&nbsp;     * the method prints to the players when and which god helped a player
+<i>548</i>&nbsp;     * @param updateMessage contains the name of the god used and the user name of the player that used it
+<i>549</i>&nbsp;     * @param phase is the phase in which the god helped the player
+<i>550</i>&nbsp;     */
+<i>551</i>&nbsp;    @Override
+<i>552</i>&nbsp;    public void displaySP(UpdateMessage updateMessage, PhaseType phase) {
+<b class="nc"><i>553</i>&nbsp;        Platform.runLater(()-&gt;{</b>
+<i>554</i>&nbsp;            Parent children;
+<i>555</i>&nbsp;            Scene scene;
+<b class="nc"><i>556</i>&nbsp;            FXMLLoader fxmlLoader = new FXMLLoader();</b>
+<b class="nc"><i>557</i>&nbsp;            switch (players.size()) {</b>
+<i>558</i>&nbsp;                case (2):
+<b class="nc"><i>559</i>&nbsp;                    fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/updateBoard.fxml&quot;));</b>
+<b class="nc"><i>560</i>&nbsp;                    break;</b>
+<i>561</i>&nbsp;                case (3):
+<b class="nc"><i>562</i>&nbsp;                    fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/updateBoard_3.fxml&quot;));</b>
+<i>563</i>&nbsp;                    break;
+<i>564</i>&nbsp;            }
+<i>565</i>&nbsp;            try {
+<b class="nc"><i>566</i>&nbsp;                children = fxmlLoader.load();</b>
+<b class="nc"><i>567</i>&nbsp;                scene = new Scene(children);</b>
+<b class="nc"><i>568</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>569</i>&nbsp;                children = null;</b>
+<b class="nc"><i>570</i>&nbsp;                scene = new Scene(new Label(&quot;ERROR &quot;));</b>
+<b class="nc"><i>571</i>&nbsp;            }</b>
+<b class="nc"><i>572</i>&nbsp;            updateMatchController = fxmlLoader.getController();</b>
+<b class="nc"><i>573</i>&nbsp;            updateMatchController.setClient(client);</b>
+<b class="nc"><i>574</i>&nbsp;            updateMatchController.setUpdateMessage(updateMessage);</b>
+<b class="nc"><i>575</i>&nbsp;            updateMatchController.initializeBoard(updateMessage.getCells());</b>
+<b class="nc"><i>576</i>&nbsp;            updateMatchController.initializePlayers(players);</b>
+<b class="nc"><i>577</i>&nbsp;            updateMatchController.setText();</b>
+<b class="nc"><i>578</i>&nbsp;            primaryStage.setTitle(&quot;SP UPDATE&quot;);</b>
+<b class="nc"><i>579</i>&nbsp;            primaryStage.setScene(scene);</b>
+<b class="nc"><i>580</i>&nbsp;            primaryStage.show();</b>
+<i>581</i>&nbsp;        });
+<i>582</i>&nbsp;    }
+<i>583</i>&nbsp;
+<i>584</i>&nbsp;    /**
+<i>585</i>&nbsp;     * the method asks to the current player which one of his builder he wants to move and build with.
+<i>586</i>&nbsp;     * To help the player in his choice the method also shows the board in its current state and it allows the player to select a builder only
+<i>587</i>&nbsp;     * if he or she can move
+<i>588</i>&nbsp;     * @param message contains the username of the player and
+<i>589</i>&nbsp;     */
+<i>590</i>&nbsp;    @Override
+<i>591</i>&nbsp;    public void displayChooseBuilder(MatchStateMessage message) {
+<b class="nc"><i>592</i>&nbsp;        Platform.runLater(()-&gt;{</b>
+<i>593</i>&nbsp;            Parent children;
+<i>594</i>&nbsp;            Scene scene;
+<b class="nc"><i>595</i>&nbsp;            FXMLLoader fxmlLoader = new FXMLLoader();</b>
+<b class="nc"><i>596</i>&nbsp;            switch (players.size()) {</b>
+<i>597</i>&nbsp;                case (2):
+<b class="nc"><i>598</i>&nbsp;                    fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/board_builder.fxml&quot;));</b>
+<b class="nc"><i>599</i>&nbsp;                    break;</b>
+<i>600</i>&nbsp;                case (3):
+<b class="nc"><i>601</i>&nbsp;                    fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/board_3_builder.fxml&quot;));</b>
+<i>602</i>&nbsp;                    break;
+<i>603</i>&nbsp;            }
+<i>604</i>&nbsp;            try {
+<b class="nc"><i>605</i>&nbsp;                children = fxmlLoader.load();</b>
+<b class="nc"><i>606</i>&nbsp;                scene = new Scene(children);</b>
+<b class="nc"><i>607</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>608</i>&nbsp;                children = null;</b>
+<b class="nc"><i>609</i>&nbsp;                scene = new Scene(new Label(&quot;ERROR &quot;));</b>
+<b class="nc"><i>610</i>&nbsp;            }</b>
+<b class="nc"><i>611</i>&nbsp;            chooseBuilderController = fxmlLoader.getController();</b>
+<b class="nc"><i>612</i>&nbsp;            chooseBuilderController.setClient(client);</b>
+<b class="nc"><i>613</i>&nbsp;            chooseBuilderController.setMatchStateMessage(message);</b>
+<b class="nc"><i>614</i>&nbsp;            chooseBuilderController.initializeBoard(message.getBoard());</b>
+<b class="nc"><i>615</i>&nbsp;            chooseBuilderController.initializePlayers(players);</b>
+<b class="nc"><i>616</i>&nbsp;            chooseBuilderController.setText();</b>
+<b class="nc"><i>617</i>&nbsp;            chooseBuilderController.initializeBuilder();</b>
+<b class="nc"><i>618</i>&nbsp;            primaryStage.setTitle(&quot;CHOOSE BUILDER&quot;);</b>
+<b class="nc"><i>619</i>&nbsp;            primaryStage.setScene(scene);</b>
+<b class="nc"><i>620</i>&nbsp;            primaryStage.show();</b>
+<i>621</i>&nbsp;        });
+<i>622</i>&nbsp;
+<i>623</i>&nbsp;    }
+<i>624</i>&nbsp;
+<i>625</i>&nbsp;    /**
+<i>626</i>&nbsp;     * the method asks to the player in which direction he wants to move the builder. The method shows a little matrix to represents the
+<i>627</i>&nbsp;     * allowed direction of movements. If the player inserts a wrong direction, he will be asked again to insert the direction
+<i>628</i>&nbsp;     * metodo che mostra all&#39;utente le possibili mosse che il builder selezionato può fare
+<i>629</i>&nbsp;     */
+<i>630</i>&nbsp;    @Override
+<i>631</i>&nbsp;    public void displayPossibleMoves(AskMoveSelectionMessage message) {
+<b class="nc"><i>632</i>&nbsp;        Platform.runLater(()-&gt;{</b>
+<b class="nc"><i>633</i>&nbsp;            Stage moveStage = new Stage();</b>
+<b class="nc"><i>634</i>&nbsp;            moveStage.setOnCloseRequest(Event::consume);</b>
+<b class="nc"><i>635</i>&nbsp;            moveStage.initModality(Modality.APPLICATION_MODAL);</b>
+<i>636</i>&nbsp;            Parent children;
+<i>637</i>&nbsp;            Scene scene;
+<i>638</i>&nbsp;
+<b class="nc"><i>639</i>&nbsp;            FXMLLoader fxmlLoader = new FXMLLoader();</b>
+<b class="nc"><i>640</i>&nbsp;            fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/directionMove.fxml&quot;));</b>
+<i>641</i>&nbsp;
+<i>642</i>&nbsp;            try {
+<b class="nc"><i>643</i>&nbsp;                children = fxmlLoader.load();</b>
+<b class="nc"><i>644</i>&nbsp;                scene = new Scene(children);</b>
+<b class="nc"><i>645</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>646</i>&nbsp;                children = null;</b>
+<b class="nc"><i>647</i>&nbsp;                scene = new Scene(new Label (&quot;ERROR &quot;));</b>
+<b class="nc"><i>648</i>&nbsp;            }</b>
+<b class="nc"><i>649</i>&nbsp;            possibleMovesController = fxmlLoader.getController();</b>
+<b class="nc"><i>650</i>&nbsp;            possibleMovesController.setAskMoveSelectionMessage(message);</b>
+<b class="nc"><i>651</i>&nbsp;            possibleMovesController.setClient(client);</b>
+<b class="nc"><i>652</i>&nbsp;            possibleMovesController.initializeBoard();</b>
+<b class="nc"><i>653</i>&nbsp;            possibleMovesController.setText();</b>
+<b class="nc"><i>654</i>&nbsp;            possibleMovesController.setStage(moveStage);</b>
+<b class="nc"><i>655</i>&nbsp;            moveStage.setScene(scene);</b>
+<b class="nc"><i>656</i>&nbsp;            moveStage.show();</b>
+<i>657</i>&nbsp;        });
+<i>658</i>&nbsp;
+<i>659</i>&nbsp;    }
+<i>660</i>&nbsp;
+<i>661</i>&nbsp;    /**
+<i>662</i>&nbsp;     * the method asks to the player in which direction he wants to move the builder. The method shows a little matrix to represents the
+<i>663</i>&nbsp;     * allowed direction of movements. If the player inserts a wrong direction, he will be asked again to insert the direction
+<i>664</i>&nbsp;     * metodo che mostra all&#39;utente le possibili mosse che il builder selezionato può fare
+<i>665</i>&nbsp;     */
+<i>666</i>&nbsp;    @Override
+<i>667</i>&nbsp;    public void displayMoveUpdate(UpdateMessage updateMessage) {
+<b class="nc"><i>668</i>&nbsp;        Platform.runLater(()-&gt;{</b>
+<i>669</i>&nbsp;            Parent children;
+<i>670</i>&nbsp;            Scene scene;
+<b class="nc"><i>671</i>&nbsp;            FXMLLoader fxmlLoader = new FXMLLoader();</b>
+<b class="nc"><i>672</i>&nbsp;            switch (players.size()) {</b>
+<i>673</i>&nbsp;                case (2):
+<b class="nc"><i>674</i>&nbsp;                    fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/updateBoard.fxml&quot;));</b>
+<b class="nc"><i>675</i>&nbsp;                    break;</b>
+<i>676</i>&nbsp;                case (3):
+<b class="nc"><i>677</i>&nbsp;                    fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/updateBoard_3.fxml&quot;));</b>
+<i>678</i>&nbsp;                    break;
+<i>679</i>&nbsp;            }
+<i>680</i>&nbsp;            try {
+<b class="nc"><i>681</i>&nbsp;                children = fxmlLoader.load();</b>
+<b class="nc"><i>682</i>&nbsp;                scene = new Scene(children);</b>
+<b class="nc"><i>683</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>684</i>&nbsp;                children = null;</b>
+<b class="nc"><i>685</i>&nbsp;                scene = new Scene(new Label(&quot;ERROR &quot;));</b>
+<b class="nc"><i>686</i>&nbsp;            }</b>
+<b class="nc"><i>687</i>&nbsp;            updateMatchController = fxmlLoader.getController();</b>
+<b class="nc"><i>688</i>&nbsp;            updateMatchController.setClient(client);</b>
+<b class="nc"><i>689</i>&nbsp;            updateMatchController.setUpdateMessage(updateMessage);</b>
+<b class="nc"><i>690</i>&nbsp;            updateMatchController.initializeBoard(updateMessage.getCells());</b>
+<b class="nc"><i>691</i>&nbsp;            updateMatchController.initializePlayers(players);</b>
+<b class="nc"><i>692</i>&nbsp;            updateMatchController.setText();</b>
+<b class="nc"><i>693</i>&nbsp;            primaryStage.setTitle(&quot;MOVE UPDATE&quot;);</b>
+<b class="nc"><i>694</i>&nbsp;            primaryStage.setScene(scene);</b>
+<b class="nc"><i>695</i>&nbsp;            primaryStage.show();</b>
+<i>696</i>&nbsp;        });
+<i>697</i>&nbsp;    }
+<i>698</i>&nbsp;
+<i>699</i>&nbsp;    /**
+<i>700</i>&nbsp;     * the method asks to the player in which direction he wants to build. The method shows a little matrix to represents the
+<i>701</i>&nbsp;     * allowed direction to construct near his playing builder. If the player inserts a wrong direction, he will be asked again to insert the direction
+<i>702</i>&nbsp;     * metodo che mostra all&#39;utente le possibili costruzioni che il builder mosso può fare
+<i>703</i>&nbsp;     */
+<i>704</i>&nbsp;    @Override
+<i>705</i>&nbsp;    public void displayPossibleBuildings(AskBuildSelectionMessage message) {
+<b class="nc"><i>706</i>&nbsp;        Platform.runLater(()-&gt;{</b>
+<i>707</i>&nbsp;
+<b class="nc"><i>708</i>&nbsp;            Stage buildStage = new Stage();</b>
+<b class="nc"><i>709</i>&nbsp;            buildStage.setOnCloseRequest(Event::consume);</b>
+<b class="nc"><i>710</i>&nbsp;            buildStage.initModality(Modality.APPLICATION_MODAL);</b>
+<i>711</i>&nbsp;            Parent children;
+<i>712</i>&nbsp;            Scene scene;
+<i>713</i>&nbsp;
+<b class="nc"><i>714</i>&nbsp;            FXMLLoader fxmlLoader = new FXMLLoader();</b>
+<b class="nc"><i>715</i>&nbsp;            fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/directionBuild.fxml&quot;));</b>
+<i>716</i>&nbsp;
+<i>717</i>&nbsp;            try {
+<b class="nc"><i>718</i>&nbsp;                children = fxmlLoader.load();</b>
+<b class="nc"><i>719</i>&nbsp;                scene = new Scene(children);</b>
+<b class="nc"><i>720</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>721</i>&nbsp;                children = null;</b>
+<b class="nc"><i>722</i>&nbsp;                scene = new Scene(new Label (&quot;ERROR &quot;));</b>
+<b class="nc"><i>723</i>&nbsp;            }</b>
+<b class="nc"><i>724</i>&nbsp;            possibleBuildingsController = fxmlLoader.getController();</b>
+<b class="nc"><i>725</i>&nbsp;            possibleBuildingsController.setAskBuildSelectionMessage(message);</b>
+<b class="nc"><i>726</i>&nbsp;            possibleBuildingsController.setClient(client);</b>
+<b class="nc"><i>727</i>&nbsp;            possibleBuildingsController.initializeBoard();</b>
+<b class="nc"><i>728</i>&nbsp;            possibleBuildingsController.setText();</b>
+<b class="nc"><i>729</i>&nbsp;            possibleBuildingsController.setStage(buildStage);</b>
+<b class="nc"><i>730</i>&nbsp;            buildStage.setScene(scene);</b>
+<b class="nc"><i>731</i>&nbsp;            buildStage.show();</b>
+<i>732</i>&nbsp;        });
+<i>733</i>&nbsp;    }
+<i>734</i>&nbsp;
+<i>735</i>&nbsp;    /**
+<i>736</i>&nbsp;     * the method shows the board updated after the build phase
+<i>737</i>&nbsp;     * @param updateMessage is a message that contains the reference to the board, which is used to print the board itself
+<i>738</i>&nbsp;     */
+<i>739</i>&nbsp;    @Override
+<i>740</i>&nbsp;    public void displayBuildUpdate(UpdateMessage updateMessage) {
+<b class="nc"><i>741</i>&nbsp;        Platform.runLater(()-&gt;{</b>
+<i>742</i>&nbsp;            Parent children;
+<i>743</i>&nbsp;            Scene scene;
+<b class="nc"><i>744</i>&nbsp;            FXMLLoader fxmlLoader = new FXMLLoader();</b>
+<b class="nc"><i>745</i>&nbsp;            switch (players.size()) {</b>
+<i>746</i>&nbsp;                case (2):
+<b class="nc"><i>747</i>&nbsp;                    fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/updateBoard.fxml&quot;));</b>
+<b class="nc"><i>748</i>&nbsp;                    break;</b>
+<i>749</i>&nbsp;                case (3):
+<b class="nc"><i>750</i>&nbsp;                    fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/updateBoard_3.fxml&quot;));</b>
+<i>751</i>&nbsp;                    break;
+<i>752</i>&nbsp;            }
+<i>753</i>&nbsp;            try {
+<b class="nc"><i>754</i>&nbsp;                children = fxmlLoader.load();</b>
+<b class="nc"><i>755</i>&nbsp;                scene = new Scene(children);</b>
+<b class="nc"><i>756</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>757</i>&nbsp;                children = null;</b>
+<b class="nc"><i>758</i>&nbsp;                scene = new Scene(new Label(&quot;ERROR &quot;));</b>
+<b class="nc"><i>759</i>&nbsp;            }</b>
+<b class="nc"><i>760</i>&nbsp;            updateMatchController = fxmlLoader.getController();</b>
+<b class="nc"><i>761</i>&nbsp;            updateMatchController.setClient(client);</b>
+<b class="nc"><i>762</i>&nbsp;            updateMatchController.setUpdateMessage(updateMessage);</b>
+<b class="nc"><i>763</i>&nbsp;            updateMatchController.initializeBoard(updateMessage.getCells());</b>
+<b class="nc"><i>764</i>&nbsp;            updateMatchController.initializePlayers(players);</b>
+<b class="nc"><i>765</i>&nbsp;            updateMatchController.setText();</b>
+<b class="nc"><i>766</i>&nbsp;            primaryStage.setTitle(&quot;BUILD UPDATE&quot;);</b>
+<b class="nc"><i>767</i>&nbsp;            primaryStage.setScene(scene);</b>
+<b class="nc"><i>768</i>&nbsp;            primaryStage.show();</b>
+<i>769</i>&nbsp;        });
+<i>770</i>&nbsp;    }
+<i>771</i>&nbsp;
+<i>772</i>&nbsp;    /**
+<i>773</i>&nbsp;     *the method prints a message to the players showing how the board has been modified during the turn and communicates the end of the turn
+<i>774</i>&nbsp;     * of the current player
+<i>775</i>&nbsp;     * @param updateMessage contains the the user name of current player and the reference to the board
+<i>776</i>&nbsp;     */
+<i>777</i>&nbsp;    @Override
+<i>778</i>&nbsp;    public void displayEndTurn(UpdateMessage updateMessage) {
+<b class="nc"><i>779</i>&nbsp;        Platform.runLater(()-&gt;{</b>
+<i>780</i>&nbsp;            Parent children;
+<i>781</i>&nbsp;            Scene scene;
+<b class="nc"><i>782</i>&nbsp;            FXMLLoader fxmlLoader = new FXMLLoader();</b>
+<b class="nc"><i>783</i>&nbsp;            switch (players.size()) {</b>
+<i>784</i>&nbsp;                case (2):
+<b class="nc"><i>785</i>&nbsp;                    fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/updateBoard.fxml&quot;));</b>
+<b class="nc"><i>786</i>&nbsp;                    break;</b>
+<i>787</i>&nbsp;                case (3):
+<b class="nc"><i>788</i>&nbsp;                    fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/updateBoard_3.fxml&quot;));</b>
+<i>789</i>&nbsp;                    break;
+<i>790</i>&nbsp;            }
+<i>791</i>&nbsp;            try {
+<b class="nc"><i>792</i>&nbsp;                children = fxmlLoader.load();</b>
+<b class="nc"><i>793</i>&nbsp;                scene = new Scene(children);</b>
+<b class="nc"><i>794</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>795</i>&nbsp;                children = null;</b>
+<b class="nc"><i>796</i>&nbsp;                scene = new Scene(new Label(&quot;ERROR &quot;));</b>
+<b class="nc"><i>797</i>&nbsp;            }</b>
+<b class="nc"><i>798</i>&nbsp;            updateMatchController = fxmlLoader.getController();</b>
+<b class="nc"><i>799</i>&nbsp;            updateMatchController.setClient(client);</b>
+<b class="nc"><i>800</i>&nbsp;            updateMatchController.setUpdateMessage(updateMessage);</b>
+<b class="nc"><i>801</i>&nbsp;            updateMatchController.initializeBoard(updateMessage.getCells());</b>
+<b class="nc"><i>802</i>&nbsp;            updateMatchController.initializePlayers(players);</b>
+<b class="nc"><i>803</i>&nbsp;            updateMatchController.setText();</b>
+<b class="nc"><i>804</i>&nbsp;            primaryStage.setTitle(&quot;END TURN&quot;);</b>
+<b class="nc"><i>805</i>&nbsp;            primaryStage.setScene(scene);</b>
+<b class="nc"><i>806</i>&nbsp;            primaryStage.show();</b>
+<i>807</i>&nbsp;
+<i>808</i>&nbsp;        });
+<i>809</i>&nbsp;
+<i>810</i>&nbsp;    }
+<i>811</i>&nbsp;
+<i>812</i>&nbsp;    /**
+<i>813</i>&nbsp;     * method that shows winner. It then close the match or if the players wants to begin a new match
+<i>814</i>&nbsp;     * metodo che mostra vincitori e vinti. conclude la partita con epic sax guy
+<i>815</i>&nbsp;     * @param winner
+<i>816</i>&nbsp;     */
+<i>817</i>&nbsp;    @Override
+<i>818</i>&nbsp;    public void displayEndMatch(String winner) {
+<b class="nc"><i>819</i>&nbsp;        Platform.runLater(()-&gt;{</b>
+<i>820</i>&nbsp;            Parent children;
+<i>821</i>&nbsp;            Scene scene;
+<b class="nc"><i>822</i>&nbsp;            FXMLLoader fxmlLoader = new FXMLLoader();</b>
+<b class="nc"><i>823</i>&nbsp;            if(client.getUsername().equals(winner)) {</b>
+<b class="nc"><i>824</i>&nbsp;                fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/WinnerWindow.fxml&quot;));</b>
+<i>825</i>&nbsp;                try {
+<b class="nc"><i>826</i>&nbsp;                    children = fxmlLoader.load();</b>
+<b class="nc"><i>827</i>&nbsp;                    scene = new Scene(children);</b>
+<b class="nc"><i>828</i>&nbsp;                } catch (IOException e) {</b>
+<b class="nc"><i>829</i>&nbsp;                    children = null;</b>
+<b class="nc"><i>830</i>&nbsp;                    scene = new Scene(new Label(&quot;ERROR &quot;));</b>
+<b class="nc"><i>831</i>&nbsp;                }</b>
+<b class="nc"><i>832</i>&nbsp;                endMatchController = fxmlLoader.getController();</b>
+<b class="nc"><i>833</i>&nbsp;                endMatchController.setClient(client);</b>
+<b class="nc"><i>834</i>&nbsp;                endMatchController.setWinner();</b>
+<b class="nc"><i>835</i>&nbsp;                primaryStage.setScene(scene);</b>
+<b class="nc"><i>836</i>&nbsp;                primaryStage.show();</b>
+<i>837</i>&nbsp;            } else {
+<b class="nc"><i>838</i>&nbsp;                fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/LoserWindow.fxml&quot;));</b>
+<i>839</i>&nbsp;                try {
+<b class="nc"><i>840</i>&nbsp;                    children = fxmlLoader.load();</b>
+<b class="nc"><i>841</i>&nbsp;                    scene = new Scene(children);</b>
+<b class="nc"><i>842</i>&nbsp;                } catch (IOException e) {</b>
+<b class="nc"><i>843</i>&nbsp;                    children = null;</b>
+<b class="nc"><i>844</i>&nbsp;                    scene = new Scene(new Label(&quot;ERROR &quot;));</b>
+<b class="nc"><i>845</i>&nbsp;                }</b>
+<b class="nc"><i>846</i>&nbsp;                endMatchController = fxmlLoader.getController();</b>
+<b class="nc"><i>847</i>&nbsp;                endMatchController.setClient(client);</b>
+<b class="nc"><i>848</i>&nbsp;                endMatchController.setText();</b>
+<b class="nc"><i>849</i>&nbsp;                primaryStage.setScene(scene);</b>
+<b class="nc"><i>850</i>&nbsp;                primaryStage.show();</b>
+<b class="nc"><i>851</i>&nbsp;                System.out.println(&quot;LOSER&quot;);</b>
+<i>852</i>&nbsp;            }
+<b class="nc"><i>853</i>&nbsp;            Stage stage = new Stage();</b>
+<b class="nc"><i>854</i>&nbsp;            stage.setOnCloseRequest(Event::consume);</b>
+<b class="nc"><i>855</i>&nbsp;            stage.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i>856</i>&nbsp;            FXMLLoader loader_new = new FXMLLoader();</b>
+<b class="nc"><i>857</i>&nbsp;            loader_new.setLocation(getClass().getResource(&quot;/FXML/AskNewMatch.fxml&quot;));</b>
+<i>858</i>&nbsp;            try {
+<b class="nc"><i>859</i>&nbsp;                children = loader_new.load();</b>
+<b class="nc"><i>860</i>&nbsp;                scene = new Scene(children);</b>
+<b class="nc"><i>861</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>862</i>&nbsp;                children = null;</b>
+<b class="nc"><i>863</i>&nbsp;                scene = new Scene(new Label (&quot;ERROR &quot;));</b>
+<b class="nc"><i>864</i>&nbsp;            }</b>
+<b class="nc"><i>865</i>&nbsp;            askNewMatchController = loader_new.getController();</b>
+<b class="nc"><i>866</i>&nbsp;            askNewMatchController.setStage(stage);</b>
+<b class="nc"><i>867</i>&nbsp;            stage.setScene(scene);</b>
+<b class="nc"><i>868</i>&nbsp;            stage.showAndWait();</b>
+<i>869</i>&nbsp;
+<b class="nc"><i>870</i>&nbsp;            FXMLLoader loader = new FXMLLoader();</b>
+<b class="nc"><i>871</i>&nbsp;            if (wantNewMatch.equals(&quot;YES&quot;)) {</b>
+<b class="nc"><i>872</i>&nbsp;                Stage selection = new Stage();</b>
+<b class="nc"><i>873</i>&nbsp;                loader.setLocation(getClass().getResource(&quot;/FXML/newMatch.fxml&quot;));</b>
+<i>874</i>&nbsp;                try {
+<b class="nc"><i>875</i>&nbsp;                    children = loader.load();</b>
+<b class="nc"><i>876</i>&nbsp;                    scene = new Scene(children);</b>
+<b class="nc"><i>877</i>&nbsp;                } catch (IOException e) {</b>
+<b class="nc"><i>878</i>&nbsp;                    children = null;</b>
+<b class="nc"><i>879</i>&nbsp;                    scene = new Scene(new Label(&quot;ERROR &quot;));</b>
+<b class="nc"><i>880</i>&nbsp;                }</b>
+<b class="nc"><i>881</i>&nbsp;                newMatchController = loader.getController();</b>
+<b class="nc"><i>882</i>&nbsp;                newMatchController.setClient(client);</b>
+<b class="nc"><i>883</i>&nbsp;                newMatchController.setStage(selection);</b>
+<b class="nc"><i>884</i>&nbsp;                selection.setOnCloseRequest(Event::consume);</b>
+<b class="nc"><i>885</i>&nbsp;                selection.setScene(scene);</b>
+<b class="nc"><i>886</i>&nbsp;                selection.showAndWait();</b>
+<b class="nc"><i>887</i>&nbsp;                displayLoadingWindow(null);</b>
+<b class="nc"><i>888</i>&nbsp;            } else {</b>
+<b class="nc"><i>889</i>&nbsp;                loader.setLocation(getClass().getResource(&quot;/FXML/NoMatch.fxml&quot;));</b>
+<i>890</i>&nbsp;                try {
+<b class="nc"><i>891</i>&nbsp;                    children = loader.load();</b>
+<b class="nc"><i>892</i>&nbsp;                    scene = new Scene(children);</b>
+<b class="nc"><i>893</i>&nbsp;                } catch (IOException e) {</b>
+<b class="nc"><i>894</i>&nbsp;                    children = null;</b>
+<b class="nc"><i>895</i>&nbsp;                    scene = new Scene(new Label(&quot;ERROR &quot;));</b>
+<b class="nc"><i>896</i>&nbsp;                }</b>
+<b class="nc"><i>897</i>&nbsp;                primaryStage.setScene(scene);</b>
+<b class="nc"><i>898</i>&nbsp;                primaryStage.show();</b>
+<i>899</i>&nbsp;                try {
+<b class="nc"><i>900</i>&nbsp;                    Thread.sleep(5000);</b>
+<b class="nc"><i>901</i>&nbsp;                } catch (InterruptedException ignored) {}</b>
+<b class="nc"><i>902</i>&nbsp;                Message message = new Message(client.getUsername());</b>
+<b class="nc"><i>903</i>&nbsp;                message.buildNewMatchMessage(new NewMatchMessage(false, 0, null));</b>
+<b class="nc"><i>904</i>&nbsp;                client.getNetworkHandler().send(message);</b>
+<b class="nc"><i>905</i>&nbsp;                primaryStage.close();</b>
+<i>906</i>&nbsp;            }
+<i>907</i>&nbsp;        });
+<i>908</i>&nbsp;    }
+<i>909</i>&nbsp;
+<i>910</i>&nbsp;    /**
+<i>911</i>&nbsp;     * method that shows possible errors occurred
+<i>912</i>&nbsp;     * metodo che mostra all&#39;utente possibili errori che sono capitati
+<i>913</i>&nbsp;     */
+<i>914</i>&nbsp;    @Override
+<i>915</i>&nbsp;    public void displayErrorMessage(String error) {}
+<i>916</i>&nbsp;
+<i>917</i>&nbsp;    /**
+<i>918</i>&nbsp;     * the method asks to the current player to insert parameters need to use Apollo&#39;s power. These parameters are the choice of which builder
+<i>919</i>&nbsp;     * the player want to move (and swap with opponent&#39;s builder) and in which direction. If the builder selected cannot be moved, the method will choose for the player the other
+<i>920</i>&nbsp;     * builder. If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+<i>921</i>&nbsp;     * message containing the parameters gathered
+<i>922</i>&nbsp;     *
+<i>923</i>&nbsp;     * @param message contains references about the board and the currents player(About the match ).
+<i>924</i>&nbsp;     * @return the message containing the parameters gathered.
+<i>925</i>&nbsp;     */
+<i>926</i>&nbsp;    @Override
+<i>927</i>&nbsp;    public ApolloParamMessage displayApolloParamSel(MatchStateMessage message) {
+<b class="nc"><i>928</i>&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc"><i>929</i>&nbsp;            FXMLLoader fxmlLoader = new FXMLLoader();</b>
+<b class="nc"><i>930</i>&nbsp;            Stage swapStage = new Stage();</b>
+<b class="nc"><i>931</i>&nbsp;            swapStage.setOnCloseRequest(Event::consume);</b>
+<b class="nc"><i>932</i>&nbsp;            swapStage.initModality(Modality.APPLICATION_MODAL);</b>
+<i>933</i>&nbsp;            Parent root;
+<i>934</i>&nbsp;            Scene scene;
+<b class="nc"><i>935</i>&nbsp;            fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/askBuilder.fxml&quot;));</b>
+<i>936</i>&nbsp;            try {
+<b class="nc"><i>937</i>&nbsp;                root = fxmlLoader.load();</b>
+<b class="nc"><i>938</i>&nbsp;                scene = new Scene(root);</b>
+<b class="nc"><i>939</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>940</i>&nbsp;                root = null;</b>
+<b class="nc"><i>941</i>&nbsp;                scene = new Scene(new Label(&quot;ERROR &quot;));</b>
+<b class="nc"><i>942</i>&nbsp;            }</b>
+<b class="nc"><i>943</i>&nbsp;            apolloController = fxmlLoader.getController();</b>
+<b class="nc"><i>944</i>&nbsp;            apolloController.setStage(swapStage);</b>
+<b class="nc"><i>945</i>&nbsp;            apolloController.setMatchStateMessage(message);</b>
+<b class="nc"><i>946</i>&nbsp;            apolloController.initializeButtons();</b>
+<b class="nc"><i>947</i>&nbsp;            swapStage.setTitle(&quot;APOLLO POWER&quot;);</b>
+<b class="nc"><i>948</i>&nbsp;            swapStage.setScene(scene);</b>
+<b class="nc"><i>949</i>&nbsp;            swapStage.showAndWait();</b>
+<b class="nc"><i>950</i>&nbsp;            Builder chosen = apolloController.getChosen();</b>
+<i>951</i>&nbsp;
+<b class="nc"><i>952</i>&nbsp;            Stage stage = new Stage();</b>
+<b class="nc"><i>953</i>&nbsp;            stage.setOnCloseRequest(Event::consume);</b>
+<b class="nc"><i>954</i>&nbsp;            stage.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i>955</i>&nbsp;            FXMLLoader loader = new FXMLLoader();</b>
+<i>956</i>&nbsp;            Parent children;
+<i>957</i>&nbsp;            Scene swapScene;
+<b class="nc"><i>958</i>&nbsp;            loader.setLocation(getClass().getResource(&quot;/FXML/apolloMatrix.fxml&quot;));</b>
+<i>959</i>&nbsp;            try {
+<b class="nc"><i>960</i>&nbsp;                children = loader.load();</b>
+<b class="nc"><i>961</i>&nbsp;                swapScene = new Scene(children);</b>
+<b class="nc"><i>962</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>963</i>&nbsp;                root = null;</b>
+<b class="nc"><i>964</i>&nbsp;                swapScene = new Scene(new Label(&quot;ERROR &quot;));</b>
+<b class="nc"><i>965</i>&nbsp;            }</b>
+<i>966</i>&nbsp;
+<b class="nc"><i>967</i>&nbsp;            apolloController = loader.getController();</b>
+<b class="nc"><i>968</i>&nbsp;            apolloController.setStage(stage);</b>
+<b class="nc"><i>969</i>&nbsp;            apolloController.setMatchStateMessage(message);</b>
+<b class="nc"><i>970</i>&nbsp;            apolloController.initializeApolloMatrix(Board.neighboringSwappingCell(chosen, AccessType.OCCUPIED));</b>
+<b class="nc"><i>971</i>&nbsp;            stage.setScene(swapScene);</b>
+<b class="nc"><i>972</i>&nbsp;            stage.showAndWait();</b>
+<b class="nc"><i>973</i>&nbsp;            Message paramMessage = new Message(client.getUsername());</b>
+<b class="nc"><i>974</i>&nbsp;            paramMessage.buildApolloParamMessage(apolloParamMessage);</b>
+<b class="nc"><i>975</i>&nbsp;            client.getNetworkHandler().send(paramMessage);</b>
+<i>976</i>&nbsp;        });
+<b class="nc"><i>977</i>&nbsp;        return null;</b>
+<i>978</i>&nbsp;    }
+<i>979</i>&nbsp;
+<i>980</i>&nbsp;    /**
+<i>981</i>&nbsp;     * the method asks to the current player to insert parameters need to use  Ares&#39;s power. the Parameter asked is direction of the cell
+<i>982</i>&nbsp;     * where the demolition will occur
+<i>983</i>&nbsp;     * If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+<i>984</i>&nbsp;     * message containing the parameters gathered
+<i>985</i>&nbsp;     *
+<i>986</i>&nbsp;     * @param message contains information about the match such as the current player
+<i>987</i>&nbsp;     * @return the message containing the parameter insert by the player
+<i>988</i>&nbsp;     */
+<i>989</i>&nbsp;    @Override
+<i>990</i>&nbsp;    public AresParamMessage displayAresParamSel(MatchStateMessage message) {
+<b class="nc"><i>991</i>&nbsp;        Platform.runLater(()-&gt;{</b>
+<b class="nc"><i>992</i>&nbsp;            Stage stage = new Stage();</b>
+<b class="nc"><i>993</i>&nbsp;            stage.setOnCloseRequest(Event::consume);</b>
+<b class="nc"><i>994</i>&nbsp;            stage.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i>995</i>&nbsp;            FXMLLoader loader = new FXMLLoader();</b>
+<i>996</i>&nbsp;            Parent children;
+<i>997</i>&nbsp;            Scene demolitionScene;
+<b class="nc"><i>998</i>&nbsp;            loader.setLocation(getClass().getResource(&quot;/FXML/AresMatrix.fxml&quot;));</b>
+<i>999</i>&nbsp;            try {
+<b class="nc"><i>1000</i>&nbsp;                children = loader.load();</b>
+<b class="nc"><i>1001</i>&nbsp;                demolitionScene = new Scene(children);</b>
+<b class="nc"><i>1002</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>1003</i>&nbsp;                children = null;</b>
+<b class="nc"><i>1004</i>&nbsp;                demolitionScene = new Scene(new Label(&quot;ERROR &quot;));</b>
+<b class="nc"><i>1005</i>&nbsp;            }</b>
+<i>1006</i>&nbsp;
+<b class="nc"><i>1007</i>&nbsp;            aresController = loader.getController();</b>
+<b class="nc"><i>1008</i>&nbsp;            aresController.setStage(stage);</b>
+<b class="nc"><i>1009</i>&nbsp;            aresController.setMatchStateMessage(message);</b>
+<b class="nc"><i>1010</i>&nbsp;            aresController.initializeAresMatrix();</b>
+<b class="nc"><i>1011</i>&nbsp;            stage.setScene(demolitionScene);</b>
+<b class="nc"><i>1012</i>&nbsp;            stage.showAndWait();</b>
+<b class="nc"><i>1013</i>&nbsp;            Message paramMessage = new Message(client.getUsername());</b>
+<b class="nc"><i>1014</i>&nbsp;            paramMessage.buildAresParamMessage(aresParamMessage);</b>
+<b class="nc"><i>1015</i>&nbsp;            client.getNetworkHandler().send(paramMessage);</b>
+<i>1016</i>&nbsp;        });
+<b class="nc"><i>1017</i>&nbsp;        return null;</b>
+<i>1018</i>&nbsp;    }
+<i>1019</i>&nbsp;
+<i>1020</i>&nbsp;    /**
+<i>1021</i>&nbsp;     * the method asks to the current player to insert parameters need to use Artemis&#39;s power. The Parameter asked is direction of the cell
+<i>1022</i>&nbsp;     * where the player wants to moved again the builder in.
+<i>1023</i>&nbsp;     * If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+<i>1024</i>&nbsp;     * message containing the parameters gathered
+<i>1025</i>&nbsp;     *
+<i>1026</i>&nbsp;     * @param message contains information about the match such as the current player, information used for acquiring which is the playing
+<i>1027</i>&nbsp;     *                builder
+<i>1028</i>&nbsp;     * @return the message containing the parameter acquired by the method
+<i>1029</i>&nbsp;     */
+<i>1030</i>&nbsp;    // TODO: verificare la condizione di attivazione di Artemis, anche sulla CLI -&gt; GUI sicuramente sbagliato
+<i>1031</i>&nbsp;    @Override
+<i>1032</i>&nbsp;    public ArtemisParamMessage displayArtemisParamSel(MatchStateMessage message) {
+<b class="nc"><i>1033</i>&nbsp;        Platform.runLater(()-&gt;{</b>
+<b class="nc"><i>1034</i>&nbsp;            Stage stage = new Stage();</b>
+<b class="nc"><i>1035</i>&nbsp;            stage.setOnCloseRequest(Event::consume);</b>
+<b class="nc"><i>1036</i>&nbsp;            stage.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i>1037</i>&nbsp;            FXMLLoader loader = new FXMLLoader();</b>
+<i>1038</i>&nbsp;            Parent children;
+<i>1039</i>&nbsp;            Scene moveScene;
+<b class="nc"><i>1040</i>&nbsp;            loader.setLocation(getClass().getResource(&quot;/FXML/ArtemisMatrix.fxml&quot;));</b>
+<i>1041</i>&nbsp;            try {
+<b class="nc"><i>1042</i>&nbsp;                children = loader.load();</b>
+<b class="nc"><i>1043</i>&nbsp;                moveScene = new Scene(children);</b>
+<b class="nc"><i>1044</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>1045</i>&nbsp;                children = null;</b>
+<b class="nc"><i>1046</i>&nbsp;                moveScene = new Scene(new Label(&quot;ERROR &quot;));</b>
+<b class="nc"><i>1047</i>&nbsp;            }</b>
+<i>1048</i>&nbsp;
+<b class="nc"><i>1049</i>&nbsp;            artemisController = loader.getController();</b>
+<b class="nc"><i>1050</i>&nbsp;            artemisController.setStage(stage);</b>
+<b class="nc"><i>1051</i>&nbsp;            artemisController.setMatchStateMessage(message);</b>
+<b class="nc"><i>1052</i>&nbsp;            artemisController.initializeArtemisMatrix();</b>
+<b class="nc"><i>1053</i>&nbsp;            stage.setScene(moveScene);</b>
+<b class="nc"><i>1054</i>&nbsp;            stage.showAndWait();</b>
+<b class="nc"><i>1055</i>&nbsp;            Message paramMessage = new Message(client.getUsername());</b>
+<b class="nc"><i>1056</i>&nbsp;            paramMessage.buildArtemisParamMessage(artemisParamMessage);</b>
+<b class="nc"><i>1057</i>&nbsp;            client.getNetworkHandler().send(paramMessage);</b>
+<i>1058</i>&nbsp;        });
+<b class="nc"><i>1059</i>&nbsp;        return null;</b>
+<i>1060</i>&nbsp;    }
+<i>1061</i>&nbsp;
+<i>1062</i>&nbsp;    /**
+<i>1063</i>&nbsp;     * the method asks to the current player to insert parameters need to use Atlas&#39;s power. the Parameter asked is direction of the cell
+<i>1064</i>&nbsp;     * where the dome will be built
+<i>1065</i>&nbsp;     * If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+<i>1066</i>&nbsp;     * message containing the parameters gathered
+<i>1067</i>&nbsp;     *
+<i>1068</i>&nbsp;     * @param message contains information about the match such as the current player, information used for acquiring which is the playing
+<i>1069</i>&nbsp;     *                builder
+<i>1070</i>&nbsp;     * @return the message containing the parameter acquired by the method
+<i>1071</i>&nbsp;     */
+<i>1072</i>&nbsp;    @Override
+<i>1073</i>&nbsp;    public AtlasParamMessage displayAtlasParamSel(MatchStateMessage message) {
+<b class="nc"><i>1074</i>&nbsp;        Platform.runLater(()-&gt;{</b>
+<b class="nc"><i>1075</i>&nbsp;            Stage stage = new Stage();</b>
+<b class="nc"><i>1076</i>&nbsp;            stage.setOnCloseRequest(Event::consume);</b>
+<b class="nc"><i>1077</i>&nbsp;            stage.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i>1078</i>&nbsp;            FXMLLoader loader = new FXMLLoader();</b>
+<i>1079</i>&nbsp;            Parent children;
+<i>1080</i>&nbsp;            Scene demolitionScene;
+<b class="nc"><i>1081</i>&nbsp;            loader.setLocation(getClass().getResource(&quot;/FXML/AtlasMatrix.fxml&quot;));</b>
+<i>1082</i>&nbsp;            try {
+<b class="nc"><i>1083</i>&nbsp;                children = loader.load();</b>
+<b class="nc"><i>1084</i>&nbsp;                demolitionScene = new Scene(children);</b>
+<b class="nc"><i>1085</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>1086</i>&nbsp;                children = null;</b>
+<b class="nc"><i>1087</i>&nbsp;                demolitionScene = new Scene(new Label(&quot;ERROR &quot;));</b>
+<b class="nc"><i>1088</i>&nbsp;            }</b>
+<i>1089</i>&nbsp;
+<b class="nc"><i>1090</i>&nbsp;            atlasController = loader.getController();</b>
+<b class="nc"><i>1091</i>&nbsp;            atlasController.setStage(stage);</b>
+<b class="nc"><i>1092</i>&nbsp;            atlasController.setMatchStateMessage(message);</b>
+<b class="nc"><i>1093</i>&nbsp;            atlasController.initializeAtlasMatrix();</b>
+<b class="nc"><i>1094</i>&nbsp;            stage.setScene(demolitionScene);</b>
+<b class="nc"><i>1095</i>&nbsp;            stage.showAndWait();</b>
+<b class="nc"><i>1096</i>&nbsp;            Message paramMessage = new Message(client.getUsername());</b>
+<b class="nc"><i>1097</i>&nbsp;            paramMessage.buildAtlasParamMessage(atlasParamMessage);</b>
+<b class="nc"><i>1098</i>&nbsp;            client.getNetworkHandler().send(paramMessage);</b>
+<i>1099</i>&nbsp;        });
+<b class="nc"><i>1100</i>&nbsp;        return null;</b>
+<i>1101</i>&nbsp;    }
+<i>1102</i>&nbsp;
+<i>1103</i>&nbsp;    /**
+<i>1104</i>&nbsp;     * The method asks to the current player to insert parameters need to use Demeter&#39;s power. The Parameter asked is direction of the cell
+<i>1105</i>&nbsp;     * where the player wants to build again the builder in.
+<i>1106</i>&nbsp;     * If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+<i>1107</i>&nbsp;     * message containing the parameters gathered
+<i>1108</i>&nbsp;     *
+<i>1109</i>&nbsp;     * @param message contains information about the match such as the current player, information used for acquiring which is the playing
+<i>1110</i>&nbsp;     *                builder
+<i>1111</i>&nbsp;     * @return the message containing the parameter acquired by the method
+<i>1112</i>&nbsp;     */
+<i>1113</i>&nbsp;    @Override
+<i>1114</i>&nbsp;    public DemeterParamMessage displayDemeterParamSel(MatchStateMessage message) {
+<b class="nc"><i>1115</i>&nbsp;        Platform.runLater(()-&gt;{</b>
+<b class="nc"><i>1116</i>&nbsp;            Stage stage = new Stage();</b>
+<b class="nc"><i>1117</i>&nbsp;            stage.setOnCloseRequest(Event::consume);</b>
+<b class="nc"><i>1118</i>&nbsp;            stage.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i>1119</i>&nbsp;            FXMLLoader loader = new FXMLLoader();</b>
+<i>1120</i>&nbsp;            Parent children;
+<i>1121</i>&nbsp;            Scene demolitionScene;
+<b class="nc"><i>1122</i>&nbsp;            loader.setLocation(getClass().getResource(&quot;/FXML/DemeterMatrix.fxml&quot;));</b>
+<i>1123</i>&nbsp;            try {
+<b class="nc"><i>1124</i>&nbsp;                children = loader.load();</b>
+<b class="nc"><i>1125</i>&nbsp;                demolitionScene = new Scene(children);</b>
+<b class="nc"><i>1126</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>1127</i>&nbsp;                children = null;</b>
+<b class="nc"><i>1128</i>&nbsp;                demolitionScene = new Scene(new Label(&quot;ERROR &quot;));</b>
+<b class="nc"><i>1129</i>&nbsp;            }</b>
+<i>1130</i>&nbsp;
+<b class="nc"><i>1131</i>&nbsp;            demeterController = loader.getController();</b>
+<b class="nc"><i>1132</i>&nbsp;            demeterController.setStage(stage);</b>
+<b class="nc"><i>1133</i>&nbsp;            demeterController.setMatchStateMessage(message);</b>
+<b class="nc"><i>1134</i>&nbsp;            demeterController.initializeDemeterMatrix();</b>
+<b class="nc"><i>1135</i>&nbsp;            stage.setScene(demolitionScene);</b>
+<b class="nc"><i>1136</i>&nbsp;            stage.showAndWait();</b>
+<b class="nc"><i>1137</i>&nbsp;            Message paramMessage = new Message(client.getUsername());</b>
+<b class="nc"><i>1138</i>&nbsp;            paramMessage.buildDemeterParamMessage(demeterParamMessage);</b>
+<b class="nc"><i>1139</i>&nbsp;            client.getNetworkHandler().send(paramMessage);</b>
+<i>1140</i>&nbsp;        });
+<b class="nc"><i>1141</i>&nbsp;        return null;</b>
+<i>1142</i>&nbsp;    }
+<i>1143</i>&nbsp;
+<i>1144</i>&nbsp;    /**
+<i>1145</i>&nbsp;     * the method asks to the current player to insert parameters need to use Hestia&#39;s power. The Parameter asked is direction of the cell
+<i>1146</i>&nbsp;     * where the player wants to moved again the builder in.
+<i>1147</i>&nbsp;     * If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+<i>1148</i>&nbsp;     * message containing the parameters gathered
+<i>1149</i>&nbsp;     *
+<i>1150</i>&nbsp;     * @param message contains information about the match such as the current player, information used for acquiring which is the playing
+<i>1151</i>&nbsp;     *                builder
+<i>1152</i>&nbsp;     * @return the message containing the parameter acquired by the method
+<i>1153</i>&nbsp;     */
+<i>1154</i>&nbsp;    @Override
+<i>1155</i>&nbsp;    public HestiaParamMessage displayHestiaParamSel(MatchStateMessage message) {
+<b class="nc"><i>1156</i>&nbsp;        Platform.runLater(()-&gt;{</b>
+<b class="nc"><i>1157</i>&nbsp;            Stage stage = new Stage();</b>
+<b class="nc"><i>1158</i>&nbsp;            stage.setOnCloseRequest(Event::consume);</b>
+<b class="nc"><i>1159</i>&nbsp;            stage.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i>1160</i>&nbsp;            FXMLLoader loader = new FXMLLoader();</b>
+<i>1161</i>&nbsp;            Parent children;
+<i>1162</i>&nbsp;            Scene demolitionScene;
+<b class="nc"><i>1163</i>&nbsp;            loader.setLocation(getClass().getResource(&quot;/FXML/HestiaMatrix.fxml&quot;));</b>
+<i>1164</i>&nbsp;            try {
+<b class="nc"><i>1165</i>&nbsp;                children = loader.load();</b>
+<b class="nc"><i>1166</i>&nbsp;                demolitionScene = new Scene(children);</b>
+<b class="nc"><i>1167</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>1168</i>&nbsp;                children = null;</b>
+<b class="nc"><i>1169</i>&nbsp;                demolitionScene = new Scene(new Label(&quot;ERROR &quot;));</b>
+<b class="nc"><i>1170</i>&nbsp;            }</b>
+<i>1171</i>&nbsp;
+<b class="nc"><i>1172</i>&nbsp;            hestiaController = loader.getController();</b>
+<b class="nc"><i>1173</i>&nbsp;            hestiaController.setStage(stage);</b>
+<b class="nc"><i>1174</i>&nbsp;            hestiaController.setMatchStateMessage(message);</b>
+<b class="nc"><i>1175</i>&nbsp;            hestiaController.initializeHestiaMatrix();</b>
+<b class="nc"><i>1176</i>&nbsp;            stage.setScene(demolitionScene);</b>
+<b class="nc"><i>1177</i>&nbsp;            stage.showAndWait();</b>
+<b class="nc"><i>1178</i>&nbsp;            Message paramMessage = new Message(client.getUsername());</b>
+<b class="nc"><i>1179</i>&nbsp;            paramMessage.buildHestiaParamMessage(hestiaParamMessage);</b>
+<b class="nc"><i>1180</i>&nbsp;            client.getNetworkHandler().send(paramMessage);</b>
+<i>1181</i>&nbsp;        });
+<b class="nc"><i>1182</i>&nbsp;        return null;</b>
+<i>1183</i>&nbsp;    }
+<i>1184</i>&nbsp;
+<i>1185</i>&nbsp;    /**
+<i>1186</i>&nbsp;     * the method asks to the current player to insert parameters need to use Minotaur&#39;s power. These parameters are che choice of which builder
+<i>1187</i>&nbsp;     * the player want to move (and push opponent&#39;s builder) and in which direction. If the builder selected cannot be moved, the method will choose for the player the other
+<i>1188</i>&nbsp;     * builder. If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+<i>1189</i>&nbsp;     * message containing the parameters gathered
+<i>1190</i>&nbsp;     *
+<i>1191</i>&nbsp;     * @param message contains references about the board and the currents player(About the match ).
+<i>1192</i>&nbsp;     * @return the message containing the parameters gathered.
+<i>1193</i>&nbsp;     */
+<i>1194</i>&nbsp;    @Override
+<i>1195</i>&nbsp;    public MinotaurParamMessage displayMinotaurParamSel(MatchStateMessage message) {
+<b class="nc"><i>1196</i>&nbsp;        Platform.runLater(()-&gt;{</b>
+<b class="nc"><i>1197</i>&nbsp;            FXMLLoader fxmlLoader = new FXMLLoader();</b>
+<b class="nc"><i>1198</i>&nbsp;            Stage swapStage = new Stage();</b>
+<b class="nc"><i>1199</i>&nbsp;            swapStage.setOnCloseRequest(Event::consume);</b>
+<b class="nc"><i>1200</i>&nbsp;            swapStage.initModality(Modality.APPLICATION_MODAL);</b>
+<i>1201</i>&nbsp;            Parent root;
+<i>1202</i>&nbsp;            Scene scene;
+<b class="nc"><i>1203</i>&nbsp;            fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/askPush.fxml&quot;));</b>
+<i>1204</i>&nbsp;            try {
+<b class="nc"><i>1205</i>&nbsp;                root = fxmlLoader.load();</b>
+<b class="nc"><i>1206</i>&nbsp;                scene = new Scene(root);</b>
+<b class="nc"><i>1207</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>1208</i>&nbsp;                root = null;</b>
+<b class="nc"><i>1209</i>&nbsp;                scene = new Scene(new Label(&quot;ERROR &quot;));</b>
+<b class="nc"><i>1210</i>&nbsp;            }</b>
+<b class="nc"><i>1211</i>&nbsp;            minotaurController = fxmlLoader.getController();</b>
+<b class="nc"><i>1212</i>&nbsp;            minotaurController.setStage(swapStage);</b>
+<b class="nc"><i>1213</i>&nbsp;            minotaurController.setMatchStateMessage(message);</b>
+<b class="nc"><i>1214</i>&nbsp;            minotaurController.initializeButtons();</b>
+<b class="nc"><i>1215</i>&nbsp;            swapStage.setTitle(&quot;MINOTAUR POWER&quot;);</b>
+<b class="nc"><i>1216</i>&nbsp;            swapStage.setScene(scene);</b>
+<b class="nc"><i>1217</i>&nbsp;            swapStage.showAndWait();</b>
+<b class="nc"><i>1218</i>&nbsp;            Builder chosen = minotaurController.getChosen();</b>
+<i>1219</i>&nbsp;
+<b class="nc"><i>1220</i>&nbsp;            Stage stage = new Stage();</b>
+<b class="nc"><i>1221</i>&nbsp;            stage.setOnCloseRequest(Event::consume);</b>
+<b class="nc"><i>1222</i>&nbsp;            stage.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i>1223</i>&nbsp;            FXMLLoader loader = new FXMLLoader();</b>
+<i>1224</i>&nbsp;            Parent children;
+<i>1225</i>&nbsp;            Scene pushScene;
+<b class="nc"><i>1226</i>&nbsp;            loader.setLocation(getClass().getResource(&quot;/FXML/MinotaurMatrix.fxml&quot;));</b>
+<i>1227</i>&nbsp;            try {
+<b class="nc"><i>1228</i>&nbsp;                children = loader.load();</b>
+<b class="nc"><i>1229</i>&nbsp;                pushScene = new Scene(children);</b>
+<b class="nc"><i>1230</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>1231</i>&nbsp;                children = null;</b>
+<b class="nc"><i>1232</i>&nbsp;                pushScene = new Scene(new Label(&quot;ERROR &quot;));</b>
+<b class="nc"><i>1233</i>&nbsp;            }</b>
+<b class="nc"><i>1234</i>&nbsp;            minotaurController = loader.getController();</b>
+<b class="nc"><i>1235</i>&nbsp;            minotaurController.setStage(stage);</b>
+<b class="nc"><i>1236</i>&nbsp;            minotaurController.setMatchStateMessage(message);</b>
+<b class="nc"><i>1237</i>&nbsp;            minotaurController.initializeMinotaurMatrix(Board.neighboringSwappingCell(chosen, AccessType.OCCUPIED));</b>
+<b class="nc"><i>1238</i>&nbsp;            stage.setScene(pushScene);</b>
+<b class="nc"><i>1239</i>&nbsp;            stage.showAndWait();</b>
+<b class="nc"><i>1240</i>&nbsp;            Message paramMessage = new Message(client.getUsername());</b>
+<b class="nc"><i>1241</i>&nbsp;            paramMessage.buildMinotaurParamMessage(minotaurParamMessage);</b>
+<b class="nc"><i>1242</i>&nbsp;            client.getNetworkHandler().send(paramMessage);</b>
+<i>1243</i>&nbsp;        });
+<b class="nc"><i>1244</i>&nbsp;        return null;</b>
+<i>1245</i>&nbsp;    }
+<i>1246</i>&nbsp;
+<i>1247</i>&nbsp;    /**
+<i>1248</i>&nbsp;     * The method asks to the current player to insert parameters need to use Poseidon&#39;s power. The Parameters asked are direction of the cell
+<i>1249</i>&nbsp;     * where the player wants to build again the builder in and how many times he wants to build. The method will display the max and min numbers
+<i>1250</i>&nbsp;     * of times he can build
+<i>1251</i>&nbsp;     * If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+<i>1252</i>&nbsp;     * message containing the parameters gathered
+<i>1253</i>&nbsp;     *
+<i>1254</i>&nbsp;     * @param message contains information about the match such as the current player, information used for acquiring which is the playing
+<i>1255</i>&nbsp;     *                builder
+<i>1256</i>&nbsp;     * @return the message containing the parameter acquired by the method
+<i>1257</i>&nbsp;     */
+<i>1258</i>&nbsp;    @Override
+<i>1259</i>&nbsp;    public PoseidonParamMessage displayPoseidonParamSel(MatchStateMessage message) {
+<b class="nc"><i>1260</i>&nbsp;        Platform.runLater(()-&gt;{</b>
+<b class="nc"><i>1261</i>&nbsp;            FXMLLoader fxmlLoader = new FXMLLoader();</b>
+<b class="nc"><i>1262</i>&nbsp;            Stage swapStage = new Stage();</b>
+<b class="nc"><i>1263</i>&nbsp;            swapStage.setOnCloseRequest(Event::consume);</b>
+<b class="nc"><i>1264</i>&nbsp;            swapStage.initModality(Modality.APPLICATION_MODAL);</b>
+<i>1265</i>&nbsp;            Parent root;
+<i>1266</i>&nbsp;            Scene scene;
+<b class="nc"><i>1267</i>&nbsp;            fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/askNumberBuildings.fxml&quot;));</b>
+<i>1268</i>&nbsp;            try {
+<b class="nc"><i>1269</i>&nbsp;                root = fxmlLoader.load();</b>
+<b class="nc"><i>1270</i>&nbsp;                scene = new Scene(root);</b>
+<b class="nc"><i>1271</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>1272</i>&nbsp;                root = null;</b>
+<b class="nc"><i>1273</i>&nbsp;                scene = new Scene(new Label(&quot;ERROR &quot;));</b>
+<b class="nc"><i>1274</i>&nbsp;            }</b>
+<b class="nc"><i>1275</i>&nbsp;            poseidonController = fxmlLoader.getController();</b>
+<b class="nc"><i>1276</i>&nbsp;            poseidonController.setStage(swapStage);</b>
+<b class="nc"><i>1277</i>&nbsp;            poseidonController.setMatchStateMessage(message);</b>
+<b class="nc"><i>1278</i>&nbsp;            poseidonController.initializeButtons();</b>
+<b class="nc"><i>1279</i>&nbsp;            swapStage.setTitle(&quot;POSEIDON POWER&quot;);</b>
+<b class="nc"><i>1280</i>&nbsp;            swapStage.setScene(scene);</b>
+<b class="nc"><i>1281</i>&nbsp;            swapStage.showAndWait();</b>
+<i>1282</i>&nbsp;
+<b class="nc"><i>1283</i>&nbsp;            Stage stage = new Stage();</b>
+<b class="nc"><i>1284</i>&nbsp;            stage.setOnCloseRequest(Event::consume);</b>
+<b class="nc"><i>1285</i>&nbsp;            stage.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i>1286</i>&nbsp;            FXMLLoader loader = new FXMLLoader();</b>
+<i>1287</i>&nbsp;            Parent children;
+<i>1288</i>&nbsp;            Scene buildScene;
+<b class="nc"><i>1289</i>&nbsp;            loader.setLocation(getClass().getResource(&quot;/FXML/PoseidonMatrix.fxml&quot;));</b>
+<i>1290</i>&nbsp;            try {
+<b class="nc"><i>1291</i>&nbsp;                children = loader.load();</b>
+<b class="nc"><i>1292</i>&nbsp;                buildScene = new Scene(children);</b>
+<b class="nc"><i>1293</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>1294</i>&nbsp;                children = null;</b>
+<b class="nc"><i>1295</i>&nbsp;                buildScene = new Scene(new Label(&quot;ERROR &quot;));</b>
+<b class="nc"><i>1296</i>&nbsp;            }</b>
+<i>1297</i>&nbsp;
+<b class="nc"><i>1298</i>&nbsp;            poseidonController = loader.getController();</b>
+<b class="nc"><i>1299</i>&nbsp;            poseidonController.setStage(stage);</b>
+<b class="nc"><i>1300</i>&nbsp;            poseidonController.setMatchStateMessage(message);</b>
+<b class="nc"><i>1301</i>&nbsp;            poseidonController.initializePoseidonMatrix();</b>
+<b class="nc"><i>1302</i>&nbsp;            stage.setScene(buildScene);</b>
+<b class="nc"><i>1303</i>&nbsp;            stage.showAndWait();</b>
+<b class="nc"><i>1304</i>&nbsp;            Message paramMessage = new Message(client.getUsername());</b>
+<b class="nc"><i>1305</i>&nbsp;            paramMessage.buildPoseidonParamMessage(poseidonParamMessage);</b>
+<b class="nc"><i>1306</i>&nbsp;            client.getNetworkHandler().send(paramMessage);</b>
+<i>1307</i>&nbsp;        });
+<b class="nc"><i>1308</i>&nbsp;        return null;</b>
+<i>1309</i>&nbsp;    }
+<i>1310</i>&nbsp;
+<i>1311</i>&nbsp;    /**
+<i>1312</i>&nbsp;     * the method asks to the current player to insert parameters need to use Prometheus&#39;s power. These parameters are the choice of which builder
+<i>1313</i>&nbsp;     * the player want to build (the choice of the builder will be memorized to be used for the next phase of movement and building)
+<i>1314</i>&nbsp;     * and in which direction.
+<i>1315</i>&nbsp;     * If the builder selected cannot be moved, the method will choose for the player the other
+<i>1316</i>&nbsp;     * builder. If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
+<i>1317</i>&nbsp;     * message containing the parameters gathered
+<i>1318</i>&nbsp;     *
+<i>1319</i>&nbsp;     * @param message contains references about the board and the currents player(About the match ).
+<i>1320</i>&nbsp;     * @return the message containing the parameters gathered.
+<i>1321</i>&nbsp;     */
+<i>1322</i>&nbsp;    @Override
+<i>1323</i>&nbsp;    public PrometheusParamMessage displayPrometheusParamSel(MatchStateMessage message) {
+<b class="nc"><i>1324</i>&nbsp;        Platform.runLater(()-&gt;{</b>
+<b class="nc"><i>1325</i>&nbsp;            FXMLLoader fxmlLoader = new FXMLLoader();</b>
+<b class="nc"><i>1326</i>&nbsp;            Stage swapStage = new Stage();</b>
+<b class="nc"><i>1327</i>&nbsp;            swapStage.setOnCloseRequest(Event::consume);</b>
+<b class="nc"><i>1328</i>&nbsp;            swapStage.initModality(Modality.APPLICATION_MODAL);</b>
+<i>1329</i>&nbsp;            Parent root;
+<i>1330</i>&nbsp;            Scene scene;
+<b class="nc"><i>1331</i>&nbsp;            fxmlLoader.setLocation(getClass().getResource(&quot;/FXML/ask.fxml&quot;));</b>
+<i>1332</i>&nbsp;            try {
+<b class="nc"><i>1333</i>&nbsp;                root = fxmlLoader.load();</b>
+<b class="nc"><i>1334</i>&nbsp;                scene = new Scene(root);</b>
+<b class="nc"><i>1335</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>1336</i>&nbsp;                root = null;</b>
+<b class="nc"><i>1337</i>&nbsp;                scene = new Scene(new Label(&quot;ERROR &quot;));</b>
+<b class="nc"><i>1338</i>&nbsp;            }</b>
+<b class="nc"><i>1339</i>&nbsp;            prometheusController = fxmlLoader.getController();</b>
+<b class="nc"><i>1340</i>&nbsp;            prometheusController.setStage(swapStage);</b>
+<b class="nc"><i>1341</i>&nbsp;            prometheusController.setMatchStateMessage(message);</b>
+<b class="nc"><i>1342</i>&nbsp;            prometheusController.initializeButtons();</b>
+<b class="nc"><i>1343</i>&nbsp;            swapStage.setTitle(&quot;PROMETHEUS POWER&quot;);</b>
+<b class="nc"><i>1344</i>&nbsp;            swapStage.setScene(scene);</b>
+<b class="nc"><i>1345</i>&nbsp;            swapStage.showAndWait();</b>
+<b class="nc"><i>1346</i>&nbsp;            Builder chosen = prometheusController.getChosen();</b>
+<i>1347</i>&nbsp;
+<b class="nc"><i>1348</i>&nbsp;            Stage stage = new Stage();</b>
+<b class="nc"><i>1349</i>&nbsp;            stage.setOnCloseRequest(Event::consume);</b>
+<b class="nc"><i>1350</i>&nbsp;            stage.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i>1351</i>&nbsp;            FXMLLoader loader = new FXMLLoader();</b>
+<i>1352</i>&nbsp;            Parent children;
+<i>1353</i>&nbsp;            Scene demolitionScene;
+<b class="nc"><i>1354</i>&nbsp;            loader.setLocation(getClass().getResource(&quot;/FXML/PrometheusMatrix.fxml&quot;));</b>
+<i>1355</i>&nbsp;            try {
+<b class="nc"><i>1356</i>&nbsp;                children = loader.load();</b>
+<b class="nc"><i>1357</i>&nbsp;                demolitionScene = new Scene(children);</b>
+<b class="nc"><i>1358</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>1359</i>&nbsp;                children = null;</b>
+<b class="nc"><i>1360</i>&nbsp;                demolitionScene = new Scene(new Label(&quot;ERROR &quot;));</b>
+<b class="nc"><i>1361</i>&nbsp;            }</b>
+<b class="nc"><i>1362</i>&nbsp;            prometheusController = loader.getController();</b>
+<b class="nc"><i>1363</i>&nbsp;            prometheusController.setStage(stage);</b>
+<b class="nc"><i>1364</i>&nbsp;            prometheusController.setMatchStateMessage(message);</b>
+<b class="nc"><i>1365</i>&nbsp;            prometheusController.initializePrometheusMatrix(Board.neighboringLevelCell(chosen));</b>
+<b class="nc"><i>1366</i>&nbsp;            stage.setScene(demolitionScene);</b>
+<b class="nc"><i>1367</i>&nbsp;            stage.showAndWait();</b>
+<b class="nc"><i>1368</i>&nbsp;            Message paramMessage = new Message(client.getUsername());</b>
+<b class="nc"><i>1369</i>&nbsp;            paramMessage.buildPrometheusParamMessage(prometheusParamMessage);</b>
+<b class="nc"><i>1370</i>&nbsp;            client.getNetworkHandler().send(paramMessage);</b>
+<i>1371</i>&nbsp;        });
+<b class="nc"><i>1372</i>&nbsp;        return null;</b>
+<i>1373</i>&nbsp;    }
+<i>1374</i>&nbsp;
+<i>1375</i>&nbsp;    public static String gender(char gender){
+<b class="nc"><i>1376</i>&nbsp;        if(gender == &#39;\u2642&#39;)</b>
+<b class="nc"><i>1377</i>&nbsp;            return &quot;?&quot;;</b>
+<b class="nc"><i>1378</i>&nbsp;        return &quot;?&quot;;</b>
+<i>1379</i>&nbsp;    }
+<i>1380</i>&nbsp;
+<i>1381</i>&nbsp;    public static String color(Color color){
+<b class="nc"><i>1382</i>&nbsp;        switch(color){</b>
+<i>1383</i>&nbsp;            case PLAYER_CYAN:
+<b class="nc"><i>1384</i>&nbsp;                return &quot;#00ffcc&quot;;</b>
+<i>1385</i>&nbsp;            case PLAYER_GREEN:
+<b class="nc"><i>1386</i>&nbsp;                return &quot;#f44040&quot;;</b>
+<i>1387</i>&nbsp;            case PLAYER_PURPLE:
+<b class="nc"><i>1388</i>&nbsp;                return &quot;#b57fb8&quot;;</b>
+<i>1389</i>&nbsp;        }
+<b class="nc"><i>1390</i>&nbsp;        return null;</b>
+<i>1391</i>&nbsp;    }
+<i>1392</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-02 12:34</div>
+</div>
+</body>
+</html>

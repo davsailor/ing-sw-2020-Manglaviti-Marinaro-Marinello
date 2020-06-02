@@ -1,0 +1,132 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: NewMatchController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw2020.santorini.view.gui</a> ]
+</div>
+
+<h1>Coverage Summary for Class: NewMatchController (it.polimi.ingsw2020.santorini.view.gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">NewMatchController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 13)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw2020.santorini.view.gui;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw2020.santorini.network.client.Client;
+<i>4</i>&nbsp;import it.polimi.ingsw2020.santorini.network.client.ServerAdapter;
+<i>5</i>&nbsp;import it.polimi.ingsw2020.santorini.network.client.ViewAdapter;
+<i>6</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.Message;
+<i>7</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.NewMatchMessage;
+<i>8</i>&nbsp;import javafx.collections.FXCollections;
+<i>9</i>&nbsp;import javafx.collections.ObservableList;
+<i>10</i>&nbsp;import javafx.event.ActionEvent;
+<i>11</i>&nbsp;import javafx.fxml.FXML;
+<i>12</i>&nbsp;import javafx.scene.control.Button;
+<i>13</i>&nbsp;import javafx.scene.control.ChoiceBox;
+<i>14</i>&nbsp;import javafx.stage.Stage;
+<i>15</i>&nbsp;
+<b class="nc"><i>16</i>&nbsp;public class NewMatchController {</b>
+<b class="nc"><i>17</i>&nbsp;    private ObservableList list = FXCollections.observableArrayList(2,3);</b>
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    @FXML
+<i>20</i>&nbsp;    Button signUpButton;
+<i>21</i>&nbsp;    @FXML
+<i>22</i>&nbsp;    private ChoiceBox&lt;Integer&gt; numberOfPlayers;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    private Client client;
+<i>25</i>&nbsp;    private Stage selection;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    public void setClient(Client client) {
+<b class="nc"><i>28</i>&nbsp;        this.client = client;</b>
+<i>29</i>&nbsp;    }
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    public void initialize(){
+<b class="nc"><i>32</i>&nbsp;        numberOfPlayers.setItems(list);</b>
+<b class="nc"><i>33</i>&nbsp;        numberOfPlayers.setValue(2);</b>
+<i>34</i>&nbsp;    }
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    public void registerAction(ActionEvent actionEvent) {
+<b class="nc"><i>37</i>&nbsp;        Message message = new Message(client.getUsername());</b>
+<b class="nc"><i>38</i>&nbsp;        client.setSelectedMatch((Integer.parseInt(String.valueOf(numberOfPlayers.getValue()))));</b>
+<b class="nc"><i>39</i>&nbsp;        message.buildNewMatchMessage(new NewMatchMessage(true, client.getSelectedMatch(), client.getBirthDate()));</b>
+<b class="nc"><i>40</i>&nbsp;        client.getNetworkHandler().send(message);</b>
+<b class="nc"><i>41</i>&nbsp;        signUpButton.setDisable(true);</b>
+<b class="nc"><i>42</i>&nbsp;        selection.setOnCloseRequest(e -&gt; selection.close());</b>
+<b class="nc"><i>43</i>&nbsp;        selection.close();</b>
+<i>44</i>&nbsp;    }
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    public void setStage(Stage selection) {
+<b class="nc"><i>47</i>&nbsp;        this.selection = selection;</b>
+<i>48</i>&nbsp;    }
+<i>49</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-02 12:34</div>
+</div>
+</body>
+</html>

@@ -35,7 +35,6 @@ public class AppGUI extends Application implements ViewInterface{
     // TODO: settare le finestre non ridimensionabili
     private Client client;
     private Stage primaryStage;
-
     private RegisterController registerController;
     private InfoMatchController infoMatchController;
     private SelectionBuilderController selectionBuilderController;
@@ -306,6 +305,8 @@ public class AppGUI extends Application implements ViewInterface{
                     setUpScene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
                     e.printStackTrace();
                 }
+                godSelectionController = fxmlLoader.getController();
+                godSelectionController.initialize();
                 primaryStage.setScene(setUpScene);
                 primaryStage.show();
             }
@@ -896,13 +897,9 @@ public class AppGUI extends Application implements ViewInterface{
                 }
                 primaryStage.setScene(scene);
                 primaryStage.show();
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException ignored) {}
                 Message message = new Message(client.getUsername());
                 message.buildNewMatchMessage(new NewMatchMessage(false, 0, null));
                 client.getNetworkHandler().send(message);
-                primaryStage.close();
             }
         });
     }
@@ -1005,7 +1002,6 @@ public class AppGUI extends Application implements ViewInterface{
             }
 
             aresController = loader.getController();
-            aresController.setClient(client);
             aresController.setStage(stage);
             aresController.setMatchStateMessage(message);
             aresController.initializeAresMatrix();
@@ -1023,9 +1019,8 @@ public class AppGUI extends Application implements ViewInterface{
      * where the player wants to moved again the builder in.
      * If the direction insert is not allowed the method wil ask to the player to insert it again. The method will also built the
      * message containing the parameters gathered
-     *
      * @param message contains information about the match such as the current player, information used for acquiring which is the playing
-     *                builder
+     * builder
      * @return the message containing the parameter acquired by the method
      */
     // TODO: verificare la condizione di attivazione di Artemis, anche sulla CLI -> GUI sicuramente sbagliato
@@ -1048,7 +1043,6 @@ public class AppGUI extends Application implements ViewInterface{
             }
 
             artemisController = loader.getController();
-            artemisController.setClient(client);
             artemisController.setStage(stage);
             artemisController.setMatchStateMessage(message);
             artemisController.initializeArtemisMatrix();
@@ -1090,7 +1084,6 @@ public class AppGUI extends Application implements ViewInterface{
             }
 
             atlasController = loader.getController();
-            atlasController.setClient(client);
             atlasController.setStage(stage);
             atlasController.setMatchStateMessage(message);
             atlasController.initializeAtlasMatrix();
@@ -1132,7 +1125,6 @@ public class AppGUI extends Application implements ViewInterface{
             }
 
             demeterController = loader.getController();
-            demeterController.setClient(client);
             demeterController.setStage(stage);
             demeterController.setMatchStateMessage(message);
             demeterController.initializeDemeterMatrix();
@@ -1174,7 +1166,6 @@ public class AppGUI extends Application implements ViewInterface{
             }
 
             hestiaController = loader.getController();
-            hestiaController.setClient(client);
             hestiaController.setStage(stage);
             hestiaController.setMatchStateMessage(message);
             hestiaController.initializeHestiaMatrix();

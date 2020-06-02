@@ -16,7 +16,7 @@ public class ActivationPowerController {
 
     private MatchStateMessage matchStateMessage;
     private Client client;
-
+    private Stage stage;
 
     @FXML
     Button yesButton;
@@ -28,8 +28,6 @@ public class ActivationPowerController {
     Label power2;
     @FXML
     Label power3;
-    private Stage stage;
-
 
     public void setMatchStateMessage(MatchStateMessage matchStateMessage) {
         this.matchStateMessage = matchStateMessage;
@@ -124,6 +122,4 @@ public class ActivationPowerController {
                 break;
         }
     }
-
-
 }

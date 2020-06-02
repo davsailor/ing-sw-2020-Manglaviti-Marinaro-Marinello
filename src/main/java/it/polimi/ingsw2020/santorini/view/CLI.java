@@ -34,7 +34,7 @@ public class CLI implements ViewInterface {
      * method in which it's asked to the client to insert server's IP, and after that the username, birth date and type of match(number of players)
      * metodo in cui si chiede l'iP del server, dopodichè di fanno inserire username, data di nascita e tipo di partita (numero di giocatori nella partita)
      * @param firstTime is true if it is the first time we call the method
-     *                  is false if the username is unavailable, and ask the client a new username
+     * is false if the username is unavailable, and ask the client a new username
      */
     @Override
     public void displaySetupWindow(boolean firstTime) {

@@ -1,0 +1,188 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ServerAdapter</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw2020.santorini.network.client</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ServerAdapter (it.polimi.ingsw2020.santorini.network.client)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ServerAdapter</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 37)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw2020.santorini.network.client;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw2020.santorini.network.NetworkInterface;
+<i>4</i>&nbsp;import it.polimi.ingsw2020.santorini.network.server.Server;
+<i>5</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.Message;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.io.IOException;
+<i>8</i>&nbsp;import java.io.ObjectInputStream;
+<i>9</i>&nbsp;import java.io.ObjectOutputStream;
+<i>10</i>&nbsp;import java.net.Socket;
+<i>11</i>&nbsp;import java.net.SocketTimeoutException;
+<i>12</i>&nbsp;import java.util.logging.Level;
+<i>13</i>&nbsp;import java.util.logging.Logger;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;@SuppressWarnings(&quot;deprecation&quot;)
+<i>16</i>&nbsp;public class ServerAdapter extends Thread implements NetworkInterface {
+<i>17</i>&nbsp;    private Client client;
+<i>18</i>&nbsp;    private Socket server;
+<i>19</i>&nbsp;    private boolean connected;
+<i>20</i>&nbsp;    private ObjectOutputStream out;
+<i>21</i>&nbsp;    private ObjectInputStream in;
+<b class="nc"><i>22</i>&nbsp;    private final static Logger LOGGER = Logger.getLogger(&quot;ServerAdapter&quot;);</b>
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    /*
+<i>25</i>&nbsp;     * constructor of the class
+<i>26</i>&nbsp;     */
+<b class="nc"><i>27</i>&nbsp;    public ServerAdapter(Client client, String ip) throws IOException{</b>
+<b class="nc"><i>28</i>&nbsp;        this.client = client;</b>
+<b class="nc"><i>29</i>&nbsp;        server = new Socket(ip, Server.PORT);</b>
+<b class="nc"><i>30</i>&nbsp;        server.setSoTimeout(Server.SO_TIMEOUT);</b>
+<b class="nc"><i>31</i>&nbsp;        out = new ObjectOutputStream(server.getOutputStream());</b>
+<b class="nc"><i>32</i>&nbsp;        in = new ObjectInputStream(server.getInputStream());</b>
+<b class="nc"><i>33</i>&nbsp;        connected = true;</b>
+<i>34</i>&nbsp;    }
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    synchronized public void setConnected(boolean status){
+<b class="nc"><i>37</i>&nbsp;        this.connected = status;</b>
+<i>38</i>&nbsp;    }
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    /**
+<i>41</i>&nbsp;     * method that performs all the required actions to send a message to the server
+<i>42</i>&nbsp;     * @param message is the message that has to be sent
+<i>43</i>&nbsp;     */
+<i>44</i>&nbsp;    public void send(Message message){
+<i>45</i>&nbsp;        try{
+<b class="nc"><i>46</i>&nbsp;            out.reset();</b>
+<b class="nc"><i>47</i>&nbsp;            out.writeObject(message);</b>
+<b class="nc"><i>48</i>&nbsp;            out.flush();</b>
+<b class="nc"><i>49</i>&nbsp;        } catch (IOException e){</b>
+<b class="nc"><i>50</i>&nbsp;            System.out.println(&quot;cannot send message to server&quot;);</b>
+<b class="nc"><i>51</i>&nbsp;            setConnected(false);</b>
+<b class="nc"><i>52</i>&nbsp;        }</b>
+<i>53</i>&nbsp;    }
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    /**
+<i>56</i>&nbsp;     * method used to add a new message from the server to the queue
+<i>57</i>&nbsp;     * @param message the received message
+<i>58</i>&nbsp;     */
+<i>59</i>&nbsp;    @Override
+<i>60</i>&nbsp;    public void receive(Message message) throws InterruptedException {
+<b class="nc"><i>61</i>&nbsp;        client.addMessageQueue(message);</b>
+<i>62</i>&nbsp;    }
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    /**
+<i>65</i>&nbsp;     * method used to check the connection client-side: it ping the server every SO_TIMEOUT / 2 milliseconds
+<i>66</i>&nbsp;     */
+<i>67</i>&nbsp;    @Override
+<i>68</i>&nbsp;    public void checkConnection() {
+<i>69</i>&nbsp;        try {
+<i>70</i>&nbsp;            while (true) {
+<b class="nc"><i>71</i>&nbsp;                Message ping = new Message(null);</b>
+<b class="nc"><i>72</i>&nbsp;                ping.buildPingMessage();</b>
+<b class="nc"><i>73</i>&nbsp;                send(ping);</b>
+<b class="nc"><i>74</i>&nbsp;                Thread.sleep(Server.SO_TIMEOUT / 2);</b>
+<b class="nc"><i>75</i>&nbsp;            }</b>
+<b class="nc"><i>76</i>&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc"><i>77</i>&nbsp;            setConnected(false);</b>
+<i>78</i>&nbsp;        }
+<i>79</i>&nbsp;    }
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;    /**
+<i>82</i>&nbsp;     * the main thread of the network handler of the client
+<i>83</i>&nbsp;     * it listens to the server and reads all messages coming from the server
+<i>84</i>&nbsp;     * then it adds the to the queue using receive method
+<i>85</i>&nbsp;     * if the connection fails, the client is closed
+<i>86</i>&nbsp;     * @see Thread#run()
+<i>87</i>&nbsp;     */
+<i>88</i>&nbsp;    public void run() {
+<b class="nc"><i>89</i>&nbsp;        LOGGER.log(Level.CONFIG, &quot;ServerAdapter.run(): &quot; + Thread.currentThread().getName());</b>
+<b class="nc"><i>90</i>&nbsp;        Thread checkConnection = new Thread(this::checkConnection);</b>
+<b class="nc"><i>91</i>&nbsp;        checkConnection.start();</b>
+<b class="nc"><i>92</i>&nbsp;        while(connected){</b>
+<i>93</i>&nbsp;            try {
+<b class="nc"><i>94</i>&nbsp;                Message message = (Message) in.readObject();</b>
+<b class="nc"><i>95</i>&nbsp;                receive(message);</b>
+<b class="nc"><i>96</i>&nbsp;            } catch (SocketTimeoutException so) {</b>
+<b class="nc"><i>97</i>&nbsp;                System.out.println(&quot;Socket timed out&quot;);</b>
+<b class="nc"><i>98</i>&nbsp;                setConnected(false);</b>
+<b class="nc"><i>99</i>&nbsp;            } catch (IOException | ClassNotFoundException | InterruptedException io){</b>
+<b class="nc"><i>100</i>&nbsp;                setConnected(false);</b>
+<b class="nc"><i>101</i>&nbsp;            }</b>
+<i>102</i>&nbsp;        }
+<b class="nc"><i>103</i>&nbsp;        System.exit(2);</b>
+<i>104</i>&nbsp;    }
+<i>105</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-02 12:34</div>
+</div>
+</body>
+</html>

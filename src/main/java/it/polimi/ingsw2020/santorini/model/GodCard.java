@@ -10,7 +10,6 @@ public class GodCard {
 
     protected String name;                  // name of god
     protected int maxPlayersNumber;         // max players number you can play with using this card
-    protected String timingName;            // name of the timing (only for text effect purpose)
     protected PhaseType timing;             // phase in which you can activate its power
     protected boolean mandatory;            // if the power MUST activate or CAN activate
     protected boolean needParameters;       // if the god needs some information to activate
@@ -33,10 +32,6 @@ public class GodCard {
 
     public PhaseType getTiming() {
         return timing;
-    }
-
-    public String getTimingName() {
-        return timingName;
     }
 
     public boolean isMandatory() {

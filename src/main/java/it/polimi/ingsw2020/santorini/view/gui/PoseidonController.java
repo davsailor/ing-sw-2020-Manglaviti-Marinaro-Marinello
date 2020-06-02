@@ -22,7 +22,6 @@ public class PoseidonController {
     private MatchStateMessage matchStateMessage;
     private int number = 0;
     private int selectedNumber = 0;
-
     private ArrayList<Direction> directions = new ArrayList<>();
 
     public void setStage(Stage stage){

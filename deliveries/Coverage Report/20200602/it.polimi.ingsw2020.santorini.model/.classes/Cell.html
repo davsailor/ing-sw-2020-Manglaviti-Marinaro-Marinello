@@ -1,0 +1,181 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Cell</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw2020.santorini.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Cell (it.polimi.ingsw2020.santorini.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Cell</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (27/ 27)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw2020.santorini.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.AccessType;
+<i>4</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.LevelType;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.util.EnumSet;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;public class Cell {
+<i>10</i>&nbsp;    private LevelType[] building;
+<i>11</i>&nbsp;    private AccessType status;
+<i>12</i>&nbsp;    private Builder builder;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    /**
+<i>15</i>&nbsp;     * constructor of the class
+<i>16</i>&nbsp;     * @param status is the status
+<i>17</i>&nbsp;     */
+<b class="fc"><i>18</i>&nbsp;    public Cell (AccessType status){</b>
+<b class="fc"><i>19</i>&nbsp;        this.building = new LevelType[5];</b>
+<b class="fc"><i>20</i>&nbsp;        if(status == AccessType.FORBIDDEN) this.building[0] = LevelType.COAST;</b>
+<b class="fc"><i>21</i>&nbsp;        else this.building[0] = (LevelType.GROUND);</b>
+<b class="fc"><i>22</i>&nbsp;        this.status = status;</b>
+<b class="fc"><i>23</i>&nbsp;        this.builder = null;</b>
+<b class="fc"><i>24</i>&nbsp;    }</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /**
+<i>27</i>&nbsp;     *  it return the pieces of the highest piece of building on the cell
+<i>28</i>&nbsp;     * @return the string containing the name of the highest piece on the cell
+<i>29</i>&nbsp;     */
+<i>30</i>&nbsp;    public LevelType getLevel(){
+<b class="fc"><i>31</i>&nbsp;        int i = 0;</b>
+<b class="fc"><i>32</i>&nbsp;        while((i &lt; 4)&amp;&amp;(this.building[i + 1] != null)){</b>
+<b class="fc"><i>33</i>&nbsp;            i++;</b>
+<i>34</i>&nbsp;        }
+<b class="fc"><i>35</i>&nbsp;        return (this.building[i]);//understand if toString is necessary</b>
+<i>36</i>&nbsp;    }
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    /**
+<i>39</i>&nbsp;     * it sets the piece of the building on the cell
+<i>40</i>&nbsp;     * @param building is the piece of build that will be placed on the cell
+<i>41</i>&nbsp;     */
+<i>42</i>&nbsp;    public void setLevel(LevelType building){
+<b class="fc"><i>43</i>&nbsp;        int i = 0;</b>
+<b class="fc"><i>44</i>&nbsp;        while((i &lt; 5)&amp;&amp;(this.building[i] != null)){i++;}</b>
+<b class="fc"><i>45</i>&nbsp;        this.building[i] = building;</b>
+<b class="fc"><i>46</i>&nbsp;    }</b>
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    /**
+<i>49</i>&nbsp;     * the method removes the block on the top of the cell, that is the last element in the array of buildings
+<i>50</i>&nbsp;     */
+<i>51</i>&nbsp;    public void demolish(){
+<b class="fc"><i>52</i>&nbsp;        int i = 0;</b>
+<b class="fc"><i>53</i>&nbsp;        while((i &lt; 4) &amp;&amp; (this.building[i] != null))</b>
+<b class="fc"><i>54</i>&nbsp;            ++i;</b>
+<b class="fc"><i>55</i>&nbsp;        this.building[--i] = null;</b>
+<b class="fc"><i>56</i>&nbsp;    }</b>
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    /**
+<i>59</i>&nbsp;     * it return the the status of the cell
+<i>60</i>&nbsp;     * @return the string containing the name the status of the cell
+<i>61</i>&nbsp;     */
+<i>62</i>&nbsp;    public AccessType getStatus(){
+<b class="fc"><i>63</i>&nbsp;        return status;</b>
+<i>64</i>&nbsp;    }
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;    /**
+<i>67</i>&nbsp;     * it sets the status of the cell
+<i>68</i>&nbsp;     * @param status is the status that the cell will assume
+<i>69</i>&nbsp;     */
+<i>70</i>&nbsp;    public void setStatus(AccessType status){
+<b class="fc"><i>71</i>&nbsp;        this.status = status;</b>
+<b class="fc"><i>72</i>&nbsp;    }</b>
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;    /**
+<i>75</i>&nbsp;     * the method is the getter of the attribute Builder
+<i>76</i>&nbsp;     * @return is the reference to the builder in the cell
+<i>77</i>&nbsp;     */
+<i>78</i>&nbsp;    public Builder getBuilder() {
+<b class="fc"><i>79</i>&nbsp;        return builder;</b>
+<i>80</i>&nbsp;    }
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    /**
+<i>83</i>&nbsp;     * the method is the setter of the attribute Builder
+<i>84</i>&nbsp;     * @param builder is the reference of the builder that has been placed in the cell
+<i>85</i>&nbsp;     */
+<i>86</i>&nbsp;    public void setBuilder(Builder builder) {
+<b class="fc"><i>87</i>&nbsp;        this.builder = builder;</b>
+<b class="fc"><i>88</i>&nbsp;    }</b>
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;    /**
+<i>91</i>&nbsp;     * it calculates the difference between the heights of two cell
+<i>92</i>&nbsp;     * @param cell is the cell where the builder may want to go
+<i>93</i>&nbsp;     * @return the integer value of the difference of the two heights
+<i>94</i>&nbsp;     */
+<i>95</i>&nbsp;    public int calculateJump (Cell cell){
+<b class="fc"><i>96</i>&nbsp;        return cell.getLevel().getHeight() - this.getLevel().getHeight();</b>
+<i>97</i>&nbsp;    }
+<i>98</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-02 12:34</div>
+</div>
+</body>
+</html>

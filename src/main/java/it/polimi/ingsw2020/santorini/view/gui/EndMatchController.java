@@ -27,6 +27,4 @@ public class EndMatchController {
         Loser.setText(client.getUsername());
         Loser.setAlignment(Pos.TOP_CENTER);
     }
-
-
 }

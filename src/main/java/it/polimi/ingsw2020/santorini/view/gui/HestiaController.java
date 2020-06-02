@@ -18,12 +18,7 @@ public class HestiaController {
     private Stage stage;
     private Button[][] matrix = new Button[3][3];
     private Label[][] labelMatrix = new Label[3][3];
-    private Client client;
     private MatchStateMessage matchStateMessage;
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
 
     public void setStage(Stage stage){
         this.stage = stage;

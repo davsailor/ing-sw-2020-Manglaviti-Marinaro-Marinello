@@ -1,0 +1,423 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GameLogic</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw2020.santorini.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GameLogic (it.polimi.ingsw2020.santorini.controller)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameLogic</td>
+<td class="coverageStat">
+  <span class="percent">
+    63,6%
+  </span>
+  <span class="absValue">
+    (7/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    20,7%
+  </span>
+  <span class="absValue">
+    (35/ 169)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GameLogic$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    58,3%
+  </span>
+  <span class="absValue">
+    (7/ 12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    20,5%
+  </span>
+  <span class="absValue">
+    (35/ 171)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw2020.santorini.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
+<i>4</i>&nbsp;import it.polimi.ingsw2020.santorini.exceptions.UnexpectedMessageException;
+<i>5</i>&nbsp;import it.polimi.ingsw2020.santorini.model.*;
+<i>6</i>&nbsp;import it.polimi.ingsw2020.santorini.network.server.Server;
+<i>7</i>&nbsp;import it.polimi.ingsw2020.santorini.network.server.VirtualView;
+<i>8</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.AccessType;
+<i>9</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.ActionType;
+<i>10</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.Message;
+<i>11</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.PlayerStatus;
+<i>12</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.actions.SelectedBuilderMessage;
+<i>13</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.*;
+<i>14</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.errors.IllegalPositionMessage;
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;import java.util.ArrayList;
+<i>17</i>&nbsp;import java.util.Observable;
+<i>18</i>&nbsp;import java.util.Observer;
+<i>19</i>&nbsp;@SuppressWarnings(&quot;deprecation&quot;)
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;public class GameLogic implements Observer {
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    /**
+<i>24</i>&nbsp;     * colui che si occupa di creare il match e gestire i messaggi (fare una prima scrematura)
+<i>25</i>&nbsp;     */
+<i>26</i>&nbsp;    private VirtualView view;
+<i>27</i>&nbsp;    private TurnLogic turnManager;
+<i>28</i>&nbsp;    private Server server;
+<i>29</i>&nbsp;    private Match match;
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    /*
+<i>32</i>&nbsp;     * constructor of the class
+<i>33</i>&nbsp;     */
+<b class="fc"><i>34</i>&nbsp;    public GameLogic(Server server) {</b>
+<b class="fc"><i>35</i>&nbsp;        turnManager = new TurnLogic(this);</b>
+<b class="fc"><i>36</i>&nbsp;        this.server = server;</b>
+<b class="fc"><i>37</i>&nbsp;        this.match = null;</b>
+<b class="fc"><i>38</i>&nbsp;    }</b>
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    /*
+<i>41</i>&nbsp;     * getters and setters
+<i>42</i>&nbsp;     */
+<i>43</i>&nbsp;    public void setView(VirtualView view) {
+<b class="fc"><i>44</i>&nbsp;        this.view = view;</b>
+<b class="fc"><i>45</i>&nbsp;    }</b>
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    public Server getServer() {
+<b class="fc"><i>48</i>&nbsp;        return server;</b>
+<i>49</i>&nbsp;    }
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    public TurnLogic getTurnManager() {
+<b class="fc"><i>52</i>&nbsp;        return turnManager;</b>
+<i>53</i>&nbsp;    }
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    public Match getMatch() {
+<b class="fc"><i>56</i>&nbsp;        return match;</b>
+<i>57</i>&nbsp;    }
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;    /**
+<i>60</i>&nbsp;     * The method initialize matches that have the required number of players.
+<i>61</i>&nbsp;     * The matches created will have a reference to their relatives VirtualView
+<i>62</i>&nbsp;     *
+<i>63</i>&nbsp;     * @param view            is the reference of GameLogic&#39;s VirtualView that will be the match VirtualView
+<i>64</i>&nbsp;     * @param numberOfPlayers is the number of player that will take part to the match
+<i>65</i>&nbsp;     */
+<i>66</i>&nbsp;    public void initializeMatch(VirtualView view, int numberOfPlayers) {
+<b class="fc"><i>67</i>&nbsp;        System.out.printf(&quot;creo il match da %d\n&quot;, numberOfPlayers);</b>
+<b class="fc"><i>68</i>&nbsp;        setView(view);</b>
+<b class="fc"><i>69</i>&nbsp;        this.match = new Match(new Board(new GodDeck(numberOfPlayers)), numberOfPlayers, view);</b>
+<b class="fc"><i>70</i>&nbsp;        Player[] list = new Player[numberOfPlayers];</b>
+<b class="fc"><i>71</i>&nbsp;        ArrayList&lt;Player&gt; queue = server.getWaitingPlayers(numberOfPlayers);</b>
+<b class="fc"><i>72</i>&nbsp;        for (int i = 0; i &lt; numberOfPlayers; ++i) {</b>
+<b class="fc"><i>73</i>&nbsp;            list[i] = queue.get(i);</b>
+<b class="fc"><i>74</i>&nbsp;            server.removeWaitingPlayers(list[i]);</b>
+<b class="fc"><i>75</i>&nbsp;            server.addPlayerInMatch(list[i].getNickname(), match.getMatchID());</b>
+<i>76</i>&nbsp;        }
+<b class="fc"><i>77</i>&nbsp;        bubbleSort(list);</b>
+<b class="fc"><i>78</i>&nbsp;        match.initialize(list);</b>
+<b class="fc"><i>79</i>&nbsp;    }</b>
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;    /**
+<i>82</i>&nbsp;     * The method will order the list of players based on their birth date
+<i>83</i>&nbsp;     * @param list is the reference to the list of players that has to be ordered by the method
+<i>84</i>&nbsp;     */
+<i>85</i>&nbsp;    private void bubbleSort(Player[] list) {
+<b class="fc"><i>86</i>&nbsp;        boolean ended = false;</b>
+<i>87</i>&nbsp;        Player temp;
+<b class="fc"><i>88</i>&nbsp;        int index = list.length - 1;</b>
+<b class="fc"><i>89</i>&nbsp;        if (list.length == 1) return;</b>
+<b class="fc"><i>90</i>&nbsp;        while (!ended) {</b>
+<b class="fc"><i>91</i>&nbsp;            ended = true;</b>
+<b class="fc"><i>92</i>&nbsp;            for (int i = 0; i &lt; index; ++i) {</b>
+<b class="fc"><i>93</i>&nbsp;                if (list[i].getBirthDate().compareTo(list[i + 1].getBirthDate()) &lt; 0) {</b>
+<b class="fc"><i>94</i>&nbsp;                    temp = list[i];</b>
+<b class="fc"><i>95</i>&nbsp;                    list[i] = list[i + 1];</b>
+<b class="fc"><i>96</i>&nbsp;                    list[i + 1] = temp;</b>
+<b class="fc"><i>97</i>&nbsp;                    ended = false;</b>
+<i>98</i>&nbsp;                }
+<i>99</i>&nbsp;            }
+<b class="fc"><i>100</i>&nbsp;            --index;</b>
+<i>101</i>&nbsp;        }
+<b class="fc"><i>102</i>&nbsp;    }</b>
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;    /**
+<i>105</i>&nbsp;     * The method receives messages from the VirtualView and distributes them by their First Header
+<i>106</i>&nbsp;     * @param view is the view observed by the controller
+<i>107</i>&nbsp;     * @param mes  is the message that has been received, is received has an Object.
+<i>108</i>&nbsp;     */
+<i>109</i>&nbsp;    @Override
+<i>110</i>&nbsp;    public void update(Observable view, Object mes) {
+<b class="nc"><i>111</i>&nbsp;        Message message = (Message) mes;</b>
+<i>112</i>&nbsp;        try {
+<b class="nc"><i>113</i>&nbsp;            switch (message.getFirstLevelHeader()) {</b>
+<i>114</i>&nbsp;                case SYNCHRONIZATION:
+<b class="nc"><i>115</i>&nbsp;                    synchronizationHandler(message);</b>
+<b class="nc"><i>116</i>&nbsp;                    break;</b>
+<i>117</i>&nbsp;                case VERIFY:
+<b class="nc"><i>118</i>&nbsp;                    validationHandler(message);</b>
+<b class="nc"><i>119</i>&nbsp;                    break;</b>
+<i>120</i>&nbsp;                case DO:
+<b class="nc"><i>121</i>&nbsp;                    doHandler(message);</b>
+<b class="nc"><i>122</i>&nbsp;                    break;</b>
+<i>123</i>&nbsp;                default:
+<b class="nc"><i>124</i>&nbsp;                    throw new UnexpectedMessageException();</b>
+<i>125</i>&nbsp;            }
+<b class="nc"><i>126</i>&nbsp;        } catch (UnexpectedMessageException e) {</b>
+<b class="nc"><i>127</i>&nbsp;            System.out.println(&quot;unexpected message&quot;);</b>
+<b class="nc"><i>128</i>&nbsp;        }</b>
+<b class="nc"><i>129</i>&nbsp;    }</b>
+<i>130</i>&nbsp;
+<i>131</i>&nbsp;    /**
+<i>132</i>&nbsp;     * The method handles messages that have SYNCHRONIZATION as First Header, messages that are used to start and setup the match
+<i>133</i>&nbsp;     * @param message is the message that has to be handled by the method
+<i>134</i>&nbsp;     */
+<i>135</i>&nbsp;    synchronized public void synchronizationHandler(Message message){
+<b class="nc"><i>136</i>&nbsp;        switch(message.getSecondLevelHeader()){</b>
+<i>137</i>&nbsp;            case BEGIN_MATCH:
+<b class="nc"><i>138</i>&nbsp;                if(message.getSerializedPayload() != null){</b>
+<b class="nc"><i>139</i>&nbsp;                    GameGodsSelectionMessage gameGodsSelectionMessage = message.deserializeGodSelectionMessage();</b>
+<b class="nc"><i>140</i>&nbsp;                    ArrayList&lt;Integer&gt; remainingGods = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>141</i>&nbsp;                    for(int i = 0; i &lt; gameGodsSelectionMessage.getSelectedGods().length; ++i){</b>
+<b class="nc"><i>142</i>&nbsp;                        match.getBoard().getGodCards().extract(gameGodsSelectionMessage.getSelectedGods()[i]);</b>
+<b class="nc"><i>143</i>&nbsp;                        remainingGods.add(gameGodsSelectionMessage.getSelectedGods()[i]);</b>
+<i>144</i>&nbsp;                    }
+<b class="nc"><i>145</i>&nbsp;                    match.setRemainingGods(remainingGods);</b>
+<i>146</i>&nbsp;                }
+<b class="nc"><i>147</i>&nbsp;                Player current = match.getPlayerByName(message.getUsername());</b>
+<b class="nc"><i>148</i>&nbsp;                current.setStatus(PlayerStatus.READY);</b>
+<b class="nc"><i>149</i>&nbsp;                Player[] players = match.getPlayers();</b>
+<b class="nc"><i>150</i>&nbsp;                boolean allReady = true;</b>
+<b class="nc"><i>151</i>&nbsp;                for(int i = 0; i &lt; match.getPlayers().length &amp;&amp; allReady; ++i)</b>
+<b class="nc"><i>152</i>&nbsp;                    if (players[i].getStatus() != PlayerStatus.READY) allReady = false;</b>
+<b class="nc"><i>153</i>&nbsp;                if(allReady) {</b>
+<b class="nc"><i>154</i>&nbsp;                    ArrayList&lt;Message&gt; orderMessage = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>155</i>&nbsp;                    match.setNextPlayer();</b>
+<b class="nc"><i>156</i>&nbsp;                    for (int i = 0; i &lt; match.getPlayers().length; ++i) {</b>
+<b class="nc"><i>157</i>&nbsp;                        orderMessage.add(new Message(players[i].getNickname()));</b>
+<b class="nc"><i>158</i>&nbsp;                        orderMessage.get(i).buildGodInvocationMessage(new MatchSetupMessage(match, null));</b>
+<i>159</i>&nbsp;                    }
+<b class="nc"><i>160</i>&nbsp;                    match.notifyView(orderMessage);</b>
+<b class="nc"><i>161</i>&nbsp;                }</b>
+<i>162</i>&nbsp;                break;
+<i>163</i>&nbsp;            default:
+<i>164</i>&nbsp;                break;
+<i>165</i>&nbsp;        }
+<b class="nc"><i>166</i>&nbsp;    }</b>
+<i>167</i>&nbsp;
+<i>168</i>&nbsp;    /**
+<i>169</i>&nbsp;     * the method handles messages that have VERIFY as First Header by their Second Header
+<i>170</i>&nbsp;     * CORRECT_SELECTION_POS: messages that are used to verify if the player selected correct position for his builder during Setup
+<i>171</i>&nbsp;     * @param message the message that has to be handled
+<i>172</i>&nbsp;     */
+<i>173</i>&nbsp;    synchronized public void validationHandler(Message message) {
+<b class="nc"><i>174</i>&nbsp;        switch(message.getSecondLevelHeader()){</b>
+<i>175</i>&nbsp;            case GOD_INVOCATION:
+<b class="nc"><i>176</i>&nbsp;                GodSelectionMessage godSelectionMessage = message.deserializeInvokedGodMessage();</b>
+<b class="nc"><i>177</i>&nbsp;                match.getCurrentPlayer().setDivinePower(match.getBoard().getGodCards().giveCard(godSelectionMessage.getSelected()));</b>
+<b class="nc"><i>178</i>&nbsp;                match.getCurrentPlayer().setStatus(PlayerStatus.INVOKING);</b>
+<b class="nc"><i>179</i>&nbsp;                match.getBoard().getGodCards().setNextSelection(match.getBoard().getGodCards().getNextSelection() + 1);</b>
+<b class="nc"><i>180</i>&nbsp;                match.setRemainingGods(godSelectionMessage.getRemaining());</b>
+<b class="nc"><i>181</i>&nbsp;                if(godSelectionMessage.getRemaining().size() == 1) {</b>
+<b class="nc"><i>182</i>&nbsp;                    match.setNextPlayer();</b>
+<b class="nc"><i>183</i>&nbsp;                    match.getCurrentPlayer().setDivinePower(match.getBoard().getGodCards().giveCard(godSelectionMessage.getRemaining().get(0)));</b>
+<b class="nc"><i>184</i>&nbsp;                    match.getCurrentPlayer().setStatus(PlayerStatus.INVOKING);</b>
+<i>185</i>&nbsp;                } else {
+<b class="nc"><i>186</i>&nbsp;                    ArrayList&lt;Message&gt; orderMessage = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>187</i>&nbsp;                    match.setNextPlayer();</b>
+<b class="nc"><i>188</i>&nbsp;                    for (int i = 0; i &lt; match.getPlayers().length; ++i) {</b>
+<b class="nc"><i>189</i>&nbsp;                        orderMessage.add(new Message(match.getPlayers()[i].getNickname()));</b>
+<b class="nc"><i>190</i>&nbsp;                        orderMessage.get(i).buildGodInvocationMessage(new MatchSetupMessage(match, godSelectionMessage.getRemaining()));</b>
+<i>191</i>&nbsp;                    }
+<b class="nc"><i>192</i>&nbsp;                    match.notifyView(orderMessage);</b>
+<i>193</i>&nbsp;                }
+<b class="nc"><i>194</i>&nbsp;                boolean allInvoking = true;</b>
+<b class="nc"><i>195</i>&nbsp;                for(int i = 0; i &lt; match.getPlayers().length &amp;&amp; allInvoking; ++i)</b>
+<b class="nc"><i>196</i>&nbsp;                    if (match.getPlayers()[i].getStatus() != PlayerStatus.INVOKING) allInvoking = false;</b>
+<b class="nc"><i>197</i>&nbsp;                if(allInvoking) {</b>
+<b class="nc"><i>198</i>&nbsp;                    ArrayList&lt;Message&gt; orderMessage = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>199</i>&nbsp;                    match.setCurrentPlayerIndex(0);</b>
+<b class="nc"><i>200</i>&nbsp;                    for (int i = 0; i &lt; match.getPlayers().length; ++i) {</b>
+<b class="nc"><i>201</i>&nbsp;                        orderMessage.add(new Message(match.getPlayers()[i].getNickname()));</b>
+<b class="nc"><i>202</i>&nbsp;                        orderMessage.get(i).buildTurnPlayerMessage(new MatchStateMessage(match.getPlayers()[match.getCurrentPlayerIndex()], match.getBoard().getBoard(), match.getPlayersAsList()));</b>
+<i>203</i>&nbsp;                    }
+<b class="nc"><i>204</i>&nbsp;                    match.notifyView(orderMessage);</b>
+<b class="nc"><i>205</i>&nbsp;                }</b>
+<i>206</i>&nbsp;                break;
+<i>207</i>&nbsp;            case CORRECT_SELECTION_POS:
+<b class="nc"><i>208</i>&nbsp;                SelectedBuilderPositionMessage selectedBuilderPositionMessage = message.deserializeSelectedBuilderPosMessage(message.getSerializedPayload());</b>
+<b class="nc"><i>209</i>&nbsp;                Cell[][] board = match.getBoard().getBoard();</b>
+<i>210</i>&nbsp;                boolean builderFToChange, builderMToChange;
+<b class="nc"><i>211</i>&nbsp;                builderFToChange = true;</b>
+<b class="nc"><i>212</i>&nbsp;                builderMToChange = true;</b>
+<b class="nc"><i>213</i>&nbsp;                if((selectedBuilderPositionMessage.getBuilderF() != null &amp;&amp; board[selectedBuilderPositionMessage.getBuilderF()[0]][selectedBuilderPositionMessage.getBuilderF()[1]].getStatus() == AccessType.FREE) || match.getCurrentPlayer().getBuilderF() != null) builderFToChange = false;</b>
+<b class="nc"><i>214</i>&nbsp;                if(!builderFToChange &amp;&amp; match.getCurrentPlayer().getBuilderF() == null){</b>
+<b class="nc"><i>215</i>&nbsp;                    board[selectedBuilderPositionMessage.getBuilderF()[0]][selectedBuilderPositionMessage.getBuilderF()[1]].</b>
+<b class="nc"><i>216</i>&nbsp;                            setStatus(AccessType.OCCUPIED);</b>
+<b class="nc"><i>217</i>&nbsp;                    match.getPlayerByName(selectedBuilderPositionMessage.getUsername()).</b>
+<b class="nc"><i>218</i>&nbsp;                            setBuilderF(new Builder(</b>
+<b class="nc"><i>219</i>&nbsp;                                    match.getPlayerByName(selectedBuilderPositionMessage.getUsername()),&#39;\u2640&#39;, match.getBoard(), selectedBuilderPositionMessage.getBuilderF())); //?</b>
+<b class="nc"><i>220</i>&nbsp;                    board[selectedBuilderPositionMessage.getBuilderF()[0]][selectedBuilderPositionMessage.getBuilderF()[1]].</b>
+<b class="nc"><i>221</i>&nbsp;                            setBuilder(match.getPlayerByName(selectedBuilderPositionMessage.getUsername()).getBuilderF());</b>
+<i>222</i>&nbsp;                }
+<i>223</i>&nbsp;
+<b class="nc"><i>224</i>&nbsp;                if((selectedBuilderPositionMessage.getBuilderM() != null &amp;&amp; board[selectedBuilderPositionMessage.getBuilderM()[0]][selectedBuilderPositionMessage.getBuilderM()[1]].getStatus() == AccessType.FREE) || match.getCurrentPlayer().getBuilderM() != null) builderMToChange = false;</b>
+<b class="nc"><i>225</i>&nbsp;                if(!builderMToChange &amp;&amp; match.getCurrentPlayer().getBuilderM() == null){</b>
+<b class="nc"><i>226</i>&nbsp;                    board[selectedBuilderPositionMessage.getBuilderM()[0]][selectedBuilderPositionMessage.getBuilderM()[1]].</b>
+<b class="nc"><i>227</i>&nbsp;                            setStatus(AccessType.OCCUPIED);</b>
+<b class="nc"><i>228</i>&nbsp;                    match.getPlayerByName(selectedBuilderPositionMessage.getUsername()).</b>
+<b class="nc"><i>229</i>&nbsp;                            setBuilderM(new Builder(match.getPlayerByName(selectedBuilderPositionMessage.getUsername()),&#39;\u2642&#39;, match.getBoard(), selectedBuilderPositionMessage.getBuilderM())); // ?</b>
+<b class="nc"><i>230</i>&nbsp;                    board[selectedBuilderPositionMessage.getBuilderM()[0]][selectedBuilderPositionMessage.getBuilderM()[1]].</b>
+<b class="nc"><i>231</i>&nbsp;                            setBuilder(match.getPlayerByName(selectedBuilderPositionMessage.getUsername()).getBuilderM());</b>
+<i>232</i>&nbsp;                }
+<i>233</i>&nbsp;
+<b class="nc"><i>234</i>&nbsp;                if(builderFToChange || builderMToChange) {</b>
+<b class="nc"><i>235</i>&nbsp;                    Message illegalPosition = new Message(message.getUsername());</b>
+<b class="nc"><i>236</i>&nbsp;                    IllegalPositionMessage illegalPositionMessage = new IllegalPositionMessage(message.getUsername(), builderFToChange, builderMToChange);</b>
+<b class="nc"><i>237</i>&nbsp;                    illegalPosition.buildIllegalPositionMessage(illegalPositionMessage);</b>
+<b class="nc"><i>238</i>&nbsp;                    ArrayList&lt;Message&gt; list = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>239</i>&nbsp;                    list.add(illegalPosition);</b>
+<b class="nc"><i>240</i>&nbsp;                    match.notifyView(list);</b>
+<b class="nc"><i>241</i>&nbsp;                } else {</b>
+<b class="nc"><i>242</i>&nbsp;                    match.getPlayerByName(message.getUsername()).setStatus(PlayerStatus.PLAYING);</b>
+<b class="nc"><i>243</i>&nbsp;                    match.setNextPlayer();</b>
+<i>244</i>&nbsp;
+<b class="nc"><i>245</i>&nbsp;                    Player[] playingPlayers = match.getPlayers();</b>
+<b class="nc"><i>246</i>&nbsp;                    boolean allPlaying = true;</b>
+<i>247</i>&nbsp;
+<b class="nc"><i>248</i>&nbsp;                    for (int i = 0; i &lt; match.getPlayers().length &amp;&amp; allPlaying; ++i) {</b>
+<b class="nc"><i>249</i>&nbsp;                        if (playingPlayers[i].getStatus() != PlayerStatus.PLAYING) allPlaying = false;</b>
+<i>250</i>&nbsp;                    }
+<i>251</i>&nbsp;
+<b class="nc"><i>252</i>&nbsp;                    if (allPlaying) {</b>
+<b class="nc"><i>253</i>&nbsp;                        match.setCurrentPlayerIndex(0);</b>
+<b class="nc"><i>254</i>&nbsp;                        turnManager.setStartTurn();</b>
+<i>255</i>&nbsp;                        try {
+<b class="nc"><i>256</i>&nbsp;                            turnManager.handlePhases(match);</b>
+<b class="nc"><i>257</i>&nbsp;                        } catch (EndMatchException ignored) {}</b>
+<i>258</i>&nbsp;                    } else {
+<b class="nc"><i>259</i>&nbsp;                        ArrayList&lt;Message&gt; orderMessage = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>260</i>&nbsp;                        for (int i = 0; i &lt; match.getPlayers().length; ++i) {</b>
+<b class="nc"><i>261</i>&nbsp;                            orderMessage.add(new Message(playingPlayers[i].getNickname()));</b>
+<b class="nc"><i>262</i>&nbsp;                            orderMessage.get(i).buildTurnPlayerMessage(new MatchStateMessage(match.getCurrentPlayer(), match.getBoard().getBoard(), match.getPlayersAsList()));</b>
+<i>263</i>&nbsp;                        }
+<b class="nc"><i>264</i>&nbsp;                        match.notifyView(orderMessage);</b>
+<i>265</i>&nbsp;                    }
+<i>266</i>&nbsp;                }
+<b class="nc"><i>267</i>&nbsp;                break;</b>
+<i>268</i>&nbsp;            default:
+<i>269</i>&nbsp;                break;
+<i>270</i>&nbsp;        }
+<b class="nc"><i>271</i>&nbsp;    }</b>
+<i>272</i>&nbsp;
+<i>273</i>&nbsp;    /**
+<i>274</i>&nbsp;     * The method handles all the messages that have DO as First Header, messages that in fact represents an action specified by the Second Header
+<i>275</i>&nbsp;     * @param message is the message that has to be handled by the method
+<i>276</i>&nbsp;     */
+<i>277</i>&nbsp;    synchronized public void doHandler(Message message){
+<i>278</i>&nbsp;        //System.out.println(message.getUsername() + message.getFirstLevelHeader() + message.getSecondLevelHeader());
+<i>279</i>&nbsp;        try {
+<b class="nc"><i>280</i>&nbsp;            switch (message.getSecondLevelHeader()) {</b>
+<i>281</i>&nbsp;                case NEXT_PHASE:
+<b class="nc"><i>282</i>&nbsp;                    if(turnManager.getPhase() == null) turnManager.setStartTurn();</b>
+<b class="nc"><i>283</i>&nbsp;                    if (message.getUsername().equals(match.getCurrentPlayer().getNickname()))</b>
+<b class="nc"><i>284</i>&nbsp;                        turnManager.handlePhases(match);</b>
+<i>285</i>&nbsp;                    break;
+<i>286</i>&nbsp;                case ACTIVATE_GOD:
+<b class="nc"><i>287</i>&nbsp;                    turnManager.requestManager(ActionType.ACTIVATE_GOD, match, message); // c&#39;è da aggiungere il payload</b>
+<b class="nc"><i>288</i>&nbsp;                    break;</b>
+<i>289</i>&nbsp;                case SELECT_PARAMETERS:
+<b class="nc"><i>290</i>&nbsp;                    turnManager.requestManager(ActionType.USE_POWER, match, message);</b>
+<b class="nc"><i>291</i>&nbsp;                    break;</b>
+<i>292</i>&nbsp;                case SELECT_BUILDER:
+<b class="nc"><i>293</i>&nbsp;                    SelectedBuilderMessage selectedBuilderMessage = message.deserializeSelectedBuilderMessage();</b>
+<b class="nc"><i>294</i>&nbsp;                    if (selectedBuilderMessage.getGender() == &#39;M&#39;)</b>
+<b class="nc"><i>295</i>&nbsp;                        match.getCurrentPlayer().setPlayingBuilder(</b>
+<b class="nc"><i>296</i>&nbsp;                                match.getPlayerByName(message.getUsername()).getBuilderM());</b>
+<i>297</i>&nbsp;                    else
+<b class="nc"><i>298</i>&nbsp;                        match.getCurrentPlayer().setPlayingBuilder(</b>
+<b class="nc"><i>299</i>&nbsp;                                match.getPlayerByName(message.getUsername()).getBuilderF());</b>
+<b class="nc"><i>300</i>&nbsp;                    turnManager.getRemainingActions().remove(ActionType.SELECT_BUILDER);</b>
+<b class="nc"><i>301</i>&nbsp;                    turnManager.handlePhases(match); // c&#39;è da aggiungere il payload</b>
+<b class="nc"><i>302</i>&nbsp;                    break;</b>
+<i>303</i>&nbsp;                case SELECT_CELL_MOVE:
+<b class="nc"><i>304</i>&nbsp;                    turnManager.requestManager(ActionType.MOVE, match, message);</b>
+<b class="nc"><i>305</i>&nbsp;                    break;</b>
+<i>306</i>&nbsp;                case SELECT_CELL_BUILD:
+<b class="nc"><i>307</i>&nbsp;                    turnManager.requestManager(ActionType.BUILD, match, message);</b>
+<i>308</i>&nbsp;                    break;
+<i>309</i>&nbsp;            }
+<b class="nc"><i>310</i>&nbsp;        } catch(EndMatchException e){</b>
+<b class="nc"><i>311</i>&nbsp;            match.notifyEndMatch(server);</b>
+<b class="nc"><i>312</i>&nbsp;        }</b>
+<b class="nc"><i>313</i>&nbsp;    }</b>
+<i>314</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-02 12:34</div>
+</div>
+</body>
+</html>

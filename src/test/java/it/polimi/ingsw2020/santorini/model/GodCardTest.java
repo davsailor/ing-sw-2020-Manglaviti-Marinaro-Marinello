@@ -29,12 +29,6 @@ public class GodCardTest {
     }
 
     @Test
-    public void testGetTimingName() {
-        tester = new Apollo();
-        assertEquals("Your Move", tester.getTimingName());
-    }
-
-    @Test
     public void testGetTiming() {
         tester = new Apollo();
         assertEquals(PhaseType.STANDBY_PHASE_1, tester.getTiming());

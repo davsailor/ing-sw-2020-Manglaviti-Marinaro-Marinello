@@ -170,4 +170,8 @@ public class MinotaurTest {
         assertEquals(4, player2.getBuilderF().getPosY());
     }
 
+    @Test
+    public void testCanActivate(){
+        assertTrue(player1.getDivinePower().canActivate(controller.getMatch()));
+    }
 }

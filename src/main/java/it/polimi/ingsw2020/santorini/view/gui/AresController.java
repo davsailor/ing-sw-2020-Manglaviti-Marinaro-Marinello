@@ -15,17 +15,11 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 public class AresController {
-    private AresParamMessage aresParamMessage = new AresParamMessage();
     private Stage stage;
     private Button[][] matrix = new Button[3][3];
     private Label[][] labelMatrix = new Label[3][3];
-    private Client client;
     public char demolitionBuilderSex;
     private MatchStateMessage matchStateMessage;
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
 
     public void setStage(Stage stage){
         this.stage = stage;
@@ -35,9 +29,6 @@ public class AresController {
         this.matchStateMessage = matchStateMessage;
     }
 
-    public char getDemolitionBuilderSex() {
-        return demolitionBuilderSex;
-    }
 
     @FXML
     Label text;

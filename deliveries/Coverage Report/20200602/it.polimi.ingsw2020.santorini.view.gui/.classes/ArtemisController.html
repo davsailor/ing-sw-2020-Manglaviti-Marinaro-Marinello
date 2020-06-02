@@ -1,0 +1,188 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ArtemisController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw2020.santorini.view.gui</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ArtemisController (it.polimi.ingsw2020.santorini.view.gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ArtemisController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 49)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw2020.santorini.view.gui;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw2020.santorini.network.client.Client;
+<i>4</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.Direction;
+<i>5</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.Message;
+<i>6</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.godsParam.ArtemisParamMessage;
+<i>7</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
+<i>8</i>&nbsp;import it.polimi.ingsw2020.santorini.view.AppGUI;
+<i>9</i>&nbsp;import javafx.event.ActionEvent;
+<i>10</i>&nbsp;import javafx.fxml.FXML;
+<i>11</i>&nbsp;import javafx.scene.control.Button;
+<i>12</i>&nbsp;import javafx.scene.control.Label;
+<i>13</i>&nbsp;import javafx.stage.Stage;
+<i>14</i>&nbsp;
+<b class="nc"><i>15</i>&nbsp;public class ArtemisController {</b>
+<i>16</i>&nbsp;    private Stage stage;
+<b class="nc"><i>17</i>&nbsp;    private Button[][] matrix = new Button[3][3];</b>
+<i>18</i>&nbsp;    private MatchStateMessage matchStateMessage;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    public void setStage(Stage stage){
+<b class="nc"><i>21</i>&nbsp;        this.stage = stage;</b>
+<i>22</i>&nbsp;    }
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    public void setMatchStateMessage(MatchStateMessage matchStateMessage) {
+<b class="nc"><i>25</i>&nbsp;        this.matchStateMessage = matchStateMessage;</b>
+<i>26</i>&nbsp;    }
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    @FXML
+<i>29</i>&nbsp;    Label text;
+<i>30</i>&nbsp;    @FXML
+<i>31</i>&nbsp;    Label text2;
+<i>32</i>&nbsp;    @FXML
+<i>33</i>&nbsp;    Button b00;
+<i>34</i>&nbsp;    @FXML
+<i>35</i>&nbsp;    Button b01;
+<i>36</i>&nbsp;    @FXML
+<i>37</i>&nbsp;    Button b02;
+<i>38</i>&nbsp;    @FXML
+<i>39</i>&nbsp;    Button b10;
+<i>40</i>&nbsp;    @FXML
+<i>41</i>&nbsp;    Button b12;
+<i>42</i>&nbsp;    @FXML
+<i>43</i>&nbsp;    Button b20;
+<i>44</i>&nbsp;    @FXML
+<i>45</i>&nbsp;    Button b21;
+<i>46</i>&nbsp;    @FXML
+<i>47</i>&nbsp;    Button b22;
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    public void initializeArtemisMatrix() {
+<b class="nc"><i>50</i>&nbsp;        int[][] possibleMoves = matchStateMessage.getCurrentPlayer().getPlayingBuilder().getPossibleMoves();</b>
+<i>51</i>&nbsp;
+<b class="nc"><i>52</i>&nbsp;        matrix[0][0] = b00;</b>
+<b class="nc"><i>53</i>&nbsp;        matrix[0][1] = b01;</b>
+<b class="nc"><i>54</i>&nbsp;        matrix[0][2] = b02;</b>
+<b class="nc"><i>55</i>&nbsp;        matrix[1][0] = b10;</b>
+<b class="nc"><i>56</i>&nbsp;        matrix[1][2] = b12;</b>
+<b class="nc"><i>57</i>&nbsp;        matrix[2][0] = b20;</b>
+<b class="nc"><i>58</i>&nbsp;        matrix[2][1] = b21;</b>
+<b class="nc"><i>59</i>&nbsp;        matrix[2][2] = b22;</b>
+<i>60</i>&nbsp;
+<b class="nc"><i>61</i>&nbsp;        for(int i=0 ; i&lt;3 ;++i)</b>
+<b class="nc"><i>62</i>&nbsp;            for(int j=0; j&lt;3 ; ++j)</b>
+<b class="nc"><i>63</i>&nbsp;                if (i!=1 || j!= 1)</b>
+<b class="nc"><i>64</i>&nbsp;                    if (possibleMoves[i][j] == 0) {</b>
+<b class="nc"><i>65</i>&nbsp;                        matrix[i][j].setStyle(&quot;-fx-background-color: #ff0000&quot;);</b>
+<b class="nc"><i>66</i>&nbsp;                        matrix[i][j].setDisable(true);</b>
+<i>67</i>&nbsp;                    }
+<i>68</i>&nbsp;    }
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;    @FXML
+<i>71</i>&nbsp;    public void selectMove(ActionEvent actionEvent) {
+<b class="nc"><i>72</i>&nbsp;        Button pos = (Button) actionEvent.getSource();</b>
+<b class="nc"><i>73</i>&nbsp;        ArtemisParamMessage artemisParamMessage = new ArtemisParamMessage();</b>
+<b class="nc"><i>74</i>&nbsp;        Direction direction = null;</b>
+<b class="nc"><i>75</i>&nbsp;        if(pos.equals(b00)){</b>
+<b class="nc"><i>76</i>&nbsp;            direction = Direction.NORTH_WEST;</b>
+<b class="nc"><i>77</i>&nbsp;        }else if ( pos.equals(b01)){</b>
+<b class="nc"><i>78</i>&nbsp;            direction = Direction.NORTH;</b>
+<b class="nc"><i>79</i>&nbsp;        }else if ( pos.equals(b02)){</b>
+<b class="nc"><i>80</i>&nbsp;            direction = Direction.NORTH_EAST;</b>
+<b class="nc"><i>81</i>&nbsp;        }else if ( pos.equals(b10)){</b>
+<b class="nc"><i>82</i>&nbsp;            direction = Direction.WEST;</b>
+<b class="nc"><i>83</i>&nbsp;        }else if ( pos.equals(b12)){</b>
+<b class="nc"><i>84</i>&nbsp;            direction = Direction.EAST;</b>
+<b class="nc"><i>85</i>&nbsp;        }else if ( pos.equals(b20)){</b>
+<b class="nc"><i>86</i>&nbsp;            direction = Direction.SOUTH_WEST;</b>
+<b class="nc"><i>87</i>&nbsp;        }else if ( pos.equals(b21)){</b>
+<b class="nc"><i>88</i>&nbsp;            direction = Direction.SOUTH;</b>
+<b class="nc"><i>89</i>&nbsp;        }else if ( pos.equals(b22)){</b>
+<b class="nc"><i>90</i>&nbsp;            direction = Direction.SOUTH_EAST;</b>
+<i>91</i>&nbsp;        }
+<b class="nc"><i>92</i>&nbsp;        b00.setDisable(true);</b>
+<b class="nc"><i>93</i>&nbsp;        b01.setDisable(true);</b>
+<b class="nc"><i>94</i>&nbsp;        b02.setDisable(true);</b>
+<b class="nc"><i>95</i>&nbsp;        b10.setDisable(true);</b>
+<b class="nc"><i>96</i>&nbsp;        b12.setDisable(true);</b>
+<b class="nc"><i>97</i>&nbsp;        b20.setDisable(true);</b>
+<b class="nc"><i>98</i>&nbsp;        b21.setDisable(true);</b>
+<b class="nc"><i>99</i>&nbsp;        b22.setDisable(true);</b>
+<i>100</i>&nbsp;
+<b class="nc"><i>101</i>&nbsp;        AppGUI.getArtemisParamMessage().setDirection(direction);</b>
+<b class="nc"><i>102</i>&nbsp;        stage.setOnCloseRequest(e-&gt;stage.close());</b>
+<b class="nc"><i>103</i>&nbsp;        stage.close();</b>
+<i>104</i>&nbsp;    }
+<i>105</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-02 12:34</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,251 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ApolloController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw2020.santorini.view.gui</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ApolloController (it.polimi.ingsw2020.santorini.view.gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ApolloController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 87)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw2020.santorini.view.gui;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw2020.santorini.model.Board;
+<i>4</i>&nbsp;import it.polimi.ingsw2020.santorini.model.Builder;
+<i>5</i>&nbsp;import it.polimi.ingsw2020.santorini.model.Player;
+<i>6</i>&nbsp;import it.polimi.ingsw2020.santorini.network.client.Client;
+<i>7</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.AccessType;
+<i>8</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.Direction;
+<i>9</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.Message;
+<i>10</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.godsParam.ApolloParamMessage;
+<i>11</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
+<i>12</i>&nbsp;import it.polimi.ingsw2020.santorini.view.AppGUI;
+<i>13</i>&nbsp;import javafx.event.ActionEvent;
+<i>14</i>&nbsp;import javafx.fxml.FXML;
+<i>15</i>&nbsp;import javafx.scene.control.Button;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;import javafx.scene.control.Label;
+<i>18</i>&nbsp;import javafx.stage.Stage;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;import java.util.ArrayList;
+<i>21</i>&nbsp;
+<b class="nc"><i>22</i>&nbsp;public class    ApolloController {</b>
+<i>23</i>&nbsp;    private MatchStateMessage matchStateMessage;
+<b class="nc"><i>24</i>&nbsp;    private ApolloParamMessage apolloParamMessage = new ApolloParamMessage();</b>
+<i>25</i>&nbsp;    private Stage stage;
+<b class="nc"><i>26</i>&nbsp;    private Builder chosen = null;</b>
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    @FXML
+<i>29</i>&nbsp;    Label text;
+<i>30</i>&nbsp;    @FXML
+<i>31</i>&nbsp;    Label text2;
+<i>32</i>&nbsp;    @FXML
+<i>33</i>&nbsp;    Button b00;
+<i>34</i>&nbsp;    @FXML
+<i>35</i>&nbsp;    Button b01;
+<i>36</i>&nbsp;    @FXML
+<i>37</i>&nbsp;    Button b02;
+<i>38</i>&nbsp;    @FXML
+<i>39</i>&nbsp;    Button b10;
+<i>40</i>&nbsp;    @FXML
+<i>41</i>&nbsp;    Button b12;
+<i>42</i>&nbsp;    @FXML
+<i>43</i>&nbsp;    Button b20;
+<i>44</i>&nbsp;    @FXML
+<i>45</i>&nbsp;    Button b21;
+<i>46</i>&nbsp;    @FXML
+<i>47</i>&nbsp;    Button b22;
+<i>48</i>&nbsp;    @FXML
+<i>49</i>&nbsp;    Button F;
+<i>50</i>&nbsp;    @FXML
+<i>51</i>&nbsp;    Button M;
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    public void setMatchStateMessage(MatchStateMessage matchStateMessage) {
+<b class="nc"><i>54</i>&nbsp;        this.matchStateMessage = matchStateMessage;</b>
+<i>55</i>&nbsp;    }
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    public void initializeApolloMatrix(int[][] apolloMatrix) {
+<b class="nc"><i>58</i>&nbsp;        Button[][] buttonMatrix = new Button[3][3];</b>
+<b class="nc"><i>59</i>&nbsp;        buttonMatrix[0][0] = b00;</b>
+<b class="nc"><i>60</i>&nbsp;        buttonMatrix[0][1] = b01;</b>
+<b class="nc"><i>61</i>&nbsp;        buttonMatrix[0][2] = b02;</b>
+<b class="nc"><i>62</i>&nbsp;        buttonMatrix[1][0] = b10;</b>
+<b class="nc"><i>63</i>&nbsp;        buttonMatrix[1][2] = b12;</b>
+<b class="nc"><i>64</i>&nbsp;        buttonMatrix[2][0] = b20;</b>
+<b class="nc"><i>65</i>&nbsp;        buttonMatrix[2][1] = b21;</b>
+<b class="nc"><i>66</i>&nbsp;        buttonMatrix[2][2] = b22;</b>
+<i>67</i>&nbsp;
+<b class="nc"><i>68</i>&nbsp;        for(int i=0; i&lt;3; ++i)</b>
+<b class="nc"><i>69</i>&nbsp;            for( int j=0 ; j &lt; 3; ++j)</b>
+<b class="nc"><i>70</i>&nbsp;                if(i!=1 || j!= 1)</b>
+<b class="nc"><i>71</i>&nbsp;                    if(apolloMatrix[i][j]==0){</b>
+<b class="nc"><i>72</i>&nbsp;                        buttonMatrix[i][j].setDisable(true);</b>
+<b class="nc"><i>73</i>&nbsp;                        buttonMatrix[i][j].setStyle(&quot;-fx-background-color: #ff0000&quot;);</b>
+<i>74</i>&nbsp;                    }
+<i>75</i>&nbsp;    }
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    public void setStage(Stage stage){
+<b class="nc"><i>78</i>&nbsp;        this.stage = stage;</b>
+<i>79</i>&nbsp;    }
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;    public Builder getChosen() {
+<b class="nc"><i>82</i>&nbsp;        return chosen;</b>
+<i>83</i>&nbsp;    }
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    public void initializeButtons() {
+<b class="nc"><i>86</i>&nbsp;        Builder chosen = matchStateMessage.getCurrentPlayer().getBuilderF();</b>
+<b class="nc"><i>87</i>&nbsp;        chosen.setBoard(new Board(matchStateMessage.getBoard()));</b>
+<b class="nc"><i>88</i>&nbsp;        chosen.setPlayer(matchStateMessage.getCurrentPlayer());</b>
+<b class="nc"><i>89</i>&nbsp;        int[][] neighboringSwappingCell = Board.neighboringSwappingCell(chosen, AccessType.OCCUPIED);</b>
+<b class="nc"><i>90</i>&nbsp;        boolean allZeros = true;</b>
+<b class="nc"><i>91</i>&nbsp;        for(int i = 0; i &lt; 3 &amp;&amp; allZeros; ++i)</b>
+<b class="nc"><i>92</i>&nbsp;            for(int j = 0; j &lt; 3 &amp;&amp; allZeros; ++j)</b>
+<b class="nc"><i>93</i>&nbsp;                if(neighboringSwappingCell[i][j] != 0) allZeros = false;</b>
+<b class="nc"><i>94</i>&nbsp;        if(allZeros){</b>
+<b class="nc"><i>95</i>&nbsp;            F.setDisable(true);</b>
+<b class="nc"><i>96</i>&nbsp;            F.setStyle(&quot;-fx-border-color: #ff0000; -fx-border-width: 5px;&quot;);</b>
+<i>97</i>&nbsp;        }else
+<b class="nc"><i>98</i>&nbsp;            F.setStyle(&quot;-fx-border-color: #00ff00; -fx-border-width: 5px;&quot;);</b>
+<b class="nc"><i>99</i>&nbsp;        chosen = matchStateMessage.getCurrentPlayer().getBuilderM();</b>
+<b class="nc"><i>100</i>&nbsp;        chosen.setBoard(new Board(matchStateMessage.getBoard()));</b>
+<b class="nc"><i>101</i>&nbsp;        chosen.setPlayer(matchStateMessage.getCurrentPlayer());</b>
+<b class="nc"><i>102</i>&nbsp;        neighboringSwappingCell = Board.neighboringSwappingCell(chosen, AccessType.OCCUPIED);</b>
+<b class="nc"><i>103</i>&nbsp;        allZeros = true;</b>
+<b class="nc"><i>104</i>&nbsp;        for(int i = 0; i &lt; 3 &amp;&amp; allZeros; ++i)</b>
+<b class="nc"><i>105</i>&nbsp;            for(int j = 0; j &lt; 3 &amp;&amp; allZeros; ++j)</b>
+<b class="nc"><i>106</i>&nbsp;                if(neighboringSwappingCell[i][j] != 0) allZeros = false;</b>
+<b class="nc"><i>107</i>&nbsp;        if(allZeros){</b>
+<b class="nc"><i>108</i>&nbsp;            M.setDisable(true);</b>
+<b class="nc"><i>109</i>&nbsp;            M.setStyle(&quot;-fx-border-color: #ff0000; -fx-border-width: 5px;&quot;);</b>
+<i>110</i>&nbsp;        }else
+<b class="nc"><i>111</i>&nbsp;            M.setStyle(&quot;-fx-border-color: #00ff00; -fx-border-width: 5px;&quot;);</b>
+<i>112</i>&nbsp;    }
+<i>113</i>&nbsp;
+<i>114</i>&nbsp;    @FXML
+<i>115</i>&nbsp;    public void selectSwap(ActionEvent actionEvent){
+<b class="nc"><i>116</i>&nbsp;        Button pos = (Button) actionEvent.getSource();</b>
+<b class="nc"><i>117</i>&nbsp;        Direction direction = null;</b>
+<b class="nc"><i>118</i>&nbsp;        if(pos.equals(b00)){</b>
+<b class="nc"><i>119</i>&nbsp;            direction = Direction.NORTH_WEST;</b>
+<b class="nc"><i>120</i>&nbsp;        } else if (pos.equals(b01)){</b>
+<b class="nc"><i>121</i>&nbsp;            direction = Direction.NORTH;</b>
+<b class="nc"><i>122</i>&nbsp;        } else if (pos.equals(b02)){</b>
+<b class="nc"><i>123</i>&nbsp;            direction = Direction.NORTH_EAST;</b>
+<b class="nc"><i>124</i>&nbsp;        } else if (pos.equals(b10)){</b>
+<b class="nc"><i>125</i>&nbsp;            direction = Direction.WEST;</b>
+<b class="nc"><i>126</i>&nbsp;        } else if (pos.equals(b12)){</b>
+<b class="nc"><i>127</i>&nbsp;            direction = Direction.EAST;</b>
+<b class="nc"><i>128</i>&nbsp;        } else if (pos.equals(b20)){</b>
+<b class="nc"><i>129</i>&nbsp;            direction = Direction.SOUTH_WEST;</b>
+<b class="nc"><i>130</i>&nbsp;        } else if (pos.equals(b21)){</b>
+<b class="nc"><i>131</i>&nbsp;            direction = Direction.SOUTH;</b>
+<b class="nc"><i>132</i>&nbsp;        } else if (pos.equals(b22)){</b>
+<b class="nc"><i>133</i>&nbsp;            direction = Direction.SOUTH_EAST;</b>
+<i>134</i>&nbsp;        }
+<b class="nc"><i>135</i>&nbsp;        b00.setDisable(true);</b>
+<b class="nc"><i>136</i>&nbsp;        b01.setDisable(true);</b>
+<b class="nc"><i>137</i>&nbsp;        b02.setDisable(true);</b>
+<b class="nc"><i>138</i>&nbsp;        b10.setDisable(true);</b>
+<b class="nc"><i>139</i>&nbsp;        b12.setDisable(true);</b>
+<b class="nc"><i>140</i>&nbsp;        b20.setDisable(true);</b>
+<b class="nc"><i>141</i>&nbsp;        b21.setDisable(true);</b>
+<b class="nc"><i>142</i>&nbsp;        b22.setDisable(true);</b>
+<i>143</i>&nbsp;
+<b class="nc"><i>144</i>&nbsp;        AppGUI.getApolloParamMessage().setOpponentBuilderDirection(direction);</b>
+<b class="nc"><i>145</i>&nbsp;        stage.setOnCloseRequest(e-&gt;stage.close());</b>
+<b class="nc"><i>146</i>&nbsp;        stage.close();</b>
+<i>147</i>&nbsp;    }
+<i>148</i>&nbsp;
+<i>149</i>&nbsp;    @FXML
+<i>150</i>&nbsp;    public void selectGender(ActionEvent actionEvent) {
+<b class="nc"><i>151</i>&nbsp;        Button pos = (Button) actionEvent.getSource();</b>
+<i>152</i>&nbsp;        char yourBuilderGender;
+<b class="nc"><i>153</i>&nbsp;        if(pos.getId().equals(&quot;F&quot;)){</b>
+<b class="nc"><i>154</i>&nbsp;            chosen = matchStateMessage.getCurrentPlayer().getBuilderF();</b>
+<b class="nc"><i>155</i>&nbsp;            yourBuilderGender = &#39;F&#39;;</b>
+<i>156</i>&nbsp;        }else{
+<b class="nc"><i>157</i>&nbsp;            chosen = matchStateMessage.getCurrentPlayer().getBuilderM();</b>
+<b class="nc"><i>158</i>&nbsp;            yourBuilderGender = &#39;M&#39;;</b>
+<i>159</i>&nbsp;        }
+<b class="nc"><i>160</i>&nbsp;        chosen.setBoard(new Board(matchStateMessage.getBoard()));</b>
+<b class="nc"><i>161</i>&nbsp;        chosen.setPlayer(matchStateMessage.getCurrentPlayer());</b>
+<b class="nc"><i>162</i>&nbsp;        F.setDisable(true);</b>
+<b class="nc"><i>163</i>&nbsp;        M.setDisable(true);</b>
+<b class="nc"><i>164</i>&nbsp;        AppGUI.getApolloParamMessage().setYourBuilderGender(yourBuilderGender);</b>
+<b class="nc"><i>165</i>&nbsp;        stage.setOnCloseRequest(e-&gt;stage.close());</b>
+<b class="nc"><i>166</i>&nbsp;        stage.close();</b>
+<i>167</i>&nbsp;    }
+<i>168</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-06-02 12:34</div>
+</div>
+</body>
+</html>
