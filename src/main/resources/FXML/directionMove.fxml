@@ -52,13 +52,13 @@
             <Font name="Gabriola" size="22.0" />
          </font>
       </Label>
-      <Button fx:id="b00" layoutX="73.0" layoutY="113.0" mnemonicParsing="false" onAction="#selectMove" opacity="0.37" prefHeight="45.0" prefWidth="47.0" />
-      <Button fx:id="b02" layoutX="177.0" layoutY="113.0" mnemonicParsing="false" onAction="#selectMove" opacity="0.37" prefHeight="45.0" prefWidth="47.0" />
-      <Button fx:id="b12" layoutX="179.0" layoutY="166.0" mnemonicParsing="false" onAction="#selectMove" opacity="0.37" prefHeight="45.0" prefWidth="47.0" />
-      <Button fx:id="b21" layoutX="125.0" layoutY="214.0" mnemonicParsing="false" onAction="#selectMove" opacity="0.37" prefHeight="49.0" prefWidth="47.0" />
-      <Button fx:id="b22" layoutX="179.0" layoutY="214.0" mnemonicParsing="false" onAction="#selectMove" opacity="0.37" prefHeight="49.0" prefWidth="47.0" />
-      <Button fx:id="b20" layoutX="73.0" layoutY="214.0" mnemonicParsing="false" onAction="#selectMove" opacity="0.37" prefHeight="49.0" prefWidth="47.0" />
-      <Button fx:id="b01" layoutX="126.0" layoutY="113.0" mnemonicParsing="false" onAction="#selectMove" opacity="0.37" prefHeight="45.0" prefWidth="47.0" />
-      <Button fx:id="b10" layoutX="71.0" layoutY="162.0" mnemonicParsing="false" onAction="#selectMove" opacity="0.37" prefHeight="49.0" prefWidth="44.0" />
+      <Button fx:id="b00" layoutX="67.0" layoutY="109.0" mnemonicParsing="false" onAction="#selectMove" opacity="0.37" prefHeight="51.0" prefWidth="53.0" />
+      <Button fx:id="b02" layoutX="175.0" layoutY="111.0" mnemonicParsing="false" onAction="#selectMove" opacity="0.37" prefHeight="49.0" prefWidth="54.0" />
+      <Button fx:id="b12" layoutX="173.0" layoutY="162.0" mnemonicParsing="false" onAction="#selectMove" opacity="0.37" prefHeight="50.0" prefWidth="53.0" />
+      <Button fx:id="b21" layoutX="123.0" layoutY="214.0" mnemonicParsing="false" onAction="#selectMove" opacity="0.37" prefHeight="51.0" prefWidth="53.0" />
+      <Button fx:id="b22" layoutX="176.0" layoutY="214.0" mnemonicParsing="false" onAction="#selectMove" opacity="0.37" prefHeight="51.0" prefWidth="53.0" />
+      <Button fx:id="b20" layoutX="67.0" layoutY="214.0" mnemonicParsing="false" onAction="#selectMove" opacity="0.37" prefHeight="51.0" prefWidth="55.0" />
+      <Button fx:id="b01" layoutX="126.0" layoutY="111.0" mnemonicParsing="false" onAction="#selectMove" opacity="0.37" prefHeight="49.0" prefWidth="49.0" />
+      <Button fx:id="b10" layoutX="68.0" layoutY="160.0" mnemonicParsing="false" onAction="#selectMove" opacity="0.37" prefHeight="51.0" prefWidth="55.0" />
    </children>
 </Pane>
