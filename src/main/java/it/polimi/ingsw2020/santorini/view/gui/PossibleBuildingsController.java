@@ -72,7 +72,7 @@ public class PossibleBuildingsController {
     }
 
     public void setText(){
-        text.setText("Seleziona la cella in cui vuoi costruire!");
+        text.setText("Select the cell where you want to build!");
     }
 
     public void initializeBoard() {

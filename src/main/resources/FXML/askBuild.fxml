@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -17,9 +18,9 @@
             <Image url="@../images/endgame_victorywin.png" />
          </image>
       </ImageView>
-      <Label layoutX="68.0" layoutY="56.0" prefHeight="42.0" prefWidth="273.0" text="Seleziona il builder che vuoi swappare" textFill="#f6ff00">
+      <Label layoutX="73.0" layoutY="-1.0" prefHeight="42.0" prefWidth="262.0" text="Select the builder that you want to use" textFill="#2f36b9">
          <font>
-            <Font size="15.0" />
+            <Font name="Gabriola" size="22.0" />
          </font>
       </Label>
       <Button fx:id="F" layoutX="120.0" layoutY="136.0" mnemonicParsing="false" onAction="#selectGender" prefHeight="40.0" prefWidth="40.0" text="✿" />

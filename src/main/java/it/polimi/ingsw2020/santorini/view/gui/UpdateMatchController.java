@@ -219,26 +219,26 @@ public class UpdateMatchController {
         switch (updateMessage.getPhase()){
             case START_TURN:
                 if(updateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())){
-                    text.setText(client.getUsername() + ", tocca a te!");
+                    text.setText(client.getUsername() + ", now is your turn!");
                     Message nextPhase = new Message(client.getUsername());
                     nextPhase.buildNextPhaseMessage();
                     client.getNetworkHandler().send(nextPhase);
                 }
                 else{
-                    text.setText("Ora è il turno di "+ updateMessage.getCurrentPlayer().getNickname());
+                    text.setText("Now is the turn of  "+ updateMessage.getCurrentPlayer().getNickname());
                 }
                 break;
             case STANDBY_PHASE_1 :
             case STANDBY_PHASE_2 :
             case STANDBY_PHASE_3 :
                 if(updateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())){
-                    text.setText(updateMessage.getCurrentPlayer().getDivinePower().getName() + " ha accettato la tua richiesta di aiuto!");
+                    text.setText(updateMessage.getCurrentPlayer().getDivinePower().getName() + " accepted your request!");
                     Message nextPhase = new Message(client.getUsername());
                     nextPhase.buildNextPhaseMessage();
                     client.getNetworkHandler().send(nextPhase);
                 }
                 else{
-                    text.setText(updateMessage.getCurrentPlayer().getDivinePower().getName() +" ha aiutato "+ updateMessage.getCurrentPlayer().getNickname());
+                    text.setText(updateMessage.getCurrentPlayer().getDivinePower().getName() +" helped "+ updateMessage.getCurrentPlayer().getNickname());
                 }
                 break;
             case MOVE_PHASE:
@@ -251,9 +251,9 @@ public class UpdateMatchController {
                 break;
             case END_TURN:
                 if(updateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())){
-                    text.setText(client.getUsername()+ " , il tuo turno è terminato");
+                    text.setText(client.getUsername()+ " , your turn is finished!");
                 }else{
-                    text.setText("Il turno di "+ updateMessage.getCurrentPlayer().getNickname()+ " è terminato!");
+                    text.setText(updateMessage.getCurrentPlayer().getNickname()+ "'s turn is finished!");
                 }
                 Message nextPhase = new Message(client.getUsername());
                 nextPhase.buildNextPhaseMessage();

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
@@ -42,12 +43,12 @@
             <Image url="@../images/MiniBoard.png" />
          </image>
       </ImageView>
-      <Label fx:id="text" layoutX="22.0" layoutY="-1.0" prefHeight="30.0" prefWidth="256.0" text="Seleziona la cella dove vuoi nella quale">
+      <Label fx:id="text" layoutX="38.0" layoutY="1.0" prefHeight="30.0" prefWidth="220.0" text="Select the cell where you want to">
          <font>
             <Font name="Gabriola" size="22.0" />
          </font>
       </Label>
-      <Label fx:id="text2" layoutX="62.0" layoutY="29.0" prefHeight="30.0" prefWidth="173.0" text="vuoi costruire una cupola">
+      <Label fx:id="text2" layoutX="104.0" layoutY="29.0" prefHeight="30.0" prefWidth="89.0" text="build a dome">
          <font>
             <Font name="Gabriola" size="22.0" />
          </font>

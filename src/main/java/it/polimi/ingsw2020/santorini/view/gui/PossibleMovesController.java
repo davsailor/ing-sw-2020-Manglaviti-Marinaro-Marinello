@@ -115,7 +115,7 @@ public class PossibleMovesController {
     }
 
     public void setText(){
-        text.setText("Seleziona la cella in cui ti vuoi muovere!");
+        text.setText("Select the cell where you want to move!");
     }
 
     public void initializeBoard() {

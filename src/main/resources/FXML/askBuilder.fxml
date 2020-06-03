@@ -18,7 +18,7 @@
             <Image url="@../images/endgame_victorywin.png" />
          </image>
       </ImageView>
-      <Label layoutX="57.0" layoutY="6.0" prefHeight="42.0" prefWidth="295.0" text="Seleziona il builder che vuoi swappare" textFill="#5500ff">
+      <Label layoutX="51.0" layoutY="8.0" prefHeight="42.0" prefWidth="307.0" text="Select the builder that you want to swap" textFill="#5500ff">
          <font>
             <Font name="Gabriola" size="25.0" />
          </font>

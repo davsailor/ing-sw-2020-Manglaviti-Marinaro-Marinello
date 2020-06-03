@@ -43,12 +43,12 @@
             <Image url="@../images/MiniBoard.png" />
          </image>
       </ImageView>
-      <Label fx:id="text" layoutX="50.0" layoutY="1.0" prefHeight="30.0" prefWidth="197.0" text="Seleziona la cella nella quale ">
+      <Label fx:id="text" layoutX="65.0" layoutY="-1.0" prefHeight="30.0" prefWidth="167.0" text="Select the cell where you ">
          <font>
             <Font name="Gabriola" size="22.0" />
          </font>
       </Label>
-      <Label fx:id="text2" layoutX="97.0" layoutY="31.0" prefHeight="30.0" prefWidth="86.0" text="vuoi andare">
+      <Label fx:id="text2" layoutX="110.0" layoutY="29.0" prefHeight="30.0" prefWidth="76.0" text="want to go">
          <font>
             <Font name="Gabriola" size="22.0" />
          </font>
