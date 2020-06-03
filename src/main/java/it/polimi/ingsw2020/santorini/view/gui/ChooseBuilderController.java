@@ -307,7 +307,6 @@ public class ChooseBuilderController {
         builder.setBoard(new Board(matchStateMessage.getBoard()));
         builder.setPlayer(matchStateMessage.getCurrentPlayer());
         if( !builder.canMove()) {
-            System.out.println("SEI UNO STRONZO");
             return;
         }
         if(x==1 && y==1){
@@ -368,9 +367,9 @@ public class ChooseBuilderController {
 
     public void setText(){
         if(matchStateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())){
-            text.setText(client.getUsername() +", seleziona il builder che vuoi muovere");
+            text.setText(client.getUsername() +", select the builder that you want to move");
         }else{
-            text.setText("E' il turno di "+ matchStateMessage.getCurrentPlayer().getNickname());
+            text.setText("Now is the turn of "+ matchStateMessage.getCurrentPlayer().getNickname());
         }
     }
 

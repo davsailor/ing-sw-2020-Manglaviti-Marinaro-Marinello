@@ -260,12 +260,12 @@ public class SelectionBuilderController {
 
     public void setText(){
         if(matchStateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())){
-            text.setText(client.getUsername() +", posiziona i tuoi builder");
+            text.setText(client.getUsername() +", place your builders");
             text.setAlignment(Pos.TOP_CENTER);
         }else{
-            text.setText( matchStateMessage.getCurrentPlayer().getNickname()+" sta posizionando i suoi builder" );
+            text.setText( matchStateMessage.getCurrentPlayer().getNickname()+" is placing the builders" );
             text.setAlignment(Pos.TOP_CENTER);
-            text2.setText("Aspetta il tuo turno");
+            text2.setText("Wait your turn");
             text2.setAlignment(Pos.TOP_CENTER);
         }
     }

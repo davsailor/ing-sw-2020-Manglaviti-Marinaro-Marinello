@@ -123,10 +123,13 @@ public class HestiaController {
 
         int[] posBuilder = new int[2];
         posBuilder[0] = matchStateMessage.getCurrentPlayer().getPlayingBuilder().getPosX();
-        posBuilder[1] =matchStateMessage.getCurrentPlayer().getPlayingBuilder().getPosY();
+        posBuilder[1] = matchStateMessage.getCurrentPlayer().getPlayingBuilder().getPosY();
 
+        matchStateMessage.getCurrentPlayer().getPlayingBuilder().setBoard(new Board(matchStateMessage.getBoard()));
+        matchStateMessage.getCurrentPlayer().getPlayingBuilder().setPlayer(matchStateMessage.getCurrentPlayer());
 
         int[][] neighboringLevelCell = Board.neighboringLevelCell(matchStateMessage.getCurrentPlayer().getPlayingBuilder());
+
         if(matchStateMessage.getCurrentPlayer().getPlayingBuilder().getPosX() == 1 || matchStateMessage.getCurrentPlayer().getPlayingBuilder().getPosX() == 5){
             neighboringLevelCell[1][0] = -1;
             neighboringLevelCell[1][1] = -1;
