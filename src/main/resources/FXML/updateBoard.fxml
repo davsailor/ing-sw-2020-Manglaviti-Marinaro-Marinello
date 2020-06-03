@@ -95,31 +95,6 @@
             <Font name="Gabriola" size="20.0" />
          </font>
       </Label>
-    <Button fx:id="b00" layoutX="236.0" layoutY="72.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
-    <Button fx:id="b43" layoutX="438.0" layoutY="374.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
-    <Button fx:id="b32" layoutX="371.0" layoutY="299.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
-    <Button fx:id="b13" layoutX="438.0" layoutY="148.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
-    <Button fx:id="b20" layoutX="237.0" layoutY="224.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
-    <Button fx:id="b34" layoutX="503.0" layoutY="299.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
-    <Button fx:id="b02" layoutX="371.0" layoutY="76.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
-    <Button fx:id="b01" layoutX="304.0" layoutY="76.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
-    <Button fx:id="b23" layoutX="438.0" layoutY="222.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
-    <Button fx:id="b14" layoutX="501.0" layoutY="149.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
-    <Button fx:id="b41" layoutX="306.0" layoutY="374.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
-    <Button fx:id="b21" layoutX="306.0" layoutY="222.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
-    <Button fx:id="b12" layoutX="371.0" layoutY="149.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
-    <Button fx:id="b31" layoutX="306.0" layoutY="298.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
-    <Button fx:id="b10" layoutX="236.0" layoutY="150.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
-    <Button fx:id="b42" layoutX="371.0" layoutY="374.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
-    <Button fx:id="b40" layoutX="237.0" layoutY="374.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
-    <Button fx:id="b44" layoutX="503.0" layoutY="374.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
-    <Button fx:id="b33" layoutX="438.0" layoutY="298.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
-    <Button fx:id="b04" layoutX="501.0" layoutY="76.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
-    <Button fx:id="b22" layoutX="372.0" layoutY="222.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
-    <Button fx:id="b11" layoutX="304.0" layoutY="150.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
-    <Button fx:id="b24" layoutX="501.0" layoutY="222.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
-    <Button fx:id="b30" layoutX="238.0" layoutY="300.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
-    <Button fx:id="b03" layoutX="436.0" layoutY="76.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
     <Label fx:id="text" layoutX="160.0" layoutY="-61.0" prefHeight="37.0" prefWidth="640.0">
         <font>
             <Font name="Gabriola" size="30.0" />
@@ -395,5 +370,30 @@
             <Font name="Gabriola" size="29.0" />
          </font>
       </Label>
+    <Button fx:id="b42" layoutX="371.0" layoutY="374.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
+    <Button fx:id="b11" layoutX="304.0" layoutY="150.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
+    <Button fx:id="b01" layoutX="304.0" layoutY="76.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
+    <Button fx:id="b24" layoutX="501.0" layoutY="222.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
+    <Button fx:id="b34" layoutX="503.0" layoutY="299.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
+    <Button fx:id="b02" layoutX="371.0" layoutY="76.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
+    <Button fx:id="b14" layoutX="501.0" layoutY="149.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
+    <Button fx:id="b41" layoutX="306.0" layoutY="374.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
+    <Button fx:id="b40" layoutX="237.0" layoutY="374.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
+    <Button fx:id="b21" layoutX="306.0" layoutY="222.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
+    <Button fx:id="b04" layoutX="501.0" layoutY="76.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
+    <Button fx:id="b13" layoutX="438.0" layoutY="148.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
+    <Button fx:id="b10" layoutX="236.0" layoutY="150.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
+    <Button fx:id="b32" layoutX="371.0" layoutY="299.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
+    <Button fx:id="b43" layoutX="438.0" layoutY="374.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
+    <Button fx:id="b22" layoutX="372.0" layoutY="222.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
+    <Button fx:id="b30" layoutX="238.0" layoutY="300.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
+    <Button fx:id="b33" layoutX="438.0" layoutY="298.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
+    <Button fx:id="b03" layoutX="436.0" layoutY="76.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
+    <Button fx:id="b12" layoutX="371.0" layoutY="149.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
+    <Button fx:id="b23" layoutX="438.0" layoutY="222.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
+    <Button fx:id="b44" layoutX="503.0" layoutY="374.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
+    <Button fx:id="b20" layoutX="237.0" layoutY="224.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
+    <Button fx:id="b00" layoutX="236.0" layoutY="72.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
+    <Button fx:id="b31" layoutX="306.0" layoutY="298.0" mnemonicParsing="false" onAction="#setPos" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
   </children>
 </Pane>
