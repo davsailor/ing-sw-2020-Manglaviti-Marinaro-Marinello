@@ -48,6 +48,10 @@ public class Server {
      * @param args no args needed
      */
     public static void main(String[] args) {
+        if(args.length > 1) {
+            System.out.println("invalid command");
+            System.exit(-1);
+        }
         Server server = new Server();
         while(true) {
             try {

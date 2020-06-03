@@ -91,7 +91,7 @@ public class MinotaurController {
         stage.close();
     }
 
-    public void initializeMinotaurMatrix(int[][] MinotaurMatrix){
+    public void initializeMinotaurMatrix(Builder chosen, int[][] MinotaurMatrix){
         matrix[0][0] = b00;
         matrix[0][1] = b01;
         matrix[0][2] = b02;
@@ -100,6 +100,15 @@ public class MinotaurController {
         matrix[2][0] = b20;
         matrix[2][1] = b21;
         matrix[2][2] = b22;
+        for(int i = 0; i < 3; ++i)
+            for(int j = 0; j < 3; ++j)
+                if(MinotaurMatrix[i][j] != 0)
+                    try {
+                        if (matchStateMessage.getBoard()[chosen.getPosX() + (i - 1) * 2][chosen.getPosY() + (j - 1) * 2].getStatus() != AccessType.FREE)
+                            MinotaurMatrix[i][j] = 0;
+                    }catch (IndexOutOfBoundsException e){
+                        MinotaurMatrix[i][j] = 0;
+                    }
         for(int i=0; i<3; ++i){
             for( int j=0 ; j < 3; ++j){
                 if(i!=1 || j!= 1){

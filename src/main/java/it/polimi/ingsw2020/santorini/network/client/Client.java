@@ -9,7 +9,6 @@ import javafx.application.Application;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class Client {
     private ServerAdapter networkHandler;
@@ -29,16 +28,19 @@ public class Client {
     public static void main(String[] args) {
         if(args.length == 0){
             Application.launch(AppGUI.class);
-        } else {
+        } else if(args.length == 1) {
             if(args[0].equals("-cli")) {
                 CLI cli = new CLI();
                 cli.displaySetupWindow(true);
             } else if(args[0].equals("-gui"))
                 Application.launch(AppGUI.class);
             else {
-                System.out.println("Command does not exist!");
+                System.out.println("invalid command");
                 System.exit(-1);
             }
+        } else {
+            System.out.println("invalid command");
+            System.exit(-1);
         }
     }
 

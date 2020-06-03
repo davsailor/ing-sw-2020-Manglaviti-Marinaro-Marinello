@@ -1237,7 +1237,7 @@ public class AppGUI extends Application implements ViewInterface{
             minotaurController = loader.getController();
             minotaurController.setStage(stage);
             minotaurController.setMatchStateMessage(message);
-            minotaurController.initializeMinotaurMatrix(Board.neighboringSwappingCell(chosen, AccessType.OCCUPIED));
+            minotaurController.initializeMinotaurMatrix(chosen, Board.neighboringSwappingCell(chosen, AccessType.OCCUPIED));
             stage.setScene(pushScene);
             stage.showAndWait();
             Message paramMessage = new Message(client.getUsername());
