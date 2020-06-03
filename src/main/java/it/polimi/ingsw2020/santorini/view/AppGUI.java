@@ -1331,7 +1331,7 @@ public class AppGUI extends Application implements ViewInterface{
             swapStage.initModality(Modality.APPLICATION_MODAL);
             Parent root;
             Scene scene;
-            fxmlLoader.setLocation(getClass().getResource("/FXML/ask.fxml"));
+            fxmlLoader.setLocation(getClass().getResource("/FXML/askBuild.fxml"));
             try {
                 root = fxmlLoader.load();
                 scene = new Scene(root);

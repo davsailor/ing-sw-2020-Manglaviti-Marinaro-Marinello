@@ -166,6 +166,10 @@ public class PrometheusController {
     }
 
     public void initializeButtons() {
+        matchStateMessage.getCurrentPlayer().getBuilderM().setBoard(new Board(matchStateMessage.getBoard()));
+        matchStateMessage.getCurrentPlayer().getBuilderM().setPlayer(matchStateMessage.getCurrentPlayer());
+        matchStateMessage.getCurrentPlayer().getBuilderF().setBoard(new Board(matchStateMessage.getBoard()));
+        matchStateMessage.getCurrentPlayer().getBuilderF().setPlayer(matchStateMessage.getCurrentPlayer());
         if (!matchStateMessage.getCurrentPlayer().getBuilderM().canMove() || !matchStateMessage.getCurrentPlayer().getBuilderM().canBuild()) {
             M.setDisable(true);
             M.setStyle("-fx-border-color: #ff0000; -fx-border-width: 5px;");
@@ -175,6 +179,6 @@ public class PrometheusController {
             F.setDisable(true);
             F.setStyle("-fx-border-color: #ff0000; -fx-border-width: 5px;");
         }else
-            M.setStyle("-fx-border-color: #00ff00; -fx-border-width: 5px;");
+            F.setStyle("-fx-border-color: #00ff00; -fx-border-width: 5px;");
     }
 }

@@ -61,7 +61,7 @@ public class ArtemisController {
         for(int i=0 ; i<3 ;++i)
             for(int j=0; j<3 ; ++j)
                 if (i!=1 || j!= 1)
-                    if (possibleMoves[i][j] == 0) {
+                    if (possibleMoves[i][j] == 0 || possibleMoves[i][j] == 4) {
                         matrix[i][j].setStyle("-fx-background-color: #ff0000");
                         matrix[i][j].setDisable(true);
                     }
