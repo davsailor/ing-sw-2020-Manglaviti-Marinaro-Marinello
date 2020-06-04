@@ -17,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -116,6 +117,9 @@ public class SelectGodController {
 
         String name = findName(selectedGods.get(0));
         System.out.println(name);
+        Tooltip tooltip1 = new Tooltip();
+        tooltip1.setText(findEffect(selectedGods.get(0)));
+        godButton1.setTooltip(tooltip1);
         name1.setText(name);
         name1.setAlignment(Pos.TOP_CENTER);
         Image image = findImage(name);
@@ -125,6 +129,9 @@ public class SelectGodController {
         god1.setGraphic(imageView);
 
         name = findName(selectedGods.get(1));
+        Tooltip tooltip2 = new Tooltip();
+        tooltip2.setText(findEffect(selectedGods.get(1)));
+        godButton2.setTooltip(tooltip2);
         name2.setText(name);
         name2.setAlignment(Pos.TOP_CENTER);
         image = findImage(name);
@@ -135,6 +142,9 @@ public class SelectGodController {
 
         if(selectedGods.size() == 3){
             name = findName(selectedGods.get(2));
+            Tooltip tooltip3 = new Tooltip();
+            tooltip3.setText(findEffect(selectedGods.get(2)));
+            godButton3.setTooltip(tooltip3);
             name3.setText(name);
             name3.setAlignment(Pos.TOP_CENTER);
             image = findImage(name);
@@ -175,6 +185,57 @@ public class SelectGodController {
                 return "Prometheus";
             case 13:
                 return "Zeus";
+            default:
+                return null;
+        }
+    }
+
+    private String findEffect(int numGods) {
+        switch (numGods) {
+            case 0:
+                return "Your Worker may move into an opponent Worker’s space\n" +
+            "(using normal movement rules) and force their Worker to the space yours\n" +
+                    "just vacated (swapping their positions).";
+            case 9:
+                return "You may remove an unoccupied block\n" +
+                        "(not dome) neighboring your unmoved Worker";
+            case 1:
+                return "Your Worker may move one additional time,\n" +
+                        "but not back to the space it started on.";
+            case 2:
+                return "If one of your Workers moved up on your last turn, \n" +
+                        "opponent Workers cannot move up this turn.";
+            case 3:
+                return "Your Worker may build a dome\n" +
+                        "at any level including the ground.";
+            case 11:
+                return "You also win\n" +
+                        "when there are at least five\n" +
+                        "Complete Towers on the board..";
+            case 4:
+                return "Your Worker may build one additional time,\n" +
+                        "but not on the same space.";
+            case 5:
+                return "Your Worker may build one additional block\n" +
+                        "(not dome) on top of your first block.";
+            case 10:
+                return "Your Worker may build one additional time.\n" +
+                        "The additional build cannot be on a perimeter space.";
+            case 6:
+                return "Your Worker may move into an opponent Worker’s\n" +
+                        "space (using normal movement rules), if the next space in the same direction is\n" +
+                        "unoccupied. Their Worker is forced into that space (regardless of its level).";
+            case 7:
+                return "You also win if your Worker moves down two or more levels.";
+            case 12:
+                return "If your unmoved Worker is on the ground level,\n" +
+                        "it may build up to three times in neighboring spaces.";
+            case 8:
+                return "If your Worker does not move up,\n" +
+                        "it may build both before and after moving.";
+            case 13:
+                return "Your Worker may build under itself in its current\n" +
+                        "space, forcing it up one level. You do not win by forcing yourself up to the third level.";
             default:
                 return null;
         }
