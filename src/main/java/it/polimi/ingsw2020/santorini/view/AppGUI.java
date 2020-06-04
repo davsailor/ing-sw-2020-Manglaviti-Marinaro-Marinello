@@ -32,7 +32,6 @@ import static it.polimi.ingsw2020.santorini.utils.PhaseType.*;
 
 public class AppGUI extends Application implements ViewInterface{
 
-    // TODO: settare le finestre non ridimensionabili
     private Client client;
     private Stage primaryStage;
     private RegisterController registerController;
@@ -158,6 +157,8 @@ public class AppGUI extends Application implements ViewInterface{
                 registerController.setClient(client);
                 primaryStage.setTitle("Santorini");
                 primaryStage.setScene(registerScene);
+                primaryStage.setResizable(false);
+                primaryStage.sizeToScene();
                 primaryStage.show();
             });
         } else {
@@ -504,6 +505,8 @@ public class AppGUI extends Application implements ViewInterface{
             activationPowerController.initializeText();
             activationPowerController.setStage(powerStage);
             powerStage.setScene(scene);
+            powerStage.setResizable(false);
+            powerStage.sizeToScene();
             powerStage.show();
         });
     }
@@ -661,6 +664,8 @@ public class AppGUI extends Application implements ViewInterface{
             possibleMovesController.setText();
             possibleMovesController.setStage(moveStage);
             moveStage.setScene(scene);
+            moveStage.setResizable(false);
+            moveStage.sizeToScene();
             moveStage.show();
         });
 
@@ -736,6 +741,8 @@ public class AppGUI extends Application implements ViewInterface{
             possibleBuildingsController.setText();
             possibleBuildingsController.setStage(buildStage);
             buildStage.setScene(scene);
+            buildStage.setResizable(false);
+            buildStage.sizeToScene();
             buildStage.show();
         });
     }
@@ -873,6 +880,8 @@ public class AppGUI extends Application implements ViewInterface{
             askNewMatchController = loader_new.getController();
             askNewMatchController.setStage(stage);
             stage.setScene(scene);
+            stage.setResizable(false);
+            stage.sizeToScene();
             stage.showAndWait();
 
             FXMLLoader loader = new FXMLLoader();
@@ -950,6 +959,8 @@ public class AppGUI extends Application implements ViewInterface{
             apolloController.initializeButtons();
             swapStage.setTitle("APOLLO POWER");
             swapStage.setScene(scene);
+            swapStage.setResizable(false);
+            swapStage.sizeToScene();
             swapStage.showAndWait();
             Builder chosen = apolloController.getChosen();
 
@@ -973,6 +984,8 @@ public class AppGUI extends Application implements ViewInterface{
             apolloController.setMatchStateMessage(message);
             apolloController.initializeApolloMatrix(Board.neighboringSwappingCell(chosen, AccessType.OCCUPIED));
             stage.setScene(swapScene);
+            stage.setResizable(false);
+            stage.sizeToScene();
             stage.showAndWait();
             Message paramMessage = new Message(client.getUsername());
             paramMessage.buildApolloParamMessage(apolloParamMessage);
@@ -1013,6 +1026,8 @@ public class AppGUI extends Application implements ViewInterface{
             aresController.setMatchStateMessage(message);
             aresController.initializeAresMatrix();
             stage.setScene(demolitionScene);
+            stage.setResizable(false);
+            stage.sizeToScene();
             stage.showAndWait();
             Message paramMessage = new Message(client.getUsername());
             paramMessage.buildAresParamMessage(aresParamMessage);
@@ -1054,6 +1069,8 @@ public class AppGUI extends Application implements ViewInterface{
             artemisController.setMatchStateMessage(message);
             artemisController.initializeArtemisMatrix();
             stage.setScene(moveScene);
+            stage.setResizable(false);
+            stage.sizeToScene();
             stage.showAndWait();
             Message paramMessage = new Message(client.getUsername());
             paramMessage.buildArtemisParamMessage(artemisParamMessage);
@@ -1095,6 +1112,8 @@ public class AppGUI extends Application implements ViewInterface{
             atlasController.setMatchStateMessage(message);
             atlasController.initializeAtlasMatrix();
             stage.setScene(demolitionScene);
+            stage.setResizable(false);
+            stage.sizeToScene();
             stage.showAndWait();
             Message paramMessage = new Message(client.getUsername());
             paramMessage.buildAtlasParamMessage(atlasParamMessage);
@@ -1136,6 +1155,8 @@ public class AppGUI extends Application implements ViewInterface{
             demeterController.setMatchStateMessage(message);
             demeterController.initializeDemeterMatrix();
             stage.setScene(demolitionScene);
+            stage.setResizable(false);
+            stage.sizeToScene();
             stage.showAndWait();
             Message paramMessage = new Message(client.getUsername());
             paramMessage.buildDemeterParamMessage(demeterParamMessage);
@@ -1177,6 +1198,8 @@ public class AppGUI extends Application implements ViewInterface{
             hestiaController.setMatchStateMessage(message);
             hestiaController.initializeHestiaMatrix();
             stage.setScene(demolitionScene);
+            stage.setResizable(false);
+            stage.sizeToScene();
             stage.showAndWait();
             Message paramMessage = new Message(client.getUsername());
             paramMessage.buildHestiaParamMessage(hestiaParamMessage);
@@ -1217,6 +1240,8 @@ public class AppGUI extends Application implements ViewInterface{
             minotaurController.initializeButtons();
             swapStage.setTitle("MINOTAUR POWER");
             swapStage.setScene(scene);
+            swapStage.setResizable(false);
+            swapStage.sizeToScene();
             swapStage.showAndWait();
             Builder chosen = minotaurController.getChosen();
 
@@ -1239,6 +1264,8 @@ public class AppGUI extends Application implements ViewInterface{
             minotaurController.setMatchStateMessage(message);
             minotaurController.initializeMinotaurMatrix(chosen, Board.neighboringSwappingCell(chosen, AccessType.OCCUPIED));
             stage.setScene(pushScene);
+            stage.setResizable(false);
+            stage.sizeToScene();
             stage.showAndWait();
             Message paramMessage = new Message(client.getUsername());
             paramMessage.buildMinotaurParamMessage(minotaurParamMessage);
@@ -1281,6 +1308,8 @@ public class AppGUI extends Application implements ViewInterface{
             poseidonController.initializeButtons();
             swapStage.setTitle("POSEIDON POWER");
             swapStage.setScene(scene);
+            swapStage.setResizable(false);
+            swapStage.sizeToScene();
             swapStage.showAndWait();
 
             Stage stage = new Stage();
@@ -1303,6 +1332,8 @@ public class AppGUI extends Application implements ViewInterface{
             poseidonController.setMatchStateMessage(message);
             poseidonController.initializePoseidonMatrix();
             stage.setScene(buildScene);
+            stage.setResizable(false);
+            stage.sizeToScene();
             stage.showAndWait();
             Message paramMessage = new Message(client.getUsername());
             paramMessage.buildPoseidonParamMessage(poseidonParamMessage);
@@ -1345,6 +1376,8 @@ public class AppGUI extends Application implements ViewInterface{
             prometheusController.initializeButtons();
             swapStage.setTitle("PROMETHEUS POWER");
             swapStage.setScene(scene);
+            swapStage.setResizable(false);
+            swapStage.sizeToScene();
             swapStage.showAndWait();
             Builder chosen = prometheusController.getChosen();
 
@@ -1367,6 +1400,8 @@ public class AppGUI extends Application implements ViewInterface{
             prometheusController.setMatchStateMessage(message);
             prometheusController.initializePrometheusMatrix(Board.neighboringLevelCell(chosen));
             stage.setScene(demolitionScene);
+            stage.setResizable(false);
+            stage.sizeToScene();
             stage.showAndWait();
             Message paramMessage = new Message(client.getUsername());
             paramMessage.buildPrometheusParamMessage(prometheusParamMessage);
