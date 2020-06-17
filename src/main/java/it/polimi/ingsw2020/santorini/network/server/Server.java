@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -15,7 +14,7 @@ public class Server {
 
     public final static int PORT = 9999;
     private ServerSocket socket;
-    public final static int SO_TIMEOUT = 8000;
+    public final static int SO_TIMEOUT = 10000;
 
     private int matchIDGen;
     private final HashMap<Player, Integer> waitingPlayers;

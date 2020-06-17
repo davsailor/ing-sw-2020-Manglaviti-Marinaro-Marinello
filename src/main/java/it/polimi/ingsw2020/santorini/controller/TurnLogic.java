@@ -86,6 +86,7 @@ public class TurnLogic {
     private void checkChronusEffect(Match match) throws EndMatchException{
         if(chronusEffect != null) {
             try {
+                System.out.println("Torri complete: " + match.getNumberOfCompletedTowers());
                 chronusEffect.invoke(chronus,match, null, this);
             } catch (InvocationTargetException e) {
                 throw new EndMatchException(match);
@@ -262,7 +263,7 @@ public class TurnLogic {
      * @param match is the reference to the match controlled by the controller
      * @param phase is the Phase that would be handled.
      */
-    private void standByPhaseManager(Match match, PhaseType phase) throws EndMatchException{
+    private synchronized void standByPhaseManager(Match match, PhaseType phase) throws EndMatchException{
         // controllo se il potere divino è attivabile
         System.out.printf("STANDBY PHASE MANAGER: ");
         GodCard god = match.getCurrentPlayer().getDivinePower();
@@ -283,6 +284,7 @@ public class TurnLogic {
                 }
             } else if(remainingActions.contains(ActionType.SELECT_PARAMETERS)) {
                 System.out.printf("SELECT PARAMETERS\n");
+                remainingActions.remove(ActionType.SELECT_PARAMETERS);
                 if(god.isNeedParameters()) {
                     ArrayList<Message> listOfMessages = new ArrayList<>();
                     Message message = new Message(match.getCurrentPlayer().getNickname());
@@ -290,7 +292,6 @@ public class TurnLogic {
                     listOfMessages.add(message);
                     match.notifyView(listOfMessages);
                 } else {
-                    remainingActions.remove(ActionType.SELECT_PARAMETERS);
                     requestManager(ActionType.USE_POWER, match, null);
                 }
             } else if(remainingActions.contains(ActionType.USE_POWER)){
@@ -298,6 +299,7 @@ public class TurnLogic {
                 nextPhase();
             }
         } else {
+            checkChronusEffect(match);
             nextPhase();
             handlePhases(match);
         }
@@ -309,7 +311,7 @@ public class TurnLogic {
      * @param match is the reference to the match controlled by the controller
      *
      */
-    private void moveManager(Match match) throws EndMatchException{
+    private synchronized void moveManager(Match match) throws EndMatchException{
         System.out.printf("MOVE MANAGER: ");
         if(remainingActions.contains(ActionType.SELECT_BUILDER)){
             if(match.getCurrentPlayer().getPlayingBuilder() == null){
@@ -325,6 +327,7 @@ public class TurnLogic {
             }
         } else if(remainingActions.contains(ActionType.SELECT_CELL_MOVE)){
             System.out.printf("SELECT CELL MOVE\n");
+            remainingActions.remove(ActionType.SELECT_CELL_MOVE);
             int[][] possibleMoves = Board.neighboringStatusCell(match.getCurrentPlayer().getPlayingBuilder(), AccessType.FREE);
             ArrayList<Message> listOfMessages = new ArrayList<>();
             Message requestMove = new Message(match.getCurrentPlayer().getNickname());
@@ -345,10 +348,11 @@ public class TurnLogic {
      * @param match is the reference to the match controlled by the controller
      *
      */
-    private void buildManager(Match match) {
+    private synchronized void buildManager(Match match) throws EndMatchException{
         System.out.printf("BUILD MANAGER: ");
         if(remainingActions.contains(ActionType.SELECT_CELL_BUILD)){
             System.out.println("SELECT CELL BUILD");
+            remainingActions.remove(ActionType.SELECT_CELL_BUILD);
             int[][] possibleBuilding = Board.neighboringLevelCell(match.getCurrentPlayer().getPlayingBuilder());
             ArrayList<Message> listOfMessages = new ArrayList<>();
             Message requestBuild = new Message(match.getCurrentPlayer().getNickname());
@@ -358,10 +362,9 @@ public class TurnLogic {
         } else if(remainingActions.contains(ActionType.BUILD)){
             // richiediamo al client le informazioni necessarie
         } else {
+            //checkChronusEffect(match);
             nextPhase();
-            try {
-                handlePhases(match);
-            } catch (EndMatchException ignored) {}
+            handlePhases(match);
         }
     }
     

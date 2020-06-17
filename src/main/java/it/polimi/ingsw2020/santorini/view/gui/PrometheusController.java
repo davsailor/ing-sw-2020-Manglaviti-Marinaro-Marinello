@@ -2,10 +2,7 @@ package it.polimi.ingsw2020.santorini.view.gui;
 
 import it.polimi.ingsw2020.santorini.model.Board;
 import it.polimi.ingsw2020.santorini.model.Builder;
-import it.polimi.ingsw2020.santorini.network.client.Client;
-import it.polimi.ingsw2020.santorini.utils.AccessType;
 import it.polimi.ingsw2020.santorini.utils.Direction;
-import it.polimi.ingsw2020.santorini.utils.messages.godsParam.PrometheusParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 import it.polimi.ingsw2020.santorini.view.AppGUI;
 import javafx.event.ActionEvent;
@@ -73,27 +70,7 @@ public class PrometheusController {
 
     @FXML
     public void build(ActionEvent actionEvent) {
-        Button pos = (Button) actionEvent.getSource();
-        Direction direction = null;
-        if(pos.equals(b00)){
-            direction = Direction.NORTH_WEST;
-        }else if ( pos.equals(b01)){
-            direction = Direction.NORTH;
-        }else if ( pos.equals(b02)){
-            direction = Direction.NORTH_EAST;
-        }else if ( pos.equals(b10)){
-            direction = Direction.WEST;
-        }else if ( pos.equals(b12)){
-            direction = Direction.EAST;
-        }else if ( pos.equals(b20)){
-            direction = Direction.SOUTH_WEST;
-        }else if ( pos.equals(b21)){
-            direction = Direction.SOUTH;
-        }else if ( pos.equals(b22)){
-            direction = Direction.SOUTH_EAST;
-        }
-        b00.setDisable(true);
-        b01.setDisable(true);
+        Direction direction = AppGUI.extractDirection(actionEvent, b00, b01, b02, b10, b12, b20, b21, b22);
         b02.setDisable(true);
         b10.setDisable(true);
         b12.setDisable(true);
@@ -106,23 +83,8 @@ public class PrometheusController {
     }
 
     public void initializePrometheusMatrix(int[][] PrometheusMatrix){
-        matrix[0][0] = b00;
-        matrix[0][1] = b01;
-        matrix[0][2] = b02;
-        matrix[1][0] = b10;
-        matrix[1][2] = b12;
-        matrix[2][0] = b20;
-        matrix[2][1] = b21;
-        matrix[2][2] = b22;
-
-        labelMatrix[0][0] = p00;
-        labelMatrix[0][1] = p01;
-        labelMatrix[0][2] = p02;
-        labelMatrix[1][0] = p10;
-        labelMatrix[1][2] = p12;
-        labelMatrix[2][0] = p20;
-        labelMatrix[2][1] = p21;
-        labelMatrix[2][2] = p22;
+        if(PrometheusMatrix == null) return;
+        AppGUI.buildMatrices(matrix, b00, b01, b02, b10, b12, b20, b21, b22, labelMatrix, p00, p01, p02, p10, p12, p20, p21, p22);
 
         matchStateMessage.getCurrentPlayer().setRiseActions(false);
         matchStateMessage.getCurrentPlayer().setMoveActions(true);
@@ -131,17 +93,7 @@ public class PrometheusController {
         matchStateMessage.getCurrentPlayer().getBuilderM().setBoard(new Board(matchStateMessage.getBoard()));
         matchStateMessage.getCurrentPlayer().getBuilderM().setPlayer(matchStateMessage.getCurrentPlayer());
 
-        for(int i=0 ; i<3 ;++i){
-            for(int j=0; j<3 ; ++j){
-                if (i != 1 || j != 1) {
-                    if (PrometheusMatrix[i][j] < 0 || PrometheusMatrix[i][j] >= 4) {
-                        matrix[i][j].setStyle("-fx-background-color: #ff0000");
-                        matrix[i][j].setDisable(true);
-                    }
-                    labelMatrix[i][j].setText (PrometheusMatrix[i][j] == -1 ? " "  : String.valueOf(PrometheusMatrix[i][j]));
-                }
-            }
-        }
+        AppGUI.printMatrix(PrometheusMatrix, matrix, labelMatrix);
 
     }
 

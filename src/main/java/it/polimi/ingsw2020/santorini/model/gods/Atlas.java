@@ -57,6 +57,7 @@ public class Atlas extends GodCard {
                 break;
         }
 
+        if(target.getLevel() == LevelType.TOP) match.setNumberOfCompletedTowers(match.getNumberOfCompletedTowers() + 1);
         target.setLevel(LevelType.DOME);
 
         turnManager.getRemainingActions().remove(ActionType.SELECT_CELL_BUILD);

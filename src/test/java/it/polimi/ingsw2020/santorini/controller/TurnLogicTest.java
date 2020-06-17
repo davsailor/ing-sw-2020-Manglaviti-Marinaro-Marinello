@@ -161,7 +161,7 @@ public class TurnLogicTest {
         assertEquals(phase, turnLogic.getPhase());
         assertFalse(turnLogic.getRemainingActions().contains(ActionType.ACTIVATE_GOD));
         assertTrue(turnLogic.getRemainingActions().contains(ActionType.USE_POWER));
-        assertTrue(turnLogic.getRemainingActions().contains(ActionType.SELECT_PARAMETERS));
+        assertFalse(turnLogic.getRemainingActions().contains(ActionType.SELECT_PARAMETERS));
     }
 
     @Test

@@ -16,6 +16,7 @@ import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.UpdateMessage;
 import it.polimi.ingsw2020.santorini.view.gui.*;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -31,7 +32,6 @@ import java.util.ArrayList;
 import static it.polimi.ingsw2020.santorini.utils.PhaseType.*;
 
 public class AppGUI extends Application implements ViewInterface{
-
     private Client client;
     private Stage primaryStage;
     private RegisterController registerController;
@@ -131,6 +131,21 @@ public class AppGUI extends Application implements ViewInterface{
         displaySetupWindow(true);
     }
 
+    private Scene loadScene(String path, FXMLLoader fxmlLoader){
+        Scene scene;
+        Parent root;
+        fxmlLoader.setLocation(getClass().getResource(path));
+        try {
+            root = fxmlLoader.load();
+            scene = new Scene(root);
+        } catch (IOException e) {
+            root = null;
+            scene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
+        }
+        scene.getStylesheets().add(getClass().getResource("/stylesheets/Font.css").toExternalForm());
+        return scene;
+    }
+
     /**
      * method in which it's asked to the client to insert server's IP, and after that the username, birth date and type of match(number of players)
      * metodo in cui si chiede l'iP del server, dopodichè di fanno inserire username, data di nascita e tipo di partita (numero di giocatori nella partita)
@@ -143,16 +158,7 @@ public class AppGUI extends Application implements ViewInterface{
             Platform.runLater(() -> {
                 primaryStage.setOnCloseRequest(e -> closeSantorini());
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                Parent root;
-                Scene registerScene;
-                fxmlLoader.setLocation(getClass().getResource("/FXML/Register.fxml"));
-                try {
-                    root = fxmlLoader.load();
-                    registerScene = new Scene(root);
-                } catch (IOException e) {
-                    root = null;
-                    registerScene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
-                }
+                Scene registerScene = loadScene("/FXML/Register.fxml", fxmlLoader);
                 registerController = fxmlLoader.getController();
                 registerController.setClient(client);
                 primaryStage.setTitle("Santorini");
@@ -165,19 +171,10 @@ public class AppGUI extends Application implements ViewInterface{
             Platform.runLater(()-> {
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 NewUsernameController newUsernameController;
-                Parent root;
-                Scene newUsername;
-                fxmlLoader.setLocation(getClass().getResource("/FXML/NewUsername.fxml"));
-                try {
-                    root = fxmlLoader.load();
-                    newUsername = new Scene(root);
-                } catch (IOException e) {
-                    root = null;
-                    newUsername = new Scene(new Label("Graphical Resources not found. Fatal Error"));
-                }
+                Scene newUsername = loadScene("/FXML/NewUsername.fxml" ,fxmlLoader);
                 newUsernameController = fxmlLoader.getController();
                 newUsernameController.setClient(client);
-                primaryStage.setTitle("New Username");
+                primaryStage.setTitle("Santorini - New Username");
                 primaryStage.setScene(newUsername);
                 primaryStage.show();
             });
@@ -191,17 +188,8 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public void displayLoadingWindow(String message) {
         Platform.runLater(()-> {
-            Parent root;
-            Scene loadingScene;
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/FXML/loadingWindow.fxml"));
-            try {
-                root = fxmlLoader.load();
-                loadingScene = new Scene(root);
-            } catch (IOException e) {
-                root = null;
-                loadingScene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
-            }
+            Scene loadingScene = loadScene("/FXML/loadingWindow.fxml", fxmlLoader);
             primaryStage.setScene(loadingScene);
             primaryStage.show();
         });
@@ -218,25 +206,17 @@ public class AppGUI extends Application implements ViewInterface{
             players = matchSetupMessage.getPlayers();
             if(matchSetupMessage.getPlayers().get(matchSetupMessage.getCurrentPlayerIndex()).getNickname().equals(client.getUsername())) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                Parent root;
                 Scene setUpScene;
                 switch (players.size()) {
                     case (2):
-                        fxmlLoader.setLocation(getClass().getResource("/FXML/GodSelectionWindow.fxml"));
+                        setUpScene = loadScene("/FXML/GodSelectionWindow.fxml", fxmlLoader);
                         break;
                     case (3):
-                        fxmlLoader.setLocation(getClass().getResource("/FXML/GodSelectionWindow_3.fxml"));
+                        setUpScene = loadScene("/FXML/GodSelectionWindow_3.fxml", fxmlLoader);
                         break;
+                    default:
+                        setUpScene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
                 }
-                try {
-                    root = fxmlLoader.load();
-                    setUpScene = new Scene(root);
-                } catch (IOException e) {
-                    root = null;
-                    setUpScene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
-                    e.printStackTrace();
-                }
-
                 godSelectionController = fxmlLoader.getController();
                 godSelectionController.setClient(client);
                 godSelectionController.setMatchSetupMessage(matchSetupMessage);
@@ -245,27 +225,14 @@ public class AppGUI extends Application implements ViewInterface{
                 primaryStage.show();
             } else {
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                Parent root;
-                Scene setUpScene;
-                fxmlLoader.setLocation(getClass().getResource("/FXML/selectingGod.fxml"));
-                try {
-                    root = fxmlLoader.load();
-                    setUpScene = new Scene(root);
-                } catch (IOException e) {
-                    root = null;
-                    setUpScene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
-                    e.printStackTrace();
-                }
+                Scene setUpScene = loadScene("/FXML/selectingGod.fxml", fxmlLoader);
                 primaryStage.setScene(setUpScene);
                 primaryStage.show();
                 Message message = new Message(client.getUsername());
                 message.buildSynchronizationMessage(SecondHeaderType.BEGIN_MATCH, null);
                 client.getNetworkHandler().send(message);
             }
-
-
         });
-
     }
 
     /**
@@ -277,25 +244,17 @@ public class AppGUI extends Application implements ViewInterface{
         Platform.runLater(() -> {
             if(matchSetupMessage.getPlayers().get(matchSetupMessage.getCurrentPlayerIndex()).getNickname().equals(client.getUsername())) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                Parent root;
                 Scene scene;
                 switch (matchSetupMessage.getSelectedGods().size()) {
                     case (2):
-                        fxmlLoader.setLocation(getClass().getResource("/FXML/selectGod.fxml"));
+                        scene = loadScene("/FXML/selectGod.fxml", fxmlLoader);
                         break;
                     case (3):
-                        fxmlLoader.setLocation(getClass().getResource("/FXML/selectGod3.fxml"));
+                        scene = loadScene("/FXML/selectGod3.fxml", fxmlLoader);
                         break;
+                    default:
+                        scene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
                 }
-                try {
-                    root = fxmlLoader.load();
-                    scene = new Scene(root);
-                } catch (IOException e) {
-                    root = null;
-                    scene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
-                    e.printStackTrace();
-                }
-
                 selectGodController = fxmlLoader.getController();
                 selectGodController.setClient(client);
                 selectGodController.initializeGods(matchSetupMessage.getSelectedGods());
@@ -304,17 +263,8 @@ public class AppGUI extends Application implements ViewInterface{
                 primaryStage.show();
             }else{
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                Parent root;
                 Scene setUpScene;
-                fxmlLoader.setLocation(getClass().getResource("/FXML/selectionGod.fxml"));
-                try {
-                    root = fxmlLoader.load();
-                    setUpScene = new Scene(root);
-                } catch (IOException e) {
-                    root = null;
-                    setUpScene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
-                    e.printStackTrace();
-                }
+                setUpScene = loadScene("/FXML/selectionGod.fxml", fxmlLoader);
                 primaryStage.setScene(setUpScene);
                 primaryStage.show();
             }
@@ -332,23 +282,17 @@ public class AppGUI extends Application implements ViewInterface{
         players = turnPlayerMessage.getPlayers();
         if(infoMatchDisplay) {
             Platform.runLater(() -> {
-                Parent children;
                 Scene scene;
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 switch (players.size()) {
                     case (2):
-                        fxmlLoader.setLocation(getClass().getResource("/FXML/InfoMatch.fxml"));
+                        scene = loadScene("/FXML/InfoMatch.fxml", fxmlLoader);
                         break;
                     case (3):
-                        fxmlLoader.setLocation(getClass().getResource("/FXML/InfoMatch3.fxml"));
+                        scene = loadScene("/FXML/InfoMatch3.fxml", fxmlLoader);
                         break;
-                }
-                try {
-                    children = fxmlLoader.load();
-                    scene = new Scene(children);
-                } catch (IOException e) {
-                    children = null;
-                    scene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
+                    default:
+                        scene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
                 }
                 infoMatchController = fxmlLoader.getController();
                 infoMatchController.setClient(client);
@@ -362,23 +306,17 @@ public class AppGUI extends Application implements ViewInterface{
         }
         infoMatchDisplay = false;
         Platform.runLater(()-> {
-            Parent children;
             Scene scene;
             FXMLLoader loader = new FXMLLoader();
             switch (players.size()) {
                 case (2):
-                    loader.setLocation(getClass().getResource("/FXML/board.fxml"));
+                    scene = loadScene("/FXML/board.fxml", loader);
                     break;
                 case (3):
-                    loader.setLocation(getClass().getResource("/FXML/board_3.fxml"));
+                    scene = loadScene("/FXML/board_3.fxml", loader);
                     break;
-            }
-            try {
-                children = loader.load();
-                scene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                scene = new Scene(new Label("ERROR "));
+                default:
+                    scene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
             }
             selectionBuilderController = loader.getController();
             selectionBuilderController.setClient(client);
@@ -441,24 +379,17 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public void displayStartTurn(UpdateMessage message) {
         Platform.runLater(()->{
-            Parent children;
             Scene scene;
             FXMLLoader fxmlLoader = new FXMLLoader();
-
             switch (players.size()) {
                 case (2):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard.fxml"));
+                    scene = loadScene("/FXML/updateBoard.fxml", fxmlLoader);
                     break;
                 case (3):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard_3.fxml"));
+                    scene = loadScene("/FXML/updateBoard_3.fxml", fxmlLoader);
                     break;
-            }
-            try {
-                children = fxmlLoader.load();
-                scene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                scene = new Scene(new Label("ERROR "));
+                default:
+                    scene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
             }
             updateMatchController = fxmlLoader.getController();
             updateMatchController.setClient(client);
@@ -466,7 +397,7 @@ public class AppGUI extends Application implements ViewInterface{
             updateMatchController.initializePlayers(players);
             updateMatchController.initializeBoard(message.getCells());
             updateMatchController.setText();
-            primaryStage.setTitle("START TURN");
+            primaryStage.setTitle("Santorini - Start Turn");
             primaryStage.setScene(scene);
             primaryStage.show();
             try {
@@ -482,32 +413,15 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public void displayWouldActivate(MatchStateMessage question) {
         Platform.runLater(()->{
-
             Stage powerStage = new Stage();
-            powerStage.setOnCloseRequest(Event::consume);
-            powerStage.initModality(Modality.APPLICATION_MODAL);
-            Parent children;
-            Scene scene;
-
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/FXML/activationPower.fxml"));
-
-            try {
-                children = fxmlLoader.load();
-                scene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                scene = new Scene(new Label ("ERROR "));
-            }
+            Scene scene = loadScene("/FXML/activationPower.fxml", fxmlLoader);
             activationPowerController = fxmlLoader.getController();
             activationPowerController.setMatchStateMessage(question);
             activationPowerController.setClient(client);
             activationPowerController.initializeText();
             activationPowerController.setStage(powerStage);
-            powerStage.setScene(scene);
-            powerStage.setResizable(false);
-            powerStage.sizeToScene();
-            powerStage.show();
+            showModalStage(powerStage, scene, "Santorini - God Power");
         });
     }
 
@@ -515,7 +429,6 @@ public class AppGUI extends Application implements ViewInterface{
      * the method calls a method linked to a specific God that will ask to the player to insert parameters needed to use the god
      * @param message is a message that contains the name of the player (that will receive the question) and the name of the god
      */
-    //TODO: Tooltip per potere divinità
     @Override
     public void displayParametersSelection(MatchStateMessage message) {
         if(message.getCurrentPlayer().getNickname().equals(client.getUsername())) {
@@ -562,23 +475,17 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public void displaySP(UpdateMessage updateMessage, PhaseType phase) {
         Platform.runLater(()->{
-            Parent children;
             Scene scene;
             FXMLLoader fxmlLoader = new FXMLLoader();
             switch (players.size()) {
                 case (2):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard.fxml"));
+                    scene = loadScene("/FXML/updateBoard.fxml", fxmlLoader);
                     break;
                 case (3):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard_3.fxml"));
+                    scene = loadScene("/FXML/updateBoard_3.fxml", fxmlLoader);
                     break;
-            }
-            try {
-                children = fxmlLoader.load();
-                scene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                scene = new Scene(new Label("ERROR "));
+                default:
+                    scene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
             }
             updateMatchController = fxmlLoader.getController();
             updateMatchController.setClient(client);
@@ -586,7 +493,7 @@ public class AppGUI extends Application implements ViewInterface{
             updateMatchController.initializeBoard(updateMessage.getCells());
             updateMatchController.initializePlayers(players);
             updateMatchController.setText();
-            primaryStage.setTitle("SP UPDATE");
+            primaryStage.setTitle("Santorini - SP");
             primaryStage.setScene(scene);
             primaryStage.show();
         });
@@ -601,23 +508,17 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public void displayChooseBuilder(MatchStateMessage message) {
         Platform.runLater(()->{
-            Parent children;
             Scene scene;
             FXMLLoader fxmlLoader = new FXMLLoader();
             switch (players.size()) {
                 case (2):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/board_builder.fxml"));
+                    scene = loadScene("/FXML/board_builder.fxml", fxmlLoader);
                     break;
                 case (3):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/board_3_builder.fxml"));
+                    scene = loadScene("/FXML/board_3_builder.fxml", fxmlLoader);
                     break;
-            }
-            try {
-                children = fxmlLoader.load();
-                scene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                scene = new Scene(new Label("ERROR "));
+                default:
+                    scene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
             }
             chooseBuilderController = fxmlLoader.getController();
             chooseBuilderController.setClient(client);
@@ -626,7 +527,7 @@ public class AppGUI extends Application implements ViewInterface{
             chooseBuilderController.initializePlayers(players);
             chooseBuilderController.setText();
             chooseBuilderController.initializeBuilder();
-            primaryStage.setTitle("CHOOSE BUILDER");
+            primaryStage.setTitle("Santorini - Choose Builder");
             primaryStage.setScene(scene);
             primaryStage.show();
         });
@@ -642,33 +543,17 @@ public class AppGUI extends Application implements ViewInterface{
     public void displayPossibleMoves(AskMoveSelectionMessage message) {
         Platform.runLater(()->{
             Stage moveStage = new Stage();
-            moveStage.setOnCloseRequest(Event::consume);
-            moveStage.initModality(Modality.APPLICATION_MODAL);
-            Parent children;
             Scene scene;
-
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/FXML/directionMove.fxml"));
-
-            try {
-                children = fxmlLoader.load();
-                scene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                scene = new Scene(new Label ("ERROR "));
-            }
+            scene = loadScene("/FXML/directionMove.fxml", fxmlLoader);
             possibleMovesController = fxmlLoader.getController();
             possibleMovesController.setAskMoveSelectionMessage(message);
             possibleMovesController.setClient(client);
             possibleMovesController.initializeBoard();
             possibleMovesController.setText();
             possibleMovesController.setStage(moveStage);
-            moveStage.setScene(scene);
-            moveStage.setResizable(false);
-            moveStage.sizeToScene();
-            moveStage.show();
+            showModalStage(moveStage, scene, "Santorini - Move Request");
         });
-
     }
 
     /**
@@ -679,23 +564,17 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public void displayMoveUpdate(UpdateMessage updateMessage) {
         Platform.runLater(()->{
-            Parent children;
             Scene scene;
             FXMLLoader fxmlLoader = new FXMLLoader();
             switch (players.size()) {
                 case (2):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard.fxml"));
+                    scene = loadScene("/FXML/updateBoard.fxml", fxmlLoader);
                     break;
                 case (3):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard_3.fxml"));
+                    scene = loadScene("/FXML/updateBoard_3.fxml", fxmlLoader);
                     break;
-            }
-            try {
-                children = fxmlLoader.load();
-                scene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                scene = new Scene(new Label("ERROR "));
+                default:
+                    scene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
             }
             updateMatchController = fxmlLoader.getController();
             updateMatchController.setClient(client);
@@ -703,7 +582,7 @@ public class AppGUI extends Application implements ViewInterface{
             updateMatchController.initializeBoard(updateMessage.getCells());
             updateMatchController.initializePlayers(players);
             updateMatchController.setText();
-            primaryStage.setTitle("MOVE UPDATE");
+            primaryStage.setTitle("Santorini - Move");
             primaryStage.setScene(scene);
             primaryStage.show();
         });
@@ -717,33 +596,16 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public void displayPossibleBuildings(AskBuildSelectionMessage message) {
         Platform.runLater(()->{
-
             Stage buildStage = new Stage();
-            buildStage.setOnCloseRequest(Event::consume);
-            buildStage.initModality(Modality.APPLICATION_MODAL);
-            Parent children;
-            Scene scene;
-
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/FXML/directionBuild.fxml"));
-
-            try {
-                children = fxmlLoader.load();
-                scene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                scene = new Scene(new Label ("ERROR "));
-            }
+            Scene scene = loadScene("/FXML/directionBuild.fxml", fxmlLoader);
             possibleBuildingsController = fxmlLoader.getController();
             possibleBuildingsController.setAskBuildSelectionMessage(message);
             possibleBuildingsController.setClient(client);
             possibleBuildingsController.initializeBoard();
             possibleBuildingsController.setText();
             possibleBuildingsController.setStage(buildStage);
-            buildStage.setScene(scene);
-            buildStage.setResizable(false);
-            buildStage.sizeToScene();
-            buildStage.show();
+            showModalStage(buildStage, scene, "Santorini - Build Request");
         });
     }
 
@@ -754,23 +616,17 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public void displayBuildUpdate(UpdateMessage updateMessage) {
         Platform.runLater(()->{
-            Parent children;
             Scene scene;
             FXMLLoader fxmlLoader = new FXMLLoader();
             switch (players.size()) {
                 case (2):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard.fxml"));
+                    scene = loadScene("/FXML/updateBoard.fxml", fxmlLoader);
                     break;
                 case (3):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard_3.fxml"));
+                    scene = loadScene("/FXML/updateBoard_3.fxml", fxmlLoader);
                     break;
-            }
-            try {
-                children = fxmlLoader.load();
-                scene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                scene = new Scene(new Label("ERROR "));
+                default:
+                    scene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
             }
             updateMatchController = fxmlLoader.getController();
             updateMatchController.setClient(client);
@@ -778,7 +634,7 @@ public class AppGUI extends Application implements ViewInterface{
             updateMatchController.initializeBoard(updateMessage.getCells());
             updateMatchController.initializePlayers(players);
             updateMatchController.setText();
-            primaryStage.setTitle("BUILD UPDATE");
+            primaryStage.setTitle("Santorini - Build");
             primaryStage.setScene(scene);
             primaryStage.show();
         });
@@ -792,23 +648,17 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public void displayEndTurn(UpdateMessage updateMessage) {
         Platform.runLater(()->{
-            Parent children;
             Scene scene;
             FXMLLoader fxmlLoader = new FXMLLoader();
             switch (players.size()) {
                 case (2):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard.fxml"));
+                    scene = loadScene("/FXML/updateBoard.fxml", fxmlLoader);
                     break;
                 case (3):
-                    fxmlLoader.setLocation(getClass().getResource("/FXML/updateBoard_3.fxml"));
+                    scene = loadScene("/FXML/updateBoard_3.fxml", fxmlLoader);
                     break;
-            }
-            try {
-                children = fxmlLoader.load();
-                scene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                scene = new Scene(new Label("ERROR "));
+                default:
+                    scene = new Scene(new Label("Graphical Resources not found. Fatal Error"));
             }
             updateMatchController = fxmlLoader.getController();
             updateMatchController.setClient(client);
@@ -816,10 +666,9 @@ public class AppGUI extends Application implements ViewInterface{
             updateMatchController.initializeBoard(updateMessage.getCells());
             updateMatchController.initializePlayers(players);
             updateMatchController.setText();
-            primaryStage.setTitle("END TURN");
+            primaryStage.setTitle("Santorini - End Turn");
             primaryStage.setScene(scene);
             primaryStage.show();
-
         });
 
     }
@@ -832,70 +681,34 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public void displayEndMatch(String winner) {
         Platform.runLater(()->{
-            Parent children;
-            Scene scene;
             FXMLLoader fxmlLoader = new FXMLLoader();
+            Scene scene;
             if(client.getUsername().equals(winner)) {
-                fxmlLoader.setLocation(getClass().getResource("/FXML/WinnerWindow.fxml"));
-                try {
-                    children = fxmlLoader.load();
-                    scene = new Scene(children);
-                } catch (IOException e) {
-                    children = null;
-                    scene = new Scene(new Label("ERROR "));
-                }
+                scene = loadScene("/FXML/WinnerWindow.fxml", fxmlLoader);
                 endMatchController = fxmlLoader.getController();
                 endMatchController.setClient(client);
                 endMatchController.setWinner();
-                primaryStage.setScene(scene);
-                primaryStage.show();
             } else {
-                fxmlLoader.setLocation(getClass().getResource("/FXML/LoserWindow.fxml"));
-                try {
-                    children = fxmlLoader.load();
-                    scene = new Scene(children);
-                } catch (IOException e) {
-                    children = null;
-                    scene = new Scene(new Label("ERROR "));
-                }
+                scene = loadScene("/FXML/LoserWindow.fxml", fxmlLoader);
                 endMatchController = fxmlLoader.getController();
                 endMatchController.setClient(client);
                 endMatchController.setText();
-                primaryStage.setScene(scene);
-                primaryStage.show();
-                System.out.println("LOSER");
             }
-            Stage stage = new Stage();
-            stage.setOnCloseRequest(Event::consume);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            FXMLLoader loader_new = new FXMLLoader();
-            loader_new.setLocation(getClass().getResource("/FXML/AskNewMatch.fxml"));
-            try {
-                children = loader_new.load();
-                scene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                scene = new Scene(new Label ("ERROR "));
-            }
-            askNewMatchController = loader_new.getController();
-            askNewMatchController.setStage(stage);
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.sizeToScene();
-            stage.showAndWait();
+            primaryStage.setScene(scene);
+            primaryStage.show();
 
-            FXMLLoader loader = new FXMLLoader();
+            Stage stage = new Stage();
+            FXMLLoader askNewMatchLoader = new FXMLLoader();
+            scene = loadScene("/FXML/AskNewMatch.fxml", askNewMatchLoader);
+            askNewMatchController = askNewMatchLoader.getController();
+            askNewMatchController.setStage(stage);
+            showModalStage(stage, scene, "Santorini - New Match");
+
+            FXMLLoader newMatchLoader = new FXMLLoader();
             if (wantNewMatch.equals("YES")) {
                 Stage selection = new Stage();
-                loader.setLocation(getClass().getResource("/FXML/newMatch.fxml"));
-                try {
-                    children = loader.load();
-                    scene = new Scene(children);
-                } catch (IOException e) {
-                    children = null;
-                    scene = new Scene(new Label("ERROR "));
-                }
-                newMatchController = loader.getController();
+                scene = loadScene("/FXML/NewMatch.fxml", newMatchLoader);
+                newMatchController = newMatchLoader.getController();
                 newMatchController.setClient(client);
                 newMatchController.setStage(selection);
                 selection.setOnCloseRequest(Event::consume);
@@ -903,14 +716,7 @@ public class AppGUI extends Application implements ViewInterface{
                 selection.showAndWait();
                 displayLoadingWindow(null);
             } else {
-                loader.setLocation(getClass().getResource("/FXML/NoMatch.fxml"));
-                try {
-                    children = loader.load();
-                    scene = new Scene(children);
-                } catch (IOException e) {
-                    children = null;
-                    scene = new Scene(new Label("ERROR "));
-                }
+                scene = loadScene("/FXML/NoMatch.fxml", newMatchLoader);
                 primaryStage.setScene(scene);
                 primaryStage.show();
                 Message message = new Message(client.getUsername());
@@ -939,54 +745,25 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public ApolloParamMessage displayApolloParamSel(MatchStateMessage message) {
         Platform.runLater(() -> {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            Stage swapStage = new Stage();
-            swapStage.setOnCloseRequest(Event::consume);
-            swapStage.initModality(Modality.APPLICATION_MODAL);
-            Parent root;
-            Scene scene;
-            fxmlLoader.setLocation(getClass().getResource("/FXML/askBuilder.fxml"));
-            try {
-                root = fxmlLoader.load();
-                scene = new Scene(root);
-            } catch (IOException e) {
-                root = null;
-                scene = new Scene(new Label("ERROR "));
-            }
-            apolloController = fxmlLoader.getController();
-            apolloController.setStage(swapStage);
+            Stage firstStage = new Stage();
+            FXMLLoader firstLoader = new FXMLLoader();
+            Scene firstScene = loadScene("/FXML/askBuilder.fxml", firstLoader);
+            apolloController = firstLoader.getController();
+            apolloController.setStage(firstStage);
             apolloController.setMatchStateMessage(message);
             apolloController.initializeButtons();
-            swapStage.setTitle("APOLLO POWER");
-            swapStage.setScene(scene);
-            swapStage.setResizable(false);
-            swapStage.sizeToScene();
-            swapStage.showAndWait();
+            showModalStage(firstStage, firstScene, "Santorini - Apollo Power");
+
             Builder chosen = apolloController.getChosen();
-
-            Stage stage = new Stage();
-            stage.setOnCloseRequest(Event::consume);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            FXMLLoader loader = new FXMLLoader();
-            Parent children;
-            Scene swapScene;
-            loader.setLocation(getClass().getResource("/FXML/apolloMatrix.fxml"));
-            try {
-                children = loader.load();
-                swapScene = new Scene(children);
-            } catch (IOException e) {
-                root = null;
-                swapScene = new Scene(new Label("ERROR "));
-            }
-
-            apolloController = loader.getController();
-            apolloController.setStage(stage);
+            Stage secondStage = new Stage();
+            FXMLLoader secondLoader = new FXMLLoader();
+            Scene secondScene = loadScene("/FXML/apolloMatrix.fxml", secondLoader);
+            apolloController = secondLoader.getController();
+            apolloController.setStage(secondStage);
             apolloController.setMatchStateMessage(message);
             apolloController.initializeApolloMatrix(Board.neighboringSwappingCell(chosen, AccessType.OCCUPIED));
-            stage.setScene(swapScene);
-            stage.setResizable(false);
-            stage.sizeToScene();
-            stage.showAndWait();
+
+            showModalStage(secondStage, secondScene, "Santorini - Apollo Power");
             Message paramMessage = new Message(client.getUsername());
             paramMessage.buildApolloParamMessage(apolloParamMessage);
             client.getNetworkHandler().send(paramMessage);
@@ -1006,29 +783,15 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public AresParamMessage displayAresParamSel(MatchStateMessage message) {
         Platform.runLater(()->{
-            Stage stage = new Stage();
-            stage.setOnCloseRequest(Event::consume);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            FXMLLoader loader = new FXMLLoader();
-            Parent children;
-            Scene demolitionScene;
-            loader.setLocation(getClass().getResource("/FXML/AresMatrix.fxml"));
-            try {
-                children = loader.load();
-                demolitionScene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                demolitionScene = new Scene(new Label("ERROR "));
-            }
-
-            aresController = loader.getController();
-            aresController.setStage(stage);
+            Stage firstStage = new Stage();
+            FXMLLoader firstLoader = new FXMLLoader();
+            Scene firstScene = loadScene("/FXML/AresMatrix.fxml", firstLoader);
+            aresController = firstLoader.getController();
+            aresController.setStage(firstStage);
             aresController.setMatchStateMessage(message);
             aresController.initializeAresMatrix();
-            stage.setScene(demolitionScene);
-            stage.setResizable(false);
-            stage.sizeToScene();
-            stage.showAndWait();
+            showModalStage(firstStage, firstScene, "Santorini - Ares Power");
+
             Message paramMessage = new Message(client.getUsername());
             paramMessage.buildAresParamMessage(aresParamMessage);
             client.getNetworkHandler().send(paramMessage);
@@ -1045,33 +808,18 @@ public class AppGUI extends Application implements ViewInterface{
      * builder
      * @return the message containing the parameter acquired by the method
      */
-    // TODO: verificare la condizione di attivazione di Artemis, anche sulla CLI -> GUI sicuramente sbagliato
     @Override
     public ArtemisParamMessage displayArtemisParamSel(MatchStateMessage message) {
         Platform.runLater(()->{
-            Stage stage = new Stage();
-            stage.setOnCloseRequest(Event::consume);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            FXMLLoader loader = new FXMLLoader();
-            Parent children;
-            Scene moveScene;
-            loader.setLocation(getClass().getResource("/FXML/ArtemisMatrix.fxml"));
-            try {
-                children = loader.load();
-                moveScene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                moveScene = new Scene(new Label("ERROR "));
-            }
-
-            artemisController = loader.getController();
-            artemisController.setStage(stage);
+            Stage firstStage = new Stage();
+            FXMLLoader firstLoader = new FXMLLoader();
+            Scene firstScene = loadScene("/FXML/ArtemisMatrix.fxml", firstLoader);
+            artemisController = firstLoader.getController();
+            artemisController.setStage(firstStage);
             artemisController.setMatchStateMessage(message);
             artemisController.initializeArtemisMatrix();
-            stage.setScene(moveScene);
-            stage.setResizable(false);
-            stage.sizeToScene();
-            stage.showAndWait();
+            showModalStage(firstStage, firstScene, "Santorini - Artemis Power");
+
             Message paramMessage = new Message(client.getUsername());
             paramMessage.buildArtemisParamMessage(artemisParamMessage);
             client.getNetworkHandler().send(paramMessage);
@@ -1092,29 +840,15 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public AtlasParamMessage displayAtlasParamSel(MatchStateMessage message) {
         Platform.runLater(()->{
-            Stage stage = new Stage();
-            stage.setOnCloseRequest(Event::consume);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            FXMLLoader loader = new FXMLLoader();
-            Parent children;
-            Scene demolitionScene;
-            loader.setLocation(getClass().getResource("/FXML/AtlasMatrix.fxml"));
-            try {
-                children = loader.load();
-                demolitionScene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                demolitionScene = new Scene(new Label("ERROR "));
-            }
-
-            atlasController = loader.getController();
-            atlasController.setStage(stage);
+            Stage firstStage = new Stage();
+            FXMLLoader firstLoader = new FXMLLoader();
+            Scene firstScene = loadScene("/FXML/AtlasMatrix.fxml", firstLoader);
+            atlasController = firstLoader.getController();
+            atlasController.setStage(firstStage);
             atlasController.setMatchStateMessage(message);
             atlasController.initializeAtlasMatrix();
-            stage.setScene(demolitionScene);
-            stage.setResizable(false);
-            stage.sizeToScene();
-            stage.showAndWait();
+            showModalStage(firstStage, firstScene, "Santorini - Atlas Power");
+
             Message paramMessage = new Message(client.getUsername());
             paramMessage.buildAtlasParamMessage(atlasParamMessage);
             client.getNetworkHandler().send(paramMessage);
@@ -1135,29 +869,15 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public DemeterParamMessage displayDemeterParamSel(MatchStateMessage message) {
         Platform.runLater(()->{
-            Stage stage = new Stage();
-            stage.setOnCloseRequest(Event::consume);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            FXMLLoader loader = new FXMLLoader();
-            Parent children;
-            Scene demolitionScene;
-            loader.setLocation(getClass().getResource("/FXML/DemeterMatrix.fxml"));
-            try {
-                children = loader.load();
-                demolitionScene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                demolitionScene = new Scene(new Label("ERROR "));
-            }
-
-            demeterController = loader.getController();
-            demeterController.setStage(stage);
+            Stage firstStage = new Stage();
+            FXMLLoader firstLoader = new FXMLLoader();
+            Scene firstScene = loadScene("/FXML/DemeterMatrix.fxml", firstLoader);
+            demeterController = firstLoader.getController();
+            demeterController.setStage(firstStage);
             demeterController.setMatchStateMessage(message);
             demeterController.initializeDemeterMatrix();
-            stage.setScene(demolitionScene);
-            stage.setResizable(false);
-            stage.sizeToScene();
-            stage.showAndWait();
+            showModalStage(firstStage, firstScene, "Santorini - Demeter Power");
+
             Message paramMessage = new Message(client.getUsername());
             paramMessage.buildDemeterParamMessage(demeterParamMessage);
             client.getNetworkHandler().send(paramMessage);
@@ -1178,29 +898,15 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public HestiaParamMessage displayHestiaParamSel(MatchStateMessage message) {
         Platform.runLater(()->{
-            Stage stage = new Stage();
-            stage.setOnCloseRequest(Event::consume);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            FXMLLoader loader = new FXMLLoader();
-            Parent children;
-            Scene demolitionScene;
-            loader.setLocation(getClass().getResource("/FXML/HestiaMatrix.fxml"));
-            try {
-                children = loader.load();
-                demolitionScene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                demolitionScene = new Scene(new Label("ERROR "));
-            }
-
-            hestiaController = loader.getController();
-            hestiaController.setStage(stage);
+            Stage firstStage = new Stage();
+            FXMLLoader firstLoader = new FXMLLoader();
+            Scene firstScene = loadScene("/FXML/HestiaMatrix.fxml", firstLoader);
+            hestiaController = firstLoader.getController();
+            hestiaController.setStage(firstStage);
             hestiaController.setMatchStateMessage(message);
             hestiaController.initializeHestiaMatrix();
-            stage.setScene(demolitionScene);
-            stage.setResizable(false);
-            stage.sizeToScene();
-            stage.showAndWait();
+            showModalStage(firstStage, firstScene, "Santorini - Hestia Power");
+
             Message paramMessage = new Message(client.getUsername());
             paramMessage.buildHestiaParamMessage(hestiaParamMessage);
             client.getNetworkHandler().send(paramMessage);
@@ -1220,53 +926,25 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public MinotaurParamMessage displayMinotaurParamSel(MatchStateMessage message) {
         Platform.runLater(()->{
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            Stage swapStage = new Stage();
-            swapStage.setOnCloseRequest(Event::consume);
-            swapStage.initModality(Modality.APPLICATION_MODAL);
-            Parent root;
-            Scene scene;
-            fxmlLoader.setLocation(getClass().getResource("/FXML/askPush.fxml"));
-            try {
-                root = fxmlLoader.load();
-                scene = new Scene(root);
-            } catch (IOException e) {
-                root = null;
-                scene = new Scene(new Label("ERROR "));
-            }
-            minotaurController = fxmlLoader.getController();
-            minotaurController.setStage(swapStage);
+            Stage firstStage = new Stage();
+            FXMLLoader firstLoader = new FXMLLoader();
+            Scene firstScene = loadScene("/FXML/askPush.fxml", firstLoader);
+            minotaurController = firstLoader.getController();
+            minotaurController.setStage(firstStage);
             minotaurController.setMatchStateMessage(message);
             minotaurController.initializeButtons();
-            swapStage.setTitle("MINOTAUR POWER");
-            swapStage.setScene(scene);
-            swapStage.setResizable(false);
-            swapStage.sizeToScene();
-            swapStage.showAndWait();
-            Builder chosen = minotaurController.getChosen();
+            showModalStage(firstStage, firstScene, "Santorini - Minotaur Power");
 
-            Stage stage = new Stage();
-            stage.setOnCloseRequest(Event::consume);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            FXMLLoader loader = new FXMLLoader();
-            Parent children;
-            Scene pushScene;
-            loader.setLocation(getClass().getResource("/FXML/MinotaurMatrix.fxml"));
-            try {
-                children = loader.load();
-                pushScene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                pushScene = new Scene(new Label("ERROR "));
-            }
-            minotaurController = loader.getController();
-            minotaurController.setStage(stage);
+            Builder chosen = minotaurController.getChosen();
+            Stage secondStage = new Stage();
+            FXMLLoader secondLoader = new FXMLLoader();
+            Scene secondScene = loadScene("/FXML/MinotaurMatrix.fxml", secondLoader);
+            minotaurController = secondLoader.getController();
+            minotaurController.setStage(secondStage);
             minotaurController.setMatchStateMessage(message);
             minotaurController.initializeMinotaurMatrix(chosen, Board.neighboringSwappingCell(chosen, AccessType.OCCUPIED));
-            stage.setScene(pushScene);
-            stage.setResizable(false);
-            stage.sizeToScene();
-            stage.showAndWait();
+            showModalStage(secondStage, secondScene, "Santorini - Minotaur Power");
+
             Message paramMessage = new Message(client.getUsername());
             paramMessage.buildMinotaurParamMessage(minotaurParamMessage);
             client.getNetworkHandler().send(paramMessage);
@@ -1288,53 +966,24 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public PoseidonParamMessage displayPoseidonParamSel(MatchStateMessage message) {
         Platform.runLater(()->{
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            Stage swapStage = new Stage();
-            swapStage.setOnCloseRequest(Event::consume);
-            swapStage.initModality(Modality.APPLICATION_MODAL);
-            Parent root;
-            Scene scene;
-            fxmlLoader.setLocation(getClass().getResource("/FXML/askNumberBuildings.fxml"));
-            try {
-                root = fxmlLoader.load();
-                scene = new Scene(root);
-            } catch (IOException e) {
-                root = null;
-                scene = new Scene(new Label("ERROR "));
-            }
-            poseidonController = fxmlLoader.getController();
-            poseidonController.setStage(swapStage);
+            Stage firstStage = new Stage();
+            FXMLLoader firstLoader = new FXMLLoader();
+            Scene firstScene = loadScene("/FXML/askNumberBuildings.fxml", firstLoader);
+            poseidonController = firstLoader.getController();
+            poseidonController.setStage(firstStage);
             poseidonController.setMatchStateMessage(message);
             poseidonController.initializeButtons();
-            swapStage.setTitle("POSEIDON POWER");
-            swapStage.setScene(scene);
-            swapStage.setResizable(false);
-            swapStage.sizeToScene();
-            swapStage.showAndWait();
+            showModalStage(firstStage, firstScene, "Santorini - Poseidon Power");
 
-            Stage stage = new Stage();
-            stage.setOnCloseRequest(Event::consume);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            FXMLLoader loader = new FXMLLoader();
-            Parent children;
-            Scene buildScene;
-            loader.setLocation(getClass().getResource("/FXML/PoseidonMatrix.fxml"));
-            try {
-                children = loader.load();
-                buildScene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                buildScene = new Scene(new Label("ERROR "));
-            }
-
-            poseidonController = loader.getController();
-            poseidonController.setStage(stage);
+            Stage secondStage = new Stage();
+            FXMLLoader secondLoader = new FXMLLoader();
+            Scene secondScene = loadScene("/FXML/PoseidonMatrix.fxml", secondLoader);
+            poseidonController = secondLoader.getController();
+            poseidonController.setStage(secondStage);
             poseidonController.setMatchStateMessage(message);
             poseidonController.initializePoseidonMatrix();
-            stage.setScene(buildScene);
-            stage.setResizable(false);
-            stage.sizeToScene();
-            stage.showAndWait();
+            showModalStage(secondStage, secondScene, "Santorini - Poseidon Power");
+
             Message paramMessage = new Message(client.getUsername());
             paramMessage.buildPoseidonParamMessage(poseidonParamMessage);
             client.getNetworkHandler().send(paramMessage);
@@ -1356,58 +1005,46 @@ public class AppGUI extends Application implements ViewInterface{
     @Override
     public PrometheusParamMessage displayPrometheusParamSel(MatchStateMessage message) {
         Platform.runLater(()->{
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            Stage swapStage = new Stage();
-            swapStage.setOnCloseRequest(Event::consume);
-            swapStage.initModality(Modality.APPLICATION_MODAL);
-            Parent root;
-            Scene scene;
-            fxmlLoader.setLocation(getClass().getResource("/FXML/askBuild.fxml"));
-            try {
-                root = fxmlLoader.load();
-                scene = new Scene(root);
-            } catch (IOException e) {
-                root = null;
-                scene = new Scene(new Label("ERROR "));
-            }
-            prometheusController = fxmlLoader.getController();
-            prometheusController.setStage(swapStage);
+            Stage firstStage = new Stage();
+            FXMLLoader firstLoader = new FXMLLoader();
+            Scene firstScene = loadScene("/FXML/askBuild.fxml", firstLoader);
+            prometheusController = firstLoader.getController();
+            prometheusController.setStage(firstStage);
             prometheusController.setMatchStateMessage(message);
             prometheusController.initializeButtons();
-            swapStage.setTitle("PROMETHEUS POWER");
-            swapStage.setScene(scene);
-            swapStage.setResizable(false);
-            swapStage.sizeToScene();
-            swapStage.showAndWait();
-            Builder chosen = prometheusController.getChosen();
+            showModalStage(firstStage, firstScene, "Santorini - Prometheus Power");
 
-            Stage stage = new Stage();
-            stage.setOnCloseRequest(Event::consume);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            FXMLLoader loader = new FXMLLoader();
-            Parent children;
-            Scene demolitionScene;
-            loader.setLocation(getClass().getResource("/FXML/PrometheusMatrix.fxml"));
-            try {
-                children = loader.load();
-                demolitionScene = new Scene(children);
-            } catch (IOException e) {
-                children = null;
-                demolitionScene = new Scene(new Label("ERROR "));
-            }
-            prometheusController = loader.getController();
-            prometheusController.setStage(stage);
+            Builder chosen = prometheusController.getChosen();
+            Stage secondStage = new Stage();
+            FXMLLoader secondLoader = new FXMLLoader();
+            Scene secondScene = loadScene("/FXML/PrometheusMatrix.fxml", secondLoader);
+            prometheusController = secondLoader.getController();
+            prometheusController.setStage(secondStage);
             prometheusController.setMatchStateMessage(message);
             prometheusController.initializePrometheusMatrix(Board.neighboringLevelCell(chosen));
-            stage.setScene(demolitionScene);
-            stage.setResizable(false);
-            stage.sizeToScene();
-            stage.showAndWait();
+            showModalStage(secondStage, secondScene, "Santorini - Prometheus Power");
+
             Message paramMessage = new Message(client.getUsername());
             paramMessage.buildPrometheusParamMessage(prometheusParamMessage);
             client.getNetworkHandler().send(paramMessage);
         });
         return null;
+    }
+
+    /**
+     * method that displays the stage that request a mandatory choice to the player
+     * @param stage the stage that has to be shown
+     * @param scene the scene of the stage
+     * @param title the title of the stage
+     */
+    private void showModalStage(Stage stage, Scene scene, String title){
+        stage.setOnCloseRequest(Event::consume);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle(title);
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.sizeToScene();
+        stage.showAndWait();
     }
 
     /**
@@ -1437,17 +1074,105 @@ public class AppGUI extends Application implements ViewInterface{
         }
         return null;
     }
-    /*
-    public void initializeGodsMatrix(ArrayList<Button> buttons, ArrayList<Label> labels){
-        Button[][] matrixButton = new Button[3][3];
-        Label[][] matrixLabel = new Label[3][3];
-        for(int i = 0; i < 3; i++){
-            for(int j = 0; j < 3; i++){
 
-            }
-        }
-    }
-    
+    /**
+     * common method to calculate the direction starting from the pressed button
+     * @param actionEvent the pressed button
+     * @param b00 North-West button
+     * @param b01 North Button
+     * @param b02 North-East button
+     * @param b10 West Button
+     * @param b12 East Button
+     * @param b20 South-West Button
+     * @param b21 South Button
+     * @param b22 South-East Button
+     * @return the direction pressed
      */
-}
+    public static Direction extractDirection(ActionEvent actionEvent, Button b00, Button b01, Button b02, Button b10, Button b12, Button b20, Button b21, Button b22) {
+        Button pos = (Button) actionEvent.getSource();
+        Direction direction = null;
+        if(pos.equals(b00))
+            direction = Direction.NORTH_WEST;
+        else if (pos.equals(b01))
+            direction = Direction.NORTH;
+        else if (pos.equals(b02))
+            direction = Direction.NORTH_EAST;
+        else if (pos.equals(b10))
+            direction = Direction.WEST;
+        else if (pos.equals(b12))
+            direction = Direction.EAST;
+        else if (pos.equals(b20))
+            direction = Direction.SOUTH_WEST;
+        else if (pos.equals(b21))
+            direction = Direction.SOUTH;
+        else if (pos.equals(b22))
+            direction = Direction.SOUTH_EAST;
+        b00.setDisable(true);
+        b01.setDisable(true);
+        b02.setDisable(true);
+        b10.setDisable(true);
+        b12.setDisable(true);
+        b20.setDisable(true);
+        b21.setDisable(true);
+        b22.setDisable(true);
+        return direction;
+    }
 
+    /**
+     * method to build matrices to collect buttons and labels
+     * @param matrix collector of buttons
+     * @param b00 North-West Button
+     * @param b01 North Button
+     * @param b02 North-East Button
+     * @param b10 West Button
+     * @param b12 East Button
+     * @param b20 South-West Button
+     * @param b21 South Button
+     * @param b22 South-East Button
+     * @param labelMatrix collector of labels
+     * @param p00 North-West Label
+     * @param p01 North Label
+     * @param p02 North-East Label
+     * @param p10 West Label
+     * @param p12 East Label
+     * @param p20 South-West Label
+     * @param p21 South Label
+     * @param p22 South-East Label
+     */
+    public static void buildMatrices(Button[][] matrix, Button b00, Button b01, Button b02, Button b10, Button b12, Button b20, Button b21, Button b22, Label[][] labelMatrix, Label p00, Label p01, Label p02, Label p10, Label p12, Label p20, Label p21, Label p22) {
+        matrix[0][0] = b00;
+        matrix[0][1] = b01;
+        matrix[0][2] = b02;
+        matrix[1][0] = b10;
+        matrix[1][2] = b12;
+        matrix[2][0] = b20;
+        matrix[2][1] = b21;
+        matrix[2][2] = b22;
+        labelMatrix[0][0] = p00;
+        labelMatrix[0][1] = p01;
+        labelMatrix[0][2] = p02;
+        labelMatrix[1][0] = p10;
+        labelMatrix[1][2] = p12;
+        labelMatrix[2][0] = p20;
+        labelMatrix[2][1] = p21;
+        labelMatrix[2][2] = p22;
+    }
+
+    /**
+     * method used to prepare the matrix that has to be shown in GUI Box
+     * @param neighboringLevelCell the matrix of int, point of start to build the other two matrices
+     * @param matrix the matrix of buttons
+     * @param labelMatrix the matrix of labels
+     */
+    public static void printMatrix(int[][] neighboringLevelCell, Button[][] matrix, Label[][] labelMatrix) {
+        for(int i=0 ; i<3 ;++i)
+            for(int j=0; j<3 ; ++j)
+                if (i != 1 || j != 1) {
+                    if (neighboringLevelCell[i][j] < 0 || neighboringLevelCell[i][j] >= 4) {
+                        matrix[i][j].setStyle("-fx-background-color: #ff0000");
+                        matrix[i][j].setDisable(true);
+                    }
+                    labelMatrix[i][j].setText (neighboringLevelCell[i][j] == -1 ? " "  : String.valueOf(neighboringLevelCell[i][j]));
+                }
+    }
+}

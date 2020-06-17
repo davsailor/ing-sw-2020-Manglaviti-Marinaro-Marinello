@@ -1,7 +1,7 @@
 package it.polimi.ingsw2020.santorini.utils.messages.errors;
 
 public class GenericErrorMessage {
-    String error;
+    private String error;
 
     public GenericErrorMessage(String error){ this.error = error; }
 

@@ -2,9 +2,7 @@ package it.polimi.ingsw2020.santorini.view.gui;
 
 import it.polimi.ingsw2020.santorini.model.Board;
 import it.polimi.ingsw2020.santorini.model.Builder;
-import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.utils.Direction;
-import it.polimi.ingsw2020.santorini.utils.messages.godsParam.PoseidonParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 import it.polimi.ingsw2020.santorini.view.AppGUI;
 import javafx.event.ActionEvent;
@@ -21,7 +19,6 @@ public class PoseidonController {
     private Label[][] labelMatrix = new Label[3][3];
     private MatchStateMessage matchStateMessage;
     private int number = 0;
-    private int selectedNumber = 0;
     private ArrayList<Direction> directions = new ArrayList<>();
 
     public void setStage(Stage stage){
@@ -144,23 +141,7 @@ public class PoseidonController {
     }
 
     public void initializePoseidonMatrix(){
-        matrix[0][0] = b00;
-        matrix[0][1] = b01;
-        matrix[0][2] = b02;
-        matrix[1][0] = b10;
-        matrix[1][2] = b12;
-        matrix[2][0] = b20;
-        matrix[2][1] = b21;
-        matrix[2][2] = b22;
-
-        labelMatrix[0][0] = p00;
-        labelMatrix[0][1] = p01;
-        labelMatrix[0][2] = p02;
-        labelMatrix[1][0] = p10;
-        labelMatrix[1][2] = p12;
-        labelMatrix[2][0] = p20;
-        labelMatrix[2][1] = p21;
-        labelMatrix[2][2] = p22;
+        AppGUI.buildMatrices(matrix, b00, b01, b02, b10, b12, b20, b21, b22, labelMatrix, p00, p01, p02, p10, p12, p20, p21, p22);
 
         Builder constructionBuilder = null;
         char constructionBuilderSex = 'o';
@@ -176,22 +157,11 @@ public class PoseidonController {
         constructionBuilder.setBoard(new Board(matchStateMessage.getBoard()));
         constructionBuilder.setPlayer(matchStateMessage.getCurrentPlayer());
         int[][] possibleBuildingsP = Board.neighboringLevelCell(constructionBuilder);
-
-        for(int i=0 ; i<3 ;++i){
-            for(int j=0; j<3 ; ++j){
-                if (i != 1 || j != 1) {
-                    if (possibleBuildingsP[i][j] < 0 || possibleBuildingsP[i][j] >= 4) {
-                        matrix[i][j].setStyle("-fx-background-color: #ff0000");
-                        matrix[i][j].setDisable(true);
-                    }
-                    labelMatrix[i][j].setText (possibleBuildingsP[i][j] == -1 ? " "  : String.valueOf(possibleBuildingsP[i][j]));
-                }
-            }
-        }
+        AppGUI.printMatrix(possibleBuildingsP, matrix, labelMatrix);
     }
 
     public void initializeButtons(){
-        Builder constructionBuilder = null;
+        Builder constructionBuilder;
         char constructionBuilderSex = 'o';
         if (matchStateMessage.getCurrentPlayer().getPlayingBuilder().getGender() == '\u2640') {
             constructionBuilder = matchStateMessage.getCurrentPlayer().getBuilderM();
@@ -207,11 +177,6 @@ public class PoseidonController {
         for(int i = 0; i < 3; ++i)
             for(int j = 0; j < 3; ++j)
                 if(possibleBuildingsP[i][j] >= 0 && possibleBuildingsP[i][j] < 4) count = count + 4 - possibleBuildingsP[i][j];
-
-        //Salvataggio della posizione del builder
-        int[] posBuilder = new int[2];
-        posBuilder[0] = constructionBuilder.getPosX();
-        posBuilder[1] = constructionBuilder.getPosY();
 
         if(count==1){
             one.setStyle("-fx-border-color: #00ff00; -fx-border-width: 5px;");
@@ -234,6 +199,7 @@ public class PoseidonController {
     @FXML
     public void selectNumber(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();
+        int selectedNumber = 0;
         if(pos.getId().equals("one")) selectedNumber = 1;
         else if(pos.getId().equals("two")) selectedNumber = 2;
         else selectedNumber = 3;

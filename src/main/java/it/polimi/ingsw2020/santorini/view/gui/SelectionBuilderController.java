@@ -5,32 +5,26 @@ import it.polimi.ingsw2020.santorini.model.Player;
 import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.utils.AccessType;
 import it.polimi.ingsw2020.santorini.utils.Message;
-import it.polimi.ingsw2020.santorini.utils.messages.godsParam.ApolloParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.SelectedBuilderPositionMessage;
 import it.polimi.ingsw2020.santorini.view.AppGUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class SelectionBuilderController {
 
     private Client client;
     private MatchStateMessage matchStateMessage;
-
     private ArrayList<Player> players;
+    private int[] builderF;
+    private int[] builderM;
 
     public void setPlayers(ArrayList<Player> players) {
         this.players = players;
@@ -43,8 +37,6 @@ public class SelectionBuilderController {
     public void setMatchStateMessage(MatchStateMessage matchStateMessage) {
         this.matchStateMessage = matchStateMessage;
     }
-    private int[] builderF;
-    private int[] builderM;
 
     @FXML
     Button b00;

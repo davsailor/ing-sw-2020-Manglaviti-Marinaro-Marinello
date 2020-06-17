@@ -1,17 +1,9 @@
 package it.polimi.ingsw2020.santorini.view.gui;
 
-import it.polimi.ingsw2020.santorini.model.GodCard;
-import it.polimi.ingsw2020.santorini.model.GodDeck;
-import it.polimi.ingsw2020.santorini.model.GodFactotum;
-import it.polimi.ingsw2020.santorini.model.Player;
-import it.polimi.ingsw2020.santorini.model.gods.Apollo;
-import it.polimi.ingsw2020.santorini.model.gods.Ares;
 import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.utils.Message;
-import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.GameGodsSelectionMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.GodSelectionMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchSetupMessage;
-import it.polimi.ingsw2020.santorini.view.AppGUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -20,13 +12,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 import java.util.ArrayList;
 
 public class SelectGodController {
-
     private Client client;
-
     private MatchSetupMessage matchSetupMessage;
 
     public void setClient(Client client) {

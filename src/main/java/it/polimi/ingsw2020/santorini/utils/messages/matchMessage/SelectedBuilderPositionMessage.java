@@ -1,9 +1,9 @@
 package it.polimi.ingsw2020.santorini.utils.messages.matchMessage;
 
 public class SelectedBuilderPositionMessage {
-    String username;
-    int[] builderF;
-    int[] builderM;
+    private String username;
+    private int[] builderF;
+    private int[] builderM;
 
     public SelectedBuilderPositionMessage(String username, int[] builderF, int[] builderM) {
         this.username = username;

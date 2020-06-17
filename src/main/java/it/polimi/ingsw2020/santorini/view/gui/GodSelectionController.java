@@ -6,13 +6,10 @@ import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.SecondHeaderType;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.GameGodsSelectionMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchSetupMessage;
-import javafx.css.Match;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
-import javafx.scene.image.Image;
-
 
 public class GodSelectionController {
 

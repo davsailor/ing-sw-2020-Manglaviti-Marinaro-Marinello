@@ -1,0 +1,16 @@
+@font-face {
+    font-family: Gabriola;
+    src: url("Gabriola.ttf");
+}
+
+.choice-box .menu-item  > .label {
+    -fx-font-family: Arial;
+}
+
+.choice-box .label {
+    -fx-font-family: Arial;
+}
+
+.label {
+    -fx-font-family: Gabriola;
+}

@@ -5,8 +5,6 @@ import it.polimi.ingsw2020.santorini.model.Player;
 import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.utils.AccessType;
 import it.polimi.ingsw2020.santorini.utils.Message;
-import it.polimi.ingsw2020.santorini.utils.PhaseType;
-import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.UpdateMessage;
 import it.polimi.ingsw2020.santorini.view.AppGUI;
 import javafx.event.ActionEvent;
@@ -17,16 +15,13 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-
 import java.util.ArrayList;
 
-import static it.polimi.ingsw2020.santorini.utils.PhaseType.STANDBY_PHASE_3;
 
 public class UpdateMatchController {
 
     private Client client;
     private UpdateMessage updateMessage;
-
     private ArrayList<Player> players;
 
     public void setPlayers(ArrayList<Player> players) {
@@ -37,13 +32,9 @@ public class UpdateMatchController {
         this.client = client;
     }
 
-
     public void setUpdateMessage(UpdateMessage updateMessage) {
         this.updateMessage = updateMessage;
     }
-    private int[] builderF;
-    private int[] builderM;
-
 
     @FXML
     Button b00;

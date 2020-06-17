@@ -1,9 +1,6 @@
 package it.polimi.ingsw2020.santorini.view.gui;
 
-import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.utils.Direction;
-import it.polimi.ingsw2020.santorini.utils.Message;
-import it.polimi.ingsw2020.santorini.utils.messages.godsParam.ArtemisParamMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 import it.polimi.ingsw2020.santorini.view.AppGUI;
 import javafx.event.ActionEvent;
@@ -70,34 +67,7 @@ public class ArtemisController {
     @FXML
     public void selectMove(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();
-        ArtemisParamMessage artemisParamMessage = new ArtemisParamMessage();
-        Direction direction = null;
-        if(pos.equals(b00)){
-            direction = Direction.NORTH_WEST;
-        }else if ( pos.equals(b01)){
-            direction = Direction.NORTH;
-        }else if ( pos.equals(b02)){
-            direction = Direction.NORTH_EAST;
-        }else if ( pos.equals(b10)){
-            direction = Direction.WEST;
-        }else if ( pos.equals(b12)){
-            direction = Direction.EAST;
-        }else if ( pos.equals(b20)){
-            direction = Direction.SOUTH_WEST;
-        }else if ( pos.equals(b21)){
-            direction = Direction.SOUTH;
-        }else if ( pos.equals(b22)){
-            direction = Direction.SOUTH_EAST;
-        }
-        b00.setDisable(true);
-        b01.setDisable(true);
-        b02.setDisable(true);
-        b10.setDisable(true);
-        b12.setDisable(true);
-        b20.setDisable(true);
-        b21.setDisable(true);
-        b22.setDisable(true);
-
+        Direction direction = AppGUI.extractDirection(actionEvent, b00, b01, b02, b10, b12, b20, b21, b22);
         AppGUI.getArtemisParamMessage().setDirection(direction);
         stage.setOnCloseRequest(e->stage.close());
         stage.close();

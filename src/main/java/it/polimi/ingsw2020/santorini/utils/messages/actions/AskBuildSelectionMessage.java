@@ -1,7 +1,5 @@
 package it.polimi.ingsw2020.santorini.utils.messages.actions;
 
-import it.polimi.ingsw2020.santorini.model.Cell;
-
 public class AskBuildSelectionMessage {
     private int[][] possibleBuildings;
 

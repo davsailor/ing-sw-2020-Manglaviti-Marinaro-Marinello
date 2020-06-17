@@ -133,7 +133,7 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
                 Message ping = new Message(null);
                 ping.buildPingMessage();
                 send(ping);
-                Thread.sleep(Server.SO_TIMEOUT / 2);
+                Thread.sleep(Server.SO_TIMEOUT / 4);
             }
         } catch (InterruptedException e) {
             setConnected(false);

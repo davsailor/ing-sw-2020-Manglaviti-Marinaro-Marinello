@@ -83,6 +83,7 @@ public class Minotaur extends GodCard {
         }
         try {
             opponent.move(param.getOpponentBuilderDirection());
+            opponent.setRisedThisTurn(false);
         } catch (EndMatchException | IllegalMovementException ignored){}
 
         try {

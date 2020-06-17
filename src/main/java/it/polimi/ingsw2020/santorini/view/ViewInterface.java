@@ -9,8 +9,6 @@ import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchSetupMessa
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.UpdateMessage;
 
-import java.util.ArrayList;
-
 public interface ViewInterface {
 
     /**

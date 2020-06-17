@@ -1,8 +1,6 @@
 package it.polimi.ingsw2020.santorini.view.gui;
 
 import it.polimi.ingsw2020.santorini.network.client.Client;
-import it.polimi.ingsw2020.santorini.network.client.ServerAdapter;
-import it.polimi.ingsw2020.santorini.network.client.ViewAdapter;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.NewMatchMessage;
 import javafx.collections.FXCollections;

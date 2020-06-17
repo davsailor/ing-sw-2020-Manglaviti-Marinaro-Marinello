@@ -2,7 +2,6 @@ package it.polimi.ingsw2020.santorini;
 
 import it.polimi.ingsw2020.santorini.network.client.Client;
 import it.polimi.ingsw2020.santorini.network.server.Server;
-
 import java.util.Arrays;
 
 public class Santorini {
