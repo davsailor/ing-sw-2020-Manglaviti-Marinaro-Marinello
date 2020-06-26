@@ -63,6 +63,11 @@ public class HestiaController {
     @FXML
     Label p22;
 
+
+    /**
+     * this method is used to build the block with Hestia power
+     * @param actionEvent is the event of the mouse clicked
+     */
     @FXML
     public void build(ActionEvent actionEvent) {
         Direction direction = AppGUI.extractDirection(actionEvent, b00, b01, b02, b10, b12, b20, b21, b22);
@@ -72,6 +77,9 @@ public class HestiaController {
     }
 
 
+    /**
+     * this Method initialize the 3*3 Matrix of Hestia
+     */
     public void initializeHestiaMatrix(){
         AppGUI.buildButtonMatrices(matrix, b00, b01, b02, b10, b12, b20, b21, b22);
         AppGUI.buildLabelMatrices(labelMatrix, p00, p01, p02, p10, p12, p20, p21, p22);

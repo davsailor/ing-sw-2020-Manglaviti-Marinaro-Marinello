@@ -72,6 +72,10 @@ public class PoseidonController {
     @FXML
     Label p22;
 
+    /**
+     * this method is used to select the direction of the build
+     * @param actionEvent is the event of the mouse clicked
+     */
     @FXML
     public void build(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();
@@ -140,6 +144,9 @@ public class PoseidonController {
         }
     }
 
+    /**
+     * this Method initialize the 3*3 Matrix of Poseidon power
+     */
     public void initializePoseidonMatrix(){
         AppGUI.buildButtonMatrices(matrix, b00, b01, b02, b10, b12, b20, b21, b22);
         AppGUI.buildLabelMatrices(labelMatrix, p00, p01, p02, p10, p12, p20, p21, p22);
@@ -161,6 +168,9 @@ public class PoseidonController {
         AppGUI.printMatrix(possibleBuildingsP, matrix, labelMatrix);
     }
 
+    /**
+     * this method is used to disable button if that builder can't be chosen
+     */
     public void initializeButtons(){
         Builder constructionBuilder;
         char constructionBuilderSex = 'o';
@@ -197,6 +207,10 @@ public class PoseidonController {
         }
     }
 
+    /**
+     * this method set the number of buildings selected by the player for Poseidon power
+     * @param actionEvent is the event of the mouse clicked
+     */
     @FXML
     public void selectNumber(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();

@@ -48,6 +48,10 @@ public class SelectGodController {
     Label god3;
 
 
+    /**
+     * this method is used to set chosen gods with the mouse click
+     * @param actionEvent is the event of the mouse clicked
+     */
     public void selectGod(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();
 
@@ -67,6 +71,10 @@ public class SelectGodController {
         client.getNetworkHandler().send(message);
     }
 
+    /**
+     * this method initialize the image of gods
+     * @param name is the name of the god
+     * */
     private Image findImage(String name){
         switch (name){
             case "Apollo" :
@@ -102,10 +110,13 @@ public class SelectGodController {
     }
 
 
+    /**
+     * this method initialize gods on the SelectGod screen
+     * @param selectedGods is the ArrayList of the gods selected
+     */
     public void initializeGods(ArrayList<Integer> selectedGods) {
 
         String name = findName(selectedGods.get(0));
-        System.out.println(name);
         Tooltip tooltip1 = new Tooltip();
         tooltip1.setText(findEffect(selectedGods.get(0)));
         godButton1.setTooltip(tooltip1);
@@ -144,6 +155,10 @@ public class SelectGodController {
         }
     }
 
+    /**
+     *  this method is used to find the name of the god by the code
+     * @param numGod is the code of the god
+     */
     private String findName(int numGod) {
         switch (numGod) {
             case 0:
@@ -179,6 +194,10 @@ public class SelectGodController {
         }
     }
 
+    /**
+     * this method return the effect of the god by the code
+     * @param numGods is the code of the god
+     */
     private String findEffect(int numGods) {
         switch (numGods) {
             case 0:

@@ -205,7 +205,9 @@ public class UpdateMatchController {
     @FXML
     Label text;
 
-
+    /**
+     * This method initialize the text on the board after each update and send the messages
+     */
     public void setText(){
         switch (updateMessage.getPhase()){
             case START_TURN:
@@ -277,6 +279,10 @@ public class UpdateMatchController {
         }
     }
 
+    /**
+     * this method initializes the players on the update board screen
+     * @param players is the ArrayList that contains the players
+     */
     public void initializePlayers(ArrayList<Player> players) {
         setPlayers(players);
         username1.setText(players.get(0).getNickname());
@@ -307,6 +313,10 @@ public class UpdateMatchController {
         }
     }
 
+    /**
+     * this method is used to initialize gods on the update board screen
+     * @param name is the name of the god
+     */
     private Image godImage(String name){
         switch (name){
             case "Apollo" :
@@ -341,6 +351,10 @@ public class UpdateMatchController {
         return null;
     }
 
+    /**
+     * this method initialize the update board with builders and buildings
+     * @param board is the board of the match
+     */
     public void initializeBoard(Cell[][] board) {
         if(board[1][1].getStatus()== AccessType.OCCUPIED) initializeCell(p00, b00, board[1][1]);
         if(board[1][2].getStatus()== AccessType.OCCUPIED) initializeCell(p01, b01, board[1][2]);
@@ -394,13 +408,15 @@ public class UpdateMatchController {
         c44.setText(String.valueOf(board[5][5].getLevel().getHeight()));
     }
 
+    /**
+     * this method is used to initialize each cell
+     * @param builder is the builder of the player
+     * @param button is the button on that cell
+     * @param cell is the cell that the method initialize
+     */
     private void initializeCell(Label builder, Button button, Cell cell) {
         builder.setText(AppGUI.gender(cell.getBuilder().getGender()));
         builder.setTextFill(Color.web(AppGUI.color(cell.getBuilder().getColor())));
         button.setDisable(true);
-    }
-
-    private void move(){
-
     }
 }

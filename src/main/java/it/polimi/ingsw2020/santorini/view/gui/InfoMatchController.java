@@ -33,6 +33,10 @@ public class InfoMatchController {
     public void initialize(){
     }
 
+    /**
+     * this method initializes the players on the Info Match screen
+     * @param players is the ArrayList that contains the players
+     */
     public void initializePlayers(ArrayList<Player> players){
         username1.setText(players.get(0).getNickname());
         username1.setAlignment(Pos.TOP_CENTER);
@@ -62,6 +66,10 @@ public class InfoMatchController {
         }
     }
 
+    /**
+     * this method is used to initialize gods on the Info Match screen
+     * @param name is the name of the god
+     */
     private Image godImage(String name){
         switch (name){
             case "Apollo" :

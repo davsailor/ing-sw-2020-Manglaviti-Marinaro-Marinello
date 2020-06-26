@@ -72,12 +72,20 @@ public class PossibleBuildingsController {
         text.setText("Select the cell where you want to build!");
     }
 
+    /**
+     * this method is used to initialize the matrix of possible buildings
+     */
     public void initializeBoard() {
         int [][] possibleMatrix = askBuildSelectionMessage.getPossibleBuildings();
         AppGUI.buildButtonMatrices(matrix, b00, b01, b02, b10, b12, b20, b21, b22);
         AppGUI.buildLabelMatrices(labelMatrix, p00, p01, p02, p10, p12, p20, p21, p22);
         AppGUI.printMatrix(possibleMatrix, matrix, labelMatrix);
     }
+
+    /**
+     * this method is used to select the direction of the build
+     * @param actionEvent is the event of the mouse clicked
+     */
     @FXML
     public void selectBuild(ActionEvent actionEvent) {
         Direction direction = AppGUI.extractDirection(actionEvent, b00, b01, b02, b10, b12, b20, b21, b22);

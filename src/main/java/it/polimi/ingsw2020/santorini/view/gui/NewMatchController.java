@@ -26,11 +26,19 @@ public class NewMatchController {
         this.client = client;
     }
 
+    /**
+     * this method initializes the ChoiceBox
+     */
     public void initialize(){
         numberOfPlayers.setItems(list);
         numberOfPlayers.setValue(2);
     }
 
+    /**
+     * this method is used to send request for the players to play again
+     * @param actionEvent is the event of the mouse clicked
+     */
+    @FXML
     public void registerAction(ActionEvent actionEvent) {
         Message message = new Message(client.getUsername());
         client.setSelectedMatch((Integer.parseInt(String.valueOf(numberOfPlayers.getValue()))));

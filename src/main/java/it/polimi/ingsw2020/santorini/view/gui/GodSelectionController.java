@@ -59,6 +59,10 @@ public class GodSelectionController {
     @FXML
     Button Zeus;
 
+    /**
+     * this method is used to let the player choose gods for the match
+     * @param actionEvent
+     */
     @FXML
     public void selectGod(ActionEvent actionEvent){
         if(cont < matchSetupMessage.getPlayers().size()) {
@@ -76,6 +80,9 @@ public class GodSelectionController {
         }
     }
 
+    /**
+     * this method is used to let the player read God's power on God Selection screen
+     */
     @FXML
     public void initializeToolTip(){
         Tooltip tooltipApollo = new Tooltip();
@@ -140,6 +147,11 @@ public class GodSelectionController {
         Zeus.setTooltip(tooltipZeus);
     }
 
+    /**
+     * this method is used to change the name of the god into the code equivalent to that god
+     * @param name
+     * @return
+     */
     public static Integer calcInt(String name){
         switch (name){
             case "Apollo" :
@@ -161,7 +173,6 @@ public class GodSelectionController {
             case "Hestia" :
                 return GodFactotum.HESTIA.getCode();
             case "Minotaur" :
-                System.out.println("ciao");
                 return GodFactotum.MINOTAUR.getCode();
             case "Pan" :
                 return GodFactotum.PAN.getCode();

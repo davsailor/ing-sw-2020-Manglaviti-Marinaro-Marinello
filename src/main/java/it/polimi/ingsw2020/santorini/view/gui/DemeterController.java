@@ -60,6 +60,11 @@ public class DemeterController {
     @FXML
     Label p22;
 
+    /**
+     * this method is used to build the block with Demeter power
+     * @param actionEvent is the event of the mouse clicked
+     */
+    @FXML
     public void build(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();
         Direction direction = AppGUI.extractDirection(actionEvent, b00, b01, b02, b10, b12, b20, b21, b22);
@@ -68,6 +73,9 @@ public class DemeterController {
         stage.close();
     }
 
+    /**
+     * this Method initialize the 3*3 Matrix of Demeter
+     */
     public void initializeDemeterMatrix() {
         AppGUI.buildButtonMatrices(matrix, b00, b01, b02, b10, b12, b20, b21, b22);
         AppGUI.buildLabelMatrices(labelMatrix, p00, p01, p02, p10, p12, p20, p21, p22);

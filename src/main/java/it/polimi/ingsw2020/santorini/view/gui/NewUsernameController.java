@@ -20,6 +20,11 @@ public class NewUsernameController {
     @FXML
     private TextField username;
 
+    /**
+     * this method is used to set the right username of the player
+     * @param actionEvent is the event of the mouse clicked
+     */
+    @FXML
     public void newUsernameSelection(ActionEvent actionEvent) {
         String newUsername;
         boolean correct = true;

@@ -55,6 +55,10 @@ public class MinotaurController {
     @FXML
     Button M;
 
+    /**
+     * this method set the direction of the push
+     * @param actionEvent  is the event of the mouse clicked
+     */
     @FXML
     public void push(ActionEvent actionEvent) {
         Direction direction = AppGUI.extractDirection(actionEvent, b00, b01, b02, b10, b12, b20, b21, b22);
@@ -63,6 +67,11 @@ public class MinotaurController {
         stage.close();
     }
 
+    /**
+     * this method initialize 3*3 matrix of Minotaur
+     * @param chosen is the builder chosen to push
+     * @param MinotaurMatrix
+     */
     public void initializeMinotaurMatrix(Builder chosen, int[][] MinotaurMatrix){
         AppGUI.buildButtonMatrices(matrix, b00, b01, b02, b10, b12, b20, b21, b22);
         for(int i = 0; i < 3; ++i)
@@ -86,6 +95,10 @@ public class MinotaurController {
         }
     }
 
+    /**
+     * this method is used to let the player choose the builder that he want to use
+     * @param actionEvent
+     */
     @FXML
     public void selectGender(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();
@@ -104,6 +117,9 @@ public class MinotaurController {
         stage.close();
     }
 
+    /**
+     * this method is used to disable button if that builder can't be chosen
+     */
     public void initializeButtons() {
         int[] posBuilder = new int[2];
         Direction direction = null;

@@ -209,7 +209,7 @@ public class SelectionBuilderController {
     Label c44;
 
     /**
-     * the method is used to sets the builders of the players where he wants to put them during the setUp phase. The method recognizes
+     * the method is used to set the builders of the player where he wants to put them during the setUp phase. The method recognizes
      * which cell the player clicked on, if the player clicked to place the female builder the method allows the player to click on another
      * cell to place the male builder. After the male builder is placed, the method builds a SelectedBuilderPosMessage, serializes it and
      * then sends it to the server, moreover it disables all the buttons to eliminate the effects of other clicks made by the player

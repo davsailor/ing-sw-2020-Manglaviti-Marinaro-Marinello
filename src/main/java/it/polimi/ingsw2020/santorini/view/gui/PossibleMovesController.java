@@ -65,6 +65,10 @@ public class PossibleMovesController {
         this.askMoveSelectionMessage = askMoveSelectionMessage;
     }
 
+    /**
+     * this method is used to select the direction of the movement
+     * @param actionEvent is the event of the mouse clicked
+     */
     @FXML
     public void selectMove(ActionEvent actionEvent){
         Direction direction = AppGUI.extractDirection(actionEvent, b00, b01, b02, b10, b12, b20, b21, b22);
@@ -83,6 +87,9 @@ public class PossibleMovesController {
         text.setText("Select the cell where you want to move!");
     }
 
+    /**
+     * this method is used to initialize the matrix of possible movements
+     */
     public void initializeBoard() {
         int[][] possibleMatrix = askMoveSelectionMessage.getPossibleMoves();
         AppGUI.buildButtonMatrices(matrix, b00, b01, b02, b10, b12, b20, b21, b22);

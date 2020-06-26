@@ -39,6 +39,9 @@ public class RegisterController {
         this.client = client;
     }
 
+    /**
+     * this method initialize the ChoiceBox
+     */
     public void initialize(){
         numberOfPlayers.setItems(list);
         numberOfPlayers.setValue(2);
@@ -46,6 +49,10 @@ public class RegisterController {
         numberOfPlayers.setStyle("-fx-font-family: Arial");
     }
 
+    /**
+     * this method is userd to set username , ip address and birthday of the players when they register
+     * @param actionEvent is the event of the mouse clicked
+     */
     @FXML
     public void registerAction(ActionEvent actionEvent) {
         String ip;
@@ -89,12 +96,6 @@ public class RegisterController {
             Message message = new Message(client.getUsername());
             message.buildLoginMessage(new LoginMessage(client.getUsername(), client.getBirthDate(), client.getSelectedMatch()));
             client.getNetworkHandler().send(message);
-            /*
-            Button button = (Button) actionEvent.getSource();
-            Stage stage = (Stage) button.getScene().getWindow();
-            stage.close();
-
-             */
         }
     }
 }

@@ -17,11 +17,17 @@ public class EndMatchController {
         this.client = client;
     }
 
+    /**
+     * this method is used to set the username of the winner on the winner screen
+     */
     public void setWinner(){
         winner.setText(client.getUsername());
         winner.setAlignment(Pos.TOP_CENTER);
     }
 
+    /**
+     * this method is used to set the username of the loser on the loser screen
+     */
     public void setText(){
         Loser.setText(client.getUsername());
         Loser.setAlignment(Pos.TOP_CENTER);

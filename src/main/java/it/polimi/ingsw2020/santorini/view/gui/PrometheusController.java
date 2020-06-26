@@ -68,20 +68,22 @@ public class PrometheusController {
     Button F;
 
 
+    /**
+     * this method is used to build the block with prometheus power
+     * @param actionEvent is the event of the mouse clicked
+     */
     @FXML
     public void build(ActionEvent actionEvent) {
         Direction direction = AppGUI.extractDirection(actionEvent, b00, b01, b02, b10, b12, b20, b21, b22);
-        b02.setDisable(true);
-        b10.setDisable(true);
-        b12.setDisable(true);
-        b20.setDisable(true);
-        b21.setDisable(true);
-        b22.setDisable(true);
         AppGUI.getPrometheusParamMessage().setDirection(direction);
         stage.setOnCloseRequest(e->stage.close());
         stage.close();
     }
 
+    /**
+     * this Method initialize the 3*3 Matrix of Prometheus
+     * @param PrometheusMatrix is the 3*3 matrix of prometheus
+     */
     public void initializePrometheusMatrix(int[][] PrometheusMatrix){
         if(PrometheusMatrix == null) return;
         AppGUI.buildButtonMatrices(matrix, b00, b01, b02, b10, b12, b20, b21, b22);
@@ -95,9 +97,12 @@ public class PrometheusController {
         matchStateMessage.getCurrentPlayer().getBuilderM().setPlayer(matchStateMessage.getCurrentPlayer());
 
         AppGUI.printMatrix(PrometheusMatrix, matrix, labelMatrix);
-
     }
 
+    /**
+     * this method is used to select the gender by player's click
+     * @param actionEvent
+     */
     @FXML
     public void selectGender(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();
@@ -118,6 +123,9 @@ public class PrometheusController {
         stage.close();
     }
 
+    /**
+     * this method is used to disable the button if that builder can't be chosen
+     */
     public void initializeButtons() {
         matchStateMessage.getCurrentPlayer().getBuilderM().setBoard(new Board(matchStateMessage.getBoard()));
         matchStateMessage.getCurrentPlayer().getBuilderM().setPlayer(matchStateMessage.getCurrentPlayer());
