@@ -208,6 +208,10 @@ public class ChooseBuilderController {
     @FXML
     Label text;
 
+    /**
+     * The method extracts from the actionEvent the gender of the builder chosen by the player, it adds the gender to a message and serialize it
+     * @param actionEvent is the event of the click over one of the buttons representing the gender of the builder selected
+     */
     @FXML
     public void getGender(ActionEvent actionEvent) {
         Message chosenBuilder = new Message(client.getUsername());
@@ -270,11 +274,18 @@ public class ChooseBuilderController {
         client.getNetworkHandler().send(chosenBuilder);
     }
 
+    /**
+     * The method disables all the buttons of the matrix and
+     */
     public void initializeBuilder(){
         disableAll();
         findBuilder(matchStateMessage.getCurrentPlayer().getBuilderF().getPosX(), matchStateMessage.getCurrentPlayer().getBuilderF().getPosY());
         findBuilder(matchStateMessage.getCurrentPlayer().getBuilderM().getPosX(), matchStateMessage.getCurrentPlayer().getBuilderM().getPosY());
     }
+
+    /**
+     * The method disables all the buttons
+     */
     private void disableAll(){
         b00.setDisable(true);
         b01.setDisable(true);
@@ -302,6 +313,12 @@ public class ChooseBuilderController {
         b43.setDisable(true);
         b44.setDisable(true);
     }
+
+    /**
+     * The method disables button that is in the position (x,y)
+     * @param x is the row of the cell where is placed of a builder and the row of the button that will be disabled
+     * @param y is the column of the cell where is placed of a builder and the column of the button that will be disabled
+     */
     private void findBuilder(int x, int y){
         Builder builder = matchStateMessage.getBoard()[x][y].getBuilder();
         builder.setBoard(new Board(matchStateMessage.getBoard()));
@@ -365,6 +382,10 @@ public class ChooseBuilderController {
         }
     }
 
+    /**
+     * the method sets the label on the Board window. The text's label that is set tells to the player what he has to do, so if he is the current
+     * player he will have to place his builders, if he isn't he will have to wait for his turn
+     */
     public void setText(){
         if(matchStateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())){
             text.setText(client.getUsername() +", select the builder that you want to move");
@@ -373,6 +394,12 @@ public class ChooseBuilderController {
         }
     }
 
+    /**
+     * the method initialize the Board, before the choice of the player, checking if a cell is occupied or not. In the first case the method
+     * invoke initializeCell method that will disable the button of the occupied cell and sets the builder that occupies the cell.
+     * The method than sets in each cell its height
+     * @param board is the matrix of the cell that represents the board
+     */
     public void initializeBoard(Cell[][] board) {
         if(board[1][1].getStatus()== AccessType.OCCUPIED) initializeCell(p00, b00, board[1][1]);
         if(board[1][2].getStatus()== AccessType.OCCUPIED) initializeCell(p01, b01, board[1][2]);
@@ -426,12 +453,23 @@ public class ChooseBuilderController {
         c44.setText(String.valueOf(board[5][5].getLevel().getHeight()));
     }
 
+    /**
+     * the method is invoked by initializeBoard when it finds an occupied. It disable the button associated to the cell and sets the label
+     * to show the builder that occupies the correspondent cell
+     * @param builder is the label that displays the builder that occupies the cell
+     * @param button is the button that represents the cell
+     * @param cell is the occupied cell
+     */
     private void initializeCell(Label builder, Button button, Cell cell) {
         builder.setText(AppGUI.gender(cell.getBuilder().getGender()));
         builder.setTextFill(Color.web(AppGUI.color(cell.getBuilder().getColor())));
         button.setDisable(true);
     }
 
+    /**
+     * the method sets the names of the players in the Board window and sets also the respective gods'images
+     * @param players is the ArrayList containing all the names of the players
+     */
     public void initializePlayers(ArrayList<Player> players) {
         setPlayers(players);
         username1.setText(players.get(0).getNickname());
@@ -462,6 +500,11 @@ public class ChooseBuilderController {
         }
     }
 
+    /**
+     * The method is used to obtain the image of a specific god
+     * @param name is the string containing the name of god of whom we want the image
+     * @return the requested god's image
+     */
     private Image godImage(String name){
         switch (name){
             case "Apollo" :

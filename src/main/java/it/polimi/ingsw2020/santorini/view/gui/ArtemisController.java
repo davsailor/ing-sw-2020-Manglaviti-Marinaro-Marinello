@@ -43,18 +43,12 @@ public class ArtemisController {
     @FXML
     Button b22;
 
+    /**
+     * the method checks and disables the buttons that represents directions not allowed by rules.
+     */
     public void initializeArtemisMatrix() {
         int[][] possibleMoves = matchStateMessage.getCurrentPlayer().getPlayingBuilder().getPossibleMoves();
-
-        matrix[0][0] = b00;
-        matrix[0][1] = b01;
-        matrix[0][2] = b02;
-        matrix[1][0] = b10;
-        matrix[1][2] = b12;
-        matrix[2][0] = b20;
-        matrix[2][1] = b21;
-        matrix[2][2] = b22;
-
+        AppGUI.buildButtonMatrices(matrix, b00, b01, b02, b10, b12, b20, b21, b22);
         for(int i=0 ; i<3 ;++i)
             for(int j=0; j<3 ; ++j)
                 if (i!=1 || j!= 1)
@@ -64,6 +58,10 @@ public class ArtemisController {
                     }
     }
 
+    /**
+     * the method extracts from the actionEvent the direction click by the player, and inserts it in to ArtemisParamMessage
+     * @param actionEvent is the event of the click over one of the buttons representing the directions
+     */
     @FXML
     public void selectMove(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();

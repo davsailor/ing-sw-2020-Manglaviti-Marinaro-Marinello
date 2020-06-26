@@ -26,7 +26,6 @@ public class AresController {
         this.matchStateMessage = matchStateMessage;
     }
 
-
     @FXML
     Label text;
     @FXML
@@ -64,11 +63,14 @@ public class AresController {
     @FXML
     Label p22;
 
+    /**
+     * the method checks which one of the builders is the unmoved one. After that it checks and disables the buttons that represents
+     * directions not allowed by rules
+     */
     public void initializeAresMatrix(){
         Builder demolitionBuilder;
-
-        AppGUI.buildMatrices(matrix, b00, b01, b02, b10, b12, b20, b21, b22, labelMatrix, p00, p01, p02, p10, p12, p20, p21, p22);
-
+        AppGUI.buildButtonMatrices(matrix, b00, b01, b02, b10, b12, b20, b21, b22);
+        AppGUI.buildLabelMatrices(labelMatrix, p00, p01, p02, p10, p12, p20, p21, p22);
         if(matchStateMessage.getCurrentPlayer().getPlayingBuilder().getGender() == '\u2640'){
             demolitionBuilder = matchStateMessage.getCurrentPlayer().getBuilderM();
             demolitionBuilderSex = 'M';
@@ -80,7 +82,6 @@ public class AresController {
         demolitionBuilder.setPlayer(matchStateMessage.getCurrentPlayer());
 
         int[][] neighboringLevelCell = Board.neighboringLevelCell(demolitionBuilder);
-
         for(int i=0; i<3; ++i){
             for (int j=0; j<3;++j){
                 if(i!=1 || j!= 1){
@@ -93,6 +94,10 @@ public class AresController {
         }
     }
 
+    /**
+     * the method extract from the actionEvent the direction clicked by the player and add it to AresParamMessage
+     * @param actionEvent is the event of the click over one of the buttons representing the directions
+     */
     @FXML
     public void selectDemolition(ActionEvent actionEvent) {
         Direction direction = AppGUI.extractDirection(actionEvent, b00, b01, b02, b10, b12, b20, b21, b22);

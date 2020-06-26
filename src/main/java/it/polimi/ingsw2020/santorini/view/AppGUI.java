@@ -1119,7 +1119,7 @@ public class AppGUI extends Application implements ViewInterface{
     }
 
     /**
-     * method to build matrices to collect buttons and labels
+     * method to build matrices that collect buttons
      * @param matrix collector of buttons
      * @param b00 North-West Button
      * @param b01 North Button
@@ -1129,6 +1129,20 @@ public class AppGUI extends Application implements ViewInterface{
      * @param b20 South-West Button
      * @param b21 South Button
      * @param b22 South-East Button
+     */
+    public static void buildButtonMatrices(Button[][] matrix, Button b00, Button b01, Button b02, Button b10, Button b12, Button b20, Button b21, Button b22) {
+        matrix[0][0] = b00;
+        matrix[0][1] = b01;
+        matrix[0][2] = b02;
+        matrix[1][0] = b10;
+        matrix[1][2] = b12;
+        matrix[2][0] = b20;
+        matrix[2][1] = b21;
+        matrix[2][2] = b22;
+    }
+
+    /**
+     * method to build matrices that collect labels
      * @param labelMatrix collector of labels
      * @param p00 North-West Label
      * @param p01 North Label
@@ -1139,15 +1153,7 @@ public class AppGUI extends Application implements ViewInterface{
      * @param p21 South Label
      * @param p22 South-East Label
      */
-    public static void buildMatrices(Button[][] matrix, Button b00, Button b01, Button b02, Button b10, Button b12, Button b20, Button b21, Button b22, Label[][] labelMatrix, Label p00, Label p01, Label p02, Label p10, Label p12, Label p20, Label p21, Label p22) {
-        matrix[0][0] = b00;
-        matrix[0][1] = b01;
-        matrix[0][2] = b02;
-        matrix[1][0] = b10;
-        matrix[1][2] = b12;
-        matrix[2][0] = b20;
-        matrix[2][1] = b21;
-        matrix[2][2] = b22;
+    public static void buildLabelMatrices(Label[][] labelMatrix, Label p00, Label p01, Label p02, Label p10, Label p12, Label p20, Label p21, Label p22){
         labelMatrix[0][0] = p00;
         labelMatrix[0][1] = p01;
         labelMatrix[0][2] = p02;

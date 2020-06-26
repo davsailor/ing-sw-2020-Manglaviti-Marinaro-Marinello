@@ -61,6 +61,10 @@ public class AtlasController {
     @FXML
     Label p22;
 
+    /**
+     * The method extracts from actionEvent the direction clicked by the player, and then inserts it in AtlasParamMessage
+     * @param actionEvent is the event of the click over one of the buttons representing the directions
+     */
     @FXML
     public void buildDome(ActionEvent actionEvent) {
         Direction direction = AppGUI.extractDirection(actionEvent, b00, b01, b02, b10, b12, b20, b21, b22);
@@ -69,14 +73,15 @@ public class AtlasController {
         stage.close();
     }
 
+    /**
+     * The method checks and disables the buttons that represents directions not allowed by rules.
+     */
     public void initializeAtlasMatrix(){
-
         matchStateMessage.getCurrentPlayer().getPlayingBuilder().setBoard(new Board(matchStateMessage.getBoard()));
         matchStateMessage.getCurrentPlayer().getPlayingBuilder().setPlayer(matchStateMessage.getCurrentPlayer());
         int[][] neighboringLevelCell = Board.neighboringLevelCell(matchStateMessage.getCurrentPlayer().getPlayingBuilder());
-
-        AppGUI.buildMatrices(matrix, b00, b01, b02, b10, b12, b20, b21, b22, labelMatrix, p00, p01, p02, p10, p12, p20, p21, p22);
-
+        AppGUI.buildButtonMatrices(matrix, b00, b01, b02, b10, b12, b20, b21, b22);
+        AppGUI.buildLabelMatrices(labelMatrix, p00, p01, p02, p10, p12, p20, p21, p22);
         AppGUI.printMatrix(neighboringLevelCell, matrix, labelMatrix);
     }
 }

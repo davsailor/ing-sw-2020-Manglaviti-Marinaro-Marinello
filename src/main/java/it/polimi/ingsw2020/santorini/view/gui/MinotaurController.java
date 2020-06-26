@@ -64,14 +64,7 @@ public class MinotaurController {
     }
 
     public void initializeMinotaurMatrix(Builder chosen, int[][] MinotaurMatrix){
-        matrix[0][0] = b00;
-        matrix[0][1] = b01;
-        matrix[0][2] = b02;
-        matrix[1][0] = b10;
-        matrix[1][2] = b12;
-        matrix[2][0] = b20;
-        matrix[2][1] = b21;
-        matrix[2][2] = b22;
+        AppGUI.buildButtonMatrices(matrix, b00, b01, b02, b10, b12, b20, b21, b22);
         for(int i = 0; i < 3; ++i)
             for(int j = 0; j < 3; ++j)
                 if(MinotaurMatrix[i][j] != 0)
@@ -157,7 +150,6 @@ public class MinotaurController {
                     }catch (IndexOutOfBoundsException e){
                         possibleSwap[i][j] = 0;
                     }
-
         allZeros = true;
         for(int i = 0; i < 3 && allZeros; ++i)
             for(int j = 0; j < 3 && allZeros; ++j)

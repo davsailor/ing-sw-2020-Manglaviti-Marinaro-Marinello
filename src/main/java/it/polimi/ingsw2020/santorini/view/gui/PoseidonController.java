@@ -141,7 +141,8 @@ public class PoseidonController {
     }
 
     public void initializePoseidonMatrix(){
-        AppGUI.buildMatrices(matrix, b00, b01, b02, b10, b12, b20, b21, b22, labelMatrix, p00, p01, p02, p10, p12, p20, p21, p22);
+        AppGUI.buildButtonMatrices(matrix, b00, b01, b02, b10, b12, b20, b21, b22);
+        AppGUI.buildLabelMatrices(labelMatrix, p00, p01, p02, p10, p12, p20, p21, p22);
 
         Builder constructionBuilder = null;
         char constructionBuilderSex = 'o';

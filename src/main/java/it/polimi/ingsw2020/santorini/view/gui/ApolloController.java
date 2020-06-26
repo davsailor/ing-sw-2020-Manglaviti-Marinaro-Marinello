@@ -21,6 +21,7 @@ public class    ApolloController {
     private ApolloParamMessage apolloParamMessage = new ApolloParamMessage();
     private Stage stage;
     private Builder chosen = null;
+    private Button[][] buttonMatrix = new Button[3][3];
 
     @FXML
     Label text;
@@ -51,17 +52,14 @@ public class    ApolloController {
         this.matchStateMessage = matchStateMessage;
     }
 
+    /**
+     * the method inserts the buttons of the small 3*3 matrix, showed in the window, ina a 3*3 matrix of buttons. After the initialization
+     * of the buttons matrix the method checks if an element of apolloMatrix is equals to 0 (which represents a cell that cannot be reached
+     * though the power of the god). For each 0 found the method disables the correspondent button and changes the color to red.
+     * @param apolloMatrix is a matrix containing the values of PossibleSwap
+     */
     public void initializeApolloMatrix(int[][] apolloMatrix) {
-        Button[][] buttonMatrix = new Button[3][3];
-        buttonMatrix[0][0] = b00;
-        buttonMatrix[0][1] = b01;
-        buttonMatrix[0][2] = b02;
-        buttonMatrix[1][0] = b10;
-        buttonMatrix[1][2] = b12;
-        buttonMatrix[2][0] = b20;
-        buttonMatrix[2][1] = b21;
-        buttonMatrix[2][2] = b22;
-
+        AppGUI.buildButtonMatrices(buttonMatrix, b00, b01, b02, b10, b12, b20, b21, b22);
         for(int i=0; i<3; ++i)
             for( int j=0 ; j < 3; ++j)
                 if(i!=1 || j!= 1)
@@ -79,6 +77,11 @@ public class    ApolloController {
         return chosen;
     }
 
+    /**
+     * the method checks if each builder of the player can use the power of Apollo, there it checks if a builder can swap its position
+     * with an opponent's builder. If the builder can swap its position the method will allow the player to click the builder's button
+     * if not the method will disable the builder's button
+     */
     public void initializeButtons() {
         Builder chosen = matchStateMessage.getCurrentPlayer().getBuilderF();
         chosen.setBoard(new Board(matchStateMessage.getBoard()));
@@ -108,20 +111,22 @@ public class    ApolloController {
             M.setStyle("-fx-border-color: #00ff00; -fx-border-width: 5px;");
     }
 
+    /**
+     * the method extract from the actionEvent the direction selected by the player, and then insert it in ApolloParamMessage
+     * @param actionEvent is the event of the click over on eof the buttons representing the directions
+     */
     @FXML
     public void selectSwap(ActionEvent actionEvent){
         Direction direction = AppGUI.extractDirection(actionEvent, b00, b01, b02, b10, b12, b20, b21, b22);
-        b02.setDisable(true);
-        b10.setDisable(true);
-        b12.setDisable(true);
-        b20.setDisable(true);
-        b21.setDisable(true);
-        b22.setDisable(true);
         AppGUI.getApolloParamMessage().setOpponentBuilderDirection(direction);
         stage.setOnCloseRequest(e->stage.close());
         stage.close();
     }
 
+    /**
+     * the method extract from the actionEvent the builder selected by the player to utilize Apollo's power
+     * @param actionEvent is the event of the click over one of the buttons representing the genres of the builders
+     */
     @FXML
     public void selectGender(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();
