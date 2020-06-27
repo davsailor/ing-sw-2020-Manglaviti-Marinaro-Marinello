@@ -68,7 +68,7 @@ public class InfoMatchController {
 
     /**
      * this method is used to initialize gods on the Info Match screen
-     * @param name is the name of the god
+     * @param name is the name of the god searched
      */
     private Image godImage(String name){
         switch (name){

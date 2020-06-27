@@ -301,7 +301,6 @@ public class UpdateMatchController {
         imageView.setFitHeight(169.0);
         god2.setGraphic(imageView);
 
-
         if(players.size()==3) {
             username3.setText(players.get(2).getNickname());
             username3.setAlignment(Pos.TOP_CENTER);

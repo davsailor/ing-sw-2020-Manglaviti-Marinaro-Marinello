@@ -96,7 +96,7 @@ public class AresController {
 
     /**
      * the method extract from the actionEvent the direction clicked by the player and add it to AresParamMessage
-     * @param actionEvent is the event of the click over one of the buttons representing the directions
+     * @param actionEvent is the event of the click on one of the buttons representing the directions
      */
     @FXML
     public void selectDemolition(ActionEvent actionEvent) {

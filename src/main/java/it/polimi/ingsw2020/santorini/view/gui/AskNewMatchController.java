@@ -19,7 +19,7 @@ public class AskNewMatchController {
 
     /**
      * the method extracts from the actionEvent the answer clicked by the player. Then it close the stage
-     * @param actionEvent is the event of the click over one of the buttons representing the answer that could be yes or no
+     * @param actionEvent is the event of the click on one of the buttons representing the answer that could be yes or no
      */
     public void newMatch(ActionEvent actionEvent) {
         Button pos = (Button) actionEvent.getSource();

@@ -61,8 +61,8 @@ public class DemeterController {
     Label p22;
 
     /**
-     * this method is used to build the block with Demeter power
-     * @param actionEvent is the event of the mouse clicked
+     * his method extract the direction where to build, chosen by the player, and then set it in DemeterParamMessage.
+     * @param actionEvent is the event of the button clicked
      */
     @FXML
     public void build(ActionEvent actionEvent) {

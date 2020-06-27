@@ -36,7 +36,7 @@ public class NewMatchController {
 
     /**
      * this method is used to send request for the players to play again
-     * @param actionEvent is the event of the mouse clicked
+     * @param actionEvent is the event of the button clicked
      */
     @FXML
     public void registerAction(ActionEvent actionEvent) {

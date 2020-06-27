@@ -67,7 +67,7 @@ public class PossibleMovesController {
 
     /**
      * this method is used to select the direction of the movement
-     * @param actionEvent is the event of the mouse clicked
+     * @param actionEvent is the event of the button clicked from which the method extracts the direction
      */
     @FXML
     public void selectMove(ActionEvent actionEvent){

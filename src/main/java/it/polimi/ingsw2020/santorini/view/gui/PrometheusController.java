@@ -67,10 +67,9 @@ public class PrometheusController {
     @FXML
     Button F;
 
-
     /**
-     * this method is used to build the block with prometheus power
-     * @param actionEvent is the event of the mouse clicked
+     * this method extract the direction where to build, chosen by the player, and then set it in PrometheusParamMessage.
+     * @param actionEvent is the event of the button clicked
      */
     @FXML
     public void build(ActionEvent actionEvent) {
@@ -81,7 +80,7 @@ public class PrometheusController {
     }
 
     /**
-     * this Method initialize the 3*3 Matrix of Prometheus
+     * this method initialize the 3*3 Matrix of Prometheus
      * @param PrometheusMatrix is the 3*3 matrix of prometheus
      */
     public void initializePrometheusMatrix(int[][] PrometheusMatrix){
@@ -101,7 +100,7 @@ public class PrometheusController {
 
     /**
      * this method is used to select the gender by player's click
-     * @param actionEvent
+     * @param actionEvent is the event of the button clicked from which the method extracts the builder chosen by its gender
      */
     @FXML
     public void selectGender(ActionEvent actionEvent) {
@@ -124,7 +123,7 @@ public class PrometheusController {
     }
 
     /**
-     * this method is used to disable the button if that builder can't be chosen
+     * this method is used to disable the builder's button if that builder can't be chosen
      */
     public void initializeButtons() {
         matchStateMessage.getCurrentPlayer().getBuilderM().setBoard(new Board(matchStateMessage.getBoard()));

@@ -60,7 +60,7 @@ public class ArtemisController {
 
     /**
      * the method extracts from the actionEvent the direction click by the player, and inserts it in to ArtemisParamMessage
-     * @param actionEvent is the event of the click over one of the buttons representing the directions
+     * @param actionEvent is the event of the click on one of the buttons representing the directions
      */
     @FXML
     public void selectMove(ActionEvent actionEvent) {

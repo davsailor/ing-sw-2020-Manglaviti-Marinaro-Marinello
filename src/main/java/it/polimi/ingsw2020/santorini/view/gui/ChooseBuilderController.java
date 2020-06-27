@@ -25,7 +25,6 @@ public class ChooseBuilderController {
 
     private Client client;
     private MatchStateMessage matchStateMessage;
-
     private ArrayList<Player> players;
 
     public void setPlayers(ArrayList<Player> players) {
@@ -210,7 +209,7 @@ public class ChooseBuilderController {
 
     /**
      * The method extracts from the actionEvent the gender of the builder chosen by the player, it adds the gender to a message and serialize it
-     * @param actionEvent is the event of the click over one of the buttons representing the gender of the builder selected
+     * @param actionEvent is the event of the click on one of the buttons representing the gender of the builder selected
      */
     @FXML
     public void getGender(ActionEvent actionEvent) {
@@ -275,7 +274,8 @@ public class ChooseBuilderController {
     }
 
     /**
-     * The method disables all the buttons of the matrix and
+     * The method disables all the buttons of the matrix, then enables the buttons correspondent to the builders that can move
+     * (through the function findBuilder)
      */
     public void initializeBuilder(){
         disableAll();
@@ -315,9 +315,10 @@ public class ChooseBuilderController {
     }
 
     /**
-     * The method disables button that is in the position (x,y)
-     * @param x is the row of the cell where is placed of a builder and the row of the button that will be disabled
-     * @param y is the column of the cell where is placed of a builder and the column of the button that will be disabled
+     * The method checks if the builder in (x,y) can move, if he can't it does nothing, if he can the method enables the button correspondent to
+     * the cell where the builder is placed.
+     * @param x is the row of the cell where is placed of a builder and the row of the button that will be enabled
+     * @param y is the column of the cell where is placed of a builder and the column of the button that will be enabled
      */
     private void findBuilder(int x, int y){
         Builder builder = matchStateMessage.getBoard()[x][y].getBuilder();
@@ -487,7 +488,6 @@ public class ChooseBuilderController {
         imageView.setFitWidth(123.0);
         imageView.setFitHeight(169.0);
         god2.setGraphic(imageView);
-
 
         if(players.size()==3) {
             username3.setText(players.get(2).getNickname());

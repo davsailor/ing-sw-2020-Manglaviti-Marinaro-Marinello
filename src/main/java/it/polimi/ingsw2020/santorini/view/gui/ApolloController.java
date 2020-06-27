@@ -113,7 +113,7 @@ public class    ApolloController {
 
     /**
      * the method extract from the actionEvent the direction selected by the player, and then insert it in ApolloParamMessage
-     * @param actionEvent is the event of the click over on eof the buttons representing the directions
+     * @param actionEvent is the event of the click on one of the buttons representing the directions
      */
     @FXML
     public void selectSwap(ActionEvent actionEvent){
@@ -125,7 +125,7 @@ public class    ApolloController {
 
     /**
      * the method extract from the actionEvent the builder selected by the player to utilize Apollo's power
-     * @param actionEvent is the event of the click over one of the buttons representing the genres of the builders
+     * @param actionEvent is the event of the click on one of the buttons representing the genres of the builders
      */
     @FXML
     public void selectGender(ActionEvent actionEvent) {

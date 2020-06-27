@@ -56,8 +56,8 @@ public class MinotaurController {
     Button M;
 
     /**
-     * this method set the direction of the push
-     * @param actionEvent  is the event of the mouse clicked
+     * this method extracts the direction of the push chosen by the player
+     * @param actionEvent is the event of the button clicked from which the method extracts the direction
      */
     @FXML
     public void push(ActionEvent actionEvent) {
@@ -69,8 +69,9 @@ public class MinotaurController {
 
     /**
      * this method initialize 3*3 matrix of Minotaur
-     * @param chosen is the builder chosen to push
-     * @param MinotaurMatrix
+     * @param chosen is the builder chosen to push the opponent's builder
+     * @param MinotaurMatrix is the matrix of integers that represents if there is an opponent's builder that can be pushed by the
+     * chosen builder
      */
     public void initializeMinotaurMatrix(Builder chosen, int[][] MinotaurMatrix){
         AppGUI.buildButtonMatrices(matrix, b00, b01, b02, b10, b12, b20, b21, b22);
@@ -96,8 +97,8 @@ public class MinotaurController {
     }
 
     /**
-     * this method is used to let the player choose the builder that he want to use
-     * @param actionEvent
+     * this method is used to let the player choose the builder that he wants to use
+     * @param actionEvent is the event of the mouse clicked from which the method extracts the builder chosen
      */
     @FXML
     public void selectGender(ActionEvent actionEvent) {
@@ -143,7 +144,6 @@ public class MinotaurController {
         for(int i = 0; i < 3 && allZeros; ++i)
             for(int j = 0; j < 3 && allZeros; ++j)
                 if(possibleSwap[i][j] != 0) allZeros = false;
-
 
         if(allZeros){
             M.setDisable(true);

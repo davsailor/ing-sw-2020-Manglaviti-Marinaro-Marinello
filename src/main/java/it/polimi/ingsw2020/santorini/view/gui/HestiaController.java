@@ -65,8 +65,8 @@ public class HestiaController {
 
 
     /**
-     * this method is used to build the block with Hestia power
-     * @param actionEvent is the event of the mouse clicked
+     * his method extract the direction where to build, chosen by the player, and then set it in HestiaParamMessage.
+     * @param actionEvent is the event of the button clicked
      */
     @FXML
     public void build(ActionEvent actionEvent) {

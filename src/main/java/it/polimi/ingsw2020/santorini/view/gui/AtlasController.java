@@ -63,7 +63,7 @@ public class AtlasController {
 
     /**
      * The method extracts from actionEvent the direction clicked by the player, and then inserts it in AtlasParamMessage
-     * @param actionEvent is the event of the click over one of the buttons representing the directions
+     * @param actionEvent is the event of the click on one of the buttons representing the directions
      */
     @FXML
     public void buildDome(ActionEvent actionEvent) {

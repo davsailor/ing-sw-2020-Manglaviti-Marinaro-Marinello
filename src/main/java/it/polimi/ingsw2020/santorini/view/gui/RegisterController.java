@@ -50,7 +50,8 @@ public class RegisterController {
     }
 
     /**
-     * this method is userd to set username , ip address and birthday of the players when they register
+     * this method is used to set username, ip address and birthday of the players when they sign in the game. Usernames and birth dates
+     * are sent to the server through a message.
      * @param actionEvent is the event of the mouse clicked
      */
     @FXML
@@ -75,7 +76,6 @@ public class RegisterController {
         } else
             correct = false;
 
-
         String usernameId = username.getText();
         Date date = new Date(1900, 0, 1);
         try {
@@ -91,7 +91,6 @@ public class RegisterController {
         client.setBirthDate(date);
         client.setUsername(usernameId);
         client.setSelectedMatch(numberPlayers);
-
         if(correct) {
             Message message = new Message(client.getUsername());
             message.buildLoginMessage(new LoginMessage(client.getUsername(), client.getBirthDate(), client.getSelectedMatch()));

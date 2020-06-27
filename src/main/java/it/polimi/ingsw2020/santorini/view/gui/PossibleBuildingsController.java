@@ -52,13 +52,10 @@ public class PossibleBuildingsController {
     Label p22;
 
     private Button[][] matrix = new Button[3][3];
-
     private Label[][] labelMatrix = new Label[3][3];
-
     private Client client;
     private AskBuildSelectionMessage askBuildSelectionMessage;
     private Stage stage;
-
 
     public void setClient(Client client) {
         this.client = client;
@@ -84,7 +81,7 @@ public class PossibleBuildingsController {
 
     /**
      * this method is used to select the direction of the build
-     * @param actionEvent is the event of the mouse clicked
+     * @param actionEvent is the event of the button clicked from which the method extracts the direction
      */
     @FXML
     public void selectBuild(ActionEvent actionEvent) {
