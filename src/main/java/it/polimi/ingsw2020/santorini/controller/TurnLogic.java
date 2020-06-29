@@ -154,8 +154,8 @@ public class TurnLogic {
                 checkChronusEffect(match);
                 break;
             case MOVE_PHASE:
-                if(match.getCurrentPlayer().getPlayingBuilder() != null)
-                    if(match.getCurrentPlayer().getPlayingBuilder().canMove()) moveManager(match);
+                if(remainingActions.contains(ActionType.SELECT_CELL_MOVE) && match.getCurrentPlayer().getPlayingBuilder() != null)
+                    if (match.getCurrentPlayer().getPlayingBuilder().canMove()) moveManager(match);
                     else {
                         match.setEliminatedPlayer(match.getCurrentPlayerIndex());
                         Message message = new Message(match.getEliminatedPlayers().get(match.getEliminatedPlayers().size() - 1).getNickname());
@@ -167,15 +167,16 @@ public class TurnLogic {
                 else moveManager(match);
                 break;
             case STANDBY_PHASE_2:
-                if(match.getCurrentPlayer().getPlayingBuilder().canBuild()) standByPhaseManager(match, PhaseType.STANDBY_PHASE_2);
-                else {
-                    match.setEliminatedPlayer(match.getCurrentPlayerIndex());
-                    Message message = new Message(match.getEliminatedPlayers().get(match.getEliminatedPlayers().size() - 1).getNickname());
-                    message.buildEndMatchMessage(new EndMatchMessage(null));
-                    owner.getServer().getVirtualClients().get(message.getUsername()).send(message);
-                    reset();
-                    handlePhases(match);
-                }
+                if(remainingActions.contains(ActionType.SELECT_CELL_BUILD))
+                    if(match.getCurrentPlayer().getPlayingBuilder().canBuild()) standByPhaseManager(match, PhaseType.STANDBY_PHASE_2);
+                    else {
+                        match.setEliminatedPlayer(match.getCurrentPlayerIndex());
+                        Message message = new Message(match.getEliminatedPlayers().get(match.getEliminatedPlayers().size() - 1).getNickname());
+                        message.buildEndMatchMessage(new EndMatchMessage(null));
+                        owner.getServer().getVirtualClients().get(message.getUsername()).send(message);
+                        reset();
+                        handlePhases(match);
+                    }
                 break;
             case BUILD_PHASE:
                 buildManager(match);
