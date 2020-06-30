@@ -1,6 +1,7 @@
 package it.polimi.ingsw2020.santorini.network.server;
 
 import it.polimi.ingsw2020.santorini.exceptions.*;
+import it.polimi.ingsw2020.santorini.model.Match;
 import it.polimi.ingsw2020.santorini.model.Player;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.messages.errors.GenericErrorMessage;
@@ -61,6 +62,14 @@ public class ClientHandler extends Thread{
             case NEW_MATCH:
                 NewMatchMessage newMatchMessage = message.deserializeNewMatchMessage();
                 if(newMatchMessage.isWantNewMatch()) {
+                    int matchID = owner.getServer().getMatchFromUsername(owner.getUsername());
+                    Match match = owner.getServer().getViewFromMatch(matchID).getMatch();
+                    int i;
+                    for (i = 0; i < match.getEliminatedPlayers().size(); ++i)
+                        if (owner.getUsername().equals(match.getEliminatedPlayers().get(i).getNickname())) {
+                            match.getEliminatedPlayers().remove(i);
+                            break;
+                        }
                     owner.getServer().addWaitingPlayers(new Player(owner.getUsername(), newMatchMessage.getBirthDate()), newMatchMessage.getSelectedMatch());
                     owner.getServer().checkForMatches(newMatchMessage.getSelectedMatch());
                 }
