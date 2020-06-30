@@ -365,20 +365,7 @@
             <Font name="Gabriola" size="29.0" />
          </font>
       </Label>
-      <ImageView fitHeight="293.0" fitWidth="150.0" layoutX="650.0" layoutY="-35.0">
-         <image>
-            <Image url="@../images/fg_panel2.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="61.0" fitWidth="166.0" layoutX="642.0" layoutY="-61.0">
-         <effect>
-            <ColorAdjust brightness="0.23" contrast="0.11" hue="0.48" saturation="0.12" />
-         </effect>
-         <image>
-            <Image url="@../images/nameflags_1.png" />
-         </image>
-      </ImageView>
-      <Label fx:id="username3" layoutX="666.0" layoutY="-52.0" prefHeight="34.0" prefWidth="129.0" textAlignment="CENTER">
+      <Label fx:id="username3" layoutX="653.0" layoutY="-51.0" prefHeight="34.0" prefWidth="144.0" textAlignment="CENTER">
          <effect>
             <ColorAdjust brightness="0.21" />
          </effect>
@@ -410,12 +397,25 @@
     <Button fx:id="b30" layoutX="238.0" layoutY="300.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
     <Button fx:id="b00" layoutX="236.0" layoutY="72.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
     <Button fx:id="b42" layoutX="371.0" layoutY="374.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
-    <Button fx:id="b04" layoutX="501.0" layoutY="76.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
         <Label fx:id="p04" layoutX="503.0" layoutY="76.0" prefHeight="68.0" prefWidth="30.0">
             <font>
                 <Font name="Gabriola" size="29.0" />
             </font>
         </Label>
       <Label fx:id="god3" layoutX="663.0" layoutY="7.0" prefHeight="169.0" prefWidth="123.0" />
+      <ImageView fitHeight="293.0" fitWidth="150.0" layoutX="650.0" layoutY="-35.0">
+         <image>
+            <Image url="@../images/fg_panel2.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="61.0" fitWidth="166.0" layoutX="642.0" layoutY="-61.0">
+         <effect>
+            <ColorAdjust brightness="0.23" contrast="0.11" hue="0.48" saturation="0.12" />
+         </effect>
+         <image>
+            <Image url="@../images/nameflags_1.png" />
+         </image>
+      </ImageView>
+    <Button fx:id="b04" layoutX="501.0" layoutY="76.0" mnemonicParsing="false" onAction="#getGender" opacity="0.0" prefHeight="68.0" prefWidth="60.0" />
   </children>
 </Pane>
