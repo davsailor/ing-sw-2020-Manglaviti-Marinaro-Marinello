@@ -222,6 +222,8 @@ public class ChooseBuilderController {
             gender = matchStateMessage.getBoard()[1][2].getBuilder().getGender();
         }else if(pos.equals(b02)){
             gender = matchStateMessage.getBoard()[1][3].getBuilder().getGender();
+        }else if(pos.equals(b03)){
+            gender = matchStateMessage.getBoard()[1][4].getBuilder().getGender();
         }else if(pos.equals(b04)){
             gender = matchStateMessage.getBoard()[1][5].getBuilder().getGender();
         }else if(pos.equals(b10)){
@@ -267,7 +269,7 @@ public class ChooseBuilderController {
         }
         if(gender=='♀'){
             gender = 'F';
-        }else
+        } else
             gender = 'M';
         chosenBuilder.buildSelectedBuilderMessage(new SelectedBuilderMessage(gender));
         client.getNetworkHandler().send(chosenBuilder);

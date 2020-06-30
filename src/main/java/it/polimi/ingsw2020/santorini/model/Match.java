@@ -232,7 +232,7 @@ public class Match extends Observable {
         for(int i = 0; i < getPlayers().length; ++i)
             if(!getPlayers()[i].getNickname().equals(getCurrentPlayer().getNickname())) {
                 setEliminatedPlayer(i);
-                i = 0;
+                i = -1;
             }
     }
 

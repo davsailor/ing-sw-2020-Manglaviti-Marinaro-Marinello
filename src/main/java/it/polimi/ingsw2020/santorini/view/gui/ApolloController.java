@@ -14,9 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-
-public class    ApolloController {
+public class ApolloController {
     private MatchStateMessage matchStateMessage;
     private ApolloParamMessage apolloParamMessage = new ApolloParamMessage();
     private Stage stage;

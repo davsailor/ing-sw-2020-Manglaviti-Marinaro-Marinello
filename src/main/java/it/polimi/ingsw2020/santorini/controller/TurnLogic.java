@@ -54,6 +54,7 @@ public class TurnLogic {
      * getters and setters
      */
     public void setStartTurn(){
+        reset();
         phase = PhaseType.START_TURN;
     }
 

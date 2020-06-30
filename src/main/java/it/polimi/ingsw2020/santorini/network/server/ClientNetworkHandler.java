@@ -175,8 +175,10 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
                     if(controller.getTurnManager().getPhase() != null) {
                         if(i < match.getPlayers().length)
                             match.setEliminatedPlayer(i);
-                        controller.getTurnManager().setStartTurn();
-                        controller.getTurnManager().handlePhases(match);
+                        if(i == match.getCurrentPlayerIndex()) {
+                            controller.getTurnManager().setStartTurn();
+                            controller.getTurnManager().handlePhases(match);
+                        }
                     } else {
                         if (username.equals(match.getCurrentPlayer().getNickname())) {
                             if(match.getCurrentPlayer().getDivinePower() != null) {
@@ -189,7 +191,7 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
                                 }
                                 match.notifyView(orderMessage);
                             } else {
-                                if(match.getRemainingGods() == null){
+                                if(match.getRemainingGods() == null) {
                                     if (i < match.getPlayers().length)
                                         match.setEliminatedPlayer(i);
                                     match.setCurrentPlayerIndex(0);
