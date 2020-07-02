@@ -45,13 +45,13 @@ public class CLI implements ViewInterface {
             boolean wrong;
             do {
                 try {
-                    System.out.printf("Inserisci l'indirizzo IP del server: ");
+                    System.out.printf("Insert server's IP address: ");
                     ip = scannerIn.nextLine();
                     client.setNetworkHandler(new ServerAdapter(client, ip));
                     client.setViewHandler(new ViewAdapter(client));
                     wrong = false;
                 } catch (IOException e) {
-                    System.out.println("Il server inserito non esiste, riprovare");
+                    System.out.println("Olympus is unreachable, try a new IP");
                     wrong = true;
                 }
             } while (wrong);
@@ -61,16 +61,16 @@ public class CLI implements ViewInterface {
 
             do {
                 try {
-                    System.out.printf("Inserisci il tuo username: ");
+                    System.out.printf("Insert your username: ");
                     client.setUsername(scannerIn.nextLine());
                     wrong = false;
                 } catch (InputMismatchException e) {
                     wrong = true;
                 }
-                if (wrong) System.out.println("errore nell'username, reinserire");
+                if (wrong) System.out.println("the username you inserted is already taken, try a new one");
             } while (wrong);
 
-            System.out.printf("Inserisci la tua data di nascita (dd/mm/yyyy): ");
+            System.out.printf("Insert your birth date (dd/mm/yyyy): ");
             String date = scannerIn.nextLine();
             DateFormat parser = new SimpleDateFormat("dd/MM/yyyy");
             client.setBirthDate(new Date(1900, 0, 1));
@@ -80,21 +80,21 @@ public class CLI implements ViewInterface {
 
             do {
                 try {
-                    System.out.printf("Inserisci il numero di giocatori della partita (2 o 3): ");
+                    System.out.printf("Insert the number of players of the match (2 o 3): ");
                     client.setSelectedMatch(Integer.parseInt(scannerIn.nextLine()));
                     if (client.getSelectedMatch() != 2 && client.getSelectedMatch() != 3) wrong = true;
                     else wrong = false;
                 } catch (NumberFormatException e) {
                     wrong = true;
                 }
-                if (wrong) System.out.println("Inserire 2 o 3!");
+                if (wrong) System.out.println("Insert 2 o 3!");
             } while (wrong);
 
             Message message = new Message(client.getUsername());
             message.buildLoginMessage(new LoginMessage(client.getUsername(), client.getBirthDate(), client.getSelectedMatch()));
             client.getNetworkHandler().send(message);
         } else {
-            System.out.printf("Inserisci di nuovo il tuo username: ");
+            System.out.printf("Insert you new username: ");
             client.setUsername(scannerIn.nextLine());
             Message message = new Message(client.getUsername());
             message.buildLoginMessage(new LoginMessage(client.getUsername(), client.getBirthDate(), client.getSelectedMatch()));
@@ -155,7 +155,7 @@ public class CLI implements ViewInterface {
             client.getNetworkHandler().send(message);
         } else {
             System.out.println("The first player will now choose the Gods that will help you during this match");
-            System.out.println("He is the nearest to the Gods because he is the youngest");
+            System.out.println("He is the closest to the Gods because he is the youngest");
             Message message = new Message(client.getUsername());
             message.buildSynchronizationMessage(SecondHeaderType.BEGIN_MATCH, null);
             client.getNetworkHandler().send(message);
