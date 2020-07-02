@@ -4,6 +4,7 @@ import it.polimi.ingsw2020.santorini.controller.GameLogic;
 import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
 import it.polimi.ingsw2020.santorini.model.Match;
 import it.polimi.ingsw2020.santorini.network.NetworkInterface;
+import it.polimi.ingsw2020.santorini.utils.Color;
 import it.polimi.ingsw2020.santorini.utils.FirstHeaderType;
 import it.polimi.ingsw2020.santorini.utils.Message;
 import it.polimi.ingsw2020.santorini.utils.PlayerStatus;
@@ -213,13 +214,17 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
                                     match.notifyView(orderMessage);
                                 }
                             }
-                        } else
-                            if(i < match.getPlayers().length)
+                        } else {
+                            if (i < match.getPlayers().length)
                                 match.setEliminatedPlayer(i);
+                        }
+                        for(int j = 0; j < match.getPlayers().length; ++j)
+                            match.getPlayers()[j].setColor(Color.getColor(j));
                     }
                 } catch (EndMatchException e) {
                     match.notifyEndMatch(server);
                 }
+                server.getPlayerInMatch().remove(username);
             } else {
                 server.removeWaitingPlayers(username);
             }

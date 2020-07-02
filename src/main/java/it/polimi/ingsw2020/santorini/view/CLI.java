@@ -13,10 +13,7 @@ import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.*;
 
 import java.io.IOException;
 import java.text.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 @SuppressWarnings("deprecation")
 
@@ -45,7 +42,7 @@ public class CLI implements ViewInterface {
             boolean wrong;
             do {
                 try {
-                    System.out.printf("Insert server's IP address: ");
+                    System.out.print("Insert server's IP address: ");
                     ip = scannerIn.nextLine();
                     client.setNetworkHandler(new ServerAdapter(client, ip));
                     client.setViewHandler(new ViewAdapter(client));
@@ -61,7 +58,7 @@ public class CLI implements ViewInterface {
 
             do {
                 try {
-                    System.out.printf("Insert your username: ");
+                    System.out.print("Insert your username: ");
                     client.setUsername(scannerIn.nextLine());
                     wrong = false;
                 } catch (InputMismatchException e) {
@@ -70,20 +67,21 @@ public class CLI implements ViewInterface {
                 if (wrong) System.out.println("the username you inserted is already taken, try a new one");
             } while (wrong);
 
-            System.out.printf("Insert your birth date (dd/mm/yyyy): ");
+            System.out.print("Insert your birth date (dd/mm/yyyy): ");
             String date = scannerIn.nextLine();
             DateFormat parser = new SimpleDateFormat("dd/MM/yyyy");
-            client.setBirthDate(new Date(1900, 0, 1));
+            client.setBirthDate(new Date(0, Calendar.JANUARY, 1));
             try {
                 client.setBirthDate(parser.parse(date));
-            } catch (ParseException ignored) {}
+            } catch (ParseException e) {
+                client.setBirthDate(new Date(0, Calendar.JANUARY, 1));
+            }
 
             do {
                 try {
-                    System.out.printf("Insert the number of players of the match (2 o 3): ");
+                    System.out.print("Insert the number of players of the match (2 o 3): ");
                     client.setSelectedMatch(Integer.parseInt(scannerIn.nextLine()));
-                    if (client.getSelectedMatch() != 2 && client.getSelectedMatch() != 3) wrong = true;
-                    else wrong = false;
+                    wrong = client.getSelectedMatch() != 2 && client.getSelectedMatch() != 3;
                 } catch (NumberFormatException e) {
                     wrong = true;
                 }
@@ -94,7 +92,7 @@ public class CLI implements ViewInterface {
             message.buildLoginMessage(new LoginMessage(client.getUsername(), client.getBirthDate(), client.getSelectedMatch()));
             client.getNetworkHandler().send(message);
         } else {
-            System.out.printf("Insert you new username: ");
+            System.out.print("Insert you new username: ");
             client.setUsername(scannerIn.nextLine());
             Message message = new Message(client.getUsername());
             message.buildLoginMessage(new LoginMessage(client.getUsername(), client.getBirthDate(), client.getSelectedMatch()));
@@ -109,7 +107,7 @@ public class CLI implements ViewInterface {
     @Override
     public void displayLoadingWindow(String message) {
         System.out.flush();
-        System.out.print(message);
+        System.out.println(message);
     }
 
     /**
@@ -190,20 +188,21 @@ public class CLI implements ViewInterface {
                     System.out.print("God chosen: ");
                     selectedGod = Integer.parseInt(scannerIn.nextLine());
                     if(!matchSetupMessage.getSelectedGods().contains(selectedGod)) {
-                        System.out.println("Insert one of the showed numbers!");
+                        System.out.print("Insert one of the showed numbers!");
                         correct = false;
                     }
                 } catch(NumberFormatException e){
-                    System.out.println("Insert one of the showed numbers!!");
+                    System.out.print("Insert one of the showed numbers!!");
                     correct = false;
                 }
             } while (!correct);
+            System.out.println("");
             matchSetupMessage.getSelectedGods().remove((Integer)selectedGod);
             Message message = new Message(client.getUsername());
             message.buildInvokedGodMessage(new GodSelectionMessage(selectedGod, matchSetupMessage.getSelectedGods()));
             client.getNetworkHandler().send(message);
         } else {
-            System.out.println("Wait, " + matchSetupMessage.getPlayers().get(matchSetupMessage.getCurrentPlayerIndex()).getNickname() + " sta scegliendo la sua divinità!\n");
+            System.out.println("Wait, " + matchSetupMessage.getPlayers().get(matchSetupMessage.getCurrentPlayerIndex()).getNickname() + " is choosing his God!\n");
         }
     }
 
@@ -222,37 +221,37 @@ public class CLI implements ViewInterface {
             int[] builderM, builderF;
             builderM = new int[2];
             builderF = new int[2];
-            System.out.printf("\n%s, It's your turn!You have to insert the coordinates of two cells where you want to place your builders !\n", currentPlayer);
+            System.out.printf("\n%s, It's your turn!You have to insert the coordinates of two cells where you want to place your builders !\n\n", currentPlayer);
             showBoard(matchStateMessage.getCells(), listOfPlayers);
-            System.out.printf("Let's start with the female builder\n");
+            System.out.print("Let's start with the female builder\n");
             boolean wrong;
 
             do{
                 wrong = true;
                 try{
                     do{
-                        System.out.printf("Insert the row, it must be between 1 and 5 and also free, as you can see from the board: ");
+                        System.out.print("Insert the row, it must be between 1 and 5 and also free, as you can see from the board: ");
                         builderF[0] = Integer.parseInt(scannerIn.nextLine());
                     } while(builderF[0] < 1 || builderF[0] > 5);
                     do{
-                        System.out.printf("Insert the column, it must be between 1 and 5 and also free, as you can see from the board: ");
+                        System.out.print("Insert the column, it must be between 1 and 5 and also free, as you can see from the board: ");
                         builderF[1] = Integer.parseInt(scannerIn.nextLine());
                     } while(builderF[1] < 1 || builderF[1] > 5);
                     wrong = false;
                 } catch (NumberFormatException ignored){}
-                if(wrong) System.out.println("oh-oh, devi inserire dei numeri che rappresentino coordinate libere!");
+                if(wrong) System.out.println("oh-oh, you have to insert free coordinates!");
             }while(wrong);
 
             do{
                 wrong = false;
                 try{
-                    System.out.printf("Now place the male builder\n");
+                    System.out.print("Now place the male builder\n");
                     do{
-                        System.out.printf("Insert the row, it must be between 1 and 5 and also free, as you can see from the board: ");
+                        System.out.print("Insert the row, it must be between 1 and 5 and also free, as you can see from the board: ");
                         builderM[0] = Integer.parseInt(scannerIn.nextLine());
                     } while(builderM[0] < 1 || builderM[0] > 5);
                     do{
-                        System.out.printf("Insert the column, it must be between 1 and 5 and also free, as you can see from the board ");
+                        System.out.print("Insert the column, it must be between 1 and 5 and also free, as you can see from the board ");
                         builderM[1] = Integer.parseInt(scannerIn.nextLine());
                     } while(builderM[1] < 1 || builderM[1] > 5 || (builderM[1] == builderF[1] && builderM[0] == builderF[0]));
                     wrong = false;
@@ -267,7 +266,7 @@ public class CLI implements ViewInterface {
             System.out.println("Wait! The Gods are checking your choices...");
             client.getNetworkHandler().send(message);
         } else {
-            System.out.printf("Ok, %s is choosing the positions of his builders! Wait...", currentPlayer);
+            System.out.printf("Ok, %s is choosing the positions of his builders! Wait...\n", currentPlayer);
         }
     }
 
@@ -286,13 +285,13 @@ public class CLI implements ViewInterface {
             builderF = new int[2];
             do {
                 try {
-                    System.out.printf("Your female builder is in illegal position\n");
+                    System.out.print("Your female builder is in illegal position\n");
                     do {
-                        System.out.printf("Insert the row, it must be between 1 and 5 and also free, as you can see from the board:  ");
+                        System.out.print("Insert the row, it must be between 1 and 5 and also free, as you can see from the board:  ");
                         builderF[0] = Integer.parseInt(scannerIn.nextLine());
                     } while (builderF[0] < 1 || builderF[0] > 5);
                     do {
-                        System.out.printf("Insert the column, it must be between 1 and 5 and also free, as you can see from the board: ");
+                        System.out.print("Insert the column, it must be between 1 and 5 and also free, as you can see from the board: ");
                         builderF[1] = Integer.parseInt(scannerIn.nextLine());
                     } while (builderF[1] < 1 || builderF[1] > 5);
                     wrong = false;
@@ -306,13 +305,13 @@ public class CLI implements ViewInterface {
             builderM = new int[2];
             do{
                 try{
-                    System.out.printf("Your male builder is in illegal position\n");
+                    System.out.print("Your male builder is in illegal position\n");
                     do {
-                        System.out.printf("Insert the row, it must be between 1 and 5 and also free, as you can see from the board:  ");
+                        System.out.print("Insert the row, it must be between 1 and 5 and also free, as you can see from the board:  ");
                         builderM[0] = Integer.parseInt(scannerIn.nextLine());
                     } while (builderM[0] < 1 || builderM[0] > 5);
                     do {
-                        System.out.printf("Insert the column, it must be between 1 and 5 and also free, as you can see from the board: ");
+                        System.out.print("Insert the column, it must be between 1 and 5 and also free, as you can see from the board: ");
                         builderM[1] = Integer.parseInt(scannerIn.nextLine());
                     } while (builderM[1] < 1 || builderM[1] > 5);
                     wrong = false;
@@ -336,33 +335,37 @@ public class CLI implements ViewInterface {
      */
     @Override
     public void updateMatch(UpdateMessage updateMessage) {
+        System.out.println("\n");
+        try {
+            Thread.sleep(25);
+        } catch (InterruptedException ignored) {}
         switch(updateMessage.getPhase()){
             case START_TURN:
-                //System.out.println("DISPLAY START TURN");
+                System.out.println("Santorini - Start Turn");
                 displayStartTurn(updateMessage);
                 break;
             case STANDBY_PHASE_1:
-                //System.out.println("DISPLAY SP1, POTERE ATTIVATO");
+                System.out.println("Santorini - StandBy Phase 1");
                 displaySP(updateMessage, PhaseType.STANDBY_PHASE_1);
                 break;
             case MOVE_PHASE:
-                //System.out.println("DISPLAY MOVE");
+                System.out.println("Santorini - Move Phase");
                 displayMoveUpdate(updateMessage);
                 break;
             case STANDBY_PHASE_2:
-                //System.out.println("DISPLAY SP2, POTERE ATTIVATO");
+                System.out.println("Santorini - StandBy Phase 2");
                 displaySP(updateMessage, PhaseType.STANDBY_PHASE_2);
                 break;
             case BUILD_PHASE:
-                //System.out.println("DISPLAY BUILD");
+                System.out.println("Santorini - Build Phase");
                 displayBuildUpdate(updateMessage);
                 break;
             case STANDBY_PHASE_3:
-                //System.out.println("DISPLAY SP3, POTERE ATTIVATO");
+                System.out.println("Santorini - StandBy Phase 3");
                 displaySP(updateMessage, PhaseType.STANDBY_PHASE_3);
                 break;
             case END_TURN:
-                //System.out.println("DISPLAY END TURN");
+                System.out.println("Santorini - End Phase");
                 displayEndTurn(updateMessage);
                 break;
             default:
@@ -377,7 +380,6 @@ public class CLI implements ViewInterface {
     @Override
     public void displayStartTurn(UpdateMessage message) {
         System.out.flush();
-        showBoard(message.getBoard(), message.getPlayers());
         if(client.getUsername().equals(message.getCurrentPlayer().getNickname())) {
             System.out.println(message.getCurrentPlayer().getNickname() + " it's your turn!");
             Message nextPhase = new Message(client.getUsername());
@@ -386,6 +388,7 @@ public class CLI implements ViewInterface {
         } else {
             System.out.println("Now it's the turn of " + message.getCurrentPlayer().getNickname());
         }
+        showBoard(message.getBoard(), message.getPlayers());
     }
 
     /**
@@ -467,7 +470,7 @@ public class CLI implements ViewInterface {
     @Override
     public void displaySP(UpdateMessage updateMessage, PhaseType phase) {
         System.out.flush();
-        System.out.printf(updateMessage.getCurrentPlayer().getDivinePower().getName());
+        System.out.print(updateMessage.getCurrentPlayer().getDivinePower().getName());
         if(updateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())) {
             System.out.println(" has accepted you help request");
             Message nextPhase = new Message(client.getUsername());
@@ -489,7 +492,6 @@ public class CLI implements ViewInterface {
     public void displayChooseBuilder(MatchStateMessage message) {
         System.out.flush();
         if(message.getCurrentPlayer().getNickname().equals(client.getUsername())) {
-            showBoard(message.getCells(), message.getPlayers());
             System.out.println("Which builder do You want to move? Male or Female?");
             Message chosenBuilder = new Message(client.getUsername());
             Builder builder = null;
@@ -512,16 +514,14 @@ public class CLI implements ViewInterface {
                         builder.setBoard(new Board(message.getBoard()));
                         builder.setPlayer(message.getCurrentPlayer());
                         chosenBuilder.buildSelectedBuilderMessage(new SelectedBuilderMessage('M'));
-                        if(builder.canMove()) wrong = false;
-                        else wrong = true;
+                        wrong = !builder.canMove();
                     }
                     else if (choice.equals("F")){
                         builder = message.getCurrentPlayer().getBuilderF();
                         builder.setBoard(new Board(message.getBoard()));
                         builder.setPlayer(message.getCurrentPlayer());
                         chosenBuilder.buildSelectedBuilderMessage(new SelectedBuilderMessage('F'));
-                        if(builder.canMove()) wrong = false;
-                        else wrong = true;
+                        wrong = !builder.canMove();
                     }
                     else
                         wrong = true;
@@ -699,8 +699,8 @@ public class CLI implements ViewInterface {
      */
     @Override
     public void displayEndTurn(UpdateMessage updateMessage) {
+        System.out.println("The turn of " + updateMessage.getCurrentPlayer().getNickname() + " is finished!");
         showBoard(updateMessage.getBoard(), updateMessage.getPlayers());
-        System.out.println("the turn of " + updateMessage.getCurrentPlayer().getNickname() + " is finished!");
         Message nextPhase = new Message(client.getUsername());
         nextPhase.buildNextPhaseMessage();
         client.getNetworkHandler().send(nextPhase);

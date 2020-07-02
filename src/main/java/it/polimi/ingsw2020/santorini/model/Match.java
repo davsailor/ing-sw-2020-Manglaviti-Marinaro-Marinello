@@ -247,7 +247,7 @@ public class Match extends Observable {
         endMatchMessages.add(winner);
         server.getPlayerInMatch().remove(getPlayers()[0].getNickname());
         for(Player p: getEliminatedPlayers()){
-            if(server.getVirtualClients().containsKey(p.getNickname())) {
+            if(server.getVirtualClients().containsKey(p.getNickname()) && server.getPlayerInMatch().containsKey(p.getNickname()) && server.getPlayerInMatch().containsValue(matchID)) {
                 Message loser = new Message(p.getNickname());
                 loser.buildEndMatchMessage(new EndMatchMessage(getPlayers()[0].getNickname()));
                 endMatchMessages.add(loser);

@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 
 public class RegisterController {
@@ -82,7 +83,7 @@ public class RegisterController {
             java.sql.Date sqlDate = java.sql.Date.valueOf(birthDate.getValue());
             date = new Date(sqlDate.getTime());
         } catch(Exception e) {
-            date = new Date(1900, 0, 1);
+            date = new Date(0, Calendar.JANUARY, 1);
         }
         int numberPlayers;
         if (numberOfPlayers.getValue().equals(2))

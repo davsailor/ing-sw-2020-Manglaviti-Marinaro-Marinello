@@ -18,8 +18,8 @@ public enum Color {
 
     public static Color getColor(int code){
         switch(code){
-            case 1: return PLAYER_GREEN;
             case 0: return PLAYER_CYAN;
+            case 1: return PLAYER_GREEN;
             case 2: return PLAYER_PURPLE;
             default: return null;
         }

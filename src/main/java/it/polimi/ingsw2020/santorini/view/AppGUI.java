@@ -23,12 +23,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 
 import static it.polimi.ingsw2020.santorini.utils.PhaseType.*;
 
@@ -126,7 +124,7 @@ public class AppGUI extends Application implements ViewInterface{
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         client = new Client();
         client.setView(this);
