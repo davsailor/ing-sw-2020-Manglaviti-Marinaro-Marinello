@@ -77,11 +77,13 @@ public class RegisterController {
             correct = false;
 
         String usernameId = username.getText();
-        Date date = new Date(1900, 0, 1);
+        Date date;
         try {
             java.sql.Date sqlDate = java.sql.Date.valueOf(birthDate.getValue());
             date = new Date(sqlDate.getTime());
-        } catch(Exception ignored) {}
+        } catch(Exception e) {
+            date = new Date(1900, 0, 1);
+        }
         int numberPlayers;
         if (numberOfPlayers.getValue().equals(2))
             numberPlayers = 2;

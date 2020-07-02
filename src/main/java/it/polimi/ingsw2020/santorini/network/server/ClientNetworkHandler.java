@@ -23,8 +23,6 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
     private String username;
     private ObjectOutputStream output;
     private ObjectInputStream input;
-    private ObjectInputStream pingIn;
-    private ObjectOutputStream pingOut;
     private final ArrayList<Message> messageQueue;
     private boolean connected;
 
@@ -152,13 +150,13 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
     public void run(){
         Thread checkConnection = new Thread(this::checkConnection);
         checkConnection.start();
-        while(connected){
+        while(connected) {
             try {
                 Message message = (Message) input.readObject();
                 if(message.getFirstLevelHeader() != FirstHeaderType.PING)
                     receive(message);
             } catch (ClassNotFoundException | IOException | InterruptedException e) {
-                System.out.println("connection error");
+                System.out.println("client " + username + " disconnected");
                 setConnected(false);
             }
         }
@@ -173,9 +171,11 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
                 try {
                     GameLogic controller = server.getControllers().get(match.getMatchID());
                     if(controller.getTurnManager().getPhase() != null) {
+                        int currentPlayerIndex = match.getCurrentPlayerIndex();
                         if(i < match.getPlayers().length)
                             match.setEliminatedPlayer(i);
-                        if(i == match.getCurrentPlayerIndex()) {
+                        if(match.getPlayers().length == 1) throw new EndMatchException(match);
+                        if(i == currentPlayerIndex) {
                             controller.getTurnManager().setStartTurn();
                             controller.getTurnManager().handlePhases(match);
                         }

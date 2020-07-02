@@ -28,12 +28,14 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 import static it.polimi.ingsw2020.santorini.utils.PhaseType.*;
 
 public class AppGUI extends Application implements ViewInterface{
     private Client client;
     private Stage primaryStage;
+    private ArrayList<Stage> modalStages = new ArrayList<>();
     private RegisterController registerController;
     private InfoMatchController infoMatchController;
     private SelectionBuilderController selectionBuilderController;
@@ -670,7 +672,6 @@ public class AppGUI extends Application implements ViewInterface{
             primaryStage.setScene(scene);
             primaryStage.show();
         });
-
     }
 
     /**
@@ -680,7 +681,11 @@ public class AppGUI extends Application implements ViewInterface{
      */
     @Override
     public void displayEndMatch(String winner) {
-        Platform.runLater(()->{
+        Platform.runLater(()-> {
+            for(Stage s : modalStages)
+                s.toBack();
+
+            System.out.println("ok");
             FXMLLoader fxmlLoader = new FXMLLoader();
             Scene scene;
             if(client.getUsername().equals(winner)) {
@@ -695,7 +700,12 @@ public class AppGUI extends Application implements ViewInterface{
                 endMatchController.setText();
             }
             primaryStage.setScene(scene);
+            primaryStage.setTitle("Santorini - End Match");
             primaryStage.show();
+
+            try{
+                Thread.sleep(1000);
+            } catch (InterruptedException ignored) {}
 
             Stage stage = new Stage();
             FXMLLoader askNewMatchLoader = new FXMLLoader();
@@ -703,6 +713,10 @@ public class AppGUI extends Application implements ViewInterface{
             askNewMatchController = askNewMatchLoader.getController();
             askNewMatchController.setStage(stage);
             showModalStage(stage, scene, "Santorini - New Match");
+
+            for(Stage s : modalStages)
+                s.close();
+            modalStages = new ArrayList<>();
 
             FXMLLoader newMatchLoader = new FXMLLoader();
             if (wantNewMatch.equals("YES")) {
@@ -718,6 +732,7 @@ public class AppGUI extends Application implements ViewInterface{
             } else {
                 scene = loadScene("/FXML/NoMatch.fxml", newMatchLoader);
                 primaryStage.setScene(scene);
+                primaryStage.setTitle("Santorini - Goodbye");
                 primaryStage.show();
                 Message message = new Message(client.getUsername());
                 message.buildNewMatchMessage(new NewMatchMessage(false, 0, null));
@@ -1038,8 +1053,9 @@ public class AppGUI extends Application implements ViewInterface{
      * @param title the title of the stage
      */
     private void showModalStage(Stage stage, Scene scene, String title){
+        modalStages.add(stage);
         stage.setOnCloseRequest(Event::consume);
-        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setAlwaysOnTop(true);
         stage.setTitle(title);
         stage.setScene(scene);
         stage.setResizable(false);

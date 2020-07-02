@@ -125,7 +125,7 @@ public class Match extends Observable {
                 --currentPlayerIndex;
         }
         eliminatedPlayers.add(players.get(eliminatedPlayer));
-        if(eliminatedPlayers.size() == numberOfPlayers - 1) {
+        if(players.size() == 2) {
             players.remove(players.get(eliminatedPlayer));
             throw new EndMatchException(this);
         }

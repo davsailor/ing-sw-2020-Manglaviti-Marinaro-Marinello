@@ -194,12 +194,12 @@ public class PoseidonController {
             two.setDisable(true);
             two.setStyle("-fx-border-color: #ff0000; -fx-border-width: 5px;");
             three.setDisable(true);
-            two.setStyle("-fx-border-color: #ff0000; -fx-border-width: 5px;");
+            three.setStyle("-fx-border-color: #ff0000; -fx-border-width: 5px;");
         }else if(count==2){
             one.setStyle("-fx-border-color: #00ff00; -fx-border-width: 5px;");
             two.setStyle("-fx-border-color: #00ff00; -fx-border-width: 5px;");
             three.setDisable(true);
-            two.setStyle("-fx-border-color: #ff0000; -fx-border-width: 5px;");
+            three.setStyle("-fx-border-color: #ff0000; -fx-border-width: 5px;");
         }else {
             one.setStyle("-fx-border-color: #00ff00; -fx-border-width: 5px;");
             two.setStyle("-fx-border-color: #00ff00; -fx-border-width: 5px;");

@@ -143,8 +143,17 @@ public class TurnLogic {
                 startTurnManager(match);
                 break;
             case STANDBY_PHASE_1:
-                if(match.getCurrentPlayer().canMove()) standByPhaseManager(match, PhaseType.STANDBY_PHASE_1);
-                else {
+                standByPhaseManager(match, PhaseType.STANDBY_PHASE_1);
+                checkChronusEffect(match);
+                break;
+            case MOVE_PHASE:
+                boolean isEliminated = false;
+                if(remainingActions.contains(ActionType.SELECT_CELL_MOVE) && match.getCurrentPlayer().getPlayingBuilder() != null)
+                    if (match.getCurrentPlayer().getPlayingBuilder().canMove()) moveManager(match);
+                    else isEliminated = true;
+                else if(match.getCurrentPlayer().canMove()) moveManager(match);
+                else isEliminated = true;
+                if(isEliminated) {
                     match.setEliminatedPlayer(match.getCurrentPlayerIndex());
                     Message message = new Message(match.getEliminatedPlayers().get(match.getEliminatedPlayers().size() - 1).getNickname());
                     message.buildEndMatchMessage(new EndMatchMessage(null));
@@ -152,20 +161,6 @@ public class TurnLogic {
                     reset();
                     handlePhases(match);
                 }
-                checkChronusEffect(match);
-                break;
-            case MOVE_PHASE:
-                if(remainingActions.contains(ActionType.SELECT_CELL_MOVE) && match.getCurrentPlayer().getPlayingBuilder() != null)
-                    if (match.getCurrentPlayer().getPlayingBuilder().canMove()) moveManager(match);
-                    else {
-                        match.setEliminatedPlayer(match.getCurrentPlayerIndex());
-                        Message message = new Message(match.getEliminatedPlayers().get(match.getEliminatedPlayers().size() - 1).getNickname());
-                        message.buildEndMatchMessage(new EndMatchMessage(null));
-                        owner.getServer().getVirtualClients().get(message.getUsername()).send(message);
-                        reset();
-                        handlePhases(match);
-                    }
-                else moveManager(match);
                 break;
             case STANDBY_PHASE_2:
                 if(remainingActions.contains(ActionType.SELECT_CELL_BUILD))
@@ -184,6 +179,7 @@ public class TurnLogic {
                 checkChronusEffect(match);
                 break;
             case STANDBY_PHASE_3:
+                checkChronusEffect(match);
                 standByPhaseManager(match, PhaseType.STANDBY_PHASE_3);
                 checkChronusEffect(match);
                 break;
@@ -364,7 +360,7 @@ public class TurnLogic {
         } else if(remainingActions.contains(ActionType.BUILD)){
             // richiediamo al client le informazioni necessarie
         } else {
-            //checkChronusEffect(match);
+            checkChronusEffect(match);
             nextPhase();
             handlePhases(match);
         }
