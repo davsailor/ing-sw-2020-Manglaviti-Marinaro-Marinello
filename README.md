@@ -61,7 +61,7 @@ On the left part there is the board:
 
 On the right part there is the ordered list of the players, each one with its color and the chosen God in square brackets.
 
-##Birthday Insertion
+## Birthday Insertion
 If you insert an invalid birthday, God's of Olympus will punish you with a malus (your birthday will be automatically set to 1/1/1900, so that you will be the last player of the match).
 If you get the malus but you are not the last player of the match, maybe other player/s received the malus.
 
