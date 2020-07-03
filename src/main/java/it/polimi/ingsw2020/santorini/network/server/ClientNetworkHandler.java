@@ -111,6 +111,7 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
             output.flush();
         } catch (IOException e) {
             System.out.println("server cannot send message to: " + message.getUsername());
+            connected = false;
         }
     }
 
@@ -158,10 +159,10 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
                 if(message.getFirstLevelHeader() != FirstHeaderType.PING)
                     receive(message);
             } catch (ClassNotFoundException | IOException e) {
-                System.out.println("client " + username + " disconnected");
                 setConnected(false);
             }
         }
+        System.out.println("client " + username + " disconnected");
         if(server.getVirtualClients().containsKey(username)) {
             server.getVirtualClients().remove(username);
             if(server.getPlayerInMatch().containsKey(username)){

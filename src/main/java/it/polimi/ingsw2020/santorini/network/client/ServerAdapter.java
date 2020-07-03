@@ -19,7 +19,6 @@ public class ServerAdapter extends Thread implements NetworkInterface {
     private boolean connected;
     private ObjectOutputStream out;
     private ObjectInputStream in;
-    private final static Logger LOGGER = Logger.getLogger("ServerAdapter");
 
     /*
      * constructor of the class
@@ -86,7 +85,6 @@ public class ServerAdapter extends Thread implements NetworkInterface {
      * @see Thread#run()
      */
     public void run() {
-        LOGGER.log(Level.CONFIG, "ServerAdapter.run(): " + Thread.currentThread().getName());
         Thread checkConnection = new Thread(this::checkConnection);
         checkConnection.start();
         while(connected){

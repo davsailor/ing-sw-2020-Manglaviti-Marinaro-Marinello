@@ -2,10 +2,7 @@ package it.polimi.ingsw2020.santorini.model.gods;
 
 import it.polimi.ingsw2020.santorini.controller.TurnLogic;
 import it.polimi.ingsw2020.santorini.model.*;
-import it.polimi.ingsw2020.santorini.utils.ActionType;
-import it.polimi.ingsw2020.santorini.utils.LevelType;
-import it.polimi.ingsw2020.santorini.utils.Message;
-import it.polimi.ingsw2020.santorini.utils.PhaseType;
+import it.polimi.ingsw2020.santorini.utils.*;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.AtlasParamMessage;
 
 public class Atlas extends GodCard {
@@ -59,6 +56,7 @@ public class Atlas extends GodCard {
 
         if(target.getLevel() == LevelType.TOP) match.setNumberOfCompletedTowers(match.getNumberOfCompletedTowers() + 1);
         target.setLevel(LevelType.DOME);
+        target.setStatus(AccessType.DOME);
 
         turnManager.getRemainingActions().remove(ActionType.SELECT_CELL_BUILD);
         turnManager.getRemainingActions().remove(ActionType.BUILD);

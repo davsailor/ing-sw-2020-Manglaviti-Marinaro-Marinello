@@ -4,10 +4,7 @@ import it.polimi.ingsw2020.santorini.controller.TurnLogic;
 import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
 import it.polimi.ingsw2020.santorini.exceptions.IllegalMovementException;
 import it.polimi.ingsw2020.santorini.model.*;
-import it.polimi.ingsw2020.santorini.utils.AccessType;
-import it.polimi.ingsw2020.santorini.utils.ActionType;
-import it.polimi.ingsw2020.santorini.utils.Message;
-import it.polimi.ingsw2020.santorini.utils.PhaseType;
+import it.polimi.ingsw2020.santorini.utils.*;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.MinotaurParamMessage;
 
 public class Minotaur extends GodCard {
@@ -29,7 +26,8 @@ public class Minotaur extends GodCard {
             for(int j = 0; j < 3; ++j)
                 if(swappingMatrix[i][j] != 0)
                     try {
-                        if (match.getBoard().getBoard()[match.getCurrentPlayer().getBuilderM().getPosX() + (i - 1) * 2][match.getCurrentPlayer().getBuilderM().getPosY() + (j - 1) * 2].getStatus() == AccessType.FREE)
+                        if (match.getBoard().getBoard()[match.getCurrentPlayer().getBuilderM().getPosX() + (i - 1) * 2][match.getCurrentPlayer().getBuilderM().getPosY() + (j - 1) * 2].getStatus() == AccessType.FREE &&
+                                match.getBoard().getBoard()[match.getCurrentPlayer().getBuilderM().getPosX() + (i - 1) * 2][match.getCurrentPlayer().getBuilderM().getPosY() + (j - 1) * 2].getLevel() != LevelType.DOME)
                             return true;
                     } catch (IndexOutOfBoundsException ignored){}
 
@@ -38,7 +36,8 @@ public class Minotaur extends GodCard {
             for(int j = 0; j < 3; ++j)
                 if(swappingMatrix[i][j] != 0)
                     try {
-                        if (match.getBoard().getBoard()[match.getCurrentPlayer().getBuilderF().getPosX() + (i - 1) * 2][match.getCurrentPlayer().getBuilderF().getPosY() + (j - 1) * 2].getStatus() == AccessType.FREE)
+                        if (match.getBoard().getBoard()[match.getCurrentPlayer().getBuilderF().getPosX() + (i - 1) * 2][match.getCurrentPlayer().getBuilderF().getPosY() + (j - 1) * 2].getStatus() == AccessType.FREE &&
+                                match.getBoard().getBoard()[match.getCurrentPlayer().getBuilderF().getPosX() + (i - 1) * 2][match.getCurrentPlayer().getBuilderF().getPosY() + (j - 1) * 2].getLevel() != LevelType.DOME)
                             return true;
                     } catch (IndexOutOfBoundsException ignored){}
 

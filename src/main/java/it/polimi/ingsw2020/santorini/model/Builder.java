@@ -249,8 +249,7 @@ public class Builder {
                 possibleMoves[0][0]=4;
                 break;
         }
-        if(board.getBoard()[oldPosX][oldPosY].calculateJump(board.getBoard()[posX][posY]) > 0)
-            risedThisTurn = true;
+        risedThisTurn = board.getBoard()[oldPosX][oldPosY].calculateJump(board.getBoard()[posX][posY]) > 0;
         board.getBoard()[posX][posY].setBuilder(this);
         board.getBoard()[posX][posY].setStatus(AccessType.OCCUPIED);
         if(board.getBoard()[oldPosX][oldPosY].getLevel() != LevelType.TOP && board.getBoard()[posX][posY].getLevel() == LevelType.TOP)

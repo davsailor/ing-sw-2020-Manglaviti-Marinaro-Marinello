@@ -23,6 +23,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -164,6 +165,7 @@ public class AppGUI extends Application implements ViewInterface{
                 primaryStage.setTitle("Santorini");
                 primaryStage.setScene(registerScene);
                 primaryStage.setResizable(false);
+                primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/AppIcon.png")));
                 primaryStage.sizeToScene();
                 primaryStage.show();
             });
@@ -1064,6 +1066,7 @@ public class AppGUI extends Application implements ViewInterface{
         stage.setTitle(title);
         stage.setScene(scene);
         stage.setResizable(false);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/AppIcon.png")));
         stage.sizeToScene();
         stage.showAndWait();
     }
