@@ -15,6 +15,7 @@ Game rules [here](https://www.ultraboardgames.com/santorini/game-rules.php).
 * [Requisites](#requirements)
 * [Usage](#usage)
 * [CLI Example](#cli-example)
+* [Birthday Insertion](#birthday-insertion)
 * [Features Covered](#features-covered)
 * [Built with](#built-with)
 * [Authors](#authors)
@@ -59,6 +60,12 @@ On the left part there is the board:
 * the 5x5 internal matrix represents the usable board. Each of these cells contains a number (the level of the tower) and a symbol (♂ for the male builder, ♀ for the female one). Each builder has the color of its corresponding player.
 
 On the right part there is the ordered list of the players, each one with its color and the chosen God in square brackets.
+
+##Birthday Insertion
+If you insert an invalid birthday, God's of Olympus will punish you with a malus (your birthday will be automatically set to 1/1/1900, so that you will be the last player of the match).
+If you get the malus but you are not the last player of the match, maybe other player/s received the malus.
+
+When manually writing down the birthday in the proper GUI 's textarea, remember to press ENTER to confirm, otherwise you will get the malus as well.
 
 ## Features Covered
 * Complete Rules
