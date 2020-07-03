@@ -1,0 +1,187 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GodCard</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw2020.santorini.model</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GodCard (it.polimi.ingsw2020.santorini.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GodCard</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88,9%
+  </span>
+  <span class="absValue">
+    (8/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92%
+  </span>
+  <span class="absValue">
+    (23/ 25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw2020.santorini.model;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw2020.santorini.controller.TurnLogic;
+<i>4</i>&nbsp;import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
+<i>5</i>&nbsp;import it.polimi.ingsw2020.santorini.model.gods.*;
+<i>6</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.Message;
+<i>7</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.PhaseType;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;public class GodCard {
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;    protected String name;                  // name of god
+<i>12</i>&nbsp;    protected int maxPlayersNumber;         // max players number you can play with using this card
+<i>13</i>&nbsp;    protected PhaseType timing;             // phase in which you can activate its power
+<i>14</i>&nbsp;    protected boolean mandatory;            // if the power MUST activate or CAN activate
+<i>15</i>&nbsp;    protected boolean needParameters;       // if the god needs some information to activate
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    /*
+<i>18</i>&nbsp;     * constructor for serialization and deserialization with Gson
+<i>19</i>&nbsp;     */
+<b class="fc"><i>20</i>&nbsp;    public GodCard(){}</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    /*
+<i>23</i>&nbsp;     * getter of class parameters, setter not needed since thy are considered final
+<i>24</i>&nbsp;     */
+<i>25</i>&nbsp;    public String getName() {
+<b class="fc"><i>26</i>&nbsp;        return name;</b>
+<i>27</i>&nbsp;    }
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    public int getMaxPlayersNumber() {
+<b class="fc"><i>30</i>&nbsp;        return maxPlayersNumber;</b>
+<i>31</i>&nbsp;    }
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    public PhaseType getTiming() {
+<b class="fc"><i>34</i>&nbsp;        return timing;</b>
+<i>35</i>&nbsp;    }
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    public boolean isMandatory() {
+<b class="fc"><i>38</i>&nbsp;        return mandatory;</b>
+<i>39</i>&nbsp;    }
+<i>40</i>&nbsp;
+<b class="fc"><i>41</i>&nbsp;    public boolean isNeedParameters() { return needParameters; }</b>
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    /**
+<i>44</i>&nbsp;     * the function that will modify the match and its normal phases following the instructions of god
+<i>45</i>&nbsp;     * @param match the match playing
+<i>46</i>&nbsp;     * @param message this message refers to possible parameters requested to players. Each overridden method can
+<i>47</i>&nbsp;     *                deserialize correctly this message. Apollo will understand its own param message (ApolloParamMessage)
+<i>48</i>&nbsp;     *                but will not understand other gods parameters messages
+<i>49</i>&nbsp;     * @param turnManager since some gods modify phases of the match, we need a reference to turnManager to correctly
+<i>50</i>&nbsp;     *                    modify the turn
+<i>51</i>&nbsp;     * @throws EndMatchException some gods (such as Pan) can make you win the game
+<i>52</i>&nbsp;     */
+<b class="nc"><i>53</i>&nbsp;    public void invokeGod(Match match, Message message, TurnLogic turnManager) throws EndMatchException {}</b>
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    /**
+<i>56</i>&nbsp;     * this function evaluate the match state and tells if the god&#39;s power can be used
+<i>57</i>&nbsp;     * in the superclass is constantly false, because it&#39;s the state in which no god is selected
+<i>58</i>&nbsp;     * @param match is the current match that has to be evaluate
+<i>59</i>&nbsp;     * @return true if the god can be activated, false otherwise
+<i>60</i>&nbsp;     */
+<i>61</i>&nbsp;    public boolean canActivate(Match match){
+<b class="fc"><i>62</i>&nbsp;        return false;</b>
+<i>63</i>&nbsp;    }
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    /**
+<i>66</i>&nbsp;     * the function that explains the power of god
+<i>67</i>&nbsp;     * @return string format of god&#39;s name and its power. Each God will have its own
+<i>68</i>&nbsp;     */
+<i>69</i>&nbsp;    public  String toStringEffect(){
+<i>70</i>&nbsp;        try {
+<b class="fc"><i>71</i>&nbsp;            switch (this.getName()) {</b>
+<i>72</i>&nbsp;                case &quot;Apollo&quot;:
+<b class="fc"><i>73</i>&nbsp;                    return Apollo.toStringEffect(this);</b>
+<i>74</i>&nbsp;                case &quot;Ares&quot;:
+<b class="fc"><i>75</i>&nbsp;                    return Ares.toStringEffect(this);</b>
+<i>76</i>&nbsp;                case &quot;Artemis&quot;:
+<b class="fc"><i>77</i>&nbsp;                    return Artemis.toStringEffect(this);</b>
+<i>78</i>&nbsp;                case &quot;Athena&quot;:
+<b class="fc"><i>79</i>&nbsp;                    return Athena.toStringEffect(this);</b>
+<i>80</i>&nbsp;                case &quot;Atlas&quot;:
+<b class="fc"><i>81</i>&nbsp;                    return Atlas.toStringEffect(this);</b>
+<i>82</i>&nbsp;                case &quot;Demeter&quot;:
+<b class="fc"><i>83</i>&nbsp;                    return Demeter.toStringEffect(this);</b>
+<i>84</i>&nbsp;                case &quot;Hephaestus&quot;:
+<b class="fc"><i>85</i>&nbsp;                    return Hephaestus.toStringEffect(this);</b>
+<i>86</i>&nbsp;                case &quot;Hestia&quot;:
+<b class="fc"><i>87</i>&nbsp;                    return Hestia.toStringEffect(this);</b>
+<i>88</i>&nbsp;                case &quot;Minotaur&quot;:
+<b class="fc"><i>89</i>&nbsp;                    return Minotaur.toStringEffect(this);</b>
+<i>90</i>&nbsp;                case &quot;Pan&quot;:
+<b class="fc"><i>91</i>&nbsp;                    return Pan.toStringEffect(this);</b>
+<i>92</i>&nbsp;                case &quot;Chronus&quot;:
+<b class="fc"><i>93</i>&nbsp;                    return Chronus.toStringEffect(this);</b>
+<i>94</i>&nbsp;                case &quot;Poseidon&quot;:
+<b class="fc"><i>95</i>&nbsp;                    return Poseidon.toStringEffect(this);</b>
+<i>96</i>&nbsp;                case &quot;Prometheus&quot;:
+<b class="fc"><i>97</i>&nbsp;                    return Prometheus.toStringEffect(this);</b>
+<i>98</i>&nbsp;                case &quot;Zeus&quot;:
+<b class="fc"><i>99</i>&nbsp;                    return Zeus.toStringEffect(this);</b>
+<i>100</i>&nbsp;            }
+<b class="nc"><i>101</i>&nbsp;        } catch(NullPointerException ignored){}</b>
+<b class="fc"><i>102</i>&nbsp;        return &quot;no selected god&quot;;</b>
+<i>103</i>&nbsp;    }
+<i>104</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 18:30</div>
+</div>
+</body>
+</html>

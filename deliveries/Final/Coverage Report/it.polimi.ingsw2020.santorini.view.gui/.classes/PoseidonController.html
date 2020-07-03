@@ -1,0 +1,311 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: PoseidonController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw2020.santorini.view.gui</a> ]
+</div>
+
+<h1>Coverage Summary for Class: PoseidonController (it.polimi.ingsw2020.santorini.view.gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PoseidonController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 113)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw2020.santorini.view.gui;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw2020.santorini.model.Board;
+<i>4</i>&nbsp;import it.polimi.ingsw2020.santorini.model.Builder;
+<i>5</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.Direction;
+<i>6</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
+<i>7</i>&nbsp;import it.polimi.ingsw2020.santorini.view.AppGUI;
+<i>8</i>&nbsp;import javafx.event.ActionEvent;
+<i>9</i>&nbsp;import javafx.fxml.FXML;
+<i>10</i>&nbsp;import javafx.scene.control.Button;
+<i>11</i>&nbsp;import javafx.scene.control.Label;
+<i>12</i>&nbsp;import javafx.stage.Stage;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;import java.util.ArrayList;
+<i>15</i>&nbsp;
+<b class="nc"><i>16</i>&nbsp;public class PoseidonController {</b>
+<i>17</i>&nbsp;    private Stage stage;
+<b class="nc"><i>18</i>&nbsp;    private Button[][] matrix = new Button[3][3];</b>
+<b class="nc"><i>19</i>&nbsp;    private Label[][] labelMatrix = new Label[3][3];</b>
+<i>20</i>&nbsp;    private MatchStateMessage matchStateMessage;
+<b class="nc"><i>21</i>&nbsp;    private int number = 0;</b>
+<b class="nc"><i>22</i>&nbsp;    private ArrayList&lt;Direction&gt; directions = new ArrayList&lt;&gt;();</b>
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    public void setStage(Stage stage){
+<b class="nc"><i>25</i>&nbsp;        this.stage = stage;</b>
+<i>26</i>&nbsp;    }
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    public void setMatchStateMessage(MatchStateMessage matchStateMessage) {
+<b class="nc"><i>29</i>&nbsp;        this.matchStateMessage = matchStateMessage;</b>
+<i>30</i>&nbsp;    }
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    @FXML
+<i>33</i>&nbsp;    Button one;
+<i>34</i>&nbsp;    @FXML
+<i>35</i>&nbsp;    Button two;
+<i>36</i>&nbsp;    @FXML
+<i>37</i>&nbsp;    Button three;
+<i>38</i>&nbsp;    @FXML
+<i>39</i>&nbsp;    Label text;
+<i>40</i>&nbsp;    @FXML
+<i>41</i>&nbsp;    Label text2;
+<i>42</i>&nbsp;    @FXML
+<i>43</i>&nbsp;    Button b00;
+<i>44</i>&nbsp;    @FXML
+<i>45</i>&nbsp;    Button b01;
+<i>46</i>&nbsp;    @FXML
+<i>47</i>&nbsp;    Button b02;
+<i>48</i>&nbsp;    @FXML
+<i>49</i>&nbsp;    Button b10;
+<i>50</i>&nbsp;    @FXML
+<i>51</i>&nbsp;    Button b12;
+<i>52</i>&nbsp;    @FXML
+<i>53</i>&nbsp;    Button b20;
+<i>54</i>&nbsp;    @FXML
+<i>55</i>&nbsp;    Button b21;
+<i>56</i>&nbsp;    @FXML
+<i>57</i>&nbsp;    Button b22;
+<i>58</i>&nbsp;    @FXML
+<i>59</i>&nbsp;    Label p00;
+<i>60</i>&nbsp;    @FXML
+<i>61</i>&nbsp;    Label p01;
+<i>62</i>&nbsp;    @FXML
+<i>63</i>&nbsp;    Label p02;
+<i>64</i>&nbsp;    @FXML
+<i>65</i>&nbsp;    Label p10;
+<i>66</i>&nbsp;    @FXML
+<i>67</i>&nbsp;    Label p12;
+<i>68</i>&nbsp;    @FXML
+<i>69</i>&nbsp;    Label p20;
+<i>70</i>&nbsp;    @FXML
+<i>71</i>&nbsp;    Label p21;
+<i>72</i>&nbsp;    @FXML
+<i>73</i>&nbsp;    Label p22;
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    /**
+<i>76</i>&nbsp;     * this method is used to select the direction of the build
+<i>77</i>&nbsp;     * @param actionEvent is the event of the button clicked from which the method extracts the direction
+<i>78</i>&nbsp;     */
+<i>79</i>&nbsp;    @FXML
+<i>80</i>&nbsp;    public void build(ActionEvent actionEvent) {
+<b class="nc"><i>81</i>&nbsp;        Button pos = (Button) actionEvent.getSource();</b>
+<b class="nc"><i>82</i>&nbsp;        if(pos.equals(b00)){</b>
+<b class="nc"><i>83</i>&nbsp;            directions.add(Direction.NORTH_WEST);</b>
+<b class="nc"><i>84</i>&nbsp;            if(p00.getText().equals(&quot;3&quot;)){</b>
+<b class="nc"><i>85</i>&nbsp;                b00.setDisable(true);</b>
+<i>86</i>&nbsp;            }
+<b class="nc"><i>87</i>&nbsp;            p00.setText(String.valueOf(Integer.parseInt(p00.getText()) + 1));</b>
+<b class="nc"><i>88</i>&nbsp;        }else if ( pos.equals(b01)){</b>
+<b class="nc"><i>89</i>&nbsp;            directions.add(Direction.NORTH);</b>
+<b class="nc"><i>90</i>&nbsp;            if(p01.getText().equals(&quot;3&quot;)){</b>
+<b class="nc"><i>91</i>&nbsp;                b01.setDisable(true);</b>
+<i>92</i>&nbsp;            }
+<b class="nc"><i>93</i>&nbsp;            p01.setText(String.valueOf(Integer.parseInt(p01.getText()) + 1));</b>
+<b class="nc"><i>94</i>&nbsp;        }else if ( pos.equals(b02)){</b>
+<b class="nc"><i>95</i>&nbsp;            directions.add(Direction.NORTH_EAST);</b>
+<b class="nc"><i>96</i>&nbsp;            if(p02.getText().equals(&quot;3&quot;)){</b>
+<b class="nc"><i>97</i>&nbsp;                b02.setDisable(true);</b>
+<i>98</i>&nbsp;            }
+<b class="nc"><i>99</i>&nbsp;            p02.setText(String.valueOf(Integer.parseInt(p02.getText()) + 1));</b>
+<b class="nc"><i>100</i>&nbsp;        }else if ( pos.equals(b10)){</b>
+<b class="nc"><i>101</i>&nbsp;            directions.add(Direction.WEST);</b>
+<b class="nc"><i>102</i>&nbsp;            if(p10.getText().equals(&quot;3&quot;)){</b>
+<b class="nc"><i>103</i>&nbsp;                b10.setDisable(true);</b>
+<i>104</i>&nbsp;            }
+<b class="nc"><i>105</i>&nbsp;            p10.setText(String.valueOf(Integer.parseInt(p10.getText()) + 1));</b>
+<b class="nc"><i>106</i>&nbsp;        }else if ( pos.equals(b12)){</b>
+<b class="nc"><i>107</i>&nbsp;            directions.add(Direction.EAST);</b>
+<b class="nc"><i>108</i>&nbsp;            if(p12.getText().equals(&quot;3&quot;)){</b>
+<b class="nc"><i>109</i>&nbsp;                b12.setDisable(true);</b>
+<i>110</i>&nbsp;            }
+<b class="nc"><i>111</i>&nbsp;            p12.setText(String.valueOf(Integer.parseInt(p12.getText()) + 1));</b>
+<b class="nc"><i>112</i>&nbsp;        }else if ( pos.equals(b20)){</b>
+<b class="nc"><i>113</i>&nbsp;            directions.add(Direction.SOUTH_WEST);</b>
+<b class="nc"><i>114</i>&nbsp;            if(p20.getText().equals(&quot;3&quot;)){</b>
+<b class="nc"><i>115</i>&nbsp;                b20.setDisable(true);</b>
+<i>116</i>&nbsp;            }
+<b class="nc"><i>117</i>&nbsp;            p20.setText(String.valueOf(Integer.parseInt(p20.getText()) + 1));</b>
+<b class="nc"><i>118</i>&nbsp;        }else if ( pos.equals(b21)){</b>
+<b class="nc"><i>119</i>&nbsp;            directions.add(Direction.SOUTH);</b>
+<b class="nc"><i>120</i>&nbsp;            if(p21.getText().equals(&quot;3&quot;)){</b>
+<b class="nc"><i>121</i>&nbsp;                b21.setDisable(true);</b>
+<i>122</i>&nbsp;            }
+<b class="nc"><i>123</i>&nbsp;            p21.setText(String.valueOf(Integer.parseInt(p21.getText()) + 1));</b>
+<b class="nc"><i>124</i>&nbsp;        }else if ( pos.equals(b22)){</b>
+<b class="nc"><i>125</i>&nbsp;            directions.add(Direction.SOUTH_EAST);</b>
+<b class="nc"><i>126</i>&nbsp;            if(p22.getText().equals(&quot;3&quot;)){</b>
+<b class="nc"><i>127</i>&nbsp;                b22.setDisable(true);</b>
+<i>128</i>&nbsp;            }
+<b class="nc"><i>129</i>&nbsp;            p22.setText(String.valueOf(Integer.parseInt(p22.getText()) + 1));</b>
+<i>130</i>&nbsp;        }
+<b class="nc"><i>131</i>&nbsp;        number++;</b>
+<b class="nc"><i>132</i>&nbsp;        if(number==AppGUI.getPoseidonParamMessage().getNumberOfBuild()) {</b>
+<b class="nc"><i>133</i>&nbsp;            b00.setDisable(true);</b>
+<b class="nc"><i>134</i>&nbsp;            b01.setDisable(true);</b>
+<b class="nc"><i>135</i>&nbsp;            b02.setDisable(true);</b>
+<b class="nc"><i>136</i>&nbsp;            b10.setDisable(true);</b>
+<b class="nc"><i>137</i>&nbsp;            b12.setDisable(true);</b>
+<b class="nc"><i>138</i>&nbsp;            b20.setDisable(true);</b>
+<b class="nc"><i>139</i>&nbsp;            b21.setDisable(true);</b>
+<b class="nc"><i>140</i>&nbsp;            b22.setDisable(true);</b>
+<b class="nc"><i>141</i>&nbsp;            AppGUI.getPoseidonParamMessage().setDirection(directions);</b>
+<b class="nc"><i>142</i>&nbsp;            stage.setOnCloseRequest(e-&gt;stage.close());</b>
+<b class="nc"><i>143</i>&nbsp;            stage.close();</b>
+<i>144</i>&nbsp;        }
+<i>145</i>&nbsp;    }
+<i>146</i>&nbsp;
+<i>147</i>&nbsp;    /**
+<i>148</i>&nbsp;     * this Method initialize the 3*3 Matrix of Poseidon power
+<i>149</i>&nbsp;     */
+<i>150</i>&nbsp;    public void initializePoseidonMatrix(){
+<b class="nc"><i>151</i>&nbsp;        AppGUI.buildButtonMatrices(matrix, b00, b01, b02, b10, b12, b20, b21, b22);</b>
+<b class="nc"><i>152</i>&nbsp;        AppGUI.buildLabelMatrices(labelMatrix, p00, p01, p02, p10, p12, p20, p21, p22);</b>
+<i>153</i>&nbsp;
+<b class="nc"><i>154</i>&nbsp;        Builder constructionBuilder = null;</b>
+<b class="nc"><i>155</i>&nbsp;        char constructionBuilderSex = &#39;o&#39;;</b>
+<b class="nc"><i>156</i>&nbsp;        if (matchStateMessage.getCurrentPlayer().getPlayingBuilder().getGender() == &#39;\u2640&#39;) {</b>
+<b class="nc"><i>157</i>&nbsp;            constructionBuilder = matchStateMessage.getCurrentPlayer().getBuilderM();</b>
+<b class="nc"><i>158</i>&nbsp;            constructionBuilderSex = &#39;M&#39;;</b>
+<i>159</i>&nbsp;        } else {
+<b class="nc"><i>160</i>&nbsp;            constructionBuilder = matchStateMessage.getCurrentPlayer().getBuilderF();</b>
+<b class="nc"><i>161</i>&nbsp;            constructionBuilderSex = &#39;F&#39;;</b>
+<i>162</i>&nbsp;        }
+<b class="nc"><i>163</i>&nbsp;        AppGUI.getPoseidonParamMessage().setConstructionGender(constructionBuilderSex);</b>
+<i>164</i>&nbsp;        //Salvataggio della possible buildings
+<b class="nc"><i>165</i>&nbsp;        constructionBuilder.setBoard(new Board(matchStateMessage.getBoard()));</b>
+<b class="nc"><i>166</i>&nbsp;        constructionBuilder.setPlayer(matchStateMessage.getCurrentPlayer());</b>
+<b class="nc"><i>167</i>&nbsp;        int[][] possibleBuildingsP = Board.neighboringLevelCell(constructionBuilder);</b>
+<b class="nc"><i>168</i>&nbsp;        AppGUI.printMatrix(possibleBuildingsP, matrix, labelMatrix);</b>
+<i>169</i>&nbsp;    }
+<i>170</i>&nbsp;
+<i>171</i>&nbsp;    /**
+<i>172</i>&nbsp;     * this method is used to disable button if that builder can&#39;t be chosen
+<i>173</i>&nbsp;     */
+<i>174</i>&nbsp;    public void initializeButtons(){
+<i>175</i>&nbsp;        Builder constructionBuilder;
+<b class="nc"><i>176</i>&nbsp;        char constructionBuilderSex = &#39;o&#39;;</b>
+<b class="nc"><i>177</i>&nbsp;        if (matchStateMessage.getCurrentPlayer().getPlayingBuilder().getGender() == &#39;\u2640&#39;) {</b>
+<b class="nc"><i>178</i>&nbsp;            constructionBuilder = matchStateMessage.getCurrentPlayer().getBuilderM();</b>
+<b class="nc"><i>179</i>&nbsp;            constructionBuilderSex = &#39;M&#39;;</b>
+<i>180</i>&nbsp;        } else {
+<b class="nc"><i>181</i>&nbsp;            constructionBuilder = matchStateMessage.getCurrentPlayer().getBuilderF();</b>
+<b class="nc"><i>182</i>&nbsp;            constructionBuilderSex = &#39;F&#39;;</b>
+<i>183</i>&nbsp;        }
+<b class="nc"><i>184</i>&nbsp;        constructionBuilder.setBoard(new Board(matchStateMessage.getBoard()));</b>
+<b class="nc"><i>185</i>&nbsp;        constructionBuilder.setPlayer(matchStateMessage.getCurrentPlayer());</b>
+<b class="nc"><i>186</i>&nbsp;        int[][] possibleBuildingsP = Board.neighboringLevelCell(constructionBuilder);</b>
+<b class="nc"><i>187</i>&nbsp;        int count = 0;</b>
+<b class="nc"><i>188</i>&nbsp;        for(int i = 0; i &lt; 3; ++i)</b>
+<b class="nc"><i>189</i>&nbsp;            for(int j = 0; j &lt; 3; ++j)</b>
+<b class="nc"><i>190</i>&nbsp;                if(possibleBuildingsP[i][j] &gt;= 0 &amp;&amp; possibleBuildingsP[i][j] &lt; 4) count = count + 4 - possibleBuildingsP[i][j];</b>
+<i>191</i>&nbsp;
+<b class="nc"><i>192</i>&nbsp;        if(count==1){</b>
+<b class="nc"><i>193</i>&nbsp;            one.setStyle(&quot;-fx-border-color: #00ff00; -fx-border-width: 5px;&quot;);</b>
+<b class="nc"><i>194</i>&nbsp;            two.setDisable(true);</b>
+<b class="nc"><i>195</i>&nbsp;            two.setStyle(&quot;-fx-border-color: #ff0000; -fx-border-width: 5px;&quot;);</b>
+<b class="nc"><i>196</i>&nbsp;            three.setDisable(true);</b>
+<b class="nc"><i>197</i>&nbsp;            three.setStyle(&quot;-fx-border-color: #ff0000; -fx-border-width: 5px;&quot;);</b>
+<b class="nc"><i>198</i>&nbsp;        }else if(count==2){</b>
+<b class="nc"><i>199</i>&nbsp;            one.setStyle(&quot;-fx-border-color: #00ff00; -fx-border-width: 5px;&quot;);</b>
+<b class="nc"><i>200</i>&nbsp;            two.setStyle(&quot;-fx-border-color: #00ff00; -fx-border-width: 5px;&quot;);</b>
+<b class="nc"><i>201</i>&nbsp;            three.setDisable(true);</b>
+<b class="nc"><i>202</i>&nbsp;            three.setStyle(&quot;-fx-border-color: #ff0000; -fx-border-width: 5px;&quot;);</b>
+<i>203</i>&nbsp;        }else {
+<b class="nc"><i>204</i>&nbsp;            one.setStyle(&quot;-fx-border-color: #00ff00; -fx-border-width: 5px;&quot;);</b>
+<b class="nc"><i>205</i>&nbsp;            two.setStyle(&quot;-fx-border-color: #00ff00; -fx-border-width: 5px;&quot;);</b>
+<b class="nc"><i>206</i>&nbsp;            three.setStyle(&quot;-fx-border-color: #00ff00; -fx-border-width: 5px;&quot;);</b>
+<i>207</i>&nbsp;        }
+<i>208</i>&nbsp;    }
+<i>209</i>&nbsp;
+<i>210</i>&nbsp;    /**
+<i>211</i>&nbsp;     * this method set the number of buildings selected by the player for Poseidon power
+<i>212</i>&nbsp;     * @param actionEvent is the event of the mouse clicked
+<i>213</i>&nbsp;     */
+<i>214</i>&nbsp;    @FXML
+<i>215</i>&nbsp;    public void selectNumber(ActionEvent actionEvent) {
+<b class="nc"><i>216</i>&nbsp;        Button pos = (Button) actionEvent.getSource();</b>
+<b class="nc"><i>217</i>&nbsp;        int selectedNumber = 0;</b>
+<b class="nc"><i>218</i>&nbsp;        if(pos.getId().equals(&quot;one&quot;)) selectedNumber = 1;</b>
+<b class="nc"><i>219</i>&nbsp;        else if(pos.getId().equals(&quot;two&quot;)) selectedNumber = 2;</b>
+<b class="nc"><i>220</i>&nbsp;        else selectedNumber = 3;</b>
+<b class="nc"><i>221</i>&nbsp;        one.setDisable(true);</b>
+<b class="nc"><i>222</i>&nbsp;        two.setDisable(true);</b>
+<b class="nc"><i>223</i>&nbsp;        three.setDisable(true);</b>
+<b class="nc"><i>224</i>&nbsp;        AppGUI.getPoseidonParamMessage().setNumberOfBuild(selectedNumber);</b>
+<b class="nc"><i>225</i>&nbsp;        stage.setOnCloseRequest(e-&gt;stage.close());</b>
+<b class="nc"><i>226</i>&nbsp;        stage.close();</b>
+<i>227</i>&nbsp;    }
+<i>228</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 18:30</div>
+</div>
+</body>
+</html>

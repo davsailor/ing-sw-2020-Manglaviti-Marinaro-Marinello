@@ -1,0 +1,559 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: SelectionBuilderController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw2020.santorini.view.gui</a> ]
+</div>
+
+<h1>Coverage Summary for Class: SelectionBuilderController (it.polimi.ingsw2020.santorini.view.gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SelectionBuilderController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 172)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw2020.santorini.view.gui;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw2020.santorini.model.Cell;
+<i>4</i>&nbsp;import it.polimi.ingsw2020.santorini.model.Player;
+<i>5</i>&nbsp;import it.polimi.ingsw2020.santorini.network.client.Client;
+<i>6</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.AccessType;
+<i>7</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.Message;
+<i>8</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.MatchStateMessage;
+<i>9</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.SelectedBuilderPositionMessage;
+<i>10</i>&nbsp;import it.polimi.ingsw2020.santorini.view.AppGUI;
+<i>11</i>&nbsp;import javafx.event.ActionEvent;
+<i>12</i>&nbsp;import javafx.fxml.FXML;
+<i>13</i>&nbsp;import javafx.geometry.Pos;
+<i>14</i>&nbsp;import javafx.scene.control.Button;
+<i>15</i>&nbsp;import javafx.scene.control.Label;
+<i>16</i>&nbsp;import javafx.scene.image.Image;
+<i>17</i>&nbsp;import javafx.scene.image.ImageView;
+<i>18</i>&nbsp;import javafx.scene.paint.Color;
+<i>19</i>&nbsp;import java.util.ArrayList;
+<i>20</i>&nbsp;
+<b class="nc"><i>21</i>&nbsp;public class SelectionBuilderController {</b>
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    private Client client;
+<i>24</i>&nbsp;    private MatchStateMessage matchStateMessage;
+<i>25</i>&nbsp;    private ArrayList&lt;Player&gt; players;
+<i>26</i>&nbsp;    private int[] builderF;
+<i>27</i>&nbsp;    private int[] builderM;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    public void setPlayers(ArrayList&lt;Player&gt; players) {
+<b class="nc"><i>30</i>&nbsp;        this.players = players;</b>
+<i>31</i>&nbsp;    }
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    public void setClient(Client client) {
+<b class="nc"><i>34</i>&nbsp;        this.client = client;</b>
+<i>35</i>&nbsp;    }
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    public void setMatchStateMessage(MatchStateMessage matchStateMessage) {
+<b class="nc"><i>38</i>&nbsp;        this.matchStateMessage = matchStateMessage;</b>
+<i>39</i>&nbsp;    }
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    @FXML
+<i>42</i>&nbsp;    Button b00;
+<i>43</i>&nbsp;    @FXML
+<i>44</i>&nbsp;    Button b01;
+<i>45</i>&nbsp;    @FXML
+<i>46</i>&nbsp;    Button b02;
+<i>47</i>&nbsp;    @FXML
+<i>48</i>&nbsp;    Button b03;
+<i>49</i>&nbsp;    @FXML
+<i>50</i>&nbsp;    Button b04;
+<i>51</i>&nbsp;    @FXML
+<i>52</i>&nbsp;    Button b10;
+<i>53</i>&nbsp;    @FXML
+<i>54</i>&nbsp;    Button b11;
+<i>55</i>&nbsp;    @FXML
+<i>56</i>&nbsp;    Button b12;
+<i>57</i>&nbsp;    @FXML
+<i>58</i>&nbsp;    Button b13;
+<i>59</i>&nbsp;    @FXML
+<i>60</i>&nbsp;    Button b14;
+<i>61</i>&nbsp;    @FXML
+<i>62</i>&nbsp;    Button b20;
+<i>63</i>&nbsp;    @FXML
+<i>64</i>&nbsp;    Button b21;
+<i>65</i>&nbsp;    @FXML
+<i>66</i>&nbsp;    Button b22;
+<i>67</i>&nbsp;    @FXML
+<i>68</i>&nbsp;    Button b23;
+<i>69</i>&nbsp;    @FXML
+<i>70</i>&nbsp;    Button b24;
+<i>71</i>&nbsp;    @FXML
+<i>72</i>&nbsp;    Button b30;
+<i>73</i>&nbsp;    @FXML
+<i>74</i>&nbsp;    Button b31;
+<i>75</i>&nbsp;    @FXML
+<i>76</i>&nbsp;    Button b32;
+<i>77</i>&nbsp;    @FXML
+<i>78</i>&nbsp;    Button b33;
+<i>79</i>&nbsp;    @FXML
+<i>80</i>&nbsp;    Button b34;
+<i>81</i>&nbsp;    @FXML
+<i>82</i>&nbsp;    Button b40;
+<i>83</i>&nbsp;    @FXML
+<i>84</i>&nbsp;    Button b41;
+<i>85</i>&nbsp;    @FXML
+<i>86</i>&nbsp;    Button b42;
+<i>87</i>&nbsp;    @FXML
+<i>88</i>&nbsp;    Button b43;
+<i>89</i>&nbsp;    @FXML
+<i>90</i>&nbsp;    Button b44;
+<i>91</i>&nbsp;    @FXML
+<i>92</i>&nbsp;    Label text;
+<i>93</i>&nbsp;    @FXML
+<i>94</i>&nbsp;    Label text2;
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    @FXML
+<i>97</i>&nbsp;    Label username1;
+<i>98</i>&nbsp;    @FXML
+<i>99</i>&nbsp;    Label username2;
+<i>100</i>&nbsp;    @FXML
+<i>101</i>&nbsp;    Label username3;
+<i>102</i>&nbsp;    @FXML
+<i>103</i>&nbsp;    Label god1;
+<i>104</i>&nbsp;    @FXML
+<i>105</i>&nbsp;    Label god2;
+<i>106</i>&nbsp;    @FXML
+<i>107</i>&nbsp;    Label god3;
+<i>108</i>&nbsp;
+<i>109</i>&nbsp;    @FXML
+<i>110</i>&nbsp;    Label p00;
+<i>111</i>&nbsp;    @FXML
+<i>112</i>&nbsp;    Label p01;
+<i>113</i>&nbsp;    @FXML
+<i>114</i>&nbsp;    Label p02;
+<i>115</i>&nbsp;    @FXML
+<i>116</i>&nbsp;    Label p03;
+<i>117</i>&nbsp;    @FXML
+<i>118</i>&nbsp;    Label p04;
+<i>119</i>&nbsp;    @FXML
+<i>120</i>&nbsp;    Label p10;
+<i>121</i>&nbsp;    @FXML
+<i>122</i>&nbsp;    Label p11;
+<i>123</i>&nbsp;    @FXML
+<i>124</i>&nbsp;    Label p12;
+<i>125</i>&nbsp;    @FXML
+<i>126</i>&nbsp;    Label p13;
+<i>127</i>&nbsp;    @FXML
+<i>128</i>&nbsp;    Label p14;
+<i>129</i>&nbsp;    @FXML
+<i>130</i>&nbsp;    Label p20;
+<i>131</i>&nbsp;    @FXML
+<i>132</i>&nbsp;    Label p21;
+<i>133</i>&nbsp;    @FXML
+<i>134</i>&nbsp;    Label p22;
+<i>135</i>&nbsp;    @FXML
+<i>136</i>&nbsp;    Label p23;
+<i>137</i>&nbsp;    @FXML
+<i>138</i>&nbsp;    Label p24;
+<i>139</i>&nbsp;    @FXML
+<i>140</i>&nbsp;    Label p30;
+<i>141</i>&nbsp;    @FXML
+<i>142</i>&nbsp;    Label p31;
+<i>143</i>&nbsp;    @FXML
+<i>144</i>&nbsp;    Label p32;
+<i>145</i>&nbsp;    @FXML
+<i>146</i>&nbsp;    Label p33;
+<i>147</i>&nbsp;    @FXML
+<i>148</i>&nbsp;    Label p34;
+<i>149</i>&nbsp;    @FXML
+<i>150</i>&nbsp;    Label p40;
+<i>151</i>&nbsp;    @FXML
+<i>152</i>&nbsp;    Label p41;
+<i>153</i>&nbsp;    @FXML
+<i>154</i>&nbsp;    Label p42;
+<i>155</i>&nbsp;    @FXML
+<i>156</i>&nbsp;    Label p43;
+<i>157</i>&nbsp;    @FXML
+<i>158</i>&nbsp;    Label p44;
+<i>159</i>&nbsp;
+<i>160</i>&nbsp;    @FXML
+<i>161</i>&nbsp;    Label c00;
+<i>162</i>&nbsp;    @FXML
+<i>163</i>&nbsp;    Label c01;
+<i>164</i>&nbsp;    @FXML
+<i>165</i>&nbsp;    Label c02;
+<i>166</i>&nbsp;    @FXML
+<i>167</i>&nbsp;    Label c03;
+<i>168</i>&nbsp;    @FXML
+<i>169</i>&nbsp;    Label c04;
+<i>170</i>&nbsp;    @FXML
+<i>171</i>&nbsp;    Label c10;
+<i>172</i>&nbsp;    @FXML
+<i>173</i>&nbsp;    Label c11;
+<i>174</i>&nbsp;    @FXML
+<i>175</i>&nbsp;    Label c12;
+<i>176</i>&nbsp;    @FXML
+<i>177</i>&nbsp;    Label c13;
+<i>178</i>&nbsp;    @FXML
+<i>179</i>&nbsp;    Label c14;
+<i>180</i>&nbsp;    @FXML
+<i>181</i>&nbsp;    Label c20;
+<i>182</i>&nbsp;    @FXML
+<i>183</i>&nbsp;    Label c21;
+<i>184</i>&nbsp;    @FXML
+<i>185</i>&nbsp;    Label c22;
+<i>186</i>&nbsp;    @FXML
+<i>187</i>&nbsp;    Label c23;
+<i>188</i>&nbsp;    @FXML
+<i>189</i>&nbsp;    Label c24;
+<i>190</i>&nbsp;    @FXML
+<i>191</i>&nbsp;    Label c30;
+<i>192</i>&nbsp;    @FXML
+<i>193</i>&nbsp;    Label c31;
+<i>194</i>&nbsp;    @FXML
+<i>195</i>&nbsp;    Label c32;
+<i>196</i>&nbsp;    @FXML
+<i>197</i>&nbsp;    Label c33;
+<i>198</i>&nbsp;    @FXML
+<i>199</i>&nbsp;    Label c34;
+<i>200</i>&nbsp;    @FXML
+<i>201</i>&nbsp;    Label c40;
+<i>202</i>&nbsp;    @FXML
+<i>203</i>&nbsp;    Label c41;
+<i>204</i>&nbsp;    @FXML
+<i>205</i>&nbsp;    Label c42;
+<i>206</i>&nbsp;    @FXML
+<i>207</i>&nbsp;    Label c43;
+<i>208</i>&nbsp;    @FXML
+<i>209</i>&nbsp;    Label c44;
+<i>210</i>&nbsp;
+<i>211</i>&nbsp;    /**
+<i>212</i>&nbsp;     * the method is used to set the builders of the player where he wants to put them during the setUp phase. The method recognizes
+<i>213</i>&nbsp;     * which cell the player clicked on, if the player clicked to place the female builder the method allows the player to click on another
+<i>214</i>&nbsp;     * cell to place the male builder. After the male builder is placed, the method builds a SelectedBuilderPosMessage, serializes it and
+<i>215</i>&nbsp;     * then sends it to the server, moreover it disables all the buttons to eliminate the effects of other clicks made by the player
+<i>216</i>&nbsp;     * @param actionEvent is the event generated by the click on the buttons
+<i>217</i>&nbsp;     */
+<i>218</i>&nbsp;    @FXML
+<i>219</i>&nbsp;    public void setPos(ActionEvent actionEvent) {
+<b class="nc"><i>220</i>&nbsp;        Button pos = (Button) actionEvent.getSource();</b>
+<b class="nc"><i>221</i>&nbsp;        if(client.getUsername().equals(matchStateMessage.getCurrentPlayer().getNickname())) {</b>
+<b class="nc"><i>222</i>&nbsp;            if(builderF == null) {</b>
+<b class="nc"><i>223</i>&nbsp;                builderF = new int[2];</b>
+<b class="nc"><i>224</i>&nbsp;                calcPosition(builderF, pos, &#39;?&#39;,client.getUsername());</b>
+<b class="nc"><i>225</i>&nbsp;            } else if(builderM == null){</b>
+<b class="nc"><i>226</i>&nbsp;                builderM = new int[2];</b>
+<b class="nc"><i>227</i>&nbsp;                calcPosition(builderM, pos,&#39;?&#39;, client.getUsername());</b>
+<b class="nc"><i>228</i>&nbsp;                Message message = new Message(client.getUsername());</b>
+<b class="nc"><i>229</i>&nbsp;                message.buildSelectedBuilderPosMessage(new SelectedBuilderPositionMessage(client.getUsername(), builderF, builderM));</b>
+<b class="nc"><i>230</i>&nbsp;                client.getNetworkHandler().send(message);</b>
+<b class="nc"><i>231</i>&nbsp;                b00.setDisable(true);</b>
+<b class="nc"><i>232</i>&nbsp;                b01.setDisable(true);</b>
+<b class="nc"><i>233</i>&nbsp;                b02.setDisable(true);</b>
+<b class="nc"><i>234</i>&nbsp;                b03.setDisable(true);</b>
+<b class="nc"><i>235</i>&nbsp;                b04.setDisable(true);</b>
+<b class="nc"><i>236</i>&nbsp;                b10.setDisable(true);</b>
+<b class="nc"><i>237</i>&nbsp;                b11.setDisable(true);</b>
+<b class="nc"><i>238</i>&nbsp;                b12.setDisable(true);</b>
+<b class="nc"><i>239</i>&nbsp;                b13.setDisable(true);</b>
+<b class="nc"><i>240</i>&nbsp;                b14.setDisable(true);</b>
+<b class="nc"><i>241</i>&nbsp;                b20.setDisable(true);</b>
+<b class="nc"><i>242</i>&nbsp;                b21.setDisable(true);</b>
+<b class="nc"><i>243</i>&nbsp;                b22.setDisable(true);</b>
+<b class="nc"><i>244</i>&nbsp;                b23.setDisable(true);</b>
+<b class="nc"><i>245</i>&nbsp;                b24.setDisable(true);</b>
+<b class="nc"><i>246</i>&nbsp;                b30.setDisable(true);</b>
+<b class="nc"><i>247</i>&nbsp;                b31.setDisable(true);</b>
+<b class="nc"><i>248</i>&nbsp;                b32.setDisable(true);</b>
+<b class="nc"><i>249</i>&nbsp;                b33.setDisable(true);</b>
+<b class="nc"><i>250</i>&nbsp;                b34.setDisable(true);</b>
+<b class="nc"><i>251</i>&nbsp;                b40.setDisable(true);</b>
+<b class="nc"><i>252</i>&nbsp;                b41.setDisable(true);</b>
+<b class="nc"><i>253</i>&nbsp;                b42.setDisable(true);</b>
+<b class="nc"><i>254</i>&nbsp;                b43.setDisable(true);</b>
+<b class="nc"><i>255</i>&nbsp;                b44.setDisable(true);</b>
+<i>256</i>&nbsp;            }
+<i>257</i>&nbsp;        }
+<i>258</i>&nbsp;    }
+<i>259</i>&nbsp;
+<i>260</i>&nbsp;    /**
+<i>261</i>&nbsp;     * the method sets the label on the Board window. The text&#39;s label that is set tells to the player what he has to do, so if he is the current
+<i>262</i>&nbsp;     * player he will have to place his builders, if he isn&#39;t he will have to wait for his turn
+<i>263</i>&nbsp;     */
+<i>264</i>&nbsp;    public void setText(){
+<b class="nc"><i>265</i>&nbsp;        if(matchStateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())){</b>
+<b class="nc"><i>266</i>&nbsp;            text.setText(client.getUsername() +&quot;, place your builders&quot;);</b>
+<b class="nc"><i>267</i>&nbsp;            text.setAlignment(Pos.TOP_CENTER);</b>
+<i>268</i>&nbsp;        }else{
+<b class="nc"><i>269</i>&nbsp;            text.setText( matchStateMessage.getCurrentPlayer().getNickname()+&quot; is placing the builders&quot; );</b>
+<b class="nc"><i>270</i>&nbsp;            text.setAlignment(Pos.TOP_CENTER);</b>
+<b class="nc"><i>271</i>&nbsp;            text2.setText(&quot;Wait your turn&quot;);</b>
+<b class="nc"><i>272</i>&nbsp;            text2.setAlignment(Pos.TOP_CENTER);</b>
+<i>273</i>&nbsp;        }
+<i>274</i>&nbsp;    }
+<i>275</i>&nbsp;
+<i>276</i>&nbsp;    /**
+<i>277</i>&nbsp;     * the method is called by setPos. The method set, invoking the method setBuilder, the builder in cell where the player clicked on.
+<i>278</i>&nbsp;     * @param builder is the reference to the array that contains the coordinates of the builder that has to be set by the method.
+<i>279</i>&nbsp;     * @param pos is the button corresponding to the cell where the builder will be set on. It is used to recognize which cell teh player
+<i>280</i>&nbsp;     * clicked on and therefore its coordinates.
+<i>281</i>&nbsp;     * @param gender is the gender of the builder that has to be set in on the cell
+<i>282</i>&nbsp;     * @param username is the string containing the username of the player
+<i>283</i>&nbsp;     */
+<i>284</i>&nbsp;    private void calcPosition(int[] builder, Button pos, char gender, String username){
+<b class="nc"><i>285</i>&nbsp;        if (pos.equals(b00)) setBuilder(builder, 1, 1, username, gender, p00);</b>
+<b class="nc"><i>286</i>&nbsp;        else if (pos.equals(b01)) setBuilder(builder, 1, 2, username, gender, p01);</b>
+<b class="nc"><i>287</i>&nbsp;        else if (pos.equals(b02)) setBuilder(builder, 1, 3, username, gender, p02);</b>
+<b class="nc"><i>288</i>&nbsp;        else if (pos.equals(b03)) setBuilder(builder, 1, 4, username, gender, p03);</b>
+<b class="nc"><i>289</i>&nbsp;        else if (pos.equals(b04)) setBuilder(builder, 1, 5, username, gender, p04);</b>
+<b class="nc"><i>290</i>&nbsp;        else if (pos.equals(b10)) setBuilder(builder, 2, 1, username, gender, p10);</b>
+<b class="nc"><i>291</i>&nbsp;        else if (pos.equals(b11)) setBuilder(builder, 2, 2, username, gender, p11);</b>
+<b class="nc"><i>292</i>&nbsp;        else if (pos.equals(b12)) setBuilder(builder, 2, 3, username, gender, p12);</b>
+<b class="nc"><i>293</i>&nbsp;        else if (pos.equals(b13)) setBuilder(builder, 2, 4, username, gender, p13);</b>
+<b class="nc"><i>294</i>&nbsp;        else if (pos.equals(b14)) setBuilder(builder, 2, 5, username, gender, p14);</b>
+<b class="nc"><i>295</i>&nbsp;        else if (pos.equals(b20)) setBuilder(builder, 3, 1, username, gender, p20);</b>
+<b class="nc"><i>296</i>&nbsp;        else if (pos.equals(b21)) setBuilder(builder, 3, 2, username, gender, p21);</b>
+<b class="nc"><i>297</i>&nbsp;        else if (pos.equals(b22)) setBuilder(builder, 3, 3, username, gender, p22);</b>
+<b class="nc"><i>298</i>&nbsp;        else if (pos.equals(b23)) setBuilder(builder, 3, 4, username, gender, p23);</b>
+<b class="nc"><i>299</i>&nbsp;        else if (pos.equals(b24)) setBuilder(builder, 3, 5, username, gender, p24);</b>
+<b class="nc"><i>300</i>&nbsp;        else if (pos.equals(b30)) setBuilder(builder, 4, 1, username, gender, p30);</b>
+<b class="nc"><i>301</i>&nbsp;        else if (pos.equals(b31)) setBuilder(builder, 4, 2, username, gender, p31);</b>
+<b class="nc"><i>302</i>&nbsp;        else if (pos.equals(b32)) setBuilder(builder, 4, 3, username, gender, p32);</b>
+<b class="nc"><i>303</i>&nbsp;        else if (pos.equals(b33)) setBuilder(builder, 4, 4, username, gender, p33);</b>
+<b class="nc"><i>304</i>&nbsp;        else if (pos.equals(b34)) setBuilder(builder, 4, 5, username, gender, p34);</b>
+<b class="nc"><i>305</i>&nbsp;        else if (pos.equals(b40)) setBuilder(builder, 5, 1, username, gender, p40);</b>
+<b class="nc"><i>306</i>&nbsp;        else if (pos.equals(b41)) setBuilder(builder, 5, 2, username, gender, p41);</b>
+<b class="nc"><i>307</i>&nbsp;        else if (pos.equals(b42)) setBuilder(builder, 5, 3, username, gender, p42);</b>
+<b class="nc"><i>308</i>&nbsp;        else if (pos.equals(b43)) setBuilder(builder, 5, 4, username, gender, p43);</b>
+<b class="nc"><i>309</i>&nbsp;        else if (pos.equals(b44)) setBuilder(builder, 5, 5, username, gender, p44);</b>
+<b class="nc"><i>310</i>&nbsp;        pos.setDisable(true);</b>
+<i>311</i>&nbsp;    }
+<i>312</i>&nbsp;
+<i>313</i>&nbsp;    /**
+<i>314</i>&nbsp;     * the method sets the builder&#39;s coordinates equals to row and col(column of the cell). It then sets the label of the cell with the symbol
+<i>315</i>&nbsp;     * that represents the gender of the builder that is set on the cell.
+<i>316</i>&nbsp;     * @param builder is the reference to the array that contains the coordinates of the builder
+<i>317</i>&nbsp;     * @param row is the row of the cell
+<i>318</i>&nbsp;     * @param col is the column of the cell
+<i>319</i>&nbsp;     * @param username is string containing the username of the player
+<i>320</i>&nbsp;     * @param gender is the gender of the builder that has to be set on the cell
+<i>321</i>&nbsp;     * @param label is the label that will show the builder&#39;s gender
+<i>322</i>&nbsp;     */
+<i>323</i>&nbsp;    private void setBuilder(int[] builder, int row, int col, String username, char gender, Label label) {
+<b class="nc"><i>324</i>&nbsp;        builder[0] = row;</b>
+<b class="nc"><i>325</i>&nbsp;        builder[1] = col;</b>
+<b class="nc"><i>326</i>&nbsp;        if(gender == &#39;?&#39;) label.setText(&quot;?&quot;);</b>
+<b class="nc"><i>327</i>&nbsp;        else label.setText(&quot;?&quot;);</b>
+<b class="nc"><i>328</i>&nbsp;        if(username.equals(players.get(0).getNickname())) label.setTextFill(Color.web(&quot;#00ffcc&quot;));</b>
+<b class="nc"><i>329</i>&nbsp;        else if(username.equals(players.get(1).getNickname())) label.setTextFill(Color.web(&quot;#f44040&quot;));</b>
+<b class="nc"><i>330</i>&nbsp;        else label.setTextFill(Color.web(&quot;#b57fb8&quot;));</b>
+<i>331</i>&nbsp;    }
+<i>332</i>&nbsp;
+<i>333</i>&nbsp;    /**
+<i>334</i>&nbsp;     * the method sets the names of the players in the Board window and sets also the respective gods&#39;images
+<i>335</i>&nbsp;     * @param players is the ArrayList containing all the names of the players
+<i>336</i>&nbsp;     */
+<i>337</i>&nbsp;    public void initializePlayers(ArrayList&lt;Player&gt; players) {
+<b class="nc"><i>338</i>&nbsp;        setPlayers(players);</b>
+<b class="nc"><i>339</i>&nbsp;        username1.setText(players.get(0).getNickname());</b>
+<b class="nc"><i>340</i>&nbsp;        username1.setAlignment(Pos.TOP_CENTER);</b>
+<b class="nc"><i>341</i>&nbsp;        username2.setText(players.get(1).getNickname());</b>
+<b class="nc"><i>342</i>&nbsp;        username2.setAlignment(Pos.TOP_CENTER);</b>
+<b class="nc"><i>343</i>&nbsp;        Image image = godImage(players.get(0).getDivinePower().getName());</b>
+<b class="nc"><i>344</i>&nbsp;        ImageView imageView = new ImageView(image);</b>
+<b class="nc"><i>345</i>&nbsp;        imageView.setFitWidth(123.0);</b>
+<b class="nc"><i>346</i>&nbsp;        imageView.setFitHeight(169.0);</b>
+<b class="nc"><i>347</i>&nbsp;        god1.setGraphic(imageView);</b>
+<i>348</i>&nbsp;
+<b class="nc"><i>349</i>&nbsp;        image = godImage(players.get(1).getDivinePower().getName());</b>
+<b class="nc"><i>350</i>&nbsp;        imageView = new ImageView(image);</b>
+<b class="nc"><i>351</i>&nbsp;        imageView.setFitWidth(123.0);</b>
+<b class="nc"><i>352</i>&nbsp;        imageView.setFitHeight(169.0);</b>
+<b class="nc"><i>353</i>&nbsp;        god2.setGraphic(imageView);</b>
+<i>354</i>&nbsp;
+<b class="nc"><i>355</i>&nbsp;        if(players.size()==3) {</b>
+<b class="nc"><i>356</i>&nbsp;            username3.setText(players.get(2).getNickname());</b>
+<b class="nc"><i>357</i>&nbsp;            username3.setAlignment(Pos.TOP_CENTER);</b>
+<b class="nc"><i>358</i>&nbsp;            image = godImage(players.get(2).getDivinePower().getName());</b>
+<b class="nc"><i>359</i>&nbsp;            imageView = new ImageView(image);</b>
+<b class="nc"><i>360</i>&nbsp;            imageView.setFitWidth(123.0);</b>
+<b class="nc"><i>361</i>&nbsp;            imageView.setFitHeight(169.0);</b>
+<b class="nc"><i>362</i>&nbsp;            god3.setGraphic(imageView);</b>
+<i>363</i>&nbsp;        }
+<i>364</i>&nbsp;    }
+<i>365</i>&nbsp;
+<i>366</i>&nbsp;    /**
+<i>367</i>&nbsp;     * The method is used to obtain the image of a specific god
+<i>368</i>&nbsp;     * @param name is the string containing the name of god of whom we want the image
+<i>369</i>&nbsp;     * @return the requested god&#39;s image
+<i>370</i>&nbsp;     */
+<i>371</i>&nbsp;    private Image godImage(String name){
+<b class="nc"><i>372</i>&nbsp;        switch (name){</b>
+<i>373</i>&nbsp;            case &quot;Apollo&quot; :
+<b class="nc"><i>374</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Apollo.png&quot;));</b>
+<i>375</i>&nbsp;            case &quot;Ares&quot; :
+<b class="nc"><i>376</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Ares.png&quot;));</b>
+<i>377</i>&nbsp;            case &quot;Artemis&quot; :
+<b class="nc"><i>378</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Artemis.png&quot;));</b>
+<i>379</i>&nbsp;            case &quot;Athena&quot; :
+<b class="nc"><i>380</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Athena.png&quot;));</b>
+<i>381</i>&nbsp;            case &quot;Atlas&quot; :
+<b class="nc"><i>382</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Atlas.png&quot;));</b>
+<i>383</i>&nbsp;            case &quot;Chronus&quot; :
+<b class="nc"><i>384</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Chronus.png&quot;));</b>
+<i>385</i>&nbsp;            case &quot;Demeter&quot; :
+<b class="nc"><i>386</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Demeter.png&quot;));</b>
+<i>387</i>&nbsp;            case &quot;Hephaestus&quot; :
+<b class="nc"><i>388</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Hephaestus.png&quot;));</b>
+<i>389</i>&nbsp;            case &quot;Hestia&quot; :
+<b class="nc"><i>390</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Hestia.png&quot;));</b>
+<i>391</i>&nbsp;            case &quot;Minotaur&quot; :
+<b class="nc"><i>392</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Minotaur.png&quot;));</b>
+<i>393</i>&nbsp;            case &quot;Pan&quot; :
+<b class="nc"><i>394</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Pan.png&quot;));</b>
+<i>395</i>&nbsp;            case &quot;Poseidon&quot; :
+<b class="nc"><i>396</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Poseidon.png&quot;));</b>
+<i>397</i>&nbsp;            case &quot;Prometheus&quot; :
+<b class="nc"><i>398</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Prometheus.png&quot;));</b>
+<i>399</i>&nbsp;            case &quot;Zeus&quot; :
+<b class="nc"><i>400</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Zeus.png&quot;));</b>
+<i>401</i>&nbsp;        }
+<b class="nc"><i>402</i>&nbsp;        return null;</b>
+<i>403</i>&nbsp;    }
+<i>404</i>&nbsp;
+<i>405</i>&nbsp;    /**
+<i>406</i>&nbsp;     * the method initialize the Board, before the choice of the player, checking if a cell is occupied or not. In the first case the method
+<i>407</i>&nbsp;     * invoke initializeCell method that will disable the button of the occupied cell and sets the builder that occupies the cell.
+<i>408</i>&nbsp;     * The method than sets in each cell its height
+<i>409</i>&nbsp;     * @param board is the matrix of the cell that represents the board
+<i>410</i>&nbsp;     */
+<i>411</i>&nbsp;    public void initializeBoard(Cell[][] board) {
+<b class="nc"><i>412</i>&nbsp;        if(board[1][1].getStatus()== AccessType.OCCUPIED) initializeCell(p00, b00, board[1][1]);</b>
+<b class="nc"><i>413</i>&nbsp;        if(board[1][2].getStatus()== AccessType.OCCUPIED) initializeCell(p01, b01, board[1][2]);</b>
+<b class="nc"><i>414</i>&nbsp;        if(board[1][3].getStatus()== AccessType.OCCUPIED) initializeCell(p02, b02, board[1][3]);</b>
+<b class="nc"><i>415</i>&nbsp;        if(board[1][4].getStatus()== AccessType.OCCUPIED) initializeCell(p03, b03, board[1][4]);</b>
+<b class="nc"><i>416</i>&nbsp;        if(board[1][5].getStatus()== AccessType.OCCUPIED) initializeCell(p04, b04, board[1][5]);</b>
+<b class="nc"><i>417</i>&nbsp;        if(board[2][1].getStatus()== AccessType.OCCUPIED) initializeCell(p10, b10, board[2][1]);</b>
+<b class="nc"><i>418</i>&nbsp;        if(board[2][2].getStatus()== AccessType.OCCUPIED) initializeCell(p11, b11, board[2][2]);</b>
+<b class="nc"><i>419</i>&nbsp;        if(board[2][3].getStatus()== AccessType.OCCUPIED) initializeCell(p12, b12, board[2][3]);</b>
+<b class="nc"><i>420</i>&nbsp;        if(board[2][4].getStatus()== AccessType.OCCUPIED) initializeCell(p13, b13, board[2][4]);</b>
+<b class="nc"><i>421</i>&nbsp;        if(board[2][5].getStatus()== AccessType.OCCUPIED) initializeCell(p14, b14, board[2][5]);</b>
+<b class="nc"><i>422</i>&nbsp;        if(board[3][1].getStatus()== AccessType.OCCUPIED) initializeCell(p20, b20, board[3][1]);</b>
+<b class="nc"><i>423</i>&nbsp;        if(board[3][2].getStatus()== AccessType.OCCUPIED) initializeCell(p21, b21, board[3][2]);</b>
+<b class="nc"><i>424</i>&nbsp;        if(board[3][3].getStatus()== AccessType.OCCUPIED) initializeCell(p22, b22, board[3][3]);</b>
+<b class="nc"><i>425</i>&nbsp;        if(board[3][4].getStatus()== AccessType.OCCUPIED) initializeCell(p23, b23, board[3][4]);</b>
+<b class="nc"><i>426</i>&nbsp;        if(board[3][5].getStatus()== AccessType.OCCUPIED) initializeCell(p24, b24, board[3][5]);</b>
+<b class="nc"><i>427</i>&nbsp;        if(board[4][1].getStatus()== AccessType.OCCUPIED) initializeCell(p30, b30, board[4][1]);</b>
+<b class="nc"><i>428</i>&nbsp;        if(board[4][2].getStatus()== AccessType.OCCUPIED) initializeCell(p31, b31, board[4][2]);</b>
+<b class="nc"><i>429</i>&nbsp;        if(board[4][3].getStatus()== AccessType.OCCUPIED) initializeCell(p32, b32, board[4][3]);</b>
+<b class="nc"><i>430</i>&nbsp;        if(board[4][4].getStatus()== AccessType.OCCUPIED) initializeCell(p33, b33, board[4][4]);</b>
+<b class="nc"><i>431</i>&nbsp;        if(board[4][5].getStatus()== AccessType.OCCUPIED) initializeCell(p34, b34, board[4][5]);</b>
+<b class="nc"><i>432</i>&nbsp;        if(board[5][1].getStatus()== AccessType.OCCUPIED) initializeCell(p40, b40, board[5][1]);</b>
+<b class="nc"><i>433</i>&nbsp;        if(board[5][2].getStatus()== AccessType.OCCUPIED) initializeCell(p41, b41, board[5][2]);</b>
+<b class="nc"><i>434</i>&nbsp;        if(board[5][3].getStatus()== AccessType.OCCUPIED) initializeCell(p42, b42, board[5][3]);</b>
+<b class="nc"><i>435</i>&nbsp;        if(board[5][4].getStatus()== AccessType.OCCUPIED) initializeCell(p43, b43, board[5][4]);</b>
+<b class="nc"><i>436</i>&nbsp;        if(board[5][5].getStatus()== AccessType.OCCUPIED) initializeCell(p44, b44, board[5][5]);</b>
+<b class="nc"><i>437</i>&nbsp;        c00.setText(String.valueOf(board[1][1].getLevel().getHeight()));</b>
+<b class="nc"><i>438</i>&nbsp;        c01.setText(String.valueOf(board[1][2].getLevel().getHeight()));</b>
+<b class="nc"><i>439</i>&nbsp;        c02.setText(String.valueOf(board[1][3].getLevel().getHeight()));</b>
+<b class="nc"><i>440</i>&nbsp;        c03.setText(String.valueOf(board[1][4].getLevel().getHeight()));</b>
+<b class="nc"><i>441</i>&nbsp;        c04.setText(String.valueOf(board[1][5].getLevel().getHeight()));</b>
+<b class="nc"><i>442</i>&nbsp;        c10.setText(String.valueOf(board[2][1].getLevel().getHeight()));</b>
+<b class="nc"><i>443</i>&nbsp;        c11.setText(String.valueOf(board[2][2].getLevel().getHeight()));</b>
+<b class="nc"><i>444</i>&nbsp;        c12.setText(String.valueOf(board[2][3].getLevel().getHeight()));</b>
+<b class="nc"><i>445</i>&nbsp;        c13.setText(String.valueOf(board[2][4].getLevel().getHeight()));</b>
+<b class="nc"><i>446</i>&nbsp;        c14.setText(String.valueOf(board[2][5].getLevel().getHeight()));</b>
+<b class="nc"><i>447</i>&nbsp;        c20.setText(String.valueOf(board[3][1].getLevel().getHeight()));</b>
+<b class="nc"><i>448</i>&nbsp;        c21.setText(String.valueOf(board[3][2].getLevel().getHeight()));</b>
+<b class="nc"><i>449</i>&nbsp;        c22.setText(String.valueOf(board[3][3].getLevel().getHeight()));</b>
+<b class="nc"><i>450</i>&nbsp;        c23.setText(String.valueOf(board[3][4].getLevel().getHeight()));</b>
+<b class="nc"><i>451</i>&nbsp;        c24.setText(String.valueOf(board[3][5].getLevel().getHeight()));</b>
+<b class="nc"><i>452</i>&nbsp;        c30.setText(String.valueOf(board[4][1].getLevel().getHeight()));</b>
+<b class="nc"><i>453</i>&nbsp;        c31.setText(String.valueOf(board[4][2].getLevel().getHeight()));</b>
+<b class="nc"><i>454</i>&nbsp;        c32.setText(String.valueOf(board[4][3].getLevel().getHeight()));</b>
+<b class="nc"><i>455</i>&nbsp;        c33.setText(String.valueOf(board[4][4].getLevel().getHeight()));</b>
+<b class="nc"><i>456</i>&nbsp;        c34.setText(String.valueOf(board[4][5].getLevel().getHeight()));</b>
+<b class="nc"><i>457</i>&nbsp;        c40.setText(String.valueOf(board[5][1].getLevel().getHeight()));</b>
+<b class="nc"><i>458</i>&nbsp;        c41.setText(String.valueOf(board[5][2].getLevel().getHeight()));</b>
+<b class="nc"><i>459</i>&nbsp;        c42.setText(String.valueOf(board[5][3].getLevel().getHeight()));</b>
+<b class="nc"><i>460</i>&nbsp;        c43.setText(String.valueOf(board[5][4].getLevel().getHeight()));</b>
+<b class="nc"><i>461</i>&nbsp;        c44.setText(String.valueOf(board[5][5].getLevel().getHeight()));</b>
+<i>462</i>&nbsp;    }
+<i>463</i>&nbsp;
+<i>464</i>&nbsp;    /**
+<i>465</i>&nbsp;     * the method is invoked by initializeBoard when it finds an occupied. It disable the button associated to the cell and sets the label
+<i>466</i>&nbsp;     * to show the builder that occupies the correspondent cell
+<i>467</i>&nbsp;     * @param builder is the label that displays the builder that occupies the cell
+<i>468</i>&nbsp;     * @param button is the button that represents the cell
+<i>469</i>&nbsp;     * @param cell is the occupied cell
+<i>470</i>&nbsp;     */
+<i>471</i>&nbsp;    private void initializeCell(Label builder, Button button, Cell cell) {
+<b class="nc"><i>472</i>&nbsp;        builder.setText(AppGUI.gender(cell.getBuilder().getGender()));</b>
+<b class="nc"><i>473</i>&nbsp;        builder.setTextFill(Color.web(AppGUI.color(cell.getBuilder().getColor())));</b>
+<b class="nc"><i>474</i>&nbsp;        button.setDisable(true);</b>
+<i>475</i>&nbsp;    }
+<i>476</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 18:30</div>
+</div>
+</body>
+</html>

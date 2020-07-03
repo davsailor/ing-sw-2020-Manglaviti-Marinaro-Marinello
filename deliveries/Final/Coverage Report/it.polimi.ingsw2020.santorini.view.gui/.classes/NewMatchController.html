@@ -1,0 +1,138 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: NewMatchController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw2020.santorini.view.gui</a> ]
+</div>
+
+<h1>Coverage Summary for Class: NewMatchController (it.polimi.ingsw2020.santorini.view.gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">NewMatchController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 13)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw2020.santorini.view.gui;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw2020.santorini.network.client.Client;
+<i>4</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.Message;
+<i>5</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.NewMatchMessage;
+<i>6</i>&nbsp;import javafx.collections.FXCollections;
+<i>7</i>&nbsp;import javafx.collections.ObservableList;
+<i>8</i>&nbsp;import javafx.event.ActionEvent;
+<i>9</i>&nbsp;import javafx.fxml.FXML;
+<i>10</i>&nbsp;import javafx.scene.control.Button;
+<i>11</i>&nbsp;import javafx.scene.control.ChoiceBox;
+<i>12</i>&nbsp;import javafx.stage.Stage;
+<i>13</i>&nbsp;
+<b class="nc"><i>14</i>&nbsp;public class NewMatchController {</b>
+<b class="nc"><i>15</i>&nbsp;    private ObservableList list = FXCollections.observableArrayList(2,3);</b>
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    @FXML
+<i>18</i>&nbsp;    Button signUpButton;
+<i>19</i>&nbsp;    @FXML
+<i>20</i>&nbsp;    private ChoiceBox&lt;Integer&gt; numberOfPlayers;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    private Client client;
+<i>23</i>&nbsp;    private Stage selection;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    public void setClient(Client client) {
+<b class="nc"><i>26</i>&nbsp;        this.client = client;</b>
+<i>27</i>&nbsp;    }
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    /**
+<i>30</i>&nbsp;     * this method initializes the ChoiceBox
+<i>31</i>&nbsp;     */
+<i>32</i>&nbsp;    public void initialize(){
+<b class="nc"><i>33</i>&nbsp;        numberOfPlayers.setItems(list);</b>
+<b class="nc"><i>34</i>&nbsp;        numberOfPlayers.setValue(2);</b>
+<i>35</i>&nbsp;    }
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    /**
+<i>38</i>&nbsp;     * this method is used to send request for the players to play again
+<i>39</i>&nbsp;     * @param actionEvent is the event of the button clicked
+<i>40</i>&nbsp;     */
+<i>41</i>&nbsp;    @FXML
+<i>42</i>&nbsp;    public void registerAction(ActionEvent actionEvent) {
+<b class="nc"><i>43</i>&nbsp;        Message message = new Message(client.getUsername());</b>
+<b class="nc"><i>44</i>&nbsp;        client.setSelectedMatch((Integer.parseInt(String.valueOf(numberOfPlayers.getValue()))));</b>
+<b class="nc"><i>45</i>&nbsp;        message.buildNewMatchMessage(new NewMatchMessage(true, client.getSelectedMatch(), client.getBirthDate()));</b>
+<b class="nc"><i>46</i>&nbsp;        client.getNetworkHandler().send(message);</b>
+<b class="nc"><i>47</i>&nbsp;        signUpButton.setDisable(true);</b>
+<b class="nc"><i>48</i>&nbsp;        selection.setOnCloseRequest(e -&gt; selection.close());</b>
+<b class="nc"><i>49</i>&nbsp;        selection.close();</b>
+<i>50</i>&nbsp;    }
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    public void setStage(Stage selection) {
+<b class="nc"><i>53</i>&nbsp;        this.selection = selection;</b>
+<i>54</i>&nbsp;    }
+<i>55</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 18:30</div>
+</div>
+</body>
+</html>

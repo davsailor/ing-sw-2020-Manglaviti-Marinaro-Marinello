@@ -1,0 +1,120 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Athena</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw2020.santorini.model.gods</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Athena (it.polimi.ingsw2020.santorini.model.gods)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Athena</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/ 14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw2020.santorini.model.gods;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw2020.santorini.controller.TurnLogic;
+<i>4</i>&nbsp;import it.polimi.ingsw2020.santorini.model.*;
+<i>5</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.Message;
+<i>6</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.PhaseType;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;public class Athena extends GodCard {
+<i>9</i>&nbsp;
+<b class="fc"><i>10</i>&nbsp;    public Athena(){</b>
+<b class="fc"><i>11</i>&nbsp;        name = getClass().getSimpleName();</b>
+<b class="fc"><i>12</i>&nbsp;        maxPlayersNumber = 3;</b>
+<b class="fc"><i>13</i>&nbsp;        timing = PhaseType.STANDBY_PHASE_3;</b>
+<b class="fc"><i>14</i>&nbsp;        mandatory = true;</b>
+<b class="fc"><i>15</i>&nbsp;        needParameters = false;</b>
+<b class="fc"><i>16</i>&nbsp;    }</b>
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    @Override
+<i>19</i>&nbsp;    public boolean canActivate(Match match) {
+<b class="fc"><i>20</i>&nbsp;        return match.getCurrentPlayer().getPlayingBuilder().isRisedThisTurn();</b>
+<i>21</i>&nbsp;    }
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    @Override
+<i>24</i>&nbsp;    public void invokeGod(Match match, Message message, TurnLogic turnManager) {
+<b class="fc"><i>25</i>&nbsp;        for(Player p : match.getPlayers()){</b>
+<b class="fc"><i>26</i>&nbsp;            if(!p.getNickname().equals(match.getCurrentPlayer().getNickname())){</b>
+<b class="fc"><i>27</i>&nbsp;                p.setRiseActions(false);</b>
+<i>28</i>&nbsp;            }
+<i>29</i>&nbsp;        }
+<b class="fc"><i>30</i>&nbsp;        System.out.println(&quot;potere di &quot; + name + &quot; attivato&quot;);</b>
+<b class="fc"><i>31</i>&nbsp;    }</b>
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    public static String toStringEffect(GodCard card) {
+<b class="fc"><i>34</i>&nbsp;        return &quot;Opponents&#39; Turn&quot; + &quot;: If one of your Workers moved up on your last turn, \n&quot; +</b>
+<i>35</i>&nbsp;                &quot;opponent Workers cannot move up this turn.&quot;;
+<i>36</i>&nbsp;    }
+<i>37</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 18:30</div>
+</div>
+</body>
+</html>

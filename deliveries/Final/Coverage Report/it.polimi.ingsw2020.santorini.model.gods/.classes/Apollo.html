@@ -1,0 +1,215 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Apollo</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw2020.santorini.model.gods</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Apollo (it.polimi.ingsw2020.santorini.model.gods)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Apollo</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    86,7%
+  </span>
+  <span class="absValue">
+    (39/ 45)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Apollo$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87%
+  </span>
+  <span class="absValue">
+    (40/ 46)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw2020.santorini.model.gods;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw2020.santorini.controller.TurnLogic;
+<i>4</i>&nbsp;import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
+<i>5</i>&nbsp;import it.polimi.ingsw2020.santorini.model.*;
+<i>6</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.AccessType;
+<i>7</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.ActionType;
+<i>8</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.Message;
+<i>9</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.PhaseType;
+<i>10</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.godsParam.ApolloParamMessage;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;public class Apollo extends GodCard {
+<i>13</i>&nbsp;
+<b class="fc"><i>14</i>&nbsp;    public Apollo(){</b>
+<b class="fc"><i>15</i>&nbsp;        name = getClass().getSimpleName();</b>
+<b class="fc"><i>16</i>&nbsp;        maxPlayersNumber = 3;</b>
+<b class="fc"><i>17</i>&nbsp;        timing = PhaseType.STANDBY_PHASE_1;</b>
+<b class="fc"><i>18</i>&nbsp;        mandatory = false;</b>
+<b class="fc"><i>19</i>&nbsp;        needParameters = true;</b>
+<b class="fc"><i>20</i>&nbsp;    }</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    /**
+<i>23</i>&nbsp;     * this function evaluate the match state and tells if the god&#39;s power can be used. The method in this case
+<i>24</i>&nbsp;     * the method checks if there is any opponent&#39;s builder near current player&#39;s builders, because the god swap two near builder of
+<i>25</i>&nbsp;     * two opponents
+<i>26</i>&nbsp;     * @param match is the current match that has to be evaluate
+<i>27</i>&nbsp;     * @return true if the god can be activated, false otherwise
+<i>28</i>&nbsp;     */
+<i>29</i>&nbsp;    @Override
+<i>30</i>&nbsp;    public boolean canActivate(Match match){
+<i>31</i>&nbsp;        int[][] swappingMatrix;
+<b class="fc"><i>32</i>&nbsp;        swappingMatrix = Board.neighboringSwappingCell(match.getCurrentPlayer().getBuilderM(), AccessType.OCCUPIED);</b>
+<b class="fc"><i>33</i>&nbsp;        for(int i = 0; i &lt; 3; ++i)</b>
+<b class="fc"><i>34</i>&nbsp;            for(int j = 0; j &lt; 3; ++j)</b>
+<b class="fc"><i>35</i>&nbsp;                if (swappingMatrix[i][j] != 0) return true;</b>
+<b class="nc"><i>36</i>&nbsp;        swappingMatrix = Board.neighboringSwappingCell(match.getCurrentPlayer().getBuilderF(), AccessType.OCCUPIED);</b>
+<b class="nc"><i>37</i>&nbsp;        for(int i = 0; i &lt; 3; ++i)</b>
+<b class="nc"><i>38</i>&nbsp;            for(int j = 0; j &lt; 3; ++j)</b>
+<b class="nc"><i>39</i>&nbsp;                if (swappingMatrix[i][j] != 0) return true;</b>
+<b class="nc"><i>40</i>&nbsp;        return false;</b>
+<i>41</i>&nbsp;    }
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    /**
+<i>44</i>&nbsp;     * the function that will modify the match and its normal phases following the instructions of god
+<i>45</i>&nbsp;     * In Apollo case it will
+<i>46</i>&nbsp;     * @param match the match playing
+<i>47</i>&nbsp;     * @param message this message refers to possible parameters requested to players. Each overridden method can
+<i>48</i>&nbsp;     * deserialize correctly this message. Apollo will understand its own param message (ApolloParamMessage)
+<i>49</i>&nbsp;     * but will not understand other gods parameters messages
+<i>50</i>&nbsp;     * @param turnManager since some gods modify phases of the match, we need a reference to turnManager to correctly
+<i>51</i>&nbsp;     *                    modify the turn
+<i>52</i>&nbsp;     * @throws EndMatchException some gods (such as Pan) can make you win the game
+<i>53</i>&nbsp;     */
+<i>54</i>&nbsp;    @Override
+<i>55</i>&nbsp;    public void invokeGod(Match match, Message message, TurnLogic turnManager) {
+<b class="fc"><i>56</i>&nbsp;        ApolloParamMessage param = message.deserializeApolloParamMessage(message.getSerializedPayload());</b>
+<i>57</i>&nbsp;
+<b class="fc"><i>58</i>&nbsp;        if(param.getYourBuilderGender() == &#39;F&#39;)</b>
+<b class="fc"><i>59</i>&nbsp;            match.getCurrentPlayer().setPlayingBuilder(match.getCurrentPlayer().getBuilderF());</b>
+<i>60</i>&nbsp;        else
+<b class="nc"><i>61</i>&nbsp;            match.getCurrentPlayer().setPlayingBuilder(match.getCurrentPlayer().getBuilderM());</b>
+<i>62</i>&nbsp;
+<b class="fc"><i>63</i>&nbsp;        Builder yours = match.getCurrentPlayer().getPlayingBuilder();</b>
+<b class="fc"><i>64</i>&nbsp;        Builder opponent = match.getBoard().getBoard()[yours.getPosX()][yours.getPosY()-1].getBuilder();</b>
+<i>65</i>&nbsp;
+<b class="fc"><i>66</i>&nbsp;        switch(param.getOpponentBuilderDirection()){</b>
+<i>67</i>&nbsp;            case NORTH:
+<b class="fc"><i>68</i>&nbsp;                opponent = match.getBoard().getBoard()[yours.getPosX()-1][yours.getPosY()].getBuilder();</b>
+<b class="fc"><i>69</i>&nbsp;                break;</b>
+<i>70</i>&nbsp;            case NORTH_WEST:
+<b class="fc"><i>71</i>&nbsp;                opponent = match.getBoard().getBoard()[yours.getPosX()-1][yours.getPosY()-1].getBuilder();</b>
+<b class="fc"><i>72</i>&nbsp;                break;</b>
+<i>73</i>&nbsp;            case NORTH_EAST:
+<b class="fc"><i>74</i>&nbsp;                opponent = match.getBoard().getBoard()[yours.getPosX()-1][yours.getPosY()+1].getBuilder();</b>
+<b class="fc"><i>75</i>&nbsp;                break;</b>
+<i>76</i>&nbsp;            case WEST:
+<b class="fc"><i>77</i>&nbsp;                opponent = match.getBoard().getBoard()[yours.getPosX()][yours.getPosY()-1].getBuilder();</b>
+<b class="fc"><i>78</i>&nbsp;                break;</b>
+<i>79</i>&nbsp;            case EAST:
+<b class="fc"><i>80</i>&nbsp;                opponent = match.getBoard().getBoard()[yours.getPosX()][yours.getPosY()+1].getBuilder();</b>
+<b class="fc"><i>81</i>&nbsp;                break;</b>
+<i>82</i>&nbsp;            case SOUTH:
+<b class="fc"><i>83</i>&nbsp;                opponent = match.getBoard().getBoard()[yours.getPosX()+1][yours.getPosY()].getBuilder();</b>
+<b class="fc"><i>84</i>&nbsp;                break;</b>
+<i>85</i>&nbsp;            case SOUTH_EAST:
+<b class="fc"><i>86</i>&nbsp;                opponent = match.getBoard().getBoard()[yours.getPosX()+1][yours.getPosY()+1].getBuilder();</b>
+<b class="fc"><i>87</i>&nbsp;                break;</b>
+<i>88</i>&nbsp;            case SOUTH_WEST:
+<b class="fc"><i>89</i>&nbsp;                opponent = match.getBoard().getBoard()[yours.getPosX()+1][yours.getPosY()-1].getBuilder();</b>
+<i>90</i>&nbsp;                break;
+<i>91</i>&nbsp;        }
+<i>92</i>&nbsp;
+<b class="fc"><i>93</i>&nbsp;        match.getCurrentPlayer().getPlayingBuilder().swapBuilders(opponent);</b>
+<b class="fc"><i>94</i>&nbsp;        turnManager.getRemainingActions().remove(ActionType.SELECT_BUILDER);</b>
+<b class="fc"><i>95</i>&nbsp;        turnManager.getRemainingActions().remove(ActionType.SELECT_CELL_MOVE);</b>
+<b class="fc"><i>96</i>&nbsp;        turnManager.getRemainingActions().remove(ActionType.MOVE);</b>
+<i>97</i>&nbsp;
+<b class="fc"><i>98</i>&nbsp;        System.out.println(&quot;potere di &quot; + name + &quot; attivato&quot;);</b>
+<b class="fc"><i>99</i>&nbsp;    }</b>
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;    public static String toStringEffect(GodCard card) {
+<b class="fc"><i>102</i>&nbsp;        return &quot;Your Move&quot; + &quot;: Your Worker may move into an opponent Worker’s space\n&quot; +</b>
+<i>103</i>&nbsp;                &quot;(using normal movement rules) and force their Worker to the space yours\n&quot; +
+<i>104</i>&nbsp;                &quot;just vacated (swapping their positions).&quot;;
+<i>105</i>&nbsp;    }
+<i>106</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 18:30</div>
+</div>
+</body>
+</html>

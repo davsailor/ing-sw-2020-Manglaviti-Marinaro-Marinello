@@ -1,0 +1,191 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: PossibleMovesController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw2020.santorini.view.gui</a> ]
+</div>
+
+<h1>Coverage Summary for Class: PossibleMovesController (it.polimi.ingsw2020.santorini.view.gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PossibleMovesController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw2020.santorini.view.gui;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw2020.santorini.network.client.Client;
+<i>4</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.Direction;
+<i>5</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.Message;
+<i>6</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.actions.AskMoveSelectionMessage;
+<i>7</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.actions.SelectedMoveMessage;
+<i>8</i>&nbsp;import it.polimi.ingsw2020.santorini.view.AppGUI;
+<i>9</i>&nbsp;import javafx.event.ActionEvent;
+<i>10</i>&nbsp;import javafx.fxml.FXML;
+<i>11</i>&nbsp;import javafx.scene.control.Button;
+<i>12</i>&nbsp;import javafx.scene.control.Label;
+<i>13</i>&nbsp;import javafx.stage.Stage;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;
+<b class="nc"><i>16</i>&nbsp;public class PossibleMovesController {</b>
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    @FXML
+<i>19</i>&nbsp;    Label text;
+<i>20</i>&nbsp;    @FXML
+<i>21</i>&nbsp;    Label text2;
+<i>22</i>&nbsp;    @FXML
+<i>23</i>&nbsp;    Button b00;
+<i>24</i>&nbsp;    @FXML
+<i>25</i>&nbsp;    Button b01;
+<i>26</i>&nbsp;    @FXML
+<i>27</i>&nbsp;    Button b02;
+<i>28</i>&nbsp;    @FXML
+<i>29</i>&nbsp;    Button b10;
+<i>30</i>&nbsp;    @FXML
+<i>31</i>&nbsp;    Button b12;
+<i>32</i>&nbsp;    @FXML
+<i>33</i>&nbsp;    Button b20;
+<i>34</i>&nbsp;    @FXML
+<i>35</i>&nbsp;    Button b21;
+<i>36</i>&nbsp;    @FXML
+<i>37</i>&nbsp;    Button b22;
+<i>38</i>&nbsp;    @FXML
+<i>39</i>&nbsp;    Label p00;
+<i>40</i>&nbsp;    @FXML
+<i>41</i>&nbsp;    Label p01;
+<i>42</i>&nbsp;    @FXML
+<i>43</i>&nbsp;    Label p02;
+<i>44</i>&nbsp;    @FXML
+<i>45</i>&nbsp;    Label p10;
+<i>46</i>&nbsp;    @FXML
+<i>47</i>&nbsp;    Label p12;
+<i>48</i>&nbsp;    @FXML
+<i>49</i>&nbsp;    Label p20;
+<i>50</i>&nbsp;    @FXML
+<i>51</i>&nbsp;    Label p21;
+<i>52</i>&nbsp;    @FXML
+<i>53</i>&nbsp;    Label p22;
+<i>54</i>&nbsp;
+<b class="nc"><i>55</i>&nbsp;    private Button[][] matrix = new Button[3][3];</b>
+<b class="nc"><i>56</i>&nbsp;    private Label[][] labelMatrix = new Label[3][3];</b>
+<i>57</i>&nbsp;    private Client client;
+<i>58</i>&nbsp;    private AskMoveSelectionMessage askMoveSelectionMessage;
+<i>59</i>&nbsp;    private Stage stage;
+<i>60</i>&nbsp;    public void setClient(Client client) {
+<b class="nc"><i>61</i>&nbsp;        this.client = client;</b>
+<i>62</i>&nbsp;    }
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    public void setAskMoveSelectionMessage(AskMoveSelectionMessage askMoveSelectionMessage) {
+<b class="nc"><i>65</i>&nbsp;        this.askMoveSelectionMessage = askMoveSelectionMessage;</b>
+<i>66</i>&nbsp;    }
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    /**
+<i>69</i>&nbsp;     * this method is used to select the direction of the movement
+<i>70</i>&nbsp;     * @param actionEvent is the event of the button clicked from which the method extracts the direction
+<i>71</i>&nbsp;     */
+<i>72</i>&nbsp;    @FXML
+<i>73</i>&nbsp;    public void selectMove(ActionEvent actionEvent){
+<b class="nc"><i>74</i>&nbsp;        Direction direction = AppGUI.extractDirection(actionEvent, b00, b01, b02, b10, b12, b20, b21, b22);</b>
+<b class="nc"><i>75</i>&nbsp;        Message moveSelection = new Message(client.getUsername());</b>
+<b class="nc"><i>76</i>&nbsp;        moveSelection.buildSelectedMoveMessage(new SelectedMoveMessage(direction));</b>
+<b class="nc"><i>77</i>&nbsp;        client.getNetworkHandler().send(moveSelection);</b>
+<b class="nc"><i>78</i>&nbsp;        stage.setOnCloseRequest(e -&gt; stage.close());</b>
+<b class="nc"><i>79</i>&nbsp;        stage.close();</b>
+<i>80</i>&nbsp;    }
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    public void setStage(Stage stage){
+<b class="nc"><i>83</i>&nbsp;        this.stage = stage;</b>
+<i>84</i>&nbsp;    }
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    public void setText(){
+<b class="nc"><i>87</i>&nbsp;        text.setText(&quot;Select the cell where you want to move!&quot;);</b>
+<i>88</i>&nbsp;    }
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;    /**
+<i>91</i>&nbsp;     * this method is used to initialize the matrix of possible movements
+<i>92</i>&nbsp;     */
+<i>93</i>&nbsp;    public void initializeBoard() {
+<b class="nc"><i>94</i>&nbsp;        int[][] possibleMatrix = askMoveSelectionMessage.getPossibleMoves();</b>
+<b class="nc"><i>95</i>&nbsp;        AppGUI.buildButtonMatrices(matrix, b00, b01, b02, b10, b12, b20, b21, b22);</b>
+<b class="nc"><i>96</i>&nbsp;        AppGUI.buildLabelMatrices(labelMatrix, p00, p01, p02, p10, p12, p20, p21, p22);</b>
+<b class="nc"><i>97</i>&nbsp;        for(int i=0 ; i&lt;3 ;++i){</b>
+<b class="nc"><i>98</i>&nbsp;            for(int j=0; j&lt;3 ; ++j){</b>
+<b class="nc"><i>99</i>&nbsp;                if (i!=1 || j!= 1){</b>
+<b class="nc"><i>100</i>&nbsp;                    if (possibleMatrix[i][j] == 0) {</b>
+<b class="nc"><i>101</i>&nbsp;                        matrix[i][j].setStyle(&quot;-fx-background-color: #ff0000&quot;);</b>
+<b class="nc"><i>102</i>&nbsp;                        matrix[i][j].setDisable(true);</b>
+<i>103</i>&nbsp;                    }
+<i>104</i>&nbsp;                }
+<i>105</i>&nbsp;            }
+<i>106</i>&nbsp;        }
+<i>107</i>&nbsp;    }
+<i>108</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 18:30</div>
+</div>
+</body>
+</html>

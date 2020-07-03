@@ -1,0 +1,151 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Hephaestus</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw2020.santorini.model.gods</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Hephaestus (it.polimi.ingsw2020.santorini.model.gods)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Hephaestus</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (16/ 16)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Hephaestus$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (17/ 17)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw2020.santorini.model.gods;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw2020.santorini.controller.TurnLogic;
+<i>4</i>&nbsp;import it.polimi.ingsw2020.santorini.model.*;
+<i>5</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.LevelType;
+<i>6</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.Message;
+<i>7</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.PhaseType;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;public class Hephaestus extends GodCard {
+<i>10</i>&nbsp;
+<b class="fc"><i>11</i>&nbsp;    public Hephaestus(){</b>
+<b class="fc"><i>12</i>&nbsp;        name = getClass().getSimpleName();</b>
+<b class="fc"><i>13</i>&nbsp;        maxPlayersNumber = 3;</b>
+<b class="fc"><i>14</i>&nbsp;        timing = PhaseType.STANDBY_PHASE_3;</b>
+<b class="fc"><i>15</i>&nbsp;        mandatory = false;</b>
+<b class="fc"><i>16</i>&nbsp;        needParameters = false;</b>
+<b class="fc"><i>17</i>&nbsp;    }</b>
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    @Override
+<i>20</i>&nbsp;    public boolean canActivate(Match match) {
+<b class="fc"><i>21</i>&nbsp;        return match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getBuildPosX()][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()].getLevel().getHeight() &lt; 3;</b>
+<i>22</i>&nbsp;    }
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    @Override
+<i>25</i>&nbsp;    public void invokeGod(Match match, Message message, TurnLogic turnManager) {
+<b class="fc"><i>26</i>&nbsp;        Cell target = match.getBoard().getBoard()[match.getCurrentPlayer().getPlayingBuilder().getBuildPosX()][match.getCurrentPlayer().getPlayingBuilder().getBuildPosY()];</b>
+<b class="fc"><i>27</i>&nbsp;        switch(target.getLevel()){</b>
+<i>28</i>&nbsp;            case BASE:
+<b class="fc"><i>29</i>&nbsp;                target.setLevel(LevelType.MID);</b>
+<b class="fc"><i>30</i>&nbsp;                break;</b>
+<i>31</i>&nbsp;            case MID:
+<b class="fc"><i>32</i>&nbsp;                target.setLevel(LevelType.TOP);</b>
+<i>33</i>&nbsp;                break;
+<i>34</i>&nbsp;        }
+<b class="fc"><i>35</i>&nbsp;        System.out.println(&quot;potere di &quot; + name + &quot; attivato&quot;);</b>
+<b class="fc"><i>36</i>&nbsp;    }</b>
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    public static String toStringEffect(GodCard card) {
+<b class="fc"><i>39</i>&nbsp;        return &quot;Your Build&quot; + &quot;: Your Worker may build one additional block\n&quot; +</b>
+<i>40</i>&nbsp;                &quot;(not dome) on top of your first block.&quot;;
+<i>41</i>&nbsp;    }
+<i>42</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 18:30</div>
+</div>
+</body>
+</html>

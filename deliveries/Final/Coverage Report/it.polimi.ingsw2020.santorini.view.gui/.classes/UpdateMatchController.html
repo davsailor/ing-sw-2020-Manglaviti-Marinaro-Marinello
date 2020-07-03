@@ -1,0 +1,530 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: UpdateMatchController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw2020.santorini.view.gui</a> ]
+</div>
+
+<h1>Coverage Summary for Class: UpdateMatchController (it.polimi.ingsw2020.santorini.view.gui)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UpdateMatchController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 133)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">UpdateMatchController$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 134)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw2020.santorini.view.gui;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw2020.santorini.model.Cell;
+<i>4</i>&nbsp;import it.polimi.ingsw2020.santorini.model.Player;
+<i>5</i>&nbsp;import it.polimi.ingsw2020.santorini.network.client.Client;
+<i>6</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.AccessType;
+<i>7</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.Message;
+<i>8</i>&nbsp;import it.polimi.ingsw2020.santorini.utils.messages.matchMessage.UpdateMessage;
+<i>9</i>&nbsp;import it.polimi.ingsw2020.santorini.view.AppGUI;
+<i>10</i>&nbsp;import javafx.event.ActionEvent;
+<i>11</i>&nbsp;import javafx.fxml.FXML;
+<i>12</i>&nbsp;import javafx.geometry.Pos;
+<i>13</i>&nbsp;import javafx.scene.control.Button;
+<i>14</i>&nbsp;import javafx.scene.control.Label;
+<i>15</i>&nbsp;import javafx.scene.image.Image;
+<i>16</i>&nbsp;import javafx.scene.image.ImageView;
+<i>17</i>&nbsp;import javafx.scene.paint.Color;
+<i>18</i>&nbsp;import java.util.ArrayList;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;
+<b class="nc"><i>21</i>&nbsp;public class UpdateMatchController {</b>
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    private Client client;
+<i>24</i>&nbsp;    private UpdateMessage updateMessage;
+<i>25</i>&nbsp;    private ArrayList&lt;Player&gt; players;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    public void setPlayers(ArrayList&lt;Player&gt; players) {
+<b class="nc"><i>28</i>&nbsp;        this.players = players;</b>
+<i>29</i>&nbsp;    }
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    public void setClient(Client client) {
+<b class="nc"><i>32</i>&nbsp;        this.client = client;</b>
+<i>33</i>&nbsp;    }
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    public void setUpdateMessage(UpdateMessage updateMessage) {
+<b class="nc"><i>36</i>&nbsp;        this.updateMessage = updateMessage;</b>
+<i>37</i>&nbsp;    }
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    @FXML
+<i>40</i>&nbsp;    Button b00;
+<i>41</i>&nbsp;    @FXML
+<i>42</i>&nbsp;    Button b01;
+<i>43</i>&nbsp;    @FXML
+<i>44</i>&nbsp;    Button b02;
+<i>45</i>&nbsp;    @FXML
+<i>46</i>&nbsp;    Button b03;
+<i>47</i>&nbsp;    @FXML
+<i>48</i>&nbsp;    Button b04;
+<i>49</i>&nbsp;    @FXML
+<i>50</i>&nbsp;    Button b10;
+<i>51</i>&nbsp;    @FXML
+<i>52</i>&nbsp;    Button b11;
+<i>53</i>&nbsp;    @FXML
+<i>54</i>&nbsp;    Button b12;
+<i>55</i>&nbsp;    @FXML
+<i>56</i>&nbsp;    Button b13;
+<i>57</i>&nbsp;    @FXML
+<i>58</i>&nbsp;    Button b14;
+<i>59</i>&nbsp;    @FXML
+<i>60</i>&nbsp;    Button b20;
+<i>61</i>&nbsp;    @FXML
+<i>62</i>&nbsp;    Button b21;
+<i>63</i>&nbsp;    @FXML
+<i>64</i>&nbsp;    Button b22;
+<i>65</i>&nbsp;    @FXML
+<i>66</i>&nbsp;    Button b23;
+<i>67</i>&nbsp;    @FXML
+<i>68</i>&nbsp;    Button b24;
+<i>69</i>&nbsp;    @FXML
+<i>70</i>&nbsp;    Button b30;
+<i>71</i>&nbsp;    @FXML
+<i>72</i>&nbsp;    Button b31;
+<i>73</i>&nbsp;    @FXML
+<i>74</i>&nbsp;    Button b32;
+<i>75</i>&nbsp;    @FXML
+<i>76</i>&nbsp;    Button b33;
+<i>77</i>&nbsp;    @FXML
+<i>78</i>&nbsp;    Button b34;
+<i>79</i>&nbsp;    @FXML
+<i>80</i>&nbsp;    Button b40;
+<i>81</i>&nbsp;    @FXML
+<i>82</i>&nbsp;    Button b41;
+<i>83</i>&nbsp;    @FXML
+<i>84</i>&nbsp;    Button b42;
+<i>85</i>&nbsp;    @FXML
+<i>86</i>&nbsp;    Button b43;
+<i>87</i>&nbsp;    @FXML
+<i>88</i>&nbsp;    Button b44;
+<i>89</i>&nbsp;
+<i>90</i>&nbsp;    @FXML
+<i>91</i>&nbsp;    Label username1;
+<i>92</i>&nbsp;    @FXML
+<i>93</i>&nbsp;    Label username2;
+<i>94</i>&nbsp;    @FXML
+<i>95</i>&nbsp;    Label username3;
+<i>96</i>&nbsp;    @FXML
+<i>97</i>&nbsp;    Label god1;
+<i>98</i>&nbsp;    @FXML
+<i>99</i>&nbsp;    Label god2;
+<i>100</i>&nbsp;    @FXML
+<i>101</i>&nbsp;    Label god3;
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;    @FXML
+<i>104</i>&nbsp;    Label p00;
+<i>105</i>&nbsp;    @FXML
+<i>106</i>&nbsp;    Label p01;
+<i>107</i>&nbsp;    @FXML
+<i>108</i>&nbsp;    Label p02;
+<i>109</i>&nbsp;    @FXML
+<i>110</i>&nbsp;    Label p03;
+<i>111</i>&nbsp;    @FXML
+<i>112</i>&nbsp;    Label p04;
+<i>113</i>&nbsp;    @FXML
+<i>114</i>&nbsp;    Label p10;
+<i>115</i>&nbsp;    @FXML
+<i>116</i>&nbsp;    Label p11;
+<i>117</i>&nbsp;    @FXML
+<i>118</i>&nbsp;    Label p12;
+<i>119</i>&nbsp;    @FXML
+<i>120</i>&nbsp;    Label p13;
+<i>121</i>&nbsp;    @FXML
+<i>122</i>&nbsp;    Label p14;
+<i>123</i>&nbsp;    @FXML
+<i>124</i>&nbsp;    Label p20;
+<i>125</i>&nbsp;    @FXML
+<i>126</i>&nbsp;    Label p21;
+<i>127</i>&nbsp;    @FXML
+<i>128</i>&nbsp;    Label p22;
+<i>129</i>&nbsp;    @FXML
+<i>130</i>&nbsp;    Label p23;
+<i>131</i>&nbsp;    @FXML
+<i>132</i>&nbsp;    Label p24;
+<i>133</i>&nbsp;    @FXML
+<i>134</i>&nbsp;    Label p30;
+<i>135</i>&nbsp;    @FXML
+<i>136</i>&nbsp;    Label p31;
+<i>137</i>&nbsp;    @FXML
+<i>138</i>&nbsp;    Label p32;
+<i>139</i>&nbsp;    @FXML
+<i>140</i>&nbsp;    Label p33;
+<i>141</i>&nbsp;    @FXML
+<i>142</i>&nbsp;    Label p34;
+<i>143</i>&nbsp;    @FXML
+<i>144</i>&nbsp;    Label p40;
+<i>145</i>&nbsp;    @FXML
+<i>146</i>&nbsp;    Label p41;
+<i>147</i>&nbsp;    @FXML
+<i>148</i>&nbsp;    Label p42;
+<i>149</i>&nbsp;    @FXML
+<i>150</i>&nbsp;    Label p43;
+<i>151</i>&nbsp;    @FXML
+<i>152</i>&nbsp;    Label p44;
+<i>153</i>&nbsp;
+<i>154</i>&nbsp;    @FXML
+<i>155</i>&nbsp;    Label c00;
+<i>156</i>&nbsp;    @FXML
+<i>157</i>&nbsp;    Label c01;
+<i>158</i>&nbsp;    @FXML
+<i>159</i>&nbsp;    Label c02;
+<i>160</i>&nbsp;    @FXML
+<i>161</i>&nbsp;    Label c03;
+<i>162</i>&nbsp;    @FXML
+<i>163</i>&nbsp;    Label c04;
+<i>164</i>&nbsp;    @FXML
+<i>165</i>&nbsp;    Label c10;
+<i>166</i>&nbsp;    @FXML
+<i>167</i>&nbsp;    Label c11;
+<i>168</i>&nbsp;    @FXML
+<i>169</i>&nbsp;    Label c12;
+<i>170</i>&nbsp;    @FXML
+<i>171</i>&nbsp;    Label c13;
+<i>172</i>&nbsp;    @FXML
+<i>173</i>&nbsp;    Label c14;
+<i>174</i>&nbsp;    @FXML
+<i>175</i>&nbsp;    Label c20;
+<i>176</i>&nbsp;    @FXML
+<i>177</i>&nbsp;    Label c21;
+<i>178</i>&nbsp;    @FXML
+<i>179</i>&nbsp;    Label c22;
+<i>180</i>&nbsp;    @FXML
+<i>181</i>&nbsp;    Label c23;
+<i>182</i>&nbsp;    @FXML
+<i>183</i>&nbsp;    Label c24;
+<i>184</i>&nbsp;    @FXML
+<i>185</i>&nbsp;    Label c30;
+<i>186</i>&nbsp;    @FXML
+<i>187</i>&nbsp;    Label c31;
+<i>188</i>&nbsp;    @FXML
+<i>189</i>&nbsp;    Label c32;
+<i>190</i>&nbsp;    @FXML
+<i>191</i>&nbsp;    Label c33;
+<i>192</i>&nbsp;    @FXML
+<i>193</i>&nbsp;    Label c34;
+<i>194</i>&nbsp;    @FXML
+<i>195</i>&nbsp;    Label c40;
+<i>196</i>&nbsp;    @FXML
+<i>197</i>&nbsp;    Label c41;
+<i>198</i>&nbsp;    @FXML
+<i>199</i>&nbsp;    Label c42;
+<i>200</i>&nbsp;    @FXML
+<i>201</i>&nbsp;    Label c43;
+<i>202</i>&nbsp;    @FXML
+<i>203</i>&nbsp;    Label c44;
+<i>204</i>&nbsp;
+<i>205</i>&nbsp;    @FXML
+<i>206</i>&nbsp;    Label text;
+<i>207</i>&nbsp;
+<i>208</i>&nbsp;    /**
+<i>209</i>&nbsp;     * This method initialize the text on the board after each update and send the messages
+<i>210</i>&nbsp;     */
+<i>211</i>&nbsp;    public void setText(){
+<b class="nc"><i>212</i>&nbsp;        switch (updateMessage.getPhase()){</b>
+<i>213</i>&nbsp;            case START_TURN:
+<b class="nc"><i>214</i>&nbsp;                if(updateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())){</b>
+<b class="nc"><i>215</i>&nbsp;                    text.setText(client.getUsername() + &quot;, now is your turn!&quot;);</b>
+<b class="nc"><i>216</i>&nbsp;                    Message nextPhase = new Message(client.getUsername());</b>
+<b class="nc"><i>217</i>&nbsp;                    nextPhase.buildNextPhaseMessage();</b>
+<b class="nc"><i>218</i>&nbsp;                    client.getNetworkHandler().send(nextPhase);</b>
+<b class="nc"><i>219</i>&nbsp;                }</b>
+<i>220</i>&nbsp;                else{
+<b class="nc"><i>221</i>&nbsp;                    text.setText(&quot;Now is the turn of  &quot;+ updateMessage.getCurrentPlayer().getNickname());</b>
+<i>222</i>&nbsp;                }
+<b class="nc"><i>223</i>&nbsp;                break;</b>
+<i>224</i>&nbsp;            case STANDBY_PHASE_1 :
+<i>225</i>&nbsp;            case STANDBY_PHASE_2 :
+<i>226</i>&nbsp;            case STANDBY_PHASE_3 :
+<b class="nc"><i>227</i>&nbsp;                if(updateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())){</b>
+<b class="nc"><i>228</i>&nbsp;                    text.setText(updateMessage.getCurrentPlayer().getDivinePower().getName() + &quot; accepted your request!&quot;);</b>
+<b class="nc"><i>229</i>&nbsp;                    Message nextPhase = new Message(client.getUsername());</b>
+<b class="nc"><i>230</i>&nbsp;                    nextPhase.buildNextPhaseMessage();</b>
+<b class="nc"><i>231</i>&nbsp;                    client.getNetworkHandler().send(nextPhase);</b>
+<b class="nc"><i>232</i>&nbsp;                }</b>
+<i>233</i>&nbsp;                else{
+<b class="nc"><i>234</i>&nbsp;                    text.setText(updateMessage.getCurrentPlayer().getDivinePower().getName() +&quot; helped &quot;+ updateMessage.getCurrentPlayer().getNickname());</b>
+<i>235</i>&nbsp;                }
+<b class="nc"><i>236</i>&nbsp;                break;</b>
+<i>237</i>&nbsp;            case MOVE_PHASE:
+<i>238</i>&nbsp;            case BUILD_PHASE:
+<b class="nc"><i>239</i>&nbsp;                if(updateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())) {</b>
+<b class="nc"><i>240</i>&nbsp;                    Message nextPhase = new Message(client.getUsername());</b>
+<b class="nc"><i>241</i>&nbsp;                    nextPhase.buildNextPhaseMessage();</b>
+<b class="nc"><i>242</i>&nbsp;                    client.getNetworkHandler().send(nextPhase);</b>
+<b class="nc"><i>243</i>&nbsp;                }</b>
+<i>244</i>&nbsp;                break;
+<i>245</i>&nbsp;            case END_TURN:
+<b class="nc"><i>246</i>&nbsp;                if(updateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())){</b>
+<b class="nc"><i>247</i>&nbsp;                    text.setText(client.getUsername()+ &quot; , your turn is finished!&quot;);</b>
+<i>248</i>&nbsp;                }else{
+<b class="nc"><i>249</i>&nbsp;                    text.setText(updateMessage.getCurrentPlayer().getNickname()+ &quot;&#39;s turn is finished!&quot;);</b>
+<i>250</i>&nbsp;                }
+<b class="nc"><i>251</i>&nbsp;                Message nextPhase = new Message(client.getUsername());</b>
+<b class="nc"><i>252</i>&nbsp;                nextPhase.buildNextPhaseMessage();</b>
+<b class="nc"><i>253</i>&nbsp;                client.getNetworkHandler().send(nextPhase);</b>
+<b class="nc"><i>254</i>&nbsp;                break;</b>
+<i>255</i>&nbsp;            default:
+<i>256</i>&nbsp;                break;
+<i>257</i>&nbsp;        }
+<i>258</i>&nbsp;    }
+<i>259</i>&nbsp;
+<i>260</i>&nbsp;    @FXML
+<i>261</i>&nbsp;    public void setPos(ActionEvent actionEvent) {
+<b class="nc"><i>262</i>&nbsp;        switch (updateMessage.getPhase()){</b>
+<i>263</i>&nbsp;            case START_TURN:
+<b class="nc"><i>264</i>&nbsp;                break;</b>
+<i>265</i>&nbsp;            case STANDBY_PHASE_1:
+<b class="nc"><i>266</i>&nbsp;                break;</b>
+<i>267</i>&nbsp;            case MOVE_PHASE:
+<b class="nc"><i>268</i>&nbsp;                break;</b>
+<i>269</i>&nbsp;            case STANDBY_PHASE_2:
+<b class="nc"><i>270</i>&nbsp;                break;</b>
+<i>271</i>&nbsp;            case BUILD_PHASE:
+<b class="nc"><i>272</i>&nbsp;                break;</b>
+<i>273</i>&nbsp;            case STANDBY_PHASE_3:
+<b class="nc"><i>274</i>&nbsp;                break;</b>
+<i>275</i>&nbsp;            case END_TURN:
+<b class="nc"><i>276</i>&nbsp;                break;</b>
+<i>277</i>&nbsp;            default:
+<i>278</i>&nbsp;                break;
+<i>279</i>&nbsp;        }
+<i>280</i>&nbsp;    }
+<i>281</i>&nbsp;
+<i>282</i>&nbsp;    /**
+<i>283</i>&nbsp;     * this method initializes the players on the update board screen
+<i>284</i>&nbsp;     * @param players is the ArrayList that contains the players
+<i>285</i>&nbsp;     */
+<i>286</i>&nbsp;    public void initializePlayers(ArrayList&lt;Player&gt; players) {
+<b class="nc"><i>287</i>&nbsp;        setPlayers(players);</b>
+<b class="nc"><i>288</i>&nbsp;        username1.setText(players.get(0).getNickname());</b>
+<b class="nc"><i>289</i>&nbsp;        username1.setAlignment(Pos.TOP_CENTER);</b>
+<b class="nc"><i>290</i>&nbsp;        username2.setText(players.get(1).getNickname());</b>
+<b class="nc"><i>291</i>&nbsp;        username2.setAlignment(Pos.TOP_CENTER);</b>
+<b class="nc"><i>292</i>&nbsp;        Image image = godImage(players.get(0).getDivinePower().getName());</b>
+<b class="nc"><i>293</i>&nbsp;        ImageView imageView = new ImageView(image);</b>
+<b class="nc"><i>294</i>&nbsp;        imageView.setFitWidth(123.0);</b>
+<b class="nc"><i>295</i>&nbsp;        imageView.setFitHeight(169.0);</b>
+<b class="nc"><i>296</i>&nbsp;        god1.setGraphic(imageView);</b>
+<i>297</i>&nbsp;
+<b class="nc"><i>298</i>&nbsp;        image = godImage(players.get(1).getDivinePower().getName());</b>
+<b class="nc"><i>299</i>&nbsp;        imageView = new ImageView(image);</b>
+<b class="nc"><i>300</i>&nbsp;        imageView.setFitWidth(123.0);</b>
+<b class="nc"><i>301</i>&nbsp;        imageView.setFitHeight(169.0);</b>
+<b class="nc"><i>302</i>&nbsp;        god2.setGraphic(imageView);</b>
+<i>303</i>&nbsp;
+<b class="nc"><i>304</i>&nbsp;        if(players.size()==3) {</b>
+<b class="nc"><i>305</i>&nbsp;            username3.setText(players.get(2).getNickname());</b>
+<b class="nc"><i>306</i>&nbsp;            username3.setAlignment(Pos.TOP_CENTER);</b>
+<b class="nc"><i>307</i>&nbsp;            image = godImage(players.get(2).getDivinePower().getName());</b>
+<b class="nc"><i>308</i>&nbsp;            imageView = new ImageView(image);</b>
+<b class="nc"><i>309</i>&nbsp;            imageView.setFitWidth(123.0);</b>
+<b class="nc"><i>310</i>&nbsp;            imageView.setFitHeight(169.0);</b>
+<b class="nc"><i>311</i>&nbsp;            god3.setGraphic(imageView);</b>
+<i>312</i>&nbsp;        }
+<i>313</i>&nbsp;    }
+<i>314</i>&nbsp;
+<i>315</i>&nbsp;    /**
+<i>316</i>&nbsp;     * this method is used to initialize gods on the update board screen
+<i>317</i>&nbsp;     * @param name is the name of the god
+<i>318</i>&nbsp;     */
+<i>319</i>&nbsp;    private Image godImage(String name){
+<b class="nc"><i>320</i>&nbsp;        switch (name){</b>
+<i>321</i>&nbsp;            case &quot;Apollo&quot; :
+<b class="nc"><i>322</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Apollo.png&quot;));</b>
+<i>323</i>&nbsp;            case &quot;Ares&quot; :
+<b class="nc"><i>324</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Ares.png&quot;));</b>
+<i>325</i>&nbsp;            case &quot;Artemis&quot; :
+<b class="nc"><i>326</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Artemis.png&quot;));</b>
+<i>327</i>&nbsp;            case &quot;Athena&quot; :
+<b class="nc"><i>328</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Athena.png&quot;));</b>
+<i>329</i>&nbsp;            case &quot;Atlas&quot; :
+<b class="nc"><i>330</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Atlas.png&quot;));</b>
+<i>331</i>&nbsp;            case &quot;Chronus&quot; :
+<b class="nc"><i>332</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Chronus.png&quot;));</b>
+<i>333</i>&nbsp;            case &quot;Demeter&quot; :
+<b class="nc"><i>334</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Demeter.png&quot;));</b>
+<i>335</i>&nbsp;            case &quot;Hephaestus&quot; :
+<b class="nc"><i>336</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Hephaestus.png&quot;));</b>
+<i>337</i>&nbsp;            case &quot;Hestia&quot; :
+<b class="nc"><i>338</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Hestia.png&quot;));</b>
+<i>339</i>&nbsp;            case &quot;Minotaur&quot; :
+<b class="nc"><i>340</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Minotaur.png&quot;));</b>
+<i>341</i>&nbsp;            case &quot;Pan&quot; :
+<b class="nc"><i>342</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Pan.png&quot;));</b>
+<i>343</i>&nbsp;            case &quot;Poseidon&quot; :
+<b class="nc"><i>344</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Poseidon.png&quot;));</b>
+<i>345</i>&nbsp;            case &quot;Prometheus&quot; :
+<b class="nc"><i>346</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Prometheus.png&quot;));</b>
+<i>347</i>&nbsp;            case &quot;Zeus&quot; :
+<b class="nc"><i>348</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Zeus.png&quot;));</b>
+<i>349</i>&nbsp;        }
+<b class="nc"><i>350</i>&nbsp;        return null;</b>
+<i>351</i>&nbsp;    }
+<i>352</i>&nbsp;
+<i>353</i>&nbsp;    /**
+<i>354</i>&nbsp;     * this method initialize the update board with builders and buildings
+<i>355</i>&nbsp;     * @param board is the board of the match
+<i>356</i>&nbsp;     */
+<i>357</i>&nbsp;    public void initializeBoard(Cell[][] board) {
+<b class="nc"><i>358</i>&nbsp;        if(board[1][1].getStatus()== AccessType.OCCUPIED) initializeCell(p00, b00, board[1][1]);</b>
+<b class="nc"><i>359</i>&nbsp;        if(board[1][2].getStatus()== AccessType.OCCUPIED) initializeCell(p01, b01, board[1][2]);</b>
+<b class="nc"><i>360</i>&nbsp;        if(board[1][3].getStatus()== AccessType.OCCUPIED) initializeCell(p02, b02, board[1][3]);</b>
+<b class="nc"><i>361</i>&nbsp;        if(board[1][4].getStatus()== AccessType.OCCUPIED) initializeCell(p03, b03, board[1][4]);</b>
+<b class="nc"><i>362</i>&nbsp;        if(board[1][5].getStatus()== AccessType.OCCUPIED) initializeCell(p04, b04, board[1][5]);</b>
+<b class="nc"><i>363</i>&nbsp;        if(board[2][1].getStatus()== AccessType.OCCUPIED) initializeCell(p10, b10, board[2][1]);</b>
+<b class="nc"><i>364</i>&nbsp;        if(board[2][2].getStatus()== AccessType.OCCUPIED) initializeCell(p11, b11, board[2][2]);</b>
+<b class="nc"><i>365</i>&nbsp;        if(board[2][3].getStatus()== AccessType.OCCUPIED) initializeCell(p12, b12, board[2][3]);</b>
+<b class="nc"><i>366</i>&nbsp;        if(board[2][4].getStatus()== AccessType.OCCUPIED) initializeCell(p13, b13, board[2][4]);</b>
+<b class="nc"><i>367</i>&nbsp;        if(board[2][5].getStatus()== AccessType.OCCUPIED) initializeCell(p14, b14, board[2][5]);</b>
+<b class="nc"><i>368</i>&nbsp;        if(board[3][1].getStatus()== AccessType.OCCUPIED) initializeCell(p20, b20, board[3][1]);</b>
+<b class="nc"><i>369</i>&nbsp;        if(board[3][2].getStatus()== AccessType.OCCUPIED) initializeCell(p21, b21, board[3][2]);</b>
+<b class="nc"><i>370</i>&nbsp;        if(board[3][3].getStatus()== AccessType.OCCUPIED) initializeCell(p22, b22, board[3][3]);</b>
+<b class="nc"><i>371</i>&nbsp;        if(board[3][4].getStatus()== AccessType.OCCUPIED) initializeCell(p23, b23, board[3][4]);</b>
+<b class="nc"><i>372</i>&nbsp;        if(board[3][5].getStatus()== AccessType.OCCUPIED) initializeCell(p24, b24, board[3][5]);</b>
+<b class="nc"><i>373</i>&nbsp;        if(board[4][1].getStatus()== AccessType.OCCUPIED) initializeCell(p30, b30, board[4][1]);</b>
+<b class="nc"><i>374</i>&nbsp;        if(board[4][2].getStatus()== AccessType.OCCUPIED) initializeCell(p31, b31, board[4][2]);</b>
+<b class="nc"><i>375</i>&nbsp;        if(board[4][3].getStatus()== AccessType.OCCUPIED) initializeCell(p32, b32, board[4][3]);</b>
+<b class="nc"><i>376</i>&nbsp;        if(board[4][4].getStatus()== AccessType.OCCUPIED) initializeCell(p33, b33, board[4][4]);</b>
+<b class="nc"><i>377</i>&nbsp;        if(board[4][5].getStatus()== AccessType.OCCUPIED) initializeCell(p34, b34, board[4][5]);</b>
+<b class="nc"><i>378</i>&nbsp;        if(board[5][1].getStatus()== AccessType.OCCUPIED) initializeCell(p40, b40, board[5][1]);</b>
+<b class="nc"><i>379</i>&nbsp;        if(board[5][2].getStatus()== AccessType.OCCUPIED) initializeCell(p41, b41, board[5][2]);</b>
+<b class="nc"><i>380</i>&nbsp;        if(board[5][3].getStatus()== AccessType.OCCUPIED) initializeCell(p42, b42, board[5][3]);</b>
+<b class="nc"><i>381</i>&nbsp;        if(board[5][4].getStatus()== AccessType.OCCUPIED) initializeCell(p43, b43, board[5][4]);</b>
+<b class="nc"><i>382</i>&nbsp;        if(board[5][5].getStatus()== AccessType.OCCUPIED) initializeCell(p44, b44, board[5][5]);</b>
+<b class="nc"><i>383</i>&nbsp;        c00.setText(String.valueOf(board[1][1].getLevel().getHeight()));</b>
+<b class="nc"><i>384</i>&nbsp;        c01.setText(String.valueOf(board[1][2].getLevel().getHeight()));</b>
+<b class="nc"><i>385</i>&nbsp;        c02.setText(String.valueOf(board[1][3].getLevel().getHeight()));</b>
+<b class="nc"><i>386</i>&nbsp;        c03.setText(String.valueOf(board[1][4].getLevel().getHeight()));</b>
+<b class="nc"><i>387</i>&nbsp;        c04.setText(String.valueOf(board[1][5].getLevel().getHeight()));</b>
+<b class="nc"><i>388</i>&nbsp;        c10.setText(String.valueOf(board[2][1].getLevel().getHeight()));</b>
+<b class="nc"><i>389</i>&nbsp;        c11.setText(String.valueOf(board[2][2].getLevel().getHeight()));</b>
+<b class="nc"><i>390</i>&nbsp;        c12.setText(String.valueOf(board[2][3].getLevel().getHeight()));</b>
+<b class="nc"><i>391</i>&nbsp;        c13.setText(String.valueOf(board[2][4].getLevel().getHeight()));</b>
+<b class="nc"><i>392</i>&nbsp;        c14.setText(String.valueOf(board[2][5].getLevel().getHeight()));</b>
+<b class="nc"><i>393</i>&nbsp;        c20.setText(String.valueOf(board[3][1].getLevel().getHeight()));</b>
+<b class="nc"><i>394</i>&nbsp;        c21.setText(String.valueOf(board[3][2].getLevel().getHeight()));</b>
+<b class="nc"><i>395</i>&nbsp;        c22.setText(String.valueOf(board[3][3].getLevel().getHeight()));</b>
+<b class="nc"><i>396</i>&nbsp;        c23.setText(String.valueOf(board[3][4].getLevel().getHeight()));</b>
+<b class="nc"><i>397</i>&nbsp;        c24.setText(String.valueOf(board[3][5].getLevel().getHeight()));</b>
+<b class="nc"><i>398</i>&nbsp;        c30.setText(String.valueOf(board[4][1].getLevel().getHeight()));</b>
+<b class="nc"><i>399</i>&nbsp;        c31.setText(String.valueOf(board[4][2].getLevel().getHeight()));</b>
+<b class="nc"><i>400</i>&nbsp;        c32.setText(String.valueOf(board[4][3].getLevel().getHeight()));</b>
+<b class="nc"><i>401</i>&nbsp;        c33.setText(String.valueOf(board[4][4].getLevel().getHeight()));</b>
+<b class="nc"><i>402</i>&nbsp;        c34.setText(String.valueOf(board[4][5].getLevel().getHeight()));</b>
+<b class="nc"><i>403</i>&nbsp;        c40.setText(String.valueOf(board[5][1].getLevel().getHeight()));</b>
+<b class="nc"><i>404</i>&nbsp;        c41.setText(String.valueOf(board[5][2].getLevel().getHeight()));</b>
+<b class="nc"><i>405</i>&nbsp;        c42.setText(String.valueOf(board[5][3].getLevel().getHeight()));</b>
+<b class="nc"><i>406</i>&nbsp;        c43.setText(String.valueOf(board[5][4].getLevel().getHeight()));</b>
+<b class="nc"><i>407</i>&nbsp;        c44.setText(String.valueOf(board[5][5].getLevel().getHeight()));</b>
+<i>408</i>&nbsp;    }
+<i>409</i>&nbsp;
+<i>410</i>&nbsp;    /**
+<i>411</i>&nbsp;     * this method is used to initialize each cell
+<i>412</i>&nbsp;     * @param builder is the builder of the player
+<i>413</i>&nbsp;     * @param button is the button on that cell
+<i>414</i>&nbsp;     * @param cell is the cell that the method initialize
+<i>415</i>&nbsp;     */
+<i>416</i>&nbsp;    private void initializeCell(Label builder, Button button, Cell cell) {
+<b class="nc"><i>417</i>&nbsp;        builder.setText(AppGUI.gender(cell.getBuilder().getGender()));</b>
+<b class="nc"><i>418</i>&nbsp;        builder.setTextFill(Color.web(AppGUI.color(cell.getBuilder().getColor())));</b>
+<b class="nc"><i>419</i>&nbsp;        button.setDisable(true);</b>
+<i>420</i>&nbsp;    }
+<i>421</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-07-03 18:30</div>
+</div>
+</body>
+</html>
