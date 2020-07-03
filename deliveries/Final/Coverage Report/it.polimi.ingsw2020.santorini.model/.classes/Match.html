@@ -189,156 +189,157 @@
 <i>115</i>&nbsp;    /**
 <i>116</i>&nbsp;     * setter of the attribute eliminatedPlayer
 <i>117</i>&nbsp;     * @param eliminatedPlayer will be the int value of this attribute
-<i>118</i>&nbsp;     */
-<i>119</i>&nbsp;    public void setEliminatedPlayer(int eliminatedPlayer) throws EndMatchException{
-<b class="fc"><i>120</i>&nbsp;        if(currentPlayerIndex &gt; eliminatedPlayer)</b>
-<b class="fc"><i>121</i>&nbsp;            --currentPlayerIndex;</b>
-<b class="fc"><i>122</i>&nbsp;        else if(currentPlayerIndex == eliminatedPlayer) {</b>
-<b class="nc"><i>123</i>&nbsp;            setNextPlayer();</b>
-<b class="nc"><i>124</i>&nbsp;            if(currentPlayerIndex &gt; eliminatedPlayer)</b>
-<b class="nc"><i>125</i>&nbsp;                --currentPlayerIndex;</b>
-<i>126</i>&nbsp;        }
-<b class="fc"><i>127</i>&nbsp;        eliminatedPlayers.add(players.get(eliminatedPlayer));</b>
-<b class="fc"><i>128</i>&nbsp;        if(players.size() == 2) {</b>
-<b class="fc"><i>129</i>&nbsp;            players.remove(players.get(eliminatedPlayer));</b>
-<b class="fc"><i>130</i>&nbsp;            throw new EndMatchException(this);</b>
-<i>131</i>&nbsp;        }
-<i>132</i>&nbsp;        else
-<b class="nc"><i>133</i>&nbsp;            for (int i = 1; i &lt; 6; ++i)</b>
-<b class="nc"><i>134</i>&nbsp;                for (int j = 1; j &lt; 6; ++j)</b>
-<b class="nc"><i>135</i>&nbsp;                    if (board.getBoard()[i][j].getBuilder() != null &amp;&amp; board.getBoard()[i][j].getBuilder().getColor() == getPlayers()[eliminatedPlayer].getColor()) {</b>
-<b class="nc"><i>136</i>&nbsp;                        board.getBoard()[i][j].setBuilder(null);</b>
-<b class="nc"><i>137</i>&nbsp;                        board.getBoard()[i][j].setStatus(AccessType.FREE);</b>
-<i>138</i>&nbsp;                    }
-<b class="nc"><i>139</i>&nbsp;        players.remove(players.get(eliminatedPlayer));</b>
-<b class="nc"><i>140</i>&nbsp;    }</b>
-<i>141</i>&nbsp;
-<i>142</i>&nbsp;    /**
-<i>143</i>&nbsp;     * setter of number of completed towers
-<i>144</i>&nbsp;     * @param numberOfCompletedTowers the number to set
-<i>145</i>&nbsp;     */
-<i>146</i>&nbsp;    public void setNumberOfCompletedTowers(int numberOfCompletedTowers) {
-<b class="fc"><i>147</i>&nbsp;        this.numberOfCompletedTowers = numberOfCompletedTowers;</b>
-<b class="fc"><i>148</i>&nbsp;    }</b>
-<i>149</i>&nbsp;
-<i>150</i>&nbsp;    /**
-<i>151</i>&nbsp;     * getter of players
-<i>152</i>&nbsp;     * @return a shadow copy of player using an array
-<i>153</i>&nbsp;     */
-<i>154</i>&nbsp;    public Player[] getPlayers() {
-<b class="fc"><i>155</i>&nbsp;        Player[] playerCpy = new Player[players.size()];</b>
-<b class="fc"><i>156</i>&nbsp;        for(int i = 0; i &lt; players.size(); ++i)</b>
-<b class="fc"><i>157</i>&nbsp;            playerCpy[i] = players.get(i);</b>
-<b class="fc"><i>158</i>&nbsp;        return playerCpy;</b>
-<i>159</i>&nbsp;    }
-<i>160</i>&nbsp;
-<i>161</i>&nbsp;    public ArrayList&lt;Player&gt; getPlayersAsList(){
-<b class="fc"><i>162</i>&nbsp;        return players;</b>
-<i>163</i>&nbsp;    }
-<i>164</i>&nbsp;
-<i>165</i>&nbsp;    /**
-<i>166</i>&nbsp;     * method that creates the match
-<i>167</i>&nbsp;     * @param players players of the match
-<i>168</i>&nbsp;     */
-<i>169</i>&nbsp;    public void initialize(Player[] players) {
-<b class="fc"><i>170</i>&nbsp;        ArrayList&lt;Message&gt; listOfMessages = new ArrayList&lt;&gt;();</b>
-<b class="fc"><i>171</i>&nbsp;        for(int i = 0; i &lt; this.getNumberOfPlayers(); ++i){</b>
-<b class="fc"><i>172</i>&nbsp;            this.players.add(players[i]);</b>
-<b class="fc"><i>173</i>&nbsp;            this.players.get(i).setColor(Color.getColor(i));</b>
-<b class="fc"><i>174</i>&nbsp;            listOfMessages.add((new Message(players[i].getNickname())));</b>
-<i>175</i>&nbsp;        }
-<b class="fc"><i>176</i>&nbsp;        for(int i = 0; i &lt; this.getPlayers().length; ++i)</b>
-<b class="fc"><i>177</i>&nbsp;            listOfMessages.get(i).buildMatchSetupMessage(new MatchSetupMessage(this, null));</b>
-<b class="fc"><i>178</i>&nbsp;        setChanged();</b>
-<b class="fc"><i>179</i>&nbsp;        notifyObservers(listOfMessages);</b>
-<b class="fc"><i>180</i>&nbsp;    }</b>
-<i>181</i>&nbsp;
-<i>182</i>&nbsp;    public int getMatchID() {
-<b class="fc"><i>183</i>&nbsp;        return matchID;</b>
-<i>184</i>&nbsp;    }
-<i>185</i>&nbsp;
-<i>186</i>&nbsp;    public int getCurrentPlayerIndex() {
-<b class="fc"><i>187</i>&nbsp;        return currentPlayerIndex;</b>
-<i>188</i>&nbsp;    }
-<i>189</i>&nbsp;
-<i>190</i>&nbsp;    public Board getBoard() {
-<b class="fc"><i>191</i>&nbsp;        return board;</b>
-<i>192</i>&nbsp;    }
-<i>193</i>&nbsp;
-<i>194</i>&nbsp;    public int getNumberOfPlayers() {
-<b class="fc"><i>195</i>&nbsp;        return numberOfPlayers;</b>
-<i>196</i>&nbsp;    }
-<i>197</i>&nbsp;
-<i>198</i>&nbsp;    /**
-<i>199</i>&nbsp;     * method that tells us if two matches are equals, using their matchID
-<i>200</i>&nbsp;     * @param obj the object to test
-<i>201</i>&nbsp;     * @return the result of the comparison
-<i>202</i>&nbsp;     */
-<i>203</i>&nbsp;    @Override
-<i>204</i>&nbsp;    public boolean equals(Object obj){
-<b class="fc"><i>205</i>&nbsp;        if(!(obj instanceof Match)) return false;</b>
-<b class="fc"><i>206</i>&nbsp;        Match match = (Match) obj;</b>
-<b class="fc"><i>207</i>&nbsp;        return this.matchID == match.getMatchID();</b>
-<i>208</i>&nbsp;    }
-<i>209</i>&nbsp;
-<i>210</i>&nbsp;    /**
-<i>211</i>&nbsp;     * method used to notify clients, using the virtual view
-<i>212</i>&nbsp;     * @param list the list of messages to send
-<i>213</i>&nbsp;     */
-<i>214</i>&nbsp;    public void notifyView(ArrayList&lt;Message&gt; list){
-<b class="fc"><i>215</i>&nbsp;        setChanged();</b>
-<b class="fc"><i>216</i>&nbsp;        notifyObservers(list);</b>
-<b class="fc"><i>217</i>&nbsp;    }</b>
-<i>218</i>&nbsp;
-<i>219</i>&nbsp;    /**
-<i>220</i>&nbsp;     * method that calculates the next player
-<i>221</i>&nbsp;     */
-<i>222</i>&nbsp;    public void setNextPlayer() {
-<b class="fc"><i>223</i>&nbsp;        if (getCurrentPlayerIndex() == players.size() - 1) setCurrentPlayerIndex(0);</b>
-<b class="fc"><i>224</i>&nbsp;        else setCurrentPlayerIndex(getCurrentPlayerIndex() + 1);</b>
-<b class="fc"><i>225</i>&nbsp;    }</b>
-<i>226</i>&nbsp;
-<i>227</i>&nbsp;    /**
-<i>228</i>&nbsp;     * method that complete all the operations required for an instant win
-<i>229</i>&nbsp;     * @throws EndMatchException exception that will tell us the match is ended
-<i>230</i>&nbsp;     */
-<i>231</i>&nbsp;    public void currentWins() throws EndMatchException{
-<b class="fc"><i>232</i>&nbsp;        for(int i = 0; i &lt; getPlayers().length; ++i)</b>
-<b class="fc"><i>233</i>&nbsp;            if(!getPlayers()[i].getNickname().equals(getCurrentPlayer().getNickname())) {</b>
-<b class="fc"><i>234</i>&nbsp;                setEliminatedPlayer(i);</b>
-<b class="nc"><i>235</i>&nbsp;                i = -1;</b>
-<i>236</i>&nbsp;            }
-<b class="nc"><i>237</i>&nbsp;    }</b>
-<i>238</i>&nbsp;
-<i>239</i>&nbsp;    /**
-<i>240</i>&nbsp;     * method that complete all the operations required to end a match
-<i>241</i>&nbsp;     * @param server the server where the match is hosted
-<i>242</i>&nbsp;     */
-<i>243</i>&nbsp;    public void notifyEndMatch(Server server) {
-<b class="nc"><i>244</i>&nbsp;        ArrayList&lt;Message&gt; endMatchMessages = new ArrayList&lt;&gt;();</b>
-<b class="nc"><i>245</i>&nbsp;        Message winner = new Message(getPlayers()[0].getNickname());</b>
-<b class="nc"><i>246</i>&nbsp;        winner.buildEndMatchMessage(new EndMatchMessage(getPlayers()[0].getNickname()));</b>
-<b class="nc"><i>247</i>&nbsp;        endMatchMessages.add(winner);</b>
-<b class="nc"><i>248</i>&nbsp;        server.getPlayerInMatch().remove(getPlayers()[0].getNickname());</b>
-<b class="nc"><i>249</i>&nbsp;        for(Player p: getEliminatedPlayers()){</b>
-<b class="nc"><i>250</i>&nbsp;            if(server.getVirtualClients().containsKey(p.getNickname()) &amp;&amp; server.getPlayerInMatch().containsKey(p.getNickname()) &amp;&amp; server.getPlayerInMatch().containsValue(matchID)) {</b>
-<b class="nc"><i>251</i>&nbsp;                Message loser = new Message(p.getNickname());</b>
-<b class="nc"><i>252</i>&nbsp;                loser.buildEndMatchMessage(new EndMatchMessage(getPlayers()[0].getNickname()));</b>
-<b class="nc"><i>253</i>&nbsp;                endMatchMessages.add(loser);</b>
-<i>254</i>&nbsp;            }
-<b class="nc"><i>255</i>&nbsp;            server.getPlayerInMatch().remove(p.getNickname());</b>
-<b class="nc"><i>256</i>&nbsp;        }</b>
-<b class="nc"><i>257</i>&nbsp;        server.getVirtualViews().remove(getMatchID());</b>
-<b class="nc"><i>258</i>&nbsp;        server.getControllers().remove(getMatchID());</b>
-<b class="nc"><i>259</i>&nbsp;        notifyView(endMatchMessages);</b>
-<b class="nc"><i>260</i>&nbsp;    }</b>
-<i>261</i>&nbsp;}
+<i>118</i>&nbsp;     * @throws EndMatchException if there is only one player playing the match (the match winner), because the others were eliminated
+<i>119</i>&nbsp;     */
+<i>120</i>&nbsp;    public void setEliminatedPlayer(int eliminatedPlayer) throws EndMatchException{
+<b class="fc"><i>121</i>&nbsp;        if(currentPlayerIndex &gt; eliminatedPlayer)</b>
+<b class="fc"><i>122</i>&nbsp;            --currentPlayerIndex;</b>
+<b class="fc"><i>123</i>&nbsp;        else if(currentPlayerIndex == eliminatedPlayer) {</b>
+<b class="nc"><i>124</i>&nbsp;            setNextPlayer();</b>
+<b class="nc"><i>125</i>&nbsp;            if(currentPlayerIndex &gt; eliminatedPlayer)</b>
+<b class="nc"><i>126</i>&nbsp;                --currentPlayerIndex;</b>
+<i>127</i>&nbsp;        }
+<b class="fc"><i>128</i>&nbsp;        eliminatedPlayers.add(players.get(eliminatedPlayer));</b>
+<b class="fc"><i>129</i>&nbsp;        if(players.size() == 2) {</b>
+<b class="fc"><i>130</i>&nbsp;            players.remove(players.get(eliminatedPlayer));</b>
+<b class="fc"><i>131</i>&nbsp;            throw new EndMatchException(this);</b>
+<i>132</i>&nbsp;        }
+<i>133</i>&nbsp;        else
+<b class="nc"><i>134</i>&nbsp;            for (int i = 1; i &lt; 6; ++i)</b>
+<b class="nc"><i>135</i>&nbsp;                for (int j = 1; j &lt; 6; ++j)</b>
+<b class="nc"><i>136</i>&nbsp;                    if (board.getBoard()[i][j].getBuilder() != null &amp;&amp; board.getBoard()[i][j].getBuilder().getColor() == getPlayers()[eliminatedPlayer].getColor()) {</b>
+<b class="nc"><i>137</i>&nbsp;                        board.getBoard()[i][j].setBuilder(null);</b>
+<b class="nc"><i>138</i>&nbsp;                        board.getBoard()[i][j].setStatus(AccessType.FREE);</b>
+<i>139</i>&nbsp;                    }
+<b class="nc"><i>140</i>&nbsp;        players.remove(players.get(eliminatedPlayer));</b>
+<b class="nc"><i>141</i>&nbsp;    }</b>
+<i>142</i>&nbsp;
+<i>143</i>&nbsp;    /**
+<i>144</i>&nbsp;     * setter of number of completed towers
+<i>145</i>&nbsp;     * @param numberOfCompletedTowers the number to set
+<i>146</i>&nbsp;     */
+<i>147</i>&nbsp;    public void setNumberOfCompletedTowers(int numberOfCompletedTowers) {
+<b class="fc"><i>148</i>&nbsp;        this.numberOfCompletedTowers = numberOfCompletedTowers;</b>
+<b class="fc"><i>149</i>&nbsp;    }</b>
+<i>150</i>&nbsp;
+<i>151</i>&nbsp;    /**
+<i>152</i>&nbsp;     * getter of players
+<i>153</i>&nbsp;     * @return a shadow copy of player using an array
+<i>154</i>&nbsp;     */
+<i>155</i>&nbsp;    public Player[] getPlayers() {
+<b class="fc"><i>156</i>&nbsp;        Player[] playerCpy = new Player[players.size()];</b>
+<b class="fc"><i>157</i>&nbsp;        for(int i = 0; i &lt; players.size(); ++i)</b>
+<b class="fc"><i>158</i>&nbsp;            playerCpy[i] = players.get(i);</b>
+<b class="fc"><i>159</i>&nbsp;        return playerCpy;</b>
+<i>160</i>&nbsp;    }
+<i>161</i>&nbsp;
+<i>162</i>&nbsp;    public ArrayList&lt;Player&gt; getPlayersAsList(){
+<b class="fc"><i>163</i>&nbsp;        return players;</b>
+<i>164</i>&nbsp;    }
+<i>165</i>&nbsp;
+<i>166</i>&nbsp;    /**
+<i>167</i>&nbsp;     * method that creates the match
+<i>168</i>&nbsp;     * @param players players of the match
+<i>169</i>&nbsp;     */
+<i>170</i>&nbsp;    public void initialize(Player[] players) {
+<b class="fc"><i>171</i>&nbsp;        ArrayList&lt;Message&gt; listOfMessages = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>172</i>&nbsp;        for(int i = 0; i &lt; this.getNumberOfPlayers(); ++i){</b>
+<b class="fc"><i>173</i>&nbsp;            this.players.add(players[i]);</b>
+<b class="fc"><i>174</i>&nbsp;            this.players.get(i).setColor(Color.getColor(i));</b>
+<b class="fc"><i>175</i>&nbsp;            listOfMessages.add((new Message(players[i].getNickname())));</b>
+<i>176</i>&nbsp;        }
+<b class="fc"><i>177</i>&nbsp;        for(int i = 0; i &lt; this.getPlayers().length; ++i)</b>
+<b class="fc"><i>178</i>&nbsp;            listOfMessages.get(i).buildMatchSetupMessage(new MatchSetupMessage(this, null));</b>
+<b class="fc"><i>179</i>&nbsp;        setChanged();</b>
+<b class="fc"><i>180</i>&nbsp;        notifyObservers(listOfMessages);</b>
+<b class="fc"><i>181</i>&nbsp;    }</b>
+<i>182</i>&nbsp;
+<i>183</i>&nbsp;    public int getMatchID() {
+<b class="fc"><i>184</i>&nbsp;        return matchID;</b>
+<i>185</i>&nbsp;    }
+<i>186</i>&nbsp;
+<i>187</i>&nbsp;    public int getCurrentPlayerIndex() {
+<b class="fc"><i>188</i>&nbsp;        return currentPlayerIndex;</b>
+<i>189</i>&nbsp;    }
+<i>190</i>&nbsp;
+<i>191</i>&nbsp;    public Board getBoard() {
+<b class="fc"><i>192</i>&nbsp;        return board;</b>
+<i>193</i>&nbsp;    }
+<i>194</i>&nbsp;
+<i>195</i>&nbsp;    public int getNumberOfPlayers() {
+<b class="fc"><i>196</i>&nbsp;        return numberOfPlayers;</b>
+<i>197</i>&nbsp;    }
+<i>198</i>&nbsp;
+<i>199</i>&nbsp;    /**
+<i>200</i>&nbsp;     * method that tells us if two matches are equals, using their matchID
+<i>201</i>&nbsp;     * @param obj the object to test
+<i>202</i>&nbsp;     * @return the result of the comparison
+<i>203</i>&nbsp;     */
+<i>204</i>&nbsp;    @Override
+<i>205</i>&nbsp;    public boolean equals(Object obj){
+<b class="fc"><i>206</i>&nbsp;        if(!(obj instanceof Match)) return false;</b>
+<b class="fc"><i>207</i>&nbsp;        Match match = (Match) obj;</b>
+<b class="fc"><i>208</i>&nbsp;        return this.matchID == match.getMatchID();</b>
+<i>209</i>&nbsp;    }
+<i>210</i>&nbsp;
+<i>211</i>&nbsp;    /**
+<i>212</i>&nbsp;     * method used to notify clients, using the virtual view
+<i>213</i>&nbsp;     * @param list the list of messages to send
+<i>214</i>&nbsp;     */
+<i>215</i>&nbsp;    public void notifyView(ArrayList&lt;Message&gt; list){
+<b class="fc"><i>216</i>&nbsp;        setChanged();</b>
+<b class="fc"><i>217</i>&nbsp;        notifyObservers(list);</b>
+<b class="fc"><i>218</i>&nbsp;    }</b>
+<i>219</i>&nbsp;
+<i>220</i>&nbsp;    /**
+<i>221</i>&nbsp;     * method that calculates the next player
+<i>222</i>&nbsp;     */
+<i>223</i>&nbsp;    public void setNextPlayer() {
+<b class="fc"><i>224</i>&nbsp;        if (getCurrentPlayerIndex() == players.size() - 1) setCurrentPlayerIndex(0);</b>
+<b class="fc"><i>225</i>&nbsp;        else setCurrentPlayerIndex(getCurrentPlayerIndex() + 1);</b>
+<b class="fc"><i>226</i>&nbsp;    }</b>
+<i>227</i>&nbsp;
+<i>228</i>&nbsp;    /**
+<i>229</i>&nbsp;     * method that complete all the operations required for an instant win
+<i>230</i>&nbsp;     * @throws EndMatchException exception that will tell us the match is ended
+<i>231</i>&nbsp;     */
+<i>232</i>&nbsp;    public void currentWins() throws EndMatchException{
+<b class="fc"><i>233</i>&nbsp;        for(int i = 0; i &lt; getPlayers().length; ++i)</b>
+<b class="fc"><i>234</i>&nbsp;            if(!getPlayers()[i].getNickname().equals(getCurrentPlayer().getNickname())) {</b>
+<b class="fc"><i>235</i>&nbsp;                setEliminatedPlayer(i);</b>
+<b class="nc"><i>236</i>&nbsp;                i = -1;</b>
+<i>237</i>&nbsp;            }
+<b class="nc"><i>238</i>&nbsp;    }</b>
+<i>239</i>&nbsp;
+<i>240</i>&nbsp;    /**
+<i>241</i>&nbsp;     * method that complete all the operations required to end a match
+<i>242</i>&nbsp;     * @param server the server where the match is hosted
+<i>243</i>&nbsp;     */
+<i>244</i>&nbsp;    public void notifyEndMatch(Server server) {
+<b class="nc"><i>245</i>&nbsp;        ArrayList&lt;Message&gt; endMatchMessages = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>246</i>&nbsp;        Message winner = new Message(getPlayers()[0].getNickname());</b>
+<b class="nc"><i>247</i>&nbsp;        winner.buildEndMatchMessage(new EndMatchMessage(getPlayers()[0].getNickname()));</b>
+<b class="nc"><i>248</i>&nbsp;        endMatchMessages.add(winner);</b>
+<b class="nc"><i>249</i>&nbsp;        server.getPlayerInMatch().remove(getPlayers()[0].getNickname());</b>
+<b class="nc"><i>250</i>&nbsp;        for(Player p: getEliminatedPlayers()){</b>
+<b class="nc"><i>251</i>&nbsp;            if(server.getVirtualClients().containsKey(p.getNickname()) &amp;&amp; server.getPlayerInMatch().containsKey(p.getNickname()) &amp;&amp; server.getPlayerInMatch().containsValue(matchID)) {</b>
+<b class="nc"><i>252</i>&nbsp;                Message loser = new Message(p.getNickname());</b>
+<b class="nc"><i>253</i>&nbsp;                loser.buildEndMatchMessage(new EndMatchMessage(getPlayers()[0].getNickname()));</b>
+<b class="nc"><i>254</i>&nbsp;                endMatchMessages.add(loser);</b>
+<i>255</i>&nbsp;            }
+<b class="nc"><i>256</i>&nbsp;            server.getPlayerInMatch().remove(p.getNickname());</b>
+<b class="nc"><i>257</i>&nbsp;        }</b>
+<b class="nc"><i>258</i>&nbsp;        server.getVirtualViews().remove(getMatchID());</b>
+<b class="nc"><i>259</i>&nbsp;        server.getControllers().remove(getMatchID());</b>
+<b class="nc"><i>260</i>&nbsp;        notifyView(endMatchMessages);</b>
+<b class="nc"><i>261</i>&nbsp;    }</b>
+<i>262</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-07-03 18:30</div>
+    <div style="float:right;">generated on 2020-07-03 18:35</div>
 </div>
 </body>
 </html>

@@ -194,6 +194,8 @@ public class Builder {
      *the method changes the position of the builder in the board. the movement start from the current position of the
      * builder and follows the direction passed as parameter
      * @param direction is the direction in which the player wants to move the builder
+     * @throws IllegalMovementException if the movement is not permitted
+     * @throws EndMatchException if the builder rises on top of the third level its corresponding player wins and the match ends
      */
     public void move(Direction direction) throws IllegalMovementException, EndMatchException {
         if(direction == null) throw new IllegalMovementException("Something went wrong with your choice, please select another movement");
@@ -260,6 +262,7 @@ public class Builder {
      * passed as parameters.
      * @param direction is the direction in which the player wants to build
      * @param match is the reference to the match. This parameter is used to acquire the number of completed towers
+     * @throws IllegalConstructionException if the construction is not permitted
      */
     public void build(Direction direction, Match match) throws IllegalConstructionException{
         //LevelType level;

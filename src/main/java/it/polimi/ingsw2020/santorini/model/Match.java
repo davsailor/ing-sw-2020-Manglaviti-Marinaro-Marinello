@@ -115,6 +115,7 @@ public class Match extends Observable {
     /**
      * setter of the attribute eliminatedPlayer
      * @param eliminatedPlayer will be the int value of this attribute
+     * @throws EndMatchException if there is only one player playing the match (the match winner), because the others were eliminated
      */
     public void setEliminatedPlayer(int eliminatedPlayer) throws EndMatchException{
         if(currentPlayerIndex > eliminatedPlayer)

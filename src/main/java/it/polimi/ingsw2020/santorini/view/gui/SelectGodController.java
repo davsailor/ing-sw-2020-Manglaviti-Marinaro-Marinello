@@ -74,6 +74,7 @@ public class SelectGodController {
     /**
      * this method initialize the image of gods
      * @param name is the name of the god
+     * @return the image associated to each god
      * */
     private Image findImage(String name){
         switch (name){
@@ -158,6 +159,7 @@ public class SelectGodController {
     /**
      *  this method is used to find the name of the god by the code
      * @param numGod is the code of the god
+     * @return the name of each god
      */
     private String findName(int numGod) {
         switch (numGod) {
@@ -197,6 +199,7 @@ public class SelectGodController {
     /**
      * this method return the effect of the god by the code
      * @param numGods is the code of the god
+     * @return the effect associated to each god
      */
     private String findEffect(int numGods) {
         switch (numGods) {

@@ -40,6 +40,7 @@ public class ActionLogic {
      * @param match is the match that the controller is controlling
      * @param message is the match which asks to invoke the god
      * @return an Array List of Message which contains messages to notify the use of the god
+     * @throws EndMatchException when the match ends and the players have to be notified
      */
     public ArrayList<Message> invocation(Match match, Message message) throws EndMatchException {
         ArrayList<Message> listToSend = new ArrayList<>();
@@ -58,6 +59,7 @@ public class ActionLogic {
      * @param match is the reference of the match controlled by the controller
      * @param message contains the direction of the movement
      * @return the ArrayList created contains the message for the next phases of the turn
+     * @throws EndMatchException when the match ends and the players have to be notified
      */
     public ArrayList<Message> move(Match match, SelectedMoveMessage message) throws EndMatchException {
         ArrayList<Message> listToSend = new ArrayList<>();

@@ -709,7 +709,7 @@ public class CLI implements ViewInterface {
     /**
      * method that shows winner. It then close the match or if the players wants to begin a new match
      * metodo che mostra vincitori e vinti. conclude la partita con epic sax guy
-     * @param winner
+     * @param winner is the winner of the match
      */
     @Override
     public void displayEndMatch(String winner) {
@@ -727,10 +727,11 @@ public class CLI implements ViewInterface {
                     canGo = true;
                     answer = scannerIn.next();
                     answer = answer.toUpperCase();
+                    scannerIn.nextLine();
                     if (answer.equals("Y")) {
                         do{
                             try{
-                                System.out.printf("Insert the number of the players of the match (2 or 3): ");
+                                System.out.print("Insert the number of the players of the match (2 or 3): ");
                                 client.setSelectedMatch(Integer.parseInt(scannerIn.nextLine()));
                                 wrong = client.getSelectedMatch() != 2 && client.getSelectedMatch() != 3;
                             }catch (NumberFormatException e){
@@ -1756,6 +1757,7 @@ public class CLI implements ViewInterface {
      * to represent a cell in which a builder cannot build or move into.
      * @param matrixToShow is the reference to a matrix 3*3 such as possible moves or possible buildings
      * @param type is a char that is used for understand if matrixToShow is used for representing possible moves or buildings
+     * @param actions contains the possible commands the player can make
      */
     private void showPossibleMatrix(int[][] matrixToShow, char type, String[] actions){
         char[][] cell = new char[3][3];

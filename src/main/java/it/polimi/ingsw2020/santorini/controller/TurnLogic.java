@@ -136,6 +136,7 @@ public class TurnLogic {
     /**
      * The method manages the various Phases of the match calling the respective Manager for each PhaseType
      * @param match is the reference to the match controlled by the controller
+     * @throws EndMatchException when the match ends and the players have to be notified
      */
     public void handlePhases(Match match) throws EndMatchException {
         switch (phase){
@@ -260,6 +261,7 @@ public class TurnLogic {
      * activation requirements are fulfilled
      * @param match is the reference to the match controlled by the controller
      * @param phase is the Phase that would be handled.
+     * @throws EndMatchException when the match ends and all the players currently in the match have to be notified
      */
     private synchronized void standByPhaseManager(Match match, PhaseType phase) throws EndMatchException{
         // controllo se il potere divino è attivabile
@@ -307,7 +309,7 @@ public class TurnLogic {
      * the method handles the entire move phase from choosing the builder to the choice of the destination of the move
      * and the effective modification of the board
      * @param match is the reference to the match controlled by the controller
-     *
+     * @throws EndMatchException when the match ends and all the players currently in the match have to be notified
      */
     private synchronized void moveManager(Match match) throws EndMatchException{
         System.out.printf("MOVE MANAGER: ");
@@ -344,7 +346,7 @@ public class TurnLogic {
     /**
      * The method handles the entire build phase from choosing the cell where to build to the effective modification of the board.
      * @param match is the reference to the match controlled by the controller
-     *
+     * @throws EndMatchException when the match ends and all the players currently in the match have to be notified
      */
     private synchronized void buildManager(Match match) throws EndMatchException{
         System.out.printf("BUILD MANAGER: ");

@@ -331,13 +331,10 @@ public class ChooseBuilderController {
         }
         if(x==1 && y==1){
             b00.setDisable(false);
-            System.out.println(b00.isDisable());
         }else if(x==1 && y==2){
             b01.setDisable(false);
-            System.out.println(b01.isDisable());
         }else if(x==1 && y==3){
             b02.setDisable(false);
-            System.out.println(b02.isDisable());
         }else if(x==1 && y==4){
             b03.setDisable(false);
         }else if(x==1 && y==5){

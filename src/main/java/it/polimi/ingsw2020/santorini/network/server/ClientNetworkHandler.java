@@ -30,6 +30,7 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
     /**
      * constructor of the class
      * @param client is the socket of the client that has to be handled
+     * @param server is the server hosting the game
      */
     public ClientNetworkHandler(Socket client, Server server){
         this.server = server;
@@ -74,7 +75,7 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
      * synchronized method to add a message from the queue
      * @param message the message to add
      */
-    synchronized public void addMessageQueue(Message message) throws InterruptedException {
+    synchronized public void addMessageQueue(Message message){
         messageQueue.add(message);
     }
 
@@ -118,7 +119,7 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
      * @param message the received message
      */
     @Override
-    public void receive(Message message) throws InterruptedException {
+    public void receive(Message message) {
         addMessageQueue(message);
     }
 
@@ -156,7 +157,7 @@ public class ClientNetworkHandler extends Thread implements NetworkInterface {
                 Message message = (Message) input.readObject();
                 if(message.getFirstLevelHeader() != FirstHeaderType.PING)
                     receive(message);
-            } catch (ClassNotFoundException | IOException | InterruptedException e) {
+            } catch (ClassNotFoundException | IOException e) {
                 System.out.println("client " + username + " disconnected");
                 setConnected(false);
             }

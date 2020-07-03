@@ -99,7 +99,7 @@ public class Client {
      * synchronized method to add a message from the queue
      * @param message the message to add
      */
-    synchronized public void addMessageQueue(Message message) throws InterruptedException {
+    synchronized public void addMessageQueue(Message message){
         messageQueue.add(message);
         //System.out.println(messageQueue.toString());
     }

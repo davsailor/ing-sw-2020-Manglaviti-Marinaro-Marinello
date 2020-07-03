@@ -57,7 +57,7 @@ public class ServerAdapter extends Thread implements NetworkInterface {
      * @param message the received message
      */
     @Override
-    public void receive(Message message) throws InterruptedException {
+    public void receive(Message message){
         client.addMessageQueue(message);
     }
 
@@ -96,7 +96,7 @@ public class ServerAdapter extends Thread implements NetworkInterface {
             } catch (SocketTimeoutException so) {
                 System.out.println("Socket timed out");
                 setConnected(false);
-            } catch (IOException | ClassNotFoundException | InterruptedException io){
+            } catch (IOException | ClassNotFoundException io){
                 setConnected(false);
             }
         }

@@ -147,7 +147,7 @@ public class GodSelectionController {
     /**
      * this method is used to change the name of the god into the code equivalent to that god
      * @param name is the name of teh god searched
-     * @return
+     * @return the code associated to each god
      */
     public static Integer calcInt(String name){
         switch (name){
@@ -180,7 +180,6 @@ public class GodSelectionController {
             case "Zeus" :
                 return GodFactotum.ZEUS.getCode();
             default:
-                System.out.println("Errore");
                 return null;
         }
     }

@@ -36,7 +36,7 @@ public enum GodFactotum {
     /**
      * getter of the name of the god in base of its code
      * @return the name of the god
-     * @throws UnexpectedGodException: the code does not correspond to any god
+     * @throws UnexpectedGodException the code does not correspond to any god
      */
     public String getName() throws UnexpectedGodException{
         switch(this.code){

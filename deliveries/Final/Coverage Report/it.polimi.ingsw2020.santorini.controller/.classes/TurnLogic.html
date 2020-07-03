@@ -236,261 +236,263 @@
 <i>136</i>&nbsp;    /**
 <i>137</i>&nbsp;     * The method manages the various Phases of the match calling the respective Manager for each PhaseType
 <i>138</i>&nbsp;     * @param match is the reference to the match controlled by the controller
-<i>139</i>&nbsp;     */
-<i>140</i>&nbsp;    public void handlePhases(Match match) throws EndMatchException {
-<b class="fc"><i>141</i>&nbsp;        switch (phase){</b>
-<i>142</i>&nbsp;            case START_TURN:
-<b class="fc"><i>143</i>&nbsp;                startTurnManager(match);</b>
-<b class="fc"><i>144</i>&nbsp;                break;</b>
-<i>145</i>&nbsp;            case STANDBY_PHASE_1:
-<b class="fc"><i>146</i>&nbsp;                standByPhaseManager(match, PhaseType.STANDBY_PHASE_1);</b>
-<b class="fc"><i>147</i>&nbsp;                checkChronusEffect(match);</b>
-<b class="fc"><i>148</i>&nbsp;                break;</b>
-<i>149</i>&nbsp;            case MOVE_PHASE:
-<b class="fc"><i>150</i>&nbsp;                boolean isEliminated = false;</b>
-<b class="fc"><i>151</i>&nbsp;                if(remainingActions.contains(ActionType.SELECT_CELL_MOVE) &amp;&amp; match.getCurrentPlayer().getPlayingBuilder() != null)</b>
-<b class="fc"><i>152</i>&nbsp;                    if (match.getCurrentPlayer().getPlayingBuilder().canMove()) moveManager(match);</b>
-<b class="nc"><i>153</i>&nbsp;                    else isEliminated = true;</b>
-<b class="fc"><i>154</i>&nbsp;                else if(match.getCurrentPlayer().canMove()) moveManager(match);</b>
-<b class="nc"><i>155</i>&nbsp;                else isEliminated = true;</b>
-<b class="fc"><i>156</i>&nbsp;                if(isEliminated) {</b>
-<b class="nc"><i>157</i>&nbsp;                    match.setEliminatedPlayer(match.getCurrentPlayerIndex());</b>
-<b class="nc"><i>158</i>&nbsp;                    Message message = new Message(match.getEliminatedPlayers().get(match.getEliminatedPlayers().size() - 1).getNickname());</b>
-<b class="nc"><i>159</i>&nbsp;                    message.buildEndMatchMessage(new EndMatchMessage(null));</b>
-<b class="nc"><i>160</i>&nbsp;                    owner.getServer().getVirtualClients().get(message.getUsername()).send(message);</b>
-<b class="nc"><i>161</i>&nbsp;                    reset();</b>
-<b class="nc"><i>162</i>&nbsp;                    handlePhases(match);</b>
-<b class="nc"><i>163</i>&nbsp;                }</b>
-<i>164</i>&nbsp;                break;
-<i>165</i>&nbsp;            case STANDBY_PHASE_2:
-<b class="fc"><i>166</i>&nbsp;                if(remainingActions.contains(ActionType.SELECT_CELL_BUILD))</b>
-<b class="fc"><i>167</i>&nbsp;                    if(match.getCurrentPlayer().getPlayingBuilder().canBuild()) standByPhaseManager(match, PhaseType.STANDBY_PHASE_2);</b>
-<i>168</i>&nbsp;                    else {
-<b class="nc"><i>169</i>&nbsp;                        match.setEliminatedPlayer(match.getCurrentPlayerIndex());</b>
-<b class="nc"><i>170</i>&nbsp;                        Message message = new Message(match.getEliminatedPlayers().get(match.getEliminatedPlayers().size() - 1).getNickname());</b>
-<b class="nc"><i>171</i>&nbsp;                        message.buildEndMatchMessage(new EndMatchMessage(null));</b>
-<b class="nc"><i>172</i>&nbsp;                        owner.getServer().getVirtualClients().get(message.getUsername()).send(message);</b>
-<b class="nc"><i>173</i>&nbsp;                        reset();</b>
-<b class="nc"><i>174</i>&nbsp;                        handlePhases(match);</b>
-<b class="nc"><i>175</i>&nbsp;                    }</b>
-<i>176</i>&nbsp;                break;
-<i>177</i>&nbsp;            case BUILD_PHASE:
-<b class="fc"><i>178</i>&nbsp;                buildManager(match);</b>
-<b class="fc"><i>179</i>&nbsp;                checkChronusEffect(match);</b>
-<b class="fc"><i>180</i>&nbsp;                break;</b>
-<i>181</i>&nbsp;            case STANDBY_PHASE_3:
-<b class="fc"><i>182</i>&nbsp;                checkChronusEffect(match);</b>
-<b class="fc"><i>183</i>&nbsp;                standByPhaseManager(match, PhaseType.STANDBY_PHASE_3);</b>
-<b class="fc"><i>184</i>&nbsp;                checkChronusEffect(match);</b>
-<b class="fc"><i>185</i>&nbsp;                break;</b>
-<i>186</i>&nbsp;            case END_TURN:
-<b class="fc"><i>187</i>&nbsp;                endTurnManager(match);</b>
-<b class="fc"><i>188</i>&nbsp;                break;</b>
-<i>189</i>&nbsp;            default:
-<i>190</i>&nbsp;                break;
-<i>191</i>&nbsp;        }
-<b class="fc"><i>192</i>&nbsp;    }</b>
-<i>193</i>&nbsp;
-<i>194</i>&nbsp;    /**
-<i>195</i>&nbsp;     * method that satisfies specific requested actions, sending messages or calling action of action logic
-<i>196</i>&nbsp;     * @param action the requested action
-<i>197</i>&nbsp;     * @param match the associated match
-<i>198</i>&nbsp;     * @param message the message that gives some more information
-<i>199</i>&nbsp;     * @throws EndMatchException when s player wins the match
-<i>200</i>&nbsp;     */
-<i>201</i>&nbsp;    public void requestManager(ActionType action, Match match, Message message) throws EndMatchException{
-<b class="fc"><i>202</i>&nbsp;        System.out.println(&quot;REQUEST MANAGER: &quot; + action);</b>
-<b class="fc"><i>203</i>&nbsp;        switch(action) {</b>
-<i>204</i>&nbsp;            case ACTIVATE_GOD:
-<b class="fc"><i>205</i>&nbsp;                ActivateGodMessage activateGod = message.deserializeActivateGodMessage(message.getSerializedPayload());</b>
-<b class="fc"><i>206</i>&nbsp;                remainingActions.remove(ActionType.ACTIVATE_GOD);</b>
-<b class="fc"><i>207</i>&nbsp;                if(activateGod.isWantToActivate()) handlePhases(match);</b>
-<i>208</i>&nbsp;                else{
-<b class="fc"><i>209</i>&nbsp;                    remainingActions.remove(ActionType.SELECT_PARAMETERS);</b>
-<b class="fc"><i>210</i>&nbsp;                    remainingActions.remove(ActionType.USE_POWER);</b>
-<b class="fc"><i>211</i>&nbsp;                    nextPhase();</b>
-<b class="fc"><i>212</i>&nbsp;                    handlePhases(match);</b>
-<i>213</i>&nbsp;                }
-<b class="fc"><i>214</i>&nbsp;                break;</b>
-<i>215</i>&nbsp;            case USE_POWER:
-<b class="fc"><i>216</i>&nbsp;                ArrayList&lt;Message&gt; afterActivation = actionManager.invocation(match, message);</b>
-<b class="fc"><i>217</i>&nbsp;                remainingActions.remove(ActionType.SELECT_PARAMETERS);</b>
-<b class="fc"><i>218</i>&nbsp;                remainingActions.remove(ActionType.USE_POWER);</b>
-<b class="fc"><i>219</i>&nbsp;                nextPhase(); // da rimuovere quando verranno implementati i poteri delle divinità -&gt; ci penserà standbyphase manager a controllare se il potere non ha ulteriori effetti e quindi passare alla fase successiva</b>
-<b class="fc"><i>220</i>&nbsp;                match.notifyView(afterActivation);</b>
-<b class="fc"><i>221</i>&nbsp;                break;</b>
-<i>222</i>&nbsp;            case MOVE:
-<b class="fc"><i>223</i>&nbsp;                ArrayList&lt;Message&gt; afterMove = actionManager.move(match, message.deserializeSelectedMoveMessage());</b>
-<b class="fc"><i>224</i>&nbsp;                remainingActions.remove(ActionType.SELECT_CELL_MOVE);</b>
-<b class="fc"><i>225</i>&nbsp;                remainingActions.remove(ActionType.MOVE);</b>
-<b class="fc"><i>226</i>&nbsp;                nextPhase();</b>
-<b class="fc"><i>227</i>&nbsp;                match.notifyView(afterMove);</b>
-<b class="fc"><i>228</i>&nbsp;                break;</b>
-<i>229</i>&nbsp;            case BUILD:
-<b class="fc"><i>230</i>&nbsp;                ArrayList&lt;Message&gt; afterBuild = actionManager.build(match, message.deserializeSelectedBuildingMessage());</b>
-<b class="fc"><i>231</i>&nbsp;                remainingActions.remove(ActionType.SELECT_CELL_BUILD);</b>
-<b class="fc"><i>232</i>&nbsp;                remainingActions.remove(ActionType.BUILD);</b>
-<b class="fc"><i>233</i>&nbsp;                nextPhase();</b>
-<b class="fc"><i>234</i>&nbsp;                match.notifyView(afterBuild);</b>
-<b class="fc"><i>235</i>&nbsp;                break;</b>
-<i>236</i>&nbsp;            default:
-<i>237</i>&nbsp;                break;
-<i>238</i>&nbsp;        }
-<b class="fc"><i>239</i>&nbsp;    }</b>
-<i>240</i>&nbsp;
-<i>241</i>&nbsp;    /**
-<i>242</i>&nbsp;     * The method handles the start of the turn
-<i>243</i>&nbsp;     * @param match is the reference to the match controlled by the controller
-<i>244</i>&nbsp;     */
-<i>245</i>&nbsp;    private void startTurnManager(Match match) {
-<b class="fc"><i>246</i>&nbsp;        System.out.println(&quot;START TURN MANAGER&quot;);</b>
-<b class="fc"><i>247</i>&nbsp;        ArrayList&lt;Message&gt; listOfUpdateMessages = new ArrayList&lt;&gt;();</b>
-<b class="fc"><i>248</i>&nbsp;        match.getCurrentPlayer().setPlayingBuilder(null);</b>
-<b class="fc"><i>249</i>&nbsp;        for (int i = 0; i &lt; match.getPlayers().length; ++i) {</b>
-<b class="fc"><i>250</i>&nbsp;            listOfUpdateMessages.add(new Message(match.getPlayers()[i].getNickname()));</b>
-<b class="fc"><i>251</i>&nbsp;            listOfUpdateMessages.get(i).buildUpdateMessage(new UpdateMessage(match, this.phase));</b>
-<i>252</i>&nbsp;        }
-<b class="fc"><i>253</i>&nbsp;        match.notifyView(listOfUpdateMessages);</b>
-<b class="fc"><i>254</i>&nbsp;        nextPhase();</b>
-<b class="fc"><i>255</i>&nbsp;    }</b>
-<i>256</i>&nbsp;
-<i>257</i>&nbsp;    /**
-<i>258</i>&nbsp;     * the method manages the operations that the controller has do in this phase. Especially it checks if the god’s power
-<i>259</i>&nbsp;     * can be activated by the player if it is not mandatory, in the other case it will be activated automatically if his
-<i>260</i>&nbsp;     * activation requirements are fulfilled
-<i>261</i>&nbsp;     * @param match is the reference to the match controlled by the controller
-<i>262</i>&nbsp;     * @param phase is the Phase that would be handled.
-<i>263</i>&nbsp;     */
-<i>264</i>&nbsp;    private synchronized void standByPhaseManager(Match match, PhaseType phase) throws EndMatchException{
-<i>265</i>&nbsp;        // controllo se il potere divino è attivabile
-<b class="fc"><i>266</i>&nbsp;        System.out.printf(&quot;STANDBY PHASE MANAGER: &quot;);</b>
-<b class="fc"><i>267</i>&nbsp;        GodCard god = match.getCurrentPlayer().getDivinePower();</b>
-<b class="fc"><i>268</i>&nbsp;        if(god.getTiming() == phase &amp;&amp; god.canActivate(match)){ // || !remainingActions.contains(ACTIVATE_GOD)</b>
-<b class="fc"><i>269</i>&nbsp;            if (remainingActions.contains(ActionType.ACTIVATE_GOD)) {</b>
-<b class="fc"><i>270</i>&nbsp;                System.out.printf(&quot;ACTIVATE GOD\n&quot;);</b>
-<b class="fc"><i>271</i>&nbsp;                if (god.isMandatory()) {</b>
-<b class="fc"><i>272</i>&nbsp;                    remainingActions.remove(ActionType.ACTIVATE_GOD);</b>
-<b class="fc"><i>273</i>&nbsp;                    remainingActions.remove(ActionType.SELECT_PARAMETERS);</b>
-<b class="fc"><i>274</i>&nbsp;                    remainingActions.remove(ActionType.USE_POWER);</b>
-<b class="fc"><i>275</i>&nbsp;                    requestManager(ActionType.USE_POWER, match, null);</b>
-<i>276</i>&nbsp;                } else {
-<b class="nc"><i>277</i>&nbsp;                    ArrayList&lt;Message&gt; listOfMessages = new ArrayList&lt;&gt;();</b>
-<b class="nc"><i>278</i>&nbsp;                    Message message = new Message(match.getCurrentPlayer().getNickname());</b>
-<b class="nc"><i>279</i>&nbsp;                    message.buildWouldActivateGodMessage(new MatchStateMessage(match.getCurrentPlayer(), match.getBoard().getBoard(), match.getPlayersAsList()));</b>
-<b class="nc"><i>280</i>&nbsp;                    listOfMessages.add(message);</b>
-<b class="nc"><i>281</i>&nbsp;                    match.notifyView(listOfMessages);</b>
-<b class="nc"><i>282</i>&nbsp;                }</b>
-<b class="fc"><i>283</i>&nbsp;            } else if(remainingActions.contains(ActionType.SELECT_PARAMETERS)) {</b>
-<b class="fc"><i>284</i>&nbsp;                System.out.printf(&quot;SELECT PARAMETERS\n&quot;);</b>
-<b class="fc"><i>285</i>&nbsp;                remainingActions.remove(ActionType.SELECT_PARAMETERS);</b>
-<b class="fc"><i>286</i>&nbsp;                if(god.isNeedParameters()) {</b>
-<b class="fc"><i>287</i>&nbsp;                    ArrayList&lt;Message&gt; listOfMessages = new ArrayList&lt;&gt;();</b>
-<b class="fc"><i>288</i>&nbsp;                    Message message = new Message(match.getCurrentPlayer().getNickname());</b>
-<b class="fc"><i>289</i>&nbsp;                    message.buildSelectParametersMessage(new MatchStateMessage(match.getCurrentPlayer(), match.getBoard().getBoard(), match.getPlayersAsList()));</b>
-<b class="fc"><i>290</i>&nbsp;                    listOfMessages.add(message);</b>
-<b class="fc"><i>291</i>&nbsp;                    match.notifyView(listOfMessages);</b>
-<b class="fc"><i>292</i>&nbsp;                } else {</b>
-<b class="nc"><i>293</i>&nbsp;                    requestManager(ActionType.USE_POWER, match, null);</b>
-<i>294</i>&nbsp;                }
-<b class="nc"><i>295</i>&nbsp;            } else if(remainingActions.contains(ActionType.USE_POWER)){</b>
-<i>296</i>&nbsp;            } else {
-<b class="nc"><i>297</i>&nbsp;                nextPhase();</b>
-<i>298</i>&nbsp;            }
-<i>299</i>&nbsp;        } else {
-<b class="fc"><i>300</i>&nbsp;            checkChronusEffect(match);</b>
-<b class="fc"><i>301</i>&nbsp;            nextPhase();</b>
-<b class="fc"><i>302</i>&nbsp;            handlePhases(match);</b>
-<i>303</i>&nbsp;        }
-<b class="fc"><i>304</i>&nbsp;    }</b>
-<i>305</i>&nbsp;
-<i>306</i>&nbsp;    /**
-<i>307</i>&nbsp;     * the method handles the entire move phase from choosing the builder to the choice of the destination of the move
-<i>308</i>&nbsp;     * and the effective modification of the board
-<i>309</i>&nbsp;     * @param match is the reference to the match controlled by the controller
-<i>310</i>&nbsp;     *
-<i>311</i>&nbsp;     */
-<i>312</i>&nbsp;    private synchronized void moveManager(Match match) throws EndMatchException{
-<b class="fc"><i>313</i>&nbsp;        System.out.printf(&quot;MOVE MANAGER: &quot;);</b>
-<b class="fc"><i>314</i>&nbsp;        if(remainingActions.contains(ActionType.SELECT_BUILDER)){</b>
-<b class="fc"><i>315</i>&nbsp;            if(match.getCurrentPlayer().getPlayingBuilder() == null){</b>
-<b class="fc"><i>316</i>&nbsp;                System.out.printf(&quot;SELECT BUILDER\n&quot;);</b>
-<b class="fc"><i>317</i>&nbsp;                ArrayList&lt;Message&gt; listOfMessages = new ArrayList&lt;&gt;();</b>
-<b class="fc"><i>318</i>&nbsp;                Message requestBuilder = new Message(match.getCurrentPlayer().getNickname());</b>
-<b class="fc"><i>319</i>&nbsp;                requestBuilder.buildSelectBuilderMessage(new MatchStateMessage(match.getCurrentPlayer(), match.getBoard().getBoard(), match.getPlayersAsList()));</b>
-<b class="fc"><i>320</i>&nbsp;                listOfMessages.add(requestBuilder);</b>
-<b class="fc"><i>321</i>&nbsp;                match.notifyView(listOfMessages);</b>
-<b class="fc"><i>322</i>&nbsp;            } else {</b>
-<b class="nc"><i>323</i>&nbsp;                remainingActions.remove(ActionType.SELECT_BUILDER);</b>
-<b class="nc"><i>324</i>&nbsp;                handlePhases(match);</b>
-<i>325</i>&nbsp;            }
-<b class="fc"><i>326</i>&nbsp;        } else if(remainingActions.contains(ActionType.SELECT_CELL_MOVE)){</b>
-<b class="fc"><i>327</i>&nbsp;            System.out.printf(&quot;SELECT CELL MOVE\n&quot;);</b>
-<b class="fc"><i>328</i>&nbsp;            remainingActions.remove(ActionType.SELECT_CELL_MOVE);</b>
-<b class="fc"><i>329</i>&nbsp;            int[][] possibleMoves = Board.neighboringStatusCell(match.getCurrentPlayer().getPlayingBuilder(), AccessType.FREE);</b>
-<b class="fc"><i>330</i>&nbsp;            ArrayList&lt;Message&gt; listOfMessages = new ArrayList&lt;&gt;();</b>
-<b class="fc"><i>331</i>&nbsp;            Message requestMove = new Message(match.getCurrentPlayer().getNickname());</b>
-<i>332</i>&nbsp;            // se ci sono problemi di client che ricevono il messaggio, bisogna modificare askmove aggiungendo il current player name
-<b class="fc"><i>333</i>&nbsp;            requestMove.buildAskMoveSelectionMessage(new AskMoveSelectionMessage(possibleMoves, match.getCurrentPlayer().getRiseActions(), match.getCurrentPlayer().getMoveActions()));</b>
-<b class="fc"><i>334</i>&nbsp;            listOfMessages.add(requestMove);</b>
-<b class="fc"><i>335</i>&nbsp;            match.notifyView(listOfMessages);</b>
-<b class="fc"><i>336</i>&nbsp;        } else if(remainingActions.contains(ActionType.MOVE)){</b>
-<i>337</i>&nbsp;            // richiediamo al client le informazioni necessarie
-<i>338</i>&nbsp;        } else {
-<b class="fc"><i>339</i>&nbsp;            nextPhase();</b>
-<b class="fc"><i>340</i>&nbsp;            handlePhases(match);</b>
-<i>341</i>&nbsp;        }
-<b class="fc"><i>342</i>&nbsp;    }</b>
-<i>343</i>&nbsp;
-<i>344</i>&nbsp;    /**
-<i>345</i>&nbsp;     * The method handles the entire build phase from choosing the cell where to build to the effective modification of the board.
-<i>346</i>&nbsp;     * @param match is the reference to the match controlled by the controller
-<i>347</i>&nbsp;     *
-<i>348</i>&nbsp;     */
-<i>349</i>&nbsp;    private synchronized void buildManager(Match match) throws EndMatchException{
-<b class="fc"><i>350</i>&nbsp;        System.out.printf(&quot;BUILD MANAGER: &quot;);</b>
-<b class="fc"><i>351</i>&nbsp;        if(remainingActions.contains(ActionType.SELECT_CELL_BUILD)){</b>
-<b class="fc"><i>352</i>&nbsp;            System.out.println(&quot;SELECT CELL BUILD&quot;);</b>
-<b class="fc"><i>353</i>&nbsp;            remainingActions.remove(ActionType.SELECT_CELL_BUILD);</b>
-<b class="fc"><i>354</i>&nbsp;            int[][] possibleBuilding = Board.neighboringLevelCell(match.getCurrentPlayer().getPlayingBuilder());</b>
-<b class="fc"><i>355</i>&nbsp;            ArrayList&lt;Message&gt; listOfMessages = new ArrayList&lt;&gt;();</b>
-<b class="fc"><i>356</i>&nbsp;            Message requestBuild = new Message(match.getCurrentPlayer().getNickname());</b>
-<b class="fc"><i>357</i>&nbsp;            requestBuild.buildAskBuildSelectionMessage(new AskBuildSelectionMessage(possibleBuilding));</b>
-<b class="fc"><i>358</i>&nbsp;            listOfMessages.add(requestBuild);</b>
-<b class="fc"><i>359</i>&nbsp;            match.notifyView(listOfMessages);</b>
-<b class="fc"><i>360</i>&nbsp;        } else if(remainingActions.contains(ActionType.BUILD)){</b>
-<i>361</i>&nbsp;            // richiediamo al client le informazioni necessarie
-<i>362</i>&nbsp;        } else {
-<b class="nc"><i>363</i>&nbsp;            checkChronusEffect(match);</b>
-<b class="nc"><i>364</i>&nbsp;            nextPhase();</b>
-<b class="nc"><i>365</i>&nbsp;            handlePhases(match);</b>
-<i>366</i>&nbsp;        }
-<b class="fc"><i>367</i>&nbsp;    }</b>
-<i>368</i>&nbsp;    
-<i>369</i>&nbsp;    /**
-<i>370</i>&nbsp;     * The method finish the current Turn starting a new one
-<i>371</i>&nbsp;     * @param match is the reference to the match controller by the controller
-<i>372</i>&nbsp;     */
-<i>373</i>&nbsp;    private void endTurnManager(Match match) {
-<b class="fc"><i>374</i>&nbsp;        System.out.println(&quot;END TURN MANAGER&quot;);</b>
-<b class="fc"><i>375</i>&nbsp;        ArrayList&lt;Message&gt; listOfUpdateMessages = new ArrayList&lt;&gt;();</b>
-<b class="fc"><i>376</i>&nbsp;        for (int i = 0; i &lt; match.getPlayers().length; ++i) {</b>
-<b class="fc"><i>377</i>&nbsp;            listOfUpdateMessages.add(new Message(match.getPlayers()[i].getNickname()));</b>
-<b class="fc"><i>378</i>&nbsp;            listOfUpdateMessages.get(i).buildUpdateMessage(new UpdateMessage(match, this.phase));</b>
-<i>379</i>&nbsp;        }
-<b class="fc"><i>380</i>&nbsp;        match.getCurrentPlayer().setMoveActions(true);</b>
-<b class="fc"><i>381</i>&nbsp;        match.getCurrentPlayer().setRiseActions(true);</b>
-<b class="fc"><i>382</i>&nbsp;        match.getCurrentPlayer().getPlayingBuilder().setRisedThisTurn(false);</b>
-<b class="fc"><i>383</i>&nbsp;        match.setNextPlayer();</b>
-<b class="fc"><i>384</i>&nbsp;        reset();</b>
-<b class="fc"><i>385</i>&nbsp;        match.notifyView(listOfUpdateMessages);</b>
-<b class="fc"><i>386</i>&nbsp;    }</b>
-<i>387</i>&nbsp;}
+<i>139</i>&nbsp;     * @throws EndMatchException when the match ends and the players have to be notified
+<i>140</i>&nbsp;     */
+<i>141</i>&nbsp;    public void handlePhases(Match match) throws EndMatchException {
+<b class="fc"><i>142</i>&nbsp;        switch (phase){</b>
+<i>143</i>&nbsp;            case START_TURN:
+<b class="fc"><i>144</i>&nbsp;                startTurnManager(match);</b>
+<b class="fc"><i>145</i>&nbsp;                break;</b>
+<i>146</i>&nbsp;            case STANDBY_PHASE_1:
+<b class="fc"><i>147</i>&nbsp;                standByPhaseManager(match, PhaseType.STANDBY_PHASE_1);</b>
+<b class="fc"><i>148</i>&nbsp;                checkChronusEffect(match);</b>
+<b class="fc"><i>149</i>&nbsp;                break;</b>
+<i>150</i>&nbsp;            case MOVE_PHASE:
+<b class="fc"><i>151</i>&nbsp;                boolean isEliminated = false;</b>
+<b class="fc"><i>152</i>&nbsp;                if(remainingActions.contains(ActionType.SELECT_CELL_MOVE) &amp;&amp; match.getCurrentPlayer().getPlayingBuilder() != null)</b>
+<b class="fc"><i>153</i>&nbsp;                    if (match.getCurrentPlayer().getPlayingBuilder().canMove()) moveManager(match);</b>
+<b class="nc"><i>154</i>&nbsp;                    else isEliminated = true;</b>
+<b class="fc"><i>155</i>&nbsp;                else if(match.getCurrentPlayer().canMove()) moveManager(match);</b>
+<b class="nc"><i>156</i>&nbsp;                else isEliminated = true;</b>
+<b class="fc"><i>157</i>&nbsp;                if(isEliminated) {</b>
+<b class="nc"><i>158</i>&nbsp;                    match.setEliminatedPlayer(match.getCurrentPlayerIndex());</b>
+<b class="nc"><i>159</i>&nbsp;                    Message message = new Message(match.getEliminatedPlayers().get(match.getEliminatedPlayers().size() - 1).getNickname());</b>
+<b class="nc"><i>160</i>&nbsp;                    message.buildEndMatchMessage(new EndMatchMessage(null));</b>
+<b class="nc"><i>161</i>&nbsp;                    owner.getServer().getVirtualClients().get(message.getUsername()).send(message);</b>
+<b class="nc"><i>162</i>&nbsp;                    reset();</b>
+<b class="nc"><i>163</i>&nbsp;                    handlePhases(match);</b>
+<b class="nc"><i>164</i>&nbsp;                }</b>
+<i>165</i>&nbsp;                break;
+<i>166</i>&nbsp;            case STANDBY_PHASE_2:
+<b class="fc"><i>167</i>&nbsp;                if(remainingActions.contains(ActionType.SELECT_CELL_BUILD))</b>
+<b class="fc"><i>168</i>&nbsp;                    if(match.getCurrentPlayer().getPlayingBuilder().canBuild()) standByPhaseManager(match, PhaseType.STANDBY_PHASE_2);</b>
+<i>169</i>&nbsp;                    else {
+<b class="nc"><i>170</i>&nbsp;                        match.setEliminatedPlayer(match.getCurrentPlayerIndex());</b>
+<b class="nc"><i>171</i>&nbsp;                        Message message = new Message(match.getEliminatedPlayers().get(match.getEliminatedPlayers().size() - 1).getNickname());</b>
+<b class="nc"><i>172</i>&nbsp;                        message.buildEndMatchMessage(new EndMatchMessage(null));</b>
+<b class="nc"><i>173</i>&nbsp;                        owner.getServer().getVirtualClients().get(message.getUsername()).send(message);</b>
+<b class="nc"><i>174</i>&nbsp;                        reset();</b>
+<b class="nc"><i>175</i>&nbsp;                        handlePhases(match);</b>
+<b class="nc"><i>176</i>&nbsp;                    }</b>
+<i>177</i>&nbsp;                break;
+<i>178</i>&nbsp;            case BUILD_PHASE:
+<b class="fc"><i>179</i>&nbsp;                buildManager(match);</b>
+<b class="fc"><i>180</i>&nbsp;                checkChronusEffect(match);</b>
+<b class="fc"><i>181</i>&nbsp;                break;</b>
+<i>182</i>&nbsp;            case STANDBY_PHASE_3:
+<b class="fc"><i>183</i>&nbsp;                checkChronusEffect(match);</b>
+<b class="fc"><i>184</i>&nbsp;                standByPhaseManager(match, PhaseType.STANDBY_PHASE_3);</b>
+<b class="fc"><i>185</i>&nbsp;                checkChronusEffect(match);</b>
+<b class="fc"><i>186</i>&nbsp;                break;</b>
+<i>187</i>&nbsp;            case END_TURN:
+<b class="fc"><i>188</i>&nbsp;                endTurnManager(match);</b>
+<b class="fc"><i>189</i>&nbsp;                break;</b>
+<i>190</i>&nbsp;            default:
+<i>191</i>&nbsp;                break;
+<i>192</i>&nbsp;        }
+<b class="fc"><i>193</i>&nbsp;    }</b>
+<i>194</i>&nbsp;
+<i>195</i>&nbsp;    /**
+<i>196</i>&nbsp;     * method that satisfies specific requested actions, sending messages or calling action of action logic
+<i>197</i>&nbsp;     * @param action the requested action
+<i>198</i>&nbsp;     * @param match the associated match
+<i>199</i>&nbsp;     * @param message the message that gives some more information
+<i>200</i>&nbsp;     * @throws EndMatchException when s player wins the match
+<i>201</i>&nbsp;     */
+<i>202</i>&nbsp;    public void requestManager(ActionType action, Match match, Message message) throws EndMatchException{
+<b class="fc"><i>203</i>&nbsp;        System.out.println(&quot;REQUEST MANAGER: &quot; + action);</b>
+<b class="fc"><i>204</i>&nbsp;        switch(action) {</b>
+<i>205</i>&nbsp;            case ACTIVATE_GOD:
+<b class="fc"><i>206</i>&nbsp;                ActivateGodMessage activateGod = message.deserializeActivateGodMessage(message.getSerializedPayload());</b>
+<b class="fc"><i>207</i>&nbsp;                remainingActions.remove(ActionType.ACTIVATE_GOD);</b>
+<b class="fc"><i>208</i>&nbsp;                if(activateGod.isWantToActivate()) handlePhases(match);</b>
+<i>209</i>&nbsp;                else{
+<b class="fc"><i>210</i>&nbsp;                    remainingActions.remove(ActionType.SELECT_PARAMETERS);</b>
+<b class="fc"><i>211</i>&nbsp;                    remainingActions.remove(ActionType.USE_POWER);</b>
+<b class="fc"><i>212</i>&nbsp;                    nextPhase();</b>
+<b class="fc"><i>213</i>&nbsp;                    handlePhases(match);</b>
+<i>214</i>&nbsp;                }
+<b class="fc"><i>215</i>&nbsp;                break;</b>
+<i>216</i>&nbsp;            case USE_POWER:
+<b class="fc"><i>217</i>&nbsp;                ArrayList&lt;Message&gt; afterActivation = actionManager.invocation(match, message);</b>
+<b class="fc"><i>218</i>&nbsp;                remainingActions.remove(ActionType.SELECT_PARAMETERS);</b>
+<b class="fc"><i>219</i>&nbsp;                remainingActions.remove(ActionType.USE_POWER);</b>
+<b class="fc"><i>220</i>&nbsp;                nextPhase(); // da rimuovere quando verranno implementati i poteri delle divinità -&gt; ci penserà standbyphase manager a controllare se il potere non ha ulteriori effetti e quindi passare alla fase successiva</b>
+<b class="fc"><i>221</i>&nbsp;                match.notifyView(afterActivation);</b>
+<b class="fc"><i>222</i>&nbsp;                break;</b>
+<i>223</i>&nbsp;            case MOVE:
+<b class="fc"><i>224</i>&nbsp;                ArrayList&lt;Message&gt; afterMove = actionManager.move(match, message.deserializeSelectedMoveMessage());</b>
+<b class="fc"><i>225</i>&nbsp;                remainingActions.remove(ActionType.SELECT_CELL_MOVE);</b>
+<b class="fc"><i>226</i>&nbsp;                remainingActions.remove(ActionType.MOVE);</b>
+<b class="fc"><i>227</i>&nbsp;                nextPhase();</b>
+<b class="fc"><i>228</i>&nbsp;                match.notifyView(afterMove);</b>
+<b class="fc"><i>229</i>&nbsp;                break;</b>
+<i>230</i>&nbsp;            case BUILD:
+<b class="fc"><i>231</i>&nbsp;                ArrayList&lt;Message&gt; afterBuild = actionManager.build(match, message.deserializeSelectedBuildingMessage());</b>
+<b class="fc"><i>232</i>&nbsp;                remainingActions.remove(ActionType.SELECT_CELL_BUILD);</b>
+<b class="fc"><i>233</i>&nbsp;                remainingActions.remove(ActionType.BUILD);</b>
+<b class="fc"><i>234</i>&nbsp;                nextPhase();</b>
+<b class="fc"><i>235</i>&nbsp;                match.notifyView(afterBuild);</b>
+<b class="fc"><i>236</i>&nbsp;                break;</b>
+<i>237</i>&nbsp;            default:
+<i>238</i>&nbsp;                break;
+<i>239</i>&nbsp;        }
+<b class="fc"><i>240</i>&nbsp;    }</b>
+<i>241</i>&nbsp;
+<i>242</i>&nbsp;    /**
+<i>243</i>&nbsp;     * The method handles the start of the turn
+<i>244</i>&nbsp;     * @param match is the reference to the match controlled by the controller
+<i>245</i>&nbsp;     */
+<i>246</i>&nbsp;    private void startTurnManager(Match match) {
+<b class="fc"><i>247</i>&nbsp;        System.out.println(&quot;START TURN MANAGER&quot;);</b>
+<b class="fc"><i>248</i>&nbsp;        ArrayList&lt;Message&gt; listOfUpdateMessages = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>249</i>&nbsp;        match.getCurrentPlayer().setPlayingBuilder(null);</b>
+<b class="fc"><i>250</i>&nbsp;        for (int i = 0; i &lt; match.getPlayers().length; ++i) {</b>
+<b class="fc"><i>251</i>&nbsp;            listOfUpdateMessages.add(new Message(match.getPlayers()[i].getNickname()));</b>
+<b class="fc"><i>252</i>&nbsp;            listOfUpdateMessages.get(i).buildUpdateMessage(new UpdateMessage(match, this.phase));</b>
+<i>253</i>&nbsp;        }
+<b class="fc"><i>254</i>&nbsp;        match.notifyView(listOfUpdateMessages);</b>
+<b class="fc"><i>255</i>&nbsp;        nextPhase();</b>
+<b class="fc"><i>256</i>&nbsp;    }</b>
+<i>257</i>&nbsp;
+<i>258</i>&nbsp;    /**
+<i>259</i>&nbsp;     * the method manages the operations that the controller has do in this phase. Especially it checks if the god’s power
+<i>260</i>&nbsp;     * can be activated by the player if it is not mandatory, in the other case it will be activated automatically if his
+<i>261</i>&nbsp;     * activation requirements are fulfilled
+<i>262</i>&nbsp;     * @param match is the reference to the match controlled by the controller
+<i>263</i>&nbsp;     * @param phase is the Phase that would be handled.
+<i>264</i>&nbsp;     * @throws EndMatchException when the match ends and all the players currently in the match have to be notified
+<i>265</i>&nbsp;     */
+<i>266</i>&nbsp;    private synchronized void standByPhaseManager(Match match, PhaseType phase) throws EndMatchException{
+<i>267</i>&nbsp;        // controllo se il potere divino è attivabile
+<b class="fc"><i>268</i>&nbsp;        System.out.printf(&quot;STANDBY PHASE MANAGER: &quot;);</b>
+<b class="fc"><i>269</i>&nbsp;        GodCard god = match.getCurrentPlayer().getDivinePower();</b>
+<b class="fc"><i>270</i>&nbsp;        if(god.getTiming() == phase &amp;&amp; god.canActivate(match)){ // || !remainingActions.contains(ACTIVATE_GOD)</b>
+<b class="fc"><i>271</i>&nbsp;            if (remainingActions.contains(ActionType.ACTIVATE_GOD)) {</b>
+<b class="fc"><i>272</i>&nbsp;                System.out.printf(&quot;ACTIVATE GOD\n&quot;);</b>
+<b class="fc"><i>273</i>&nbsp;                if (god.isMandatory()) {</b>
+<b class="fc"><i>274</i>&nbsp;                    remainingActions.remove(ActionType.ACTIVATE_GOD);</b>
+<b class="fc"><i>275</i>&nbsp;                    remainingActions.remove(ActionType.SELECT_PARAMETERS);</b>
+<b class="fc"><i>276</i>&nbsp;                    remainingActions.remove(ActionType.USE_POWER);</b>
+<b class="fc"><i>277</i>&nbsp;                    requestManager(ActionType.USE_POWER, match, null);</b>
+<i>278</i>&nbsp;                } else {
+<b class="nc"><i>279</i>&nbsp;                    ArrayList&lt;Message&gt; listOfMessages = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>280</i>&nbsp;                    Message message = new Message(match.getCurrentPlayer().getNickname());</b>
+<b class="nc"><i>281</i>&nbsp;                    message.buildWouldActivateGodMessage(new MatchStateMessage(match.getCurrentPlayer(), match.getBoard().getBoard(), match.getPlayersAsList()));</b>
+<b class="nc"><i>282</i>&nbsp;                    listOfMessages.add(message);</b>
+<b class="nc"><i>283</i>&nbsp;                    match.notifyView(listOfMessages);</b>
+<b class="nc"><i>284</i>&nbsp;                }</b>
+<b class="fc"><i>285</i>&nbsp;            } else if(remainingActions.contains(ActionType.SELECT_PARAMETERS)) {</b>
+<b class="fc"><i>286</i>&nbsp;                System.out.printf(&quot;SELECT PARAMETERS\n&quot;);</b>
+<b class="fc"><i>287</i>&nbsp;                remainingActions.remove(ActionType.SELECT_PARAMETERS);</b>
+<b class="fc"><i>288</i>&nbsp;                if(god.isNeedParameters()) {</b>
+<b class="fc"><i>289</i>&nbsp;                    ArrayList&lt;Message&gt; listOfMessages = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>290</i>&nbsp;                    Message message = new Message(match.getCurrentPlayer().getNickname());</b>
+<b class="fc"><i>291</i>&nbsp;                    message.buildSelectParametersMessage(new MatchStateMessage(match.getCurrentPlayer(), match.getBoard().getBoard(), match.getPlayersAsList()));</b>
+<b class="fc"><i>292</i>&nbsp;                    listOfMessages.add(message);</b>
+<b class="fc"><i>293</i>&nbsp;                    match.notifyView(listOfMessages);</b>
+<b class="fc"><i>294</i>&nbsp;                } else {</b>
+<b class="nc"><i>295</i>&nbsp;                    requestManager(ActionType.USE_POWER, match, null);</b>
+<i>296</i>&nbsp;                }
+<b class="nc"><i>297</i>&nbsp;            } else if(remainingActions.contains(ActionType.USE_POWER)){</b>
+<i>298</i>&nbsp;            } else {
+<b class="nc"><i>299</i>&nbsp;                nextPhase();</b>
+<i>300</i>&nbsp;            }
+<i>301</i>&nbsp;        } else {
+<b class="fc"><i>302</i>&nbsp;            checkChronusEffect(match);</b>
+<b class="fc"><i>303</i>&nbsp;            nextPhase();</b>
+<b class="fc"><i>304</i>&nbsp;            handlePhases(match);</b>
+<i>305</i>&nbsp;        }
+<b class="fc"><i>306</i>&nbsp;    }</b>
+<i>307</i>&nbsp;
+<i>308</i>&nbsp;    /**
+<i>309</i>&nbsp;     * the method handles the entire move phase from choosing the builder to the choice of the destination of the move
+<i>310</i>&nbsp;     * and the effective modification of the board
+<i>311</i>&nbsp;     * @param match is the reference to the match controlled by the controller
+<i>312</i>&nbsp;     * @throws EndMatchException when the match ends and all the players currently in the match have to be notified
+<i>313</i>&nbsp;     */
+<i>314</i>&nbsp;    private synchronized void moveManager(Match match) throws EndMatchException{
+<b class="fc"><i>315</i>&nbsp;        System.out.printf(&quot;MOVE MANAGER: &quot;);</b>
+<b class="fc"><i>316</i>&nbsp;        if(remainingActions.contains(ActionType.SELECT_BUILDER)){</b>
+<b class="fc"><i>317</i>&nbsp;            if(match.getCurrentPlayer().getPlayingBuilder() == null){</b>
+<b class="fc"><i>318</i>&nbsp;                System.out.printf(&quot;SELECT BUILDER\n&quot;);</b>
+<b class="fc"><i>319</i>&nbsp;                ArrayList&lt;Message&gt; listOfMessages = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>320</i>&nbsp;                Message requestBuilder = new Message(match.getCurrentPlayer().getNickname());</b>
+<b class="fc"><i>321</i>&nbsp;                requestBuilder.buildSelectBuilderMessage(new MatchStateMessage(match.getCurrentPlayer(), match.getBoard().getBoard(), match.getPlayersAsList()));</b>
+<b class="fc"><i>322</i>&nbsp;                listOfMessages.add(requestBuilder);</b>
+<b class="fc"><i>323</i>&nbsp;                match.notifyView(listOfMessages);</b>
+<b class="fc"><i>324</i>&nbsp;            } else {</b>
+<b class="nc"><i>325</i>&nbsp;                remainingActions.remove(ActionType.SELECT_BUILDER);</b>
+<b class="nc"><i>326</i>&nbsp;                handlePhases(match);</b>
+<i>327</i>&nbsp;            }
+<b class="fc"><i>328</i>&nbsp;        } else if(remainingActions.contains(ActionType.SELECT_CELL_MOVE)){</b>
+<b class="fc"><i>329</i>&nbsp;            System.out.printf(&quot;SELECT CELL MOVE\n&quot;);</b>
+<b class="fc"><i>330</i>&nbsp;            remainingActions.remove(ActionType.SELECT_CELL_MOVE);</b>
+<b class="fc"><i>331</i>&nbsp;            int[][] possibleMoves = Board.neighboringStatusCell(match.getCurrentPlayer().getPlayingBuilder(), AccessType.FREE);</b>
+<b class="fc"><i>332</i>&nbsp;            ArrayList&lt;Message&gt; listOfMessages = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>333</i>&nbsp;            Message requestMove = new Message(match.getCurrentPlayer().getNickname());</b>
+<i>334</i>&nbsp;            // se ci sono problemi di client che ricevono il messaggio, bisogna modificare askmove aggiungendo il current player name
+<b class="fc"><i>335</i>&nbsp;            requestMove.buildAskMoveSelectionMessage(new AskMoveSelectionMessage(possibleMoves, match.getCurrentPlayer().getRiseActions(), match.getCurrentPlayer().getMoveActions()));</b>
+<b class="fc"><i>336</i>&nbsp;            listOfMessages.add(requestMove);</b>
+<b class="fc"><i>337</i>&nbsp;            match.notifyView(listOfMessages);</b>
+<b class="fc"><i>338</i>&nbsp;        } else if(remainingActions.contains(ActionType.MOVE)){</b>
+<i>339</i>&nbsp;            // richiediamo al client le informazioni necessarie
+<i>340</i>&nbsp;        } else {
+<b class="fc"><i>341</i>&nbsp;            nextPhase();</b>
+<b class="fc"><i>342</i>&nbsp;            handlePhases(match);</b>
+<i>343</i>&nbsp;        }
+<b class="fc"><i>344</i>&nbsp;    }</b>
+<i>345</i>&nbsp;
+<i>346</i>&nbsp;    /**
+<i>347</i>&nbsp;     * The method handles the entire build phase from choosing the cell where to build to the effective modification of the board.
+<i>348</i>&nbsp;     * @param match is the reference to the match controlled by the controller
+<i>349</i>&nbsp;     * @throws EndMatchException when the match ends and all the players currently in the match have to be notified
+<i>350</i>&nbsp;     */
+<i>351</i>&nbsp;    private synchronized void buildManager(Match match) throws EndMatchException{
+<b class="fc"><i>352</i>&nbsp;        System.out.printf(&quot;BUILD MANAGER: &quot;);</b>
+<b class="fc"><i>353</i>&nbsp;        if(remainingActions.contains(ActionType.SELECT_CELL_BUILD)){</b>
+<b class="fc"><i>354</i>&nbsp;            System.out.println(&quot;SELECT CELL BUILD&quot;);</b>
+<b class="fc"><i>355</i>&nbsp;            remainingActions.remove(ActionType.SELECT_CELL_BUILD);</b>
+<b class="fc"><i>356</i>&nbsp;            int[][] possibleBuilding = Board.neighboringLevelCell(match.getCurrentPlayer().getPlayingBuilder());</b>
+<b class="fc"><i>357</i>&nbsp;            ArrayList&lt;Message&gt; listOfMessages = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>358</i>&nbsp;            Message requestBuild = new Message(match.getCurrentPlayer().getNickname());</b>
+<b class="fc"><i>359</i>&nbsp;            requestBuild.buildAskBuildSelectionMessage(new AskBuildSelectionMessage(possibleBuilding));</b>
+<b class="fc"><i>360</i>&nbsp;            listOfMessages.add(requestBuild);</b>
+<b class="fc"><i>361</i>&nbsp;            match.notifyView(listOfMessages);</b>
+<b class="fc"><i>362</i>&nbsp;        } else if(remainingActions.contains(ActionType.BUILD)){</b>
+<i>363</i>&nbsp;            // richiediamo al client le informazioni necessarie
+<i>364</i>&nbsp;        } else {
+<b class="nc"><i>365</i>&nbsp;            checkChronusEffect(match);</b>
+<b class="nc"><i>366</i>&nbsp;            nextPhase();</b>
+<b class="nc"><i>367</i>&nbsp;            handlePhases(match);</b>
+<i>368</i>&nbsp;        }
+<b class="fc"><i>369</i>&nbsp;    }</b>
+<i>370</i>&nbsp;    
+<i>371</i>&nbsp;    /**
+<i>372</i>&nbsp;     * The method finish the current Turn starting a new one
+<i>373</i>&nbsp;     * @param match is the reference to the match controller by the controller
+<i>374</i>&nbsp;     */
+<i>375</i>&nbsp;    private void endTurnManager(Match match) {
+<b class="fc"><i>376</i>&nbsp;        System.out.println(&quot;END TURN MANAGER&quot;);</b>
+<b class="fc"><i>377</i>&nbsp;        ArrayList&lt;Message&gt; listOfUpdateMessages = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>378</i>&nbsp;        for (int i = 0; i &lt; match.getPlayers().length; ++i) {</b>
+<b class="fc"><i>379</i>&nbsp;            listOfUpdateMessages.add(new Message(match.getPlayers()[i].getNickname()));</b>
+<b class="fc"><i>380</i>&nbsp;            listOfUpdateMessages.get(i).buildUpdateMessage(new UpdateMessage(match, this.phase));</b>
+<i>381</i>&nbsp;        }
+<b class="fc"><i>382</i>&nbsp;        match.getCurrentPlayer().setMoveActions(true);</b>
+<b class="fc"><i>383</i>&nbsp;        match.getCurrentPlayer().setRiseActions(true);</b>
+<b class="fc"><i>384</i>&nbsp;        match.getCurrentPlayer().getPlayingBuilder().setRisedThisTurn(false);</b>
+<b class="fc"><i>385</i>&nbsp;        match.setNextPlayer();</b>
+<b class="fc"><i>386</i>&nbsp;        reset();</b>
+<b class="fc"><i>387</i>&nbsp;        match.notifyView(listOfUpdateMessages);</b>
+<b class="fc"><i>388</i>&nbsp;    }</b>
+<i>389</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-07-03 18:30</div>
+    <div style="float:right;">generated on 2020-07-03 18:35</div>
 </div>
 </body>
 </html>

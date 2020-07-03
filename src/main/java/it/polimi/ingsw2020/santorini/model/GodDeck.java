@@ -10,6 +10,7 @@ public class GodDeck {
 
     /**
      * method that create the deck of god's card, so that we can extract casually (or chose) the card we'll play
+     * @param numberOfPlayers the number of players of the match. If it is 2, Chronus is permitted, otherwise Chronus is forbidden
      */
     public GodDeck(int numberOfPlayers){
         this.nextCard = 0;

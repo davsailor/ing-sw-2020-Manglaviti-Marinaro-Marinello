@@ -294,143 +294,146 @@
 <i>194</i>&nbsp;     *the method changes the position of the builder in the board. the movement start from the current position of the
 <i>195</i>&nbsp;     * builder and follows the direction passed as parameter
 <i>196</i>&nbsp;     * @param direction is the direction in which the player wants to move the builder
-<i>197</i>&nbsp;     */
-<i>198</i>&nbsp;    public void move(Direction direction) throws IllegalMovementException, EndMatchException {
-<b class="fc"><i>199</i>&nbsp;        if(direction == null) throw new IllegalMovementException(&quot;Something went wrong with your choice, please select another movement&quot;);</b>
-<b class="fc"><i>200</i>&nbsp;        board.getBoard()[posX][posY].setBuilder(null);</b>
-<b class="fc"><i>201</i>&nbsp;        board.getBoard()[posX][posY].setStatus(AccessType.FREE);</b>
-<b class="fc"><i>202</i>&nbsp;        int oldPosX = posX;</b>
-<b class="fc"><i>203</i>&nbsp;        int oldPosY = posY;</b>
-<b class="fc"><i>204</i>&nbsp;        switch (direction) {</b>
-<i>205</i>&nbsp;            case NORTH_WEST:
-<b class="fc"><i>206</i>&nbsp;                this.posX=posX-1;</b>
-<b class="fc"><i>207</i>&nbsp;                this.posY=posY-1;</b>
-<b class="fc"><i>208</i>&nbsp;                setPossibleMoves();</b>
-<b class="fc"><i>209</i>&nbsp;                possibleMoves[2][2] = 4;</b>
-<b class="fc"><i>210</i>&nbsp;                break;</b>
-<i>211</i>&nbsp;            case NORTH:
-<b class="fc"><i>212</i>&nbsp;                this.posX=posX-1;</b>
-<b class="fc"><i>213</i>&nbsp;                setPossibleMoves();</b>
-<b class="fc"><i>214</i>&nbsp;                possibleMoves[2][1] = 4;</b>
-<b class="fc"><i>215</i>&nbsp;                break;</b>
-<i>216</i>&nbsp;            case NORTH_EAST:
-<b class="fc"><i>217</i>&nbsp;                this.posX=posX-1;</b>
-<b class="fc"><i>218</i>&nbsp;                this.posY=posY+1;</b>
-<b class="fc"><i>219</i>&nbsp;                setPossibleMoves();</b>
-<b class="fc"><i>220</i>&nbsp;                possibleMoves[2][0] = 4;</b>
-<b class="fc"><i>221</i>&nbsp;                break;</b>
-<i>222</i>&nbsp;            case WEST:
-<b class="fc"><i>223</i>&nbsp;                this.posY=posY-1;</b>
-<b class="fc"><i>224</i>&nbsp;                setPossibleMoves();</b>
-<b class="fc"><i>225</i>&nbsp;                possibleMoves[1][2] = 4;</b>
-<b class="fc"><i>226</i>&nbsp;                break;</b>
-<i>227</i>&nbsp;            case EAST:
-<b class="fc"><i>228</i>&nbsp;                this.posY=posY+1;</b>
-<b class="fc"><i>229</i>&nbsp;                setPossibleMoves();</b>
-<b class="fc"><i>230</i>&nbsp;                possibleMoves[1][0]=4;</b>
-<b class="fc"><i>231</i>&nbsp;                break;</b>
-<i>232</i>&nbsp;            case SOUTH_WEST:
-<b class="fc"><i>233</i>&nbsp;                this.posX=posX+1;</b>
-<b class="fc"><i>234</i>&nbsp;                this.posY=posY-1;</b>
-<b class="fc"><i>235</i>&nbsp;                setPossibleMoves();</b>
-<b class="fc"><i>236</i>&nbsp;                possibleMoves[0][2]=4;</b>
-<b class="fc"><i>237</i>&nbsp;                break;</b>
-<i>238</i>&nbsp;            case SOUTH:
-<b class="fc"><i>239</i>&nbsp;                this.posX=posX+1;</b>
-<b class="fc"><i>240</i>&nbsp;                setPossibleMoves();</b>
-<b class="fc"><i>241</i>&nbsp;                possibleMoves[0][1]=4;</b>
-<b class="fc"><i>242</i>&nbsp;                break;</b>
-<i>243</i>&nbsp;            case SOUTH_EAST:
-<b class="fc"><i>244</i>&nbsp;                this.posX=posX+1;</b>
-<b class="fc"><i>245</i>&nbsp;                this.posY=posY+1;</b>
-<b class="fc"><i>246</i>&nbsp;                setPossibleMoves();</b>
-<b class="fc"><i>247</i>&nbsp;                possibleMoves[0][0]=4;</b>
-<i>248</i>&nbsp;                break;
-<i>249</i>&nbsp;        }
-<b class="fc"><i>250</i>&nbsp;        if(board.getBoard()[oldPosX][oldPosY].calculateJump(board.getBoard()[posX][posY]) &gt; 0)</b>
-<b class="fc"><i>251</i>&nbsp;            risedThisTurn = true;</b>
-<b class="fc"><i>252</i>&nbsp;        board.getBoard()[posX][posY].setBuilder(this);</b>
-<b class="fc"><i>253</i>&nbsp;        board.getBoard()[posX][posY].setStatus(AccessType.OCCUPIED);</b>
-<b class="fc"><i>254</i>&nbsp;        if(board.getBoard()[oldPosX][oldPosY].getLevel() != LevelType.TOP &amp;&amp; board.getBoard()[posX][posY].getLevel() == LevelType.TOP)</b>
-<b class="fc"><i>255</i>&nbsp;            throw new EndMatchException(null);</b>
-<b class="fc"><i>256</i>&nbsp;    }</b>
-<i>257</i>&nbsp;
-<i>258</i>&nbsp;    /**
-<i>259</i>&nbsp;     * the method builds a block in a cell of the board. the method will build a higher block in the cell that follows the direction
-<i>260</i>&nbsp;     * passed as parameters.
-<i>261</i>&nbsp;     * @param direction is the direction in which the player wants to build
-<i>262</i>&nbsp;     * @param match is the reference to the match. This parameter is used to acquire the number of completed towers
-<i>263</i>&nbsp;     */
-<i>264</i>&nbsp;    public void build(Direction direction, Match match) throws IllegalConstructionException{
-<i>265</i>&nbsp;        //LevelType level;
-<b class="fc"><i>266</i>&nbsp;        setPossibleBuildings();</b>
-<i>267</i>&nbsp;        int buildPosX, buildPosY;
-<b class="fc"><i>268</i>&nbsp;        switch (direction) {</b>
-<i>269</i>&nbsp;            case NORTH_WEST:
-<b class="fc"><i>270</i>&nbsp;                buildPosX = this.posX - 1;</b>
-<b class="fc"><i>271</i>&nbsp;                buildPosY = this.posY - 1;</b>
-<b class="fc"><i>272</i>&nbsp;                break;</b>
-<i>273</i>&nbsp;            case NORTH:
-<b class="fc"><i>274</i>&nbsp;                buildPosX = this.posX - 1;</b>
-<b class="fc"><i>275</i>&nbsp;                buildPosY = this.posY;</b>
-<b class="fc"><i>276</i>&nbsp;                break;</b>
-<i>277</i>&nbsp;            case NORTH_EAST:
-<b class="fc"><i>278</i>&nbsp;                buildPosX = this.posX - 1;</b>
-<b class="fc"><i>279</i>&nbsp;                buildPosY = this.posY + 1;</b>
-<b class="fc"><i>280</i>&nbsp;                break;</b>
-<i>281</i>&nbsp;            case WEST:
-<b class="fc"><i>282</i>&nbsp;                buildPosX = this.posX;</b>
-<b class="fc"><i>283</i>&nbsp;                buildPosY = this.posY - 1;</b>
-<b class="fc"><i>284</i>&nbsp;                break;</b>
-<i>285</i>&nbsp;            case EAST:
-<b class="fc"><i>286</i>&nbsp;                buildPosX = this.posX;</b>
-<b class="fc"><i>287</i>&nbsp;                buildPosY = this.posY + 1;</b>
-<b class="fc"><i>288</i>&nbsp;                break;</b>
-<i>289</i>&nbsp;            case SOUTH_WEST:
-<b class="fc"><i>290</i>&nbsp;                buildPosX = this.posX + 1;</b>
-<b class="fc"><i>291</i>&nbsp;                buildPosY = this.posY - 1;</b>
-<b class="fc"><i>292</i>&nbsp;                break;</b>
-<i>293</i>&nbsp;            case SOUTH:
-<b class="fc"><i>294</i>&nbsp;                buildPosX = this.posX + 1;</b>
-<b class="fc"><i>295</i>&nbsp;                buildPosY = this.posY;</b>
-<b class="fc"><i>296</i>&nbsp;                break;</b>
-<i>297</i>&nbsp;            case SOUTH_EAST:
-<b class="fc"><i>298</i>&nbsp;                buildPosX = this.posX + 1;</b>
-<b class="fc"><i>299</i>&nbsp;                buildPosY = this.posY + 1;</b>
-<b class="fc"><i>300</i>&nbsp;                break;</b>
-<i>301</i>&nbsp;            default:
-<b class="nc"><i>302</i>&nbsp;                throw new IllegalConstructionException(&quot;Your direction does not exist!&quot;);</b>
-<i>303</i>&nbsp;        }
-<b class="fc"><i>304</i>&nbsp;        switch (possibleBuildings[buildPosX - this.posX + 1][buildPosY - this.posY + 1]) {</b>
-<i>305</i>&nbsp;            case 0:
-<b class="fc"><i>306</i>&nbsp;                board.buildBlock(buildPosX, buildPosY, LevelType.BASE);</b>
-<b class="fc"><i>307</i>&nbsp;                break;</b>
-<i>308</i>&nbsp;            case 1:
-<b class="fc"><i>309</i>&nbsp;                board.buildBlock(buildPosX, buildPosY, LevelType.MID);</b>
+<i>197</i>&nbsp;     * @throws IllegalMovementException if the movement is not permitted
+<i>198</i>&nbsp;     * @throws EndMatchException if the builder rises on top of the third level its corresponding player wins and the match ends
+<i>199</i>&nbsp;     */
+<i>200</i>&nbsp;    public void move(Direction direction) throws IllegalMovementException, EndMatchException {
+<b class="fc"><i>201</i>&nbsp;        if(direction == null) throw new IllegalMovementException(&quot;Something went wrong with your choice, please select another movement&quot;);</b>
+<b class="fc"><i>202</i>&nbsp;        board.getBoard()[posX][posY].setBuilder(null);</b>
+<b class="fc"><i>203</i>&nbsp;        board.getBoard()[posX][posY].setStatus(AccessType.FREE);</b>
+<b class="fc"><i>204</i>&nbsp;        int oldPosX = posX;</b>
+<b class="fc"><i>205</i>&nbsp;        int oldPosY = posY;</b>
+<b class="fc"><i>206</i>&nbsp;        switch (direction) {</b>
+<i>207</i>&nbsp;            case NORTH_WEST:
+<b class="fc"><i>208</i>&nbsp;                this.posX=posX-1;</b>
+<b class="fc"><i>209</i>&nbsp;                this.posY=posY-1;</b>
+<b class="fc"><i>210</i>&nbsp;                setPossibleMoves();</b>
+<b class="fc"><i>211</i>&nbsp;                possibleMoves[2][2] = 4;</b>
+<b class="fc"><i>212</i>&nbsp;                break;</b>
+<i>213</i>&nbsp;            case NORTH:
+<b class="fc"><i>214</i>&nbsp;                this.posX=posX-1;</b>
+<b class="fc"><i>215</i>&nbsp;                setPossibleMoves();</b>
+<b class="fc"><i>216</i>&nbsp;                possibleMoves[2][1] = 4;</b>
+<b class="fc"><i>217</i>&nbsp;                break;</b>
+<i>218</i>&nbsp;            case NORTH_EAST:
+<b class="fc"><i>219</i>&nbsp;                this.posX=posX-1;</b>
+<b class="fc"><i>220</i>&nbsp;                this.posY=posY+1;</b>
+<b class="fc"><i>221</i>&nbsp;                setPossibleMoves();</b>
+<b class="fc"><i>222</i>&nbsp;                possibleMoves[2][0] = 4;</b>
+<b class="fc"><i>223</i>&nbsp;                break;</b>
+<i>224</i>&nbsp;            case WEST:
+<b class="fc"><i>225</i>&nbsp;                this.posY=posY-1;</b>
+<b class="fc"><i>226</i>&nbsp;                setPossibleMoves();</b>
+<b class="fc"><i>227</i>&nbsp;                possibleMoves[1][2] = 4;</b>
+<b class="fc"><i>228</i>&nbsp;                break;</b>
+<i>229</i>&nbsp;            case EAST:
+<b class="fc"><i>230</i>&nbsp;                this.posY=posY+1;</b>
+<b class="fc"><i>231</i>&nbsp;                setPossibleMoves();</b>
+<b class="fc"><i>232</i>&nbsp;                possibleMoves[1][0]=4;</b>
+<b class="fc"><i>233</i>&nbsp;                break;</b>
+<i>234</i>&nbsp;            case SOUTH_WEST:
+<b class="fc"><i>235</i>&nbsp;                this.posX=posX+1;</b>
+<b class="fc"><i>236</i>&nbsp;                this.posY=posY-1;</b>
+<b class="fc"><i>237</i>&nbsp;                setPossibleMoves();</b>
+<b class="fc"><i>238</i>&nbsp;                possibleMoves[0][2]=4;</b>
+<b class="fc"><i>239</i>&nbsp;                break;</b>
+<i>240</i>&nbsp;            case SOUTH:
+<b class="fc"><i>241</i>&nbsp;                this.posX=posX+1;</b>
+<b class="fc"><i>242</i>&nbsp;                setPossibleMoves();</b>
+<b class="fc"><i>243</i>&nbsp;                possibleMoves[0][1]=4;</b>
+<b class="fc"><i>244</i>&nbsp;                break;</b>
+<i>245</i>&nbsp;            case SOUTH_EAST:
+<b class="fc"><i>246</i>&nbsp;                this.posX=posX+1;</b>
+<b class="fc"><i>247</i>&nbsp;                this.posY=posY+1;</b>
+<b class="fc"><i>248</i>&nbsp;                setPossibleMoves();</b>
+<b class="fc"><i>249</i>&nbsp;                possibleMoves[0][0]=4;</b>
+<i>250</i>&nbsp;                break;
+<i>251</i>&nbsp;        }
+<b class="fc"><i>252</i>&nbsp;        if(board.getBoard()[oldPosX][oldPosY].calculateJump(board.getBoard()[posX][posY]) &gt; 0)</b>
+<b class="fc"><i>253</i>&nbsp;            risedThisTurn = true;</b>
+<b class="fc"><i>254</i>&nbsp;        board.getBoard()[posX][posY].setBuilder(this);</b>
+<b class="fc"><i>255</i>&nbsp;        board.getBoard()[posX][posY].setStatus(AccessType.OCCUPIED);</b>
+<b class="fc"><i>256</i>&nbsp;        if(board.getBoard()[oldPosX][oldPosY].getLevel() != LevelType.TOP &amp;&amp; board.getBoard()[posX][posY].getLevel() == LevelType.TOP)</b>
+<b class="fc"><i>257</i>&nbsp;            throw new EndMatchException(null);</b>
+<b class="fc"><i>258</i>&nbsp;    }</b>
+<i>259</i>&nbsp;
+<i>260</i>&nbsp;    /**
+<i>261</i>&nbsp;     * the method builds a block in a cell of the board. the method will build a higher block in the cell that follows the direction
+<i>262</i>&nbsp;     * passed as parameters.
+<i>263</i>&nbsp;     * @param direction is the direction in which the player wants to build
+<i>264</i>&nbsp;     * @param match is the reference to the match. This parameter is used to acquire the number of completed towers
+<i>265</i>&nbsp;     * @throws IllegalConstructionException if the construction is not permitted
+<i>266</i>&nbsp;     */
+<i>267</i>&nbsp;    public void build(Direction direction, Match match) throws IllegalConstructionException{
+<i>268</i>&nbsp;        //LevelType level;
+<b class="fc"><i>269</i>&nbsp;        setPossibleBuildings();</b>
+<i>270</i>&nbsp;        int buildPosX, buildPosY;
+<b class="fc"><i>271</i>&nbsp;        switch (direction) {</b>
+<i>272</i>&nbsp;            case NORTH_WEST:
+<b class="fc"><i>273</i>&nbsp;                buildPosX = this.posX - 1;</b>
+<b class="fc"><i>274</i>&nbsp;                buildPosY = this.posY - 1;</b>
+<b class="fc"><i>275</i>&nbsp;                break;</b>
+<i>276</i>&nbsp;            case NORTH:
+<b class="fc"><i>277</i>&nbsp;                buildPosX = this.posX - 1;</b>
+<b class="fc"><i>278</i>&nbsp;                buildPosY = this.posY;</b>
+<b class="fc"><i>279</i>&nbsp;                break;</b>
+<i>280</i>&nbsp;            case NORTH_EAST:
+<b class="fc"><i>281</i>&nbsp;                buildPosX = this.posX - 1;</b>
+<b class="fc"><i>282</i>&nbsp;                buildPosY = this.posY + 1;</b>
+<b class="fc"><i>283</i>&nbsp;                break;</b>
+<i>284</i>&nbsp;            case WEST:
+<b class="fc"><i>285</i>&nbsp;                buildPosX = this.posX;</b>
+<b class="fc"><i>286</i>&nbsp;                buildPosY = this.posY - 1;</b>
+<b class="fc"><i>287</i>&nbsp;                break;</b>
+<i>288</i>&nbsp;            case EAST:
+<b class="fc"><i>289</i>&nbsp;                buildPosX = this.posX;</b>
+<b class="fc"><i>290</i>&nbsp;                buildPosY = this.posY + 1;</b>
+<b class="fc"><i>291</i>&nbsp;                break;</b>
+<i>292</i>&nbsp;            case SOUTH_WEST:
+<b class="fc"><i>293</i>&nbsp;                buildPosX = this.posX + 1;</b>
+<b class="fc"><i>294</i>&nbsp;                buildPosY = this.posY - 1;</b>
+<b class="fc"><i>295</i>&nbsp;                break;</b>
+<i>296</i>&nbsp;            case SOUTH:
+<b class="fc"><i>297</i>&nbsp;                buildPosX = this.posX + 1;</b>
+<b class="fc"><i>298</i>&nbsp;                buildPosY = this.posY;</b>
+<b class="fc"><i>299</i>&nbsp;                break;</b>
+<i>300</i>&nbsp;            case SOUTH_EAST:
+<b class="fc"><i>301</i>&nbsp;                buildPosX = this.posX + 1;</b>
+<b class="fc"><i>302</i>&nbsp;                buildPosY = this.posY + 1;</b>
+<b class="fc"><i>303</i>&nbsp;                break;</b>
+<i>304</i>&nbsp;            default:
+<b class="nc"><i>305</i>&nbsp;                throw new IllegalConstructionException(&quot;Your direction does not exist!&quot;);</b>
+<i>306</i>&nbsp;        }
+<b class="fc"><i>307</i>&nbsp;        switch (possibleBuildings[buildPosX - this.posX + 1][buildPosY - this.posY + 1]) {</b>
+<i>308</i>&nbsp;            case 0:
+<b class="fc"><i>309</i>&nbsp;                board.buildBlock(buildPosX, buildPosY, LevelType.BASE);</b>
 <b class="fc"><i>310</i>&nbsp;                break;</b>
-<i>311</i>&nbsp;            case 2:
-<b class="fc"><i>312</i>&nbsp;                board.buildBlock(buildPosX, buildPosY, LevelType.TOP);</b>
+<i>311</i>&nbsp;            case 1:
+<b class="fc"><i>312</i>&nbsp;                board.buildBlock(buildPosX, buildPosY, LevelType.MID);</b>
 <b class="fc"><i>313</i>&nbsp;                break;</b>
-<i>314</i>&nbsp;            case 3:
-<b class="fc"><i>315</i>&nbsp;                board.buildBlock(buildPosX, buildPosY, LevelType.DOME);</b>
-<b class="fc"><i>316</i>&nbsp;                match.setNumberOfCompletedTowers(match.getNumberOfCompletedTowers() + 1);</b>
-<b class="fc"><i>317</i>&nbsp;                break;</b>
-<i>318</i>&nbsp;            case -2:
-<b class="nc"><i>319</i>&nbsp;                break;</b>
-<i>320</i>&nbsp;            default:
-<b class="fc"><i>321</i>&nbsp;                throw new IllegalConstructionException(&quot;Something went wrong while building, please select another one&quot;);</b>
-<i>322</i>&nbsp;        }
-<b class="fc"><i>323</i>&nbsp;        this.buildPosX = buildPosX;</b>
-<b class="fc"><i>324</i>&nbsp;        this.buildPosY = buildPosY;</b>
-<b class="fc"><i>325</i>&nbsp;        possibleBuildings[buildPosX - this.posX + 1][buildPosY - this.posY + 1] = -2;</b>
-<b class="fc"><i>326</i>&nbsp;    }</b>
-<i>327</i>&nbsp;}
+<i>314</i>&nbsp;            case 2:
+<b class="fc"><i>315</i>&nbsp;                board.buildBlock(buildPosX, buildPosY, LevelType.TOP);</b>
+<b class="fc"><i>316</i>&nbsp;                break;</b>
+<i>317</i>&nbsp;            case 3:
+<b class="fc"><i>318</i>&nbsp;                board.buildBlock(buildPosX, buildPosY, LevelType.DOME);</b>
+<b class="fc"><i>319</i>&nbsp;                match.setNumberOfCompletedTowers(match.getNumberOfCompletedTowers() + 1);</b>
+<b class="fc"><i>320</i>&nbsp;                break;</b>
+<i>321</i>&nbsp;            case -2:
+<b class="nc"><i>322</i>&nbsp;                break;</b>
+<i>323</i>&nbsp;            default:
+<b class="fc"><i>324</i>&nbsp;                throw new IllegalConstructionException(&quot;Something went wrong while building, please select another one&quot;);</b>
+<i>325</i>&nbsp;        }
+<b class="fc"><i>326</i>&nbsp;        this.buildPosX = buildPosX;</b>
+<b class="fc"><i>327</i>&nbsp;        this.buildPosY = buildPosY;</b>
+<b class="fc"><i>328</i>&nbsp;        possibleBuildings[buildPosX - this.posX + 1][buildPosY - this.posY + 1] = -2;</b>
+<b class="fc"><i>329</i>&nbsp;    }</b>
+<i>330</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-07-03 18:30</div>
+    <div style="float:right;">generated on 2020-07-03 18:35</div>
 </div>
 </body>
 </html>

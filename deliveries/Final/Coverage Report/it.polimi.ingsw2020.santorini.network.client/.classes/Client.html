@@ -173,7 +173,7 @@
 <i>99</i>&nbsp;     * synchronized method to add a message from the queue
 <i>100</i>&nbsp;     * @param message the message to add
 <i>101</i>&nbsp;     */
-<i>102</i>&nbsp;    synchronized public void addMessageQueue(Message message) throws InterruptedException {
+<i>102</i>&nbsp;    synchronized public void addMessageQueue(Message message){
 <b class="nc"><i>103</i>&nbsp;        messageQueue.add(message);</b>
 <i>104</i>&nbsp;        //System.out.println(messageQueue.toString());
 <i>105</i>&nbsp;    }
@@ -205,7 +205,7 @@
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-07-03 18:30</div>
+    <div style="float:right;">generated on 2020-07-03 18:35</div>
 </div>
 </body>
 </html>

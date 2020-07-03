@@ -122,117 +122,119 @@
 <i>22</i>&nbsp;    /**
 <i>23</i>&nbsp;     * this is the message handler. it is the first clearing house of the messages and redirects them to the
 <i>24</i>&nbsp;     * proper method, looking at the firstLevelHeader of the message
-<i>25</i>&nbsp;     *
-<i>26</i>&nbsp;     */
-<i>27</i>&nbsp;    public synchronized void handleMessage(Message message) {
-<b class="nc"><i>28</i>&nbsp;        switch (message.getFirstLevelHeader()) {</b>
-<i>29</i>&nbsp;            case SETUP:
-<b class="nc"><i>30</i>&nbsp;                setupMessageHandler(message);</b>
-<b class="nc"><i>31</i>&nbsp;                break;</b>
-<i>32</i>&nbsp;            case PING:
-<b class="nc"><i>33</i>&nbsp;                break;</b>
-<i>34</i>&nbsp;            default:
-<i>35</i>&nbsp;                try {
-<b class="nc"><i>36</i>&nbsp;                    owner.getServer().getViewFromMatch(owner.getServer().getMatchFromUsername(owner.getUsername())).notifyController(message);</b>
-<b class="nc"><i>37</i>&nbsp;                } catch (NullPointerException ignored) {}</b>
-<i>38</i>&nbsp;        }
-<i>39</i>&nbsp;    }
-<i>40</i>&nbsp;
-<i>41</i>&nbsp;    /**
-<i>42</i>&nbsp;     * method that handle the messages received by the client with SETUP as the firstLevelHeader.
-<i>43</i>&nbsp;     * this is the second clearing house for SETUP messages.
-<i>44</i>&nbsp;     * after the deserialization of the message, it performs all required actions to satisfy the request
-<i>45</i>&nbsp;     * @param message is the message that has to be handled
-<i>46</i>&nbsp;     */
-<i>47</i>&nbsp;    public void setupMessageHandler(Message message){
-<b class="nc"><i>48</i>&nbsp;        switch(message.getSecondLevelHeader()){</b>
-<i>49</i>&nbsp;            case LOGIN:
-<b class="nc"><i>50</i>&nbsp;                LoginMessage mes = message.deserializeLoginMessage(message.getSerializedPayload());</b>
-<i>51</i>&nbsp;                try{
-<b class="nc"><i>52</i>&nbsp;                    loginHandler(mes);</b>
-<b class="nc"><i>53</i>&nbsp;                } catch (UnavailableUsernameException e){</b>
-<i>54</i>&nbsp;                    // username è messo a null perchè non serve specificarlo, visto che qui siamo nella zona di
-<i>55</i>&nbsp;                    // competenza dell&#39;interfaccia legata a quel client
-<i>56</i>&nbsp;                    // questa è già una prima barriera prima di accedere alla virtualview
-<b class="nc"><i>57</i>&nbsp;                    Message error = new Message(null);</b>
-<b class="nc"><i>58</i>&nbsp;                    error.buildUsernameErrorMessage(new GenericErrorMessage(&quot;Your Username is not available!&quot;));</b>
-<b class="nc"><i>59</i>&nbsp;                    owner.send(error);</b>
-<b class="nc"><i>60</i>&nbsp;                }</b>
-<b class="nc"><i>61</i>&nbsp;                break;</b>
-<i>62</i>&nbsp;            case NEW_MATCH:
-<b class="nc"><i>63</i>&nbsp;                NewMatchMessage newMatchMessage = message.deserializeNewMatchMessage();</b>
-<b class="nc"><i>64</i>&nbsp;                if(newMatchMessage.isWantNewMatch()) {</b>
-<i>65</i>&nbsp;                    try {
-<b class="nc"><i>66</i>&nbsp;                        int matchID = owner.getServer().getMatchFromUsername(owner.getUsername());</b>
-<b class="nc"><i>67</i>&nbsp;                        Match match = owner.getServer().getViewFromMatch(matchID).getMatch();</b>
-<i>68</i>&nbsp;                        int i;
-<b class="nc"><i>69</i>&nbsp;                        for (i = 0; i &lt; match.getEliminatedPlayers().size(); ++i)</b>
-<b class="nc"><i>70</i>&nbsp;                            if (owner.getUsername().equals(match.getEliminatedPlayers().get(i).getNickname())) {</b>
-<b class="nc"><i>71</i>&nbsp;                                match.getEliminatedPlayers().remove(i);</b>
-<b class="nc"><i>72</i>&nbsp;                                break;</b>
-<i>73</i>&nbsp;                            }
-<b class="nc"><i>74</i>&nbsp;                    } catch (NullPointerException ignored) { /* the match has already finished */ }</b>
-<b class="nc"><i>75</i>&nbsp;                    owner.getServer().addWaitingPlayers(new Player(owner.getUsername(), newMatchMessage.getBirthDate()), newMatchMessage.getSelectedMatch());</b>
-<b class="nc"><i>76</i>&nbsp;                    owner.getServer().checkForMatches(newMatchMessage.getSelectedMatch());</b>
-<i>77</i>&nbsp;                }
-<i>78</i>&nbsp;                else
-<b class="nc"><i>79</i>&nbsp;                    owner.getServer().removeVirtualClient(owner.getUsername());</b>
-<b class="nc"><i>80</i>&nbsp;                break;</b>
-<i>81</i>&nbsp;            default:
-<i>82</i>&nbsp;                break;
-<i>83</i>&nbsp;        }
-<i>84</i>&nbsp;    }
-<i>85</i>&nbsp;
-<i>86</i>&nbsp;    /**
-<i>87</i>&nbsp;     * method that handle the messages received by the client with LOGIN as the secondLevelHeader.
-<i>88</i>&nbsp;     * it performs all required actions to log in the client
-<i>89</i>&nbsp;     * @param message is the message that has to be handled
-<i>90</i>&nbsp;     */
-<i>91</i>&nbsp;    private void loginHandler(LoginMessage message) throws UnavailableUsernameException {
-<b class="nc"><i>92</i>&nbsp;        if (owner.getServer().getVirtualClients().containsKey(message.getUsername()) || message.getUsername().equals(&quot;All&quot;)) {</b>
-<b class="nc"><i>93</i>&nbsp;            throw new UnavailableUsernameException();</b>
-<i>94</i>&nbsp;        } else {
-<b class="nc"><i>95</i>&nbsp;            Player player = new Player(message.getUsername(), message.getBirthDate());</b>
-<b class="nc"><i>96</i>&nbsp;            owner.setUsername(message.getUsername());</b>
-<i>97</i>&nbsp;            // username è messo a null perchè non serve specificarlo, visto che qui siamo nella zona di
-<i>98</i>&nbsp;            // competenza dell&#39;interfaccia legata a quel client
-<i>99</i>&nbsp;            // questa è già una prima barriera prima di accedere alla virtualview
-<b class="nc"><i>100</i>&nbsp;            Message correct = new Message(null);</b>
-<b class="nc"><i>101</i>&nbsp;            correct.buildCorrectLoginMessage(new CorrectLoginMessage());</b>
-<b class="nc"><i>102</i>&nbsp;            owner.send(correct);</b>
-<b class="nc"><i>103</i>&nbsp;            owner.getServer().addWaitingPlayers(player, message.getNumberOfPlayers());</b>
-<b class="nc"><i>104</i>&nbsp;            owner.getServer().addVirtualClient(message.getUsername(), owner);</b>
-<b class="nc"><i>105</i>&nbsp;            owner.getServer().checkForMatches(message.getNumberOfPlayers());</b>
-<i>106</i>&nbsp;        }
-<i>107</i>&nbsp;    }
-<i>108</i>&nbsp;
-<i>109</i>&nbsp;    /**
-<i>110</i>&nbsp;     * the main thread of the class. it checks the queue and, when it is not empty, remove its first messages and tries
-<i>111</i>&nbsp;     * to handle it
-<i>112</i>&nbsp;     * @see Thread#run()
-<i>113</i>&nbsp;     */
-<i>114</i>&nbsp;    @Override
-<i>115</i>&nbsp;    public void run() {
-<i>116</i>&nbsp;        while(true){
-<i>117</i>&nbsp;            try {
-<b class="nc"><i>118</i>&nbsp;                if (owner.hasNextMessage()) {</b>
-<b class="nc"><i>119</i>&nbsp;                    Message message = owner.getNextMessage();</b>
-<b class="nc"><i>120</i>&nbsp;                    handleMessage(message);</b>
-<b class="nc"><i>121</i>&nbsp;                }</b>
-<i>122</i>&nbsp;                else
-<b class="nc"><i>123</i>&nbsp;                    Thread.sleep(500);</b>
-<b class="nc"><i>124</i>&nbsp;            } catch (InterruptedException e){</b>
-<b class="nc"><i>125</i>&nbsp;                owner.setConnected(false);</b>
-<b class="nc"><i>126</i>&nbsp;            }</b>
-<i>127</i>&nbsp;        }
-<i>128</i>&nbsp;    }
-<i>129</i>&nbsp;}
+<i>25</i>&nbsp;     * @param message the message that has to be handled
+<i>26</i>&nbsp;     *
+<i>27</i>&nbsp;     */
+<i>28</i>&nbsp;    public synchronized void handleMessage(Message message) {
+<b class="nc"><i>29</i>&nbsp;        switch (message.getFirstLevelHeader()) {</b>
+<i>30</i>&nbsp;            case SETUP:
+<b class="nc"><i>31</i>&nbsp;                setupMessageHandler(message);</b>
+<b class="nc"><i>32</i>&nbsp;                break;</b>
+<i>33</i>&nbsp;            case PING:
+<b class="nc"><i>34</i>&nbsp;                break;</b>
+<i>35</i>&nbsp;            default:
+<i>36</i>&nbsp;                try {
+<b class="nc"><i>37</i>&nbsp;                    owner.getServer().getViewFromMatch(owner.getServer().getMatchFromUsername(owner.getUsername())).notifyController(message);</b>
+<b class="nc"><i>38</i>&nbsp;                } catch (NullPointerException ignored) {}</b>
+<i>39</i>&nbsp;        }
+<i>40</i>&nbsp;    }
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    /**
+<i>43</i>&nbsp;     * method that handle the messages received by the client with SETUP as the firstLevelHeader.
+<i>44</i>&nbsp;     * this is the second clearing house for SETUP messages.
+<i>45</i>&nbsp;     * after the deserialization of the message, it performs all required actions to satisfy the request
+<i>46</i>&nbsp;     * @param message is the message that has to be handled
+<i>47</i>&nbsp;     */
+<i>48</i>&nbsp;    public void setupMessageHandler(Message message){
+<b class="nc"><i>49</i>&nbsp;        switch(message.getSecondLevelHeader()){</b>
+<i>50</i>&nbsp;            case LOGIN:
+<b class="nc"><i>51</i>&nbsp;                LoginMessage mes = message.deserializeLoginMessage(message.getSerializedPayload());</b>
+<i>52</i>&nbsp;                try{
+<b class="nc"><i>53</i>&nbsp;                    loginHandler(mes);</b>
+<b class="nc"><i>54</i>&nbsp;                } catch (UnavailableUsernameException e){</b>
+<i>55</i>&nbsp;                    // username è messo a null perchè non serve specificarlo, visto che qui siamo nella zona di
+<i>56</i>&nbsp;                    // competenza dell&#39;interfaccia legata a quel client
+<i>57</i>&nbsp;                    // questa è già una prima barriera prima di accedere alla virtualview
+<b class="nc"><i>58</i>&nbsp;                    Message error = new Message(null);</b>
+<b class="nc"><i>59</i>&nbsp;                    error.buildUsernameErrorMessage(new GenericErrorMessage(&quot;Your Username is not available!&quot;));</b>
+<b class="nc"><i>60</i>&nbsp;                    owner.send(error);</b>
+<b class="nc"><i>61</i>&nbsp;                }</b>
+<b class="nc"><i>62</i>&nbsp;                break;</b>
+<i>63</i>&nbsp;            case NEW_MATCH:
+<b class="nc"><i>64</i>&nbsp;                NewMatchMessage newMatchMessage = message.deserializeNewMatchMessage();</b>
+<b class="nc"><i>65</i>&nbsp;                if(newMatchMessage.isWantNewMatch()) {</b>
+<i>66</i>&nbsp;                    try {
+<b class="nc"><i>67</i>&nbsp;                        int matchID = owner.getServer().getMatchFromUsername(owner.getUsername());</b>
+<b class="nc"><i>68</i>&nbsp;                        Match match = owner.getServer().getViewFromMatch(matchID).getMatch();</b>
+<i>69</i>&nbsp;                        int i;
+<b class="nc"><i>70</i>&nbsp;                        for (i = 0; i &lt; match.getEliminatedPlayers().size(); ++i)</b>
+<b class="nc"><i>71</i>&nbsp;                            if (owner.getUsername().equals(match.getEliminatedPlayers().get(i).getNickname())) {</b>
+<b class="nc"><i>72</i>&nbsp;                                match.getEliminatedPlayers().remove(i);</b>
+<b class="nc"><i>73</i>&nbsp;                                break;</b>
+<i>74</i>&nbsp;                            }
+<b class="nc"><i>75</i>&nbsp;                    } catch (NullPointerException ignored) { /* the match has already finished */ }</b>
+<b class="nc"><i>76</i>&nbsp;                    owner.getServer().addWaitingPlayers(new Player(owner.getUsername(), newMatchMessage.getBirthDate()), newMatchMessage.getSelectedMatch());</b>
+<b class="nc"><i>77</i>&nbsp;                    owner.getServer().checkForMatches(newMatchMessage.getSelectedMatch());</b>
+<i>78</i>&nbsp;                }
+<i>79</i>&nbsp;                else
+<b class="nc"><i>80</i>&nbsp;                    owner.getServer().removeVirtualClient(owner.getUsername());</b>
+<b class="nc"><i>81</i>&nbsp;                break;</b>
+<i>82</i>&nbsp;            default:
+<i>83</i>&nbsp;                break;
+<i>84</i>&nbsp;        }
+<i>85</i>&nbsp;    }
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;    /**
+<i>88</i>&nbsp;     * method that handle the messages received by the client with LOGIN as the secondLevelHeader.
+<i>89</i>&nbsp;     * it performs all required actions to log in the client
+<i>90</i>&nbsp;     * @param message is the message that has to be handled
+<i>91</i>&nbsp;     * @throws UnavailableUsernameException if the username already exists in the server
+<i>92</i>&nbsp;     */
+<i>93</i>&nbsp;    private void loginHandler(LoginMessage message) throws UnavailableUsernameException {
+<b class="nc"><i>94</i>&nbsp;        if (owner.getServer().getVirtualClients().containsKey(message.getUsername()) || message.getUsername().equals(&quot;All&quot;)) {</b>
+<b class="nc"><i>95</i>&nbsp;            throw new UnavailableUsernameException();</b>
+<i>96</i>&nbsp;        } else {
+<b class="nc"><i>97</i>&nbsp;            Player player = new Player(message.getUsername(), message.getBirthDate());</b>
+<b class="nc"><i>98</i>&nbsp;            owner.setUsername(message.getUsername());</b>
+<i>99</i>&nbsp;            // username è messo a null perchè non serve specificarlo, visto che qui siamo nella zona di
+<i>100</i>&nbsp;            // competenza dell&#39;interfaccia legata a quel client
+<i>101</i>&nbsp;            // questa è già una prima barriera prima di accedere alla virtualview
+<b class="nc"><i>102</i>&nbsp;            Message correct = new Message(null);</b>
+<b class="nc"><i>103</i>&nbsp;            correct.buildCorrectLoginMessage(new CorrectLoginMessage());</b>
+<b class="nc"><i>104</i>&nbsp;            owner.send(correct);</b>
+<b class="nc"><i>105</i>&nbsp;            owner.getServer().addWaitingPlayers(player, message.getNumberOfPlayers());</b>
+<b class="nc"><i>106</i>&nbsp;            owner.getServer().addVirtualClient(message.getUsername(), owner);</b>
+<b class="nc"><i>107</i>&nbsp;            owner.getServer().checkForMatches(message.getNumberOfPlayers());</b>
+<i>108</i>&nbsp;        }
+<i>109</i>&nbsp;    }
+<i>110</i>&nbsp;
+<i>111</i>&nbsp;    /**
+<i>112</i>&nbsp;     * the main thread of the class. it checks the queue and, when it is not empty, remove its first messages and tries
+<i>113</i>&nbsp;     * to handle it
+<i>114</i>&nbsp;     * @see Thread#run()
+<i>115</i>&nbsp;     */
+<i>116</i>&nbsp;    @Override
+<i>117</i>&nbsp;    public void run() {
+<i>118</i>&nbsp;        while(true){
+<i>119</i>&nbsp;            try {
+<b class="nc"><i>120</i>&nbsp;                if (owner.hasNextMessage()) {</b>
+<b class="nc"><i>121</i>&nbsp;                    Message message = owner.getNextMessage();</b>
+<b class="nc"><i>122</i>&nbsp;                    handleMessage(message);</b>
+<b class="nc"><i>123</i>&nbsp;                }</b>
+<i>124</i>&nbsp;                else
+<b class="nc"><i>125</i>&nbsp;                    Thread.sleep(500);</b>
+<b class="nc"><i>126</i>&nbsp;            } catch (InterruptedException e){</b>
+<b class="nc"><i>127</i>&nbsp;                owner.setConnected(false);</b>
+<b class="nc"><i>128</i>&nbsp;            }</b>
+<i>129</i>&nbsp;        }
+<i>130</i>&nbsp;    }
+<i>131</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-07-03 18:30</div>
+    <div style="float:right;">generated on 2020-07-03 18:35</div>
 </div>
 </body>
 </html>

@@ -148,187 +148,190 @@
 <i>74</i>&nbsp;    /**
 <i>75</i>&nbsp;     * this method initialize the image of gods
 <i>76</i>&nbsp;     * @param name is the name of the god
-<i>77</i>&nbsp;     * */
-<i>78</i>&nbsp;    private Image findImage(String name){
-<b class="nc"><i>79</i>&nbsp;        switch (name){</b>
-<i>80</i>&nbsp;            case &quot;Apollo&quot; :
-<b class="nc"><i>81</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Apollo.png&quot;));</b>
-<i>82</i>&nbsp;            case &quot;Ares&quot; :
-<b class="nc"><i>83</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Ares.png&quot;));</b>
-<i>84</i>&nbsp;            case &quot;Artemis&quot; :
-<b class="nc"><i>85</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Artemis.png&quot;));</b>
-<i>86</i>&nbsp;            case &quot;Athena&quot; :
-<b class="nc"><i>87</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Athena.png&quot;));</b>
-<i>88</i>&nbsp;            case &quot;Atlas&quot; :
-<b class="nc"><i>89</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Atlas.png&quot;));</b>
-<i>90</i>&nbsp;            case &quot;Chronus&quot; :
-<b class="nc"><i>91</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Chronus.png&quot;));</b>
-<i>92</i>&nbsp;            case &quot;Demeter&quot; :
-<b class="nc"><i>93</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Demeter.png&quot;));</b>
-<i>94</i>&nbsp;            case &quot;Hephaestus&quot; :
-<b class="nc"><i>95</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Hephaestus.png&quot;));</b>
-<i>96</i>&nbsp;            case &quot;Hestia&quot; :
-<b class="nc"><i>97</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Hestia.png&quot;));</b>
-<i>98</i>&nbsp;            case &quot;Minotaur&quot; :
-<b class="nc"><i>99</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Minotaur.png&quot;));</b>
-<i>100</i>&nbsp;            case &quot;Pan&quot; :
-<b class="nc"><i>101</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Pan.png&quot;));</b>
-<i>102</i>&nbsp;            case &quot;Poseidon&quot; :
-<b class="nc"><i>103</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Poseidon.png&quot;));</b>
-<i>104</i>&nbsp;            case &quot;Prometheus&quot; :
-<b class="nc"><i>105</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Prometheus.png&quot;));</b>
-<i>106</i>&nbsp;            case &quot;Zeus&quot; :
-<b class="nc"><i>107</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Zeus.png&quot;));</b>
-<i>108</i>&nbsp;        }
-<b class="nc"><i>109</i>&nbsp;        return null;</b>
-<i>110</i>&nbsp;    }
-<i>111</i>&nbsp;
+<i>77</i>&nbsp;     * @return the image associated to each god
+<i>78</i>&nbsp;     * */
+<i>79</i>&nbsp;    private Image findImage(String name){
+<b class="nc"><i>80</i>&nbsp;        switch (name){</b>
+<i>81</i>&nbsp;            case &quot;Apollo&quot; :
+<b class="nc"><i>82</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Apollo.png&quot;));</b>
+<i>83</i>&nbsp;            case &quot;Ares&quot; :
+<b class="nc"><i>84</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Ares.png&quot;));</b>
+<i>85</i>&nbsp;            case &quot;Artemis&quot; :
+<b class="nc"><i>86</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Artemis.png&quot;));</b>
+<i>87</i>&nbsp;            case &quot;Athena&quot; :
+<b class="nc"><i>88</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Athena.png&quot;));</b>
+<i>89</i>&nbsp;            case &quot;Atlas&quot; :
+<b class="nc"><i>90</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Atlas.png&quot;));</b>
+<i>91</i>&nbsp;            case &quot;Chronus&quot; :
+<b class="nc"><i>92</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Chronus.png&quot;));</b>
+<i>93</i>&nbsp;            case &quot;Demeter&quot; :
+<b class="nc"><i>94</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Demeter.png&quot;));</b>
+<i>95</i>&nbsp;            case &quot;Hephaestus&quot; :
+<b class="nc"><i>96</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Hephaestus.png&quot;));</b>
+<i>97</i>&nbsp;            case &quot;Hestia&quot; :
+<b class="nc"><i>98</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Hestia.png&quot;));</b>
+<i>99</i>&nbsp;            case &quot;Minotaur&quot; :
+<b class="nc"><i>100</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Minotaur.png&quot;));</b>
+<i>101</i>&nbsp;            case &quot;Pan&quot; :
+<b class="nc"><i>102</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Pan.png&quot;));</b>
+<i>103</i>&nbsp;            case &quot;Poseidon&quot; :
+<b class="nc"><i>104</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Poseidon.png&quot;));</b>
+<i>105</i>&nbsp;            case &quot;Prometheus&quot; :
+<b class="nc"><i>106</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Prometheus.png&quot;));</b>
+<i>107</i>&nbsp;            case &quot;Zeus&quot; :
+<b class="nc"><i>108</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Zeus.png&quot;));</b>
+<i>109</i>&nbsp;        }
+<b class="nc"><i>110</i>&nbsp;        return null;</b>
+<i>111</i>&nbsp;    }
 <i>112</i>&nbsp;
-<i>113</i>&nbsp;    /**
-<i>114</i>&nbsp;     * this method initialize gods on the SelectGod screen
-<i>115</i>&nbsp;     * @param selectedGods is the ArrayList of the gods selected
-<i>116</i>&nbsp;     */
-<i>117</i>&nbsp;    public void initializeGods(ArrayList&lt;Integer&gt; selectedGods) {
-<i>118</i>&nbsp;
-<b class="nc"><i>119</i>&nbsp;        String name = findName(selectedGods.get(0));</b>
-<b class="nc"><i>120</i>&nbsp;        Tooltip tooltip1 = new Tooltip();</b>
-<b class="nc"><i>121</i>&nbsp;        tooltip1.setText(findEffect(selectedGods.get(0)));</b>
-<b class="nc"><i>122</i>&nbsp;        godButton1.setTooltip(tooltip1);</b>
-<b class="nc"><i>123</i>&nbsp;        name1.setText(name);</b>
-<b class="nc"><i>124</i>&nbsp;        name1.setAlignment(Pos.TOP_CENTER);</b>
-<b class="nc"><i>125</i>&nbsp;        Image image = findImage(name);</b>
-<b class="nc"><i>126</i>&nbsp;        ImageView imageView = new ImageView(image);</b>
-<b class="nc"><i>127</i>&nbsp;        imageView.setFitWidth(160.0);</b>
-<b class="nc"><i>128</i>&nbsp;        imageView.setFitHeight(217.0);</b>
-<b class="nc"><i>129</i>&nbsp;        god1.setGraphic(imageView);</b>
-<i>130</i>&nbsp;
-<b class="nc"><i>131</i>&nbsp;        name = findName(selectedGods.get(1));</b>
-<b class="nc"><i>132</i>&nbsp;        Tooltip tooltip2 = new Tooltip();</b>
-<b class="nc"><i>133</i>&nbsp;        tooltip2.setText(findEffect(selectedGods.get(1)));</b>
-<b class="nc"><i>134</i>&nbsp;        godButton2.setTooltip(tooltip2);</b>
-<b class="nc"><i>135</i>&nbsp;        name2.setText(name);</b>
-<b class="nc"><i>136</i>&nbsp;        name2.setAlignment(Pos.TOP_CENTER);</b>
-<b class="nc"><i>137</i>&nbsp;        image = findImage(name);</b>
-<b class="nc"><i>138</i>&nbsp;        imageView = new ImageView(image);</b>
-<b class="nc"><i>139</i>&nbsp;        imageView.setFitWidth(160.0);</b>
-<b class="nc"><i>140</i>&nbsp;        imageView.setFitHeight(217.0);</b>
-<b class="nc"><i>141</i>&nbsp;        god2.setGraphic(imageView);</b>
-<i>142</i>&nbsp;
-<b class="nc"><i>143</i>&nbsp;        if(selectedGods.size() == 3){</b>
-<b class="nc"><i>144</i>&nbsp;            name = findName(selectedGods.get(2));</b>
-<b class="nc"><i>145</i>&nbsp;            Tooltip tooltip3 = new Tooltip();</b>
-<b class="nc"><i>146</i>&nbsp;            tooltip3.setText(findEffect(selectedGods.get(2)));</b>
-<b class="nc"><i>147</i>&nbsp;            godButton3.setTooltip(tooltip3);</b>
-<b class="nc"><i>148</i>&nbsp;            name3.setText(name);</b>
-<b class="nc"><i>149</i>&nbsp;            name3.setAlignment(Pos.TOP_CENTER);</b>
-<b class="nc"><i>150</i>&nbsp;            image = findImage(name);</b>
-<b class="nc"><i>151</i>&nbsp;            imageView = new ImageView(image);</b>
-<b class="nc"><i>152</i>&nbsp;            imageView.setFitWidth(160.0);</b>
-<b class="nc"><i>153</i>&nbsp;            imageView.setFitHeight(217.0);</b>
-<b class="nc"><i>154</i>&nbsp;            god3.setGraphic(imageView);</b>
-<i>155</i>&nbsp;        }
-<i>156</i>&nbsp;    }
-<i>157</i>&nbsp;
-<i>158</i>&nbsp;    /**
-<i>159</i>&nbsp;     *  this method is used to find the name of the god by the code
-<i>160</i>&nbsp;     * @param numGod is the code of the god
-<i>161</i>&nbsp;     */
-<i>162</i>&nbsp;    private String findName(int numGod) {
-<b class="nc"><i>163</i>&nbsp;        switch (numGod) {</b>
-<i>164</i>&nbsp;            case 0:
-<b class="nc"><i>165</i>&nbsp;                return &quot;Apollo&quot;;</b>
-<i>166</i>&nbsp;            case 9:
-<b class="nc"><i>167</i>&nbsp;                return &quot;Ares&quot;;</b>
-<i>168</i>&nbsp;            case 1:
-<b class="nc"><i>169</i>&nbsp;                return &quot;Artemis&quot;;</b>
-<i>170</i>&nbsp;            case 2:
-<b class="nc"><i>171</i>&nbsp;                return &quot;Athena&quot;;</b>
-<i>172</i>&nbsp;            case 3:
-<b class="nc"><i>173</i>&nbsp;                return &quot;Atlas&quot;;</b>
-<i>174</i>&nbsp;            case 11:
-<b class="nc"><i>175</i>&nbsp;                return &quot;Chronus&quot;;</b>
-<i>176</i>&nbsp;            case 4:
-<b class="nc"><i>177</i>&nbsp;                return &quot;Demeter&quot;;</b>
-<i>178</i>&nbsp;            case 5:
-<b class="nc"><i>179</i>&nbsp;                return &quot;Hephaestus&quot;;</b>
-<i>180</i>&nbsp;            case 10:
-<b class="nc"><i>181</i>&nbsp;                return &quot;Hestia&quot;;</b>
-<i>182</i>&nbsp;            case 6:
-<b class="nc"><i>183</i>&nbsp;                return &quot;Minotaur&quot;;</b>
-<i>184</i>&nbsp;            case 7:
-<b class="nc"><i>185</i>&nbsp;                return &quot;Pan&quot;;</b>
-<i>186</i>&nbsp;            case 12:
-<b class="nc"><i>187</i>&nbsp;                return &quot;Poseidon&quot;;</b>
-<i>188</i>&nbsp;            case 8:
-<b class="nc"><i>189</i>&nbsp;                return &quot;Prometheus&quot;;</b>
-<i>190</i>&nbsp;            case 13:
-<b class="nc"><i>191</i>&nbsp;                return &quot;Zeus&quot;;</b>
-<i>192</i>&nbsp;            default:
-<b class="nc"><i>193</i>&nbsp;                return null;</b>
-<i>194</i>&nbsp;        }
-<i>195</i>&nbsp;    }
-<i>196</i>&nbsp;
-<i>197</i>&nbsp;    /**
-<i>198</i>&nbsp;     * this method return the effect of the god by the code
-<i>199</i>&nbsp;     * @param numGods is the code of the god
-<i>200</i>&nbsp;     */
-<i>201</i>&nbsp;    private String findEffect(int numGods) {
-<b class="nc"><i>202</i>&nbsp;        switch (numGods) {</b>
-<i>203</i>&nbsp;            case 0:
-<b class="nc"><i>204</i>&nbsp;                return &quot;Your Worker may move into an opponent Worker’s space\n&quot; +</b>
-<i>205</i>&nbsp;            &quot;(using normal movement rules) and force their Worker to the space yours\n&quot; +
-<i>206</i>&nbsp;                    &quot;just vacated (swapping their positions).&quot;;
-<i>207</i>&nbsp;            case 9:
-<b class="nc"><i>208</i>&nbsp;                return &quot;You may remove an unoccupied block\n&quot; +</b>
-<i>209</i>&nbsp;                        &quot;(not dome) neighboring your unmoved Worker&quot;;
-<i>210</i>&nbsp;            case 1:
-<b class="nc"><i>211</i>&nbsp;                return &quot;Your Worker may move one additional time,\n&quot; +</b>
-<i>212</i>&nbsp;                        &quot;but not back to the space it started on.&quot;;
-<i>213</i>&nbsp;            case 2:
-<b class="nc"><i>214</i>&nbsp;                return &quot;If one of your Workers moved up on your last turn, \n&quot; +</b>
-<i>215</i>&nbsp;                        &quot;opponent Workers cannot move up this turn.&quot;;
-<i>216</i>&nbsp;            case 3:
-<b class="nc"><i>217</i>&nbsp;                return &quot;Your Worker may build a dome\n&quot; +</b>
-<i>218</i>&nbsp;                        &quot;at any level including the ground.&quot;;
-<i>219</i>&nbsp;            case 11:
-<b class="nc"><i>220</i>&nbsp;                return &quot;You also win\n&quot; +</b>
-<i>221</i>&nbsp;                        &quot;when there are at least five\n&quot; +
-<i>222</i>&nbsp;                        &quot;Complete Towers on the board..&quot;;
-<i>223</i>&nbsp;            case 4:
-<b class="nc"><i>224</i>&nbsp;                return &quot;Your Worker may build one additional time,\n&quot; +</b>
-<i>225</i>&nbsp;                        &quot;but not on the same space.&quot;;
-<i>226</i>&nbsp;            case 5:
-<b class="nc"><i>227</i>&nbsp;                return &quot;Your Worker may build one additional block\n&quot; +</b>
-<i>228</i>&nbsp;                        &quot;(not dome) on top of your first block.&quot;;
-<i>229</i>&nbsp;            case 10:
-<b class="nc"><i>230</i>&nbsp;                return &quot;Your Worker may build one additional time.\n&quot; +</b>
-<i>231</i>&nbsp;                        &quot;The additional build cannot be on a perimeter space.&quot;;
-<i>232</i>&nbsp;            case 6:
-<b class="nc"><i>233</i>&nbsp;                return &quot;Your Worker may move into an opponent Worker’s\n&quot; +</b>
-<i>234</i>&nbsp;                        &quot;space (using normal movement rules), if the next space in the same direction is\n&quot; +
-<i>235</i>&nbsp;                        &quot;unoccupied. Their Worker is forced into that space (regardless of its level).&quot;;
-<i>236</i>&nbsp;            case 7:
-<b class="nc"><i>237</i>&nbsp;                return &quot;You also win if your Worker moves down two or more levels.&quot;;</b>
-<i>238</i>&nbsp;            case 12:
-<b class="nc"><i>239</i>&nbsp;                return &quot;If your unmoved Worker is on the ground level,\n&quot; +</b>
-<i>240</i>&nbsp;                        &quot;it may build up to three times in neighboring spaces.&quot;;
-<i>241</i>&nbsp;            case 8:
-<b class="nc"><i>242</i>&nbsp;                return &quot;If your Worker does not move up,\n&quot; +</b>
-<i>243</i>&nbsp;                        &quot;it may build both before and after moving.&quot;;
-<i>244</i>&nbsp;            case 13:
-<b class="nc"><i>245</i>&nbsp;                return &quot;Your Worker may build under itself in its current\n&quot; +</b>
-<i>246</i>&nbsp;                        &quot;space, forcing it up one level. You do not win by forcing yourself up to the third level.&quot;;
-<i>247</i>&nbsp;            default:
-<b class="nc"><i>248</i>&nbsp;                return null;</b>
-<i>249</i>&nbsp;        }
-<i>250</i>&nbsp;    }
-<i>251</i>&nbsp;}
+<i>113</i>&nbsp;
+<i>114</i>&nbsp;    /**
+<i>115</i>&nbsp;     * this method initialize gods on the SelectGod screen
+<i>116</i>&nbsp;     * @param selectedGods is the ArrayList of the gods selected
+<i>117</i>&nbsp;     */
+<i>118</i>&nbsp;    public void initializeGods(ArrayList&lt;Integer&gt; selectedGods) {
+<i>119</i>&nbsp;
+<b class="nc"><i>120</i>&nbsp;        String name = findName(selectedGods.get(0));</b>
+<b class="nc"><i>121</i>&nbsp;        Tooltip tooltip1 = new Tooltip();</b>
+<b class="nc"><i>122</i>&nbsp;        tooltip1.setText(findEffect(selectedGods.get(0)));</b>
+<b class="nc"><i>123</i>&nbsp;        godButton1.setTooltip(tooltip1);</b>
+<b class="nc"><i>124</i>&nbsp;        name1.setText(name);</b>
+<b class="nc"><i>125</i>&nbsp;        name1.setAlignment(Pos.TOP_CENTER);</b>
+<b class="nc"><i>126</i>&nbsp;        Image image = findImage(name);</b>
+<b class="nc"><i>127</i>&nbsp;        ImageView imageView = new ImageView(image);</b>
+<b class="nc"><i>128</i>&nbsp;        imageView.setFitWidth(160.0);</b>
+<b class="nc"><i>129</i>&nbsp;        imageView.setFitHeight(217.0);</b>
+<b class="nc"><i>130</i>&nbsp;        god1.setGraphic(imageView);</b>
+<i>131</i>&nbsp;
+<b class="nc"><i>132</i>&nbsp;        name = findName(selectedGods.get(1));</b>
+<b class="nc"><i>133</i>&nbsp;        Tooltip tooltip2 = new Tooltip();</b>
+<b class="nc"><i>134</i>&nbsp;        tooltip2.setText(findEffect(selectedGods.get(1)));</b>
+<b class="nc"><i>135</i>&nbsp;        godButton2.setTooltip(tooltip2);</b>
+<b class="nc"><i>136</i>&nbsp;        name2.setText(name);</b>
+<b class="nc"><i>137</i>&nbsp;        name2.setAlignment(Pos.TOP_CENTER);</b>
+<b class="nc"><i>138</i>&nbsp;        image = findImage(name);</b>
+<b class="nc"><i>139</i>&nbsp;        imageView = new ImageView(image);</b>
+<b class="nc"><i>140</i>&nbsp;        imageView.setFitWidth(160.0);</b>
+<b class="nc"><i>141</i>&nbsp;        imageView.setFitHeight(217.0);</b>
+<b class="nc"><i>142</i>&nbsp;        god2.setGraphic(imageView);</b>
+<i>143</i>&nbsp;
+<b class="nc"><i>144</i>&nbsp;        if(selectedGods.size() == 3){</b>
+<b class="nc"><i>145</i>&nbsp;            name = findName(selectedGods.get(2));</b>
+<b class="nc"><i>146</i>&nbsp;            Tooltip tooltip3 = new Tooltip();</b>
+<b class="nc"><i>147</i>&nbsp;            tooltip3.setText(findEffect(selectedGods.get(2)));</b>
+<b class="nc"><i>148</i>&nbsp;            godButton3.setTooltip(tooltip3);</b>
+<b class="nc"><i>149</i>&nbsp;            name3.setText(name);</b>
+<b class="nc"><i>150</i>&nbsp;            name3.setAlignment(Pos.TOP_CENTER);</b>
+<b class="nc"><i>151</i>&nbsp;            image = findImage(name);</b>
+<b class="nc"><i>152</i>&nbsp;            imageView = new ImageView(image);</b>
+<b class="nc"><i>153</i>&nbsp;            imageView.setFitWidth(160.0);</b>
+<b class="nc"><i>154</i>&nbsp;            imageView.setFitHeight(217.0);</b>
+<b class="nc"><i>155</i>&nbsp;            god3.setGraphic(imageView);</b>
+<i>156</i>&nbsp;        }
+<i>157</i>&nbsp;    }
+<i>158</i>&nbsp;
+<i>159</i>&nbsp;    /**
+<i>160</i>&nbsp;     *  this method is used to find the name of the god by the code
+<i>161</i>&nbsp;     * @param numGod is the code of the god
+<i>162</i>&nbsp;     * @return the name of each god
+<i>163</i>&nbsp;     */
+<i>164</i>&nbsp;    private String findName(int numGod) {
+<b class="nc"><i>165</i>&nbsp;        switch (numGod) {</b>
+<i>166</i>&nbsp;            case 0:
+<b class="nc"><i>167</i>&nbsp;                return &quot;Apollo&quot;;</b>
+<i>168</i>&nbsp;            case 9:
+<b class="nc"><i>169</i>&nbsp;                return &quot;Ares&quot;;</b>
+<i>170</i>&nbsp;            case 1:
+<b class="nc"><i>171</i>&nbsp;                return &quot;Artemis&quot;;</b>
+<i>172</i>&nbsp;            case 2:
+<b class="nc"><i>173</i>&nbsp;                return &quot;Athena&quot;;</b>
+<i>174</i>&nbsp;            case 3:
+<b class="nc"><i>175</i>&nbsp;                return &quot;Atlas&quot;;</b>
+<i>176</i>&nbsp;            case 11:
+<b class="nc"><i>177</i>&nbsp;                return &quot;Chronus&quot;;</b>
+<i>178</i>&nbsp;            case 4:
+<b class="nc"><i>179</i>&nbsp;                return &quot;Demeter&quot;;</b>
+<i>180</i>&nbsp;            case 5:
+<b class="nc"><i>181</i>&nbsp;                return &quot;Hephaestus&quot;;</b>
+<i>182</i>&nbsp;            case 10:
+<b class="nc"><i>183</i>&nbsp;                return &quot;Hestia&quot;;</b>
+<i>184</i>&nbsp;            case 6:
+<b class="nc"><i>185</i>&nbsp;                return &quot;Minotaur&quot;;</b>
+<i>186</i>&nbsp;            case 7:
+<b class="nc"><i>187</i>&nbsp;                return &quot;Pan&quot;;</b>
+<i>188</i>&nbsp;            case 12:
+<b class="nc"><i>189</i>&nbsp;                return &quot;Poseidon&quot;;</b>
+<i>190</i>&nbsp;            case 8:
+<b class="nc"><i>191</i>&nbsp;                return &quot;Prometheus&quot;;</b>
+<i>192</i>&nbsp;            case 13:
+<b class="nc"><i>193</i>&nbsp;                return &quot;Zeus&quot;;</b>
+<i>194</i>&nbsp;            default:
+<b class="nc"><i>195</i>&nbsp;                return null;</b>
+<i>196</i>&nbsp;        }
+<i>197</i>&nbsp;    }
+<i>198</i>&nbsp;
+<i>199</i>&nbsp;    /**
+<i>200</i>&nbsp;     * this method return the effect of the god by the code
+<i>201</i>&nbsp;     * @param numGods is the code of the god
+<i>202</i>&nbsp;     * @return the effect associated to each god
+<i>203</i>&nbsp;     */
+<i>204</i>&nbsp;    private String findEffect(int numGods) {
+<b class="nc"><i>205</i>&nbsp;        switch (numGods) {</b>
+<i>206</i>&nbsp;            case 0:
+<b class="nc"><i>207</i>&nbsp;                return &quot;Your Worker may move into an opponent Worker’s space\n&quot; +</b>
+<i>208</i>&nbsp;            &quot;(using normal movement rules) and force their Worker to the space yours\n&quot; +
+<i>209</i>&nbsp;                    &quot;just vacated (swapping their positions).&quot;;
+<i>210</i>&nbsp;            case 9:
+<b class="nc"><i>211</i>&nbsp;                return &quot;You may remove an unoccupied block\n&quot; +</b>
+<i>212</i>&nbsp;                        &quot;(not dome) neighboring your unmoved Worker&quot;;
+<i>213</i>&nbsp;            case 1:
+<b class="nc"><i>214</i>&nbsp;                return &quot;Your Worker may move one additional time,\n&quot; +</b>
+<i>215</i>&nbsp;                        &quot;but not back to the space it started on.&quot;;
+<i>216</i>&nbsp;            case 2:
+<b class="nc"><i>217</i>&nbsp;                return &quot;If one of your Workers moved up on your last turn, \n&quot; +</b>
+<i>218</i>&nbsp;                        &quot;opponent Workers cannot move up this turn.&quot;;
+<i>219</i>&nbsp;            case 3:
+<b class="nc"><i>220</i>&nbsp;                return &quot;Your Worker may build a dome\n&quot; +</b>
+<i>221</i>&nbsp;                        &quot;at any level including the ground.&quot;;
+<i>222</i>&nbsp;            case 11:
+<b class="nc"><i>223</i>&nbsp;                return &quot;You also win\n&quot; +</b>
+<i>224</i>&nbsp;                        &quot;when there are at least five\n&quot; +
+<i>225</i>&nbsp;                        &quot;Complete Towers on the board..&quot;;
+<i>226</i>&nbsp;            case 4:
+<b class="nc"><i>227</i>&nbsp;                return &quot;Your Worker may build one additional time,\n&quot; +</b>
+<i>228</i>&nbsp;                        &quot;but not on the same space.&quot;;
+<i>229</i>&nbsp;            case 5:
+<b class="nc"><i>230</i>&nbsp;                return &quot;Your Worker may build one additional block\n&quot; +</b>
+<i>231</i>&nbsp;                        &quot;(not dome) on top of your first block.&quot;;
+<i>232</i>&nbsp;            case 10:
+<b class="nc"><i>233</i>&nbsp;                return &quot;Your Worker may build one additional time.\n&quot; +</b>
+<i>234</i>&nbsp;                        &quot;The additional build cannot be on a perimeter space.&quot;;
+<i>235</i>&nbsp;            case 6:
+<b class="nc"><i>236</i>&nbsp;                return &quot;Your Worker may move into an opponent Worker’s\n&quot; +</b>
+<i>237</i>&nbsp;                        &quot;space (using normal movement rules), if the next space in the same direction is\n&quot; +
+<i>238</i>&nbsp;                        &quot;unoccupied. Their Worker is forced into that space (regardless of its level).&quot;;
+<i>239</i>&nbsp;            case 7:
+<b class="nc"><i>240</i>&nbsp;                return &quot;You also win if your Worker moves down two or more levels.&quot;;</b>
+<i>241</i>&nbsp;            case 12:
+<b class="nc"><i>242</i>&nbsp;                return &quot;If your unmoved Worker is on the ground level,\n&quot; +</b>
+<i>243</i>&nbsp;                        &quot;it may build up to three times in neighboring spaces.&quot;;
+<i>244</i>&nbsp;            case 8:
+<b class="nc"><i>245</i>&nbsp;                return &quot;If your Worker does not move up,\n&quot; +</b>
+<i>246</i>&nbsp;                        &quot;it may build both before and after moving.&quot;;
+<i>247</i>&nbsp;            case 13:
+<b class="nc"><i>248</i>&nbsp;                return &quot;Your Worker may build under itself in its current\n&quot; +</b>
+<i>249</i>&nbsp;                        &quot;space, forcing it up one level. You do not win by forcing yourself up to the third level.&quot;;
+<i>250</i>&nbsp;            default:
+<b class="nc"><i>251</i>&nbsp;                return null;</b>
+<i>252</i>&nbsp;        }
+<i>253</i>&nbsp;    }
+<i>254</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-07-03 18:30</div>
+    <div style="float:right;">generated on 2020-07-03 18:35</div>
 </div>
 </body>
 </html>

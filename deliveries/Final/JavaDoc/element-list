@@ -1,0 +1,16 @@
+module:it.polimi.ingsw2020.santorini
+it.polimi.ingsw2020.santorini
+it.polimi.ingsw2020.santorini.controller
+it.polimi.ingsw2020.santorini.exceptions
+it.polimi.ingsw2020.santorini.model
+it.polimi.ingsw2020.santorini.model.gods
+it.polimi.ingsw2020.santorini.network
+it.polimi.ingsw2020.santorini.network.client
+it.polimi.ingsw2020.santorini.network.server
+it.polimi.ingsw2020.santorini.utils
+it.polimi.ingsw2020.santorini.utils.messages.actions
+it.polimi.ingsw2020.santorini.utils.messages.errors
+it.polimi.ingsw2020.santorini.utils.messages.godsParam
+it.polimi.ingsw2020.santorini.utils.messages.matchMessage
+it.polimi.ingsw2020.santorini.view
+it.polimi.ingsw2020.santorini.view.gui

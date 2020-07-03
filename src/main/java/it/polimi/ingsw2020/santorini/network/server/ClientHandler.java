@@ -22,6 +22,7 @@ public class ClientHandler extends Thread{
     /**
      * this is the message handler. it is the first clearing house of the messages and redirects them to the
      * proper method, looking at the firstLevelHeader of the message
+     * @param message the message that has to be handled
      *
      */
     public synchronized void handleMessage(Message message) {
@@ -87,6 +88,7 @@ public class ClientHandler extends Thread{
      * method that handle the messages received by the client with LOGIN as the secondLevelHeader.
      * it performs all required actions to log in the client
      * @param message is the message that has to be handled
+     * @throws UnavailableUsernameException if the username already exists in the server
      */
     private void loginHandler(LoginMessage message) throws UnavailableUsernameException {
         if (owner.getServer().getVirtualClients().containsKey(message.getUsername()) || message.getUsername().equals("All")) {

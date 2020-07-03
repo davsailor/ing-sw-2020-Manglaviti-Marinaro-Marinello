@@ -191,6 +191,7 @@ public class AppGUI extends Application implements ViewInterface{
             FXMLLoader fxmlLoader = new FXMLLoader();
             Scene loadingScene = loadScene("/FXML/loadingWindow.fxml", fxmlLoader);
             primaryStage.setScene(loadingScene);
+            primaryStage.setTitle("Santorini - Loading");
             primaryStage.show();
         });
     }
@@ -222,11 +223,13 @@ public class AppGUI extends Application implements ViewInterface{
                 godSelectionController.setMatchSetupMessage(matchSetupMessage);
                 godSelectionController.initializeToolTip();
                 primaryStage.setScene(setUpScene);
+                primaryStage.setTitle("Santorini - God Selection");
                 primaryStage.show();
             } else {
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 Scene setUpScene = loadScene("/FXML/selectingGod.fxml", fxmlLoader);
                 primaryStage.setScene(setUpScene);
+                primaryStage.setTitle("Santorini - God Selection");
                 primaryStage.show();
                 Message message = new Message(client.getUsername());
                 message.buildSynchronizationMessage(SecondHeaderType.BEGIN_MATCH, null);
@@ -260,12 +263,14 @@ public class AppGUI extends Application implements ViewInterface{
                 selectGodController.initializeGods(matchSetupMessage.getSelectedGods());
                 selectGodController.setMatchSetupMessage(matchSetupMessage);
                 primaryStage.setScene(scene);
+                primaryStage.setTitle("Santorini - God Selection");
                 primaryStage.show();
             }else{
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 Scene setUpScene;
                 setUpScene = loadScene("/FXML/selectionGod.fxml", fxmlLoader);
                 primaryStage.setScene(setUpScene);
+                primaryStage.setTitle("Santorini - God Selection");
                 primaryStage.show();
             }
         });
@@ -298,6 +303,7 @@ public class AppGUI extends Application implements ViewInterface{
                 infoMatchController.setClient(client);
                 infoMatchController.initializePlayers(players);
                 primaryStage.setScene(scene);
+                primaryStage.setTitle("Santorini - Challengers");
                 primaryStage.show();
             });
             try {
@@ -324,6 +330,7 @@ public class AppGUI extends Application implements ViewInterface{
             selectionBuilderController.initializePlayers(players);
             selectionBuilderController.initializeBoard(turnPlayerMessage.getBoard());
             selectionBuilderController.setText();
+            primaryStage.setTitle("Santorini - Builder Setup");
             primaryStage.setScene(scene);
             primaryStage.show();
         });
@@ -675,7 +682,7 @@ public class AppGUI extends Application implements ViewInterface{
     /**
      * method that shows winner. It then close the match or if the players wants to begin a new match
      * metodo che mostra vincitori e vinti. conclude la partita con epic sax guy
-     * @param winner
+     * @param winner winner of the match
      */
     @Override
     public void displayEndMatch(String winner) {
@@ -683,7 +690,6 @@ public class AppGUI extends Application implements ViewInterface{
             for(Stage s : modalStages)
                 s.toBack();
 
-            System.out.println("ok");
             FXMLLoader fxmlLoader = new FXMLLoader();
             Scene scene;
             if(client.getUsername().equals(winner)) {
@@ -718,6 +724,7 @@ public class AppGUI extends Application implements ViewInterface{
 
             FXMLLoader newMatchLoader = new FXMLLoader();
             if (wantNewMatch.equals("YES")) {
+                infoMatchDisplay = true;
                 Stage selection = new Stage();
                 scene = loadScene("/FXML/NewMatch.fxml", newMatchLoader);
                 newMatchController = newMatchLoader.getController();

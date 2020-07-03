@@ -22,6 +22,7 @@ public interface ViewInterface {
     /**
      * method that display a Loading window to the client while the server waits other clients to join
      * metodo per intrattenere l'utente mentre aspettiamo altri utenti che vogliono giocare
+     * @param message the message containing all the infos needed to the method
      */
     void displayLoadingWindow(String message);
 
@@ -29,6 +30,7 @@ public interface ViewInterface {
      * method that gives the welcome to the clients and distributes color of the builders and Gods'cards
      * metodo in cui si da il welcome alla partita, vengono assegnate le carte e i colori.
      * viene visualizzata una board semplificata per facilitare il posizionamento delle pedine
+     * @param matchSetupMessage the message containing all the infos needed to the method
      */
     void displayMatchSetupWindow(MatchSetupMessage matchSetupMessage);
 
@@ -58,12 +60,14 @@ public interface ViewInterface {
      * method that update the board every time that the model is modified, it does that by calling other methods
      * metodo che aggiorna la board ogni volta che viene fatta una mossa (modificato il model)
      * parametro un messaggio con scritte le informazioni sulla board.
+     * @param message the message containing all the infos needed to the method
      */
     void updateMatch(UpdateMessage message);
 
     /**
      * method that shows board, builders, the textual interface and the first player to play
      * far visualizzare la board con le pedine e tutta l'interfaccia testuale e il primo giocatore che gioca
+     * @param message the message containing all the infos needed to the method
      */
     void displayStartTurn(UpdateMessage message);
 
@@ -98,6 +102,7 @@ public interface ViewInterface {
      * the method asks to the player in which direction he wants to move the builder. The method shows a little matrix to represents the
      * allowed direction of movements. If the player inserts a wrong direction, he will be asked again to insert the direction
      * metodo che mostra all'utente le possibili mosse che il builder selezionato può fare
+     * @param message the message containing all the infos needed to the method
      */
     void displayPossibleMoves(AskMoveSelectionMessage message);
 
@@ -111,6 +116,7 @@ public interface ViewInterface {
      * the method asks to the player in which direction he wants to build. The method shows a little matrix to represents the
      * allowed direction to construct near his playing builder. If the player inserts a wrong direction, he will be asked again to insert the direction
      * metodo che mostra all'utente le possibili costruzioni che il builder mosso può fare
+     * @param message the message containing all the infos needed to the method
      */
     void displayPossibleBuildings(AskBuildSelectionMessage message);
 
@@ -130,13 +136,14 @@ public interface ViewInterface {
     /**
      * method that shows winner. It then close the match or if the players wants to begin a new match
      * metodo che mostra vincitori e vinti. conclude la partita con epic sax guy
-     * @param winner
+     * @param winner the winner of the match
      */
     void displayEndMatch(String winner);
 
     /**
      * method that shows possible errors occurred
      * metodo che mostra all'utente possibili errori che sono capitati
+     * @param error the message error to display
      */
     void displayErrorMessage(String error);
 

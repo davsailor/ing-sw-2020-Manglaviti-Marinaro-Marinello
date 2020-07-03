@@ -84,125 +84,126 @@
 <i>10</i>&nbsp;
 <i>11</i>&nbsp;    /**
 <i>12</i>&nbsp;     * method that create the deck of god&#39;s card, so that we can extract casually (or chose) the card we&#39;ll play
-<i>13</i>&nbsp;     */
-<b class="fc"><i>14</i>&nbsp;    public GodDeck(int numberOfPlayers){</b>
-<b class="fc"><i>15</i>&nbsp;        this.nextCard = 0;</b>
-<b class="fc"><i>16</i>&nbsp;        this.nextSelection = 0;</b>
-<b class="fc"><i>17</i>&nbsp;        if(numberOfPlayers == 2)</b>
-<b class="fc"><i>18</i>&nbsp;            this.deck = new int[GOD_NUMBER];</b>
-<i>19</i>&nbsp;        else
-<b class="fc"><i>20</i>&nbsp;            this.deck = new int[GOD_NUMBER - 1];</b>
-<b class="fc"><i>21</i>&nbsp;        this.numberOfPlayers = numberOfPlayers;</b>
-<i>22</i>&nbsp;        try {
-<b class="fc"><i>23</i>&nbsp;            int i = 0;</b>
-<b class="fc"><i>24</i>&nbsp;            for (GodFactotum g : GodFactotum.values())</b>
-<b class="fc"><i>25</i>&nbsp;                if(numberOfPlayers &lt;= g.getNumberOfPlayers()) {</b>
-<b class="fc"><i>26</i>&nbsp;                    deck[i] = g.getCode();</b>
-<b class="fc"><i>27</i>&nbsp;                    ++i;</b>
-<i>28</i>&nbsp;                }
-<b class="nc"><i>29</i>&nbsp;        } catch (Exception e) {</b>
-<b class="nc"><i>30</i>&nbsp;            System.out.println(&quot;Unexpected God!&quot;);</b>
-<b class="fc"><i>31</i>&nbsp;        }</b>
-<b class="fc"><i>32</i>&nbsp;    }</b>
-<i>33</i>&nbsp;
-<i>34</i>&nbsp;    public int getNextSelection() {
-<b class="fc"><i>35</i>&nbsp;        return nextSelection;</b>
-<i>36</i>&nbsp;    }
-<i>37</i>&nbsp;
-<i>38</i>&nbsp;    public void setNextSelection(int nextSelection) {
-<b class="fc"><i>39</i>&nbsp;        this.nextSelection = nextSelection;</b>
-<b class="fc"><i>40</i>&nbsp;    }</b>
-<i>41</i>&nbsp;
-<i>42</i>&nbsp;    /**
-<i>43</i>&nbsp;     * creates a shadow copy of the deck
-<i>44</i>&nbsp;     * @return the shadow copy of the deck
-<i>45</i>&nbsp;     */
-<i>46</i>&nbsp;    public int[] getDeck() {
-<b class="fc"><i>47</i>&nbsp;        int[] deckCpy = new int[deck.length];</b>
-<b class="fc"><i>48</i>&nbsp;        for(int i = 0; i &lt; deck.length; ++i)</b>
-<b class="fc"><i>49</i>&nbsp;            deckCpy[i] = deck[i];</b>
-<b class="fc"><i>50</i>&nbsp;        return deckCpy;</b>
-<i>51</i>&nbsp;    }
-<i>52</i>&nbsp;
-<i>53</i>&nbsp;    /**
-<i>54</i>&nbsp;     * getter of nextCard
-<i>55</i>&nbsp;     * @return the index of the next card
-<i>56</i>&nbsp;     */
-<i>57</i>&nbsp;    public int getNextCard() {
-<b class="fc"><i>58</i>&nbsp;        return nextCard;</b>
-<i>59</i>&nbsp;    }
-<i>60</i>&nbsp;
-<i>61</i>&nbsp;    /**
-<i>62</i>&nbsp;     * creates and assigns a card to the player
-<i>63</i>&nbsp;     * @param code the code of the card
-<i>64</i>&nbsp;     * @return the card corresponding to the code
-<i>65</i>&nbsp;     */
-<i>66</i>&nbsp;    public GodCard giveCard(int code) {
-<i>67</i>&nbsp;        try{
-<b class="fc"><i>68</i>&nbsp;            if(code &gt;= GOD_NUMBER || code &lt; 0) throw new UnexpectedGodException();</b>
-<b class="fc"><i>69</i>&nbsp;            for(GodFactotum g : GodFactotum.values())</b>
-<b class="fc"><i>70</i>&nbsp;                if(isExtracted(code) &amp;&amp; g.getCode() == code)</b>
-<b class="fc"><i>71</i>&nbsp;                    return g.summon();</b>
-<b class="nc"><i>72</i>&nbsp;            throw new UnexpectedGodException();</b>
-<b class="nc"><i>73</i>&nbsp;        } catch (UnexpectedGodException e) {</b>
-<b class="nc"><i>74</i>&nbsp;            System.out.println(&quot;Your god does not exist!&quot;);</b>
-<i>75</i>&nbsp;        }
-<b class="nc"><i>76</i>&nbsp;        return null;</b>
-<i>77</i>&nbsp;    }
-<i>78</i>&nbsp;
-<i>79</i>&nbsp;    /**
-<i>80</i>&nbsp;     * extract the selected card and places it at the top of the deck
-<i>81</i>&nbsp;     * @param code the code of the god to extract
-<i>82</i>&nbsp;     */
-<i>83</i>&nbsp;    public void extract(int code){
-<b class="fc"><i>84</i>&nbsp;        if(code &lt; 0 || code &gt;= GOD_NUMBER || isExtracted(code)) return;</b>
-<i>85</i>&nbsp;        int temp;
-<b class="fc"><i>86</i>&nbsp;        for(int i = nextCard; i &lt; deck.length; ++i){</b>
-<b class="fc"><i>87</i>&nbsp;            if(deck[i] == code){</b>
-<b class="fc"><i>88</i>&nbsp;                temp = deck[i];</b>
-<b class="fc"><i>89</i>&nbsp;                if (i - nextCard &gt;= 0) System.arraycopy(deck, nextCard, deck, nextCard + 1, i - nextCard);</b>
-<b class="fc"><i>90</i>&nbsp;                deck[nextCard] = temp;</b>
-<b class="fc"><i>91</i>&nbsp;                ++nextCard;</b>
-<b class="fc"><i>92</i>&nbsp;                break;</b>
-<i>93</i>&nbsp;            }
-<i>94</i>&nbsp;        }
-<b class="fc"><i>95</i>&nbsp;    }</b>
-<i>96</i>&nbsp;
-<i>97</i>&nbsp;    /**
-<i>98</i>&nbsp;     * method that will determine if a certain card has been extracted from the deck
-<i>99</i>&nbsp;     * @param code the code of the god we are looking for
-<i>100</i>&nbsp;     * @return true if the god has been extracted, false otherwise
-<i>101</i>&nbsp;     */
-<i>102</i>&nbsp;    public boolean isExtracted(int code){
-<b class="fc"><i>103</i>&nbsp;        if(code == 11 &amp;&amp; numberOfPlayers == 3) return true;</b>
-<b class="fc"><i>104</i>&nbsp;        for(int i = 0; i &lt; nextCard; ++i)</b>
-<b class="fc"><i>105</i>&nbsp;            if(deck[i] == code) return true;</b>
-<b class="fc"><i>106</i>&nbsp;        return false;</b>
-<i>107</i>&nbsp;    }
-<i>108</i>&nbsp;
-<i>109</i>&nbsp;    /**
-<i>110</i>&nbsp;     * format the deck into a string
-<i>111</i>&nbsp;     * @return deck in string version
-<i>112</i>&nbsp;     */
-<i>113</i>&nbsp;    public String toString() {
-<b class="nc"><i>114</i>&nbsp;        StringBuilder cards = new StringBuilder(&quot;Gods: \n&quot;);</b>
-<b class="nc"><i>115</i>&nbsp;        for (GodFactotum g : GodFactotum.values()) {</b>
-<i>116</i>&nbsp;            try {
-<b class="nc"><i>117</i>&nbsp;                if(numberOfPlayers &lt;= g.getNumberOfPlayers() &amp;&amp; !isExtracted(g.getCode()))</b>
-<b class="nc"><i>118</i>&nbsp;                    cards.append(&quot;Insert &quot;).append(g.getCode()).append(&quot;:\t&quot;).append(g.getName()).append(&quot;\n&quot;);</b>
-<b class="nc"><i>119</i>&nbsp;            } catch (UnexpectedGodException e) {</b>
-<b class="nc"><i>120</i>&nbsp;                System.out.println(&quot;Your god does not exist!&quot;);</b>
-<b class="nc"><i>121</i>&nbsp;            }</b>
-<i>122</i>&nbsp;        }
-<b class="nc"><i>123</i>&nbsp;        return cards.toString();</b>
-<i>124</i>&nbsp;    }
-<i>125</i>&nbsp;}
+<i>13</i>&nbsp;     * @param numberOfPlayers the number of players of the match. If it is 2, Chronus is permitted, otherwise Chronus is forbidden
+<i>14</i>&nbsp;     */
+<b class="fc"><i>15</i>&nbsp;    public GodDeck(int numberOfPlayers){</b>
+<b class="fc"><i>16</i>&nbsp;        this.nextCard = 0;</b>
+<b class="fc"><i>17</i>&nbsp;        this.nextSelection = 0;</b>
+<b class="fc"><i>18</i>&nbsp;        if(numberOfPlayers == 2)</b>
+<b class="fc"><i>19</i>&nbsp;            this.deck = new int[GOD_NUMBER];</b>
+<i>20</i>&nbsp;        else
+<b class="fc"><i>21</i>&nbsp;            this.deck = new int[GOD_NUMBER - 1];</b>
+<b class="fc"><i>22</i>&nbsp;        this.numberOfPlayers = numberOfPlayers;</b>
+<i>23</i>&nbsp;        try {
+<b class="fc"><i>24</i>&nbsp;            int i = 0;</b>
+<b class="fc"><i>25</i>&nbsp;            for (GodFactotum g : GodFactotum.values())</b>
+<b class="fc"><i>26</i>&nbsp;                if(numberOfPlayers &lt;= g.getNumberOfPlayers()) {</b>
+<b class="fc"><i>27</i>&nbsp;                    deck[i] = g.getCode();</b>
+<b class="fc"><i>28</i>&nbsp;                    ++i;</b>
+<i>29</i>&nbsp;                }
+<b class="nc"><i>30</i>&nbsp;        } catch (Exception e) {</b>
+<b class="nc"><i>31</i>&nbsp;            System.out.println(&quot;Unexpected God!&quot;);</b>
+<b class="fc"><i>32</i>&nbsp;        }</b>
+<b class="fc"><i>33</i>&nbsp;    }</b>
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    public int getNextSelection() {
+<b class="fc"><i>36</i>&nbsp;        return nextSelection;</b>
+<i>37</i>&nbsp;    }
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    public void setNextSelection(int nextSelection) {
+<b class="fc"><i>40</i>&nbsp;        this.nextSelection = nextSelection;</b>
+<b class="fc"><i>41</i>&nbsp;    }</b>
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    /**
+<i>44</i>&nbsp;     * creates a shadow copy of the deck
+<i>45</i>&nbsp;     * @return the shadow copy of the deck
+<i>46</i>&nbsp;     */
+<i>47</i>&nbsp;    public int[] getDeck() {
+<b class="fc"><i>48</i>&nbsp;        int[] deckCpy = new int[deck.length];</b>
+<b class="fc"><i>49</i>&nbsp;        for(int i = 0; i &lt; deck.length; ++i)</b>
+<b class="fc"><i>50</i>&nbsp;            deckCpy[i] = deck[i];</b>
+<b class="fc"><i>51</i>&nbsp;        return deckCpy;</b>
+<i>52</i>&nbsp;    }
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    /**
+<i>55</i>&nbsp;     * getter of nextCard
+<i>56</i>&nbsp;     * @return the index of the next card
+<i>57</i>&nbsp;     */
+<i>58</i>&nbsp;    public int getNextCard() {
+<b class="fc"><i>59</i>&nbsp;        return nextCard;</b>
+<i>60</i>&nbsp;    }
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    /**
+<i>63</i>&nbsp;     * creates and assigns a card to the player
+<i>64</i>&nbsp;     * @param code the code of the card
+<i>65</i>&nbsp;     * @return the card corresponding to the code
+<i>66</i>&nbsp;     */
+<i>67</i>&nbsp;    public GodCard giveCard(int code) {
+<i>68</i>&nbsp;        try{
+<b class="fc"><i>69</i>&nbsp;            if(code &gt;= GOD_NUMBER || code &lt; 0) throw new UnexpectedGodException();</b>
+<b class="fc"><i>70</i>&nbsp;            for(GodFactotum g : GodFactotum.values())</b>
+<b class="fc"><i>71</i>&nbsp;                if(isExtracted(code) &amp;&amp; g.getCode() == code)</b>
+<b class="fc"><i>72</i>&nbsp;                    return g.summon();</b>
+<b class="nc"><i>73</i>&nbsp;            throw new UnexpectedGodException();</b>
+<b class="nc"><i>74</i>&nbsp;        } catch (UnexpectedGodException e) {</b>
+<b class="nc"><i>75</i>&nbsp;            System.out.println(&quot;Your god does not exist!&quot;);</b>
+<i>76</i>&nbsp;        }
+<b class="nc"><i>77</i>&nbsp;        return null;</b>
+<i>78</i>&nbsp;    }
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    /**
+<i>81</i>&nbsp;     * extract the selected card and places it at the top of the deck
+<i>82</i>&nbsp;     * @param code the code of the god to extract
+<i>83</i>&nbsp;     */
+<i>84</i>&nbsp;    public void extract(int code){
+<b class="fc"><i>85</i>&nbsp;        if(code &lt; 0 || code &gt;= GOD_NUMBER || isExtracted(code)) return;</b>
+<i>86</i>&nbsp;        int temp;
+<b class="fc"><i>87</i>&nbsp;        for(int i = nextCard; i &lt; deck.length; ++i){</b>
+<b class="fc"><i>88</i>&nbsp;            if(deck[i] == code){</b>
+<b class="fc"><i>89</i>&nbsp;                temp = deck[i];</b>
+<b class="fc"><i>90</i>&nbsp;                if (i - nextCard &gt;= 0) System.arraycopy(deck, nextCard, deck, nextCard + 1, i - nextCard);</b>
+<b class="fc"><i>91</i>&nbsp;                deck[nextCard] = temp;</b>
+<b class="fc"><i>92</i>&nbsp;                ++nextCard;</b>
+<b class="fc"><i>93</i>&nbsp;                break;</b>
+<i>94</i>&nbsp;            }
+<i>95</i>&nbsp;        }
+<b class="fc"><i>96</i>&nbsp;    }</b>
+<i>97</i>&nbsp;
+<i>98</i>&nbsp;    /**
+<i>99</i>&nbsp;     * method that will determine if a certain card has been extracted from the deck
+<i>100</i>&nbsp;     * @param code the code of the god we are looking for
+<i>101</i>&nbsp;     * @return true if the god has been extracted, false otherwise
+<i>102</i>&nbsp;     */
+<i>103</i>&nbsp;    public boolean isExtracted(int code){
+<b class="fc"><i>104</i>&nbsp;        if(code == 11 &amp;&amp; numberOfPlayers == 3) return true;</b>
+<b class="fc"><i>105</i>&nbsp;        for(int i = 0; i &lt; nextCard; ++i)</b>
+<b class="fc"><i>106</i>&nbsp;            if(deck[i] == code) return true;</b>
+<b class="fc"><i>107</i>&nbsp;        return false;</b>
+<i>108</i>&nbsp;    }
+<i>109</i>&nbsp;
+<i>110</i>&nbsp;    /**
+<i>111</i>&nbsp;     * format the deck into a string
+<i>112</i>&nbsp;     * @return deck in string version
+<i>113</i>&nbsp;     */
+<i>114</i>&nbsp;    public String toString() {
+<b class="nc"><i>115</i>&nbsp;        StringBuilder cards = new StringBuilder(&quot;Gods: \n&quot;);</b>
+<b class="nc"><i>116</i>&nbsp;        for (GodFactotum g : GodFactotum.values()) {</b>
+<i>117</i>&nbsp;            try {
+<b class="nc"><i>118</i>&nbsp;                if(numberOfPlayers &lt;= g.getNumberOfPlayers() &amp;&amp; !isExtracted(g.getCode()))</b>
+<b class="nc"><i>119</i>&nbsp;                    cards.append(&quot;Insert &quot;).append(g.getCode()).append(&quot;:\t&quot;).append(g.getName()).append(&quot;\n&quot;);</b>
+<b class="nc"><i>120</i>&nbsp;            } catch (UnexpectedGodException e) {</b>
+<b class="nc"><i>121</i>&nbsp;                System.out.println(&quot;Your god does not exist!&quot;);</b>
+<b class="nc"><i>122</i>&nbsp;            }</b>
+<i>123</i>&nbsp;        }
+<b class="nc"><i>124</i>&nbsp;        return cards.toString();</b>
+<i>125</i>&nbsp;    }
+<i>126</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-07-03 18:30</div>
+    <div style="float:right;">generated on 2020-07-03 18:35</div>
 </div>
 </body>
 </html>

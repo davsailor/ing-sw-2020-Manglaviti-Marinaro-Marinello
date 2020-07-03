@@ -3,10 +3,7 @@ package it.polimi.ingsw2020.santorini.model.gods;
 import it.polimi.ingsw2020.santorini.controller.TurnLogic;
 import it.polimi.ingsw2020.santorini.exceptions.EndMatchException;
 import it.polimi.ingsw2020.santorini.model.*;
-import it.polimi.ingsw2020.santorini.utils.AccessType;
-import it.polimi.ingsw2020.santorini.utils.ActionType;
-import it.polimi.ingsw2020.santorini.utils.Message;
-import it.polimi.ingsw2020.santorini.utils.PhaseType;
+import it.polimi.ingsw2020.santorini.utils.*;
 import it.polimi.ingsw2020.santorini.utils.messages.godsParam.ApolloParamMessage;
 
 public class Apollo extends GodCard {
@@ -52,7 +49,7 @@ public class Apollo extends GodCard {
      * @throws EndMatchException some gods (such as Pan) can make you win the game
      */
     @Override
-    public void invokeGod(Match match, Message message, TurnLogic turnManager) {
+    public void invokeGod(Match match, Message message, TurnLogic turnManager) throws EndMatchException {
         ApolloParamMessage param = message.deserializeApolloParamMessage(message.getSerializedPayload());
 
         if(param.getYourBuilderGender() == 'F')
@@ -62,6 +59,9 @@ public class Apollo extends GodCard {
 
         Builder yours = match.getCurrentPlayer().getPlayingBuilder();
         Builder opponent = match.getBoard().getBoard()[yours.getPosX()][yours.getPosY()-1].getBuilder();
+
+        int oldPosX = yours.getPosX();
+        int oldPosY = yours.getPosY();
 
         switch(param.getOpponentBuilderDirection()){
             case NORTH:
@@ -96,6 +96,8 @@ public class Apollo extends GodCard {
         turnManager.getRemainingActions().remove(ActionType.MOVE);
 
         System.out.println("potere di " + name + " attivato");
+        if(match.getBoard().getBoard()[oldPosX][oldPosY].getLevel() != LevelType.TOP && match.getBoard().getBoard()[yours.getPosX()][yours.getPosY()].getLevel() == LevelType.TOP)
+            match.currentWins();
     }
 
     public static String toStringEffect(GodCard card) {

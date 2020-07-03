@@ -61,7 +61,7 @@
     0%
   </span>
   <span class="absValue">
-    (0/ 242)
+    (0/ 239)
   </span>
 </td>
 </tr>
@@ -405,222 +405,219 @@
 <i>331</i>&nbsp;        }
 <b class="nc"><i>332</i>&nbsp;        if(x==1 &amp;&amp; y==1){</b>
 <b class="nc"><i>333</i>&nbsp;            b00.setDisable(false);</b>
-<b class="nc"><i>334</i>&nbsp;            System.out.println(b00.isDisable());</b>
-<b class="nc"><i>335</i>&nbsp;        }else if(x==1 &amp;&amp; y==2){</b>
-<b class="nc"><i>336</i>&nbsp;            b01.setDisable(false);</b>
-<b class="nc"><i>337</i>&nbsp;            System.out.println(b01.isDisable());</b>
-<b class="nc"><i>338</i>&nbsp;        }else if(x==1 &amp;&amp; y==3){</b>
-<b class="nc"><i>339</i>&nbsp;            b02.setDisable(false);</b>
-<b class="nc"><i>340</i>&nbsp;            System.out.println(b02.isDisable());</b>
-<b class="nc"><i>341</i>&nbsp;        }else if(x==1 &amp;&amp; y==4){</b>
-<b class="nc"><i>342</i>&nbsp;            b03.setDisable(false);</b>
-<b class="nc"><i>343</i>&nbsp;        }else if(x==1 &amp;&amp; y==5){</b>
-<b class="nc"><i>344</i>&nbsp;            b04.setDisable(false);</b>
-<b class="nc"><i>345</i>&nbsp;        }else if(x==2 &amp;&amp; y==1){</b>
-<b class="nc"><i>346</i>&nbsp;            b10.setDisable(false);</b>
-<b class="nc"><i>347</i>&nbsp;        }else if(x==2 &amp;&amp; y==2){</b>
-<b class="nc"><i>348</i>&nbsp;            b11.setDisable(false);</b>
-<b class="nc"><i>349</i>&nbsp;        }else if(x==2 &amp;&amp; y==3){</b>
-<b class="nc"><i>350</i>&nbsp;            b12.setDisable(false);</b>
-<b class="nc"><i>351</i>&nbsp;        }else if(x==2 &amp;&amp; y==4){</b>
-<b class="nc"><i>352</i>&nbsp;            b13.setDisable(false);</b>
-<b class="nc"><i>353</i>&nbsp;        }else if(x==2 &amp;&amp; y==5){</b>
-<b class="nc"><i>354</i>&nbsp;            b14.setDisable(false);</b>
-<b class="nc"><i>355</i>&nbsp;        }else if(x==3 &amp;&amp; y==1){</b>
-<b class="nc"><i>356</i>&nbsp;            b20.setDisable(false);</b>
-<b class="nc"><i>357</i>&nbsp;        }else if(x==3 &amp;&amp; y==2){</b>
-<b class="nc"><i>358</i>&nbsp;            b21.setDisable(false);</b>
-<b class="nc"><i>359</i>&nbsp;        }else if(x==3 &amp;&amp; y==3){</b>
-<b class="nc"><i>360</i>&nbsp;            b22.setDisable(false);</b>
-<b class="nc"><i>361</i>&nbsp;        }else if(x==3 &amp;&amp; y==4){</b>
-<b class="nc"><i>362</i>&nbsp;            b23.setDisable(false);</b>
-<b class="nc"><i>363</i>&nbsp;        }else if(x==3 &amp;&amp; y==5){</b>
-<b class="nc"><i>364</i>&nbsp;            b24.setDisable(false);</b>
-<b class="nc"><i>365</i>&nbsp;        }else if(x==4 &amp;&amp; y==1){</b>
-<b class="nc"><i>366</i>&nbsp;            b30.setDisable(false);</b>
-<b class="nc"><i>367</i>&nbsp;        }else if(x==4 &amp;&amp; y==2){</b>
-<b class="nc"><i>368</i>&nbsp;            b31.setDisable(false);</b>
-<b class="nc"><i>369</i>&nbsp;        }else if(x==4 &amp;&amp; y==3){</b>
-<b class="nc"><i>370</i>&nbsp;            b32.setDisable(false);</b>
-<b class="nc"><i>371</i>&nbsp;        }else if(x==4 &amp;&amp; y==4){</b>
-<b class="nc"><i>372</i>&nbsp;            b33.setDisable(false);</b>
-<b class="nc"><i>373</i>&nbsp;        }else if(x==4 &amp;&amp; y==5){</b>
-<b class="nc"><i>374</i>&nbsp;            b34.setDisable(false);</b>
-<b class="nc"><i>375</i>&nbsp;        }else if(x==5 &amp;&amp; y==1){</b>
-<b class="nc"><i>376</i>&nbsp;            b40.setDisable(false);</b>
-<b class="nc"><i>377</i>&nbsp;        }else if(x==5 &amp;&amp; y==2){</b>
-<b class="nc"><i>378</i>&nbsp;            b41.setDisable(false);</b>
-<b class="nc"><i>379</i>&nbsp;        }else if(x==5 &amp;&amp; y==3){</b>
-<b class="nc"><i>380</i>&nbsp;            b42.setDisable(false);</b>
-<b class="nc"><i>381</i>&nbsp;        }else if(x==5 &amp;&amp; y==4){</b>
-<b class="nc"><i>382</i>&nbsp;            b43.setDisable(false);</b>
-<b class="nc"><i>383</i>&nbsp;        }else if(x==5 &amp;&amp; y==5){</b>
-<b class="nc"><i>384</i>&nbsp;            b44.setDisable(false);</b>
-<i>385</i>&nbsp;        }
-<i>386</i>&nbsp;    }
-<i>387</i>&nbsp;
-<i>388</i>&nbsp;    /**
-<i>389</i>&nbsp;     * the method sets the label on the Board window. The text&#39;s label that is set tells to the player what he has to do, so if he is the current
-<i>390</i>&nbsp;     * player he will have to place his builders, if he isn&#39;t he will have to wait for his turn
-<i>391</i>&nbsp;     */
-<i>392</i>&nbsp;    public void setText(){
-<b class="nc"><i>393</i>&nbsp;        if(matchStateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())){</b>
-<b class="nc"><i>394</i>&nbsp;            text.setText(client.getUsername() +&quot;, select the builder that you want to move&quot;);</b>
-<i>395</i>&nbsp;        }else{
-<b class="nc"><i>396</i>&nbsp;            text.setText(&quot;Now is the turn of &quot;+ matchStateMessage.getCurrentPlayer().getNickname());</b>
-<i>397</i>&nbsp;        }
-<i>398</i>&nbsp;    }
-<i>399</i>&nbsp;
-<i>400</i>&nbsp;    /**
-<i>401</i>&nbsp;     * the method initialize the Board, before the choice of the player, checking if a cell is occupied or not. In the first case the method
-<i>402</i>&nbsp;     * invoke initializeCell method that will disable the button of the occupied cell and sets the builder that occupies the cell.
-<i>403</i>&nbsp;     * The method than sets in each cell its height
-<i>404</i>&nbsp;     * @param board is the matrix of the cell that represents the board
-<i>405</i>&nbsp;     */
-<i>406</i>&nbsp;    public void initializeBoard(Cell[][] board) {
-<b class="nc"><i>407</i>&nbsp;        if(board[1][1].getStatus()== AccessType.OCCUPIED) initializeCell(p00, b00, board[1][1]);</b>
-<b class="nc"><i>408</i>&nbsp;        if(board[1][2].getStatus()== AccessType.OCCUPIED) initializeCell(p01, b01, board[1][2]);</b>
-<b class="nc"><i>409</i>&nbsp;        if(board[1][3].getStatus()== AccessType.OCCUPIED) initializeCell(p02, b02, board[1][3]);</b>
-<b class="nc"><i>410</i>&nbsp;        if(board[1][4].getStatus()== AccessType.OCCUPIED) initializeCell(p03, b03, board[1][4]);</b>
-<b class="nc"><i>411</i>&nbsp;        if(board[1][5].getStatus()== AccessType.OCCUPIED) initializeCell(p04, b04, board[1][5]);</b>
-<b class="nc"><i>412</i>&nbsp;        if(board[2][1].getStatus()== AccessType.OCCUPIED) initializeCell(p10, b10, board[2][1]);</b>
-<b class="nc"><i>413</i>&nbsp;        if(board[2][2].getStatus()== AccessType.OCCUPIED) initializeCell(p11, b11, board[2][2]);</b>
-<b class="nc"><i>414</i>&nbsp;        if(board[2][3].getStatus()== AccessType.OCCUPIED) initializeCell(p12, b12, board[2][3]);</b>
-<b class="nc"><i>415</i>&nbsp;        if(board[2][4].getStatus()== AccessType.OCCUPIED) initializeCell(p13, b13, board[2][4]);</b>
-<b class="nc"><i>416</i>&nbsp;        if(board[2][5].getStatus()== AccessType.OCCUPIED) initializeCell(p14, b14, board[2][5]);</b>
-<b class="nc"><i>417</i>&nbsp;        if(board[3][1].getStatus()== AccessType.OCCUPIED) initializeCell(p20, b20, board[3][1]);</b>
-<b class="nc"><i>418</i>&nbsp;        if(board[3][2].getStatus()== AccessType.OCCUPIED) initializeCell(p21, b21, board[3][2]);</b>
-<b class="nc"><i>419</i>&nbsp;        if(board[3][3].getStatus()== AccessType.OCCUPIED) initializeCell(p22, b22, board[3][3]);</b>
-<b class="nc"><i>420</i>&nbsp;        if(board[3][4].getStatus()== AccessType.OCCUPIED) initializeCell(p23, b23, board[3][4]);</b>
-<b class="nc"><i>421</i>&nbsp;        if(board[3][5].getStatus()== AccessType.OCCUPIED) initializeCell(p24, b24, board[3][5]);</b>
-<b class="nc"><i>422</i>&nbsp;        if(board[4][1].getStatus()== AccessType.OCCUPIED) initializeCell(p30, b30, board[4][1]);</b>
-<b class="nc"><i>423</i>&nbsp;        if(board[4][2].getStatus()== AccessType.OCCUPIED) initializeCell(p31, b31, board[4][2]);</b>
-<b class="nc"><i>424</i>&nbsp;        if(board[4][3].getStatus()== AccessType.OCCUPIED) initializeCell(p32, b32, board[4][3]);</b>
-<b class="nc"><i>425</i>&nbsp;        if(board[4][4].getStatus()== AccessType.OCCUPIED) initializeCell(p33, b33, board[4][4]);</b>
-<b class="nc"><i>426</i>&nbsp;        if(board[4][5].getStatus()== AccessType.OCCUPIED) initializeCell(p34, b34, board[4][5]);</b>
-<b class="nc"><i>427</i>&nbsp;        if(board[5][1].getStatus()== AccessType.OCCUPIED) initializeCell(p40, b40, board[5][1]);</b>
-<b class="nc"><i>428</i>&nbsp;        if(board[5][2].getStatus()== AccessType.OCCUPIED) initializeCell(p41, b41, board[5][2]);</b>
-<b class="nc"><i>429</i>&nbsp;        if(board[5][3].getStatus()== AccessType.OCCUPIED) initializeCell(p42, b42, board[5][3]);</b>
-<b class="nc"><i>430</i>&nbsp;        if(board[5][4].getStatus()== AccessType.OCCUPIED) initializeCell(p43, b43, board[5][4]);</b>
-<b class="nc"><i>431</i>&nbsp;        if(board[5][5].getStatus()== AccessType.OCCUPIED) initializeCell(p44, b44, board[5][5]);</b>
-<b class="nc"><i>432</i>&nbsp;        c00.setText(String.valueOf(board[1][1].getLevel().getHeight()));</b>
-<b class="nc"><i>433</i>&nbsp;        c01.setText(String.valueOf(board[1][2].getLevel().getHeight()));</b>
-<b class="nc"><i>434</i>&nbsp;        c02.setText(String.valueOf(board[1][3].getLevel().getHeight()));</b>
-<b class="nc"><i>435</i>&nbsp;        c03.setText(String.valueOf(board[1][4].getLevel().getHeight()));</b>
-<b class="nc"><i>436</i>&nbsp;        c04.setText(String.valueOf(board[1][5].getLevel().getHeight()));</b>
-<b class="nc"><i>437</i>&nbsp;        c10.setText(String.valueOf(board[2][1].getLevel().getHeight()));</b>
-<b class="nc"><i>438</i>&nbsp;        c11.setText(String.valueOf(board[2][2].getLevel().getHeight()));</b>
-<b class="nc"><i>439</i>&nbsp;        c12.setText(String.valueOf(board[2][3].getLevel().getHeight()));</b>
-<b class="nc"><i>440</i>&nbsp;        c13.setText(String.valueOf(board[2][4].getLevel().getHeight()));</b>
-<b class="nc"><i>441</i>&nbsp;        c14.setText(String.valueOf(board[2][5].getLevel().getHeight()));</b>
-<b class="nc"><i>442</i>&nbsp;        c20.setText(String.valueOf(board[3][1].getLevel().getHeight()));</b>
-<b class="nc"><i>443</i>&nbsp;        c21.setText(String.valueOf(board[3][2].getLevel().getHeight()));</b>
-<b class="nc"><i>444</i>&nbsp;        c22.setText(String.valueOf(board[3][3].getLevel().getHeight()));</b>
-<b class="nc"><i>445</i>&nbsp;        c23.setText(String.valueOf(board[3][4].getLevel().getHeight()));</b>
-<b class="nc"><i>446</i>&nbsp;        c24.setText(String.valueOf(board[3][5].getLevel().getHeight()));</b>
-<b class="nc"><i>447</i>&nbsp;        c30.setText(String.valueOf(board[4][1].getLevel().getHeight()));</b>
-<b class="nc"><i>448</i>&nbsp;        c31.setText(String.valueOf(board[4][2].getLevel().getHeight()));</b>
-<b class="nc"><i>449</i>&nbsp;        c32.setText(String.valueOf(board[4][3].getLevel().getHeight()));</b>
-<b class="nc"><i>450</i>&nbsp;        c33.setText(String.valueOf(board[4][4].getLevel().getHeight()));</b>
-<b class="nc"><i>451</i>&nbsp;        c34.setText(String.valueOf(board[4][5].getLevel().getHeight()));</b>
-<b class="nc"><i>452</i>&nbsp;        c40.setText(String.valueOf(board[5][1].getLevel().getHeight()));</b>
-<b class="nc"><i>453</i>&nbsp;        c41.setText(String.valueOf(board[5][2].getLevel().getHeight()));</b>
-<b class="nc"><i>454</i>&nbsp;        c42.setText(String.valueOf(board[5][3].getLevel().getHeight()));</b>
-<b class="nc"><i>455</i>&nbsp;        c43.setText(String.valueOf(board[5][4].getLevel().getHeight()));</b>
-<b class="nc"><i>456</i>&nbsp;        c44.setText(String.valueOf(board[5][5].getLevel().getHeight()));</b>
-<i>457</i>&nbsp;    }
-<i>458</i>&nbsp;
-<i>459</i>&nbsp;    /**
-<i>460</i>&nbsp;     * the method is invoked by initializeBoard when it finds an occupied. It disable the button associated to the cell and sets the label
-<i>461</i>&nbsp;     * to show the builder that occupies the correspondent cell
-<i>462</i>&nbsp;     * @param builder is the label that displays the builder that occupies the cell
-<i>463</i>&nbsp;     * @param button is the button that represents the cell
-<i>464</i>&nbsp;     * @param cell is the occupied cell
-<i>465</i>&nbsp;     */
-<i>466</i>&nbsp;    private void initializeCell(Label builder, Button button, Cell cell) {
-<b class="nc"><i>467</i>&nbsp;        builder.setText(AppGUI.gender(cell.getBuilder().getGender()));</b>
-<b class="nc"><i>468</i>&nbsp;        builder.setTextFill(Color.web(AppGUI.color(cell.getBuilder().getColor())));</b>
-<b class="nc"><i>469</i>&nbsp;        button.setDisable(true);</b>
-<i>470</i>&nbsp;    }
-<i>471</i>&nbsp;
-<i>472</i>&nbsp;    /**
-<i>473</i>&nbsp;     * the method sets the names of the players in the Board window and sets also the respective gods&#39;images
-<i>474</i>&nbsp;     * @param players is the ArrayList containing all the names of the players
-<i>475</i>&nbsp;     */
-<i>476</i>&nbsp;    public void initializePlayers(ArrayList&lt;Player&gt; players) {
-<b class="nc"><i>477</i>&nbsp;        setPlayers(players);</b>
-<b class="nc"><i>478</i>&nbsp;        username1.setText(players.get(0).getNickname());</b>
-<b class="nc"><i>479</i>&nbsp;        username1.setAlignment(Pos.TOP_CENTER);</b>
-<b class="nc"><i>480</i>&nbsp;        username2.setText(players.get(1).getNickname());</b>
-<b class="nc"><i>481</i>&nbsp;        username2.setAlignment(Pos.TOP_CENTER);</b>
-<b class="nc"><i>482</i>&nbsp;        Image image = godImage(players.get(0).getDivinePower().getName());</b>
-<b class="nc"><i>483</i>&nbsp;        ImageView imageView = new ImageView(image);</b>
-<b class="nc"><i>484</i>&nbsp;        imageView.setFitWidth(123.0);</b>
-<b class="nc"><i>485</i>&nbsp;        imageView.setFitHeight(169.0);</b>
-<b class="nc"><i>486</i>&nbsp;        god1.setGraphic(imageView);</b>
-<i>487</i>&nbsp;
-<b class="nc"><i>488</i>&nbsp;        image = godImage(players.get(1).getDivinePower().getName());</b>
-<b class="nc"><i>489</i>&nbsp;        imageView = new ImageView(image);</b>
-<b class="nc"><i>490</i>&nbsp;        imageView.setFitWidth(123.0);</b>
-<b class="nc"><i>491</i>&nbsp;        imageView.setFitHeight(169.0);</b>
-<b class="nc"><i>492</i>&nbsp;        god2.setGraphic(imageView);</b>
-<i>493</i>&nbsp;
-<b class="nc"><i>494</i>&nbsp;        if(players.size()==3) {</b>
-<b class="nc"><i>495</i>&nbsp;            username3.setText(players.get(2).getNickname());</b>
-<b class="nc"><i>496</i>&nbsp;            username3.setAlignment(Pos.TOP_CENTER);</b>
-<b class="nc"><i>497</i>&nbsp;            image = godImage(players.get(2).getDivinePower().getName());</b>
-<b class="nc"><i>498</i>&nbsp;            imageView = new ImageView(image);</b>
-<b class="nc"><i>499</i>&nbsp;            imageView.setFitWidth(123.0);</b>
-<b class="nc"><i>500</i>&nbsp;            imageView.setFitHeight(169.0);</b>
-<b class="nc"><i>501</i>&nbsp;            god3.setGraphic(imageView);</b>
-<i>502</i>&nbsp;        }
-<i>503</i>&nbsp;    }
-<i>504</i>&nbsp;
-<i>505</i>&nbsp;    /**
-<i>506</i>&nbsp;     * The method is used to obtain the image of a specific god
-<i>507</i>&nbsp;     * @param name is the string containing the name of god of whom we want the image
-<i>508</i>&nbsp;     * @return the requested god&#39;s image
-<i>509</i>&nbsp;     */
-<i>510</i>&nbsp;    private Image godImage(String name){
-<b class="nc"><i>511</i>&nbsp;        switch (name){</b>
-<i>512</i>&nbsp;            case &quot;Apollo&quot; :
-<b class="nc"><i>513</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Apollo.png&quot;));</b>
-<i>514</i>&nbsp;            case &quot;Ares&quot; :
-<b class="nc"><i>515</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Ares.png&quot;));</b>
-<i>516</i>&nbsp;            case &quot;Artemis&quot; :
-<b class="nc"><i>517</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Artemis.png&quot;));</b>
-<i>518</i>&nbsp;            case &quot;Athena&quot; :
-<b class="nc"><i>519</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Athena.png&quot;));</b>
-<i>520</i>&nbsp;            case &quot;Atlas&quot; :
-<b class="nc"><i>521</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Atlas.png&quot;));</b>
-<i>522</i>&nbsp;            case &quot;Chronus&quot; :
-<b class="nc"><i>523</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Chronus.png&quot;));</b>
-<i>524</i>&nbsp;            case &quot;Demeter&quot; :
-<b class="nc"><i>525</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Demeter.png&quot;));</b>
-<i>526</i>&nbsp;            case &quot;Hephaestus&quot; :
-<b class="nc"><i>527</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Hephaestus.png&quot;));</b>
-<i>528</i>&nbsp;            case &quot;Hestia&quot; :
-<b class="nc"><i>529</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Hestia.png&quot;));</b>
-<i>530</i>&nbsp;            case &quot;Minotaur&quot; :
-<b class="nc"><i>531</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Minotaur.png&quot;));</b>
-<i>532</i>&nbsp;            case &quot;Pan&quot; :
-<b class="nc"><i>533</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Pan.png&quot;));</b>
-<i>534</i>&nbsp;            case &quot;Poseidon&quot; :
-<b class="nc"><i>535</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Poseidon.png&quot;));</b>
-<i>536</i>&nbsp;            case &quot;Prometheus&quot; :
-<b class="nc"><i>537</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Prometheus.png&quot;));</b>
-<i>538</i>&nbsp;            case &quot;Zeus&quot; :
-<b class="nc"><i>539</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Zeus.png&quot;));</b>
-<i>540</i>&nbsp;        }
-<b class="nc"><i>541</i>&nbsp;        return null;</b>
-<i>542</i>&nbsp;    }
-<i>543</i>&nbsp;}
+<b class="nc"><i>334</i>&nbsp;        }else if(x==1 &amp;&amp; y==2){</b>
+<b class="nc"><i>335</i>&nbsp;            b01.setDisable(false);</b>
+<b class="nc"><i>336</i>&nbsp;        }else if(x==1 &amp;&amp; y==3){</b>
+<b class="nc"><i>337</i>&nbsp;            b02.setDisable(false);</b>
+<b class="nc"><i>338</i>&nbsp;        }else if(x==1 &amp;&amp; y==4){</b>
+<b class="nc"><i>339</i>&nbsp;            b03.setDisable(false);</b>
+<b class="nc"><i>340</i>&nbsp;        }else if(x==1 &amp;&amp; y==5){</b>
+<b class="nc"><i>341</i>&nbsp;            b04.setDisable(false);</b>
+<b class="nc"><i>342</i>&nbsp;        }else if(x==2 &amp;&amp; y==1){</b>
+<b class="nc"><i>343</i>&nbsp;            b10.setDisable(false);</b>
+<b class="nc"><i>344</i>&nbsp;        }else if(x==2 &amp;&amp; y==2){</b>
+<b class="nc"><i>345</i>&nbsp;            b11.setDisable(false);</b>
+<b class="nc"><i>346</i>&nbsp;        }else if(x==2 &amp;&amp; y==3){</b>
+<b class="nc"><i>347</i>&nbsp;            b12.setDisable(false);</b>
+<b class="nc"><i>348</i>&nbsp;        }else if(x==2 &amp;&amp; y==4){</b>
+<b class="nc"><i>349</i>&nbsp;            b13.setDisable(false);</b>
+<b class="nc"><i>350</i>&nbsp;        }else if(x==2 &amp;&amp; y==5){</b>
+<b class="nc"><i>351</i>&nbsp;            b14.setDisable(false);</b>
+<b class="nc"><i>352</i>&nbsp;        }else if(x==3 &amp;&amp; y==1){</b>
+<b class="nc"><i>353</i>&nbsp;            b20.setDisable(false);</b>
+<b class="nc"><i>354</i>&nbsp;        }else if(x==3 &amp;&amp; y==2){</b>
+<b class="nc"><i>355</i>&nbsp;            b21.setDisable(false);</b>
+<b class="nc"><i>356</i>&nbsp;        }else if(x==3 &amp;&amp; y==3){</b>
+<b class="nc"><i>357</i>&nbsp;            b22.setDisable(false);</b>
+<b class="nc"><i>358</i>&nbsp;        }else if(x==3 &amp;&amp; y==4){</b>
+<b class="nc"><i>359</i>&nbsp;            b23.setDisable(false);</b>
+<b class="nc"><i>360</i>&nbsp;        }else if(x==3 &amp;&amp; y==5){</b>
+<b class="nc"><i>361</i>&nbsp;            b24.setDisable(false);</b>
+<b class="nc"><i>362</i>&nbsp;        }else if(x==4 &amp;&amp; y==1){</b>
+<b class="nc"><i>363</i>&nbsp;            b30.setDisable(false);</b>
+<b class="nc"><i>364</i>&nbsp;        }else if(x==4 &amp;&amp; y==2){</b>
+<b class="nc"><i>365</i>&nbsp;            b31.setDisable(false);</b>
+<b class="nc"><i>366</i>&nbsp;        }else if(x==4 &amp;&amp; y==3){</b>
+<b class="nc"><i>367</i>&nbsp;            b32.setDisable(false);</b>
+<b class="nc"><i>368</i>&nbsp;        }else if(x==4 &amp;&amp; y==4){</b>
+<b class="nc"><i>369</i>&nbsp;            b33.setDisable(false);</b>
+<b class="nc"><i>370</i>&nbsp;        }else if(x==4 &amp;&amp; y==5){</b>
+<b class="nc"><i>371</i>&nbsp;            b34.setDisable(false);</b>
+<b class="nc"><i>372</i>&nbsp;        }else if(x==5 &amp;&amp; y==1){</b>
+<b class="nc"><i>373</i>&nbsp;            b40.setDisable(false);</b>
+<b class="nc"><i>374</i>&nbsp;        }else if(x==5 &amp;&amp; y==2){</b>
+<b class="nc"><i>375</i>&nbsp;            b41.setDisable(false);</b>
+<b class="nc"><i>376</i>&nbsp;        }else if(x==5 &amp;&amp; y==3){</b>
+<b class="nc"><i>377</i>&nbsp;            b42.setDisable(false);</b>
+<b class="nc"><i>378</i>&nbsp;        }else if(x==5 &amp;&amp; y==4){</b>
+<b class="nc"><i>379</i>&nbsp;            b43.setDisable(false);</b>
+<b class="nc"><i>380</i>&nbsp;        }else if(x==5 &amp;&amp; y==5){</b>
+<b class="nc"><i>381</i>&nbsp;            b44.setDisable(false);</b>
+<i>382</i>&nbsp;        }
+<i>383</i>&nbsp;    }
+<i>384</i>&nbsp;
+<i>385</i>&nbsp;    /**
+<i>386</i>&nbsp;     * the method sets the label on the Board window. The text&#39;s label that is set tells to the player what he has to do, so if he is the current
+<i>387</i>&nbsp;     * player he will have to place his builders, if he isn&#39;t he will have to wait for his turn
+<i>388</i>&nbsp;     */
+<i>389</i>&nbsp;    public void setText(){
+<b class="nc"><i>390</i>&nbsp;        if(matchStateMessage.getCurrentPlayer().getNickname().equals(client.getUsername())){</b>
+<b class="nc"><i>391</i>&nbsp;            text.setText(client.getUsername() +&quot;, select the builder that you want to move&quot;);</b>
+<i>392</i>&nbsp;        }else{
+<b class="nc"><i>393</i>&nbsp;            text.setText(&quot;Now is the turn of &quot;+ matchStateMessage.getCurrentPlayer().getNickname());</b>
+<i>394</i>&nbsp;        }
+<i>395</i>&nbsp;    }
+<i>396</i>&nbsp;
+<i>397</i>&nbsp;    /**
+<i>398</i>&nbsp;     * the method initialize the Board, before the choice of the player, checking if a cell is occupied or not. In the first case the method
+<i>399</i>&nbsp;     * invoke initializeCell method that will disable the button of the occupied cell and sets the builder that occupies the cell.
+<i>400</i>&nbsp;     * The method than sets in each cell its height
+<i>401</i>&nbsp;     * @param board is the matrix of the cell that represents the board
+<i>402</i>&nbsp;     */
+<i>403</i>&nbsp;    public void initializeBoard(Cell[][] board) {
+<b class="nc"><i>404</i>&nbsp;        if(board[1][1].getStatus()== AccessType.OCCUPIED) initializeCell(p00, b00, board[1][1]);</b>
+<b class="nc"><i>405</i>&nbsp;        if(board[1][2].getStatus()== AccessType.OCCUPIED) initializeCell(p01, b01, board[1][2]);</b>
+<b class="nc"><i>406</i>&nbsp;        if(board[1][3].getStatus()== AccessType.OCCUPIED) initializeCell(p02, b02, board[1][3]);</b>
+<b class="nc"><i>407</i>&nbsp;        if(board[1][4].getStatus()== AccessType.OCCUPIED) initializeCell(p03, b03, board[1][4]);</b>
+<b class="nc"><i>408</i>&nbsp;        if(board[1][5].getStatus()== AccessType.OCCUPIED) initializeCell(p04, b04, board[1][5]);</b>
+<b class="nc"><i>409</i>&nbsp;        if(board[2][1].getStatus()== AccessType.OCCUPIED) initializeCell(p10, b10, board[2][1]);</b>
+<b class="nc"><i>410</i>&nbsp;        if(board[2][2].getStatus()== AccessType.OCCUPIED) initializeCell(p11, b11, board[2][2]);</b>
+<b class="nc"><i>411</i>&nbsp;        if(board[2][3].getStatus()== AccessType.OCCUPIED) initializeCell(p12, b12, board[2][3]);</b>
+<b class="nc"><i>412</i>&nbsp;        if(board[2][4].getStatus()== AccessType.OCCUPIED) initializeCell(p13, b13, board[2][4]);</b>
+<b class="nc"><i>413</i>&nbsp;        if(board[2][5].getStatus()== AccessType.OCCUPIED) initializeCell(p14, b14, board[2][5]);</b>
+<b class="nc"><i>414</i>&nbsp;        if(board[3][1].getStatus()== AccessType.OCCUPIED) initializeCell(p20, b20, board[3][1]);</b>
+<b class="nc"><i>415</i>&nbsp;        if(board[3][2].getStatus()== AccessType.OCCUPIED) initializeCell(p21, b21, board[3][2]);</b>
+<b class="nc"><i>416</i>&nbsp;        if(board[3][3].getStatus()== AccessType.OCCUPIED) initializeCell(p22, b22, board[3][3]);</b>
+<b class="nc"><i>417</i>&nbsp;        if(board[3][4].getStatus()== AccessType.OCCUPIED) initializeCell(p23, b23, board[3][4]);</b>
+<b class="nc"><i>418</i>&nbsp;        if(board[3][5].getStatus()== AccessType.OCCUPIED) initializeCell(p24, b24, board[3][5]);</b>
+<b class="nc"><i>419</i>&nbsp;        if(board[4][1].getStatus()== AccessType.OCCUPIED) initializeCell(p30, b30, board[4][1]);</b>
+<b class="nc"><i>420</i>&nbsp;        if(board[4][2].getStatus()== AccessType.OCCUPIED) initializeCell(p31, b31, board[4][2]);</b>
+<b class="nc"><i>421</i>&nbsp;        if(board[4][3].getStatus()== AccessType.OCCUPIED) initializeCell(p32, b32, board[4][3]);</b>
+<b class="nc"><i>422</i>&nbsp;        if(board[4][4].getStatus()== AccessType.OCCUPIED) initializeCell(p33, b33, board[4][4]);</b>
+<b class="nc"><i>423</i>&nbsp;        if(board[4][5].getStatus()== AccessType.OCCUPIED) initializeCell(p34, b34, board[4][5]);</b>
+<b class="nc"><i>424</i>&nbsp;        if(board[5][1].getStatus()== AccessType.OCCUPIED) initializeCell(p40, b40, board[5][1]);</b>
+<b class="nc"><i>425</i>&nbsp;        if(board[5][2].getStatus()== AccessType.OCCUPIED) initializeCell(p41, b41, board[5][2]);</b>
+<b class="nc"><i>426</i>&nbsp;        if(board[5][3].getStatus()== AccessType.OCCUPIED) initializeCell(p42, b42, board[5][3]);</b>
+<b class="nc"><i>427</i>&nbsp;        if(board[5][4].getStatus()== AccessType.OCCUPIED) initializeCell(p43, b43, board[5][4]);</b>
+<b class="nc"><i>428</i>&nbsp;        if(board[5][5].getStatus()== AccessType.OCCUPIED) initializeCell(p44, b44, board[5][5]);</b>
+<b class="nc"><i>429</i>&nbsp;        c00.setText(String.valueOf(board[1][1].getLevel().getHeight()));</b>
+<b class="nc"><i>430</i>&nbsp;        c01.setText(String.valueOf(board[1][2].getLevel().getHeight()));</b>
+<b class="nc"><i>431</i>&nbsp;        c02.setText(String.valueOf(board[1][3].getLevel().getHeight()));</b>
+<b class="nc"><i>432</i>&nbsp;        c03.setText(String.valueOf(board[1][4].getLevel().getHeight()));</b>
+<b class="nc"><i>433</i>&nbsp;        c04.setText(String.valueOf(board[1][5].getLevel().getHeight()));</b>
+<b class="nc"><i>434</i>&nbsp;        c10.setText(String.valueOf(board[2][1].getLevel().getHeight()));</b>
+<b class="nc"><i>435</i>&nbsp;        c11.setText(String.valueOf(board[2][2].getLevel().getHeight()));</b>
+<b class="nc"><i>436</i>&nbsp;        c12.setText(String.valueOf(board[2][3].getLevel().getHeight()));</b>
+<b class="nc"><i>437</i>&nbsp;        c13.setText(String.valueOf(board[2][4].getLevel().getHeight()));</b>
+<b class="nc"><i>438</i>&nbsp;        c14.setText(String.valueOf(board[2][5].getLevel().getHeight()));</b>
+<b class="nc"><i>439</i>&nbsp;        c20.setText(String.valueOf(board[3][1].getLevel().getHeight()));</b>
+<b class="nc"><i>440</i>&nbsp;        c21.setText(String.valueOf(board[3][2].getLevel().getHeight()));</b>
+<b class="nc"><i>441</i>&nbsp;        c22.setText(String.valueOf(board[3][3].getLevel().getHeight()));</b>
+<b class="nc"><i>442</i>&nbsp;        c23.setText(String.valueOf(board[3][4].getLevel().getHeight()));</b>
+<b class="nc"><i>443</i>&nbsp;        c24.setText(String.valueOf(board[3][5].getLevel().getHeight()));</b>
+<b class="nc"><i>444</i>&nbsp;        c30.setText(String.valueOf(board[4][1].getLevel().getHeight()));</b>
+<b class="nc"><i>445</i>&nbsp;        c31.setText(String.valueOf(board[4][2].getLevel().getHeight()));</b>
+<b class="nc"><i>446</i>&nbsp;        c32.setText(String.valueOf(board[4][3].getLevel().getHeight()));</b>
+<b class="nc"><i>447</i>&nbsp;        c33.setText(String.valueOf(board[4][4].getLevel().getHeight()));</b>
+<b class="nc"><i>448</i>&nbsp;        c34.setText(String.valueOf(board[4][5].getLevel().getHeight()));</b>
+<b class="nc"><i>449</i>&nbsp;        c40.setText(String.valueOf(board[5][1].getLevel().getHeight()));</b>
+<b class="nc"><i>450</i>&nbsp;        c41.setText(String.valueOf(board[5][2].getLevel().getHeight()));</b>
+<b class="nc"><i>451</i>&nbsp;        c42.setText(String.valueOf(board[5][3].getLevel().getHeight()));</b>
+<b class="nc"><i>452</i>&nbsp;        c43.setText(String.valueOf(board[5][4].getLevel().getHeight()));</b>
+<b class="nc"><i>453</i>&nbsp;        c44.setText(String.valueOf(board[5][5].getLevel().getHeight()));</b>
+<i>454</i>&nbsp;    }
+<i>455</i>&nbsp;
+<i>456</i>&nbsp;    /**
+<i>457</i>&nbsp;     * the method is invoked by initializeBoard when it finds an occupied. It disable the button associated to the cell and sets the label
+<i>458</i>&nbsp;     * to show the builder that occupies the correspondent cell
+<i>459</i>&nbsp;     * @param builder is the label that displays the builder that occupies the cell
+<i>460</i>&nbsp;     * @param button is the button that represents the cell
+<i>461</i>&nbsp;     * @param cell is the occupied cell
+<i>462</i>&nbsp;     */
+<i>463</i>&nbsp;    private void initializeCell(Label builder, Button button, Cell cell) {
+<b class="nc"><i>464</i>&nbsp;        builder.setText(AppGUI.gender(cell.getBuilder().getGender()));</b>
+<b class="nc"><i>465</i>&nbsp;        builder.setTextFill(Color.web(AppGUI.color(cell.getBuilder().getColor())));</b>
+<b class="nc"><i>466</i>&nbsp;        button.setDisable(true);</b>
+<i>467</i>&nbsp;    }
+<i>468</i>&nbsp;
+<i>469</i>&nbsp;    /**
+<i>470</i>&nbsp;     * the method sets the names of the players in the Board window and sets also the respective gods&#39;images
+<i>471</i>&nbsp;     * @param players is the ArrayList containing all the names of the players
+<i>472</i>&nbsp;     */
+<i>473</i>&nbsp;    public void initializePlayers(ArrayList&lt;Player&gt; players) {
+<b class="nc"><i>474</i>&nbsp;        setPlayers(players);</b>
+<b class="nc"><i>475</i>&nbsp;        username1.setText(players.get(0).getNickname());</b>
+<b class="nc"><i>476</i>&nbsp;        username1.setAlignment(Pos.TOP_CENTER);</b>
+<b class="nc"><i>477</i>&nbsp;        username2.setText(players.get(1).getNickname());</b>
+<b class="nc"><i>478</i>&nbsp;        username2.setAlignment(Pos.TOP_CENTER);</b>
+<b class="nc"><i>479</i>&nbsp;        Image image = godImage(players.get(0).getDivinePower().getName());</b>
+<b class="nc"><i>480</i>&nbsp;        ImageView imageView = new ImageView(image);</b>
+<b class="nc"><i>481</i>&nbsp;        imageView.setFitWidth(123.0);</b>
+<b class="nc"><i>482</i>&nbsp;        imageView.setFitHeight(169.0);</b>
+<b class="nc"><i>483</i>&nbsp;        god1.setGraphic(imageView);</b>
+<i>484</i>&nbsp;
+<b class="nc"><i>485</i>&nbsp;        image = godImage(players.get(1).getDivinePower().getName());</b>
+<b class="nc"><i>486</i>&nbsp;        imageView = new ImageView(image);</b>
+<b class="nc"><i>487</i>&nbsp;        imageView.setFitWidth(123.0);</b>
+<b class="nc"><i>488</i>&nbsp;        imageView.setFitHeight(169.0);</b>
+<b class="nc"><i>489</i>&nbsp;        god2.setGraphic(imageView);</b>
+<i>490</i>&nbsp;
+<b class="nc"><i>491</i>&nbsp;        if(players.size()==3) {</b>
+<b class="nc"><i>492</i>&nbsp;            username3.setText(players.get(2).getNickname());</b>
+<b class="nc"><i>493</i>&nbsp;            username3.setAlignment(Pos.TOP_CENTER);</b>
+<b class="nc"><i>494</i>&nbsp;            image = godImage(players.get(2).getDivinePower().getName());</b>
+<b class="nc"><i>495</i>&nbsp;            imageView = new ImageView(image);</b>
+<b class="nc"><i>496</i>&nbsp;            imageView.setFitWidth(123.0);</b>
+<b class="nc"><i>497</i>&nbsp;            imageView.setFitHeight(169.0);</b>
+<b class="nc"><i>498</i>&nbsp;            god3.setGraphic(imageView);</b>
+<i>499</i>&nbsp;        }
+<i>500</i>&nbsp;    }
+<i>501</i>&nbsp;
+<i>502</i>&nbsp;    /**
+<i>503</i>&nbsp;     * The method is used to obtain the image of a specific god
+<i>504</i>&nbsp;     * @param name is the string containing the name of god of whom we want the image
+<i>505</i>&nbsp;     * @return the requested god&#39;s image
+<i>506</i>&nbsp;     */
+<i>507</i>&nbsp;    private Image godImage(String name){
+<b class="nc"><i>508</i>&nbsp;        switch (name){</b>
+<i>509</i>&nbsp;            case &quot;Apollo&quot; :
+<b class="nc"><i>510</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Apollo.png&quot;));</b>
+<i>511</i>&nbsp;            case &quot;Ares&quot; :
+<b class="nc"><i>512</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Ares.png&quot;));</b>
+<i>513</i>&nbsp;            case &quot;Artemis&quot; :
+<b class="nc"><i>514</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Artemis.png&quot;));</b>
+<i>515</i>&nbsp;            case &quot;Athena&quot; :
+<b class="nc"><i>516</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Athena.png&quot;));</b>
+<i>517</i>&nbsp;            case &quot;Atlas&quot; :
+<b class="nc"><i>518</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Atlas.png&quot;));</b>
+<i>519</i>&nbsp;            case &quot;Chronus&quot; :
+<b class="nc"><i>520</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Chronus.png&quot;));</b>
+<i>521</i>&nbsp;            case &quot;Demeter&quot; :
+<b class="nc"><i>522</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Demeter.png&quot;));</b>
+<i>523</i>&nbsp;            case &quot;Hephaestus&quot; :
+<b class="nc"><i>524</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Hephaestus.png&quot;));</b>
+<i>525</i>&nbsp;            case &quot;Hestia&quot; :
+<b class="nc"><i>526</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Hestia.png&quot;));</b>
+<i>527</i>&nbsp;            case &quot;Minotaur&quot; :
+<b class="nc"><i>528</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Minotaur.png&quot;));</b>
+<i>529</i>&nbsp;            case &quot;Pan&quot; :
+<b class="nc"><i>530</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Pan.png&quot;));</b>
+<i>531</i>&nbsp;            case &quot;Poseidon&quot; :
+<b class="nc"><i>532</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Poseidon.png&quot;));</b>
+<i>533</i>&nbsp;            case &quot;Prometheus&quot; :
+<b class="nc"><i>534</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Prometheus.png&quot;));</b>
+<i>535</i>&nbsp;            case &quot;Zeus&quot; :
+<b class="nc"><i>536</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Zeus.png&quot;));</b>
+<i>537</i>&nbsp;        }
+<b class="nc"><i>538</i>&nbsp;        return null;</b>
+<i>539</i>&nbsp;    }
+<i>540</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-07-03 18:30</div>
+    <div style="float:right;">generated on 2020-07-03 18:35</div>
 </div>
 </body>
 </html>

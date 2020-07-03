@@ -114,73 +114,75 @@
 <i>40</i>&nbsp;     * @param match is the match that the controller is controlling
 <i>41</i>&nbsp;     * @param message is the match which asks to invoke the god
 <i>42</i>&nbsp;     * @return an Array List of Message which contains messages to notify the use of the god
-<i>43</i>&nbsp;     */
-<i>44</i>&nbsp;    public ArrayList&lt;Message&gt; invocation(Match match, Message message) throws EndMatchException {
-<b class="fc"><i>45</i>&nbsp;        ArrayList&lt;Message&gt; listToSend = new ArrayList&lt;&gt;();</b>
-<b class="fc"><i>46</i>&nbsp;        GodCard god = match.getCurrentPlayer().getDivinePower();</b>
-<b class="fc"><i>47</i>&nbsp;        god.invokeGod(match, message, turnManager);</b>
-<b class="fc"><i>48</i>&nbsp;        for(int i = 0; i &lt; match.getPlayers().length; ++i){</b>
-<b class="fc"><i>49</i>&nbsp;            Message sendMessage = new Message(match.getPlayers()[i].getNickname());</b>
-<b class="fc"><i>50</i>&nbsp;            sendMessage.buildUpdateMessage(new UpdateMessage(match, turnManager.getPhase()));</b>
-<b class="fc"><i>51</i>&nbsp;            listToSend.add(sendMessage);</b>
-<i>52</i>&nbsp;        }
-<b class="fc"><i>53</i>&nbsp;        return listToSend;</b>
-<i>54</i>&nbsp;    }
-<i>55</i>&nbsp;
-<i>56</i>&nbsp;    /**
-<i>57</i>&nbsp;     * The method handles the movement of the builder
-<i>58</i>&nbsp;     * @param match is the reference of the match controlled by the controller
-<i>59</i>&nbsp;     * @param message contains the direction of the movement
-<i>60</i>&nbsp;     * @return the ArrayList created contains the message for the next phases of the turn
-<i>61</i>&nbsp;     */
-<i>62</i>&nbsp;    public ArrayList&lt;Message&gt; move(Match match, SelectedMoveMessage message) throws EndMatchException {
-<b class="fc"><i>63</i>&nbsp;        ArrayList&lt;Message&gt; listToSend = new ArrayList&lt;&gt;();</b>
-<i>64</i>&nbsp;        try {
-<b class="fc"><i>65</i>&nbsp;            match.getCurrentPlayer().getPlayingBuilder().move(message.getDirection());</b>
-<b class="fc"><i>66</i>&nbsp;            for(int i = 0; i &lt; match.getPlayers().length; ++i){</b>
-<b class="fc"><i>67</i>&nbsp;                Message sendMessage = new Message(match.getPlayers()[i].getNickname());</b>
-<b class="fc"><i>68</i>&nbsp;                sendMessage.buildUpdateMessage(new UpdateMessage(match, turnManager.getPhase()));</b>
-<b class="fc"><i>69</i>&nbsp;                listToSend.add(sendMessage);</b>
-<i>70</i>&nbsp;            }
-<b class="nc"><i>71</i>&nbsp;        } catch (IllegalMovementException e) {</b>
-<b class="nc"><i>72</i>&nbsp;            Message error = new Message(match.getCurrentPlayer().getNickname());</b>
-<b class="nc"><i>73</i>&nbsp;            error.buildInvalidMoveMessage(new GenericErrorMessage(e.getError()));</b>
-<b class="nc"><i>74</i>&nbsp;            listToSend.add(error);</b>
-<b class="nc"><i>75</i>&nbsp;        } catch (EndMatchException e){</b>
-<b class="nc"><i>76</i>&nbsp;            match.currentWins();</b>
-<b class="fc"><i>77</i>&nbsp;        }</b>
-<b class="fc"><i>78</i>&nbsp;        return listToSend;</b>
-<i>79</i>&nbsp;    }
-<i>80</i>&nbsp;
-<i>81</i>&nbsp;    /**
-<i>82</i>&nbsp;     * The method handles the construction of the blocks
-<i>83</i>&nbsp;     * @param match is the reference of the match controlled by the controller
-<i>84</i>&nbsp;     * @param message contains the direction of construction
-<i>85</i>&nbsp;     * @return the ArrayList created contains the message for the next phases of the turn
-<i>86</i>&nbsp;     */
-<i>87</i>&nbsp;    public ArrayList&lt;Message&gt; build(Match match, SelectedBuildingMessage message) {
-<b class="fc"><i>88</i>&nbsp;        ArrayList&lt;Message&gt; listToSend = new ArrayList&lt;&gt;();</b>
-<i>89</i>&nbsp;        try {
-<b class="fc"><i>90</i>&nbsp;            match.getCurrentPlayer().getPlayingBuilder().build(message.getDirection(), match);</b>
-<b class="fc"><i>91</i>&nbsp;            for(int i = 0; i &lt; match.getPlayers().length; ++i){</b>
-<b class="fc"><i>92</i>&nbsp;                Message sendMessage = new Message(match.getPlayers()[i].getNickname());</b>
-<b class="fc"><i>93</i>&nbsp;                sendMessage.buildUpdateMessage(new UpdateMessage(match, turnManager.getPhase()));</b>
-<b class="fc"><i>94</i>&nbsp;                listToSend.add(sendMessage);</b>
-<i>95</i>&nbsp;            }
-<b class="nc"><i>96</i>&nbsp;        } catch (IllegalConstructionException e) {</b>
-<b class="nc"><i>97</i>&nbsp;            Message error = new Message(match.getCurrentPlayer().getNickname());</b>
-<b class="nc"><i>98</i>&nbsp;            error.buildInvalidBuildingMessage(new GenericErrorMessage(e.getError()));</b>
-<b class="nc"><i>99</i>&nbsp;            listToSend.add(error);</b>
-<b class="fc"><i>100</i>&nbsp;        }</b>
-<b class="fc"><i>101</i>&nbsp;        return listToSend;</b>
-<i>102</i>&nbsp;    }
-<i>103</i>&nbsp;}
+<i>43</i>&nbsp;     * @throws EndMatchException when the match ends and the players have to be notified
+<i>44</i>&nbsp;     */
+<i>45</i>&nbsp;    public ArrayList&lt;Message&gt; invocation(Match match, Message message) throws EndMatchException {
+<b class="fc"><i>46</i>&nbsp;        ArrayList&lt;Message&gt; listToSend = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>47</i>&nbsp;        GodCard god = match.getCurrentPlayer().getDivinePower();</b>
+<b class="fc"><i>48</i>&nbsp;        god.invokeGod(match, message, turnManager);</b>
+<b class="fc"><i>49</i>&nbsp;        for(int i = 0; i &lt; match.getPlayers().length; ++i){</b>
+<b class="fc"><i>50</i>&nbsp;            Message sendMessage = new Message(match.getPlayers()[i].getNickname());</b>
+<b class="fc"><i>51</i>&nbsp;            sendMessage.buildUpdateMessage(new UpdateMessage(match, turnManager.getPhase()));</b>
+<b class="fc"><i>52</i>&nbsp;            listToSend.add(sendMessage);</b>
+<i>53</i>&nbsp;        }
+<b class="fc"><i>54</i>&nbsp;        return listToSend;</b>
+<i>55</i>&nbsp;    }
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    /**
+<i>58</i>&nbsp;     * The method handles the movement of the builder
+<i>59</i>&nbsp;     * @param match is the reference of the match controlled by the controller
+<i>60</i>&nbsp;     * @param message contains the direction of the movement
+<i>61</i>&nbsp;     * @return the ArrayList created contains the message for the next phases of the turn
+<i>62</i>&nbsp;     * @throws EndMatchException when the match ends and the players have to be notified
+<i>63</i>&nbsp;     */
+<i>64</i>&nbsp;    public ArrayList&lt;Message&gt; move(Match match, SelectedMoveMessage message) throws EndMatchException {
+<b class="fc"><i>65</i>&nbsp;        ArrayList&lt;Message&gt; listToSend = new ArrayList&lt;&gt;();</b>
+<i>66</i>&nbsp;        try {
+<b class="fc"><i>67</i>&nbsp;            match.getCurrentPlayer().getPlayingBuilder().move(message.getDirection());</b>
+<b class="fc"><i>68</i>&nbsp;            for(int i = 0; i &lt; match.getPlayers().length; ++i){</b>
+<b class="fc"><i>69</i>&nbsp;                Message sendMessage = new Message(match.getPlayers()[i].getNickname());</b>
+<b class="fc"><i>70</i>&nbsp;                sendMessage.buildUpdateMessage(new UpdateMessage(match, turnManager.getPhase()));</b>
+<b class="fc"><i>71</i>&nbsp;                listToSend.add(sendMessage);</b>
+<i>72</i>&nbsp;            }
+<b class="nc"><i>73</i>&nbsp;        } catch (IllegalMovementException e) {</b>
+<b class="nc"><i>74</i>&nbsp;            Message error = new Message(match.getCurrentPlayer().getNickname());</b>
+<b class="nc"><i>75</i>&nbsp;            error.buildInvalidMoveMessage(new GenericErrorMessage(e.getError()));</b>
+<b class="nc"><i>76</i>&nbsp;            listToSend.add(error);</b>
+<b class="nc"><i>77</i>&nbsp;        } catch (EndMatchException e){</b>
+<b class="nc"><i>78</i>&nbsp;            match.currentWins();</b>
+<b class="fc"><i>79</i>&nbsp;        }</b>
+<b class="fc"><i>80</i>&nbsp;        return listToSend;</b>
+<i>81</i>&nbsp;    }
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    /**
+<i>84</i>&nbsp;     * The method handles the construction of the blocks
+<i>85</i>&nbsp;     * @param match is the reference of the match controlled by the controller
+<i>86</i>&nbsp;     * @param message contains the direction of construction
+<i>87</i>&nbsp;     * @return the ArrayList created contains the message for the next phases of the turn
+<i>88</i>&nbsp;     */
+<i>89</i>&nbsp;    public ArrayList&lt;Message&gt; build(Match match, SelectedBuildingMessage message) {
+<b class="fc"><i>90</i>&nbsp;        ArrayList&lt;Message&gt; listToSend = new ArrayList&lt;&gt;();</b>
+<i>91</i>&nbsp;        try {
+<b class="fc"><i>92</i>&nbsp;            match.getCurrentPlayer().getPlayingBuilder().build(message.getDirection(), match);</b>
+<b class="fc"><i>93</i>&nbsp;            for(int i = 0; i &lt; match.getPlayers().length; ++i){</b>
+<b class="fc"><i>94</i>&nbsp;                Message sendMessage = new Message(match.getPlayers()[i].getNickname());</b>
+<b class="fc"><i>95</i>&nbsp;                sendMessage.buildUpdateMessage(new UpdateMessage(match, turnManager.getPhase()));</b>
+<b class="fc"><i>96</i>&nbsp;                listToSend.add(sendMessage);</b>
+<i>97</i>&nbsp;            }
+<b class="nc"><i>98</i>&nbsp;        } catch (IllegalConstructionException e) {</b>
+<b class="nc"><i>99</i>&nbsp;            Message error = new Message(match.getCurrentPlayer().getNickname());</b>
+<b class="nc"><i>100</i>&nbsp;            error.buildInvalidBuildingMessage(new GenericErrorMessage(e.getError()));</b>
+<b class="nc"><i>101</i>&nbsp;            listToSend.add(error);</b>
+<b class="fc"><i>102</i>&nbsp;        }</b>
+<b class="fc"><i>103</i>&nbsp;        return listToSend;</b>
+<i>104</i>&nbsp;    }
+<i>105</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-07-03 18:30</div>
+    <div style="float:right;">generated on 2020-07-03 18:35</div>
 </div>
 </body>
 </html>

@@ -143,47 +143,48 @@
 <i>69</i>&nbsp;    /**
 <i>70</i>&nbsp;     * this method is used to initialize gods on the Info Match screen
 <i>71</i>&nbsp;     * @param name is the name of the god searched
-<i>72</i>&nbsp;     */
-<i>73</i>&nbsp;    private Image godImage(String name){
-<b class="nc"><i>74</i>&nbsp;        switch (name){</b>
-<i>75</i>&nbsp;            case &quot;Apollo&quot; :
-<b class="nc"><i>76</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Apollo.png&quot;));</b>
-<i>77</i>&nbsp;            case &quot;Ares&quot; :
-<b class="nc"><i>78</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Ares.png&quot;));</b>
-<i>79</i>&nbsp;            case &quot;Artemis&quot; :
-<b class="nc"><i>80</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Artemis.png&quot;));</b>
-<i>81</i>&nbsp;            case &quot;Athena&quot; :
-<b class="nc"><i>82</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Athena.png&quot;));</b>
-<i>83</i>&nbsp;            case &quot;Atlas&quot; :
-<b class="nc"><i>84</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Atlas.png&quot;));</b>
-<i>85</i>&nbsp;            case &quot;Chronus&quot; :
-<b class="nc"><i>86</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Chronus.png&quot;));</b>
-<i>87</i>&nbsp;            case &quot;Demeter&quot; :
-<b class="nc"><i>88</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Demeter.png&quot;));</b>
-<i>89</i>&nbsp;            case &quot;Hephaestus&quot; :
-<b class="nc"><i>90</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Hephaestus.png&quot;));</b>
-<i>91</i>&nbsp;            case &quot;Hestia&quot; :
-<b class="nc"><i>92</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Hestia.png&quot;));</b>
-<i>93</i>&nbsp;            case &quot;Minotaur&quot; :
-<b class="nc"><i>94</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Minotaur.png&quot;));</b>
-<i>95</i>&nbsp;            case &quot;Pan&quot; :
-<b class="nc"><i>96</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Pan.png&quot;));</b>
-<i>97</i>&nbsp;            case &quot;Poseidon&quot; :
-<b class="nc"><i>98</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Poseidon.png&quot;));</b>
-<i>99</i>&nbsp;            case &quot;Prometheus&quot; :
-<b class="nc"><i>100</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Prometheus.png&quot;));</b>
-<i>101</i>&nbsp;            case &quot;Zeus&quot; :
-<b class="nc"><i>102</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Zeus.png&quot;));</b>
-<i>103</i>&nbsp;        }
-<b class="nc"><i>104</i>&nbsp;        return null;</b>
-<i>105</i>&nbsp;    }
-<i>106</i>&nbsp;}
+<i>72</i>&nbsp;     * @return the image associated to the god
+<i>73</i>&nbsp;     */
+<i>74</i>&nbsp;    private Image godImage(String name){
+<b class="nc"><i>75</i>&nbsp;        switch (name){</b>
+<i>76</i>&nbsp;            case &quot;Apollo&quot; :
+<b class="nc"><i>77</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Apollo.png&quot;));</b>
+<i>78</i>&nbsp;            case &quot;Ares&quot; :
+<b class="nc"><i>79</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Ares.png&quot;));</b>
+<i>80</i>&nbsp;            case &quot;Artemis&quot; :
+<b class="nc"><i>81</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Artemis.png&quot;));</b>
+<i>82</i>&nbsp;            case &quot;Athena&quot; :
+<b class="nc"><i>83</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Athena.png&quot;));</b>
+<i>84</i>&nbsp;            case &quot;Atlas&quot; :
+<b class="nc"><i>85</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Atlas.png&quot;));</b>
+<i>86</i>&nbsp;            case &quot;Chronus&quot; :
+<b class="nc"><i>87</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Chronus.png&quot;));</b>
+<i>88</i>&nbsp;            case &quot;Demeter&quot; :
+<b class="nc"><i>89</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Demeter.png&quot;));</b>
+<i>90</i>&nbsp;            case &quot;Hephaestus&quot; :
+<b class="nc"><i>91</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Hephaestus.png&quot;));</b>
+<i>92</i>&nbsp;            case &quot;Hestia&quot; :
+<b class="nc"><i>93</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Hestia.png&quot;));</b>
+<i>94</i>&nbsp;            case &quot;Minotaur&quot; :
+<b class="nc"><i>95</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Minotaur.png&quot;));</b>
+<i>96</i>&nbsp;            case &quot;Pan&quot; :
+<b class="nc"><i>97</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Pan.png&quot;));</b>
+<i>98</i>&nbsp;            case &quot;Poseidon&quot; :
+<b class="nc"><i>99</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Poseidon.png&quot;));</b>
+<i>100</i>&nbsp;            case &quot;Prometheus&quot; :
+<b class="nc"><i>101</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Prometheus.png&quot;));</b>
+<i>102</i>&nbsp;            case &quot;Zeus&quot; :
+<b class="nc"><i>103</i>&nbsp;                return new Image(getClass().getResourceAsStream(&quot;/images/Zeus.png&quot;));</b>
+<i>104</i>&nbsp;        }
+<b class="nc"><i>105</i>&nbsp;        return null;</b>
+<i>106</i>&nbsp;    }
+<i>107</i>&nbsp;}
 </div>
 </div>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-07-03 18:30</div>
+    <div style="float:right;">generated on 2020-07-03 18:35</div>
 </div>
 </body>
 </html>

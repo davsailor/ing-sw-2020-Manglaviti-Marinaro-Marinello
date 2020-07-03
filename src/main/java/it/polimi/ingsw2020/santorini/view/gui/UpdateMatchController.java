@@ -315,6 +315,7 @@ public class UpdateMatchController {
     /**
      * this method is used to initialize gods on the update board screen
      * @param name is the name of the god
+     * @return the associated image of each god
      */
     private Image godImage(String name){
         switch (name){

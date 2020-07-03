@@ -131,7 +131,7 @@
 <i>57</i>&nbsp;     * @param message the received message
 <i>58</i>&nbsp;     */
 <i>59</i>&nbsp;    @Override
-<i>60</i>&nbsp;    public void receive(Message message) throws InterruptedException {
+<i>60</i>&nbsp;    public void receive(Message message){
 <b class="nc"><i>61</i>&nbsp;        client.addMessageQueue(message);</b>
 <i>62</i>&nbsp;    }
 <i>63</i>&nbsp;
@@ -170,7 +170,7 @@
 <b class="nc"><i>96</i>&nbsp;            } catch (SocketTimeoutException so) {</b>
 <b class="nc"><i>97</i>&nbsp;                System.out.println(&quot;Socket timed out&quot;);</b>
 <b class="nc"><i>98</i>&nbsp;                setConnected(false);</b>
-<b class="nc"><i>99</i>&nbsp;            } catch (IOException | ClassNotFoundException | InterruptedException io){</b>
+<b class="nc"><i>99</i>&nbsp;            } catch (IOException | ClassNotFoundException io){</b>
 <b class="nc"><i>100</i>&nbsp;                setConnected(false);</b>
 <b class="nc"><i>101</i>&nbsp;            }</b>
 <i>102</i>&nbsp;        }
@@ -183,7 +183,7 @@
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2020-07-03 18:30</div>
+    <div style="float:right;">generated on 2020-07-03 18:35</div>
 </div>
 </body>
 </html>

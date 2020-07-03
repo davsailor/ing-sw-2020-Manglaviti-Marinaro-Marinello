@@ -16,7 +16,7 @@ public interface NetworkInterface {
      * method that receive a message
      * @param message the message that has to be received
      */
-    void receive(Message message) throws InterruptedException;
+    void receive(Message message);
 
     /**
      * method that check the connection sending ping messages
